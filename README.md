@@ -33,8 +33,6 @@ Detailed per-pillar status: [docs/KEY_RESULTS.md](docs/KEY_RESULTS.md). The inte
 - `docs/` — curated standalone documents: KEY_RESULTS, NAVIGATION, POLICIES_INDEX.
 - `CITATION.cff` — citation metadata (auto-generated).
 
-All artefacts in this repository are written in English per the [output-language policy](docs/POLICIES_INDEX.md).
-
 ## Support TECT research
 
 TECT is an open, independent theoretical-physics research programme. The core author works without institutional grant funding.
