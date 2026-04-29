@@ -9,8 +9,9 @@ TECT operates under a small set of explicit, binding policies documented in the 
 |---|---|
 | `CODE_BACKUP_POLICY.md` | Code Backup Policy — pre-edit version snapshots |
 | `CRASH_RECOVERY.md` | TECT Crash-Recovery Playbook |
-| `GITHUB_SYNC_POLICY.md` | GitHub-publish Sync Policy |
 | `GIT_TAG_POLICY.md` | TECT git tag policy |
+| `GITHUB_FIRST_PUSH_RUNBOOK.md` | GitHub-mediated tect.kr deployment — operator runbook |
+| `GITHUB_SYNC_POLICY.md` | GitHub-publish Sync Policy |
 | `NUMERICAL_RUN_RECORDING.md` | Numerical-Run Recording Policy |
 | `OUTPUT_LANGUAGE_POLICY.md` | Output-Language Policy (binding from 2026-04-29) |
 | `POSTMORTEM_RECURRENCE_POLICY.md` | Post-Mortem & Recurrence-Prevention Policy |
