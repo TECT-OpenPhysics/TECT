@@ -39,12 +39,6 @@ All artefacts in this repository are written in English per the [output-language
 
 TECT is an open, independent theoretical-physics research programme. The core author works without institutional grant funding.
 
-Three legal global donation channels are documented on the live site footer (Overview / Theory / States / Papers / TOE pages):
-
-1. **GitHub Sponsors** — recurring or one-off, Stripe Connect; supports payouts to Korean residents.
-2. **Buy Me a Coffee** — one-time tips, no donor account required.
-3. **Cryptocurrency direct wallet** (BTC bech32 + ETH/USDC ERC-20) — no intermediary, globally accessible, irreversible.
-
 Donations are personal gifts to the author and are not tax-deductible unless explicitly routed through a registered fiscal host. Donors do not acquire any influence over scientific content, peer review, authorship, or release schedule of TECT.
 
 ## License & maintainer
