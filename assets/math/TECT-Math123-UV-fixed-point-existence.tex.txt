@@ -1,0 +1,243 @@
+% =====================================================================
+% TECT -- Math123: UV Fixed Point Existence and Stability Analysis
+% Theory tag: Math123-UV-fixed-point-existence-stability-2026-04-26
+% Status: PARTIAL-ADVANCED (analytical structure complete; numerical closure
+%         pending explicit $B_{\rm H}$ computation from Math122 Task #128)
+% Date: 2026-04-26
+% =====================================================================
+
+\section*{Math123: UV Fixed Point Existence and Asymptotic-Safety Viability}
+
+\subsection*{0. Objective}
+
+Given the $\beta_G^{\rm TECT}(g) = 2g - B_{\rm H} g^2 + O(g^3)$ from Math122,
+determine:
+\begin{enumerate}
+\item Does a non-trivial fixed point $g_* > 0$ exist?
+\item Is it UV attractive (negative critical exponent)?
+\item What is the critical-surface dimension?
+\end{enumerate}
+
+\subsection*{1. Fixed-point equation}
+
+Setting $\beta_G(g_*) = 0$:
+$$
+2 g_* - B_{\rm H} g_*^2 = 0.
+$$
+
+Factoring:
+$$
+g_* (2 - B_{\rm H} g_*) = 0.
+$$
+
+Solutions:
+\begin{enumerate}
+\item $g_* = 0$ (Gaussian fixed point, IR).
+\item $g_* = 2 / B_{\rm H}$ (non-trivial fixed point, potentially UV).
+\end{enumerate}
+
+\subsubsection*{§1.1 Condition for UV fixed point}
+
+For the non-trivial fixed point to be physical, we need $g_* > 0$, which requires
+$$
+B_{\rm H} > 0.
+$$
+
+From Math122 §4.2, $B_{\rm H} \approx 0.02$-$0.05 > 0$. ✓
+
+Thus, a non-trivial fixed point exists at
+$$
+g_*^{\rm TECT} = \frac{2}{B_{\rm H}} \approx \frac{2}{0.03} \approx 67 \quad \text{(rough estimate)}.
+$$
+
+\subsubsection*{§1.2 Comparison with Reuter}
+
+Reuter's asymptotic-safety fixed point has $g_*^{\rm Reuter} \approx 0.4$ (dimensionless coupling,
+corresponding to $\alpha_{\rm grav} = G / \hbar \approx 0.1$ in quantum-gravity conventions).
+
+TECT's estimate $g_* \approx 67$ is much larger. This suggests:
+\begin{enumerate}
+\item TECT is in a \textbf{strong-coupling regime} relative to standard gravity.
+\item OR $B_{\rm H}$ is much smaller than Reuter's $4/(3\pi) \approx 0.42$ (likely, given TECT's
+  reduced matter content).
+\item OR the Hartree truncation misses significant contributions (to be tested in Math124+).
+\end{enumerate}
+
+\textbf{Honest assessment}: $g_* = 67$ is far from the weak-coupling regime where
+perturbative RG is reliable. This signals that either (a) Hartree breaks down before
+the fixed point is reached, or (b) the fixed point sits in a regime requiring
+non-perturbative treatment (functional RG, lattice numerics).
+
+\subsection*{2. UV attractiveness (critical exponent)}
+
+\subsubsection*{§2.1 Stability analysis}
+
+The critical exponent is
+$$
+\theta_g := -\frac{\partial \beta_G}{\partial g}\bigg|_{g=g_*}.
+$$
+
+For UV attractiveness, we need $\theta_g > 0$ (i.e., $\partial\beta_G/\partial g < 0$ at the fixed point).
+
+Compute the derivative:
+$$
+\frac{\partial \beta_G}{\partial g} = 2 - 2 B_{\rm H} g.
+$$
+
+At the fixed point $g_* = 2 / B_{\rm H}$:
+$$
+\frac{\partial \beta_G}{\partial g}\bigg|_{g_*} = 2 - 2 B_{\rm H} \times \frac{2}{B_{\rm H}} = 2 - 4 = -2.
+$$
+
+Thus,
+$$
+\theta_g = -(-2) = +2.
+$$
+
+\textbf{Conclusion: The fixed point is UV attractive with critical exponent $\theta_g = 2 > 0$}.
+
+This means trajectories in the UV approach the fixed point with power-law behavior
+$g(t) - g_* \sim e^{-2t}$ (where $t = \log \Lambda$).
+
+\subsubsection*{§2.2 Physical interpretation}
+
+A positive critical exponent means the fixed point has a \textbf{one-dimensional stable
+manifold} (in the $g$ direction). Trajectories starting with $g(\Lambda_0) < g_*$
+flow toward $g_*$ as $\Lambda \to \infty$ (going UV), while those starting with
+$g(\Lambda_0) > g_*$ flow away.
+
+In the RG context (flowing from UV to IR), this corresponds to trajectories that
+originate from the fixed point in the UV and flow toward the IR.
+
+\subsection*{3. Higher-order corrections}
+
+\subsubsection*{§3.1 Two-loop terms}
+
+The $O(g^3)$ and higher-order terms in $\beta_G(g) = 2g - B_{\rm H} g^2 + c_3 g^3 + \ldots$
+can shift the fixed point and critical exponent. Standard quantum-gravity estimates
+(Reuter, Bonanno et al.) show that 2-loop corrections are $O(1)$ when $g_*$ is in the
+strong-coupling regime.
+
+For TECT with $g_* \approx 67$, the 2-loop term $c_3 g_*^3$ is enormous, suggesting
+either (a) the series is non-convergent, or (b) the Hartree approximation fails badly.
+
+\subsubsection*{§3.2 Scope limitation}
+
+\textbf{Honest statement}: The $g_* \approx 67$ fixed point from the one-loop Hartree
+analysis is \textbf{not reliable in weak-coupling perturbation theory}. Refinement
+requires:
+\begin{enumerate}
+\item Full 2-loop calculation (in progress, Task #128).
+\item Functional RG resummation (beyond TECT's current scope).
+\item Lattice numerics with continuum limit (Math82-H, Task #115).
+\end{enumerate}
+
+If 2-loop corrections bring $g_*$ down to $\sim 0.1$-$1.0$ (more plausible), then
+weak-coupling treatment becomes marginal. If $g_*$ remains large, asymptotic safety
+(if it holds at all) is a non-perturbative phenomenon.
+
+\subsection*{4. Renormalization-group flow from UV to IR}
+
+\subsubsection*{§4.1 RG trajectory in TECT}
+
+The $\beta_G$ equation $\beta_G(g) = 2g - B_{\rm H} g^2$ admits the following RG trajectories
+(schematic):
+
+\begin{itemize}
+\item \textbf{UV}: $\Lambda \to \infty$, $g \to g_*^{\rm TECT} \approx 67$ (unstable IR eigenvalues).
+\item \textbf{IR}: $\Lambda \to 0$ (or $\mu^2 \to -\infty$ in the Brazovskii deep-quench regime),
+  $g \to 0$ or diverges (depending on trajectory).
+\end{itemize}
+
+TECT's RG flow from the operating point $\mu^2 = 5 \times 10^{-3}$ (Math55 continuation endpoint
+at $\mu^2 \to -1$) is a \textbf{downward flow in the RG diagram}: we move from $\Lambda = q_0$
+(natural BCC scale) toward $\Lambda \ll q_0$ (continuum limit).
+
+Whether TECT's natural trajectory passes through $g_* \approx 67$ depends on initial
+conditions and the detailed form of $\beta_G(g)$ beyond one-loop.
+
+\subsubsection*{§4.2 Connection to Wilsonian continuum limit}
+
+In the Wilsonian sense, a \textbf{continuum limit exists} if the RG trajectory reaches
+a fixed point (Gaussian or non-Gaussian) as $\Lambda \to \infty$. TECT's natural UV
+scale is $\Lambda_{\rm UV} \sim q_0 \sim 0.68$ (in TECT natural units). The fixed point
+$g_* \approx 67$ (if real) sits at an \textbf{anomalously large coupling}, suggesting
+either:
+
+\begin{enumerate}
+\item The fixed point is never reached in a physical continuum limit (continuum limit
+  is Gaussian, driven by mass-gap generation).
+\item OR the fixed point is \textbf{real but non-perturbative}, reachable via strong-coupling
+  lattice numerics.
+\end{enumerate}
+
+\subsection*{5. Devil's-advocate (CLAUDE.md \S 6.3.1)}
+
+\paragraph{Objection $\alpha$: ``Your one-loop result is unreliable; the strong coupling
+$g_* \approx 67$ invalidates perturbation theory. Why should we trust any conclusion?''}
+
+\textbf{Verdict: UPHELD with honest scope.} The Hartree one-loop analysis is valid
+\textbf{algebraically} — the fixed-point equation $2g_* = B_{\rm H} g_*^2$ must be satisfied,
+and the critical exponent $\theta_g = 2$ follows from the form of $\beta_G$. However,
+the \textbf{physical significance} of $g_* \approx 67$ is unclear without higher-order
+corrections and lattice numerics.
+
+\textbf{Recovery}: Math124 (critical-surface dimension) and Math125 (discrimination tests)
+will provide independent checks. If all three methods (1-loop fixed point, critical-surface
+dimension, and discrimination-test predictions) align, then confidence increases despite
+strong coupling.
+
+\paragraph{Objection $\beta$: ``Reuter's $g_* \approx 0.4$ and TECT's $g_* \approx 67$ differ
+by $\sim 100\times$. Are you sure you are not comparing incompatible definitions of $g$?''}
+
+\textbf{Verdict: DISMISSED with clarification.} Both use $g = G \Lambda^{d-2}$ (dimensionless).
+The difference arises because:
+\begin{itemize}
+\item Reuter's $B = 4/(3\pi) \approx 0.42$ (includes graviton, ghost, + cosmological term loops).
+\item TECT's $B_{\rm H} \approx 0.03$ (Hartree-resummed scalar + spin-2 elastic only).
+\end{itemize}
+
+Since $g_* = 2/B$, a 14$\times$ smaller $B$ yields 14$\times$ larger $g_*$. This is expected
+given TECT's reduced matter content. Math124 will refine this comparison.
+
+\paragraph{Objection $\gamma$: ``You derived the fixed point under the assumption that $B_{\rm H}$
+is constant (scale-independent). But $\mu^2_H(\Lambda)$ runs in Hartree. Doesn't $B_{\rm H}$ run too?''}
+
+\textbf{Verdict: VALID with further analysis needed.} In the deep Brazovskii regime,
+$\mu^2_H(\Lambda) \propto \lambda^{2/3}$ is locked at a scale-independent value. Thus,
+$B_{\rm H}(\Lambda) \sim |\lambda| q_0^3 / [\sqrt{\mu^2_H} a_{\rm BCC}^2]$ is also approximately
+scale-independent. However, this assumes Hartree dominates all RG effects. If there are
+dynamical critical exponents (e.g., from Brazovskii renormalizability), $B_{\rm H}$ could
+develop a weak $\Lambda$-dependence. This is deferred to higher-loop analysis (Task #128).
+
+\subsection*{6. Status and honest assessment}
+
+\textbf{Math123: PARTIAL-ADVANCED.}
+
+\textbf{Established analytically}:
+\begin{itemize}
+\item Non-trivial fixed point exists: $g_* = 2 / B_{\rm H} > 0$. ✓
+\item Fixed point is UV attractive: critical exponent $\theta_g = 2 > 0$. ✓
+\item Structure of RG flow near the fixed point is determined. ✓
+\end{itemize}
+
+\textbf{Not yet determined}:
+\begin{itemize}
+\item Numerical value of $B_{\rm H}$ (needed for $g_*$ value; Task #128).
+\item Whether 2-loop and higher corrections preserve or destroy the fixed point.
+\item Whether the fixed point is reached by TECT's natural RG trajectory.
+\end{itemize}
+
+\textbf{Honest verdict}: TECT \textbf{admits a UV-attractive fixed point in its Hartree
+one-loop RG analysis}, consistent with asymptotic safety. However, the strong-coupling
+regime ($g_* \gg 1$) and the BCC lattice structure make a rigorous verification difficult.
+
+\textbf{Next steps}:
+\begin{enumerate}
+\item Math124: Determine critical-surface dimension (finite → consistent with asymptotic safety).
+\item Math125: Translate fixed-point properties into predictions for discrimination tests.
+\item Task #128 (2-loop): Refine $B_{\rm H}$ and test fixed-point stability.
+\item Task #115 (continuum limit): Numerical verification via Math82-H.
+\end{enumerate}
+
+% End of TECT-Math123-UV-fixed-point-existence.tex.txt

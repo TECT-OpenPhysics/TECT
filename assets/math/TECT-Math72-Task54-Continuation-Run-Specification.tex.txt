@@ -1,0 +1,208 @@
+% =====================================================================
+% TECT-Math72 — Task #54 Continuation Run Specification
+% μ² from -0.5 to 5×10⁻³ endpoint (Math56-Addendum Cor. 1)
+% =====================================================================
+\section*{Math72 --- Task \#54 Continuation Run Specification
+μ²-Endpoint Extraction for Pillar-1 Continuum Audit}
+
+\subsection*{\S0 \quad Overview}
+
+Task #54 requires running the μ² continuation solver from the current seed
+to the Math56-Addendum Cor. 1 Option B endpoint: $\mu^2_{\text{target}} = 5 \times 10^{-3}$.
+
+The continuation module \texttt{PDE/continuation\_mu2\_v25.py} is currently at
+maturity level **SKELETON** (v2.5.7 as of 2026-04-22): it reads configurations,
+builds seeds, and prints diagnostic output, but Phase D (the actual Newton-Krylov
+solve) contains a PLACEHOLDER that does not invoke the real solver. Task #104
+(integrating the real v2.6.0 Newton-Krylov into the continuation driver) is a
+multi-turn change requiring explicit user approval and is **not yet implemented**.
+
+Therefore, Task #54 **cannot be executed in the current sandbox** (torch unavailable)
+nor completed in production on the user's machine without Task #104 landing first.
+
+\subsection*{\S1 \quad Blocking Dependencies}
+
+\paragraph{Task #104 Prerequisite Status.}
+\begin{equation}
+\begin{aligned}
+  \text{Dependency:}\ &\text{Task \#104 must wire } \texttt{tect\_newton\_krylov.newton\_solve}
+    \text{ v2.6.1}\\
+  &\text{into } \texttt{continuation\_mu2\_v25.py \text{ Phase D (line} \sim 470\text{).}\\
+  \text{Status:}\ &\text{NOT DONE (requires explicit user decision).}\\
+  \text{Blocker:}\ &\text{v2.5.7 Phase D is hardcoded PLACEHOLDER; any
+    physics-bearing}\\
+  &\text{claim about } \mu^2 \text{ continuation must wait for Task \#104 → v2.6.0.}
+\end{aligned}
+\label{m72-task104-status}
+\end{equation}
+
+\paragraph{User GPU / PyTorch Requirement.}
+The continuation solver requires PyTorch and (nominally) GPU acceleration.
+Sandbox torch is unavailable. This specification provides the exact command
+for user execution on Windows (C:\Dev\TECT2\Contents).
+
+\subsection*{\S2 \quad Honest Task #54 Status}
+
+\begin{equation}
+  \boxed{\text{\textbf{Task \#54: BLOCKED}}}
+\label{m72-task54-verdict}
+\end{equation}
+
+\paragraph{Blocking Chain.}
+\begin{enumerate}
+  \item Task #54 (continuation endpoint) requires $\to$ \textbf{Task #104 completion}
+        (wire real solver into Phase D).
+  \item Task #104 depends on $\to$ \textbf{User explicit approval} to integrate v2.6.0
+        into the continuation driver (architectural change).
+  \item Even after #104 lands $\to$ \textbf{User GPU execution} required (torch,
+        wall-clock $\sim 1$–4 hours for 6-point μ² sweep at N=32–64).
+\end{enumerate}
+
+\paragraph{Downstream Implications.}
+\begin{enumerate}
+  \item Task #55/#56 (continuum audit at $\mu^2_{\text{target}}$) reads the endpoint
+        JSON at runtime. If absent, it falls back to $\mu^2 = 5 \times 10^{-3}$
+        with a warning (R5 repair in Math71 Task #119).
+  \item Pillar-1 Phase-4 continuum certificate can proceed with the fallback
+        $\mu^2=5 \times 10^{-3}$ if the endpoint JSON is absent; see Math71 §5.
+\end{enumerate}
+
+\subsection*{\S3 \quad Tentative User-Run Command (Post-Task #104)}
+
+Once Task #104 has integrated the real solver, the command to produce the
+continuation endpoint is:
+
+\begin{verbatim}
+cd C:\Dev\TECT2\Contents
+
+python PDE\continuation_mu2_v25.py ^
+    --config PDE\config_template_brazovskii.json ^
+    --N 32 ^
+    --mu2-start -1.0 ^
+    --mu2-end 0.005 ^
+    --mu2-step 0.05 ^
+    --output results\continuation_mu2_v25_full ^
+    --quiet
+
+# Expected output:
+#   results\continuation_mu2_v25_full\MANIFEST.md
+#   results\continuation_mu2_v25_endpoint.json (final converged state)
+#   results\continuation_mu2_v25_full\continuation_log.txt
+\end{verbatim}
+
+\paragraph{Parameter Notes.}
+\begin{enumerate}
+  \item \texttt{--N 32}: Start at N=32. Continuation at N=64 or N=128 requires
+        proportionally more GPU memory (8 GB recommended for N=64).
+  \item \texttt{--mu2-start -1.0, --mu2-end 0.005, --mu2-step 0.05}:
+        Schedule of 21 points from $\mu^2=-1.0$ to $\mu^2=0.005$.
+  \item \texttt{--output}: Output directory for MANIFEST, intermediate saves, logs.
+  \item \texttt{--quiet}: Suppress per-step Newton output; final MANIFEST still printed.
+\end{enumerate}
+
+\paragraph{Expected Outputs.}
+\begin{enumerate}
+  \item \textbf{\texttt{results/continuation\_mu2\_v25\_endpoint.json}}
+        $\sim 1$–10 MB, containing:
+        \begin{verbatim}
+{
+  "mu2": 0.005,
+  "lambda": -0.43,
+  "gamma": 1.62,
+  "converged": true,
+  "newton_steps": ...,
+  "free_energy": ...,
+  "Psi_star": [...] or {"dtype": "float64", "shape": [...], "seed_recipe": "..."}
+}
+        \end{verbatim}
+
+  \item \textbf{\texttt{results/continuation\_mu2\_v25\_full/MANIFEST.md}}
+        Human-readable summary: entry count, success count, per-point status table.
+
+  \item \textbf{\texttt{results/continuation\_mu2\_v25\_full/continuation\_log.txt}}
+        Diagnostic log: per-point Newton trace, Krylov details, stagnation warnings.
+\end{enumerate}
+
+\paragraph{Validation Checklist.}
+After the run:
+\begin{enumerate}
+  \item Check exit code: \texttt{\$? -eq 0} iff all points converged.
+  \item Check MANIFEST: entry \texttt{n\_converged} should equal total point count.
+  \item Check endpoint JSON: \texttt{mu2} field should be \texttt{0.005} and
+        \texttt{converged} should be \texttt{true}.
+  \item Inspect continuation\_log.txt for any solver warnings or stagnation signals.
+\end{enumerate}
+
+\subsection*{\S4 \quad Task #55/#56 Fallback Path (No Endpoint JSON)}
+
+If Task #54 is not executed, Task #55/#56 (the continuum audit via
+\texttt{tools/n64\_continuum\_audit.py} v1.2) will still run, using the fallback
+$\mu^2 = 5 \times 10^{-3}$ (see Math71 R5).
+
+\paragraph{User Command (v1.2 fallback mode).}
+\begin{verbatim}
+python tools\n64_continuum_audit.py ^
+    --output results\n64_audit_v1p2_fallback_2026-04-22.json
+
+# The audit will:
+# 1. Check for results\continuation_mu2_v25_endpoint.json
+# 2. NOT FIND IT (fallback triggered)
+# 3. Print [R5] warning to stderr
+# 4. Use μ² = 5×10⁻³ for all three grids
+# 5. Continue to measure σ_V(h), κ, m*²
+\end{verbatim}
+
+\paragraph{Verdict on Fallback.}
+The fallback $\mu^2 = 5 \times 10^{-3}$ is the Math56-Addendum Cor. 1 Option B
+*intended* target (not a guess). Therefore, proceeding without Task #54 is
+**not a workaround** — it is the design-specified behaviour when the continuation
+has not been executed. The only downside is loss of the path-history (per-point
+convergence record, final Psi, Lagrange-multiplier data).
+
+\subsection*{\S5 \quad Residual Risk Register}
+
+\begin{enumerate}
+  \item **R-Math72-1**: Task #54 depends on Task #104 (not yet approved).
+        Blocker: explicit user sign-off required for architectural change.
+
+  \item **R-Math72-2**: Continuation runtime at N=64, N=128 requires $\ge 8$ GB GPU.
+        Mitigation: start at N=32 as specified; user can scale up later.
+
+  \item **R-Math72-3**: If the endpoint JSON parse fails (corrupted file, bad JSON),
+        the audit (Task #55/#56) falls back silently with a warning (no re-raise).
+        Mitigation: validate JSON manually: \texttt{python -m json.tool endpoint.json}.
+
+  \item **R-Math72-4**: The Phase D PLACEHOLDER in v2.5.7 prints
+        \texttt{[PLACEHOLDER: Newton step ...]} and returns mock data. If Task #104
+        does not land before the next user run, the "converged" flag will still be
+        \texttt{false} in the MANIFEST, and the endpoint JSON will contain
+        dummy values. Mitigation: Task #104 approval is urgent.
+\end{enumerate}
+
+\subsection*{\S6 \quad Summary}
+
+\paragraph{Current State.}
+\begin{equation}
+  \text{Task \#54 status:}\ \boxed{\text{BLOCKED by Task \#104 (PLACEHOLDER phase D)}}
+\label{m72-current-state}
+\end{equation}
+
+\paragraph{User Path Forward (assuming Task #104 approval).}
+\begin{enumerate}
+  \item Approve Task #104 integration of v2.6.0 into continuation Phase D.
+  \item Run the continuation command (§3) on Windows with torch GPU.
+  \item Confirm endpoint JSON is produced with \texttt{mu2}=0.005 and
+        \texttt{converged}=\texttt{true}.
+  \item Task #55/#56 will automatically load the endpoint and use it for the
+        three-grid audit.
+\end{enumerate}
+
+\paragraph{Fallback Path (if Task #104 not approved or deferred).}
+\begin{enumerate}
+  \item Skip Task #54.
+  \item Run Task #55/#56 (n64\_continuum\_audit.py v1.2) on Windows with torch GPU.
+  \item Audit will print warning and use $\mu^2=5 \times 10^{-3}$ (fallback).
+  \item Measure σ_V(h), κ, m*² directly.
+\end{enumerate}
+
+% -- EOF --

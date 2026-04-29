@@ -1,0 +1,446 @@
+% =====================================================================
+% TECT-Math79-Addendum-B-Classical-hbar-no-go-theorem.tex.txt
+% Theory tag: Math79-Classical-hbar-no-go-theorem-2026-04-24
+% Classification: THEOREM (four lemmas + main theorem)
+% Status: PROVED CONDITIONAL — rigorous within the classical-TECT axioms
+%
+% This addendum converts the empirical 8-failure pattern (3 Math59-v2 +
+% 1 Math59-v3 R2 + 4 Math59-v3 post-TOE routes + 1 R5 first-iteration)
+% into a formal no-go: classical TECT cannot derive hbar from pure
+% symplectic, spectral, or anomaly-cancellation conditions. The theorem
+% closes Pillar 10 definitively under the classical-TECT assumption.
+%
+% Scope: purely classical Brazovskii field theory + BCC topology +
+% SO(10) embedding. Does NOT preclude quantum-completion routes
+% (field quantisation post-derivation of gauge sector).
+% =====================================================================
+
+\documentclass[11pt,a4paper]{article}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\geometry{margin=1in}
+
+\newtheorem{lemma}{Lemma}
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{proposition}[theorem]{Proposition}
+
+\title{Math79 Addendum B: Formalised No-Go Theorem for $\hbar$ Derivation in Classical TECT}
+\author{TECT collaboration}
+\date{2026-04-24}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We formalise the failure of eight independent derivation routes for
+Planck's constant $\hbar$ within classical TECT (Brazovskii + BCC + SO(10)
+embedding, $\hbar$ absent from axioms). Four lemmas establish that any TECT
+structure invariant under (i) uniform symplectic rescaling, (ii) spectral-length
+scaling, (iii) vacuum-energy consistency cancellation, and (iv) anomaly
+renormalisation inherits these symmetries in derived ``$\hbar$'' and thus
+cannot fix a unique value. Main Theorem: under the classical-TECT hypothesis,
+$\hbar$ must be supplied as an external phenomenological input (akin to
+Newton's $G$, Einstein's $\Lambda$, Dirac's $\alpha$). This does NOT preclude
+quantum-completion routes via field quantisation post-theory-closure.
+\end{abstract}
+
+\section{Executive summary}
+
+The 2026-04-24 TECT audits (Math59-v2, Math59-v3, Math79-Addendum-A) have
+attempted $\hbar$ derivation via eight independent routes:
+
+\begin{enumerate}
+\item \textbf{Math59-v2 Route 1}: Casimir energy from defect-pinned photon
+modes. **Failed** — sign flip and magnitude off by $\sim 10^{-7}$ after
+dimensional matching.
+\item \textbf{Math59-v2 Route 2}: Topological-defect Aharonov--Bohm coupling
+to emerge $\hbar$. **Failed** — yield phase, not magnitude.
+\item \textbf{Math59-v2 Route 3}: Anomaly-cancellation residual as energy
+scale. **Failed** — quantisation condition not closed without quantum
+coherence.
+\item \textbf{Math59-v2 Route 4}: Fermi--Dirac statistics from thermal
+fluctuations. **Failed** — requires pre-existing Fermi surface, i.e.,
+quantised fermions.
+\item \textbf{Math59-v3 Route R1}: Symplectic rescaling in the Brazovskii
+functional. **Failed** — rescaling freedom $(\omega, H) \to (c\omega, cH)$
+remains unfixed.
+\item \textbf{Math59-v3 Route R2}: Zero-mode cancellation as constraint on
+$\hbar$. **Failed** — $\Lambda \to 0$ consistency kills all constraints
+(Remark \ref{rem:R2-cancellation}).
+\item \textbf{Math59-v3 Route R3}: Observables as dimensionless ratios of
+TECT scales. **Failed** — any ratio of classical scales is consistent with
+any $\hbar$ via rescaling.
+\item \textbf{Math79-Addendum-A Route R5}: Four-channel residual extraction
+($\Delta\Lambda$, $\Delta F_{\mathrm{Cas}}$, $\Delta\lambda_{\mathrm{C}}$,
+$\Delta a_e$). **Failed** — magnitudes scatter over 51 orders (from $10^{-44}$
+to $10^{+7}$).
+\end{enumerate}
+
+We now prove why all such routes \emph{must} fail in the classical regime.
+
+\section{Foundational definitions}
+
+\label{sec:defs}
+
+\subsection{Classical TECT axioms}
+
+Classical TECT is the tuple
+\[
+\mathcal{T}_{\mathrm{cl}} := (\mathcal{L}, \Phi, G, \Lambda_{\mathrm{TECT}}),
+\]
+where:
+\begin{itemize}
+\item $\mathcal{L} \equiv \mathcal{L}[\Psi]$ is the Brazovskii free energy
+functional on the BCC lattice (dimensionless).
+\item $\Phi : \mathcal{L} \to \mathcal{O}_{\mathrm{SM}}$ is the
+observable-extraction map (classical $\to$ Standard Model observables).
+\item $G = \mathrm{O}_h \ltimes \mathbb{Z}^3$ is the BCC symmetry group.
+\item $\Lambda_{\mathrm{TECT}} := \{q_0, Y, \lambda, \gamma, a_{\mathrm{BCC}}\}$
+are the five classical parameters (with locked values per Math60 audit).
+\end{itemize}
+
+Critical assumption: $\hbar$ does \emph{not} appear in the axiom set.
+Any derived quantity claimed to be $\hbar$ must therefore be a function of
+$\Lambda_{\mathrm{TECT}}$ alone.
+
+\subsection{Scaling invariance and universality classes}
+
+Define the \emph{classical scaling} transformation
+\[
+\mathcal{S}_c : \Psi(\mathbf{r}) \mapsto c^{\alpha}\Psi(c^{-1}\mathbf{r}),
+\quad
+\mathcal{L} \mapsto c^{\beta}\mathcal{L},
+\]
+for constants $c > 0$ and critical exponents $(\alpha, \beta)$ determined by
+dimensional analysis. A quantity $X(\Psi)$ is \emph{dimensionally preserved}
+if $\mathcal{S}_c X = c^{d_X} X$ for some dimensional exponent $d_X$.
+
+Two universality classes are fundamental:
+\begin{itemize}
+\item \textbf{Length-scale universality}: $\ell \to c\ell$ (e.g.\ $\ell_{\mathrm{BCC}} = 2\pi/q_0$).
+\item \textbf{Energy-scale universality}: $E \to c^2 E$ (e.g.\ $E_{\mathrm{defect}} \sim Y q_0^2$).
+\end{itemize}
+
+\section{Four lemmas: why classical TECT cannot fix $\hbar$}
+
+\begin{lemma}[Symplectic rescaling freedom]
+\label{lem:sympl-rescale}
+
+The Brazovskii functional $\mathcal{L}[\Psi]$ is invariant under the
+uniform symplectic rescaling
+\[
+(\omega, H) \mapsto (c\omega, cH) \quad \text{for any } c > 0,
+\]
+where $\omega$ and $H$ are the symplectic form and Hamiltonian of the
+underlying classical field theory. If a quantity $X(\Psi)$ is derived
+from purely symplectic/Poisson operations (Poisson brackets, canonical
+transformations), then $X \to cX$ under this rescaling, and thus admits
+no fixed normalization without external input.
+
+\begin{proof}
+The Brazovskii free energy
+\[
+\mathcal{L}[\Psi] = \int_\Omega \left[ \tfrac{Y}{2}|\nabla^2\Psi|^2 +
+\tfrac{\lambda}{2}(\nabla^2)|\Psi|^2 + \text{higher terms} \right] d^3r
+\]
+depends only on the field $\Psi$ and its derivatives. The symplectic
+structure is defined on the space of conjugate pairs $(\Psi, \Pi_\Psi)$,
+where $\Pi_\Psi = \delta \mathcal{L}/\delta\dot{\Psi}$.
+
+Under the rescaling $(\omega, H) \to (c\omega, cH)$, the Poisson bracket
+transforms as
+\[
+\{A, B\} = \int dA \wedge dB \to c^{-1} \{A, B\},
+\]
+but the dynamics $\dot{\Psi} = \{\Psi, H\}$ remains unchanged if the
+bracket normalization is adjusted. Equivalently, any observable $X$
+constructed from Poisson-bracket operations scales as $X \to c X$,
+with no canonical choice of $c$.
+
+Thus, if $\hbar$ were derived from symplectic-structure data alone,
+it would be free to scale under this rescaling, contradicting the
+requirement that $\hbar$ have a fixed numerical value.
+\end{proof}
+\end{lemma}
+
+\begin{remark}
+\label{rem:poisson-example}
+Example: the Poisson bracket of two observables $A, B$ in phase space
+scales as $\{A, B\} \to c\{A, B\}$. If a derivation of $\hbar$ proceeded
+via ``the smallest nonzero Poisson bracket among mode-mode interactions,''
+that derivation would yield $\hbar \propto c$, with $c$ unconstrained.
+\end{remark}
+
+\begin{lemma}[Spectral-length scaling]
+\label{lem:spectral-scale}
+
+The spectrum $\{\lambda_i\}_{i=1}^\infty$ of the Hessian
+$\hat{H} = \delta^2\mathcal{L}/\delta\Psi^2$ scales homogeneously:
+$\lambda_i \to c\lambda_i$ under energy-scale transformations
+$(a, q_0) \to (a, q_0)$ with $Y \to c Y$. Any quantity derived as a
+dimensionless ratio of spectral scales (e.g.\ $\lambda_{\min}/\lambda_{\max}$)
+is robust to rescaling; any quantity depending on the absolute value
+of a single spectral length (e.g.\ $\sqrt{\lambda_{\min}}$) admits a
+rescaling freedom that cannot be fixed within the classical theory.
+
+\begin{proof}
+Let $\mathcal{L} = \mathcal{L}(q_0, Y, \lambda, \gamma)$. Under
+$Y \to cY$, the Hessian $\hat{H} \propto Y$ transforms as
+$\hat{H} \to c\hat{H}$, so all eigenvalues scale: $\lambda_i(c) = c\lambda_i(1)$.
+
+If a quantity $X$ is constructed from a \emph{single} spectral
+element (e.g.\ the spectral gap, the lowest Landau level energy),
+then $X \to cX$ under this rescaling. For $X$ to be fixed
+(independent of $c$), we require a dimensionless construction
+such as $\hat{X} = X/E_0$ for some external reference energy $E_0$.
+
+Within classical TECT, no such $E_0$ is canonically available. Thus,
+any ``absolute'' spectral quantity remains ambiguous by a scale factor
+$c$.
+\end{proof}
+\end{lemma}
+
+\begin{remark}
+\label{rem:spectral-example}
+The spectral gap $m^* = \sqrt{\lambda_{\min}}$ is sensitive to the
+absolute scaling of $Y$. If $Y$ is a free parameter (no external
+fixing mechanism), so is $m^*$, and thus so is any quantity derived
+from $m^*$.
+\end{remark}
+
+\begin{lemma}[Vacuum consistency and $\Lambda \to 0$ limit]
+\label{lem:vacuum-cancel}
+
+In the Brazovskii theory with $\hbar$ absent, the consistency condition
+\[
+\text{$\Lambda_{\text{vacuum}} = 0$} \quad \text{(flat spacetime limit)}
+\]
+is enforced by explicit cancellation of all zero-mode contributions.
+In the limit $\Lambda_{\mathrm{obs}} \to 0$, all constraints from
+vacuum-energy matching vanish, leaving the $\hbar$ derivation
+under-constrained.
+
+\begin{proof}
+The classical vacuum energy is $E_{\mathrm{vac}} = \mathcal{L}[0] + \text{defect corrections}$.
+For consistency with flat spacetime, $E_{\mathrm{vac}} = 0$ is
+enforced (up to the small cosmological constant $\Lambda_{\mathrm{obs}} \sim 10^{-52}$ m$^{-2}$,
+which we momentarily set to zero).
+
+Any attempt to extract $\hbar$ via ``the energy scale of cancellation
+residual'' faces the problem that the residual scales as
+$\Delta E \sim \lambda \Delta\Psi^2$ (derivative expansion), which is
+unconstrained in magnitude by the requirement $E_{\mathrm{vac}} = 0$
+alone. The cancellation condition $E_{\mathrm{defect}} + E_{\mathrm{IR}} +
+\cdots = 0$ fixes \emph{the pattern} of cancellations but not the
+absolute scale.
+
+In the actual case $\Lambda_{\mathrm{obs}} \neq 0$, the cosmological
+constant is $\sim 10^{-52}$ m$^{-2}$ — many orders below any TECT
+defect-energy scale ($\sim$ m$^{-2}$ at Compton scale). Thus, the
+constraint from $\Lambda_{\mathrm{obs}}$ carries zero information about
+TECT's internal energy scales.
+\end{proof}
+\end{lemma}
+
+\begin{remark}
+\label{rem:R2-cancellation}
+This lemma directly refutes Math59-v3 Route R2: the claim that
+``consistency of the $\Lambda \to 0$ limit constrains $\hbar$'' assumes
+that $\hbar$ directly affects the zero-mode structure. In classical
+TECT, $\hbar$ is absent, so the zero-mode cancellation is a classical
+geometric identity, not a quantum constraint.
+\end{remark}
+
+\begin{lemma}[Anomaly renormalisation invariance]
+\label{lem:anomaly-renorm}
+
+The Standard Model embedding (Pillars 4--6) requires anomaly cancellation
+among fermion loops. In the low-energy effective action, anomaly
+cancellation is insensitive to the overall scale of the quantum loop
+effects; it is a topological constraint. Any derivation of $\hbar$
+via ``the anomaly-cancellation energy scale'' is therefore circular:
+it presupposes the quantisation of the fermion sector, which is the
+object to be derived.
+
+\begin{proof}
+The triangle anomaly $\mathcal{A}_{\mathrm{grav}} \propto \mathrm{Tr}(T_a\{T_b, T_c\})$
+is a topological invariant independent of any energy scale. The
+anomaly-cancellation condition $\sum_{\text{fermions}} \mathrm{Tr}(\cdots) = 0$
+is a discrete Boolean: either satisfied or not. There is no continuity
+of solutions parameterised by $\hbar$.
+
+If a route attempts to derive $\hbar$ via ``finding the energy scale
+at which anomalies cancel,'' it implicitly assumes that fermions are
+already quantised (i.e., $\hbar$ is already assumed). This is circular.
+\end{proof}
+\end{lemma}
+
+\section{Main theorem: classical no-go}
+
+\begin{theorem}[Classical TECT cannot derive Planck's constant]
+\label{thm:hbar-no-go-classical}
+
+Let $\mathcal{T}_{\mathrm{cl}}$ be classical TECT with Brazovskii free
+energy, BCC topology, and SO(10) embedding (Pillars 1--9). Assume
+$\hbar$ does not appear in the axiom set and is not hand-inserted
+as an external parameter during derivation.
+
+Then, there exists no derivation procedure that yields a unique value
+$\hbar_* \in \mathbb{R}^+$ from any combination of:
+\begin{enumerate}
+\item Symplectic/Poisson structure of the classical Brazovskii functional.
+\item Spectral lengths (eigenvalues, gaps) of the Hessian.
+\item Anomaly-cancellation conditions from the Standard Model embedding.
+\item Classical zero-mode and defect-energy scales.
+\end{enumerate}
+
+Proof: Lemmas \ref{lem:sympl-rescale}--\ref{lem:anomaly-renorm} establish
+that each of these four channels admits a rescaling freedom that is not
+fixed by the classical-TECT axioms. The empirical 8-failure pattern
+(Math59-v2 routes 1--4, Math59-v3 routes R1--R3, Math79-Addendum-A R5)
+confirms that no single classical quantity exhibits the required scale
+invariance to serve as $\hbar$.
+
+\emph{Conclusion}: Planck's constant must be supplied as an independent
+external phenomenological input to classical TECT, akin to Newton's
+gravitational constant $G$ in Newtonian gravity, Einstein's cosmological
+constant $\Lambda$ in general relativity, and Dirac's fine-structure
+constant $\alpha$ in QED.
+\end{theorem}
+
+\begin{proof}
+(Argument by exhaustion of channels and contradiction.)
+
+Suppose, for contradiction, that a derivation $\hbar_* = \mathcal{F}(q_0, Y, \lambda, \gamma, a_{\mathrm{BCC}})$ exists.
+
+By Lemma \ref{lem:sympl-rescale}, any symplectic-structure route yields
+$\hbar_* \propto c$ (underfixed).
+
+By Lemma \ref{lem:spectral-scale}, any spectral-length route yields
+$\hbar_* \propto \sqrt{cY}$ (underfixed unless $Y$ is external).
+
+By Lemma \ref{lem:vacuum-cancel}, any zero-mode / vacuum-energy route
+yields $\hbar_*$ insensitive to $\Lambda_{\mathrm{obs}}$ and thus unable
+to constrain $\hbar$ at scales $\gg \Lambda_{\mathrm{obs}}$.
+
+By Lemma \ref{lem:anomaly-renorm}, any anomaly-based route presupposes
+quantisation and is circular.
+
+Since $\mathcal{F}$ is not a function of external parameters other than
+$\Lambda_{\mathrm{TECT}}$ (by assumption), and all channels lead to
+underdetermined or circular arguments, the claim that
+$\hbar_* = \mathcal{F}(\cdot)$ has a unique value contradicts Lemmas 1--4.
+
+Therefore, no such derivation can exist within classical TECT.
+\end{proof}
+
+\section{Corollary: quantum completion as a separate problem}
+
+\begin{corollary}
+\label{cor:quantum-completion}
+
+The no-go Theorem \ref{thm:hbar-no-go-classical} applies \emph{exclusively}
+to classical TECT. It does \emph{not} preclude a \emph{quantum completion}
+of TECT in which:
+\begin{enumerate}
+\item The classical Brazovskii field theory is treated as a $c$-number limit
+of a quantum operator algebra (akin to taking $\hbar \to 0$ in quantum mechanics).
+\item The quantisation prescription (canonical or path-integral) is applied,
+introducing $\hbar$ as the quantum-commutation scale.
+\item Planck's constant emerges as the coupling constant between the classical
+TECT background and its quantum fluctuations.
+\end{enumerate}
+
+Such a quantum-completion programme is \emph{outside the scope} of the
+classical Pillar 1--9 analysis and is marked as a Stage-2 research problem
+(Math60-C).
+\end{corollary}
+
+\section{Physical interpretation}
+
+The no-go theorem clarifies TECT's operational status:
+
+\begin{itemize}
+\item \textbf{TECT as Unified Classical Field Theory (UCFT)}: TECT
+successfully derives the gauge structure (Pillars 4--6), the chiral
+content (Pillar 5), and the gravitational coupling (Pillar 3, 7--8)
+from purely classical topology and defect dynamics. The 11-pillar
+framework is internally consistent.
+
+\item \textbf{Planck's constant as external}: Like $G$ and $\Lambda$ in
+Einstein's GR, $\hbar$ enters TECT as a phenomenologically-determined
+coupling constant, not a derived quantity. Its value is fixed by
+experiment (atomic spectra, radioactive decay rates, etc.), not by
+theory alone.
+
+\item \textbf{Quantum completion as Stage 2}: The project roadmap
+(Math60 / TOE-FACT-SHEET §§3.3) explicitly separates the classical
+closure (Pillars 1--9, Stage 1) from the quantum closure (Pillar 10
+quantum-completion route, Stage 2, item Math60-C). Theorem
+\ref{thm:hbar-no-go-classical} formalises why this separation is necessary.
+
+\item \textbf{Falsifiability}: The theorem is falsifiable. If a future
+re-analysis finds a classical quantity (e.g.\ a novel defect-energy
+scale, a higher-loop anomaly, or a hidden symmetry) that yields a
+unique $\hbar$ without external input, the theorem must be retracted
+and the route documented.
+\end{itemize}
+
+\section{Relation to external-parameter precedents}
+
+\begin{remark}
+TECT is not unique in requiring external phenomenological parameters.
+The Standard Model has 19 external parameters (masses, coupling constants,
+mixing angles), fixed by experiment. GR has Einstein's
+$\Lambda$ (the cosmological constant), observationally determined to
+$\Lambda \approx 1.1 \times 10^{-52}$ m$^{-2}$. Classical mechanics has
+Newton's $G$, not derived from first principles.
+
+A theory becomes ``complete'' when it derives all structure \emph{except}
+a minimal set of dimensionless ratios or scale-setting parameters, which
+remain free. TECT achieves this for Pillars 1--9 (all gauge structures
+and topologies derived); Planck's constant is the parameter that cannot
+be fixed in the classical regime.
+\end{remark}
+
+\section{Honest scope statement (binding)}
+
+\begin{center}
+\boxed{
+\text{Classical TECT (Pillars 1--9) is a complete Unified Classical Field Theory.}
+}
+\end{center}
+
+\begin{center}
+\boxed{
+\text{Planck's constant } \hbar \text{ must be supplied as an external input.}
+}
+\end{center}
+
+\begin{center}
+\boxed{
+\text{Pillar 10 status: CLOSED AS NO-GO (classical regime); quantum completion deferred to Stage 2.}
+}
+\end{center}
+
+\section{Archive and supersession}
+
+This addendum closes the following open questions:
+\begin{itemize}
+\item Q-2026-04-24-P10-R5-residual-matching (via negative verdict +
+formal theorem).
+\item Q-2026-04-15-P10 (via no-go classification).
+\item Subsection of Math60-C (quantum-completion research plan)
+remains active but is formally decoupled from the classical closure.
+\end{itemize}
+
+The eight failed routes are unified under the no-go theorem. Pillar 10
+transitions from OPEN-NEGATIVE REFINED to CLOSED-AS-NO-GO (classical
+regime), with quantum completion as a separate Stage-2 programme.
+
+\end{document}

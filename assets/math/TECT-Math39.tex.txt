@@ -1,0 +1,322 @@
+% =========================================================
+%  TECT -- Math39 research note (2026-04-15)
+%  Repository reorganisation, automation, and records
+%  discipline -- no new physics claims.
+%
+%  Purpose: formalise as a Math-tagged note the three
+%           infrastructure passes dated 2026-04-15 in the
+%           CHANGELOG under the tag `Math39-Reorg-2026-04-15`:
+%             (A) repository layout reorganisation,
+%             (B) Patch-A solver: --config overlay +
+%                 Brazovskii defaults + regime banner,
+%             (C) Math01--38 consolidation pass
+%                 (four-ledger records system),
+%             (D) records-discipline addendum (UPDATE_POLICY
+%                 Sections 11 & 12, review-cadence tool,
+%                 boundary-input provenance audit),
+%             (E) hot-path optimisation pass (Opt A/B/C)
+%                 and theory-code audit surfacing
+%                 commensurability flag Q-2026-04-15-18.
+%
+%  Theory tag: Math39-Reorg-2026-04-15.
+%  Regime:     inherits Brazovskii (physics-locked; this
+%              note contains no theoretical claims and does
+%              not modify the locked triple
+%              (mu^2, lambda, gamma) = (0.26, -0.43, 1.62)).
+% =========================================================
+
+\documentclass{article}
+\usepackage{amsmath,amssymb,amsthm}
+\begin{document}
+
+\section*{Math39: Repository reorganisation, automation, and
+         records discipline}
+
+\subsection*{0. Why a Math note for an infrastructure tag?}
+
+The TECT records system treats each dated \emph{theory tag} as the
+primary key in four cross-referenced ledgers:
+\texttt{CHANGELOG.md}, \texttt{EVIDENCE-INDEX.md},
+\texttt{NEGATIVE-RESULTS.md}, and \texttt{OPEN-QUESTIONS.md}
+(see \texttt{docs/policy/UPDATE\_POLICY.md} Sections~1--7). Tags that
+modify code, configuration, automation, or documentation structure
+but introduce no new physics claim are nonetheless assigned a
+Math\textit{NN} identifier so that every entry in the four ledgers
+resolves to a single-page research note of the same name. This
+keeps the ledger-to-note map total.
+
+Math39 is this note for the tag \texttt{Math39-Reorg-2026-04-15}.
+It contains no theorem statements, no derivations, and no numerical
+results. Its role is to enumerate, for the permanent record,
+the reorganisation and automation performed on 2026-04-15 and to
+state the invariants that the reorganisation \emph{preserved}.
+
+\subsection*{1. Scope}
+
+Math39 covers five passes completed on 2026-04-15, all under the
+same theory tag. Each pass is dated in \texttt{CHANGELOG.md}.
+
+\paragraph{(A) Repository layout reorganisation.}
+Top-level directories collapsed into a single
+\texttt{Contents/} tree with the following canonical paths:
+\begin{itemize}
+\item \texttt{Claude/Claude-Papers/} and root-level \texttt{TECT\_*.tex}
+      manuscripts $\rightarrow$ \texttt{docs/papers/}.
+\item \texttt{research-log.md},
+      \texttt{TECT-Theory-Code-Sync.md},
+      \texttt{clude-project.txt},
+      the Roadmap \texttt{.tex}/\texttt{.pdf} pair, and
+      \texttt{TECT-결과기록.pdf} $\rightarrow$ \texttt{docs/status/}.
+\item \texttt{PDE-Blueprint.\{pdf,tex\}} (filename typo corrected on
+      move) $\rightarrow$ \texttt{docs/supplementary/}.
+\item Chat-GPT PDFs (40 files) $\rightarrow$
+      \texttt{docs/archive/chat-gpt/}; Gemini / NotebookLM
+      transcripts (6 files) $\rightarrow$
+      \texttt{docs/archive/gemini-notebooklm/}.
+\item \texttt{make\_master.py} $\rightarrow$ \texttt{tools/}.
+\end{itemize}
+
+\paragraph{Additions in pass (A).}
+\begin{itemize}
+\item \texttt{tools/build\_version\_index.py} --- stdlib-only
+      generator for \texttt{Website/data/version\_index.json},
+      emitting the current theory tag, regime, module-version map,
+      open/closed discrepancies, changelog-versions list, and the
+      math-note inventory. Supports a \texttt{--check} flag for
+      CI/pre-commit drift detection.
+\item \texttt{docs/policy/GIT\_TAG\_POLICY.md} --- annotated tags,
+      never moved, signed when the signing key is available.
+\item \texttt{PDE/RESULT\_TEMPLATE.md} --- canonical per-run schema
+      required by every new simulation output directory.
+\item \texttt{Website/README.md} --- deployment and maintenance notes
+      for the static records website.
+\item \texttt{Website/math/} --- six editorial project-summary pages
+      plus index, each cross-linked to \texttt{docs/math/}.
+\end{itemize}
+
+\paragraph{Invariants preserved in pass (A).}
+The \texttt{PDE/} directory was untouched: no code, run artefact,
+or configuration was moved. All existing import paths in the solver
+chain (\texttt{tect\_solver\_pt\_v3.py},
+\texttt{real\_backend\_pt\_bcc\_mixed\_v3.py},
+\texttt{tect\_actual\_extractor\_pt\_v3.py},
+\texttt{run\_pipeline\_n1.py}) continue to resolve without edits.
+\texttt{CHANGELOG.md} remains at the repository root by convention.
+\texttt{Website/} remains self-contained for static deployment;
+its only load-bearing coupling to source is the per-page
+\texttt{Sources} table pointing into \texttt{docs/math/}.
+
+\paragraph{(B) Patch-A solver: \texttt{--config} overlay and
+         Brazovskii defaults.}
+A Step-C attempt at seed $=17$ produced Ginzburg--Landau output
+despite the v3 rename; root cause:
+\texttt{make\_default\_config()} hard-coded the GL triple
+($\lambda=+0.35$, $\gamma=0.05$, $r=0.25$) and offered no mechanism
+for loading \texttt{config\_template\_brazovskii.json}. Patch A:
+\begin{enumerate}
+\item Replaces the hard-coded defaults with the Brazovskii-locked
+      triple $(r,\lambda,\gamma) = (0.26,-0.43,+1.62)$ plus
+      $K_{4}, K_{6}, I_{3}$.
+\item Adds a \texttt{--config <json>} CLI flag that overlays JSON
+      keys onto the defaults, strips underscore-prefixed comment
+      keys, and records the source path in \texttt{config.json}.
+\item Adds a regime banner: the solver now prints at start-up
+      \texttt{regime : Brazovskii / Ginzburg-Landau / Unknown
+      (r=..., lambda=..., gamma=...)}. A future run under the wrong
+      regime cannot be missed.
+\item Bumps
+      \verb|MODULE_VERSIONS["tect_solver_pt_v3.py"] = "v3.1"|
+      and re-stamps. Regenerates \texttt{version\_index.json}.
+\end{enumerate}
+Historical \texttt{emerge\_N64\_mixed\_s*} runs (including the
+2026-04-15 seed$=17$ run) are flagged as GL-regime archival
+baselines, not Brazovskii validations.
+
+\paragraph{(C) Math01--38 consolidation pass.}
+Comprehensive line-by-line review of Math01--Math38 plus the four
+supplementary notes (Pauli, Lorentz, Nijenhuis, $U(1)$\_Gauge).
+Structured-extraction agents returned YAML inventories of claims,
+locked invariants, corrections, open questions, and inter-note
+dependencies. Consolidation outcomes (deltas, not absolute counts):
+\begin{itemize}
+\item \texttt{EVIDENCE-INDEX.md} \S 1 extended by 11 new foundational
+      rows (Chern $c_{1}(\mathrm{T}S^{2})=2$ from Math07; $U(1)$
+      bundle obstruction on $S^{2}$ from $U(1)$\_Gauge Supp;
+      Clifford $\mathrm{Cl}(3)$ closure from Math18; opposite-valley
+      pairing and $\mathbb{Z}_{2}^{V}$ protection from
+      Math11--14; emergent $SU(2)$ Route B from Pauli Supp /
+      Math09; emergent Lorentz via acoustic Cauchy relation from
+      Lorentz Supp / Math06; heavy-mediator elimination identity
+      from Math15 / Math37; four-class BCC pair-kernel
+      exhaustiveness from Math31; witness-theorem framework from
+      Math10 / 12 / 17; finite-audit reformulation from Math15;
+      CKM toy $|V_{us}|\approx 0.228$ from Math21; canonical locked
+      basis $S_{\min}$ from Math35).
+\item \texttt{EVIDENCE-INDEX.md} \S 2 extended by 7 new
+      locked-invariant rows
+      ($c_{1}(\mathrm{T}S^{2})=2$; $N_{\mathrm{BCC}}=6$; Cauchy
+      relation; $\Delta_{\mathrm{ker}}=32976$; source integrals
+      $I_{\theta}$, $I_{\theta'^{3}}$; $\Delta_{00}$ formula).
+\item \texttt{EVIDENCE-INDEX.md} \S 4b reverse index rebuilt: every
+      Math-note range and each of the four supplementaries mapped
+      to supported claims, open questions, and failures.
+\item \texttt{NEGATIVE-RESULTS.md} gains 4 new \texttt{F-}entries
+      (F-04, F-05, F-06, F-07) and 3 new \texttt{D-}entries (D-04,
+      D-05, D-06).
+\item \texttt{OPEN-QUESTIONS.md} gains 10 new \texttt{\#\# Active}
+      entries (Q-08 through Q-17). All stamped
+      \texttt{Last reviewed: 2026-04-15} with 60- or 90-day
+      \texttt{Review by} windows.
+\end{itemize}
+Pass (C) adds no theoretical claim; it is a reorganisation of
+existing Math01--38 content into the four-ledger schema.
+
+\paragraph{(D) Records-discipline addendum (evening pass).}
+\texttt{UPDATE\_POLICY.md} gains \S 11 (manuscript authorship is
+manual-only; paper prose in \texttt{docs/papers/*.tex} requires an
+explicit unambiguous user instruction; violations recorded as
+\texttt{D-} entries) and \S 12 (automation tooling catalogue
+enumerating \texttt{tools/build\_version\_index.py},
+\texttt{tools/check\_review\_cadence.py} --- newly added --- and
+\texttt{PDE/stamp\_version\_headers.py}; \S 7 audit Layer 3 now
+invokes \texttt{check\_review\_cadence.py --check}).
+\texttt{tools/check\_review\_cadence.py v1.0} is a stdlib-only
+scanner for \texttt{Last reviewed} / \texttt{Review by} drift in
+\texttt{OPEN-QUESTIONS.md} \texttt{\#\# Active} and
+\texttt{EVIDENCE-INDEX.md} \S 1--\S 3; severity classes OVERDUE /
+UPCOMING / OK / MISSING; \texttt{--check} exits non-zero on OVERDUE
+or MISSING; \texttt{--json} emits a machine-readable report.
+Smoke-test: 11 entries scanned, 0 overdue, 0 missing.
+
+\texttt{EVIDENCE-INDEX.md} \S 2.1 added for boundary physical
+inputs, documenting the provenance of $q_{0}$, $M_{X}$, and
+$\alpha_{X}$: $q_{0}=0.6801747616$ is measured post-hoc
+(Math01 L50/L210, Math38 protocol); $M_{X}=2.0$ and
+$\alpha_{X}=0.3$ are free parameters with no first-principles
+derivation at the time of pass (D), and new open questions
+Q-2026-04-15-06 and Q-2026-04-15-07 are raised for their
+microscopic origin. Both were subsequently closed by Math42
+on the same date.
+
+\paragraph{(E) Hot-path optimisation pass and theory-code audit.}
+Three physically-equivalent optimisations:
+\begin{enumerate}
+\item \emph{Opt A.} \verb|make_xyz_grid| in
+      \texttt{PDE/tect\_solver\_pt\_v3.py} (v3.1 $\rightarrow$ v3.2)
+      returns sparse NumPy views with shapes $(N,1,1)$, $(1,N,1)$,
+      $(1,1,N)$ instead of three dense $(N,N,N)$ meshes.
+      \verb|make_xyz_grid_dense| retained for the sites that
+      genuinely require a materialised tensor. Bit-exact on the
+      $32^{3}$ test grid.
+\item \emph{Opt B.} \verb|make_mock_branch_data| and
+      \verb|reconstruct_orbit_tangents| refactored:
+      the $R=\mathrm{stack}(X,Y,Z)$ tensor is eliminated, phase
+      fields are formed by three broadcast multiplications
+      $\hat{n}_{x}X+\hat{n}_{y}Y+\hat{n}_{z}Z$, and the six complex
+      exponentials $e^{\pm i\varphi_{n,e_{1},e_{2}}}$ are cached
+      once and reused across all three branches. Memory footprint
+      of the mock-branch assembly drops by a factor $\approx 6$ at
+      $N=64$; output tensor shape and norm preserved
+      ($\lVert\psi_{\mathrm{BCC}}\rVert = 60.567256$ at $N=32$).
+\item \emph{Opt C.} \texttt{PDE/real\_backend\_pt\_bcc\_mixed\_v3.py}
+      (v3.0 $\rightarrow$ v3.1). Adds \verb|_kmesh_cached|
+      (\verb|functools.lru_cache|, size 32) and accessors
+      \verb|_get_kmesh|, \verb|_get_kmesh_scalar| returning the
+      full 3D meshgrid $(K_{X}, K_{Y}, K_{Z})$ as cached tensors.
+      Hot-loop callers \verb|_grad_components_t| and
+      \verb|_spectral_derivative_scalar_t| fetch the cached
+      meshgrid rather than rebuilding it on every invocation.
+      \verb|_bcc_positive_symbol_from_axes| rewritten to use
+      explicit 1-D broadcast products
+      $c_{x}(k_{x})\,c_{y}(k_{y})\,c_{z}(k_{z})$, eliminating the
+      internal \texttt{torch.meshgrid}.
+\end{enumerate}
+All three optimisations are algebraic identities. Spectral
+Laplacian negative-semidefiniteness, translation symmetry, and BCC
+isotropy (G-list off-diagonal $\leq 2.23\times 10^{-18}$) are
+preserved.
+
+\paragraph{Theory-code audit completed under pass (E).}
+\begin{itemize}
+\item BCC first-shell projector \verb|make_bcc_shell_G_list|
+      returns 12 vectors of type $(\pm 1, \pm 1, 0)$ with
+      $|G|=\sqrt{2}\,dk = 0.555360$ at $(N,L)=(32,10\pi)$.
+      Isotropy condition $G^{T}G=(c/3)I$ verified: off-diagonal
+      $\leq 2.23\times 10^{-18}$, diagonal $=1.234$.
+\item \verb|make_default_config| emits the locked triple
+      $(\mu^{2},\lambda,\gamma)=(0.26,-0.43,+1.62)$ with
+      $K_{4}=1$, $K_{6}=5/2$, $I_{3}=1/3$, $(Z,Y)=(-1,+0.5)$
+      matching Math37 and Math38 AddA.
+\item Direct evaluation of $\phi_{0}^{2}=-4\lambda/(15\gamma)$ at
+      the locked triple returns $0.070782$, matching Math37 AddA.
+\item \emph{Commensurability flag surfaced} (filed as
+      Q-2026-04-15-18). Three theoretically-linked scales disagree
+      numerically at $(N,L)=(32,10\pi)$:
+      $k_{\min}=\sqrt{-Z/(2Y)}=1.0$ (kinetic minimiser);
+      $q_{0}^{\mathrm{cfg}}=0.6801747616\approx\sqrt{3}\,dk$
+      (runtime config); $|G|=\sqrt{2}\,dk=0.5554$ (BCC first shell).
+      The discrepancy is not a code defect but a cross-module
+      coherence issue; the theoretical interpretation is delivered
+      by Math40 (the universal identity $Yq_{0}^{2}/|Z|=1/2$), and
+      the numerical resolution is pre-registered as a
+      multi-resolution production-run protocol in
+      Q-2026-04-15-18.
+\end{itemize}
+
+\subsection*{2. Theory-tag audit after Math39}
+
+After Math39, the evidence ledger and status registry are
+complete for every tag on 2026-04-15. At the time of writing:
+\begin{itemize}
+\item Total \texttt{\#\# Active} open questions: 17
+      (was 7 prior to Math39 pass (C); Math41 and Math42 later
+      archive 4 of these, bringing the live count down; Math40
+      adds a partial-closure annotation on Q-04 and a new entry
+      Q-18).
+\item Total negative-result entries: 15
+      (7 F + 2 R + 6 D after passes (C) and (E)).
+\item \texttt{Website/data/version\_index.json} schema
+      \texttt{tect-version-index/1.1}; advanced past Math39 to
+      Math42 on the same date.
+\item \texttt{tools/check\_review\_cadence.py --check} returns
+      \texttt{clean: 0 overdue, 0 missing-field}.
+\end{itemize}
+
+\subsection*{3. Invariants that Math39 promises to preserve}
+
+The Math39 pass carries the following hard invariants; any future
+tag must respect them or explicitly supersede them in
+\texttt{CHANGELOG.md} with justification:
+\begin{enumerate}
+\item The locked triple $(\mu^{2},\lambda,\gamma)=(0.26,-0.43,+1.62)$
+      is physics-locked under the Brazovskii regime and is not
+      modified by reorganisation or optimisation.
+\item The BCC geometric invariants $K_{4}=1$, $K_{6}=5/2$,
+      $I_{3}=1/3$ are fixed.
+\item The \texttt{PDE/} import graph is frozen at the pass-(A)
+      state; no solver file is moved or renamed by reorganisation.
+\item Every \texttt{CHANGELOG.md} theory tag resolves to a
+      \texttt{docs/math/TECT-Math\textit{NN}.tex.txt} note of
+      the same identifier (Math39 is the note enforcing this
+      invariant for itself).
+\end{enumerate}
+
+\subsection*{4. Successor tags}
+
+Math39 is immediately followed on 2026-04-15 by three
+theoretical-proof notes:
+\begin{itemize}
+\item \texttt{Math40-RG-kinetic-2026-04-15}: universal Brazovskii
+      kinetic identity $Yq_{0}^{2}/|Z|=1/2$.
+\item \texttt{Math41-emergent-TOE-2026-04-15}: unconditional
+      derivation of emergent gravity (C2) and emergent
+      $SU(2)_{L}\times U(1)_{Y}$ (C3).
+\item \texttt{Math42-ClassII-UV-2026-04-15}: one-parameter
+      submanifold closure for $(M_{X},\alpha_{X})$; promotes
+      $m^{*2}_{\mathrm{TECT}}=9.005$ to an unconditional
+      prediction.
+\end{itemize}
+Math40--42 depend on the records infrastructure and code audit
+delivered by Math39.
+
+\end{document}

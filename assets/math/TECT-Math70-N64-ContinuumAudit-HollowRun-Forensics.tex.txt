@@ -1,0 +1,388 @@
+% =====================================================================
+% TECT-Math70 — N=64 Continuum Audit: Forensics of a Hollow Success
+% Devil's Advocate post-mortem of run 2026-04-22T22:22Z
+% =====================================================================
+\section*{Math70 --- Forensics of the 2026-04-22 N=64 Continuum Audit
+(Task~\#55/\#56 hollow-run post-mortem)}
+
+\subsection*{\S0 \quad Updated live verdict after the new
+\texttt{n64\_continuum\_audit} run}
+
+The new live run changes the integration verdict substantially.
+
+Previously, all three grids
+\begin{equation*}
+  N=32,\ 64,\ 128
+\end{equation*}
+failed immediately at Newton step~$0$ with the
+graph-disconnection error
+\begin{equation*}
+  \texttt{element 0 of tensors does not require grad and does not have a grad\_fn},
+\end{equation*}
+which identified B2 as the dominant blocker.
+
+In the new run, all three grids now execute the full Path-X
+Newton solve and reach
+\begin{equation*}
+  \texttt{>>> Converged at step 4}
+\end{equation*}
+with every step accepted and $t_{\text{Krylov}}=1$ throughout.
+Therefore
+\begin{equation}
+  \boxed{\text{B2 is no longer a live execution blocker on the
+        present Path-X route.}}
+\label{m70-s0-b2-verdict}
+\end{equation}
+and the integration status upgrades from
+\emph{``partial live integration only''} to
+\emph{``an effectively landed executable Phase-D path''}.
+
+However, the displayed console excerpt certifies only the Phase-1
+Newton solve.  It does \emph{not} by itself prove Phase-4
+continuum closure, because the actual physics outputs
+\begin{equation}
+  m_\star^2(h),\qquad \Delta F(h),\qquad
+  \lim_{h\to 0}\ \text{continuum fit}
+\label{m70-s0-physics-targets}
+\end{equation}
+are not present in the console and must be read from the written
+JSON.  The rest of this note is the forensic audit of that
+JSON.  The bottom line established below is:
+\begin{equation}
+  \boxed{\text{Path-X execution: opened.}}
+\end{equation}
+\begin{equation}
+  \boxed{\text{B1: operationally closed.}}
+\end{equation}
+\begin{equation}
+  \boxed{\text{B2: resolved as a live blocker.}}
+\end{equation}
+\begin{equation}
+  \boxed{\text{Next question: not ``does it run?'',
+        but ``what continuum physics does it actually certify?''}}
+\label{m70-s0-next-question}
+\end{equation}
+The forensic answer to Eq.~\eqref{m70-s0-next-question} is given
+in \S\S1--5 below.  Short form: the JSON records
+\emph{nothing} (all physics fields \texttt{null}); the solver
+converges to the trivial homogeneous vacuum, not the BCC
+condensate; the audit wrapper has five independent defects
+(D1--D5 in \S3) that must be fixed before Pillar-1 Phase-4
+evidence can be produced.
+
+\paragraph{Abstract.}
+The continuum audit \texttt{tools/n64\_continuum\_audit.py} v1.1
+executed end-to-end on $N\in\{32,64,128\}$, the Newton--Krylov
+solver \texttt{PDE/tect\_newton\_krylov.py} printed
+``\texttt{>>> Converged at step 4}'' on every grid, and the wrapper
+printed \texttt{[SUCCESS] Audit complete}.  Notwithstanding the
+exit status, the persisted JSON
+\texttt{results/n64\_audit\_2026-04-22.json} records
+$\sigma_V=\kappa=\texttt{null}$ and
+$\texttt{converged}=\texttt{false}$ for all three grids.  This note
+is the rigorous Devil's-Advocate forensic on why the audit is
+\emph{substantively empty} despite the cosmetic success, and it
+enumerates the three independent defects that must be repaired
+before Pillar--1 Phase--4 continuum closure is defensible.
+
+\subsection*{\S1 \quad Evidence}
+
+Three independent observations establish that the reported audit is
+not a measurement of the BCC condensate Jacobian spectrum but a
+cooling of the trivial homogeneous vacuum, and that no spectral
+observable was ever computed.
+
+\paragraph{Evidence (i) --- bit-identical Newton trajectory across
+$N\in\{32,64,128\}$.}  The printed Newton residuals
+$\|\text{grad}\|/\sqrt{\dim}$ are bit-identical across the three
+grids:
+\begin{equation}
+  \bigl(\|g_0\|/\sqrt{d},\ldots,\|g_4\|/\sqrt{d}\bigr)
+  =(3.137786{\times}10^{-2},\,
+     2.304851{\times}10^{-3},\,
+     1.590589{\times}10^{-5},\,
+     7.745266{\times}10^{-10},\,
+     0.0)
+\label{m70-trajectory}
+\end{equation}
+and the converged free-energy density
+$F_\star=-9.4168102787{\times}10^{-2}$ is identical across all
+grids to the last printed digit.
+
+\paragraph{Evidence (ii) --- JSON payload is empty.}
+\texttt{results/n64\_audit\_2026-04-22.json} records
+\begin{equation}
+\begin{aligned}
+  \{\texttt{converged}&:\texttt{false},\
+    \texttt{sigma\_V}:\texttt{null},\
+    \texttt{kappa}:\texttt{null},\\
+    \texttt{newton\_steps}&:0,\
+    \texttt{error}:\text{``Newton--Krylov did not converge after 5 steps''}\}
+\end{aligned}
+\label{m70-json-evidence}
+\end{equation}
+for every $N$.  Hence the wrapper's \emph{parser} disagrees with
+the solver's printed verdict: the solver believes it converged at
+step 4; the audit wrapper sees no \texttt{converged=True} marker.
+
+\paragraph{Evidence (iii) --- return-tuple contract mismatch.}
+The solver signature at line~1155 of \texttt{tect\_newton\_krylov.py}
+is
+\begin{equation}
+  \texttt{newton\_solve}(\cdot)\ \longrightarrow\
+  \bigl(\Psi,\ \texttt{history},\ \texttt{projector}\bigr),
+\label{m70-solver-contract}
+\end{equation}
+whereas the audit unpacks the third position as
+\texttt{spectrum\_out} (audit line~225) and subsequently queries
+\texttt{spectrum\_out["eigenvalues"]} (audit line~245).  The
+solver never returns a spectrum dictionary from
+\texttt{newton\_solve}; Phase--2 Lanczos lives in a separate
+\texttt{phase2\_audit} helper (\S6 of the solver, around line~1159).
+Therefore $\sigma_V$ and $\kappa$ \emph{cannot} be populated from
+this call path, regardless of whether Newton converged.
+
+\subsection*{\S2 \quad Physical interpretation of the bit-identical
+trajectory}
+
+\paragraph{Claim.}
+The trajectory \eqref{m70-trajectory} is \emph{bit-identical} across
+$N\in\{32,64,128\}$ if and only if the Newton iterates remain in
+the $k=0$ subspace of the BCC spectral Laplacian for every step
+$n\ge 0$.
+
+\paragraph{Proof.}
+The Brazovskii shell-bias operator
+$\mathcal{B}_{\rm sh}:=-\kappa_B(\hat{\Delta}+q_0^2)^2$ is
+FFT-diagonal in the lattice Fourier basis; the family term, the
+locked internal penalty, the shell-bias term, and the local
+nonlinearity are all pointwise in configuration space or in Fourier
+space.  For any $\Psi_n$ supported on the $k=0$ mode,
+$\hat{\Delta}\Psi_n=0$ and the shell-bias operator acts as a scalar
+$-\kappa_B q_0^4$.  Hence $F(\Psi_n)$ reduces to the \emph{same
+scalar self-consistency equation} regardless of $N$, and the Newton
+step $\Psi_{n+1}=\Psi_n-\mathcal{J}^{-1}F(\Psi_n)$ stays in the
+$k=0$ subspace by induction from
+$\Psi_0=\tfrac12\mathbf{1}_{3\times N\times N\times N}$.  Since the
+scalar self-consistency equation is identical across grids, the
+printed norm $\|g_n\|/\sqrt{d}$ and the density $F_\star$ are
+independent of $N$, as observed.\hfill$\square$
+
+\paragraph{Corollary (trivial-vacuum pathology).}
+The solution reached is a \emph{spatially homogeneous extremum},
+i.e. the $k=0$ critical point of the effective potential
+$V_{\rm eff}(\Psi_0):=(\mu^2-\kappa_B q_0^4)|\Psi_0|^2+\tfrac12
+\lambda|\Psi_0|^4+\ldots$\, with $\mu^2=-0.5$, $\lambda=-0.43$,
+$\gamma=1.62$.  This is the uniform phase, \emph{not} the BCC
+condensate.  The BCC condensate lives on the star of twelve
+$\{1,1,0\}$ $q$-vectors of the reciprocal body-centred cubic
+lattice, and has essential content at $|k|=q_0\neq 0$.  In
+particular any non-trivial topological observable --- spectral
+gap $m^{\star2}$, spectral-volume variance $\sigma_V$, order
+parameter $\kappa$ in $\rho_\star=\kappa\,\phi_+^2$ --- is
+\emph{zero or ill-defined} on the $k=0$ extremum.
+
+\subsection*{\S3 \quad Root-cause defect register}
+
+\paragraph{Defect D1 --- homogeneous seed.}
+Audit line~215:
+\begin{verbatim}
+  Psi_init = np.ones((3, N, N, N), dtype=np.complex128) * 0.5
+\end{verbatim}
+This places all probability mass on the $k=0$ mode.  By Cor.~\S2
+the iterate never leaves $k=0$; the BCC condensate cannot be
+sampled.
+
+\paragraph{Defect D2 --- return-tuple contract mismatch.}
+Audit line~225:
+\begin{verbatim}
+  Psi_sol, history, spectrum_out = solver(...)
+\end{verbatim}
+The solver returns \texttt{(Psi, history, projector)} per
+Eq.~\eqref{m70-solver-contract}.  Binding the \texttt{Projector}
+instance to \texttt{spectrum\_out} silently type-punts the
+downstream eigenvalue query (\texttt{spectrum\_out["eigenvalues"]})
+to an object without such a key, which --- together with D3 below
+--- is eaten by the broad \texttt{except Exception} at audit
+line~253.
+
+\paragraph{Defect D3 --- convergence-flag parser.}
+Audit line~236:
+\begin{verbatim}
+  if len(history) > 0 and history[-1].get("converged", False):
+\end{verbatim}
+The solver's \texttt{history} list stores per-Newton-step diagnostic
+dicts, each carrying trust-region and Eisenstat--Walker metadata
+but not a global convergence boolean; the terminal
+\texttt{converged} flag is printed but \emph{not persisted} into
+\texttt{history[-1]}.  The wrapper therefore reads
+\texttt{False} on every successful run, triggering the
+\texttt{did not converge after 5 steps} error branch at audit
+line~240 and discarding the Newton solution.
+
+\paragraph{Defect D4 --- incomplete configuration dict.}
+Audit lines~285--291 build \texttt{params} from only four scalars
+$(\mu^2,\lambda,\gamma,\text{Newton tolerances})$.  The BCC
+backend \texttt{PDE/real\_backend\_pt\_bcc\_mixed\_v3.py} requires
+at minimum the shell bias amplitude $\kappa_B$, the shell centre
+$q_0$, the shell width $\delta$, the family generators
+$\{q_T\}_{T=1}^{12}$, the Gell--Mann embedded cII generators, and
+the box lengths $(L_x,L_y,L_z)$ (the last was partially patched in
+v1.1 via the \texttt{Lx/Ly/Lz} fallback at lines~218--222).  All
+remaining fields default to zero through the backend's
+\texttt{params.get(\ldots,\,\text{default})} contract, which reduces
+the residual to the trivial-vacuum energy density in
+Eq.~\eqref{m70-trajectory}.
+
+\paragraph{Defect D5 --- $\mu^2$ convention drift.}
+Audit docstring line~57 states ``(µ², λ, γ) = (0.26, -0.43, 1.62)
+(locked point per mandate)'', but line~271 hard-codes
+$\mu^2=-0.5$.  The locked point for the Math55 continuation
+endpoint is the Math56-Addendum target $\mu^2_{\rm target}
+=5\times 10^{-3}$ (Option~B, Cor.~1), \emph{not} $-0.5$.  The
+value $-0.5$ is a Math49/Math52-era seed; carrying it unchanged
+into Task~\#55 puts the audit on the wrong side of the
+continuation endpoint established under Math55.
+
+\subsection*{\S4 \quad Consequences for Pillar--1 Phase--4}
+
+The Pillar--1 continuum-limit certificate requires
+\begin{equation}
+  \sigma_V(h)\ \xrightarrow{h\to 0}\ 0,
+  \qquad h:=1/N,
+\label{m70-pillar1-closure}
+\end{equation}
+evaluated on a \emph{converged BCC condensate} $\Psi_\star$ that
+satisfies the Math56-Addendum Phase--0 gate
+$V(\Psi_\star)/V_{G0}\ge 1$ and the Class--II floor
+$\rho_\star\ge\rho_{\rm cut}$ (Cor.~1 thresholds).
+The 2026-04-22 audit sampled neither end of
+Eq.~\eqref{m70-pillar1-closure}: the measured point is the trivial
+vacuum, and $\sigma_V$ was never evaluated.  Therefore
+\textbf{no Pillar--1 Phase--4 evidence has been produced by this
+run}, and the JSON file must not be cited as a continuum-audit
+data point.
+
+\subsection*{\S5 \quad Repair recipe (binding)}
+
+\paragraph{R1 --- correct seed.}
+Replace audit line~215 with a call to a BCC condensate seed
+factory parameterised by the twelve-star $\{q_T\}$, e.g.
+\begin{equation}
+  \Psi_0(\mathbf x)
+  = A_0\sum_{T=1}^{12}
+     \hat e_T\,
+     e^{\mathrm{i}\mathbf q_T\cdot\mathbf x},
+  \qquad \sum_T|A_0|^2=\|\Psi\|^2_{\rm target},
+\label{m70-bcc-seed}
+\end{equation}
+with $A_0$ chosen so that $\Psi_0$ satisfies the Math56-Addendum
+Phase--0 gate at initialisation.  Use the
+\texttt{build\_seed\_bcc} factory (Task~\#106) as the single
+source of truth.
+
+\paragraph{R2 --- fix solver return contract.}
+Replace audit line~225:
+\begin{verbatim}
+  Psi_sol, history, projector = solver(...)
+\end{verbatim}
+and invoke the separate Phase--2 Lanczos helper
+\texttt{phase2\_audit(Psi\_sol, projector, params)} to produce a
+spectrum dictionary with keys \texttt{\{eigenvalues, lambda\_min,
+lambda\_gap, m\_star\_sq\}}; then compute $\sigma_V$ per
+Eq.~\eqref{m70-sigmaV-def} below from
+\texttt{spectrum["eigenvalues"]}.
+
+\paragraph{R3 --- parse convergence from the solver's own flag.}
+Terminate Newton by inspecting the \emph{returned} solution's
+residual directly rather than the last history entry:
+\begin{equation}
+  \texttt{converged}\ :=\
+    \|\mathrm{Proj}\,F(\Psi_{\rm sol};\text{params})\|_2
+    \ \le\ \texttt{tol\_newton}\cdot\sqrt{\dim}.
+\label{m70-convergence-canonical}
+\end{equation}
+This removes the audit's dependence on whether
+\texttt{history[-1]} happens to carry a \texttt{converged} key.
+
+\paragraph{R4 --- full configuration via
+\texttt{make\_bcc\_config}.}
+Replace the ad-hoc four-scalar \texttt{params} dict with a call to
+\texttt{tools.make\_bcc\_config(N, mu2, \ldots)} (Task~\#116
+helper), which is already the single source of truth for the
+pytest suite and therefore carries the same
+$(\kappa_B,q_0,\delta,\{q_T\},L,\ldots)$ fields as the
+\texttt{tests/test\_v26\_phase\_d.py} 5-pass configuration.
+
+\paragraph{R5 --- correct $\mu^2$ target.}
+Set $\mu^2=\mu^2_{\rm target}=5\times 10^{-3}$ per Math56-Addendum
+Cor.~1 (Option~B); if an explicit endpoint is not yet available
+from Task~\#54 continuation, pull from the continuation JSON at
+\texttt{results/continuation\_mu2\_v25\_endpoint.json} rather than
+hard-coding a legacy seed.
+
+\subsection*{\S6 \quad Definitions used}
+
+For completeness:
+\begin{equation}
+  \sigma_V\ :=\
+    \frac{1}{N_{\rm eig}}\sum_{i=1}^{N_{\rm eig}}
+    \bigl(\lambda_i-\bar\lambda\bigr)^2,
+  \qquad
+  \bar\lambda:=\frac{1}{N_{\rm eig}}\sum_i\lambda_i,
+\label{m70-sigmaV-def}
+\end{equation}
+with $\{\lambda_i\}$ the Hermitised projected-Jacobian spectrum at
+$\Psi_\star$ (Math56 §3, Math66 v0.2 Path--X basis).
+\begin{equation}
+  \kappa\ :=\
+    \min_i\lambda_i
+    \ \text{(the lowest post-projection eigenvalue;
+             this is $m^{\star 2}$ whenever the gap exists)}.
+\label{m70-kappa-def}
+\end{equation}
+
+\subsection*{\S7 \quad Verdict}
+
+\textbf{Audit 2026-04-22T22:22Z status: HOLLOW.}  The run produced
+zero Pillar--1 Phase--4 evidence, regardless of its cosmetic
+\texttt{[SUCCESS]} exit.  The correct descriptor is
+``Newton--Krylov converged on the trivial homogeneous vacuum; no
+BCC condensate was sampled; no spectral observable was
+computed''.  The record
+\texttt{results/n64\_audit\_2026-04-22.json} must be retained as
+negative evidence (D1--D5 register) and the continuum certificate
+must be re-measured post-R1--R5 repair.
+
+\paragraph{Downstream impact.}
+\begin{itemize}[leftmargin=2.2em]
+  \item Task~\#55 (measure $\sigma_V$ at $N\in\{32,64,128\}$)
+        remains open; no data point produced.
+  \item Task~\#56 ($\kappa$ extraction) remains open; no data
+        point produced.
+  \item Pillar--1 Phase--4 continuum certificate status:
+        \emph{unchanged} (still blocked on Task~\#54 endpoint
+        + Tasks~\#55/\#56 re-run).
+  \item Newton--Krylov v2.6.1 executable closure
+        (pytest 0F/5P/0S, Math68 Addendum~A~§A.7) stands;
+        v2.6.1 is \emph{not} implicated in the audit defects,
+        which live entirely in \texttt{tools/n64\_continuum\_audit.py}
+        v1.1 and are not solver-layer issues.
+\end{itemize}
+
+\paragraph{Residual risk booked.}
+R-Math70-1: the v1.1 bootstrap of \texttt{n64\_continuum\_audit.py}
+imported successfully and ran to completion because the broad
+\texttt{except Exception as e} at audit line~253 swallowed every
+downstream failure.  All \texttt{tools/*.py} audit wrappers must
+be audited in the Task~\#108 style for the same broad-catch
+pathology and either tightened to the specific exception class or
+fail-fast on unknown conditions.
+
+\paragraph{Cross-refs.}
+Math55, Math56, Math56-Addendum Cor.~1, Math66 v0.2,
+Math68 Addendum~A §A.7, Math69, Task~\#55, Task~\#56, Task~\#108,
+\texttt{CHANGELOG} 2026-04-22 top entries,
+\texttt{docs/manual/CODE\_MANUAL.md} \S11.
+
+% -- EOF --

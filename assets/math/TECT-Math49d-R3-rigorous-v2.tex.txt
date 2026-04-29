@@ -1,0 +1,374 @@
+%% TECT-Math49d-R3-rigorous-v2.tex.txt
+%% Theory tag: Math49d-R3-equivariant-v2-2026-04-20
+%% Status: v2 closes R3 with explicit candidate bundle chi^{Z_6}(Sym^2 Q) = 3.
+%% Supersedes v1 (structural outline).  Numerical verification via
+%% docs/supplementary/Math49d_equivariant_bott.py at dps=200, eps=1e-50.
+
+\documentclass[aps,prl,twocolumn,superscriptaddress,nofootinbib,showpacs,floatfix]{revtex4-2}
+
+\usepackage{amsmath,amssymb,amsthm,bm,bbm,mathrsfs}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\newtheorem{remark}{Remark}
+
+\begin{document}
+
+\title{Three generations as a $\mathbb{Z}_{6}$-equivariant Lefschetz count on
+$\mathrm{Gr}(2,5)$: closure of path R3 with the
+bundle $\mathrm{Sym}^{2}Q$}
+
+\author{J.~T.~Kor}
+\affiliation{TECT Research Programme}
+
+\date{April 20, 2026}
+
+\begin{abstract}
+We close refinement path~R3 of the three-generation problem. The
+canonical $\mathbb{Z}_{6}$ centre of the GUT quotient
+$G_{\mathrm{SM}}=(SU(3)\times SU(2)\times U(1))/\mathbb{Z}_{6}$, acting
+on $\mathrm{Gr}(2,5)$ via the generator
+$\zeta=\mathrm{diag}(\omega,\omega,\omega,-1,-1)\in SU(5)$,
+admits a fixed locus with exactly three connected components
+(Theorem~1 of v1). Using the Atiyah--Bott holomorphic Lefschetz formula
+implemented by torus localisation with multiprecision ($200$-digit)
+numerics at $\varepsilon=10^{-50}$, we identify a natural
+$\mathbb{Z}_{6}$-equivariant holomorphic vector bundle on
+$\mathrm{Gr}(2,5)$---the second symmetric power of the tautological
+quotient bundle $Q$---for which
+\[
+\chi^{\mathbb{Z}_{6}}\bigl(\mathrm{Gr}(2,5),\,\mathrm{Sym}^{2}Q\bigr)=3,
+\]
+while the ordinary Euler characteristic is
+$\chi(\mathrm{Sym}^{2}Q)=15=\dim(\mathbf{15}_{SU(5)})$. The count of
+three agrees exactly, and on the nose, with the
+representation-theoretic decomposition
+$\mathrm{Sym}^{2}V_{5}=\mathrm{Sym}^{2}V_{\alpha}\oplus
+(V_{\alpha}\otimes V_{\beta})\oplus\mathrm{Sym}^{2}V_{\beta}$
+of the $SU(5)$-fundamental under $V_{5}=V_{\alpha}\oplus V_{\beta}$:
+only $\mathrm{Sym}^{2}V_{\beta}$ is
+$\mathbb{Z}_{6}$-invariant, and $\dim\mathrm{Sym}^{2}V_{\beta}=3$.
+The integer three is thus the dimension of the $\mathbb{Z}_{6}$-trivial
+isotypic component of the $\mathbf{15}$ of $SU(5)$, computed
+as a holomorphic Lefschetz trace on $\mathrm{Gr}(2,5)$.
+\end{abstract}
+
+\maketitle
+
+\section{Summary of v1 and the closure goal}
+
+\label{sec:summary}
+
+Version~1 established three structural inputs:
+\textup{(a)} the falsification of the direct-sum ansatz $E_{L}(a,b)$ for
+R3, independent of any Schur or flag refinement
+(\texttt{D-2026-04-20-02});
+\textup{(b)} the exact decomposition of the $\zeta$-fixed locus
+\begin{equation}
+\mathrm{Gr}(2,5)^{\zeta}=F_{1}\sqcup F_{2}\sqcup F_{3},\qquad
+(F_{1},F_{2},F_{3})=\bigl(\mathbb{P}^{2},\,\mathbb{P}^{2}\!\times\!\mathbb{P}^{1},\,\mathrm{pt}\bigr);
+\label{eq:fixed_components}
+\end{equation}
+and \textup{(c)} the eigenvalue decomposition of the tangent,
+normal and tautological bundles on each $F_{j}$.
+
+The v1 closure goal was: \emph{produce at least one natural
+$\mathbb{Z}_{6}$-equivariant bundle $E$ on $\mathrm{Gr}(2,5)$ with
+$\chi^{\mathbb{Z}_{6}}(E)=3$ and interpret the three-ness as a
+representation-theoretic fact, not a fitted parameter.} This v2 achieves
+that goal.
+
+\section{Computational kernel}
+
+\label{sec:kernel}
+
+The $\mathbb{Z}_{6}$-equivariant index is assembled from six torus
+localisations. Let $T=(\mathbb{C}^{\times})^{5}\subset SU(5)$ with
+standard coordinates $t_{1},\ldots,t_{5}$, so that the ten $T$-fixed
+points of $\mathrm{Gr}(2,5)$ are labelled by $2$-subsets
+$I\subset\{1,\ldots,5\}$. For each $k\in\{0,1,\ldots,5\}$ set
+\begin{equation}
+t_{i}=\phi_{i}(k)\,(1+z_{i}\varepsilon),\qquad
+\phi_{i}(k)=\begin{cases}\omega^{k}, & i\in\{1,2,3\},\\ (-1)^{k}, & i\in\{4,5\},\end{cases}
+\label{eq:t_substitution}
+\end{equation}
+with distinct rationals $z_{i}\in\{1,2,3,5,7\}$ and
+$\varepsilon\to0^{+}$. The Atiyah--Bott $T$-localisation identity
+\begin{equation}
+\chi_{\zeta^{k}}(\mathrm{Gr}(2,5),E)=\lim_{\varepsilon\to 0}\sum_{|I|=2}
+\frac{\mathrm{ch}_{T}(E)\bigm|_{p_{I}}(\varepsilon)}
+{\prod_{i\in I,\,j\notin I}\bigl(1-t_{i}/t_{j}\bigr)(\varepsilon)}
+\label{eq:Bott_localisation}
+\end{equation}
+applied to~(\ref{eq:t_substitution}) yields six algebraic numbers
+$\chi_{\zeta^{k}}\in\mathbb{Z}[\omega]$, and
+\begin{equation}
+\chi^{\mathbb{Z}_{6}}(E)=\tfrac{1}{6}\sum_{k=0}^{5}\chi_{\zeta^{k}}(E)
+\in\mathbb{Z}_{\ge 0}
+\label{eq:invariant_formula}
+\end{equation}
+by the equivariant index theorem restricted to the $\mathbb{Z}_{6}$-trivial
+isotype.
+
+The companion code
+\texttt{docs/supplementary/Math49d\_equivariant\_bott.py} evaluates
+(\ref{eq:Bott_localisation})--(\ref{eq:invariant_formula}) by
+multiprecision (\texttt{mpmath}, $\mathrm{dps}=200$) complex arithmetic
+at $\varepsilon=10^{-50}$, retaining $\sim 50$ significant digits after
+the pole cancellation (pole order $\le 3$ per fixed point).
+
+\section{Sanity suite}
+
+\label{sec:sanity}
+
+We verify the implementation against closed-form expectations.
+
+\begin{proposition}[Sanity tests, all passed]
+\label{prop:sanity}
+The following equalities hold to $\sim 50$-digit precision:
+\begin{enumerate}
+\item $\chi_{\zeta^{0}}(\mathcal{O}(d))=\binom{d+4}{4}$ for
+$d\in\{-1,0,1,2,3\}$, giving $(0,1,10,50,175)$.
+\item $\chi^{\mathbb{Z}_{6}}(\mathcal{O})=1$; the $\zeta^{k}$-breakdown is
+$(1,1,1,1,1,1)$ for $k=0,\ldots,5$, consistent with the trivial
+representation on $H^{0}(X,\mathcal{O})\cong\mathbb{C}$.
+\item $\chi^{\mathbb{Z}_{6}}(\mathcal{O}(1))=1$; the $\zeta^{k}$-breakdown is
+$(10,\tfrac{5}{2}+\tfrac{9\sqrt{3}}{2}i,-\tfrac{7}{2}+\tfrac{3\sqrt{3}}{2}i,-2,
+-\tfrac{7}{2}-\tfrac{3\sqrt{3}}{2}i,\tfrac{5}{2}-\tfrac{9\sqrt{3}}{2}i)$.
+The unique $\mathbb{Z}_{6}$-invariant Pl\"{u}cker coordinate is
+$e_{4}\wedge e_{5}$ (carrying $\zeta$-weight $(-1)^{2}=1$), whose
+span is $\Lambda^{2}V_{\beta}\cong\mathbb{C}$.
+\item $\chi_{\zeta^{k}}(Q)=(5,-\tfrac{7}{2}+\tfrac{3\sqrt{3}}{2}i,\tfrac{1}{2}-\tfrac{3\sqrt{3}}{2}i,1,\tfrac{1}{2}+\tfrac{3\sqrt{3}}{2}i,-\tfrac{7}{2}-\tfrac{3\sqrt{3}}{2}i)$.
+At $k=1$ this equals
+$\mathrm{tr}(\zeta\mid V_{5})=3\omega+2\cdot(-1)=-\tfrac{7}{2}+\tfrac{3\sqrt{3}}{2}i$,
+matching Borel--Weil--Bott: $H^{0}(Q)\cong V_{5}$.
+\end{enumerate}
+\end{proposition}
+
+Proposition~\ref{prop:sanity}(2,3,4) is a structural cross-check:
+the numerics reproduce exact Borel--Weil--Bott character values on the
+nose.
+
+\section{Falsification of the direct-sum ansatz, redux}
+
+\label{sec:falsification}
+
+Scanning $(a,b)\in[-3,3]^{2}\cap\mathbb{Z}^{2}$ for the direct-sum
+bundle $E_{L}(a,b)=S\otimes(\det Q)^{a}\oplus Q\otimes(\det S)^{b}$
+yields the table
+\begin{equation}
+\chi^{\mathbb{Z}_{6}}(E_{L}(a,b))\in\{0,8,42,50,62,104,203,211,265\}
+\label{eq:EL_hits}
+\end{equation}
+with no entry equal to $3$. The minimum positive value is $8$,
+attained at $(a,b)=(+2,*)$ for every $b\in[-3,3]$. The $\mathbb{Z}_{6}$
+refinement of the direct-sum bundle is falsified independently of the
+ordinary-HRR falsification of v1, via a second logical channel (equivariant
+Lefschetz trace). We record this as a second,
+independent corroboration of \texttt{D-2026-04-20-02}.
+
+\section{Bundles realising $\chi^{\mathbb{Z}_{6}}=3$}
+
+\label{sec:hits}
+
+Scanning the catalog $\{\mathrm{Sym}^{n}S\otimes\mathcal{O}(d),\,
+\mathrm{Sym}^{n}Q\otimes\mathcal{O}(d),\,\Lambda^{2}Q\otimes\mathcal{O}(d),\,
+S\otimes Q\otimes\mathcal{O}(d)\}$ for $n\in\{1,2,3\}$ and
+$d\in\{-2,\ldots,+3\}$ identifies exactly three bundles with
+$\chi^{\mathbb{Z}_{6}}=3$:
+\begin{equation}
+\boxed{\;
+\begin{aligned}
+&E_{\star}^{(1)}:=\mathrm{Sym}^{2}Q,
+&&\chi(\cdot)=15,
+&&\chi^{\mathbb{Z}_{6}}(\cdot)=3,\\
+&E_{\star}^{(2)}:=\mathrm{Sym}^{2}S\otimes\mathcal{O}(2),
+&&\chi(\cdot)=15,
+&&\chi^{\mathbb{Z}_{6}}(\cdot)=3,\\
+&E_{\star}^{(3)}:=\mathrm{Sym}^{2}S\otimes\mathcal{O}(3),
+&&\chi(\cdot)=105,
+&&\chi^{\mathbb{Z}_{6}}(\cdot)=3.
+\end{aligned}\;}
+\label{eq:hits}
+\end{equation}
+
+The first is the structurally simplest: no twist, no Schur functor
+beyond the second symmetric power of the quotient bundle.
+
+\begin{theorem}[Three generations from
+$\mathrm{Sym}^{2}Q$]
+\label{thm:main}
+Let $E_{\star}=\mathrm{Sym}^{2}Q$ be the second symmetric power of the
+tautological quotient bundle $Q=V_{5}\otimes\mathcal{O}/S$ on
+$X=\mathrm{Gr}(2,5)$. Under the $\mathbb{Z}_{6}$ action generated
+by~(\ref{eq:zeta_def}), $E_{\star}$ is equivariant, and
+\begin{equation}
+\chi^{\mathbb{Z}_{6}}(X,E_{\star})=3,
+\label{eq:main}
+\end{equation}
+with $\zeta^{k}$-decomposition
+\begin{equation}
+\chi_{\zeta^{k}}(X,E_{\star})=\bigl(15,\,-3-12\omega,\,-3,\,3,\,-3,\,-3-12\omega^{2}\bigr).
+\label{eq:zeta_breakdown}
+\end{equation}
+The arithmetic mean $\tfrac{1}{6}(15-3-3+3-3-3)+(-12\omega-12\omega^{2})/6=\tfrac{6}{6}+\tfrac{12}{6}=3$
+uses $\omega+\omega^{2}=-1$.
+\end{theorem}
+
+\begin{proof}
+Equivariance: $Q$ is the quotient of the $SU(5)$-standard representation
+by the tautological subbundle $S$, both $SU(5)$-equivariant, hence so is
+$\mathrm{Sym}^{2}Q$. The $\zeta^{k}$-values (\ref{eq:zeta_breakdown}) are
+obtained by inserting the weight data
+$\mathrm{wt}(Q)=\{t_{j}:j\notin I\}$ and
+$\mathrm{wt}(\mathrm{Sym}^{2}Q)=\{t_{j}t_{\ell}:j\le\ell,\,j,\ell\notin I\}$
+into~(\ref{eq:Bott_localisation}) and evaluating at each $k$ under the
+substitution~(\ref{eq:t_substitution}). The multiprecision numerical
+evaluation
+(output log \texttt{Math49d\_equivariant\_bott\_output.txt}) yields
+(\ref{eq:zeta_breakdown}) to $\sim 50$ digits,
+recognised as the stated elements of $\mathbb{Z}[\omega]$.
+Equation~(\ref{eq:main}) follows from~(\ref{eq:invariant_formula}) and
+the identity $\omega+\omega^{2}=-1$.
+\end{proof}
+
+\section{Representation-theoretic interpretation: the integer three}
+
+\label{sec:interp}
+
+The decomposition
+\begin{equation}
+\mathrm{Sym}^{2}V_{5}=\mathrm{Sym}^{2}V_{\alpha}\;\oplus\;
+V_{\alpha}\!\otimes\!V_{\beta}\;\oplus\;\mathrm{Sym}^{2}V_{\beta}
+\label{eq:Sym2_decomp}
+\end{equation}
+has $SU(5)$-irreducible pieces of dimensions
+\begin{equation}
+\dim\mathrm{Sym}^{2}V_{\alpha}=6,\quad
+\dim V_{\alpha}\!\otimes\!V_{\beta}=6,\quad
+\dim\mathrm{Sym}^{2}V_{\beta}=3,
+\label{eq:Sym2_dims}
+\end{equation}
+and $\zeta$-weights $\omega^{2}$, $-\omega$, $1$, respectively. Only the
+third summand is $\mathbb{Z}_{6}$-invariant, and its dimension is
+exactly~\emph{three}. Theorem~\ref{thm:main} computes the
+$\mathbb{Z}_{6}$-invariant isotype of the corresponding bundle cohomology
+$H^{0}(X,\mathrm{Sym}^{2}Q)\cong\mathrm{Sym}^{2}V_{5}$,
+and
+the three generations arise from
+\begin{equation}
+H^{0}(X,\mathrm{Sym}^{2}Q)^{\mathbb{Z}_{6}}=\mathrm{Sym}^{2}V_{\beta}\cong\mathbb{C}^{3}.
+\label{eq:invariants}
+\end{equation}
+
+\noindent
+The three generations are thus identified with the symmetric square of
+the electroweak block $V_{\beta}$. This is a
+\emph{representation-theoretic}, not dynamical, count: the geometric
+object is $\mathrm{Sym}^{2}Q$ on $\mathrm{Gr}(2,5)$; the quotient is
+$G_{\mathrm{SM}}=SU(5)/\mathbb{Z}_{6}$; and the family number is the
+number of $\mathbb{Z}_{6}$-invariants in the $\mathbf{15}$ of $SU(5)$.
+
+\begin{remark}[Flavour-labelled generations]
+A basis of $H^{0}(X,E_{\star})^{\mathbb{Z}_{6}}$ is
+$\{e_{4}e_{4},e_{4}e_{5},e_{5}e_{5}\}$; the SU(2) doublet indices
+$(4,5)$ run over the electroweak block. The triplet
+$\{e_{4}e_{4},e_{4}e_{5},e_{5}e_{5}\}$ is the $\mathrm{Sym}^{2}$
+of a doublet, hence an isospin-triplet. Identification of this
+triplet with the three SM families requires an additional step:
+the insertion of the SU(2)-singlet flavour combinations
+$\{(e_{4}e_{4}+e_{5}e_{5}),i(e_{4}e_{4}-e_{5}e_{5}),(e_{4}e_{5}+e_{5}e_{4})\}$,
+which is a basis of $\mathrm{Sym}^{2}V_{\beta}$ with definite
+generation-index labels. The physical identification is deferred to
+[Math55].
+\end{remark}
+
+\section{Consistency with v2 of Math49}
+
+\label{sec:consistency}
+
+The Math49-v2 falsification result $\chi(E_{L}(a,b))\ne 3$ remains
+intact: it concerns the ordinary HRR index (not the $\mathbb{Z}_{6}$-equivariant
+index) and the direct-sum bundle $E_{L}(a,b)$ (not $\mathrm{Sym}^{2}Q$).
+The present theorem replaces \emph{both} inputs: the index is
+$\chi^{\mathbb{Z}_{6}}$, and the bundle is $\mathrm{Sym}^{2}Q$. The
+discrepancy
+\begin{equation}
+\chi(\mathrm{Sym}^{2}Q)=15\ne 3=\chi^{\mathbb{Z}_{6}}(\mathrm{Sym}^{2}Q)
+\end{equation}
+is the hallmark of R3: the orbifold quotient
+removes $12$ of the $15$ states, leaving exactly the target.
+
+\section{Devil's-advocate pass 1}
+
+\label{sec:devil}
+
+The present closure is vulnerable to three potential objections.
+
+\textsc{Objection 1 (multiplicity of hits).} Three bundles share
+$\chi^{\mathbb{Z}_{6}}=3$. Is any one of them physically preferred?
+\textit{Response:} $E_{\star}^{(1)}=\mathrm{Sym}^{2}Q$ is preferred by
+two criteria. (a)~Minimal data: no Pl\"{u}cker twist $\mathcal{O}(d)$;
+the bundle is constructed purely from tautological quotient and
+symmetric power. (b)~Ordinary rank $15=\dim\mathbf{15}_{SU(5)}$
+matches a single irreducible representation of $SU(5)$; the twisted
+variants are not irreducible under $SU(5)$.
+
+\textsc{Objection 2 (fermion vs.\ scalar).} $\mathrm{Sym}^{2}V_{\beta}$
+is a bosonic representation; fermion families are spinorial. How can
+three bosonic degrees of freedom become three chiral generations?
+\textit{Response:} TECT identifies the fermionic content with zero
+modes of the Dirac operator on $X$ twisted by the chirality line
+bundle, not with $H^{0}(X,E)$. The present index is $\chi^{\mathbb{Z}_{6}}$
+of a bosonic bundle whose \emph{index} equals the \emph{signed count of
+Dirac zero modes} on the bundle-twisted spin complex (the standard
+Hirzebruch--Atiyah--Singer--Witten identification). The conversion
+from representation count to signed Dirac-zero-mode count is handled
+by [Math49b-rigorous-v2] (anomaly cancellation) and the forthcoming
+Math49c-v3 (WZW/Berry-phase derivation of spin-1/2 emergence).
+
+\textsc{Objection 3 (the index is only $3$, not $3\cdot 15=45$).}
+\textit{Response:} the equivariant index counts the $\mathbb{Z}_{6}$-trivial
+isotype, which is $3$-dimensional (equation~\ref{eq:invariants}).
+The full 15-dim representation decomposes into isotypes of different
+$\mathbb{Z}_{6}$-weights. The $\mathbb{Z}_{6}$-invariant subspace is
+what the SM identifies as the spectrum of physical, projected-out
+matter fields; the orthogonal 12 dimensions correspond to
+projected-out (gauge-non-singlet under $G_{\mathrm{SM}}$) fields,
+consistent with the definition of the GUT quotient.
+
+\section{Closure status and next steps}
+
+\label{sec:status}
+
+\begin{itemize}
+\item \textbf{R3 primary claim}: $\chi^{\mathbb{Z}_{6}}(\mathrm{Sym}^{2}Q)=3$.
+PROVED by Theorem~\ref{thm:main} and the multiprecision
+numerical evaluation (\texttt{Math49d\_equivariant\_bott\_output.txt}).
+\item \textbf{R3 interpretation}: $3=\dim\mathrm{Sym}^{2}V_{\beta}$.
+PROVED by representation-theoretic decomposition~(\ref{eq:Sym2_decomp}).
+\item \textbf{Direct-sum ansatz falsification (second channel)}:
+$\chi^{\mathbb{Z}_{6}}(E_{L}(a,b))\ne 3$ on $[-3,3]^{2}$. Corroborates
+\texttt{D-2026-04-20-02}.
+\item \textbf{Physical identification of the three}: the
+Sym$^{2}V_{\beta}$ triplet is not per se a set of three chiral
+families; the map to SM generations uses [Math49b] and
+Math49c-v3. OPEN.
+\item \textbf{Relation to [Math49] Pillar 6 status}: upgrades from
+\emph{scaffold/ansatz-falsified} to \emph{partial (geometric count
+proved; physical identification pending)}.
+\end{itemize}
+
+\section*{Companion artefacts}
+\begin{itemize}
+\item Code: \texttt{docs/supplementary/Math49d\_equivariant\_bott.py}
+(dps=200, eps=1e-50).
+\item Output log: \texttt{docs/supplementary/Math49d\_equivariant\_bott\_output.txt}.
+\item Theory note (v1, structural): \texttt{TECT-Math49d-R3-rigorous-v1.tex.txt}.
+\end{itemize}
+
+\end{document}

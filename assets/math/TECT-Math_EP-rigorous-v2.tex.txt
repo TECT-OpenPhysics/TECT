@@ -1,0 +1,374 @@
+% TECT-Math_EP-rigorous-v2.tex.txt
+% Title:  Dynamical Equivalence Principle for BCC Defect Excitations,
+%         Including Dirac Zero Modes via Belinfante--Rosenfeld
+%         Improvement
+% Date:   2026-04-20
+% Status: RIGOROUS REWRITE (v2) of TECT-Math_EP-rigorous.tex.txt
+% Theory tag: Math_EP-equivalence-principle-rigorous-v2-2026-04-20
+%
+% Closes defects N8 and N9 of 2026-04-20 devil's-advocate pass 2:
+%   (N8) v1 Theorem 1 (Step 3) proved WEP only for the scalar
+%        collective coordinate, assuming "no spin connection".
+%        The TECT defect is a Dirac zero mode, which DOES carry
+%        spin.  For the spinor case the Belinfante--Rosenfeld
+%        improvement is required; v1 flagged this but did not
+%        execute.  This v2 executes the improvement explicitly.
+%   (N9) v1 used the phrase "Noether--Hilbert identity" without
+%        attribution; v2 replaces with standard terminology
+%        ("coincidence of canonical Noether tensor and Hilbert
+%        metric-variation tensor for Lagrangians symmetric under
+%        translation").
+
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=1in]{geometry}
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{lemma}{Lemma}
+\newtheorem{remark}{Remark}
+\newtheorem{corollary}{Corollary}
+\newtheorem{definition}{Definition}
+
+\title{TECT-Math\_EP (Rigorous v2): \\
+       Dynamical Equivalence Principle for BCC Defect Excitations,
+       Scalar and Dirac Cases}
+\author{TECT Collaboration}
+\date{2026-04-20 (v2)}
+
+\begin{document}
+\maketitle
+
+\section{Setup}
+
+\subsection{Defect-particle excitations}
+
+A pointlike fermionic excitation of the BCC condensate is a Dirac
+zero mode bound to a topological defect, carried as a localised
+deformation $\delta\Psi(x - X(t))$ of the condensate
+(TECT-Math10--14). The defect position $X^\mu(\tau)$ is governed
+by the BCC effective action
+\begin{equation}
+  S_{\mathrm{eff}}[\Psi, \psi, g, \omega]
+   = \int d^4x\,\sqrt{-g}\,\Bigl[
+      \mathcal{L}_{\mathrm{scalar}}[\Psi, g]
+    + \mathcal{L}_{\mathrm{Dirac}}[\psi, g, \omega]\Bigr],
+  \label{eq:Seff}
+\end{equation}
+with $g_{\mu\nu}$ the emergent effective metric and
+$\omega_\mu^{\ ab}$ the spin connection of TECT-Math39--47. In
+flat space ($g = \eta$), $\omega = 0$.
+
+\subsection{Two independent mass definitions}
+
+\begin{definition}[Inertial mass $m_I$]
+\label{def:mI}
+In flat space, the defect trajectory obeys an Euler--Lagrange
+equation derived from \eqref{eq:Seff} in the collective-coordinate
+approximation:
+\begin{equation}
+  S_{\mathrm{flat}}[X] = -m_I \int d\tau\,
+     \sqrt{\eta_{\mu\nu}\dot X^\mu \dot X^\nu} + O(\ddot X).
+\end{equation}
+The coefficient $m_I$ is identified with the flat-space energy
+integral of the static defect profile:
+\begin{equation}
+  m_I := \int d^3x\,\mathcal{E}_{\mathrm{static}}
+       [\delta\Psi(x), \psi_0(x)],
+\end{equation}
+where $\psi_0$ is the Dirac zero mode localised at the defect.
+\end{definition}
+
+\begin{definition}[Gravitational mass $m_G$]
+\label{def:mG}
+In weak curvature $g_{\mu\nu} = \eta_{\mu\nu}+h_{\mu\nu}$, the
+first-order response of the defect action is
+\begin{equation}
+  \delta_h S_{\mathrm{eff}}[X, h]
+   = \tfrac{1}{2}\int d\tau\,h_{\mu\nu}(X(\tau))\,
+     T^{(X)\,\mu\nu}(\tau),
+\end{equation}
+with dressed stress tensor
+\begin{equation}
+  T^{(X)\,\mu\nu}(\tau)
+  = m_G \int d^3x\,\delta^{(3)}(\vec x-\vec X(\tau))\,
+    \hat u^\mu \hat u^\nu + O(v^2/c^2),
+\end{equation}
+and $\hat u^\mu = \dot X^\mu/\sqrt{|\dot X|^{2}}$.
+\end{definition}
+
+\begin{remark}
+$m_I$ is extracted from the flat-space kinetic term; $m_G$ from
+the weak-curvature coupling. A priori these are two independent
+coefficients.
+\end{remark}
+
+\section{Scalar-only case (reprise of v1)}
+
+\begin{proposition}[Scalar-defect WEP]
+\label{prop:scalarWEP}
+For a purely scalar defect profile $\delta\Psi$ with Lagrangian
+$\mathcal{L}_{\mathrm{scalar}} = \tfrac{1}{2}g^{\mu\nu}
+\partial_\mu\Psi^\dagger\partial_\nu\Psi - V(\Psi)$, the flat-space
+canonical Noether stress tensor and the Hilbert metric-variation
+tensor coincide:
+\begin{equation}
+  T^{\mathrm{can}\,\mu\nu}_{\mathrm{scalar}}
+  = T^{\mathrm{Hilb}\,\mu\nu}_{\mathrm{scalar}}
+  = \partial^\mu\Psi^\dagger\partial^\nu\Psi
+    - \eta^{\mu\nu}\mathcal{L}_{\mathrm{scalar}},
+  \label{eq:Tsym-scalar}
+\end{equation}
+both symmetric. Integrating $T^{00}$ over a space-like slice gives
+$m_I^{\mathrm{scalar}} = m_G^{\mathrm{scalar}}$.
+\end{proposition}
+
+\begin{proof}
+Standard; see Weinberg, \emph{Gravitation and Cosmology}, §7.6.
+The canonical tensor is symmetric because the scalar Lagrangian
+has no internal spin indices; no Belinfante--Rosenfeld
+improvement is required.
+\end{proof}
+
+\section{Dirac zero-mode case (new in v2)}
+
+\subsection{Canonical Noether tensor for Dirac}
+
+For the Dirac Lagrangian in flat space,
+\begin{equation}
+  \mathcal{L}_{\mathrm{Dirac}}
+  = \tfrac{i}{2}\bar\psi\gamma^\mu
+       \overset{\leftrightarrow}{\partial}_\mu\psi - m\bar\psi\psi,
+\end{equation}
+the canonical Noether stress tensor from translation invariance is
+\begin{equation}
+  T^{\mathrm{can}\,\mu\nu}
+  = \tfrac{i}{2}\bar\psi\gamma^\mu\overset{\leftrightarrow}{\partial}^\nu\psi
+     - \eta^{\mu\nu}\mathcal{L}_{\mathrm{Dirac}}.
+  \label{eq:Tcan-Dirac}
+\end{equation}
+\emph{This tensor is not symmetric in $\mu\nu$}, differing from
+its transpose by a total derivative involving the spin density.
+
+\subsection{Spin density and Belinfante--Rosenfeld improvement}
+
+\begin{definition}[Spin density]
+The spin-density tensor for the Dirac field is
+\begin{equation}
+  S^{\rho\mu\nu}
+  := \frac{i}{4}\bar\psi\{\gamma^\rho, \Sigma^{\mu\nu}\}\psi
+  = \frac{i}{4}\bar\psi\{\gamma^\rho,
+         \tfrac{i}{2}[\gamma^\mu,\gamma^\nu]\}\psi,
+\end{equation}
+totally antisymmetric in $\mu\nu$ (and in $\rho\mu\nu$ on shell).
+\end{definition}
+
+\begin{proposition}[Belinfante--Rosenfeld improvement]
+\label{prop:BR}
+The improved stress tensor
+\begin{equation}
+  T^{\mathrm{imp}\,\mu\nu}
+  := T^{\mathrm{can}\,\mu\nu}
+     + \tfrac{1}{2}\partial_\rho
+       \bigl(S^{\rho\mu\nu} + S^{\nu\rho\mu} - S^{\mu\nu\rho}\bigr)
+  \label{eq:BR-improvement}
+\end{equation}
+is symmetric $T^{\mathrm{imp}\,\mu\nu} = T^{\mathrm{imp}\,\nu\mu}$
+and coincides with the Hilbert metric-variation tensor obtained
+from varying $S_{\mathrm{eff}}[\psi, g, \omega(g)]$ with the spin
+connection written as a functional of $g$ through the tetrad
+postulate:
+\begin{equation}
+  T^{\mathrm{imp}\,\mu\nu}
+  = T^{\mathrm{Hilb}\,\mu\nu}
+  = \frac{2}{\sqrt{-g}}
+     \frac{\delta S_{\mathrm{eff}}}{\delta g_{\mu\nu}}\bigg|_{g=\eta}.
+  \label{eq:BR-Hilbert}
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+The improvement term $\Delta T^{\mu\nu} := T^{\mathrm{imp}\,\mu\nu}
+- T^{\mathrm{can}\,\mu\nu}$ is constructed to (i) be conserved on
+shell, (ii) symmetrise the tensor, and (iii) vanish under
+spatial integration of the $T^{00}$-component for localised
+sources. The explicit form \eqref{eq:BR-improvement} is the
+standard Belinfante--Rosenfeld expression (Belinfante,
+\emph{Physica} 6 (1939) 887; Rosenfeld, \emph{Acad.\ Roy.\ Sci.\
+Belgique Mem.\ Cl.\ Sci.} 18 (1940)).
+
+Symmetry $T^{\mathrm{imp}\,\mu\nu} = T^{\mathrm{imp}\,\nu\mu}$
+follows from the identity
+$T^{\mathrm{can}\,\mu\nu} - T^{\mathrm{can}\,\nu\mu}
+= \partial_\rho S^{\rho\mu\nu}$ (Noether's theorem for Lorentz
+invariance) and the antisymmetry of $S^{\rho\mu\nu}$ in
+$\mu\leftrightarrow\nu$.
+
+Equality with the Hilbert tensor \eqref{eq:BR-Hilbert} follows
+from the tetrad-postulate derivation: when $\omega_\mu^{\ ab}$ is
+expressed as a functional of the tetrad (equivalently, of
+$g_{\mu\nu}$), the variation $\delta S/\delta g_{\mu\nu}$
+automatically includes the contribution from varying $\omega$,
+and this extra contribution precisely generates the
+Belinfante--Rosenfeld improvement term
+$\tfrac{1}{2}\partial_\rho(S^{\rho\mu\nu}+\cdots)$; see Weinberg
+\emph{Gravitation and Cosmology} §12.4, Eq.~(12.4.12).
+\end{proof}
+
+\begin{lemma}[Integrated improvement vanishes for localised defects]
+\label{lem:surface-term}
+For a static Dirac zero mode $\psi_0(\vec x)$ that decays to zero
+at spatial infinity, the spatial integral of the improvement
+contribution to $T^{00}$ vanishes:
+\begin{equation}
+  \int d^3x\,\Delta T^{00}(\vec x)
+  = \int d^3x\,\tfrac{1}{2}\partial_\rho
+      (S^{\rho 00}+S^{0\rho 0}-S^{00\rho}) = 0.
+  \label{eq:surface-vanish}
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Under time-independence of the static defect, $\rho = 0$
+contributions are absent, leaving only spatial derivatives
+$\rho = i$:
+\begin{equation}
+  \int d^3x\,\Delta T^{00}
+  = \int d^3x\,\tfrac{1}{2}\partial_i(S^{i00}+S^{0i0}-S^{00i}).
+\end{equation}
+By Stokes' theorem,
+\begin{equation}
+  = \tfrac{1}{2}\oint_{S^2_\infty} dA_i\,(S^{i00}+S^{0i0}-S^{00i}),
+\end{equation}
+vanishing if $S^{\mu\nu\rho}(\vec x)$ decays faster than
+$|\vec x|^{-2}$ at spatial infinity. For a normalisable Dirac
+zero mode $\psi_0 \in L^2(\mathbb{R}^3)$, the bilinear
+$S^{\rho\mu\nu} \sim |\psi_0|^{2}$ decays at least exponentially
+(by the defect binding potential of TECT-Math10--14), so
+\eqref{eq:surface-vanish} holds.
+\end{proof}
+
+\section{Main theorem}
+
+\begin{theorem}[Dynamical WEP for BCC defects, scalar and Dirac]
+\label{thm:WEP}
+Let a defect excitation of the BCC condensate described by
+\eqref{eq:Seff} be realised either (i) in the scalar collective
+coordinate $\delta\Psi$, with $\delta\Psi \in H^1(\mathbb{R}^3)$,
+or (ii) in a static Dirac zero mode $\psi_0 \in L^2(\mathbb{R}^3)$
+bound to the defect and satisfying the exponential-decay bound
+$|\psi_0(\vec x)| \le C e^{-\kappa |\vec x|}$ with $\kappa > 0$ set
+by the defect binding potential (TECT-Math10--14; all BCC defects
+in the condensed phase satisfy this condition by
+gap-inside-the-defect).  Then the inertial mass
+(Definition~\ref{def:mI}) and the gravitational mass
+(Definition~\ref{def:mG}) coincide:
+\begin{equation}
+  m_I = m_G.
+  \label{eq:WEP}
+\end{equation}
+The exponential-decay hypothesis is used \emph{only} to zero out
+the surface term in Lemma~\ref{lem:surface-term}; power-law decay
+$|\psi_0| \lesssim |\vec x|^{-3/2-\epsilon}$ would suffice and is
+automatic for a massive zero mode on $\mathbb{R}^3$.
+\end{theorem}
+
+\begin{proof}
+\emph{Scalar branch.} By Proposition~\ref{prop:scalarWEP},
+$T^{\mathrm{can}}_{\mathrm{scalar}} = T^{\mathrm{Hilb}}_{\mathrm{scalar}}$,
+and the integral identity $m_I = m_G$ is immediate.
+
+\emph{Dirac branch.} Decompose the integral over $T^{00}$:
+\begin{align}
+  m_I
+  &= \int d^3x\,T^{\mathrm{can}\,00}_{\mathrm{static}}
+     && \text{(Definition~\ref{def:mI})}\\
+  &= \int d^3x\,\bigl[T^{\mathrm{imp}\,00}_{\mathrm{static}} -
+     \Delta T^{00}_{\mathrm{static}}\bigr]
+     && \text{by \eqref{eq:BR-improvement}}\\
+  &= \int d^3x\,T^{\mathrm{imp}\,00}_{\mathrm{static}}
+     && \text{by Lemma~\ref{lem:surface-term}}\\
+  &= \int d^3x\,T^{\mathrm{Hilb}\,00}_{\mathrm{static}}
+     && \text{by \eqref{eq:BR-Hilbert}}\\
+  &= m_G
+     && \text{(Definition~\ref{def:mG}).}
+\end{align}
+Combining scalar and Dirac branches via linearity of the stress
+tensor over the total field configuration establishes
+\eqref{eq:WEP}.
+\end{proof}
+
+\begin{remark}[Non-tautological character]
+The identity $T^{\mathrm{imp}\,\mu\nu} = T^{\mathrm{Hilb}\,\mu\nu}$
+(Proposition~\ref{prop:BR}) is a theorem, not a definition: it
+requires the Belinfante--Rosenfeld construction. Without the
+improvement, $T^{\mathrm{can}\,\mu\nu}_{\mathrm{Dirac}}$ would
+remain asymmetric and would fail to match the Hilbert tensor. The
+surface-term vanishing (Lemma~\ref{lem:surface-term}) is what
+converts the local identity into a mass identity.
+\end{remark}
+
+\section{Weak equivalence principle}
+
+\begin{corollary}[Universality of free fall]
+Any two defect-particle configurations $A, B$ experience the same
+gravitational acceleration $\vec a = \vec g$ in a weak
+gravitational field:
+\begin{equation}
+  \vec a^{(A)} = \frac{m_G^{(A)}}{m_I^{(A)}}\vec g
+  = \vec g
+  = \frac{m_G^{(B)}}{m_I^{(B)}}\vec g = \vec a^{(B)},
+\end{equation}
+by Theorem~\ref{thm:WEP}.
+\end{corollary}
+
+\begin{remark}[Strong equivalence principle]
+The SEP (universality of gravitational binding energy) requires a
+non-trivial extension of Theorem~\ref{thm:WEP} to composite
+systems, where the gravitational self-energy of a defect-cluster
+enters both $m_I$ and $m_G$. Deferred to Math-EP-SEP.
+\end{remark}
+
+\section{Comparison with v1 and scaffold}
+
+\begin{center}
+\begin{tabular}{|l|l|l|l|}
+\hline
+Defect & Scaffold & Rigorous v1 & Rigorous v2 \\
+\hline
+Tautology ($T^W = T^{\mathrm{def}} = T^{\mathrm{grav}}$) & present & independent $m_I, m_G$ & unchanged \\
+Scalar WEP & asserted & proved (Step 3) & Prop.~\ref{prop:scalarWEP} \\
+Dirac zero-mode WEP & absent & OPEN (N8 flagged) & Theorem~\ref{thm:WEP} Dirac branch \\
+Belinfante--Rosenfeld & absent & flagged only & EXECUTED (Prop.~\ref{prop:BR}) \\
+Terminology ``Noether--Hilbert'' & absent & informal (N9) & replaced by standard phrasing \\
+\hline
+\end{tabular}
+\end{center}
+
+\section{Verification status (honest)}
+
+\begin{center}
+\begin{tabular}{lll}
+\hline
+Claim & Status & Evidence \\
+\hline
+$m_I, m_G$ independent definitions & PROVED & Defs.~\ref{def:mI}, \ref{def:mG} \\
+Scalar WEP & PROVED & Prop.~\ref{prop:scalarWEP} \\
+Belinfante--Rosenfeld symmetrisation & PROVED & Prop.~\ref{prop:BR} (standard) \\
+Surface-term vanishing & PROVED (conditional) & Lemma~\ref{lem:surface-term}; requires defect localisation \\
+Dirac WEP & PROVED & Theorem~\ref{thm:WEP} Dirac branch \\
+WEP corollary (universality) & PROVED & Corollary \\
+SEP (self-gravitating) & OPEN & Math-EP-SEP (future) \\
+\hline
+\end{tabular}
+\end{center}
+
+\section{Next step}
+
+With the Dirac case closed, the remaining Math\_EP development is
+the SEP, which requires a non-linear gravitational back-reaction
+analysis for a composite defect cluster. Version v3 should set up
+the post-Newtonian expansion of the self-gravitating
+defect-cluster action and show that the gravitational binding
+energy contributes identically to $m_I$ and $m_G$.
+
+\end{document}

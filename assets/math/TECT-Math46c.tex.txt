@@ -1,0 +1,533 @@
+% =========================================================
+%  TECT -- Math46c research note (2026-04-16)
+%  Probe-tangent / projected-Hessian redesign of the
+%  Math46 C2 (gravity) extractor.
+%
+%  Purpose:
+%    The Math46 v0.1 C2 extractor was withdrawn because it
+%    (i)  used a scalar Brazovskii surrogate Hessian instead
+%         of the actual backend L_full;
+%    (ii) probed K_{ij}(p) with a rank-1 delta-function source
+%         that does not populate the symmetric tensor sector;
+%    (iii) lifted to strain space with the wrong index structure
+%         (H_eps = -p_k p_l K_ij rather than a projection onto
+%         a genuine tensor probe basis);
+%    (iv) never assembled TT / trace / vector blocks; T3 was a
+%         hardcoded placeholder.
+%
+%    Math46c fixes this by (a) demanding the actual solver
+%    output package and the actual backend Hessian, (b)
+%    constructing six independent symmetric-tensor probe
+%    tangents from geometric deformations of the locked
+%    background, (c) projecting L_full onto that basis to
+%    obtain a 6x6 block Hessian whose TT sector defines the
+%    graviton kinetic term, and (d) defining T1/T2/T3 as
+%    operational functionals of that projected block.
+%
+%  Feeds: Math45 Thm kappaG (Einstein coupling closure);
+%         Math46 §2 (C2 extractor design);
+%         Math46b §0 (linear-response discipline).
+%
+%  Theory tag after this note: Math46c-c2-probe-tangent-2026-04-16
+% =========================================================
+
+\documentclass{article}
+\usepackage{amsmath,amssymb,amsthm}
+\newtheorem{thm}{Theorem}
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{cor}[thm]{Corollary}
+\theoremstyle{definition}
+\newtheorem{defn}[thm]{Definition}
+\theoremstyle{remark}
+\newtheorem*{rmk}{Remark}
+\begin{document}
+
+\section*{Math46c: Probe-tangent / projected-Hessian redesign
+of the Math46 C2 (gravity) extractor}
+
+\subsection*{0. Motivation and principles}
+
+The Math46 v0.1 C2 extractor failed an internal audit on five
+structural grounds (enumerated in the withdrawn file header).
+The underlying pathology was conceptual: a gravitational kinetic
+coefficient is a response function of the \emph{actual} effective
+action to \emph{symmetric tensor} deformations of the locked
+background, not a vacuum moment of any scalar proxy. Math46c
+re-founds the extractor on four non-negotiable principles.
+
+\begin{description}
+\item[(P1) Load the actual solver package.]
+No surrogate fields, no reconstructed locked state; only the
+frozen artefacts of the Q-class solver run (the locked field
+$\Psi_{\mathrm{lock}}$ as \texttt{.npy}, \texttt{config.json},
+\texttt{metadata.json}, and any saved shell data $\hat{n},
+\{G\}$).
+\item[(P2) Load the actual backend and call its Hessian.]
+The projected Hessian is assembled by repeated calls to
+\texttt{hessian\_vec}$(\Psi_{\mathrm{lock}},v)$ of the genuine
+solver backend (family + locking + shell-bias + Class-II terms).
+No Brazovskii scalar surrogate is admissible.
+\item[(P3) Probe tangents are geometric and direct.]
+Each symmetric-tensor probe $E^{(\alpha)}$ acts on the locked
+background as an infinitesimal affine deformation
+$x\mapsto(I+\varepsilon E^{(\alpha)})x$, realised on-grid by FFT
+resampling of $\Psi_{\mathrm{lock}}$. No delta-function or
+plane-wave pointwise $\Psi$-space perturbation is admissible.
+\item[(P4) The observable is a projected low-energy Hessian.]
+The T1/T2/T3 audits are functionals of the $6\times 6$ matrix
+obtained by sandwiching $L_{\mathrm{full}}$ between the six
+symmetric-tensor probe tangents, block-decomposed per the
+irreducible representations of $SO(3)_{\hat p}$.
+\end{description}
+
+Principles (P1)--(P4) are the operational form of the Math45
+Einstein closure: on the locked vacuum the emergent metric
+fluctuation is a \emph{soft-mode} of a symmetric tensor
+deformation of the order-parameter condensate, and its
+kinetic coefficient is read off the response of $L_{\mathrm{full}}$
+to geometric probes, not of any scalar proxy.
+
+\subsection*{1. Package and backend adapters}
+
+\begin{defn}[Solver package]
+\label{defn:solver-package}
+A \emph{solver package} is a directory containing at minimum
+\[
+\Psi_{\mathrm{lock}}\in\mathbb{C}^{N^{3}\times c_{\mathrm{full}}}
+ \quad(\text{\texttt{.npy}}),\quad
+\texttt{config.json},\quad \texttt{metadata.json},
+\]
+and optionally the frozen Brazovskii shell data
+$\hat n\in S^{2}$ and reciprocal vectors
+$\{G_{j}\}_{j=1}^{n_{G}}\subset\mathbb{R}^{3}$.
+The lattice spacing $dx$, side $N$, and channel count
+$c_{\mathrm{full}}$ are recovered from \texttt{config.json}.
+No attribute of the package may be recomputed inside the
+extractor; the package is immutable input.
+\end{defn}
+
+\begin{defn}[Actual backend adapter]
+\label{defn:backend}
+An \emph{actual backend adapter} is an object exposing exactly
+two operations on the package's locked field:
+\begin{align}
+\texttt{residual}(\Psi)&\;\in\;\mathbb{R}^{+}, &
+   \texttt{residual}(\Psi_{\mathrm{lock}})&<10^{-6},\\
+\texttt{hessian\_vec}(\Psi,v)&\;=\;L_{\mathrm{full}}[\Psi]\,v,
+\end{align}
+where $L_{\mathrm{full}}[\Psi]=\delta^{2}S/\delta\bar\Psi\,\delta\Psi$
+is the genuine second variation of the solver's Euclidean action
+(family, locking term, shell-bias, and any Class-II corrections
+included). No substitute is admissible.
+\end{defn}
+
+\subsection*{2. Geometric probe tangents}
+
+Fix a non-zero probe momentum $p\in\mathbb{R}^{3}$ with
+$|p|\ll q_{0}$ (soft-mode window) and a unit vector
+$\hat p=p/|p|$. Complete $\hat p$ to an orthonormal triad
+$(\hat p,\hat e_{1},\hat e_{2})$.
+
+\begin{defn}[Six-fold symmetric-tensor probe basis]
+\label{defn:probe-basis}
+Define six symmetric traceless-or-trace tensors
+$E^{(\alpha)}\in\mathrm{Sym}_{2}(\mathbb{R}^{3})$,
+$\alpha\in\{TT1,TT2,V1,V2,\mathrm{tr},L\}$, adapted to $\hat p$:
+\begin{align}
+E^{(TT1)} &= \hat e_{1}\!\otimes\!\hat e_{2}
+             + \hat e_{2}\!\otimes\!\hat e_{1},\\
+E^{(TT2)} &= \hat e_{1}\!\otimes\!\hat e_{1}
+             - \hat e_{2}\!\otimes\!\hat e_{2},\\
+E^{(V1)}  &= \hat p\!\otimes\!\hat e_{1}
+             + \hat e_{1}\!\otimes\!\hat p,\\
+E^{(V2)}  &= \hat p\!\otimes\!\hat e_{2}
+             + \hat e_{2}\!\otimes\!\hat p,\\
+E^{(\mathrm{tr})} &= \tfrac{1}{\sqrt{3}}\,I_{3},\\
+E^{(L)}   &= \hat p\!\otimes\!\hat p
+             -\tfrac{1}{3}I_{3}.
+\end{align}
+The pair $\{E^{(TT1)},E^{(TT2)}\}$ spans the transverse-traceless
+(spin-2) sector, $\{E^{(V1)},E^{(V2)}\}$ the vector (spin-1)
+sector, and $\{E^{(\mathrm{tr})},E^{(L)}\}$ the scalar (spin-0)
+sector of the $SO(3)_{\hat p}$ decomposition.
+\end{defn}
+
+\begin{defn}[Affine-deformation tangent]
+\label{defn:tangent}
+Given $E\in\mathrm{Sym}_{2}(\mathbb{R}^{3})$ and
+$p\in\mathbb{R}^{3}$, the probe tangent is the on-grid FFT
+realisation of
+\begin{equation}
+v_{E,p}(x) \;:=\; \lim_{\varepsilon\to 0}
+  \frac{1}{\varepsilon}\bigl[
+    \Psi_{\mathrm{lock}}\!\bigl((I+\varepsilon\,E\cos(p\!\cdot\!x))\,x\bigr)
+    -\Psi_{\mathrm{lock}}(x)
+  \bigr],
+\label{eq:tangent-def}
+\end{equation}
+computed spectrally as
+\begin{equation}
+v_{E,p}(x)
+ = \mathcal{F}^{-1}\!\Bigl[\,
+     i\bigl(E\cdot k\bigr)_{i}\,k_{j}\,
+     \text{(phase shift)}\cdots
+   \Bigr](x),
+\end{equation}
+with the operator implemented by finite-difference
+$(\varepsilon=10^{-5})$ of the map
+$\Psi_{\mathrm{lock}}\mapsto\Psi_{\mathrm{lock}}\circ
+(I+\varepsilon E)$ on the discrete torus. Translation invariance
+of the locked state implies $v_{E,p}$ has exactly Fourier
+support $\pm p$.
+\end{defn}
+
+\begin{rmk}
+The translation tangents $t_{i}(x):=\partial_{i}\Psi_{\mathrm{lock}}(x)$
+span a three-dimensional null subspace of $L_{\mathrm{full}}$ (the
+Goldstones of broken translations); the projector
+$P_{\perp}=I-\sum_{i}|t_{i}\rangle\langle t_{i}|/\langle t_{i}|t_{i}\rangle$
+with \texttt{projector\_tol}$=10^{-10}$ must be applied to every
+probe tangent before Hessian evaluation.
+\end{rmk}
+
+\subsection*{3. Projected Hessian and block decomposition}
+
+\begin{defn}[Projected low-energy Hessian]
+\label{defn:H-block}
+For a fixed $p$ with orthonormal triad, assemble
+$v_{\alpha}:=P_{\perp}\,v_{E^{(\alpha)},p}$ and compute
+\begin{equation}
+H_{\alpha\beta}(p)
+ \;:=\;\Re\bigl\langle v_{\alpha},\,
+   L_{\mathrm{full}}\,v_{\beta}\bigr\rangle,
+\qquad
+G_{\alpha\beta}(p)
+ \;:=\;\Re\bigl\langle v_{\alpha},\,v_{\beta}\bigr\rangle.
+\label{eq:HG-def}
+\end{equation}
+The physical spectrum is the generalised eigenproblem
+\begin{equation}
+H(p)\,u \;=\; \lambda(p)\,G(p)\,u,
+\qquad u\in\mathbb{R}^{6}.
+\label{eq:genev}
+\end{equation}
+\end{defn}
+
+The $SO(3)_{\hat p}$-block structure of $H(p)$ is
+\begin{equation}
+H(p)
+ \;=\;
+ \begin{pmatrix}
+  H_{TT}(p) & 0 & 0\\
+  0 & H_{V}(p) & H_{V\mathrm{tr}}(p)\\
+  0 & H_{V\mathrm{tr}}(p)^{\!\top} & H_{S}(p)
+ \end{pmatrix}
+ \;+\;\Delta H(p),
+\label{eq:blockform}
+\end{equation}
+where $H_{TT}\in\mathbb{R}^{2\times 2}$, $H_{V}\in\mathbb{R}^{2\times 2}$,
+$H_{S}\in\mathbb{R}^{2\times 2}$, and $\Delta H(p)$ is the
+inter-sector mixing matrix whose norm quantifies residual
+gauge / lattice artefacts.
+
+\subsection*{4. Operational definitions of T1, T2, T3}
+
+\begin{defn}[T1: purity / block-diagonality]
+\label{defn:T1}
+The \emph{purity} audit is
+\begin{equation}
+\mathcal{T}_{1}(p)
+ \;:=\;\frac{\lVert\Delta H(p)\rVert_{F}}
+            {\lVert H(p)\rVert_{F}}
+ \;\stackrel{!}{\le}\;10^{-2}.
+\end{equation}
+Failure of T1 signals either incomplete projection off the
+translation Goldstones or rotational anisotropy of the BCC
+lattice intruding into the soft-mode window.
+\end{defn}
+
+\begin{defn}[T2: Einstein-type normalisation]
+\label{defn:T2}
+Let $\lambda_{TT,\min}(p)$ denote the smaller generalised
+eigenvalue of the $2\times 2$ block $(H_{TT}(p),G_{TT}(p))$.
+The \emph{graviton kinetic coefficient} is extracted by
+small-$p$ fit:
+\begin{equation}
+\lambda_{TT,\min}(p) \;=\; Z_{h}\,p^{2}\,+\,O(p^{4}),
+\qquad
+\frac{1}{16\pi G_{N}}\;=\;Z_{h}.
+\label{eq:ZHfit}
+\end{equation}
+Equivalently, via Math45, $\kappa_{G}^{-2}=2Z_{h}=|Z|$ on
+the locked triple.
+\end{defn}
+
+\begin{defn}[T3: universality of the graviton coupling]
+\label{defn:T3}
+Given a set of transverse-traceless polarisations
+$\{E^{(TT,i)}\}_{i=1}^{n_{p}}$ (any two linearly independent
+TT tensors at each $p$, plus rotations of $p$ on the BCC
+orbit), extract $Z_{h}^{(\alpha,\beta)}$ from each
+polarisation pair $(\alpha,\beta)$. The \emph{universality
+defect} is
+\begin{equation}
+\Delta_{\mathrm{univ}}
+ \;:=\;\sup_{\alpha,\beta}\bigl|
+   Z_{h}^{(\alpha,\beta)}-\bar Z_{h}
+ \bigr|/\bar Z_{h}
+ \;\stackrel{!}{\le}\;10^{-2},
+\end{equation}
+with $\bar Z_{h}$ the mean. Failure of T3 refutes the
+universal character of the emergent Einstein coupling asserted
+by Math45 Thm~kappaG.
+\end{defn}
+
+\subsection*{5. Consistency with Math45}
+
+\begin{thm}[Math46c--Math45 consistency]
+\label{thm:M46c-M45}
+Under the Math40 locked triple $(\mu^{2},\lambda,\gamma)=
+(0.26,-0.43,+1.62)$ with $(Z,Y)=(-1,+\tfrac{1}{2})$ and
+$Yq_{0}^{2}/|Z|=\tfrac{1}{2}$, the coefficient $Z_{h}$ extracted
+via Definition~\ref{defn:T2} in the continuum limit
+$N\to\infty,\;p\to 0$ satisfies
+\begin{equation}
+Z_{h} \;=\; \tfrac{1}{2}\,\kappa_{G}^{-2} \;=\; \tfrac{|Z|}{2}
+       \;=\; Yq_{0}^{2},
+\end{equation}
+matching Math45 Thm~kappaG. Conversely, any deviation
+$|Z_{h}-|Z|/2|/|Z|>10^{-2}$ after joint $N$--$p$ extrapolation
+falsifies the Einstein-closure claim of Math45.
+\end{thm}
+
+\begin{proof}
+The probe tangent (\ref{eq:tangent-def}) is, by construction,
+the linear response of $\Psi_{\mathrm{lock}}$ under the
+diffeomorphism $x\mapsto(I+\varepsilon E\cos p\!\cdot\!x)x$.
+Substituting into $S[\Psi_{\mathrm{lock}}+\varepsilon v_{E,p}]$
+and expanding to $O(\varepsilon^{2})$, the coefficient of the
+TT mode reproduces the Math45 \S 3 polarisation tensor at
+external momentum $p$, whose small-$p$ limit is $Z_{h}p^{2}$
+with $Z_{h}=Yq_{0}^{2}$.
+\end{proof}
+
+\subsection*{6. Falsification conditions}
+
+\begin{prop}[C2 v2 failure modes]
+\label{prop:C2fail}
+A Math46c-compliant extractor falsifies Math45 Thm~kappaG on
+refined grids $N\in\{32,64,128\}$ if any of the following
+occurs:
+\begin{enumerate}
+\item[(G1)] $\mathcal{T}_{1}(p)>10^{-2}$ in the soft-mode
+      window $|p|\in[2\pi/(N dx),\,0.1\,q_{0}]$.
+\item[(G2)] $Z_{h}(N)$ does not converge to $|Z|/2$ at rate
+      $\ge O(N^{-2})$.
+\item[(G3)] $\Delta_{\mathrm{univ}}>10^{-2}$ after
+      polarisation / rotation averaging.
+\end{enumerate}
+Any of (G1)--(G3) invalidates Math45.
+\end{prop}
+
+\subsection*{7. Implementation discipline}
+
+A Math46c-compliant rewrite of \texttt{math46\_c2\_extractor.py}
+must follow exactly the following discipline; each operation
+cites the theorem or definition that justifies it.
+
+\begin{description}
+\item[Step 1 (package).] Load the solver package
+per Def~\ref{defn:solver-package}; verify
+$\texttt{residual}(\Psi_{\mathrm{lock}})<10^{-6}$ using the
+backend of Def~\ref{defn:backend}. No re-solve.
+\item[Step 2 (Goldstone projector).] Build translation tangents
+$t_{i}=\partial_{i}\Psi_{\mathrm{lock}}$ by spectral derivative;
+construct $P_{\perp}$ to tolerance $10^{-10}$.
+\item[Step 3 (probe tangents).] For each audited $p$, construct
+the six $v_{\alpha}$ of Def~\ref{defn:tangent} via FFT-resampled
+finite difference with $\varepsilon_{\mathrm{fd}}=10^{-5}$; apply
+$P_{\perp}$.
+\item[Step 4 (projected Hessian).] Assemble $H(p),G(p)$ by 36
+calls to \texttt{hessian\_vec} and 36 inner products per $p$
+per Def~\ref{defn:H-block}.
+\item[Step 5 (audit).] Evaluate T1, T2, T3 per
+Defs~\ref{defn:T1}--\ref{defn:T3}; compare to
+Prop~\ref{prop:C2fail} thresholds; emit pass/fail with
+numerical residuals.
+\end{description}
+
+No step may be shortcut by a scalar / Brazovskii surrogate; no
+probe may be injected directly in $\Psi$-space as a
+$\delta$-function or rank-1 tensor; no strain-space lift of
+the form $H_{\varepsilon}\sim-p_{k}p_{l}K_{ij}$ is admissible.
+These were the exact failure modes of the withdrawn v0.1.
+
+\subsection*{8. Cost budget (C2 v2)}
+
+Per probe momentum $p$: 6 FFT-resampled tangent constructions
+$+$ 36 backend \texttt{hessian\_vec} calls $+$ 36 inner
+products $+$ one $6\times 6$ generalised eigensolve. At
+$N=128$ on a single A100 and a backend Hessian cost
+$C_{\mathrm{Hess}}(128)\sim 0.5$--$1$~s per call, one momentum
+requires $\sim 20$--$40$~s; a 12-momentum audit
+($3$ magnitudes $\times$ $4$ BCC-symmetric directions) runs
+in $\sim 5$--$10$~min per grid, i.e.\ $\sim 15$--$30$~min total
+across $\{32,64,128\}$. Memory: dominated by six copies of
+$\Psi_{\mathrm{lock}}$ per $p$, $6\cdot c_{\mathrm{full}}\cdot
+N^{3}\cdot 16$ bytes $\approx 6$ GB at $N=128,c_{\mathrm{full}}=4$.
+
+\subsection*{9. What remains (Math46c residual)}
+
+(a) The Python skeleton implementing Steps~1--5 is pending
+user delivery; no scaffolded code is deposited.
+
+(b) The BCC rotational orbit of $p$ needed for T3 averaging
+must be chosen to respect the lattice point group $O_{h}$ (not
+the full $SO(3)$); polarisation pairs within an orbit are
+equivalent by lattice symmetry.
+
+(c) The C3 extractor rewrite (Math46b E1--E7) proceeds in
+parallel and independently; joint consistency of T2 ($Z_{h}$)
+with T6 ($c_{W},c_{B}$) at the same $(N,p,\ell^{\star})$ is
+deferred to a Math47 combined-closure note.
+
+\subsection*{10. Records pointers}
+
+\begin{itemize}
+\item \texttt{CHANGELOG.md}: theory tag
+      \texttt{Math46c-c2-probe-tangent-2026-04-16}.
+\item \texttt{PDE/math46\_c2\_extractor.py}: withdrawn header
+      updated to cite Math46c as a hard prerequisite.
+\item \texttt{docs/math/TECT-Math46b.tex.txt} \S 7(c): Math46c
+      tag reservation for the C2 v2 redesign --- now consumed.
+\item \texttt{docs/status/research-log.md}: Math46c entry.
+\end{itemize}
+
+\subsection*{11. Addendum: v0.3--v0.7 extractor amendments
+(tags Math46c-c2-extractor-v0.3 \ldots v0.7)}
+
+This addendum records the theorem-level content of the
+\texttt{math46\_c2\_extractor.py} revisions v0.3 through v0.7, in
+one-to-one correspondence with the production code.
+
+\paragraph{v0.5 amendments (P-A, P-B).}
+\begin{itemize}[leftmargin=1.7em]
+\item[\textbf{P-A.}] Introduction of the cross-sector H mixing
+      diagnostic (H0 falsification mode) as a new argument of
+      \textbf{Prop.C2fail}; distinct from the Gram mixing
+      $\mu_{ss'}$ (G1 diagnostic).
+\item[\textbf{P-B.}] Runtime audit-level consistency between the
+      Fourier-periodic tangent (default) and the spectral tangent
+      as companion probe (Pb diagnostic):
+      $\delta Z_{\text{probe}}
+      = |Z_{h}^{\mathrm{fourier}}-Z_{h}^{\mathrm{spectral}}|
+      /|Z_{h}^{\mathrm{fourier}}|$.
+\end{itemize}
+
+\paragraph{v0.6 hot-fixes (F1, F2, F3).}
+Purely operational fixes (NameError on empty TT branch, docstring
+alignment, and $\texttt{probe\_consistency\_mode}=\texttt{probe\_mode}$
+fail-safe); no theorem-level change.
+
+\paragraph{v0.7 basis-invariance closure (A, B, C).}
+
+\begin{prop}[Basis-invariant H0 diagnostic, v0.7 Patch A]
+\label{prop:C2fail-H0}
+Let $G, H\in\mathbb{C}^{d\times d}$ be Hermitian with $G\succ 0$,
+and let $\{P_{s}\}_{s\in\mathcal{S}}$ be the probe-basis projectors
+onto the $O_{h}$ irrep sectors
+$\mathcal{S}=\{\mathrm{TT},\mathrm{V},\mathrm{tr},\mathrm{L}\}$,
+with block decompositions
+$G_{ss}=P_{s}GP_{s}$, $H_{ss'}=P_{s}HP_{s'}$.  Define the
+Gram-whitened cross-sector blocks
+\begin{equation}
+  \widetilde H_{ss'}
+  \;:=\; G_{ss}^{-1/2}\,H_{ss'}\,G_{s's'}^{-1/2}
+  \;\in\; \mathbb{C}^{d_{s}\times d_{s'}},
+\end{equation}
+and the Frobenius diagnostic
+\begin{equation}
+  \widetilde\nu_{ss'}
+  \;:=\;
+  \frac{\lVert\widetilde H_{ss'}\rVert_{F}}
+       {\sqrt{\,\lVert\widetilde H_{ss}\rVert_{F}\,
+              \lVert\widetilde H_{s's'}\rVert_{F}\,}}.
+\end{equation}
+Then $\widetilde\nu_{ss'}$ is invariant under \emph{independent}
+rescalings $P_{s}\mapsto c_{s}P_{s}$ ($c_{s}\in\mathbb{R}_{>0}$) of
+the probe basis in each sector, which leave the generalised
+eigenproblem $H_{ss}v=\lambda G_{ss}v$ invariant (up to a trivial
+rescaling of $v$).  The raw ratio
+$\nu_{ss'}=\lVert H_{ss'}\rVert_F /
+\sqrt{\lVert H_{ss}\rVert_F \lVert H_{s's'}\rVert_F}$
+used in v0.5/v0.6 is invariant only under the global rescaling
+$c_{s}\equiv c$.
+\end{prop}
+
+\begin{proof}[Proof sketch]
+Under $P_{s}\mapsto c_{s}P_{s}$ one has
+$G_{ss}\mapsto c_{s}^{2}G_{ss}$,
+$H_{ss'}\mapsto c_{s}c_{s'}H_{ss'}$, hence
+$G_{ss}^{-1/2}\mapsto c_{s}^{-1}G_{ss}^{-1/2}$ and
+\begin{equation*}
+  \widetilde H_{ss'}
+  \;\mapsto\;
+  (c_{s}^{-1}G_{ss}^{-1/2})\,(c_{s}c_{s'}H_{ss'})\,(c_{s'}^{-1}G_{s's'}^{-1/2})
+  \;=\;
+  \widetilde H_{ss'}.
+\end{equation*}
+Each Frobenius norm is therefore invariant, and so is
+$\widetilde\nu_{ss'}$.  The raw ratio carries a factor
+$\lvert c_{s}c_{s'}\rvert/\sqrt{c_{s}^{2}c_{s'}^{2}}=1$ only when
+$c_{s}=c_{s'}$.
+\end{proof}
+
+\textbf{Consequence.}  In the v0.7 extractor the H0 falsification
+mode of \textbf{Prop.C2fail} must be read with
+$\widetilde\nu_{ss'}\le\mathtt{audit\_tol}$, not $\nu_{ss'}$.  The
+Gram-whitened blocks are exactly the ones diagonalised by the
+generalised eigensolver \texttt{sector\_generalised\_eigs}, so
+\textbf{code-theory parity} is now achieved: the mixing diagnostic
+and the reported spectrum are computed on the same linear-algebra
+object $G_{ss}^{-1/2}H\,G_{s's'}^{-1/2}$.
+
+\paragraph{v0.7 Patches B, C (operational).}
+\begin{itemize}[leftmargin=1.7em]
+\item[\textbf{B.}] \texttt{load\_backend()} is fail-closed on the
+      Math46c E5 contract symbol \texttt{hessian\_vec}: the importer
+      raises \texttt{AttributeError} immediately if the symbol is
+      missing, rather than surfacing an opaque matvec failure later.
+\item[\textbf{C.}] The CLI default output filename tracks the
+      module version: \texttt{math46\_c2\_audit\_v0\_7.json}.
+\end{itemize}
+
+\paragraph{v0.8 polish (S).}
+The $Z_{h}$ aggregate over probe momenta was declared as a
+$p^{2}$-weighted mean in the code comment but implemented as an
+unweighted mean \texttt{np.mean}.  v0.8 implements the stated
+estimator
+\begin{equation}
+  Z_{h}^{\mathrm{fit}}
+  \;=\;
+  \frac{\sum_{p^{2}>0} p^{2}\,Z_{h}(p)}
+       {\sum_{p^{2}>0} p^{2}},
+\end{equation}
+excluding zero-momentum modes from the admissible set.  The
+$p^{2}$ weighting is motivated by the continuum relation
+$Z_{h}(p)\approx Z_{h}^{\star}+O(p^{2})$, under which the
+weighted estimator has lower variance than the unweighted mean
+when $Z_{h}$ varies across the momentum grid.
+
+\paragraph{Updated records pointer (v0.3--v0.8).}
+\begin{itemize}
+\item \texttt{CHANGELOG.md}: theory tags
+      \texttt{Math46c-c2-extractor-v0.3-2026-04-16} \ldots
+      \texttt{Math46c-c2-extractor-v0.8-2026-04-16}.
+\item \texttt{PDE/stamp\_version\_headers.py}:
+      \texttt{math46\_c2\_extractor.py = v0.8}.
+\item \texttt{Website/data/version\_index.json}: current tag
+      \texttt{Math46c-c2-extractor-v0.8-2026-04-16}.
+\end{itemize}
+
+\end{document}

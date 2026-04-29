@@ -1,0 +1,191 @@
+% TECT-Math171-AddA: Degree-Arithmetic Correction to Math171 §3.3
+% Theory tag: Math171-AddA-degree-arithmetic-correction-2026-04-27
+% Status: CORRECTION — replaces the incorrect line 177–178 of Math171
+% Date: 2026-04-27
+% Maintainer: Jusang Lee (jtkor@outlook.com)
+% Audit-flag: Math173 R3 audit FAILED to catch the error (second-order
+% audit-hop failure, Math150 pattern). Caught by direct hand-derivation
+% on commit-review.
+
+\section*{Math171-AddA --- Degree-Arithmetic Correction to Math171 §3.3}
+
+\subsection*{1. The error}
+
+Math171 §3.3 computes the Atiyah--Singer integral
+\[
+\mathrm{ind}(D_E) \;=\; \int_{\mathbb{CP}^2}\hat A(T\mathbb{CP}^2)\wedge\mathrm{ch}(E),
+\]
+with $\hat A(T\mathbb{CP}^2) = 1 - H^2/8$ and
+$\mathrm{ch}(E) = 16 - c_2(E)$ (using $c_1(E)=0$). The wedge product is
+\[
+\hat A\wedge\mathrm{ch}(E) \;=\; (1-H^2/8)(16-c_2)
+\;=\; 16 - c_2 - 2H^2 + (H^2/8)c_2 .
+\]
+The degree decomposition of this inhomogeneous form on $\mathbb{CP}^2$
+(real dimension $4$) is
+\[
+\underbrace{16}_{\text{deg }0} \;\oplus\; \underbrace{(-c_2 - 2H^2)}_{\text{deg }4} \;\oplus\;
+\underbrace{(H^2/8)c_2}_{\text{deg }8 = 0\text{ on }\mathbb{CP}^2}.
+\]
+
+Math171 line 177--178 wrote
+\[
+\int_{\mathbb{CP}^2}[16 - c_2 - 2H^2] \;\stackrel{?}{=}\; \int_{\mathbb{CP}^2}[14H^2 - c_2],
+\]
+treating the constant $16$ as if it could be rewritten as $16H^2$ before
+integration. \textbf{This is incorrect.} The $16$ is a degree-$0$ form;
+its contribution to $\int_{\mathbb{CP}^2}$ vanishes because the integral
+of a $4$-manifold extracts only the degree-$4$ part of the integrand.
+
+\subsection*{2. Correct evaluation}
+
+The degree-$4$ part of $\hat A\wedge\mathrm{ch}(E)$ is
+\[
+\big[\hat A\wedge\mathrm{ch}(E)\big]_{(4)} \;=\; -c_2(E) - 2H^2 .
+\]
+Integrating with $\int_{\mathbb{CP}^2} H^2 = 1$ and writing
+$c_2(E) = \mu H^2$:
+\[
+\boxed{\;\mathrm{ind}(D_E) \;=\; -\mu - 2 \;\;\text{(naive Dirac, no spin-c twist).}}
+\]
+
+But $\mathbb{CP}^2$ is \textbf{not spin}: $w_2(T\mathbb{CP}^2) = c_1(T\mathbb{CP}^2)\bmod 2 = H \neq 0$. The standard Dirac operator does not exist on $\mathbb{CP}^2$; one must use a \textbf{spin-c} Dirac with twist by a determinant line bundle $L$ satisfying $c_1(L)\equiv H\pmod 2$. The corrected index formula is
+\[
+\mathrm{ind}(D_E^c) \;=\; \int_{\mathbb{CP}^2}\hat A(T\mathbb{CP}^2)\,e^{c_1(L)/2}\,\mathrm{ch}(E).
+\]
+
+\subsection*{3. Canonical complex spin-c structure}
+
+Since $\mathbb{CP}^2$ is Kähler, the natural spin-c is the
+\textbf{canonical complex spin-c} with
+$c_1(L_{\rm can}) = c_1(T\mathbb{CP}^2) = 3H$.
+Then $e^{c_1(L)/2} = e^{3H/2} = 1 + 3H/2 + (3H/2)^2/2 + \cdots
+= 1 + 3H/2 + 9H^2/8$ (to degree 4 on $\mathbb{CP}^2$).
+
+The combined factor is
+\[
+\hat A \cdot e^{c_1/2}
+\;=\; (1 - H^2/8)(1 + 3H/2 + 9H^2/8)
+\;=\; 1 + 3H/2 + (9/8 - 1/8) H^2
+\;=\; 1 + 3H/2 + H^2.
+\]
+This equals the \textbf{Todd class} $\mathrm{td}(T\mathbb{CP}^2)$
+exactly — as expected, the spin-c Dirac index on a complex manifold
+with canonical structure is the Hirzebruch--Riemann--Roch holomorphic
+Euler characteristic
+\[
+\chi(E) \;=\; \int_{\mathbb{CP}^2}\mathrm{td}(T\mathbb{CP}^2)\,\mathrm{ch}(E)
+\;=\; \int_{\mathbb{CP}^2}\bigl(1 + 3H/2 + H^2\bigr)\bigl(16 - c_2\bigr).
+\]
+The degree-$4$ part is $16 H^2 - c_2$ (the $3H/2$ term contributes
+nothing because $\mathrm{ch}(E)$ has no degree-$2$ component when
+$c_1(E)=0$). Integrating:
+\[
+\boxed{\;\mathrm{ind}(D_E^c) \;=\; 16 - \mu \;\;\text{(canonical complex spin-c).}}
+\]
+Sanity check: for trivial bundle $E = \mathcal O$ (rank 1, $\mu=0$), this
+gives $\chi(\mathcal O_{\mathbb{CP}^2}) = 1$, which is correct (the
+holomorphic Euler characteristic of the structure sheaf on
+$\mathbb{CP}^2$ is $1$).
+
+\subsection*{4. Revised gate}
+
+Math171's stated formula $\mathrm{ind}(D_E) = 14 - \mu$ is incorrect
+under either interpretation. The correct results are:
+
+\begin{center}
+\begin{tabular}{|l|l|l|}
+\hline
+Interpretation & Formula & For $\mathrm{ind}=16$ need \\
+\hline
+Naive Dirac (no spin-c; physically wrong on $\mathbb{CP}^2$) & $-\mu - 2$ & $\mu = -18$ \\
+Canonical complex spin-c (Hirzebruch--RR; correct) & $16 - \mu$ & $\mu = 0$ \\
+\hline
+\end{tabular}
+\end{center}
+
+For the canonical complex spin-c on $\mathbb{CP}^2$ (the only physically
+admissible Dirac on a Kähler manifold without spin structure), the
+target $\mathrm{ind}(D_E)=16$ requires $c_2(E) = 0$, i.e.\ the
+\textbf{second Chern class of the matter bundle vanishes}. This is a
+much sharper and more falsifiable criterion than Math171's claimed
+$\mu = -2$.
+
+\subsection*{5. Physical interpretation}
+
+$c_2(E) = 0$ for the spinor representation associated bundle on the
+Math162 $\mathrm{CP}^2$ base would mean the bundle is, in K-theory
+terms, a sum of trivial line bundles up to virtual cancellation. This
+is highly restrictive. If the Math162 bundle has any non-trivial
+SU(5) instanton number, $c_2(E)$ will not vanish and the index will
+not equal 16, which would falsify the Pillar 4 sub-task 2 decomposition
+$\mathbf{16}=\mathbf{10}\oplus\overline{\mathbf{5}}\oplus\mathbf{1}$.
+
+\subsection*{6. Status updates}
+
+\begin{itemize}
+\item Math171 §3.3 line 177–178 \textbf{contains a degree-arithmetic
+  error}. The conclusion $\mathrm{ind}(D_E) = 14 - \mu$ is incorrect.
+\item The corrected formula (canonical complex spin-c, the
+  physically admissible choice) is $\mathrm{ind}(D_E^c) = 16 - \mu$.
+\item For the target $\mathrm{ind}=16$, we now need $\int c_2(E) = 0$
+  (not $-2$ as Math171 claims).
+\item Math171 status: \textbf{STRONG CLOSURE DRAFT $\to$ DISPUTED} until
+  the corrected formula is integrated into the main note. This
+  addendum is the canonical correction record.
+\item Math173 R3 audit: failed to catch the error
+  (second-order audit-hop failure, Math150 pattern).
+  Recorded as R-2026-04-27-Math173-AuditMissDegreeError in
+  NEGATIVE-RESULTS.
+\item The R4-A task (compute $c_2(E)$) gates whether
+  $\int c_2(E) = 0$ holds; the falsification criterion is now sharp.
+\end{itemize}
+
+\subsection*{7. Devil's-advocate self-test (CLAUDE.md §6.3.1)}
+
+\paragraph{Objection $\alpha$.} ``Maybe Math171 used a non-standard
+spin-c structure that makes $14 - \mu$ correct.''
+
+\textbf{Verdict: DISMISSED.} For $\hat A \cdot e^{c_1(L)/2}$ to equal
+$1 + 7H^2/4$ (which would yield rank-$16$ contribution
+$16 \cdot 7H^2/4 = 28 H^2$, then $14H^2$ after halving — but this is
+nonsense), one would need $c_1(L)$ chosen so that the degree-$4$ part
+of $\hat A_c$ is $7/4$. No clean choice produces this. The error in
+Math171 is the degree-arithmetic mistake described in §1, not a
+choice of spin-c structure.
+
+\paragraph{Objection $\beta$.} ``Math171 might have used a
+representation-theoretic identity that magically converts $16$ to
+$16 H^2$ before integration.''
+
+\textbf{Verdict: DISMISSED.} No such identity exists. The constant $16$
+in $\mathrm{ch}(E)$ is the rank, a degree-$0$ form. It can only
+contribute to $\int_{\mathbb{CP}^2}$ when wedged with a degree-$4$ form
+from $\hat A$ (or $e^{c_1/2}$). With $\hat A = 1 - H^2/8$, the degree-$4$
+contribution is $16 \cdot (-H^2/8) = -2H^2$. Math171 line 177 has this
+correctly as ``$-2H^2$'', then erroneously rewrites $16 - c_2 - 2H^2$ as
+$14H^2 - c_2$ (the $16$ becomes $16H^2$, an unjustified upgrade).
+
+\paragraph{Objection $\gamma$.} ``This correction is itself an audit
+catch by the dispatcher; could it also be wrong?''
+
+\textbf{Verdict: VALID, mitigation.} The correction has been sanity-checked against the trivial-bundle case ($E = \mathcal O$, $\mu=0$):
+the canonical complex spin-c yields $\chi(\mathcal O_{\mathbb{CP}^2}) = 1$, which agrees with the standard result. The naive (no spin-c) formula yields $\chi = -2$, which is unphysical (negative dimension of Dirac kernel for the trivial bundle), confirming that the canonical spin-c is the correct physical interpretation.
+
+\subsection*{8. Recommended action}
+
+R4-A (Pillar 4 sub-task 2 closure) should:
+\begin{enumerate}
+\item Adopt the corrected formula $\mathrm{ind}(D_E^c) = 16 - \mu$.
+\item Compute $\mu = \int_{\mathbb{CP}^2} c_2(E)$ explicitly via
+  representation-theoretic methods (Slansky tables, weight enumeration,
+  or sympy/LiE).
+\item If $\mu = 0$: confirms 16 chiral zero modes; Pillar 4 sub-task 2
+  PROVED CONDITIONAL on Pillar 4 sub-task 3 (gauge structure / breaking).
+\item If $\mu \neq 0$: actual index is $16 - \mu \neq 16$; the
+  Math162/167 bundle structure does not produce the SO(10) $\mathbf{16}$
+  spinor matter content, and Pillar 4 sub-task 2 must revise the bundle
+  / fibre / structure-group choice. This is a falsifiable outcome.
+\end{enumerate}
+
+% End of Math171-AddA.

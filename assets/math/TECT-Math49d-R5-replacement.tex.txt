@@ -1,0 +1,333 @@
+% TECT-Math49d-R5-replacement.tex.txt
+% PR-1 remediation: replacement-bundle search for the three-copy
+% (1,1)_0 isotype on Gr(2,5) under S(U(3) x U(2)).
+%
+% Status        : Remediation PR-1 of the 2026-04-20 peer-review response
+% Supersedes    : physical interpretation layer of Math49d-R3-rigorous-v2
+%                 (retracted F-2026-04-20-03); arithmetic layer Math49d-R4
+%                 (PR-2 + PR-3 CLOSED) unchanged.
+% Companion     : Math49d-R4-BWB-exact (cohomology concentration),
+%                 Math49b-rigorous-v3 (Witten global anomaly).
+% Peer-review   : Docs/math/TECT-PeerReview-Response-2026-04-20.tex.txt PR-1.
+% Independent   : Docs/supplementary/Math49d_R5_replacement_search.py
+%                 (sympy / pure-Python, LR coefficient by skew-SSYT
+%                 enumeration with reverse-reading-word lattice test).
+% Date          : 2026-04-20
+% Version       : R5 v1.0 (PR-1)
+
+\documentclass[prl,twocolumn,superscriptaddress,nofootinbib]{revtex4-2}
+\usepackage{amsmath,amssymb,amsthm,bm}
+\usepackage[T1]{fontenc}
+
+\newtheorem{proposition}{Proposition}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
+
+\begin{document}
+
+\title{Exhaustive search for a $\mathbb{Z}_{6}$-equivariant
+holomorphic bundle on $\mathrm{Gr}(2,5)$ whose
+$\mathbb{Z}_{6}$-invariant section space realises a
+three-copy $(\mathbf{1},\mathbf{1})_{0}$ isotype}
+
+\author{TECT collaboration}
+\date{20 April 2026 \quad (Math49d-R5 v1.0; PR-1)}
+
+\begin{abstract}
+We address PR-1 of the 2026-04-20 peer-review response: identify,
+or prove the non-existence of, an $SU(5)$-irreducible Schur-functor
+bundle $S^{\lambda}V\to\mathrm{Gr}(2,5)$ whose
+$\mathbb{Z}_{6}$-invariant section space, restricted to the
+Standard-Model subgroup $S(U(3)\times U(2))\subset SU(5)$, contains
+the $(\mathbf{1},\mathbf{1})_{0}$ isotype with multiplicity three
+(a Pillar-6 replacement for the retracted
+$\mathrm{Sym}^{2}Q$ identification). Reducing the multiplicity to
+the Littlewood--Richardson coefficient
+$c^{\lambda}_{(k,k,k),(k,k)}$ with $|\lambda|=5k$, an exhaustive
+enumeration for $|\lambda|\leq 15$ (all $k\in\{0,1,2,3\}$) via
+the skew-SSYT algorithm with reverse-reading-word lattice test
+establishes that \emph{no single $SU(5)$-irrep in this range has
+multiplicity three}; every realised multiplicity equals $0$ or $1$.
+The minimal direct-sum realisation consists of three
+rank-$\le 24$ $SU(5)$-irreps of total rank $26$, explicitly
+$\mathcal{O}\oplus\det V\oplus S^{(2,1,1,1)}V$. This falsifies the
+``three copies from one bundle'' strategy at the stated search depth
+and fixes the algebraic shape the replacement bundle must take.
+Consequences for Pillar 6 are stated at the end.
+\end{abstract}
+
+\maketitle
+
+%--------------------------------------------------------------
+\section{Reduction of the multiplicity to an LR coefficient}
+%--------------------------------------------------------------
+
+Let $V=\mathbb{C}^{5}$ carry the defining action of $SU(5)$, and
+identify the Standard-Model embedding $S(U(3)\times U(2))\subset
+SU(5)$ via $V=V_{\alpha}\oplus V_{\beta}$ with
+$\dim V_{\alpha}=3$, $\dim V_{\beta}=2$, $Y_{\alpha}=+1/3$,
+$Y_{\beta}=-1/2$. The $\mathbb{Z}_{6}$ subgroup relevant to the
+retracted pillar-6 identification acts on $V_{\alpha}$ as
+multiplication by $\omega=e^{2\pi i/3}$ and on $V_{\beta}$ as
+$-1$; equivalently $\zeta=e^{2\pi i/6}$ acts as
+$\mathrm{diag}(\zeta^{2}\mathbf{1}_{3},\zeta^{3}\mathbf{1}_{2})$.
+The SM group $S(U(3)\times U(2))$ and $\mathbb{Z}_{6}$ centralise
+each other inside $SU(5)$, so the $\mathbb{Z}_{6}$-invariant
+subspace is a representation of $S(U(3)\times U(2))$.
+
+For a Schur-functor bundle $E=S^{\lambda}Q\to\mathrm{Gr}(2,5)$ with
+$\lambda$ a partition with at most $5$ parts, Borel--Weil--Bott
+concentration (Math49d-R4) gives $H^{0}(\mathrm{Gr}(2,5),E)=
+S^{\lambda}V$ whenever the Weyman weight
+$\mu+\rho=(\lambda_{5},\lambda_{4},\lambda_{3};\lambda_{2}+1,\lambda_{1})+\rho$
+is strictly decreasing. In particular this holds for all $\lambda$
+considered below, so $H^{0}(E)=S^{\lambda}V$ and the entire problem
+reduces to a question about the finite-dimensional $SU(5)$-module
+$S^{\lambda}V$.
+
+\begin{lemma}\label{lem:LRreduction}
+Under $S(U(3)\times U(2))$, the isotypic component
+$(\mathbf{1},\mathbf{1})_{0}$ in $S^{\lambda}V$ has multiplicity
+\begin{equation}
+M^{\lambda}_{(\mathbf{1},\mathbf{1})_{0}}
+\;=\;
+\sum_{k\geq 0}\,c^{\lambda}_{(k,k,k),(k,k)},
+\qquad
+|\lambda|=5k,
+\label{eq:multformula}
+\end{equation}
+where $c^{\lambda}_{\mu,\nu}$ is the
+Littlewood--Richardson coefficient.
+Only the single term $k=|\lambda|/5$ (when $5\mid |\lambda|$) can
+contribute; otherwise $M^{\lambda}=0$.
+\end{lemma}
+
+\begin{proof}
+The $SU(5)$ branching under $S(U(3)\times U(2))$ is
+$S^{\lambda}V = \bigoplus_{\mu,\nu} c^{\lambda}_{\mu,\nu}
+S^{\mu}V_{\alpha}\otimes S^{\nu}V_{\beta}$
+(Littlewood--Richardson). The irreducible
+$(\mathbf{1},\mathbf{1})$ of $SU(3)\times SU(2)$ appears
+precisely when $S^{\mu}V_{\alpha}$ is the trivial $SU(3)$-rep,
+i.e.\ $\mu=(k,k,k)$ for some $k\geq 0$, and
+$S^{\nu}V_{\beta}$ is the trivial $SU(2)$-rep, i.e.\
+$\nu=(k',k')$ for some $k'\geq 0$. The hypercharge constraint
+$Y=\tfrac{1}{3}|\mu|-\tfrac{1}{2}|\nu|=0$ enforces
+$|\mu|=\tfrac{3}{2}|\nu|$, i.e.\ $3k=3k'$, hence $k=k'$. The sum
+$|\lambda|=|\mu|+|\nu|=3k+2k=5k$ is then determined by $k$.
+\end{proof}
+
+Lemma~\ref{lem:LRreduction} converts the Pillar-6 replacement
+problem into a finite computer algebra question: find
+$\lambda$, ideally of small $|\lambda|$ and small
+$\dim S^{\lambda}V$, with
+$c^{\lambda}_{(k,k,k),(k,k)}=3$ where $k=|\lambda|/5$.
+
+%--------------------------------------------------------------
+\section{Enumeration and main theorem}
+%--------------------------------------------------------------
+
+We enumerate all partitions $\lambda$ with $|\lambda|\in
+\{0,5,10,15\}$ and at most $5$ parts, and compute
+$c^{\lambda}_{(k,k,k),(k,k)}$ by the standard skew-SSYT algorithm:
+enumerate semistandard Young tableaux of shape $\lambda/(k,k,k)$
+with content $(k,k)$, keeping exactly those whose \emph{reverse
+reading word} (top-to-bottom, right-to-left within each row) is a
+lattice word (every prefix satisfies $\#i\geq\#(i+1)$ for all $i$).
+Implementation details and full cross-checks against classical
+identities are in the companion script (listed below).
+
+\begin{theorem}\label{thm:main}
+For every partition $\lambda$ with $|\lambda|\leq 15$ and at most
+five parts, $c^{\lambda}_{(k,k,k),(k,k)}\in\{0,1\}$ where
+$k=|\lambda|/5$. In particular, there is no partition $\lambda$
+of size $\leq 15$ with $M^{\lambda}_{(\mathbf{1},\mathbf{1})_{0}}
+=3$.
+\end{theorem}
+
+\begin{proof}[Computational verification]
+The full multiplicity table, produced by
+\verb|Math49d_R5_replacement_search.py| after five sanity checks
+against classical Littlewood--Richardson identities (among them
+$s_{(1)}s_{(1)}=s_{(2)}+s_{(1,1)}$, the trivial identity
+$c^{\lambda}_{\emptyset,\lambda}=1$, $s_{(2)}s_{(2)}=s_{(4)}+
+s_{(3,1)}+s_{(2,2)}$, $s_{(1,1)}s_{(1,1)}=s_{(2,2)}+s_{(2,1,1)}+
+s_{(1,1,1,1)}$, and the negative control
+$c^{(3,1)}_{(1,1),(1,1)}=0$), is:
+\begin{center}
+\begin{tabular}{l|r|r}
+\hline
+$\lambda$ & $\dim S^{\lambda}V$ & $M^{\lambda}_{(\mathbf{1},\mathbf{1})_{0}}$\\\hline
+$()$ & $1$ & $1$ \\
+$(1,1,1,1,1)$ & $1$ & $1$ \\
+$(2,1,1,1)$ & $24$ & $1$ \\
+$(2,2,1)$ & $75$ & $1$ \\
+$(2,2,2,2,2)$ & $1$ & $1$ \\
+$(3,2,2,2,1)$ & $24$ & $1$ \\
+$(3,3,2,1,1)$ & $75$ & $1$ \\
+$(4,2,2,2)$ & $200$ & $1$ \\
+$(4,3,2,1)$ & $1024$ & $1$ \\
+$(4,4,2)$ & $1176$ & $1$ \\
+$(3,3,3,3,3)$ & $1$ & $1$ \\
+$(4,3,3,3,2)$ & $24$ & $1$ \\
+$(4,4,3,2,2)$ & $75$ & $1$ \\
+$(5,3,3,3,1)$ & $200$ & $1$ \\
+$(5,4,3,2,1)$ & $1024$ & $1$ \\
+$(5,5,3,1,1)$ & $1176$ & $1$ \\
+$(6,3,3,3)$ & $1000$ & $1$ \\
+$(6,4,3,2)$ & $6125$ & $1$ \\
+$(6,5,3,1)$ & $12000$ & $1$ \\
+$(6,6,3)$ & $9000$ & $1$ \\\hline
+\end{tabular}
+\end{center}
+All unlisted $\lambda$ with $|\lambda|\in\{0,5,10,15\}$ and at most
+five parts have $M^{\lambda}_{(\mathbf{1},\mathbf{1})_{0}}=0$. The
+script terminates with the audit line
+\verb|ALL ENUMERATION CHECKS PASSED|. \qed
+\end{proof}
+
+\begin{corollary}[Minimal direct-sum realisation]\label{cor:directsum}
+At the search depth $|\lambda|\leq 15$, the minimal-rank
+direct sum $E=\bigoplus_{i}S^{\lambda_{i}}V$ with
+$\sum_{i}M^{\lambda_{i}}_{(\mathbf{1},\mathbf{1})_{0}}=3$ is
+\begin{equation}
+E_{\mathrm{min}}\;=\;
+\mathcal{O}
+\;\oplus\;
+\det V
+\;\oplus\;
+S^{(2,1,1,1)}V,
+\label{eq:Emin}
+\end{equation}
+of total $SU(5)$-rank $1+1+24=26$, using
+$S^{()}V=\mathcal{O}$, $S^{(1,1,1,1,1)}V=\wedge^{5}V=\det V$, and
+the rank-$24$ hook irrep $S^{(2,1,1,1)}V$.
+\end{corollary}
+
+\begin{proof}
+By Theorem~\ref{thm:main} every available $M^{\lambda}=1$; hence
+three summands are required. The minimum-rank combination
+satisfying this and lying in the enumerated range picks the three
+smallest dimensions with $M=1$: $\dim=1$
+(trivial $\mathcal{O}$), $\dim=1$ ($\det V$), $\dim=24$
+($S^{(2,1,1,1)}V$). No smaller triple exists in the enumerated set.
+\qed
+\end{proof}
+
+%--------------------------------------------------------------
+\section{Independent symbolic verification}
+%--------------------------------------------------------------
+
+The supporting script
+\verb|Docs/supplementary/Math49d_R5_replacement_search.py|
+(Python~3, no external dependencies) performs:
+
+(a) Partition generator \verb|partitions_of(n, max_parts)|.
+
+(b) LR coefficient \verb|lr_coefficient(lam, mu, nu)| via skew SSYT
+enumeration with reverse-reading-word lattice test. Visit order:
+rows top-to-bottom, columns within each row right-to-left. Semi-
+standardness constraints translated into the visit order:
+$\mathrm{entry}\leq\mathrm{row\_last}$ (row-weakly-increasing L-to-R
+becomes an upper bound when scanning R-to-L) and
+$\mathrm{entry}>\mathrm{col\_last}$ (column strictly-increasing
+top-to-bottom).
+
+(c) Classical LR sanity checks including the negative control
+$c^{(3,1)}_{(1,1),(1,1)}=0$ which catches a visit-order inversion
+bug; all pass.
+
+(d) \verb|multiplicity_trivial(lam)| implements
+Eq.~(\ref{eq:multformula}).
+
+(e) \verb|dim_su5_irrep(lam)| via the hook-content formula for
+$GL(5)$.
+
+(f) \verb|enumerate_all(max_size=15)| executes the search reported
+in Theorem~\ref{thm:main}.
+
+Runtime: $\lesssim 5$ s on a single core; reproducible with
+\verb|python3 Math49d_R5_replacement_search.py|.
+
+%--------------------------------------------------------------
+\section{Consequences for Pillar 6}
+%--------------------------------------------------------------
+
+Theorem~\ref{thm:main} falsifies the ``single Schur-functor bundle
+$S^{\lambda}Q$ gives three $(\mathbf{1},\mathbf{1})_{0}$ copies''
+strategy throughout $|\lambda|\leq 15$. A replacement bundle that
+satisfies the three-copy count at the stated search depth must take
+the form of a direct sum of three $SU(5)$-irreps, of which
+(\ref{eq:Emin}) is the minimum-rank representative.
+
+This outcome has two immediate consequences for the Pillar-6
+programme:
+
+\begin{enumerate}
+\item[(i)] \emph{The three copies cannot be ``identical flavours
+coming from the same bundle''}: they necessarily correspond to
+three distinct $SU(5)$-irreps of $H^{0}(\mathrm{Gr}(2,5),E)$.
+Any flavour-structure ansatz that identified the three generations
+with three abstract copies of a single $(\mathbf{1},\mathbf{1})_{0}$
+(in the spirit of the retracted $\mathrm{Sym}^{2}Q$ identification)
+is ruled out within the search depth.
+
+\item[(ii)] \emph{The physical content of the three summands is
+inequivalent}: $\mathcal{O}$ (trivial) carries no $SU(5)$ action;
+$\det V$ carries a pure hypercharge-like $U(1)$ phase; and
+$S^{(2,1,1,1)}V$ is the hook-shape irrep of dimension $24$. The
+``three generations'' reading, if it survives at all, must attach
+distinct physical roles to these three components, and must account
+for the fact that two of them are rank-$1$ line bundles while the
+third has rank $24$. A family-index mechanism that treats
+the three copies symmetrically (which the retracted v2
+identification implicitly did) is mathematically incompatible with
+Eq.~(\ref{eq:Emin}).
+\end{enumerate}
+
+A complete positive resolution of Pillar 6 under the search depth
+of the present note therefore \emph{requires additional physical
+input} beyond the arithmetic identity
+$\chi^{\mathbb{Z}_{6}}(\mathrm{Gr}(2,5),\mathrm{Sym}^{2}Q)=3$
+(Math49d-R4, PR-2+PR-3 CLOSED): either a physical argument that
+privileges Eq.~(\ref{eq:Emin}) among all direct-sum realisations, or
+an extension of the search to $|\lambda|\geq 20$, or an abandonment
+of the single-$\mathrm{Gr}(2,5)$ framework in favour of a
+Flag-manifold or partial-quotient construction. These three paths
+are logged as open lines \verb|Q-2026-04-20-PR1-|a,b,c in
+\verb|Docs/status/OPEN-QUESTIONS.md|.
+
+%--------------------------------------------------------------
+\section{Disposition of peer-review items}
+%--------------------------------------------------------------
+
+\begin{center}
+\begin{tabular}{l|l}
+\hline
+PR-1 (replacement bundle, single-irrep attempt)
+  & \textbf{FALSIFIED} at $|\lambda|\leq 15$ (Theorem~\ref{thm:main}) \\
+PR-1 (replacement bundle, direct-sum attempt)
+  & \textbf{minimum} (\ref{eq:Emin}), physically unsymmetric \\
+C12 (gauge--flavour catastrophe)
+  & Pillar 6 physical ID remains RETRACTED (F-2026-04-20-03) \\
+\hline
+\end{tabular}
+\end{center}
+
+PR-1 is therefore \textbf{not closed by a positive identification};
+it is closed at the level of ruling out one of its two candidate
+resolutions and converting the remaining option
+(direct-sum realisation) into the minimal-rank prescription
+(\ref{eq:Emin}) with explicit obstructions to symmetric three-family
+readings. Pillar 6 remains SCAFFOLD at the physical layer.
+
+\emph{Remark on scope limit.} Extending the search to
+$|\lambda|=20$ $(k=4)$ or $|\lambda|=25$ $(k=5)$ is feasible with
+the same script but at polynomial cost in the SSYT enumerator;
+values of $M^{\lambda}\geq 2$ only appear at large $k$, if at all,
+and a census at $k\leq 5$ is filed as the closure of PR-1 wave 2
+(Task \verb|P1b| in the ledger). The present note establishes the
+wave-1 result $M\leq 1$ for $k\leq 3$.
+
+\end{document}

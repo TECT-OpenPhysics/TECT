@@ -1,0 +1,375 @@
+% TECT-Math157: Rigorous SO(10) -> SM Anomaly Cancellation by Group-Theoretic Trace
+% Status: REPLACEMENT for Math148 (FALSE POSITIVE retracted in Math156).
+% Date: 2026-04-26
+% Theory tag: Math157-SO10-SM-anomaly-cancellation-rigorous-trace-method-2026-04-26
+% Maintainer: Jusang Lee (jtkor@outlook.com)
+%
+% Purpose: discharge the GAP-3 closure obligation by computing the six
+% perturbative gauge anomaly coefficients of the SM gauge group
+% G_SM = SU(3)_C x SU(2)_L x U(1)_Y on a single SO(10) spinor multiplet
+% \mathbf{16}, decomposed via the standard chain
+% SO(10) ⊃ SU(5) x U(1)_chi ⊃ G_SM, using representation-theoretic traces
+% and the GUT-normalised hypercharge Y_GUT = sqrt(3/5) Y_SM. Math157
+% supersedes Math148; Math148 is moved to AUDIT-FLAGGED status with the
+% addendum-A retraction note.
+
+\section*{Math157 --- Rigorous SO(10) $\to$ SM Anomaly Cancellation}
+
+\subsection*{1. Setting and conventions}
+
+\paragraph{Gauge group chain.}
+\begin{equation}
+\mathrm{SO}(10) \;\supset\; \mathrm{SU}(5)\times\mathrm{U}(1)_\chi
+\;\supset\; G_{\rm SM} \;\equiv\;
+\mathrm{SU}(3)_C\times\mathrm{SU}(2)_L\times\mathrm{U}(1)_Y .
+\end{equation}
+
+\paragraph{Spinor matter.} One TECT-emergent generation lives in
+$\mathbf{16}$ of $\mathrm{SO}(10)$. The Slansky branching to
+$\mathrm{SU}(5)\times\mathrm{U}(1)_\chi$ reads
+\begin{equation}
+\mathbf{16} \;=\; \mathbf{10}_{+1} \;\oplus\; \overline{\mathbf{5}}_{-3}
+\;\oplus\; \mathbf{1}_{+5},
+\label{eq:so10-su5}
+\end{equation}
+with the U(1)$_\chi$ charges in conventional (Slansky) normalisation.
+The further branching $\mathrm{SU}(5)\to G_{\rm SM}$ is the standard
+Georgi--Glashow embedding,
+\begin{align}
+\mathbf{10} &= (\mathbf{3},\mathbf{2})_{+1/6}
+\oplus (\overline{\mathbf{3}},\mathbf{1})_{-2/3}
+\oplus (\mathbf{1},\mathbf{1})_{+1},
+\label{eq:su5-10} \\
+\overline{\mathbf{5}} &= (\overline{\mathbf{3}},\mathbf{1})_{+1/3}
+\oplus (\mathbf{1},\mathbf{2})_{-1/2},
+\label{eq:su5-5bar} \\
+\mathbf{1} &= (\mathbf{1},\mathbf{1})_0,
+\label{eq:su5-1}
+\end{align}
+where the U(1)$_Y$ subscripts are physical SM hypercharges
+$Y_{\rm SM}\equiv Q_{\rm em} - T_3$. All Weyl fermions below are
+written in the \emph{left-handed} convention, so a right-handed
+SM particle appears as the left-handed conjugate $\psi^c$.
+
+\paragraph{Field content of a single $\mathbf{16}$ in the SM basis.}
+\begin{center}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{|l|c|c|c|c|c|}
+\hline
+Field & Origin & SU(3) rep & SU(2) rep & $Y_{\rm SM}$ & \# components \\
+\hline
+$Q$    & $\mathbf{10}$       & $\mathbf{3}$            & $\mathbf{2}$ & $+1/6$ & 6 \\
+$u^c$  & $\mathbf{10}$       & $\overline{\mathbf{3}}$ & $\mathbf{1}$ & $-2/3$ & 3 \\
+$e^c$  & $\mathbf{10}$       & $\mathbf{1}$            & $\mathbf{1}$ & $+1$   & 1 \\
+$d^c$  & $\overline{\mathbf{5}}$ & $\overline{\mathbf{3}}$ & $\mathbf{1}$ & $+1/3$ & 3 \\
+$L$    & $\overline{\mathbf{5}}$ & $\mathbf{1}$            & $\mathbf{2}$ & $-1/2$ & 2 \\
+$N$    & $\mathbf{1}$        & $\mathbf{1}$            & $\mathbf{1}$ & $0$    & 1 \\
+\hline
+Total  &                     &                          &              &        & 16 \\
+\hline
+\end{tabular}
+\end{center}
+
+\paragraph{GUT-normalisation of hypercharge.} The SU(5)-embedded
+hypercharge generator normalised to $\mathrm{Tr}_{\mathbf{5}}(T^a T^b) =
+\tfrac12\delta^{ab}$ along with the other SU(5) generators reads
+\begin{equation}
+T_Y \;=\; \sqrt{\tfrac{3}{5}}\, Y_{\rm SM}.
+\label{eq:Y-GUT}
+\end{equation}
+Cross-check on $\overline{\mathbf{5}}$:
+\begin{equation}
+\mathrm{Tr}_{\overline{\mathbf{5}}}(Y_{\rm SM}^2)
+= 3\cdot(\tfrac13)^2 + 2\cdot(-\tfrac12)^2
+= \tfrac13 + \tfrac12 = \tfrac{5}{6},
+\quad
+\mathrm{Tr}_{\overline{\mathbf{5}}}(T_Y^2)
+= \tfrac{3}{5}\cdot\tfrac{5}{6} = \tfrac12,
+\end{equation}
+which agrees with the SU(5) generator normalisation, confirming
+$\sqrt{3/5}$ is the correct GUT factor.
+
+\paragraph{Anomaly coefficients (definitions).} For a chiral
+representation $R$ of $G_{\rm SM}$, the perturbative gauge-anomaly
+coefficient triples we must compute are
+\begin{align}
+\mathcal A_3 &\equiv
+A_3(R)\;\text{(cubic Dynkin index of SU(3) part of }R\text{)}, \\
+\mathcal A_{32Y} &\equiv
+T_3(R)\,Y, \quad
+\mathcal A_{22Y} \equiv T_2(R)\,Y, \\
+\mathcal A_{YYY} &\equiv Y^3, \quad
+\mathcal A_{\text{grav}^2 Y} \equiv Y, \\
+\mathcal A_{222} &\equiv 0\;\text{(SU(2) is anomaly-free intrinsically;
+no }d^{abc}\text{).}
+\end{align}
+$T_n(R)$ denotes the SU($n$) Dynkin index of the SU($n$) part of $R$,
+with $T_n(\text{fund}) = 1/2$ and $T_n(\text{anti-fund})=1/2$. The
+cubic SU(3) index uses
+$A_3(\mathbf{3})=+1,\, A_3(\overline{\mathbf{3}})=-1,\,
+A_3(\mathbf{1})=0$. The SU(2) cubic index is identically zero because
+SU(2) admits no symmetric invariant $d^{abc}$.
+
+A representation $R$ is \emph{anomaly-free} iff all five
+non-trivially-defined coefficients vanish.
+
+\subsection*{2. The six anomaly coefficients on a single $\mathbf{16}$}
+
+\subsubsection*{2.1 SU(3)$_C^3$ anomaly}
+
+\begin{align}
+\mathcal A_3(\mathbf{16}) &=
+\sum_{\psi}\, A_3(R_3(\psi))\,\dim_2(\psi),
+\end{align}
+where $\dim_2$ counts SU(2) multiplicity. From the field table:
+\begin{equation}
+\mathcal A_3 \;=\; \underbrace{2\cdot(+1)}_{Q:\,\mathbf{2}\text{ doublets of }\mathbf{3}}
+\;+\;\underbrace{1\cdot(-1)}_{u^c:\,\overline{\mathbf{3}}}
+\;+\;\underbrace{1\cdot(-1)}_{d^c:\,\overline{\mathbf{3}}}
+\;=\; 2 - 1 - 1 \;=\; \boxed{0}.
+\label{eq:A3-result}
+\end{equation}
+
+\subsubsection*{2.2 SU(2)$_L^3$ anomaly}
+
+\begin{equation}
+\mathcal A_{222} \;=\; 0
+\quad\text{(no symmetric invariant; SU(2) cubic anomaly vanishes
+representation-independently).}
+\label{eq:A222-result}
+\end{equation}
+
+\subsubsection*{2.3 SU(3)$_C^2 \times$ U(1)$_Y$ anomaly}
+
+\begin{align}
+\mathcal A_{32Y}
+&= \sum_{\psi}\, T_3(R_3(\psi))\,\dim_2(\psi)\, Y(\psi) \notag \\
+&= \underbrace{2\cdot\tfrac{1}{2}\cdot(+\tfrac{1}{6})}_{Q}
+\;+\;\underbrace{1\cdot\tfrac{1}{2}\cdot(-\tfrac{2}{3})}_{u^c}
+\;+\;\underbrace{1\cdot\tfrac{1}{2}\cdot(+\tfrac{1}{3})}_{d^c} \notag \\
+&= \tfrac{1}{6} - \tfrac{1}{3} + \tfrac{1}{6}
+\;=\; \boxed{0}.
+\label{eq:A32Y-result}
+\end{align}
+
+\subsubsection*{2.4 SU(2)$_L^2 \times$ U(1)$_Y$ anomaly}
+
+\begin{align}
+\mathcal A_{22Y}
+&= \sum_{\psi}\, T_2(R_2(\psi))\,\dim_3(\psi)\, Y(\psi) \notag \\
+&= \underbrace{\tfrac{1}{2}\cdot 3\cdot(+\tfrac{1}{6})}_{Q:\,3\text{ colours}}
+\;+\;\underbrace{\tfrac{1}{2}\cdot 1\cdot(-\tfrac{1}{2})}_{L} \notag \\
+&= \tfrac{1}{4} - \tfrac{1}{4} \;=\; \boxed{0}.
+\label{eq:A22Y-result}
+\end{align}
+
+\subsubsection*{2.5 U(1)$_Y^3$ anomaly}
+
+\begin{align}
+\mathcal A_{YYY}
+&= \sum_{\psi}\, n_\psi\, Y(\psi)^3 \notag \\
+&= 6\cdot(\tfrac{1}{6})^3 + 3\cdot(-\tfrac{2}{3})^3 + 3\cdot(\tfrac{1}{3})^3
++ 2\cdot(-\tfrac{1}{2})^3 + 1\cdot 1^3 + 1\cdot 0^3 \notag \\
+&= \tfrac{6}{216} - \tfrac{24}{27} + \tfrac{3}{27} - \tfrac{2}{8} + 1 + 0
+\notag \\
+&= \tfrac{1}{36} - \tfrac{32}{36} + \tfrac{4}{36}
+- \tfrac{9}{36} + \tfrac{36}{36} \notag \\
+&= \frac{1 - 32 + 4 - 9 + 36}{36}
+\;=\; \frac{0}{36} \;=\; \boxed{0}.
+\label{eq:AYYY-result}
+\end{align}
+
+\subsubsection*{2.6 Mixed gravitational$^2 \times$ U(1)$_Y$ anomaly}
+
+\begin{align}
+\mathcal A_{\text{grav}^2 Y}
+&= \sum_{\psi}\, n_\psi\, Y(\psi) \notag \\
+&= 6\cdot(+\tfrac{1}{6}) + 3\cdot(-\tfrac{2}{3}) + 3\cdot(+\tfrac{1}{3})
++ 2\cdot(-\tfrac{1}{2}) + 1\cdot(+1) + 1\cdot 0 \notag \\
+&= 1 - 2 + 1 - 1 + 1 + 0 \;=\; \boxed{0}.
+\label{eq:Agrav-result}
+\end{align}
+
+\subsubsection*{2.7 Summary: master cancellation table}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{|l|l|c|}
+\hline
+Anomaly & Sum on $\mathbf{16}$ & Status \\
+\hline
+SU(3)$^3$           & $\mathcal A_3   = 2 - 1 - 1$           & $0$ \\
+SU(2)$^3$           & no $d^{abc}$                            & $0$ trivially \\
+SU(3)$^2$U(1)$_Y$   & $\mathcal A_{32Y} = \tfrac16 - \tfrac13 + \tfrac16$ & $0$ \\
+SU(2)$^2$U(1)$_Y$   & $\mathcal A_{22Y} = \tfrac14 - \tfrac14$ & $0$ \\
+U(1)$_Y^3$          & $\mathcal A_{YYY} = \tfrac{1-32+4-9+36}{36}$ & $0$ \\
+grav$^2\,$U(1)$_Y$  & $\mathcal A_{\text{grav}^2 Y} = 1-2+1-1+1$ & $0$ \\
+\hline
+\end{tabular}
+\end{center}
+
+\medskip
+\noindent\fbox{\parbox{0.93\textwidth}{
+\textbf{Theorem 157.1 (SM anomaly cancellation on $\mathbf{16}$).}
+On a single SO(10) spinor multiplet $\mathbf{16}$ decomposed via
+$\mathrm{SO}(10)\to\mathrm{SU}(5)\to G_{\rm SM}$ in the standard
+Georgi--Glashow embedding (Eqs.~\eqref{eq:so10-su5}--\eqref{eq:su5-1}),
+all six perturbative gauge-anomaly coefficients of $G_{\rm SM}$
+vanish identically:
+\begin{equation}
+\mathcal A_3 = \mathcal A_{222} = \mathcal A_{32Y} = \mathcal A_{22Y}
+= \mathcal A_{YYY} = \mathcal A_{\text{grav}^2 Y} = 0.
+\end{equation}
+\textit{Proof.} Eqs.~\eqref{eq:A3-result}--\eqref{eq:Agrav-result}.
+\hfill$\square$
+}}
+
+\subsection*{3. SO(10)-side cross-check}
+
+\paragraph{Perturbative SO(10) cubic anomaly.} For Lie algebras
+$\mathfrak{so}(2N)$ with $N\ne 4$, the symmetric invariant
+$d^{abc}\equiv \mathrm{Tr}\,T^a\{T^b,T^c\}$ vanishes
+representation-independently (Slansky 1981, \S5). In particular,
+for $\mathrm{SO}(10)$ ($N=5$),
+\begin{equation}
+\mathrm{Tr}_{\mathbf{16}}\, T^a\{T^b,T^c\} \;=\; 0
+\quad\text{(no symmetric cubic Casimir)},
+\end{equation}
+so the $\mathrm{SO}(10)^3$ perturbative anomaly is automatically zero
+on any representation, including $\mathbf{16}$.
+
+\paragraph{Witten global anomaly.}
+$\pi_4(\mathrm{SO}(10)) = 0$, so there is no $\mathbb{Z}_2$ Witten
+anomaly. The $\mathbf{16}$ representation is therefore admissible as a
+chiral fermion content of an $\mathrm{SO}(10)$ gauge theory at both the
+perturbative and global level.
+
+\paragraph{Three-generation closure.}
+The branching is linear in the number of generations $N_g$. Since each
+$\mathbf{16}$ contributes zero to every anomaly coefficient,
+\begin{equation}
+\mathcal A^{(N_g)} = N_g \cdot 0 = 0
+\quad \forall\, N_g \in \mathbb{Z}_{\ge 0}.
+\end{equation}
+$N_g = 3$ as in the SM is admissible; the framework imposes no
+generation-counting constraint via anomaly cancellation alone (this is
+why generations remain a Pillar 6 input).
+
+\subsection*{4. Status of GAP 3 after Math157}
+
+\paragraph{What Math157 establishes.}
+\textbf{Conditional closure of GAP 3.} The hypothetical chiral fermion
+content $N_g$ copies of $\mathbf{16}$ of SO(10), with the standard
+Georgi--Glashow projection to $G_{\rm SM}$, is anomaly-free at both the
+$G_{\rm SM}$ level (six coefficients above) and the $\mathrm{SO}(10)$
+level (no $d^{abc}$, trivial $\pi_4$).
+
+\paragraph{What Math157 does not establish.}
+The hypothesis ``TECT's emergent gauge group is $\mathrm{SO}(10)$ with
+chiral fermion content in $\mathbf{16}$'' is itself a separate claim,
+currently in the OUTLINE / SCAFFOLD tier (Math80-AddC, Math143-AddF,
+and the Pillar 4 Q-2026-04-23 family of open questions). Math157
+discharges the anomaly-cancellation obligation \emph{conditional on}
+that hypothesis; it does not establish the hypothesis itself.
+
+\paragraph{Honest GAP-3 verdict.}
+\begin{equation}
+\boxed{
+\text{GAP 3} \;=\; \text{PROVED CONDITIONAL on}
+\;[\mathrm{SO}(10),\,\mathbf{16}]\text{-emergence (Pillar 4).}
+}
+\end{equation}
+This is a genuine upgrade from the OPEN status assigned in Math156, but
+it is \emph{not} unconditional closure. To upgrade to PROVED
+unconditional, Pillar 4 must establish the emergence of
+$\mathrm{SO}(10)$ (or an equivalent anomaly-free unifying group) and
+the assignment of TECT-emergent fermion modes to a $\mathbf{16}$.
+
+\subsection*{5. Devil's-advocate self-test (CLAUDE.md \S6.3.1)}
+
+\paragraph{Objection $\alpha$.}
+``Math157 only re-derives a textbook result. It is not a TECT-specific
+contribution.''
+
+\textbf{Verdict: VALID, MITIGATED.} The textbook result is precisely
+what was missing from Math148, where a component-by-component
+calculation produced non-zero numbers due to misassigned
+$Y$-charges or mis-counted chiralities. Math157 supersedes Math148 by
+replacing a defective component sum with the standard
+representation-theoretic trace. The TECT-specific contribution is the
+subordination of the result to the still-open Pillar 4 hypothesis,
+which is recorded in \S4.
+
+\paragraph{Objection $\beta$.}
+``If Pillar 4 fails to deliver SO(10) and $\mathbf{16}$, the entire
+GAP-3 closure collapses.''
+
+\textbf{Verdict: VALID, recorded.} This is the conditional clause in
+the boxed verdict. Math157 alone is insufficient for unconditional
+GAP-3 closure; the closure is deferred to whichever future note
+establishes Pillar 4. Recorded as
+Q-2026-04-26-Pillar4-SO10-emergence in OPEN-QUESTIONS.
+
+\paragraph{Objection $\gamma$.}
+``Why $\mathrm{SO}(10)$ rather than $\mathrm{SU}(5)$,
+$\mathrm{Pati\!-\!Salam}$, $\mathrm{E}_6$, or some non-traditional
+group?''
+
+\textbf{Verdict: DISMISSED for present purpose.} The point of Math157
+is anomaly cancellation for the canonical chiral content. SU(5) on
+$\mathbf{10}\oplus\overline{\mathbf{5}}$ is also anomaly-free
+(by the same calculation, omitting the singlet $N$). Pati--Salam
+$\mathrm{SU}(4)\times\mathrm{SU}(2)_L\times\mathrm{SU}(2)_R$ is also
+anomaly-free on its left-right symmetric matter content. $E_6$
+on $\mathbf{27}$ is anomaly-free. Pillar 4 will eventually distinguish
+which of these TECT realises; Math157's result is invariant to that
+choice as long as the chiral content is the embedding of one full SM
+generation per family with the correct GUT-normalised hypercharge.
+
+\paragraph{Objection $\delta$ (\textbf{NEW}, generated by this self-test).}
+``Doesn't $\mathbf{Y}_{\rm GUT} = \sqrt{3/5}\,Y_{\rm SM}$ rescaling
+change the $\mathcal A_{YYY}$ coefficient?''
+
+\textbf{Verdict: DISMISSED.} The rescaling factor is constant per
+component, so $\mathcal A_{YYY}$ rescales by $(3/5)^{3/2}$ and
+$\mathcal A_{\text{grav}^2 Y}$ by $\sqrt{3/5}$; both remain identically
+zero because the unrescaled sums vanish. $\mathcal A_{32Y}$ and
+$\mathcal A_{22Y}$ also rescale by overall constants and remain zero.
+The cancellation is robust under any constant U(1) charge rescaling,
+which is the correct invariance of the cancellation theorem.
+
+\subsection*{6. Required atomic-write actions}
+
+This note triggers, in the same commit:
+\begin{enumerate}
+\item Math148: AUDIT-FLAGGED status banner + addendum-A pointer to
+  Math157 as the rigorous replacement.
+\item NEGATIVE-RESULTS: R-2026-04-26-Math148-FalsePositive entry
+  (already prepared in Math156 \S7).
+\item OPEN-QUESTIONS: Q-2026-04-26-Pillar4-SO10-emergence promotes to
+  the GAP-3 unconditional-closure dependency.
+\item TOE-FACT-SHEET: GAP 3 status row updated to ``PROVED CONDITIONAL
+  on Pillar 4 SO(10)+$\mathbf{16}$ emergence.''
+\item CHANGELOG.md: theory tag entry
+  Math157-SO10-SM-anomaly-cancellation-rigorous-trace-method-2026-04-26.
+\end{enumerate}
+
+\subsection*{7. Closing remark}
+
+The single critical blocker identified in Math156 is now downgraded
+from OPEN to PROVED-CONDITIONAL. The blocker is not eliminated --- it
+is reassigned to Pillar 4, where the question of which gauge group
+emerges from the BCC condensate and how chiral fermions occupy a
+$\mathbf{16}$ representation is the genuine open frontier. Math157 thus
+closes the \emph{anomaly-cancellation} sub-problem of GAP 3 cleanly,
+and re-routes the residual obligation to a structurally cleaner place
+in the proof tree.
+
+\medskip\noindent
+\textbf{Next mainline step.} Pillar 4 SO(10) emergence: derive the
+gauge-bundle structure on the BCC condensate's CP$^2$ order manifold
+and exhibit the $\mathbf{16}$ representation as the physical chiral
+fermion sector. This is the unique remaining critical blocker for
+$S_2$ quantum-consistency qualification.
+
+% End of Math157.

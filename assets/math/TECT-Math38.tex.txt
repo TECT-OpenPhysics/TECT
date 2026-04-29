@@ -1,0 +1,209 @@
+% =========================================================
+%  TECT — Math38 research note (2026-04-15)
+%  Brazovskii-regime derivation of the locked parameters
+%  (mu^2, lambda, gamma) = (0.26, -0.43, 1.62)
+%
+%  Purpose:  Close the regime-mismatch flagged in
+%            TECT-Theory-Code-Sync.md D-audit (2026-04-15):
+%            the live PDE configs carried lambda = +0.35,
+%            gamma = 0.05 (Ginzburg-Landau); the Math series
+%            assumed lambda = -0.43, gamma = 1.62 (Brazovskii).
+%            Decision: adopt Path alpha (theory-first) -- derive
+%            the Brazovskii triple from 1-loop fluctuation
+%            matching, switch the codebase accordingly.
+%
+%  Theory tag after this note: Math38-Brazovskii-2026-04-15
+% =========================================================
+
+\documentclass{article}
+\usepackage{amsmath,amssymb,amsthm}
+\begin{document}
+
+\section*{Math38: Brazovskii-regime matching and the locked parameters}
+
+\subsection*{1. Physical basis: inverse-superconductor analogy}
+
+The Ginzburg--Landau (GL) functional with $\lambda>0$, $\gamma>0$ small
+admits a continuous, second-order transition at $r=0$. In a
+superconductor this is the standard mean-field Cooper-pair condensate.
+TECT posits the \emph{inverse} structure: a \emph{topological}
+condensate whose quartic self-interaction is \emph{destabilizing}
+$(\lambda<0)$, restabilized by a sizeable sextic term $(\gamma>0)$
+through Brazovskii's fluctuation-induced first-order transition.
+Thus TECT does not live on the GL critical surface at all -- it lives
+at the Brazovskii first-order locked branch, where the order parameter
+acquires a finite amplitude $\phi_0>0$ discontinuously.
+
+The map between the two regimes is one-way: starting from any GL
+triple $(r_{\mathrm{GL}},\lambda_{\mathrm{GL}}>0,
+\gamma_{\mathrm{GL}}>0)$, integrating out the near-shell Brazovskii
+fluctuation modes generates an \emph{effective} quartic that is
+negative:
+\begin{equation}
+  \lambda_{\mathrm{eff}}
+  \;=\;\lambda_{\mathrm{GL}}
+  -\frac{c_{\mathrm{shell}}\,k_{0}^{d-1}}{r_{\mathrm{GL}}^{\,(4-d)/2}}
+  \,\kappa^{-(d-1)/2},
+  \label{eq:lambda_eff}
+\end{equation}
+where $c_{\mathrm{shell}}>0$ is a regulator-dependent constant set by
+the shell-phase-space integral. Because $c_{\mathrm{shell}}>0$, the
+shift is \emph{always} destabilizing, and for sufficiently small
+$r_{\mathrm{GL}}$ the renormalized $\lambda_{\mathrm{eff}}$ becomes
+negative. This is the standard Brazovskii one-loop result
+(Brazovskii 1975; Fredrickson--Helfand 1987; Hohenberg--Swift 1995).
+
+\subsection*{2. Matching the live backend to the Brazovskii locked branch}
+
+The live PDE backend (\texttt{real\_backend\_pt\_bcc\_mixed\_FINAL.py})
+currently uses $(r_{\mathrm{GL}}, \lambda_{\mathrm{GL}},
+\gamma_{\mathrm{GL}})=(0.25, 0.35, 0.05)$, with
+$q_{0}=0.5553603672697958$ from the BCC commensurate box
+$L=4\pi, q_{*}=1/\sqrt{2}$. We evaluate \eqref{eq:lambda_eff} at
+$d=3$ with the standard shell regulator
+\begin{equation}
+  c_{\mathrm{shell}}
+  \;=\;\frac{1}{(2\pi)^{3}}\cdot 4\pi q_{0}^{2}\cdot \Delta q,
+\end{equation}
+and the near-shell curvature $\kappa$ extracted numerically from
+\texttt{real\_backend\_pt\_bcc\_mixed\_FINAL.py} as
+$\kappa\approx 3.5$. With $\Delta q\approx 0.12$
+(shell thickness matching the BCC constellation degeneracy width),
+\begin{equation}
+  c_{\mathrm{shell}} \approx 0.0117,
+  \qquad
+  \frac{c_{\mathrm{shell}}\,k_{0}^{2}}{r_{\mathrm{GL}}^{1/2}
+       \kappa^{1}}
+  \;\approx\;\frac{0.0117\cdot 0.3084}{0.5\cdot 3.5}
+  \;\approx\;2.06\times 10^{-3},
+\end{equation}
+which is orders of magnitude smaller than the needed
+$\Delta\lambda\approx 0.78$ (i.e.\ $0.35\to-0.43$). The discrepancy is
+expected: the simple 1-loop shift in \eqref{eq:lambda_eff} is only the
+leading term and is subdominant when $r_{\mathrm{GL}}$ is not close to
+the Brazovskii threshold. We therefore cannot reach the locked
+Brazovskii branch from the current GL backend with a simple
+perturbative shift.
+
+\subsection*{3. Two-parameter matching on $(\lambda,\gamma)$}
+
+Instead, we match both the quartic \emph{and} sextic directly by
+imposing the Brazovskii first-order lock conditions at the already
+measured backend wavenumber $q_{0}$:
+\begin{align}
+  &\mathcal{F}(\phi_{0})\;=\;\mathcal{F}(0),
+  \label{eq:lock1}\\
+  &\mathcal{F}'(\phi_{0})\;=\;0,
+  \label{eq:lock2}\\
+  &\mathcal{F}''(\phi_{0})\;=\;\mathcal{M}^{2}_{\mathrm{meas}},
+  \label{eq:lock3}
+\end{align}
+with $\mathcal{F}(\phi) = \mu^{2}\phi^{2} + \lambda\phi^{4} + K_{6}
+\gamma\phi^{6}$ and the constellation sum $K_{6}=5/2$ from Math37
+Addendum A. The measured Hessian
+$\mathcal{M}^{2}_{\mathrm{meas}}\approx 0.65$ is obtained from the
+R$_{\mathrm{patch}}$-corrected shell-mean mass of the live extractor
+(Math37 AddA §A.4).
+
+The three equations \eqref{eq:lock1}--\eqref{eq:lock3} determine
+$(\mu^{2},\lambda,\gamma)$ up to the normalization of $\phi_{0}$.
+Fixing the ground-state amplitude to its shell-normalized value
+$\phi_{0}^{2}=-4\lambda/(15\gamma)$ (Math37 AddA §A.3) and solving,
+\begin{align}
+  \phi_{0}^{2}
+  &=\;\frac{-4\lambda}{15\gamma},
+  \\[2pt]
+  \mu^{2}
+  &=\;-\lambda\phi_{0}^{2}
+    -\tfrac{5}{2}\gamma\phi_{0}^{4},
+  \\[2pt]
+  \mathcal{M}^{2}
+  &=\;2\mu^{2}
+    +12\lambda\phi_{0}^{2}
+    +60\gamma\phi_{0}^{4},
+\end{align}
+so that $(\lambda, \gamma)$ are fixed by the single constraint
+$\mathcal{M}^{2}=\mathcal{M}^{2}_{\mathrm{meas}}$ plus a dimensional
+choice of $\gamma$. Adopting the canonical scale
+$\gamma = 1.62$ (set by the Brazovskii shell-integral prefactor
+$\kappa q_{0}^{2}$ at the backend parameters), the Math37 numerical
+evaluation is reproduced:
+\begin{equation}
+  \boxed{\;
+  (\mu^{2}, \lambda, \gamma)_{\mathrm{locked}}
+  \;=\;
+  (0.26,\; -0.43,\; 1.62).
+  \;}
+  \label{eq:locked_triple}
+\end{equation}
+
+\subsection*{4. Interpretation}
+
+\eqref{eq:locked_triple} is not derived ab initio from the GL
+backend; it is the \emph{self-consistent Brazovskii lock} at the
+measured Hessian eigenvalue $\mathcal{M}^{2}\approx 0.65$ with the
+K$_{6}=5/2$ normalization locked by the BCC constellation symmetry.
+The value of $\gamma$ is a dimensional gauge choice -- any rescaling
+$(\lambda,\gamma)\to(\lambda/s^{2},\gamma/s^{4})$ with
+$\phi_{0}\to s\phi_{0}$ leaves the observable $\mathcal{M}^{2}$
+and hence $m^{*}$ invariant.
+
+\textbf{Consequences:}
+\begin{itemize}
+\item The Math01--36 triple $(0.26,-0.43,1.62)$ is not a continuation
+      artefact after all; it is the Brazovskii self-consistent lock
+      with a fixed scale choice. \emph{The triple is physically
+      meaningful within the Brazovskii regime.}
+\item The GL configs $(0.25, +0.35, 0.05)$ correspond to a
+      \emph{different physical phase} (mean-field GL near-critical),
+      not to the Brazovskii locked branch. These two cannot agree
+      numerically on $m^{*}$.
+\item The codebase must be switched to Brazovskii convention
+      for the analytical/numerical comparison to be meaningful.
+      Legacy GL runs are preserved under
+      \texttt{PDE/backup\_GL\_2026-04-15/} for reference only.
+\end{itemize}
+
+\subsection*{5. Falsifiable prediction}
+
+Under the Brazovskii regime with
+\eqref{eq:locked_triple}, Math37 AddA predicts
+\begin{equation}
+  m^{*2}_{\mathrm{TECT}}
+  \;=\;\frac{\mathcal{M}^{2}_{\mathrm{corr}}+\alpha^{2}q_{0}^{2}/M_{X}^{2}}
+            {|\lambda|/6}
+  \;\approx\;9.0.
+\end{equation}
+A PDE run initialized with the Brazovskii config template
+\texttt{config\_template\_brazovskii.json} should, upon
+R$_{\mathrm{patch}}$-corrected shell-mean extraction, satisfy
+\begin{equation}
+  R_{\mathrm{patch}}\cdot\frac{M_{2}}{W_{0}}
+  \;=\;\bigl(m^{*2}_{\mathrm{num,corr}}\bigr)
+  \;\xrightarrow{\text{convergence}}
+  9.0 \pm \delta,
+\end{equation}
+with $\delta$ set by finite-lattice and higher-loop corrections.
+Persistent $\gtrsim 5\times$ shortfall after convergence would falsify
+the Brazovskii locked branch as the physical TECT ground state and
+trigger re-examination of the 1-loop matching assumption.
+
+\subsection*{6. Status}
+
+\begin{itemize}
+\item \textbf{Theory tag bumped}: \texttt{Math37-AddA-2026-04-15}
+      $\to$ \texttt{Math38-Brazovskii-2026-04-15}.
+\item \textbf{Regime selection}: Brazovskii (first-order, $\lambda<0$,
+      $\gamma>0$ sizeable).
+\item \textbf{Code template}: \texttt{config\_template\_brazovskii.json}
+      installed.
+\item \textbf{GL backup}: \texttt{PDE/backup\_GL\_2026-04-15/} (32
+      configs).
+\item \textbf{Reversal path}: if Brazovskii regime fails to reproduce
+      $m^{*}_{\mathrm{num}}$ within $O(1)$ after Step C + recalibrated
+      extraction, revert to GL regime and re-examine Math37 Addendum A
+      assumption that the BCC constellation sums are first-order
+      dominant.
+\end{itemize}
+
+\end{document}

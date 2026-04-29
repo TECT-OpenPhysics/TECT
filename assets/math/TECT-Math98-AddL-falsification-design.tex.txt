@@ -1,0 +1,247 @@
+% =====================================================================
+% TECT-Math98-AddL: Pre-Registered Falsification Design for Pillar 10 (Quantum Completion)
+% Theory tag: Math98-AddL-falsification-design-2026-04-25
+% Status: STRONG CLOSURE DRAFT (three falsification tests fully specified and operationalized)
+% Predecessors: Math98-AddA/B/C/D/E/K (four-pathway consensus $\hbar \approx 1.54 \pm 0.3$), Math79-AddB (no-go theorem)
+% Author: TECT collaboration
+% Date: 2026-04-25
+% =====================================================================
+
+\section*{Math98-AddL: Pre-Registered Falsification Design for Pillar 10}
+
+\subsection*{0. Executive summary}
+
+This note specifies three independent, pre-registered falsification tests (F1, F2, F3) for Pillar 10 (the quantum-completion origin of $\hbar$ via adiabatic invariant).
+Each test is designed to either confirm or refute the adiabatic-invariant mechanism within experimentally accessible regimes.
+
+The three tests are:
+1. **F1 (BCC lattice constant)**: Extract $\hbar$ from the BCC condensate lattice constant and compare with four-pathway consensus $\bar{\hbar} = 1.54 \pm 0.30$ TECT units.
+2. **F2 (Cosmological quench rate)**: Derive the early-universe quench rate from Friedmann equations and verify that the adiabatic-invariant formula yields $\hbar$ within the TECT regime.
+3. **F3 (Tabletop superfluid dynamics)**: Identify a benchtop superfluid system (e.g., $^{4}$He, $^3$He-B) with known quantization properties and use the TECT adiabatic-invariant formula to predict the effective Planck constant in that system.
+
+\textbf{Key result}: The three tests are fully specified with explicit thresholds. Failure of any one test relegates Pillar 10 to **REFUTED-NO-GO** status.
+
+\subsection*{1. Falsification Test F1: BCC Lattice Constant}
+
+\subsubsection*{1.1 Experimental observable}
+
+The BCC condensate, once realized in a real (possibly tabletop) system, will exhibit a characteristic length scale $a_{\rm BCC}$.
+The adiabatic-invariant formula predicts that the effective Planck constant is:
+\begin{equation}
+\hbar_{\rm eff} = C \cdot \eta_{\rm top} \rho_{\rm cond} a_{\rm BCC}^3 \tau_{\rm PT},
+\end{equation}
+where $C \approx 1.54 \pm 0.30$ (from Math98-AddK).
+
+In a tabletop BCC system, all four parameters $(\eta_{\rm top}, \rho_{\rm cond}, a_{\rm BCC}, \tau_{\rm PT})$ are experimentally measurable:
+- $\eta_{\rm top}$: topological rigidity of the condensate order-parameter manifold, extractable from the shell-mode spectrum (spectroscopic measurement).
+- $\rho_{\rm cond}$: spatial density of the condensate, measurable via density-of-states calorimetry or neutron diffraction.
+- $a_{\rm BCC}$: lattice constant, measurable via X-ray or neutron diffraction.
+- $\tau_{\rm PT}$: quench time, controllable in the laboratory (e.g., via rapid cooling or sudden parameter sweep).
+
+\subsubsection*{1.2 Falsification threshold}
+
+\textbf{Success criterion (S1)}: Measure all four parameters $(\eta_{\rm top}, \rho_{\rm cond}, a_{\rm BCC}, \tau_{\rm PT})$ on a tabletop BCC system.
+Compute the product $P_1 = \eta_{\rm top} \rho_{\rm cond} a_{\rm BCC}^3 \tau_{\rm PT}$ and the inferred Planck constant $\hbar_{\rm eff} = C \times P_1$.
+
+\textbf{Acceptance gate}: The inferred $\hbar_{\rm eff}$ must satisfy:
+\begin{equation}
+\hbar_{\rm eff} \in [1.0, 2.0] \text{ TECT units} \quad \text{(i.e., within } 2\sigma \text{ of the four-pathway consensus).}
+\end{equation}
+
+Equivalently, the ratio $R_1 = \hbar_{\rm eff} / \bar{\hbar}_{\text{consensus}} \in [0.65, 1.30]$ (allowing $\pm 35\%$ deviation).
+
+\textbf{Falsification threshold (FAIL-1)}: If $\hbar_{\rm eff} < 0.5$ or $\hbar_{\rm eff} > 3.0$ TECT units (i.e., $R_1 \notin [0.32, 1.95]$),
+the adiabatic-invariant mechanism is refuted, and Pillar 10 transitions to **REFUTED**.
+
+\textbf{Status}: **NOT YET ATTEMPTED** (awaiting tabletop BCC realization; no known experimental BCC condensate exists as of 2026-04-25).
+
+\subsubsection*{1.3 Contingency pathway}
+
+If a direct tabletop BCC system cannot be realized in the near term, an indirect pathway is via numerical simulation:
+
+\textbf{Numerical proxy (F1-ALT)}: Execute the Newton-Krylov solver on a converged BCC condensate at $N = 128$ grid points.
+Extract the shell-mode spectrum from the Hessian (Math56). Compute the topological rigidity $\eta_{\rm top}$ from the shell wavenumber distribution.
+Compute the spatial density $\rho_{\rm cond} = N / V$ (grid points per volume). The "lattice constant" in simulation is $a_{\rm BCC} = L / N^{1/3}$ (domain size / cube root of grid points).
+
+The quench time $\tau_{\rm PT}$ is extracted from the continuation trajectory $\mu^2(n)$ via:
+\begin{equation}
+\tau_{\rm PT} = \Delta n_{\mu^2} \times (\text{continuation step size in physical time}) \approx 1.0 \text{ (s.i. units in the continuation dynamics).}
+\end{equation}
+
+\textbf{Acceptance gate (F1-ALT)}: Compute $\hbar_{\rm eff} = C \times \eta_{\rm top}^{\rm (num)} \times \rho_{\rm cond}^{\rm (num)} \times a_{\rm BCC}^{\rm (num), 3} \times \tau_{\rm PT}^{\rm (num)}$.
+Require $R_1^{\rm (num)} \in [0.65, 1.30]$.
+
+\textbf{Timeline}: **PLANNED for Task #124 (Turn 17)**, upon completion of Math55 continuation + Phase-2 spectral analysis.
+
+\subsection*{2. Falsification Test F2: Cosmological Quench Rate}
+
+\subsubsection*{2.1 Experimental observable}
+
+The early-universe phase transition at which TECT emerges is driven by the expansion of the universe (Hubble-parameter quench).
+The Friedmann equations relate the quench rate to the energy density:
+\begin{equation}
+H^2 = \frac{8\pi G}{3} \rho_{\rm total}, \quad \frac{d\rho}{dt} + 3H(\rho + p) = 0.
+\end{equation}
+
+For a radiation-dominated early universe, $\rho \propto a^{-4}$ (scale factor $a(t) \propto t^{1/2}$), so $H \propto t^{-1}$.
+The quench rate is thus:
+\begin{equation}
+\dot{\mu}^2 \sim |\mu^2_c| \times H(t_{\rm PT}) \sim \frac{|\mu^2_c|}{t_{\rm PT}},
+\end{equation}
+where $t_{\rm PT}$ is the transition time in cosmic history.
+
+\subsubsection*{2.2 Falsification threshold}
+
+\textbf{Success criterion (S2)}: Use the coupled Friedmann-Brazovskii equations (Math98-AddG, to be completed in Task #121)
+to derive the quench rate $\dot{\mu}^2$ as a rigorous consequence of early-universe thermodynamics. Feed this into the Kibble-Zurek formula
+to compute the transition time $\tau_{\rm PT} = (|\mu^2_c| / |\dot{\mu}^2|)^{1/2}$ and the subsequent Planck-constant value $\hbar_{\rm cosmic}$.
+
+\textbf{Acceptance gate (S2)}: The adiabatic-invariant formula must yield:
+\begin{equation}
+\hbar_{\rm cosmic} \in [1.0, 2.0] \text{ TECT units.}
+\end{equation}
+
+Equivalently, the ratio $R_2 = \hbar_{\rm cosmic} / \bar{\hbar}_{\text{consensus}} \in [0.65, 1.30]$.
+
+\textbf{Falsification threshold (FAIL-2)}: If either (i) the coupled Friedmann derivation is non-existent or (ii) the resulting $\hbar_{\rm cosmic}$ lies outside $[0.5, 3.0]$ TECT units,
+the adiabatic-invariant mechanism fails to explain quantum emergence in a cosmological context, and Pillar 10 is relegated to **OPEN-NEGATIVE REFINED**.
+
+\textbf{Status}: **IN PROGRESS** (Math98-AddG derivation initiated but not yet complete; see Task #121).
+
+\textbf{Timeline}: **Task #121 (Pillar 10 pathfinding)** is planned for Turn 16–17; completion required by end of Turn 18.
+
+\subsubsection*{2.3 Falsifiability via $t_{\rm PT}$ observables}
+
+If the coupled Friedmann calculation succeeds, additional falsification can arise from testing the derived transition time.
+For example:
+- If $\tau_{\rm PT} \approx 10^{-10}$ seconds (early-universe transition), this corresponds to temperature $T_{\rm PT} \sim $ few TeV (detectable at future colliders if new physics).
+- If $\tau_{\rm PT} \approx 10^{13}$ seconds (late-time transition, cosmic acceleration era), this could affect the effective equation of state and be testable via precision cosmology.
+
+The specific prediction of $\tau_{\rm PT}$ is thus testable against cosmological observations (e.g., CMB anisotropies, large-scale structure).
+
+\subsection*{3. Falsification Test F3: Tabletop Superfluid Effective Planck Constant}
+
+\subsubsection*{3.1 Experimental observable}
+
+The adiabatic-invariant formula predicts that *any* topological condensate undergoing a phase transition will acquire an effective Planck constant.
+A key prediction is that well-understood superfluid systems (e.g., $^4$He-II, $^3$He-B) exhibit a quantization scale that can be explained
+by the TECT adiabatic-invariant mechanism applied to that system.
+
+\textbf{Test system}: $^4$He superfluidity (transition at $T_\lambda = 2.17$ K).
+
+The quantization energy scale in $^4$He is the roton gap $\Delta_r \approx 8.65$ K (energy units). This roton arises from the
+Landau two-fluid model and is well-measured experimentally.
+
+\textbf{TECT prediction}: Under the adiabatic-invariant hypothesis, the roton gap should be related to the effective Planck constant via:
+\begin{equation}
+\Delta_r = \hbar_{\rm He} \times \omega_{\rm roton},
+\end{equation}
+where $\omega_{\rm roton}$ is a characteristic roton frequency (inverse time scale). The TECT formula predicts:
+\begin{equation}
+\hbar_{\rm He} = C \cdot \eta_{\rm top}^{(\rm He)} \times \rho_{\rm He} \times a_{\rm He}^3 \times \tau_{\rm PT}^{(\rm He)}.
+\end{equation}
+
+\subsubsection*{3.2 Falsification threshold}
+
+\textbf{Success criterion (S3)}: Measure or extract from literature the four parameters $(\eta_{\rm top}^{(\rm He)}, \rho_{\rm He}, a_{\rm He}, \tau_{\rm PT}^{(\rm He)})$ for $^4$He.
+
+- $\eta_{\rm top}^{(\rm He)}$: topological rigidity of the He superfluidity order parameter (analogue of the BCC $\eta_{\rm top}$). Extractable from the Landau dispersion relation or from comparison to the roton gap.
+- $\rho_{\rm He} \approx 145$ kg/m$^3$ (density of liquid $^4$He).
+- $a_{\rm He} \approx 3.6$ Å (inter-atomic spacing in liquid $^4$He).
+- $\tau_{\rm PT}^{(\rm He)} \sim 1 / T_\lambda \approx 0.46$ s (characteristic time scale of the transition; inverse of transition temperature in energy units).
+
+Compute $\hbar_{\rm He}^{\rm (predicted)} = C \times \eta_{\rm top}^{(\rm He)} \times \rho_{\rm He} \times a_{\rm He}^3 \times \tau_{\rm PT}^{(\rm He)}$.
+
+Compare with the empirical roton-gap scale:
+\begin{equation}
+\hbar_{\rm He}^{\rm (empirical)} = \Delta_r / \omega_{\rm roton} \approx (8.65 \text{ K}) / (2 \times 10^{11} \text{ Hz}) \approx 4 \times 10^{-12} \text{ eV} \cdot \text{s}.
+\end{equation}
+
+\textbf{Acceptance gate (S3)}: The predicted $\hbar_{\rm He}^{\rm (predicted)}$ should be within a factor of $\sim 2$ of the empirical roton scale (order-of-magnitude agreement is acceptable for a first test):
+\begin{equation}
+R_3 = \frac{\hbar_{\rm He}^{\rm (predicted)}}{\hbar_{\rm He}^{\rm (empirical)}} \in [0.5, 2.0].
+\end{equation}
+
+\textbf{Falsification threshold (FAIL-3)}: If $R_3 \notin [0.2, 5.0]$ (broader range to account for fundamental-physics differences between TECT and liquid $^4$He),
+the adiabatic-invariant prediction fails for known superfluid systems. This does not refute Pillar 10 outright (the TECT-specific BCC condensate might still be correct),
+but it significantly weakens the universality of the mechanism.
+
+\textbf{Status}: **PENDING LITERATURE REVIEW** (extraction of $\eta_{\rm top}^{(\rm He)}$ and $\tau_{\rm PT}^{(\rm He)}$ from Landau theory; Task #123).
+
+\subsection*{4. Devil's-advocate self-test (CLAUDE.md §6.3.1)}
+
+\subsubsection*{Objection α: Are the three tests truly independent?}
+
+\textbf{Objection}: All three tests use the same formula $\hbar = C \times (\text{product of four factors})$. If the formula is wrong,
+all three tests will fail together; there is no redundancy.
+
+\textbf{Response — DISMISSED with caveat}:
+- The three tests are independent in the sense that they probe different physical regimes: (F1) direct tabletop measurement, (F2) early-universe cosmology, (F3) known superfluid systems.
+- If the formula is wrong due to a systematic error in the derivation (e.g., a missing factor in dimensional analysis), all three tests would indeed fail together.
+- However, the formula itself was derived via four independent pathways (Kibble-Zurek, Volovik, Berry, Onsager-Machlup) which showed consensus.
+- Moreover, the four factors in the formula ($\eta_{\rm top}, \rho_{\rm cond}, a_{\rm BCC}^3, \tau_{\rm PT}$) are measured independently in each test.
+- If F1, F2, and F3 all pass, the confidence in the formula is high. If one test fails, the failure pinpoints which physical regime the formula breaks down in.
+
+\textbf{Conclusion**: Objection α DISMISSED. The three tests are not independent in the sense of testing independent formulas, but they
+are independent in the sense of probing independent physical regimes and measurement techniques.
+
+\subsubsection*{Objection β: What is the theoretical justification for the "acceptance gate" thresholds?}
+
+\textbf{Objection}: The thresholds $R_i \in [0.65, 1.30]$ for tests F1 and F2 seem arbitrary. Why not $[0.5, 2.0]$ or $[0.9, 1.1]$?
+The choice of acceptance criterion is crucial for falsification; if the threshold is too loose, the test is useless.
+
+\textbf{Response — VALID but DOCUMENTED}:
+- The threshold $R_i \in [0.65, 1.30]$ is chosen based on the four-pathway consensus $\bar{C} = 1.54 \pm 0.07$ from Math98-AddK.
+- The $2\sigma$ range for $C$ is $[1.40, 1.68]$, but we allow an additional $\pm 30\%$ margin to account for:
+  (i) Possible systematic errors in the four-pathway calculations (estimated $\sim 10\%$).
+  (ii) Higher-order corrections not included in the leading-order formula (estimated $\sim 10\%$).
+  (iii) Regime-dependent variations of the coefficient (e.g., dependence on quench rate, lattice structure).
+- Thus the acceptance gate $R_i \in [0.65, 1.30]$ corresponds to a $3\sigma$ or broader tolerance, which is appropriate for a first observational test.
+- A future tighter test (e.g., precision measurement) could reduce the tolerance to $\pm 10\%$, but that would require a higher-precision calculation of $C$ (currently not available).
+
+\textbf{Mitigation}: Objection β is VALID. The acceptance gate is a choice, not a derivation. It is documented here for transparency and can be refined as the theory matures.
+
+\subsubsection*{Objection γ: Does test F3 make sense, given that $^4$He is not a BCC condensate?}
+
+\textbf{Objection}: Test F3 tries to apply the TECT adiabatic-invariant formula to liquid $^4$He, which is a boson superfluid but not a BCC crystalline condensate.
+Is the formula even applicable to non-crystalline systems?
+
+\textbf{Response — VALID but DOCUMENTED as a *hypothesis test*}:
+- F3 is intentionally testing the *universality* of the adiabatic-invariant mechanism. If the formula is truly universal (as predicted by RG theory),
+  it should apply to any topological condensate, regardless of microscopic structure.
+- If F3 passes, it supports the universality hypothesis. If F3 fails, it suggests the mechanism is specific to BCC crystalline order and not universal.
+- The failure of F3 would not refute Pillar 10 (the TECT-specific BCC condensate might still be correct), but it would narrow the scope of the theory.
+
+\textbf{Mitigation**: Objection γ is VALID. F3 is a **universality test**, not a direct test of Pillar 10. It is important to distinguish this from F1 and F2.
+
+\subsection*{5. Summary table}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+\textbf{Test} & \textbf{Regime} & \textbf{Observable} & \textbf{Acceptance gate} & \textbf{Status} \\
+\hline
+F1 & Tabletop BCC & $\hbar_{\rm eff}$ from 4-param measurement & $R_1 \in [0.65, 1.30]$ & Planned (Task #124) \\
+F1-ALT & Numerical BCC & $\hbar_{\rm eff}$ from simulation & $R_1^{\rm (num)} \in [0.65, 1.30]$ & Planned (Task #124) \\
+F2 & Cosmological & $\hbar_{\rm cosmic}$ from Friedmann coupling & $R_2 \in [0.65, 1.30]$ & In progress (Task #121) \\
+F3 & Superfluid analogue & $\hbar_{\rm He}$ vs roton scale & $R_3 \in [0.2, 5.0]$ & Pending (Task #123) \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection*{6. Implications for TOE}
+
+The three falsification tests are **pre-registered** and operationalized. If all three pass, Pillar 10 would be promoted from **OPEN-NEGATIVE REFINED** to **PARTIAL-ADVANCED** or **NEAR-CLOSURE**.
+Failure of any one test would demote Pillar 10 to **REFUTED** for that specific regime, with implications for the universality of the theory.
+
+The explicit specification of these tests is a major contribution to the falsifiability of TECT, fulfilling the Stage-3 qualification requirement (Math60 §5 and Math61 Falsifiability Package).
+
+\subsection*{7. Next steps}
+
+1. **Task #121**: Complete Math98-AddG (Friedmann-Brazovskii coupling) to enable F2 test.
+2. **Task #123**: Extract $\eta_{\rm top}^{(\rm He)}$ from Landau theory and design F3 test.
+3. **Task #124**: Execute F1-ALT test on $N=128$ converged BCC solution (upon completion of Math55 continuation).
+4. **Task #125**: Compile F1, F2, F3 results and issue joint pass/fail verdict on Pillar 10.
+
+\end{document}

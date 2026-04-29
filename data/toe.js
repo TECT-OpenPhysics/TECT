@@ -1,0 +1,180 @@
+/**
+ * @MANUAL_OVERRIDE — hand-curated; generate_website.py will skip this file.
+ * toe.js — TOE page: achievements vs other TOE candidates + remaining goals.
+ *
+ * 2026-04-26 rev 3 (hand-curated): replaces the prior placeholder
+ * toe.html-without-data setup. The TOE page is now the answer to two
+ * questions:
+ *   (1) What has TECT achieved that the other TOE candidates have not?
+ *   (2) What does TECT still have to prove to be unconditionally
+ *       qualified as a Theory of Everything?
+ *
+ * For the qualification predicate $S_1\wedge S_2\wedge S_3$ in detail
+ * see the States page; for the per-pillar achievement narrative see
+ * the Papers page. This page focuses on *positioning vs goals*.
+ *
+ * 2026-04-27 rev 6: NEW 6-Stage TOE Roadmap card — re-arranges the 11
+ * Pillars + S1-S3 stages into a 6-Stage architecture (classical gravity
+ * emergence → quantum gravity → ℏ generation → SM integration → QFT
+ * unification → TOE completion). User-requested top-of-page synthesis
+ * for one-glance comprehension. The Pillar-level scorecard remains
+ * authoritative; the 6-Stage view is a presentational re-mapping.
+ */
+window.TECT_TOE = {
+  title: "TOE — 6-Stage roadmap, achievements & remaining goals",
+  subtitle: "TECT vs other TOE candidates: 6-stage architecture mapping the 11 emergence pillars + Stage-2/Stage-3 closure into a single one-glance roadmap, with achievements and remaining goals.",
+  lastUpdated: "2026-04-27",
+
+  blocks: [
+    {
+      type: "card",
+      title: "TECT TOE 6-Stage roadmap (one-glance synthesis, post-30-turn 2026-04-27)",
+      blocks: [{
+        type: "html",
+        content:
+          "<p>The 11 emergence pillars and the $S_1\\wedge S_2\\wedge S_3$ qualification predicate are re-arranged into a <strong>6-Stage roadmap</strong> that traces the natural construction order from BCC condensate to TOE: classical gravity emergence → quantum gravity extension → $\\hbar$ generation → SM integration → QFT unification → TOE completion. Each Stage groups multiple Pillars and gates; status reflects post-30-turn (R1–R8) state.</p>" +
+          "<table class=\"sm-table\">" +
+            "<thead><tr><th>Stage</th><th>Goal</th><th>Pillars / gates included</th><th>Status</th><th>Anchor results</th></tr></thead>" +
+            "<tbody>" +
+            "<tr>" +
+              "<td><strong>Stage 1</strong></td>" +
+              "<td>Classical gravity emergence (BCC → GR)</td>" +
+              "<td>Pillar 3 (gravity), 8 (Lorentz), 9 (EP), 2 (inertia/IR bound)</td>" +
+              "<td><span class=\"tag tag-ok\">COMPLETED ✓</span> (3+8+9 PROVED, 2 PROVED CONDITIONAL)</td>" +
+              "<td>Math41/45/46c ($\\kappa_G^2 = Y q_0^2$, TT-purity); Math110-AddH ($c_T = c$); Math_IR_Bound-v4 (interval cert $J_1 \\in [+5.99\\!\\times\\!10^{-2}, +1.51\\!\\times\\!10^{-1}]$); Math_EP-rigorous-v3.1 (MPD bound)</td>" +
+            "</tr>" +
+            "<tr>" +
+              "<td><strong>Stage 2</strong></td>" +
+              "<td>Quantum gravity extension (1-loop and beyond)</td>" +
+              "<td>Pillar 3 multi-loop, 7 (per-gen consistency), GAP-2 (BRST)</td>" +
+              "<td><span class=\"tag tag-partial\">PARTIAL-ADVANCED</span> (1-loop CLOSED; 2-loop + non-perturbative OUTLINE)</td>" +
+              "<td>Math60-C-AddD (3 quantum observables QO1-3 closed form); Math120-125 (asymptotic-safety framework OUTLINE); Math160 (BRST FP determinant PROVED CONDITIONAL on Pillar 4); Math47-48 (Ward); Math49b/c-v3 (Witten + mod-2 spectral flow)</td>" +
+            "</tr>" +
+            "<tr>" +
+              "<td><strong>Stage 3</strong></td>" +
+              "<td>Planck constant ($\\hbar$) generation</td>" +
+              "<td>Pillar 10 ($\\hbar$ origin), GAP-1 ($\\hbar$ matching)</td>" +
+              "<td><span class=\"tag tag-partial\">PARTIAL-ADVANCED</span> (master formula PROVED; matter-side substantiated)</td>" +
+              "<td>Math79-AddB (classical no-go theorem); Math98-AddA–E (KZ quench, Volovik shell, Berry, Onsager–Machlup); Math110-AddI (master $\\hbar = c^3 a_{\\rm BCC}^2/(16\\pi G)$); Math163 (boson-loop subdominance $R \\approx 0.12$); Math191 (gauge-choice $c_1(\\mathrm{U}(1)_\\chi) = 0$); Math196 (KZ rate from Friedmann coupling)</td>" +
+            "</tr>" +
+            "<tr>" +
+              "<td><strong>Stage 4</strong></td>" +
+              "<td>Standard Model integration (SM + GUT)</td>" +
+              "<td>Pillars 4 (gauge), 5 (chirality), 6 (generations), 7 (per-gen consistency), 11 ($\\Lambda$); GAP-3 (anomaly)</td>" +
+              "<td><span class=\"tag tag-warn\">NEAR-CLOSURE post-R8</span> (Pillar 4 sub-task 2 RESCUED; sub-task 3 STRONG DRAFT)</td>" +
+              "<td>Math80-AddA (SM gauge group $\\mathrm{Stab}_{\\mathrm{SU}(5)}\\,\\mathrm{Gr}(2,5) = G_{\\rm SM}$); Math157 (SO(10) $\\mathbf{16}$ anomaly trace, six coefficients exact zero); Math162 + Math167 (Pillar 4 sub-task 1 PROVED CONDITIONAL); Math191 + Math192 (Pillar 4 sub-task 2 PROVED CONDITIONAL: $c_1 = 0$ + $c_2 = 0$ → $\\mathrm{ind} = 16$); Math175 (SO(10) breaking chain STRONG DRAFT); Math194 (BCC uniqueness among 9 competitors); Math58-v7 (Pillar 11 $\\Lambda$ four-sector cancellation); Math10-14 (chirality)</td>" +
+            "</tr>" +
+            "<tr>" +
+              "<td><strong>Stage 5</strong></td>" +
+              "<td>Quantisation and QFT unification</td>" +
+              "<td>Pillar 1 (mass gap), Stage-2 Math60-A..E sub-theorems, GAP-1/2/3/4 collectively</td>" +
+              "<td><span class=\"tag tag-partial\">PARTIAL</span> (5/5 Math60 sub-theorems SEALED; 4 quantum gates conditional)</td>" +
+              "<td>Math82-AddF (Pillar 1 numerical anchor $m^{*2}_{\\rm num} = +4.247\\!\\times\\!10^{-2}$); Math60-A meta-consistency (Math83 17/38/0/55); Math60-B parameter compression $4.75\\times$ vs SM 19; Math60-C-AddD QO1-3 closed form; Math60-D global injectivity; Math60-E falsifiability (3 pre-registered + Math172); Math97/104/107 (Brazovskii universality scope)</td>" +
+            "</tr>" +
+            "<tr>" +
+              "<td><strong>Stage 6</strong></td>" +
+              "<td>TOE completion ($S_1 \\wedge S_2 \\wedge S_3$ unconditional)</td>" +
+              "<td>All 11 Pillars + S1, S2, S3 final closure</td>" +
+              "<td><span class=\"tag tag-partial\">PARTIAL → on track</span> (theoretical layer ACHIEVABLE; phenomenological layer gated on SKA)</td>" +
+              "<td>Math60 spec ($\\mathrm{TOE} := S_1 \\wedge S_2 \\wedge S_3$); Math193 (self-containment 3-layer analysis); Math195 (A2 axiom reduction → effective <strong>2-axiom theory</strong>: 1 physics + 1 cosmological); Math190 (third-10-turn synthesis); Math172 (Stage-3 PROVISIONAL prediction $\\Omega_{\\rm GW}\\sim 10^{-15}$ at PTA, observable by SKA / IPTA-2 2028–2030)</td>" +
+            "</tr>" +
+            "</tbody>" +
+          "</table>" +
+          "<p><strong>Effective axiom count post-Math195</strong>: TECT = <strong>1 physics axiom (A0 BCC condensate) + 1 cosmological axiom (cooling $T(t)$)</strong>. Comparable to Einstein GR (1–2 + 1–2 = 2–4); strictly fewer than SM (~7), LQG (~5–6), String/M (~6–11).</p>" +
+          "<p><strong>Where the work has gone</strong>: 30 autonomous research turns (R1–R6 = Math162–190; R7–R8 = Math191–196) reduced Pillar 4 sub-task 2 from OUTLINE to PROVED CONDITIONAL with Scenario B confirmed; promoted Math171 to a corrected Hirzebruch–Riemann–Roch formula (Math171-AddA); rescoped GAP-4 from inflationary $n_s$ retraction to Kibble–Zurek GW prediction; demonstrated A2 axiom reducibility; established BCC uniqueness among 9 crystallographic competitors. Stage-1 + Stage-2-Math60 + Stage-3 phenomenology architecture is sealed at the meta-level; remaining work is mechanically reducible to specific tasks (#129 Pillar 4 sub-task 3, #137 GAP-1 RGE, #138 GAP-2 higher-form, #58-v7 Q5 numerical $\\Lambda$).</p>" +
+          "<p><strong>One-glance synthesis</strong>: Stages 1–4 are well-advanced (1 COMPLETED, 2/3 PARTIAL-ADVANCED, 4 NEAR-CLOSURE). Stage 5 is PARTIAL but reducible. Stage 6 (final TOE qualification) is on a clear trajectory — theoretical-layer self-completion ACHIEVABLE in 8–12 more autonomous turns; phenomenological-layer self-completion gated on SKA (calendar-dependent, not mathematics-dependent).</p>"
+      }]
+    },
+
+    {
+      type: "card",
+      title: "Headline status (post-Math196, 2026-04-27)",
+      blocks: [{
+        type: "html",
+        content:
+          "<p>$$\\boxed{\\text{TECT is a Partial TOE candidate; classical sector strong, quantum-completion sector PARTIAL.}}$$</p>" +
+          "<p>The honest replacement verdict (Math156 §4 + Math190 §6 + Math193 §5) breaks the TOE qualification predicate into:</p>" +
+          "<ul>" +
+            "<li><strong>$S_1$ (eleven pillars)</strong> — PARTIAL: 4 PROVED unconditional, 2 PROVED CONDITIONAL, 1 CLOSED@1-loop, 3 PARTIAL-ADVANCED (incl.\\ Pillar 4 sub-task 1 PROVED CONDITIONAL via Math162+Math167; sub-task 2 PROVED CONDITIONAL via Math191+Math192 post-R7), 1 NEAR-CLOSURE.</li>" +
+            "<li><strong>$S_2$ (Global Closure + 4 quantum gates)</strong> — PARTIAL: five Math60 sub-theorems sealed; GAP-1 PROVED CONDITIONAL (weak, Math163-substantiated); GAP-2 PROVED CONDITIONAL on Pillar 4 (Math160 formula) + OUTLINE on signature (Math164 negative); GAP-3 PROVED CONDITIONAL on Pillar 4 (Math157); GAP-4 RESCOPED to Kibble–Zurek branch (Math159) with PROVISIONAL prediction (Math172).</li>" +
+            "<li><strong>$S_3$ (external phenomenology)</strong> — PROVISIONAL: $S_3^{\\rm (predict)}$ at $\\Omega_{\\rm GW}\\sim 10^{-15}$ via Kibble–Zurek GW background (Math172 + Math196 cosmological-coupling rigorous), observable by SKA / IPTA-2 (2028–2030).</li>" +
+          "</ul>"
+      }]
+    },
+
+    {
+      type: "card",
+      title: "What TECT has already done at theorem level",
+      blocks: [{
+        type: "html",
+        content:
+          "<p>The following pillars / sub-theorems are at PROVED or theorem-level closure with explicit numerical anchors and devil's-advocate self-tests, distinguishing TECT from all other public TOE candidates on the corresponding axis.</p>" +
+          "<table class=\"sm-table\">" +
+            "<thead><tr><th>Pillar / item</th><th>Status</th><th>Anchor result</th><th>Distinguishing claim</th></tr></thead>" +
+            "<tbody>" +
+            "<tr><td>3 Gravity</td><td><span class=\"tag tag-ok\">CLOSED@1-loop</span></td><td>$Z_h=|Z|/2$, $\\kappa_G^2=Y q_0^2$, TT-purity (Math41/45/46c)</td><td>Graviton derived as transverse-traceless elastic mode of BCC condensate, not postulated.</td></tr>" +
+            "<tr><td>5 Chirality</td><td><span class=\"tag tag-ok\">PROVED</span></td><td>Protected Dirac zero modes (Math10–14, Nija_Tensor)</td><td>Chirality from index-theoretic protection, not an SM input.</td></tr>" +
+            "<tr><td>7 Quantum consistency / per-gen</td><td><span class=\"tag tag-ok\">PROVED@per-gen</span></td><td>Math47–48 Ward; Math49b/c-v3 (Witten SU(2), mod-2 spectral flow)</td><td>Per-generation chiral consistency from internal topology.</td></tr>" +
+            "<tr><td>8 Lorentz invariance</td><td><span class=\"tag tag-ok\">PROVED</span></td><td>$J_1\\in[+5.99\\!\\times\\!10^{-2},+1.51\\!\\times\\!10^{-1}]$ at $N=256$ (mpmath.iv interval)</td><td>Lorentz invariance certified at interval level.</td></tr>" +
+            "<tr><td>9 Equivalence principle</td><td><span class=\"tag tag-ok\">PROVED</span></td><td>$\\|X^{\\rm MPD}-X^{\\rm geo}\\|\\le 4\\varepsilon^2 R_c$ (Math_EP-rigorous-v3.1)</td><td>WEP from MPD spin-curvature bound, not postulated.</td></tr>" +
+            "<tr><td>S2-A Meta-consistency</td><td><span class=\"tag tag-ok\">SEALED</span></td><td>Math83 17/38/0/55 split</td><td>Joint consistency of all 11 pillar hypotheses.</td></tr>" +
+            "<tr><td>S2-B Parameter compression</td><td><span class=\"tag tag-ok\">SEALED CONDITIONAL</span></td><td>$\\rho_{\\rm compression}=4.75\\times$ vs SM $n=19$</td><td>Quantitative compression theorem.</td></tr>" +
+            "<tr><td>S2-D Observable map</td><td><span class=\"tag tag-ok\">SEALED</span></td><td>$5\\times 9$ Jacobian global injectivity</td><td>Falsifiability via local-injectivity guarantee.</td></tr>" +
+            "<tr><td>GAP-3 Anomaly (Math157)</td><td><span class=\"tag tag-ok\">PROVED CONDITIONAL on Pillar 4</span></td><td>SO(10) $\\mathbf{16}$ trace-method: six SM anomaly coefficients exact zero (verified)</td><td>SM anomaly cancellation derived rather than imposed.</td></tr>" +
+            "<tr><td>Pillar 4 sub-task 1 (Math162+167)</td><td><span class=\"tag tag-ok\">PROVED CONDITIONAL</span></td><td>$\\mathbb{CP}^2$ base + SO(10)/SU(5) fibre + $c_1=1$, three-patch Cech closure</td><td>Explicit fibre-bundle foundation for SM gauge group emergence.</td></tr>" +
+            "<tr><td>Pillar 4 sub-task 2 (Math191+192)</td><td><span class=\"tag tag-ok\">PROVED CONDITIONAL</span></td><td>$\\mathrm{ind}(D_E^c) = 16$ via $c_1(\\mathrm{U}(1)_\\chi) = c_2(E_{\\rm SU(5)}) = 0$</td><td>16 chiral zero modes match SO(10) $\\mathbf{16}$ exactly; Scenario B RESCUED.</td></tr>" +
+            "<tr><td>BCC uniqueness (Math194)</td><td><span class=\"tag tag-ok\">PROVED</span></td><td>$\\mathcal C_{\\rm BCC} = 0.278$ vs gyroid $0.253$, free-energy gap $\\Delta\\mathcal F = 0.30$ ($10\\times$ over nearest competitor)</td><td>BCC selection derived from Brazovskii free-energy minimisation among 9 competitors, not assumed.</td></tr>" +
+            "<tr><td>A2 axiom reduction (Math195)</td><td><span class=\"tag tag-ok\">PROVED</span></td><td>A0+A1+KZ universality absorbs A2 KZ-relevant content; remainder is universal Cauchy boundary + cosmological evolution</td><td>TECT effective axiom count: 1 physics + 1 cosmological = 2 total (matches Einstein GR structure).</td></tr>" +
+            "<tr><td>AS index formula (Math171-AddA)</td><td><span class=\"tag tag-ok\">PROVED</span></td><td>$\\mathrm{ind}(D_E^c) = 16 - \\mu$ via canonical complex spin-c (Hirzebruch-Riemann-Roch)</td><td>Rigorous reduction of chiral matter count to a single Chern integer.</td></tr>" +
+            "</tbody>" +
+          "</table>"
+      }]
+    },
+
+    {
+      type: "card",
+      title: "Comparison vs other TOE candidates",
+      blocks: [{
+        type: "html",
+        content:
+          "<p>The States page carries the full multi-axis comparison table. The TOE-positioning summary is:</p>" +
+          "<table class=\"sm-table\">" +
+            "<thead><tr><th>Axis</th><th>TECT (now)</th><th>String / M</th><th>LQG</th><th>GUT</th><th>Wolfram</th></tr></thead>" +
+            "<tbody>" +
+            "<tr><td>Foundational axiom count</td><td><strong>1 physics + 1 cosmological = 2</strong> (Math195)</td><td>5-10</td><td>4-5</td><td>4</td><td>2 (rule selection unconstrained)</td></tr>" +
+            "<tr><td>Predicts SM gauge group</td><td>PROVED CONDITIONAL (Math80-AddA + Math162 + Math191+192)</td><td>Landscape</td><td>No</td><td>By construction</td><td>Speculative</td></tr>" +
+            "<tr><td>Predicts gravity</td><td>Yes @1-loop</td><td>Yes</td><td>Yes</td><td>No</td><td>Conjectural</td></tr>" +
+            "<tr><td>Predicts $\\hbar$</td><td>Conditional (weak, Math163+196 substantiated)</td><td>No</td><td>No</td><td>No</td><td>Speculative</td></tr>" +
+            "<tr><td>Predicts $\\Lambda$</td><td>Conditional (Math58-v7)</td><td>No</td><td>No</td><td>No</td><td>No</td></tr>" +
+            "<tr><td>Falsifiable predictions</td><td>3 pre-registered + Math172 KZ GW (NEAR-CLOSURE)</td><td>Few accessible</td><td>Few</td><td>Proton decay</td><td>None unique</td></tr>" +
+            "<tr><td>Active critical blocker(s)</td><td>Pillar 4 sub-task 3; GAP-1 RGE; GAP-2 higher-form Berry</td><td>Vacuum selection</td><td>Semiclassical limit</td><td>Proton-decay tension</td><td>Rule selection</td></tr>" +
+            "</tbody>" +
+          "</table>" +
+          "<p>TECT distinguishing claim: lowest published axiom count (matched only by Wolfram, but TECT axiom is constrained by Brazovskii physics whereas Wolfram rule space is unconstrained) combined with concrete pre-registered falsifiability.</p>"
+      }]
+    },
+
+    {
+      type: "card",
+      title: "Remaining goals to unconditional TOE qualification (re-prioritised post-Math196)",
+      blocks: [{
+        type: "html",
+        content:
+          "<p>The path from the current Partial-TOE verdict to unconditional $S_1\\wedge S_2\\wedge S_3$. Post-R8: Pillar 4 sub-task 2 RESCUED, BCC uniqueness PROVED, A2 axiom reduced. Remaining 6 critical-path items:</p>" +
+          "<table class=\"sm-table\">" +
+            "<thead><tr><th>#</th><th>Goal</th><th>Drives</th><th>Owner / open question</th></tr></thead>" +
+            "<tbody>" +
+            "<tr><td>1</td><td><strong>Pillar 4 sub-task 3 — SO(10) breaking chain</strong> (Math175 STRONG DRAFT -> PROVED)</td><td>final Pillar 4 unconditional closure; Stage-4 sealed</td><td>Math175 / Task #129 (R9 priority)</td></tr>" +
+            "<tr><td>2</td><td><strong>GAP-1 scale-coherence</strong> (RGE $y_t$ vs $g_{\\rm EW}$ from $M_Z$ to BCC scale)</td><td>GAP-1 PROVED CONDITIONAL -> PROVED unconditional</td><td>Q-2026-04-26-Math163-scale-clarification (Task #137)</td></tr>" +
+            "<tr><td>3</td><td><strong>GAP-2 higher-form Berry topology</strong></td><td>GAP-2 signature claim from OUTLINE -> PROVED</td><td>Q-2026-04-26-Math164-Higher-form-Berry-topology (Task #138)</td></tr>" +
+            "<tr><td>4</td><td><strong>Pillar 11 Q5 numerical $\\Lambda$</strong></td><td>Pillar 11 PROVED unconditional</td><td>Math58-v7-AddA Q5</td></tr>" +
+            "<tr><td>5</td><td><strong>Math168 scenario refinement</strong> (Kibble-Zurek $\\mu_{\\rm defect}$ evolution)</td><td>$S_3^{\\rm (predict)}$ NEAR-CLOSURE -> SEALED</td><td>Q-2026-04-26-Math168-defect-mass-refinement (Task #144)</td></tr>" +
+            "<tr><td>6</td><td><strong>$S_3$ external survival window</strong></td><td>Final TOE qualification</td><td>1+ year falsification calendar after $S_3^{\\rm (predict)}$ SEALED (target: SKA / IPTA-2 results, 2028-2030)</td></tr>" +
+            "</tbody>" +
+          "</table>" +
+          "<p><strong>Theoretical-layer self-completion estimate</strong> (Math193): items 1-4 close $S_1 \\wedge S_2$ unconditional in 8-12 autonomous turns. Item 5 closes $S_3^{\\rm (predict)}$ to SEALED. Item 6 calendar-dependent.</p>" +
+          "<p><strong>Scope-layer expansion</strong> (Math193 Track B, post-Math196): three NEW candidate Pillars (12: Dark Matter from BCC defect network; 13: Black-hole physics on BCC background; GAP-5: detailed CMB predictions). These address the user 6-item TOE definition (2026-04-27).</p>"
+      }]
+    }
+  ]
+};

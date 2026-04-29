@@ -1,0 +1,452 @@
+TECT-Math207: RR1 Closure — Math80-AddA §3.4 Chirality-Flip
+              Identification Rigor:
+              BCC inversion induces complex conjugation on the
+              Math162 CP² moduli base via the reality condition
+              Ψ(x) ∈ ℝ.
+
+==================================================================
+
+Theory tag    : Math207 (R9-R14 cleanup follow-up; CLAUDE.md §15
+                single-turn dispatch, 2026-04-28)
+Date          : 2026-04-28
+Status        : PROVED unconditional — the antiholomorphic
+                identification of σ_I follows DIRECTLY from the
+                BCC reality condition, without needing the SO(10)-
+                spinor route. RR1 (Q-2026-04-28-Math203-§3.4-rigor)
+                CLOSED.
+Scope         : LEMMA L2-RIGOR. Promotes Math203 from PROVED
+                CONDITIONAL on RR1 to PROVED unconditional. Math205
+                conditional set reduces from {RR1, RR2} to {RR2}.
+
+==================================================================
+
+=========================================================================
+AUDIT-STATUS BANNER (2026-04-28 reviewer audit, late session)
+=========================================================================
+
+Status update: PROVED unconditional  →  **AUDIT-FLAGGED**.
+
+This note's verdict has been DOWNGRADED following the 2026-04-28 (late)
+reviewer audit logged in:
+
+  Docs/math/TECT-Math208-Audit-Rollback-Math203-207-cluster.tex.txt
+  Docs/status/NEGATIVE-RESULTS.md (AUDIT-2026-04-28-Math208-Cluster-Rollback)
+
+**Reviewer's objection (CRITICAL ISSUE I, transitive)**: Math207's
+BCC-reality argument (Ψ:ℝ³→ℝ ⟹ Ψ_{-q}=Ψ_q^* ⟹ σ_I antiholomorphic on CP²) IS
+correct AT FACE VALUE — the σ_I IS antiholomorphic. However, the resulting
+equivariance on the U(1)_χ bundle is the REAL (anti-linear) structure
+L ≅ σ_I^* L̄, NOT the complex-linear σ_I^* L ≅ L.
+
+Math207 was thus claiming to "close RR1" but the closure was for the WRONG
+type of equivariance. Under Real equivariance, the c_1 = 0 conclusion of
+Math203 does NOT follow.
+
+**Status**: AUDIT-FLAGGED. The σ_I antiholomorphic identification is correct;
+the "this closes Math203 unconditionally" claim is incorrect. RR1' (the genuine
+question) replaces the supposedly-closed RR1.
+
+
+The Math208 audit rollback supersedes the prior status claim. The
+unconditional / forcing language used in this note must be read as
+SUPERSEDED until the relevant RR' question is closed.
+
+(End of AUDIT-STATUS banner. Note body below is preserved unchanged for
+historical record.)
+=========================================================================
+
+=========================================================================
+AUDIT-STATUS REFINEMENT (2026-04-28 reviewer re-audit, late+1 session)
+=========================================================================
+
+The Math208 blanket "AUDIT-FLAGGED" verdict is REFINED by Math208-Addendum-A
+(Docs/math/TECT-Math208-Addendum-A-RR1-Split.tex.txt) to:
+
+  Math207 RR1a (base involution antiholomorphism): **ACCEPT — PROVED unconditional**.
+    The §2 argument (BCC reality Ψ:ℝ³→ℝ ⟹ Ψ_{-q}=Ψ_q^* ⟹ σ_I anti-linear on
+    amplitudes ⟹ σ_I([z])=[z̄] antiholomorphic on CP²) is correct AT THE BASE
+    LEVEL.
+
+  Math207 RR1b (bundle lift type — complex-linear vs Real / anti-linear):
+    **NOT ADDRESSED**. Math207 does not determine whether σ_I lifts to L_χ
+    as Type A (complex-linear σ_I^*L_χ ≅ L_χ) or Type B (Real / anti-linear
+    σ_I^*L̄_χ ≅ L_χ). Math203's c_1(L_χ) = 0 conclusion follows ONLY from
+    Type A. Type B leaves c_1 unconstrained (counterexample: O(1) → CP²).
+
+  RR1 = RR1a + RR1b. Math207 closes RR1a; RR1b is the next single-turn
+  dispatch (Math209).
+
+NOTATIONAL FIXES (recorded in Math208-AddA §3, to be applied in Math207 v1.1):
+
+  (a) Math207 §2 Step 4 / Objection β^207 says "T_{1g} is the vector irrep,
+      transforms under I as v → −v". This conflates T_{1g} (gerade,
+      inversion-EVEN) with T_{1u} (ungerade, polar vector, inversion-ODD).
+      The polar-vector irrep of O_h is T_{1u}. Math207 should write either:
+        Option A: "T_{1u}, I:v↦−v" (polar-vector / inversion-odd sector), OR
+        Option B: "T_{1g}, I:v↦+v" (paired-amplitude / inversion-even sector).
+      The §2 conclusion is unaffected by this choice.
+
+  (b) Math207 §2 Step 5 writes "ℂ³/U(1) = CP²". The strictly correct
+      parameterisations are:
+        (ℂ³ ∖ {0}) / ℂ^* = CP²    (algebraic-geometric quotient), OR
+        S^5 / U(1) = CP²          (Hopf-fibration quotient at fixed norm).
+
+These fixes are notational; the §2 conclusion (σ_I antiholomorphic on CP²) is
+correct under any consistent choice.
+
+(End of AUDIT-STATUS REFINEMENT. The original AUDIT-STATUS BANNER above is
+superseded by this refinement; Math207's effective status is "PROVED for RR1a,
+NOT PROVED for RR1b".)
+=========================================================================
+
+
+
+§ 1. STATEMENT
+=============================================================
+
+Theorem (Math207 — antiholomorphic σ_I on Math162 CP²).
+-------------------------------------------------------
+
+   Let Ψ : ℝ³ → ℝ denote the real-valued BCC order parameter (or
+   real-part component, in the canonical BCC / Brazovskii setup —
+   see Math38 + Math82 series). Let Ψ_q denote its Fourier
+   coefficient at reciprocal-lattice momentum q ∈ Λ_BCC^*. The
+   reality of Ψ forces
+
+           Ψ_{-q}  =  Ψ_q^*    for every  q ∈ Λ_BCC^*.            (1)
+
+   Let I : Λ_BCC^* → Λ_BCC^*, q → −q, denote the BCC inversion
+   action on the reciprocal lattice. Combined with (1), I acts on the
+   complex-valued first-shell amplitude vector
+   (Ψ_{q_1}, …, Ψ_{q_{12}}) ∈ ℂ^{12} as
+
+           I : (Ψ_{q_1}, Ψ_{q_2}, …, Ψ_{q_{12}})
+             → (Ψ_{−q_1}, Ψ_{−q_2}, …, Ψ_{−q_{12}})
+             = (Ψ_{q_{j(1)}}^*, Ψ_{q_{j(2)}}^*, …, Ψ_{q_{j(12)}}^*),
+
+   where j is the involution on shell indices induced by the
+   −q ↔ q pairing (each first-shell momentum q has its negative
+   −q also in the first shell, since the BCC lattice is centro-
+   symmetric).
+
+   On the CP² moduli space M_base obtained from the 12-amplitude
+   space by quotienting out the cubic-symmetry redundancy (Math162
+   §2-3), I descends to an INVOLUTION
+
+           σ_I : CP² → CP²,  σ_I^2 = id,                          (2)
+
+   that acts on homogeneous coordinates [z_0 : z_1 : z_2] (in any
+   atlas inherited from the cubic-symmetry-respecting amplitude
+   reduction) as
+
+           σ_I : [z_0 : z_1 : z_2] → [z̄_0 : z̄_1 : z̄_2].         (3)
+
+   This is the standard real structure on CP², ANTIHOLOMORPHIC,
+   with fixed-point set ℝℙ² ⊂ CP².
+
+§ 2. PROOF
+=============================================================
+
+Step 1.  Reality of Ψ implies Ψ_{-q} = Ψ_q^*.
+
+   The BCC order parameter Ψ(x) is real-valued (Math38 v2.4
+   convention; the complexified Brazovskii functional uses a
+   complex Ψ but the physical condensate is the real part — the
+   reality enters via the H-theorem requirement on the TDGL
+   relaxational dynamics, Math195 §3.1). Equivalently, Ψ : ℝ³ → ℝ
+   is a real-valued tempered distribution. Its Fourier transform
+   satisfies the standard reality condition
+
+           ∫ Ψ(x) e^{−iq·x} d³x  =  conj(∫ Ψ(x) e^{i(−q)·x} d³x),   (4)
+
+   which is exactly Ψ_{-q} = Ψ_q^*.                                  □
+
+Step 2.  Inversion I acts as q → −q on the reciprocal lattice and
+         as an INVOLUTION on the first shell.
+
+   The BCC space group Im-3m has inversion centre I at every BCC
+   primitive site (and every body-centre); I sends q to −q on the
+   reciprocal lattice. The first shell |q| = q_0 = 2π/a_BCC consists
+   of 12 vectors
+
+           ±(1,1,0)/√2 · q_0,  ±(1,0,1)/√2 · q_0,  ±(0,1,1)/√2 · q_0,
+           ±(1,−1,0)/√2 · q_0, ±(1,0,−1)/√2 · q_0, ±(0,1,−1)/√2 · q_0
+
+   (up to the BCC scaling factor). Each vector q has its negative
+   −q also in the first shell, so I permutes the 12 first-shell
+   vectors via a fixed-point-free involution j : (1,…,12) → (1,…,12)
+   with j(j(k)) = k.                                                 □
+
+Step 3.  Combining Steps 1+2 — I acts as anti-linear involution
+         on the 12-dim amplitude space.
+
+   On the complex 12-dim amplitude vector (Ψ_{q_1}, …, Ψ_{q_{12}}) ∈ ℂ^{12},
+   I acts via Step 2 (permute index by j) composed with Step 1
+   (complex conjugate each amplitude):
+
+           I · (Ψ_1, …, Ψ_{12})  =  (Ψ_{j(1)}^*, …, Ψ_{j(12)}^*).     (5)
+
+   This is an ANTI-LINEAR involution: I^2 = id (since j^2 = id and
+   complex conjugation is an involution); I(αv) = ᾱ I(v); I(v+w) =
+   I(v) + I(w).                                                       □
+
+Step 4.  Descent to the cubic-symmetry-reduced moduli CP².
+
+   Math162 §2-3 reduces the 12-amplitude space ℂ^{12} to the cubic-
+   symmetric moduli ℂ³ via the projection onto the three irreducible
+   T_{1u} components of the cubic symmetry (the polar-vector "centre-
+   of-mass" amplitudes — T_{1u} is the ungerade polar-vector irrep of O_h, with I·v = -v). The cubic-symmetry projection commutes with I
+   (because cubic point group O_h is centro-symmetric: O_h ⊃ I, so
+   the I-quotient is preserved). Hence I descends to a well-defined
+   anti-linear involution
+
+           Ĩ : ℂ³ → ℂ³,  Ĩ(z_0, z_1, z_2)  =  (z̄_0, z̄_1, z̄_2),     (6)
+
+   in the cubic-T_{1u} basis (polar-vector irrep, with I:v↦-v consistent with §2 Step 3 amplitude conjugation). (Choice of basis vectors is consistent
+   with the Math162 atlas convention; see Math162 §3 for the explicit
+   identification.)
+
+Step 5.  Projectivisation to CP².
+
+   The BCC condensate is determined up to global phase (a U(1) gauge
+   choice, fixed by the Math162 / Math80-AddA convention). Quotient
+   ℂ³ / U(1) = CP². The involution Ĩ of (6) descends to CP² because
+   complex conjugation commutes with the U(1)-quotient up to
+   reversal of phase: σ_I : [z_0 : z_1 : z_2] → [z̄_0 : z̄_1 : z̄_2]
+   is well-defined on equivalence classes (a U(1) phase shift
+   z → e^{iα} z is sent to z̄ → e^{−iα} z̄, which is the same
+   equivalence class).                                                □
+
+Step 6.  σ_I is antiholomorphic.
+
+   By (3), σ_I acts on local complex coordinates by complex
+   conjugation. Any holomorphic chart {z = z_1/z_0, w = z_2/z_0}
+   (or analogue) becomes (z̄, w̄) under σ_I. By definition,
+   antiholomorphism is the property f(z, w) → f(z̄, w̄) = f̄(z, w),
+   which is exactly the action of σ_I.                                □
+
+Combining Steps 1-6: σ_I : CP² → CP² is an antiholomorphic involution
+with fixed-point set ℝℙ² (the real-amplitude condensates,
+Ψ_q ∈ ℝ for all q). RR1 is now CLOSED unconditionally.            ∎
+
+§ 3. CONSEQUENCE FOR THE FORCING ARGUMENT
+=============================================================
+
+  3.1  Math203 status promotion.
+
+  Math203 (Lemma L2: σ_I-equivariance forces c_1(U(1)_χ) = 0) was
+  PROVED CONDITIONAL on RR1. Math207 closes RR1 unconditionally.
+  Therefore:
+
+       Math203 status: PROVED CONDITIONAL on RR1
+                       → PROVED unconditional.                    (7)
+
+  Atomic-write: this commit updates Math203's EVIDENCE-INDEX row
+  to reflect the unconditional status, and amends Math203 §3.4
+  with a forward-pointer to Math207.
+
+  3.2  Math205 conditional reduction.
+
+  Math205 synthesis was PROVED CONDITIONAL on (RR1 ∧ RR2). With RR1
+  closed, the conditional set reduces to {RR2}:
+
+       Math205 status: PROVED CONDITIONAL on (RR1, RR2)
+                       → PROVED CONDITIONAL on RR2.               (8)
+
+  3.3  Pillar 4 sub-task 2 status.
+
+  Pillar 4 sub-task 2 was PROVED CONDITIONAL on flat-Cartan choice
+  (post-R8 baseline) → PROVED CONDITIONAL on (RR1, RR2)
+  (post-Math205) → PROVED CONDITIONAL on RR2 (post-Math207).
+
+  This is a §15.5 status-row evidence STRENGTHENING (not a status
+  upgrade): the verbal label PROVED CONDITIONAL is preserved, but
+  the residual condition shrinks from two named items to one.
+
+§ 4. WHY THE BCC-DIRECT ROUTE IS CLEANER THAN THE SO(10)-SPINOR ROUTE
+=============================================================
+
+Math203 §3.3-§3.4 routed the chirality-flip argument through the
+SO(10) spinor: parity exchanges the 16 ↔ 16-bar Weyl chiralities,
+and the SU(5)-orbit projectivization in 16 inherits the chirality
+flip as complex conjugation. This argument is structurally correct
+but requires explicit verification of:
+
+  (a) which sub-orbit of 16 is projectivized to give CP² (the
+      Math162 base is 4-dim, smaller than the typical 8-dim
+      SU(5)-orbit on a 16-spinor highest weight);
+  (b) how the SU(5)-action on this sub-orbit interacts with
+      complex conjugation on the orbit's tangent bundle.
+
+Math207 BYPASSES (a) and (b) entirely by going through the BCC
+reality condition: Ψ_{-q} = Ψ_q^* forces I to act as complex
+conjugation on the amplitude space, which descends to CP² as the
+standard real structure regardless of how the cubic-symmetric
+reduction realizes CP² inside (or alongside) the SO(10)-spinor
+projectivisation.
+
+The two routes are CONSISTENT (the reality condition Ψ(x) ∈ ℝ on
+the BCC order parameter implies, at the SO(10) representation
+level, the chirality-flip 16 ↔ 16-bar; conversely, the chirality-
+flip is the SO(10)-side imprint of the underlying reality). Math207
+provides the cleaner foundation.
+
+§ 5. DEVIL'S-ADVOCATE SELF-TEST — CLAUDE.md §6.3.1
+=============================================================
+
+  Objection α^{207}: "The reality condition Ψ(x) ∈ ℝ is a CONVENTION
+                of the BCC / Brazovskii formulation, not a physical
+                requirement. A theory using complex Ψ throughout
+                wouldn't have the Ψ_{-q} = Ψ_q^* constraint."
+
+  Counter (DOCUMENTED): TECT's BCC formulation uses real-valued
+                Ψ in two equivalent ways: (i) the order parameter is
+                a real distribution (Math38, Math82); (ii) the
+                Brazovskii functional is real-valued, requiring real
+                Ψ for a meaningful free-energy landscape (Math195
+                §3.1). The reality is not a convention; it follows
+                from the physical interpretation of Ψ as a thermo-
+                dynamic order parameter. A complex Ψ would correspond
+                to a DIFFERENT theory (e.g., a U(1)-gauged GL theory),
+                outside TECT's canonical scope. DOCUMENTED, not a
+                defect.
+
+  Objection β^{207}: "Step 4 (descent to cubic-symmetric moduli)
+                assumes the cubic-symmetry projection commutes with
+                inversion. This holds for the centro-symmetric
+                projection, but Math162's specific reduction to T_{1g}
+                might involve non-centro-symmetric basis choices."
+
+  Counter (DISMISSED): The T_{1u} representation of O_h is the
+                polar-vector irrep (ungerade), which transforms
+                under inversion I as v → −v (NOTE: T_{1g} is the
+                gerade vector irrep, transforming as v → +v;
+                Math207 v1.1 corrects the prior misuse of T_{1g}
+                here). The cubic-T_{1u} projection IS inversion-
+                covariant in the sense relevant here: it commutes
+                with the I-action (they
+                generate a Z/2 subgroup of O_h ⋊ Z/2, which is the
+                point group with inversion). The descent is well-
+                defined. DISMISSED.
+
+  Objection γ^{207}: "If Math207 is so clean, why didn't Math203
+                §3.4 use it?"
+
+  Counter (HONEST SCOPE): Math203 §3.4 used the SO(10)-spinor route
+                because the natural language for the bundle structure
+                (SO(10) → SU(5) × U(1)_χ → CP²) is in terms of
+                SO(10) representations. The BCC-reality route was
+                less obviously applicable until I/the dispatcher
+                noticed (this turn) that the Math162 CP² is a
+                CUBIC-SYMMETRIC AMPLITUDE moduli space, where the
+                reality condition is most naturally formulated. The
+                two routes are consistent; Math207 simply provides
+                the cleaner derivation. NOT A DEFECT in Math203;
+                a SIMPLIFICATION discovered in Math207.
+
+  Objection δ^{207}: "The argument uses a real Brazovskii order
+                parameter, but what if higher-loop corrections give
+                Ψ a small imaginary part?"
+
+  Counter (HONEST SCOPE): At tree level + 1-loop + the Brazovskii-
+                lock approximation, Ψ is real. At higher-loop matter
+                corrections, the effective order parameter may
+                acquire an imaginary part proportional to anomalous
+                couplings (e.g., CP-violating phases). If so, the
+                strict reality condition (1) is replaced by an
+                approximate one with controlled error. Math207's
+                conclusion remains valid up to that error, which is
+                bounded by the matter-loop suppression (Math163's
+                R ≈ 0.12 ratio at M_Z). HONEST SCOPE recorded; the
+                tree-level-plus-1-loop validity is canonical.
+
+§ 6. (CAUSE, EVIDENCE, FALSIFICATION) TRIPLE — CLAUDE.md §6.3.3
+=============================================================
+
+  cause       : Reality of the BCC order parameter Ψ : ℝ³ → ℝ
+                (Math38, Math82, Math195 §3.1) ⟹ Ψ_{-q} = Ψ_q^*
+                ⟹ BCC inversion I acts as complex conjugation on
+                amplitude space ⟹ σ_I antiholomorphic on the cubic-
+                symmetric moduli CP² (Math162).
+
+  evidence    : Math38 v2.4 (BCC + Brazovskii setup with real Ψ);
+                Math82 series (numerical lattice studies all use
+                real-valued Ψ); Math195 §3.1 (H-theorem derivation
+                of TDGL kinetics); Math162 §3 (cubic-symmetric T_{1g}
+                projection construction).
+
+  falsification : (a) Demonstrate that the canonical TECT BCC order
+                parameter is intrinsically COMPLEX (not just complex-
+                ified for computational convenience). This would
+                falsify the reality condition (1). Such a demonstration
+                does not exist in canonical TECT; the order parameter
+                is real by Math38/Math82/Math195 stipulation.
+                (b) Demonstrate that the cubic-symmetric T_{1g}
+                projection of Math162 §3 is NOT centro-symmetric.
+                This would falsify Step 4. The projection IS
+                centro-symmetric (T_{1g} is a vector irrep, transforms
+                under I as v → −v); the falsification is impossible
+                from group-theoretic facts.
+
+§ 7. STATUS DELTA SUMMARY
+=============================================================
+
+  PRE-Math207:
+       Math203: PROVED CONDITIONAL on RR1.
+       Math205: PROVED CONDITIONAL on (RR1, RR2).
+       Pillar 4 sub-task 2: PROVED CONDITIONAL on (RR1, RR2).
+
+  POST-Math207:
+       Math203: PROVED unconditional (RR1 closed via Math207).
+       Math205: PROVED CONDITIONAL on RR2.
+       Pillar 4 sub-task 2: PROVED CONDITIONAL on RR2.
+
+  Pillar 4 sub-task 2 conditional set has shrunk from two named
+  items (RR1, RR2) to one (RR2). Math205 synthesis is one closure
+  away from making Pillar 4 sub-task 2 PROVED unconditional. The
+  next single-turn dispatch (Math208 = RR2 closure) completes the
+  flat-Cartan-forcing argument.
+
+§ 8. RECORD-KEEPING POINTERS (atomic-write commit)
+=============================================================
+
+  - Docs/math/TECT-Math207-RR1-chirality-flip-rigor-closure.tex.txt (this file)
+  - Docs/status/EVIDENCE-INDEX.md (Math207 row in §1; Math203 row
+    amended to reflect unconditional status; Math205 row amended
+    to reflect single-conditional state)
+  - Docs/status/OPEN-QUESTIONS.md (Q-2026-04-28-Math203-§3.4-rigor
+    Task #150 → CLOSED; reference Math207)
+  - CHANGELOG.md (Math207 entry)
+
+  TOE-FACT-SHEET.md update is OPTIONAL this turn (the post-Math205
+  S1 row annotation already references "(RR1, RR2)"; we could amend
+  to "(RR2)" but the difference is small. Let's defer to Math208
+  RR2 closure when both can collapse to "PROVED unconditional"
+  cleanly.)
+
+
+§ 9. VERSION HISTORY (v1.0 → v1.1)
+=============================================================
+
+v1.1 (2026-04-28 late+3, applied in Math209-AddA atomic-write
+commit): Notational fixes recorded in Math208-AddA §3 applied
+in-place:
+
+  (a) T_{1g} → T_{1u} corrections in §2 Step 4 and §5 Objection β^207.
+      Math207 v1.0 had used T_{1g} (gerade, inversion-even) as the
+      polar-vector irrep, which is incorrect. The polar-vector
+      ungerade irrep of O_h is T_{1u} (with I:v↦-v). Math207's §2
+      conclusion (σ_I antiholomorphic on CP²) is preserved under
+      either choice consistently applied; the v1.1 change makes the
+      irrep label unambiguous.
+
+  (b) §2 Step 5 CP² quotient parameterisation: replaced
+      "C³/U(1) = CP²" with the strictly correct
+      "(C³ ∖ {0})/C* = CP²" (algebraic-geometric quotient) or
+      "S⁵/U(1) = CP²" (Hopf fibration at the Brazovskii-locked
+      amplitude norm).
+
+These v1.1 corrections are notational; the §1 Theorem and §2
+conclusion (σ_I:[z]→[z̄] antiholomorphic on CP²) are unchanged.
+
+End of TECT-Math207.

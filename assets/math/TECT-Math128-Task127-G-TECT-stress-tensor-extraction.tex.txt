@@ -1,0 +1,303 @@
+% TECT-Math128: Task #127 — G^TECT Stress-Tensor Extraction Framework
+% Status: OUTLINE (theoretical framework established; numerical closure pending)
+% Date: 2026-04-26
+% Maintainer: Jusang Lee (jtkor@outlook.com)
+% Binding document for gravitational coupling extraction via stress-tensor 2-point function
+
+\documentclass[11pt]{article}
+\usepackage{amsmath, amssymb, amsfonts, geometry, hyperref}
+\geometry{margin=1in}
+\newcommand{\mathcal}[1]{\mathcal{#1}}
+\newcommand{\mathbf}[1]{\mathbf{#1}}
+\newcommand{\mathbb}[1]{\mathbb{#1}}
+\newcommand{\mathrm}[1]{\mathrm{#1}}
+\newcommand{\text}[1]{\text{#1}}
+\newcommand{\emph}[1]{\emph{#1}}
+\newcommand{\em}{\emph}
+\newcommand{\vecr}{\mathbf{r}}
+\newcommand{\vecp}{\mathbf{p}}
+\newcommand{\veck}{\mathbf{k}}
+\newcommand{\vecq}{\mathbf{q}}
+\newcommand{\phi}{\varphi}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\om}{\omega}
+\newcommand{\kappa}{\varkappa}
+
+\title{TECT-Math128: Task \#127 — $G^{\rm TECT}$ Stress-Tensor Extraction Framework}
+\author{TECT Autonomous Research Programme}
+\date{2026-04-26}
+
+\begin{document}
+
+\maketitle
+
+\section*{Statement}
+
+The gravitational coupling strength $G^{\rm TECT}$ (Newton's constant in TECT) is extracted from the conserved stress-energy tensor $T_{\mu\nu}(x)$ via its two-point correlator at zero spatial separation. This task requires two independent calculations: (i) exact stress-tensor operator construction from the Brazovskii elastic Lagrangian (trace and traceless components); (ii) numerical evaluation of $\langle T_{\mu\nu}(x) T_{\rho\sigma}(0) \rangle$ on the converged BCC ground state from Task #115, leading to extraction of $G^{\rm TECT}$ via low-$k$ residue matching with linearized Einstein-Hilbert gravity.
+
+The task is classified as **independent verification** (Math45/46c vs. Math110-AddA pathways; see §3.2 below).
+
+\section*{§1. Stress-Tensor Operator from Brazovskii Lagrangian}
+
+\subsection*{§1.1 Elastic Free Energy}
+
+The Brazovskii field-theory Hamiltonian (continuum, zero-temperature limit) is
+\[
+  H = \int d^3 x \left\{ \left[ (q_0^2 - k^2)^2 + \mu^2 \right] |\Psi|^2 + \lambda |\Psi|^4 + \ldots \right\}.
+\]
+
+On a 3D BCC lattice (characteristic spacing $a_{\text{BCC}}$), the elastic strain tensor $u_{\alpha\beta}(x)$ represents deformations from the ideal BCC configuration. The elastic Lagrangian density is
+\[
+  \mathcal{L}_{\text{elastic}} = \frac{1}{2} C_{\alpha\beta\gamma\delta} u_{\alpha\beta} u_{\gamma\delta} + \text{cubic/higher anisotropy terms}.
+\]
+
+For a cubic (BCC) crystal, the elastic tensor has 3 independent components (isotropic approximation with small anisotropy correction from Math57-AddA):
+\[
+  C_{\alpha\beta\gamma\delta}^{\text{cubic}} = \lambda_c \delta_{\alpha\beta} \delta_{\gamma\delta} + 2\mu_c P_{\alpha\beta\gamma\delta},
+\]
+where $\lambda_c, \mu_c$ are the Lamé parameters, and $P$ is the deviatoric projector.
+
+\subsection*{§1.2 Canonical Stress-Tensor Definition}
+
+The canonical stress-energy tensor is defined via the Noether prescription:
+\[
+  T_{\mu\nu} = \frac{\partial \mathcal{L}}{\partial(\partial_\mu \Psi)} \partial_\nu \Psi - \mathcal{L} \, \delta_{\mu\nu}.
+\]
+
+For the Brazovskii Lagrangian density
+\[
+  \mathcal{L} = \frac{1}{2} (\nabla^2 + \mu^2) |\Psi|^2 + \frac{\lambda}{4} |\Psi|^4,
+\]
+
+the stress-energy tensor components are:
+
+\textbf{Kinetic part}:
+\[
+  T_{\mu\nu}^{(\text{kin})} = \partial_\mu \Psi^* \partial_\nu \Psi + \partial_\nu \Psi^* \partial_\mu \Psi - \delta_{\mu\nu} (\nabla^2 |\Psi|^2 + \mu^2 |\Psi|^2).
+\]
+
+\textbf{Quartic part}:
+\[
+  T_{\mu\nu}^{(\text{quar})} = - \frac{\lambda}{4} \delta_{\mu\nu} |\Psi|^4.
+\]
+
+\textbf{Total}:
+\[
+  T_{\mu\nu} = T_{\mu\nu}^{(\text{kin})} + T_{\mu\nu}^{(\text{quar})}.
+\]
+
+\subsection*{§1.3 Decomposition into Trace and Traceless Parts}
+
+The stress tensor decomposes as
+\[
+  T_{\mu\nu} = \frac{1}{3} \delta_{\mu\nu} T_\rho^\rho + T_{\mu\nu}^{\text{(TT)}},
+\]
+where $T_\rho^\rho = \mathrm{tr}(T)$ is the trace (scalar) and $T_{\mu\nu}^{\text{(TT)}}$ is the traceless (transverse-traceless) part.
+
+\textbf{Trace} (energy density):
+\[
+  T_\rho^\rho = \nabla^2 |\Psi|^2 + \mu^2 |\Psi|^2 + \frac{\lambda}{4} |\Psi|^4.
+\]
+
+\textbf{Traceless part} (spatial deformations):
+\[
+  T_{\mu\nu}^{\text{(TT)}} = \partial_\mu \Psi^* \partial_\nu \Psi + \partial_\nu \Psi^* \partial_\mu \Psi - \frac{2}{3} \delta_{\mu\nu} (\nabla^2 |\Psi|^2 + \mu^2 |\Psi|^2) - \frac{\lambda}{3} \delta_{\mu\nu} |\Psi|^4.
+\]
+
+\textbf{Gravity coupling}: Only the traceless (TT) part couples to the transverse-traceless (graviton) modes. Thus, for gravitational coupling extraction, focus on
+\[
+  \langle T_{\mu\nu}^{\text{(TT)}}(x) T_{\rho\sigma}^{\text{(TT)}}(0) \rangle \quad \text{(2-point function)}.
+\]
+
+\section*{§2. Two-Point Correlator in Fourier Space}
+
+\subsection*{§2.1 Lattice Definition}
+
+On the discrete cubic lattice with spacing $a = h$ (from Task #115), the stress-tensor correlator is
+\[
+  G_{\mu\nu,\rho\sigma}(x_1, x_2) = \langle T_{\mu\nu}^{\text{(TT)}}(x_1) T_{\rho\sigma}^{\text{(TT)}}(x_2) \rangle - \langle T_{\mu\nu}^{\text{(TT)}} \rangle \langle T_{\rho\sigma}^{\text{(TT)}} \rangle.
+\]
+
+In the BCC ground state ($\Psi = \Psi^*(x)$ from Newton-Krylov), the one-point function $\langle T_{\mu\nu}^{\text{(TT)}} \rangle$ is nonzero (condensate stress). Thus
+\[
+  G_{\mu\nu,\rho\sigma}(x_1, x_2) = \langle T_{\mu\nu}^{\text{(TT)}}(x_1) T_{\rho\sigma}^{\text{(TT)}}(x_2) \rangle.
+\]
+
+\subsection*{§2.2 Fourier Transform}
+
+Define
+\[
+  \widetilde{G}_{\mu\nu,\rho\sigma}(\veck) = \sum_{x_1, x_2} e^{i \veck \cdot (x_1 - x_2)} G_{\mu\nu,\rho\sigma}(x_1, x_2).
+\]
+
+For a translation-invariant system (away from boundaries), the correlator depends only on $\veck = x_1 - x_2$.
+
+\subsection*{§2.3 Low-$k$ Asymptotics and Gravity Coupling}
+
+In the infrared limit $k \to 0$, the stress-tensor correlator in a gravitational theory takes the form
+\[
+  \widetilde{G}_{\mu\nu,\rho\sigma}(k) = \frac{C_{\mu\nu,\rho\sigma}}{k^2} + \text{regular terms},
+\]
+where the residue $C_{\mu\nu,\rho\sigma}$ encodes the strength of gravitational coupling.
+
+For a 3D linearized gravity theory (Einstein-Hilbert + cosmological constant), the universality relation is
+\[
+  C_{\mu\nu,\rho\sigma} = \frac{1}{16\pi G} \mathcal{P}_{\mu\nu,\rho\sigma}^{\text{(TT)}},
+\]
+where $\mathcal{P}^{\text{(TT)}}$ is the TT projector and $G$ is Newton's constant.
+
+In TECT, we extract $G^{\rm TECT}$ by measuring the low-$k$ behavior of the stress-tensor correlator and inverting the matching relation.
+
+\section*{§3. Numerical Extraction Algorithm (Test D3)}
+
+\subsection*{§3.1 Step-by-Step Procedure}
+
+\textbf{Input}: Converged BCC ground state $\Psi^*(x, y, z)$ on $N \times N \times N$ lattice (from Task #115, math note Math82-H).
+
+\textbf{Step 1}: Compute the stress-tensor $T_{\mu\nu}^{\text{(TT)}}(x, y, z)$ at each lattice point, using finite-difference approximations for $\partial_\mu \Psi$ and $\nabla^2 \Psi$.
+
+\textbf{Step 2}: Compute the correlator $G_{\mu\nu,\rho\sigma}(r)$ by averaging over all pairs of lattice points at distance $|\mathbf{r}| = r$:
+\[
+  G_{\mu\nu,\rho\sigma}(r) = \frac{1}{|\{(x_1, x_2) : |x_1 - x_2| = r\}|} \sum_{|x_1-x_2|=r} T_{\mu\nu}^{\text{(TT)}}(x_1) T_{\rho\sigma}^{\text{(TT)}}(x_2).
+\]
+
+\textbf{Step 3}: Fourier transform to $\widetilde{G}(\veck)$:
+\[
+  \widetilde{G}_{\mu\nu,\rho\sigma}(k_i) = \sum_{\mathbf{r}} e^{i \veck \cdot \mathbf{r}} G_{\mu\nu,\rho\sigma}(r), \quad k_i = \frac{2\pi n_i}{N h}, \, n_i \in \{0, 1, \ldots, N/2\}.
+\]
+
+\textbf{Step 4}: Extract low-$k$ regime ($k \lesssim 0.1 \, q_0 = 0.068$). Fit the correlator to
+\[
+  \widetilde{G}(\veck) = \frac{A_0}{k^2} + A_1 + A_2 k^2 + O(k^4).
+\]
+
+\textbf{Step 5}: Solve for Newton's constant using
+\[
+  G^{\rm TECT} = \frac{1}{16\pi A_0} \quad (\text{inverted from matching relation}).
+\]
+
+\subsection*{§3.2 Independent Verification (Math45/46c vs. Math110-AddA)}
+
+Two independent methods for extracting $G^{\rm TECT}$ now exist in the literature:
+
+\textbf{Method 1 (Math45/46c, 2026 early autonomous rounds)}:
+- Derive $G^{\rm TECT}$ from the elastic Lagrangian's EH matching ($Z_h$ coefficient in the spin-2 sector).
+- Formula: $G^{\rm TECT} = Y q_0^2 / (16\pi)$ (direct from Fierz-Pauli structure).
+- Result: $G^{\rm TECT} = |Z|/2$ (Math45 Theorem 1).
+
+\textbf{Method 2 (Math110-AddA, 2026-04-26)}:
+- Derive Fierz-Pauli kinetic term from elastic Lagrangian, match with linearized EH action directly.
+- Formula: $\mu a_{\text{BCC}}^2 = c^3/(16\pi G)$ (directly from action matching).
+- Result: $a_{\text{BCC}} = 4\sqrt{\pi}\ell_P$ (proportionality constant ≈ 7.09, within factor-2 tolerance, Gate F4 PASS).
+
+\textbf{Task #127 (this framework — Method 3)}:
+- Extract $G^{\rm TECT}$ directly from stress-tensor 2-point function correlator on the converged BCC ground state.
+- This provides \textbf{independent numerical validation} of Methods 1 and 2.
+
+\textbf{Consistency gate (D3)}: If all three methods yield
+\[
+  \frac{G^{\rm TECT, Math45}}{G^{\rm TECT, Math110-AddA}} \approx 1, \quad \frac{G^{\rm TECT, Math45}}{G^{\rm TECT, Task\#127}} \approx 1,
+\]
+then the gravity-coupling structure is \textbf{over-determined and self-consistent} (strong theoretical evidence).
+
+\section*{§4. Gauge Fixing and Lattice Issues}
+
+\subsection*{§4.1 Gauge Dependence}
+
+The stress-tensor operator is defined in a particular frame/gauge. In continuum gravity, different gauges (e.g., harmonic gauge vs. synchronous gauge) yield different stress-tensor operators. On the lattice, the choice of finite-difference scheme (forward, backward, centered) affects the stress-tensor expression.
+
+\textbf{Strategy}: Use \textbf{centered finite differences} (most symmetric on the cubic lattice):
+\[
+  \partial_\mu \Psi(x) \approx \frac{\Psi(x+a\hat{\mu}) - \Psi(x-a\hat{\mu})}{2a}, \quad \nabla^2 \Psi(x) \approx \frac{1}{a^2} \sum_\mu [\Psi(x+a\hat{\mu}) - 2\Psi(x) + \Psi(x-a\hat{\mu})].
+\]
+
+\subsection*{§4.2 Continuum Limit and Lattice Artifacts}
+
+The stress-tensor computation involves products of derivatives. On a discrete lattice, these products can introduce $O(a)$ or $O(a^2)$ artifacts. To extract the continuum limit:
+
+\textbf{Procedure}:
+- Compute $G_{\mu\nu,\rho\sigma}(r)$ at three lattice spacings $h \in \{0.1, 0.05, 0.025\}$ (same as Task #115).
+- At each $h$, perform the low-$k$ fit and extract $A_0(h)$.
+- Use Richardson extrapolation (as in Math127 §4.2) to obtain continuum limit $A_0(\infty)$.
+- Convert to $G^{\rm TECT}_{\infty}$.
+
+\section*{§5. Pre-Registered Numerical Protocol}
+
+\subsection*{§5.1 Data Sources}
+
+\textbf{Input}: Converged $\Psi^*(x, y, z)$ from Task #115 (Math82-H continuum-limit runs at three lattice spacings $h \in \{0.1, 0.05, 0.025\}$).
+
+\textbf{Derivable outputs}:
+\begin{enumerate}
+\item Stress-tensor field $T_{\mu\nu}^{\text{(TT)}}(x, y, z; h)$ via finite differences.
+\item Correlator $G_{\mu\nu,\rho\sigma}(r; h)$ via spatial averaging.
+\item Fourier-space data $\widetilde{G}_{\mu\nu,\rho\sigma}(\veck; h)$.
+\item Residue $A_0(h)$ from low-$k$ fit.
+\item Continuum $A_0(\infty)$ via Richardson extrapolation.
+\item Gravitational coupling $G^{\rm TECT}_{\infty}$ from inversion.
+\end{enumerate}
+
+\subsection*{§5.2 Falsification Criteria}
+
+\textbf{Gate D3-α (Correlator noise)}:
+\[
+  \text{require } \frac{\text{noise in } G(r)}{|G(r)|} < 0.1 \text{ for } r \in [1, 5] \text{ (near-field, dominated by signal)}.
+\]
+
+\textbf{Gate D3-β (Low-$k$ fitting quality)}:
+\[
+  \text{require } \text{RMS}(\text{fit}) / |A_0| < 0.05 \text{ (residual fit error)}.
+\]
+
+\textbf{Gate D3-γ (Richardson convergence)}:
+\[
+  \text{require convergence of } G^{\rm TECT}_{\infty} \text{ across } h \in \{0.1, 0.05, 0.025\} \text{ (Richardson exponent } p=2 \text{)}.
+\]
+
+\textbf{Gate D3-δ (Method-consistency)}:
+\[
+  \text{require } \left| \frac{G^{\rm TECT, Task\#127}}{G^{\rm TECT, Math45}} - 1 \right| < 0.20 \text{ (within factor-2 physics uncertainties)}.
+\]
+
+\section*{§6. Expected Values (Predictions)}
+
+From Math45 and Math110-AddA:
+\[
+  G^{\rm TECT} \approx |Z|/2 \approx (Y q_0^2) / 2 \approx 0.10 \text{ (dimensionless in TECT units)}.
+\]
+
+In Planck units: $G^{\rm TECT}_{\text{Planck}} = \ell_P^2 \approx 1$ (definition).
+
+\section*{§7. Devil's-Advocate Self-Test (CLAUDE.md §6.3.1)}
+
+\subsection*{Objection α: Two-point function of stress tensor includes disconnected diagrams; Wick contraction is ambiguous on finite lattice}
+
+\textbf{Assessment}: VALID (subtle point). In field theory, the 2-point function includes both connected and disconnected pieces. On a lattice at finite volume, the disconnected piece is subleading in $1/V$ and vanishes as $V \to \infty$. \textbf{Remediation}: compute the correlator as $\langle T_{\mu\nu} T_{\rho\sigma} \rangle - \langle T_{\mu\nu} \rangle \langle T_{\rho\sigma} \rangle$ (connected piece only); report both raw correlator and connected correlator to quantify the contribution.
+
+\subsection*{Objection β: Low-$k$ fitting is sensitive to numerical noise in Fourier space; $A_0$ extraction is unstable}
+
+\textbf{Assessment}: VALID (practical challenge). For $k \lesssim 0.068$, the signal can be small. Noise in the stress-tensor computation (finite-difference errors, lattice discreteness) can dominate. \textbf{Remediation}: use data-driven regularization (e.g., Tikhonov regularization on the Fourier coefficients); report the condition number of the fit matrix; if $\text{cond}(M) > 100$, flag as unstable.
+
+\subsection*{Objection γ: Stress-tensor operator is not uniquely defined on the lattice; different finite-difference schemes yield different results}
+
+\textbf{Assessment}: VALID (gauge-dependence artifact). The stress tensor's definition depends on the choice of kinetic-term discretization. \textbf{Remediation}: compute the correlator using two independent finite-difference schemes (centered vs. one-sided) and verify that results agree at the $O(10\%)$ level; if they don't, the extraction is ambiguous and should be flagged as suspect.
+
+\section*{§8. Implications for TECT}
+
+If Gates D3-α through D3-δ all pass:
+\begin{enumerate}
+\item \textbf{Pillar 3 gravity closure}: the independent extraction of $G^{\rm TECT}$ confirms the EH-matching predictions from Math45 and Math110-AddA.
+\item \textbf{Triangulation}: three independent methods now yield consistent results, providing over-determined closure.
+\item \textbf{Gate F5 refinement}: combined with Task #127 (Planck-ratio consistency), validates the emergent-gravity pathway.
+\item \textbf{Stage-2 phenomenology}: the stress-tensor correlator connects to observable-map requirements (Math60-D); low-$k$ structure is physically relevant.
+\end{enumerate}
+
+\section*{§9. Status and Next Steps}
+
+\textbf{Status}: OUTLINE (framework established; numerical closure pending).
+
+\textbf{Next step (Round T2)}: Develop lattice finite-difference recipes for stress-tensor components; parameterize gauge-fixing ambiguity explicitly.
+
+\textbf{Dependency}: Awaits Newton-Krylov solver output and Task #115 completion.
+
+\end{document}

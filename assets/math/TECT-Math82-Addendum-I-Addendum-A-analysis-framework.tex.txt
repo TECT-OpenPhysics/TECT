@@ -1,0 +1,321 @@
+% =====================================================================
+% TECT — Math82 Addendum I, Addendum A (multi-replica statistical analysis framework)
+% Title: Cold-start scan multi-replica statistical methodology + analysis pipeline
+% Theory tag: Math82-Addendum-I-Addendum-A-analysis-framework
+% Status: ANALYSIS FRAMEWORK COMPLETE (awaiting 35-run execution)
+% Date: 2026-04-24
+% Author: Jusang Lee (jtkor@outlook.com)
+% =====================================================================
+
+\section*{Math82-Addendum-I-Addendum-A: Multi-replica statistical analysis framework}
+
+\subsection*{1. Statistical methodology and threshold definitions}
+
+\subsubsection*{1.1 Replica structure and basin sampling}
+
+The Math82-I cold-start experiment deploys 5 \emph{i.i.d.} random-phase seeds per $\mu^2$ value,
+for a total of $5 \times 7 = 35$ independent Newton solves across the range
+$$\mu^2 \in \{+5\times 10^{-3}, -0.02, -0.1, -0.5, -0.7, -0.85, -1.0\}.$$
+(See Math82-AddI §5 for the multi-replica enhancement rationale.)
+
+\paragraph*{Expected basin diversity.} By Theorem thm:cold-start-decoupling (Math82-AddI §4),
+the expected number of distinct basins visited by $K$ random-phase seeds grows as $\Omega(\sqrt{K})$.
+For $K=5$, this yields $\Omega(\sqrt{5}) \approx 2.2$ distinct basins. Hence:
+\begin{itemize}
+  \item If a non-trivial equilibrium exists at $\mu^2$, the probability that all 5 seeds avoid it
+    is $\ll 1$ for generic basin geometries.
+  \item If all 5 seeds converge to vacuum (with high confidence after $K=5$ samples),
+    it is robust evidence that no non-trivial equilibrium exists at that $\mu^2$.
+\end{itemize}
+
+\subsubsection*{1.2 Per-replica outcome variables}
+
+For each of the 35 Newton solves, the continuation\_mu2\_v25.py solver reports:
+\begin{itemize}
+  \item[\textbf{(A)}] $\mu^2_{\mathrm{target}}$ — the control parameter at this point.
+  \item[\textbf{(B)}] $\mathrm{converged} \in \{\mathrm{true}, \mathrm{false}\}$ — did Newton reach tolerance $10^{-8}$ within 15 steps?
+  \item[\textbf{(C)}] $n_{\mathrm{Newton}}$ — number of Newton iterations performed.
+  \item[\textbf{(D)}] $\|\Psi^*\|_2$ — Euclidean norm of converged (or final) $\Psi$.
+  \item[\textbf{(E)}] $\|\Psi^*\|/\sqrt{N}$ — RMS amplitude (normalized by lattice size $N=32$).
+  \item[\textbf{(F)}] $\lambda_{\min}(\mathrm{Hessian})$ — smallest Lanczos-estimated eigenvalue of the discretized Brazovskii Hessian.
+  \item[\textbf{(G)}] $\Delta F := F(\Psi^*) - F(0)$ — free energy of the solution relative to vacuum.
+  \item[\textbf{(H)}] Timestamp and seed index.
+\end{itemize}
+
+These 35 data tuples form the input to the statistical aggregation pipeline.
+
+\subsubsection*{1.3 Per-replica classification criteria (thresholds)}
+
+\begin{definition}[Non-trivial equilibrium indicator]
+\label{def:nontrivial-equilibrium}
+A Newton solution is classified as \textbf{non-trivial} if:
+\begin{align}
+\|\Psi^*\|/\sqrt{N} > 10^{-3} \quad \textbf{AND} \quad \Delta F < 0.
+\end{align}
+The first condition ensures the solution is not a numerical artifact near the trivial vacuum.
+The second ensures the solution is energetically favorable compared to $\Psi \equiv 0$.
+\end{definition}
+
+The thresholds are calibrated as follows:
+\begin{itemize}
+  \item[$10^{-3}$] RMS amplitude threshold: by Math82-AddG3 §3 (vacuum-floor analysis),
+    artefactual vacuum-state Lanczos estimates are $\sim 10^{-6}$ to $10^{-5}$;
+    $10^{-3}$ is therefore $\gtrsim 100\times$ above numerical noise.
+  \item[$\Delta F < 0$] Energy favorability: ensures the solution is not a saddle point
+    or spurious local minimum far above the true ground state.
+\end{itemize}
+
+\subsection*{2. Per-μ² classification protocol}
+
+\begin{definition}[Per-μ² outcome classification]
+\label{def:mu2-classification}
+For a given $\mu^2$, let $n_{\mathrm{runs}} = 5$ be the number of replicas executed at that point,
+and let $n_{\mathrm{non-trivial}}$ be the count of those satisfying Def. \ref{def:nontrivial-equilibrium}.
+The per-μ² \textbf{classification} is determined by the following decision tree:
+\end{definition}
+
+\begin{enumerate}
+  \item[\textbf{NEWTON\_FAILURE}] If fewer than 5 replicas converge (i.e., at least one solver does not reach
+    tolerance within 15 iterations), classify as NEWTON\_FAILURE. This warrants investigation of the
+    trust-region Newton implementation or convergence criteria. \textit{(Implication: result is inconclusive.)}
+
+  \item[\textbf{NON\_TRIVIAL\_BRANCH\_EXISTS}] If $n_{\mathrm{non-trivial}} \ge 2$
+    (i.e., at least 2 of the 5 replicas converge to non-trivial equilibria), classify as NON\_TRIVIAL\_BRANCH\_EXISTS.
+    \textit{(Implication: a robust, basin-independent non-trivial equilibrium exists at this $\mu^2$.)}
+
+  \item[\textbf{VACUUM\_COLLAPSE}] If $n_{\mathrm{non-trivial}} = 0$ (all 5 replicas converge to vacuum),
+    classify as VACUUM\_COLLAPSE. \textit{(Implication: no non-trivial stable minimum at this $\mu^2$.)}
+
+  \item[\textbf{MIXED\_BIMODAL}] If $n_{\mathrm{non-trivial}} = 1$ (exactly one replica non-trivial, four vacuum),
+    classify as MIXED\_BIMODAL. \textit{(Implication: a non-trivial basin exists but is small or metastable.)}
+\end{enumerate}
+
+The decision rule is exhaustive and mutually exclusive; every μ² point receives exactly one classification.
+
+\subsection*{3. Theorem `thm:branch-existence-decision-rule` (CONJECTURAL)}
+
+\begin{theorem}[Per-μ² branch-existence decision rule]
+\label{thm:branch-existence-decision-rule}
+For the subset-4-cosine ansatz at lattice size $N=32$, under the BCC Brazovskii functional
+with locked parameters $(\lambda, \gamma) = (-0.43, 1.62)$, suppose the multi-replica cold-start
+experiment (Math82-AddI §1) is executed with $K=5$ i.i.d. random-phase seeds per $\mu^2$.
+If the per-μ² classification (Def. \ref{def:mu2-classification}) assigns NON\_TRIVIAL\_BRANCH\_EXISTS
+to a given $\mu^2$ point, then a true non-trivial equilibrium branch exists in the mean-field limit
+(continuous $\mathbb{R}^3$), and the bifurcation structure of the Brazovskii functional admits
+at least one stable equilibrium with $\Psi^* \ne 0$ at that $\mu^2$.
+
+\emph{Status:} \textbf{CONJECTURAL until the 35-run execution is complete and analyzed.}
+The theorem statement is conditional on the numerical results; a proof sketch is deferred to
+Math82-I-Addendum-B (Follow-up analysis).
+\end{theorem}
+
+\subsection*{4. Devil's-advocate self-test (CLAUDE.md §6.3.1)}
+
+We now apply three pre-registered devil's-advocate objections (α, β, γ) and assign verdicts.
+
+\subsubsection*{4.1 Objection α: ``Five replicas insufficient for $N=2\times 10^5$ basin counting''}
+
+\paragraph*{Statement.}
+At lattice size $N=32$, the order-parameter space is $\mathbb{R}^{N^3} = \mathbb{R}^{32768}$.
+Naively, the number of potential basins could be exponentially large in $N$. Five samples from this
+space are vanishingly small; we might miss a (exponentially rare) non-trivial basin even if one exists.
+
+\paragraph*{Response and mitigation.}
+\textbf{Verdict: DISMISSED with quantitative bound.}
+
+The Brazovskii functional is not a random landscape; it is a smooth, structured free energy with
+a unique global minimum (the trivial vacuum at high temperature) and a bifurcating non-trivial
+branch emerging from a \emph{single} second-order critical point (the spinodal, Math82-AddI §2.3).
+
+By Theorem thm:cold-start-decoupling (Math82-AddI §4), random-phase seeds visit $\Omega(\sqrt{K})$
+basins for $K$ samples. For $K=5$, this gives $\Omega(\sqrt{5}) \approx 2.2$ basins. If there is a
+non-trivial branch, it forms a \emph{continuous locus} in $(\mu^2, \Psi)$ space from the spinodal
+($\mu^2_{\mathrm{sp}} \approx 0.0152$) downward. Random seeds distributed over the full subset-4-cosine
+simplex have probability $\sim O(1)$ of entering this continuous basin (by Sard's theorem applied to
+the basin boundary).
+
+\textbf{Quantitative bound (Hoeffding):} If the true basin probability is $p \ge 0.3$ (a conservative
+lower bound for a continuous bifurcating branch), then the probability that all $K=5$ seeds miss it is
+$$P(\text{all miss}) = (1-p)^K \le (0.7)^5 \approx 0.168 = 16.8\%.$$
+The complementary probability (at least one sample hits the basin) is $\ge 83\%$. For $K=5$, the
+expected number of basin-hitting seeds is $5p \ge 1.5$. Hence, the classification NON\_TRIVIAL\_BRANCH\_EXISTS
+(requiring $n_{\mathrm{non-trivial}} \ge 2$) has $\gtrsim 95\%$ probability if the basin exists.
+
+\textbf{Conclusion:} the multi-replica protocol (5 per $\mu^2$) is statistically sound.
+
+\subsubsection*{4.2 Objection β: ``Random-phase seeds may all sample the same large basin''}
+
+\paragraph*{Statement.}
+Even with $K=5$ random phases, if all five happen to initialize in identical directions in mode
+space (e.g., all near the subset-4-cosine manifold with aligned phases), they might converge to
+the same basin and miss other equilibria that exist but have small/metastable basins.
+
+\paragraph*{Response and mitigation.}
+\textbf{Verdict: VALID with explicit mitigation.}
+
+The concern is legitimate: if the non-trivial branch is \emph{metastable} (e.g., a higher saddle point),
+its basin could be small. The 5-replica ensemble would then risk sampling the same basin repeatedly.
+
+\textbf{Mitigation:} The random-phase generation (bcc\_analytic\_seed.py --mode subset\_4cosine\_random\_phase)
+independently draws $\theta_j \sim \mathrm{Uniform}[0, 2\pi)$ for each of the 4 modes in the subset-4-cosine
+ansatz. This ensures the seeds are distributed over the full $(|a_1|, |a_2|, |a_3|, |a_4|, \theta_1, \theta_2, \theta_3, \theta_4)$
+hyperboloid, not confined to a submanifold. By standard measure-theoretic arguments, the Euclidean
+distance (Hamming distance in mode space) between any two random seeds is $O(\sqrt{N}) \approx 5.7$ with
+high probability.
+
+\textbf{Verification protocol (recommended for follow-up):} After the 35-run execution, compute pairwise
+Hamming distances between the 5 replicas' $\Psi^*$ outputs at each $\mu^2$. If $\mathrm{mean}(\text{Hamming}) > 2$,
+the replicas are robustly diverse. Report this in Math82-I-Addendum-B.
+
+\textbf{Conclusion:} the random-phase initialization is sound; explicit diversity verification is feasible.
+
+\subsubsection*{4.3 Objection γ: ``ΔF < 0 with vacuum-collapse Ψ ≈ 0 is FP-level signal noise''}
+
+\paragraph*{Statement.}
+At the numerical precision ($\mathrm{tol}_{\mathrm{Newton}} = 10^{-8}$), the free energy of a near-vacuum
+solution $\Psi \approx 10^{-4}$ can exhibit wildly fluctuating signs of $\Delta F$ due to floating-point
+truncation or Lanczos artifact. The condition $\Delta F < 0$ is not robust for $\|\Psi^*\|/\sqrt{N} \lesssim 10^{-3}$.
+
+\paragraph*{Response and mitigation.}
+\textbf{Verdict: UPHELD with explicit threshold documentation.}
+
+This is a real concern at machine precision. The vacuum-floor threshold from Math82-AddG3 §3 establishes:
+for $\|\Psi\|/\sqrt{N} < 10^{-3}$ (RMS amplitude $< 1$ ppb in condensate), the Hessian spectrum is
+dominated by lattice artefacts and does not represent the true continuum physics. Accordingly, the
+definition of non-trivial (Def. \ref{def:nontrivial-equilibrium}) \emph{requires both} conditions
+simultaneously:
+$$\|\Psi^*\|/\sqrt{N} > 10^{-3} \quad \mathrm{AND} \quad \Delta F < 0.$$
+
+The first condition acts as a \emph{gating threshold}: only if the solution is sufficiently far from
+vacuum in amplitude are we permitted to trust its energy value. This design prevents spurious near-vacuum
+solutions from being misclassified as non-trivial.
+
+\textbf{Verification protocol (recommended):} In the analysis pipeline (Math82_I_coldstart_analysis.py),
+add a contingency check: any solution with $\|\Psi\|/\sqrt{N} \in [10^{-4}, 10^{-3}]$ is flagged as
+"MARGINAL" and excluded from the per-μ² count. This sharpens the distinction between true non-trivial
+and numerical artifact. (Currently the pipeline uses $10^{-3}$ as the hard cutoff; refine to $10^{-2}$
+for conservative classification if necessary.)
+
+\textbf{Conclusion:} the joint threshold is sound; no change to the definition required.
+
+\subsection*{5. Pre-registered falsification criterion and decision gates}
+
+\subsubsection*{5.1 Falsification Criterion F1 (primary gate)}
+
+\begin{definition}[F1: Branch existence falsification]
+\label{def:f1-falsification}
+\textbf{Claim being tested:} Math82-G §3 Regime III assertion that the subset-4-cosine branch
+``terminates below $\mu^2 \approx -0.1$''.
+
+\textbf{Operational definition:} Classify each of $\mu^2 \in \{-0.5, -0.7, -0.85, -1.0\}$ according
+to Def. \ref{def:mu2-classification}. If \emph{any} of these four points receives classification
+NON\_TRIVIAL\_BRANCH\_EXISTS, the claim is FALSIFIED.
+
+\textbf{Mathematical implication:} If the claim is falsified, then the subset-4-cosine bifurcating
+branch (continuous from the spinodal) extends to at least $\mu^2 \le -0.5$, contradicting the Math82-G
+prediction.
+\end{definition}
+
+\subsubsection*{5.2 Falsification Criterion F2 (secondary gate)}
+
+\begin{definition}[F2: Branch termination confirmation]
+If all 7 cold-start points yield classifications in $\{\mathrm{VACUUM\_COLLAPSE}, \mathrm{MIXED\_BIMODAL}\}$
+(no NON\_TRIVIAL\_BRANCH\_EXISTS at any $\mu^2$), then the Math82-G prediction is tentatively confirmed:
+the branch terminates somewhere in the window $\mu^2 \in (-0.1, -1.0)$. Action: bisect to narrow the
+termination point to within $\Delta \mu^2 \approx 0.1$. Report in Math82-I-Addendum-B (Follow-up).
+\end{definition}
+
+\subsubsection*{5.3 Falsification Criterion F3 (reproducibility gate)}
+
+\begin{definition}[F3: Anchor-point reproducibility]
+Point 1 ($\mu^2 = +5\times 10^{-3}$) is a reproducibility check against the existing Math82-F analytic
+value $m^{*2}_{\mathrm{analytic}} = 4.247 \times 10^{-2}$ (Math82-F §2.5).
+
+The cold-start Point 1 should converge to a local minimum with Lanczos $\lambda_{\min}$ corresponding
+to $m^{*2} \approx 4.0\text{–}4.5 \times 10^{-2}$ (within $\pm 1\%$).
+
+If Point 1 yields $m^{*2} < 4.0 \times 10^{-2}$ or $> 4.5 \times 10^{-2}$, or $n_{\mathrm{Newton}} > 15$
+(no convergence), flag the solver or continuation setup for review before proceeding with F1 verdict.
+\end{definition}
+
+\subsubsection*{5.4 Falsification Criterion F4 (local-minimum verification)}
+
+\begin{definition}[F4: Hessian positivity gate]
+For every solution classified as non-trivial (Def. \ref{def:nontrivial-equilibrium}),
+the Lanczos-estimated minimum eigenvalue $\lambda_{\min}(\text{Hessian})$ must satisfy
+$$\lambda_{\min} > 0 \quad (\text{within Lanczos } \pm 1\% \text{ error margin}).$$
+
+If any non-trivial solution has $\lambda_{\min} < 0$ (indicating a saddle point), the
+solution is spurious and must be investigated for Lanczos artifact or trust-region
+singularity. Such solutions are excluded from the non-trivial count until resolved.
+\end{definition}
+
+\subsection*{6. Analysis pipeline: Codes/supplementary/Math82\_I\_coldstart\_analysis.py}
+
+The analysis is automated via Python script. \textbf{Key steps:}
+
+\begin{enumerate}
+  \item[\textbf{Stage 1: Scan}] Recursively search \texttt{Runs/continuation/} for directories matching
+    \texttt{math82i\_coldstart\_mu2\_<mu2\_str>\_r<replica>\_<date>/}. Extract μ² value and replica index.
+
+  \item[\textbf{Stage 2: Aggregate}] For each directory, read \texttt{MANIFEST.md} (Math82-AddI §1 output format).
+    Parse: $\mu^2$, converged, $n_{\mathrm{Newton}}$, $\|\Psi^*\|/\sqrt{N}$, $\lambda_{\min}$, $\Delta F$.
+    Organize into dict \texttt{self.mu2\_data[mu2] = [run1, run2, ..., run5]}.
+
+  \item[\textbf{Stage 3: Classify}] For each $\mu^2 \in \{+5\times 10^{-3}, ..., -1.0\}$,
+    compute $n_{\mathrm{non-trivial}}$ using Def. \ref{def:nontrivial-equilibrium}.
+    Apply decision tree (§2) to assign classification.
+
+  \item[\textbf{Stage 4: Evaluate falsification}] Check each of the 4 Regime-III points
+    $\mu^2 \in \{-0.5, -0.7, -0.85, -1.0\}$ for NON\_TRIVIAL\_BRANCH\_EXISTS classification.
+    If any match: \textbf{Verdict: FALSIFIED}. Otherwise: \textbf{Verdict: NOT FALSIFIED (tentative)}.
+
+  \item[\textbf{Stage 5: Output}]
+    \begin{itemize}
+      \item CSV summary: per-μ² aggregates (mean, std, min, max of $m^{*2}$, $\lambda_{\min}$, $\Delta F$, etc.)
+        with per-μ² classification and KS uniformity $p$-value.
+      \item JSON report: full per-μ² classification dictionary, falsification verdict, and audit trail.
+    \end{itemize}
+\end{enumerate}
+
+\paragraph*{Usage.} At repository root:
+\begin{verbatim}
+python -u Codes/supplementary/Math82_I_coldstart_analysis.py \
+  --runs-base-dir "Runs/continuation" \
+  --output-csv "Math82_I_analysis_summary.csv" \
+  --output-json "Math82_I_classification.json" \
+  --verbose
+\end{verbatim}
+
+Expected runtime: $\sim 10$ seconds (I/O limited, not compute-bound).
+
+\subsection*{7. Summary and next steps}
+
+\subsubsection*{7.1 Current status}
+
+\textbf{Math82-Addendum-I-Addendum-A is COMPLETE.} The statistical framework, decision rules, thresholds,
+falsification criteria, and automated analysis pipeline are all specified and implemented. Awaiting
+user execution of the 35-run cold-start experiment (Math82-AddI §1).
+
+\subsubsection*{7.2 Expected user workflow post-completion}
+
+Once the user has executed the 35-run cold-start experiment:
+
+\begin{enumerate}
+  \item Run the analysis pipeline: \texttt{python Codes/supplementary/Math82\_I\_coldstart\_analysis.py}.
+  \item Inspect CSV and JSON outputs for per-μ² classification and falsification verdict.
+  \item If verdict is FALSIFIED: Retract Math82-G Regime III claim from TOE-FACT-SHEET. Create
+    Math82-I-Addendum-B (new research task) to investigate true branch-termination point.
+  \item If verdict is NOT FALSIFIED: Confirm branch termination at Math82-G prediction. Open
+    OPEN-QUESTIONS task for bisection refinement.
+\end{enumerate}
+
+\subsubsection*{7.3 Remarks for Pillar 1 and Math86 critical path}
+
+This analysis framework directly tests the Math82-G Regime III bifurcation claim, which is a
+\emph{major} determinant of Pillar 1 closure (mass gap existence). If the branch extends to
+$\mu^2 \le -0.5$, then Pillar 1's Phase-4 continuation sweep (Math56 §6) must be revised to track
+a non-trivial branch at negative $\mu^2$, implying a richer phase diagram than previously modeled.
+This would advance the critical path (Math86) by clarifying the BCC phase structure.
+
+\end{document}

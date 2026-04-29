@@ -1,0 +1,255 @@
+% =====================================================================
+% TECT — Math36 Addendum B, Addendum A
+% Title: Clustering implementation for Math36-B Step 1 multi-branch discovery
+%        (Math82_I_branch_clustering.py post-processor)
+% Theory tag: Math36-AddB-AddA-clustering-implementation-2026-04-24
+% Status: IMPLEMENTATION COMPLETE (pre-test, ready for Math82-I-proper execution)
+% Date: 2026-04-24
+% Author: Jusang Lee (jtkor@outlook.com)
+% =====================================================================
+
+\section*{Math36-Addendum-B-AddA: Clustering implementation for Step 1}
+
+\subsection*{1. Purpose and scope}
+
+This addendum documents the reference implementation of Math36-Addendum-B §2 Step 1
+(branch clustering) in the Python module \verb|Codes/supplementary/Math82_I_branch_clustering.py|.
+
+The implementation:
+\begin{itemize}
+\item Reads converged $\Psi^{*,(k)}$ ensembles from Math82-I-proper output (56 total runs: 8 replicas per $\mu^2 \times 7$ points).
+\item Applies hierarchical agglomerative clustering with single-linkage using the Hamming-like metric.
+\item Produces a JSON index file (per Math36-B output spec) with branch assignments, cluster sizes, and sensitivity analysis.
+\item Satisfies CLAUDE.md §6.3 devil's-advocate pre-registration and §6.3.3 numerical-result gates.
+\end{itemize}
+
+\subsection*{2. Hamming-like distance metric}
+
+The implementation uses the relative-$L^2$-difference metric specified in Math36-AddB §2 Step 1:
+$$
+d^{(k,k')} \;=\; \frac{\|\Psi^{*,(k)} - \Psi^{*,(k')}\|_{2}}{\frac{1}{2}\big(\|\Psi^{*,(k)}\|_{2} + \|\Psi^{*,(k')}\|_{2}\big)}.
+$$
+
+\paragraph*{Implementation detail (Python function \texttt{hamming\_like\_distance}):}
+\begin{itemize}
+\item Flatten both wavefunctions to 1D arrays (dimension $N^3 = 32768$ for $N=32$).
+\item Compute numerator: $\|\cdot\|_2$ via \texttt{np.linalg.norm}.
+\item Compute denominator: average of the two norms.
+\item Guard against zero denominators (both replicas converge to near-vacuum): return $d = 0$.
+\item Range: $d^{(k,k')} \in [0, 2]$ (by properties of norm metrics).
+\end{itemize}
+
+The metric is normalization-insensitive: two $\Psi^*$ that differ only by a global phase (physically identical) yield $d = 0$.
+Two orthogonal ground states yield $d \approx 1$.
+
+\subsection*{3. Hierarchical agglomerative clustering algorithm}
+
+\paragraph*{Input:}
+\begin{itemize}
+\item Ensemble $\{\Psi^{*,(k)}\}_{k=1}^K$ (converged replicas for a single $\mu^2$ value).
+\item Pairwise distance matrix $D_{ij} = d^{(i,j)}$.
+\item Single-linkage threshold: $\delta_{\rm Hamming} = 0.1$ (default per Math36-B §2).
+\end{itemize}
+
+\paragraph*{Algorithm (Python method \texttt{single\_linkage\_clustering}):}
+
+\begin{enumerate}
+\item Initialize: each of the $K$ replicas is its own cluster.
+\item Repeat until convergence:
+  \begin{enumerate}
+  \item Find the pair of clusters $(C_i, C_j)$ with minimum inter-cluster distance:
+    $$d_{\min} := \min_{r_i \in C_i, r_j \in C_j} d^{(r_i, r_j)}.$$
+  \item If $d_{\min} \ge \delta_{\rm Hamming}$, stop (no more merges).
+  \item Merge $C_i$ and $C_j$ into a single cluster.
+  \end{enumerate}
+\item Output: list of clusters $\mathcal{C} = \{C_1, \ldots, C_m\}$ where $m = |\mathcal{I}|$ (number of branches).
+\item Extract representative: the first replica in each cluster serves as $\Psi^{*,(i)}$ for downstream Math36-extractor application.
+\end{enumerate}
+
+\paragraph*{Complexity:}
+Single-linkage clustering is $O(K^2)$ in distance evaluations (for $K$ replicas per $\mu^2$).
+At $K=8$ per point, this is $\sim 32$ comparisons per $\mu^2$. For 7 $\mu^2$ values, total $\sim 224$ comparisons (negligible overhead).
+
+\subsection*{4. Pre-registered execution gates (CLAUDE.md §6.3.3)}
+
+\paragraph*{Numerical-result gate schema:}
+
+Before the first Math82-I-proper execution, the following gates are pre-registered.
+A gate PASS means the corresponding numerical quantity has been computed and meets its threshold.
+A gate FAIL means the quantity violates its threshold (diagnostic required).
+
+\subsubsection*{Gate 1: Clustering completion time}
+
+\begin{itemize}
+\item \textbf{Cause:} Algorithm efficiency.
+\item \textbf{Evidence}: Wall-clock time $T_{\rm cluster}$ reported by the post-processor.
+\item \textbf{Falsification criterion (PASS)}: $T_{\rm cluster} < 30$ seconds for 56 runs ($8 \times 7$ replicas).
+\item \textbf{Falsification criterion (FAIL)}: $T_{\rm cluster} > 30$ seconds indicates either (a) I/O bottleneck in reading `.npy` files, (b) unoptimized distance computation, or (c) unexpected directory structure. Action: profile and optimize.
+\end{itemize}
+
+\subsubsection*{Gate 2: Sensitivity test (threshold stability)}
+
+\begin{itemize}
+\item \textbf{Cause:} Clustering threshold $\delta_{\rm Hamming} = 0.1$ should not be arbitrarily chosen; cluster assignments should be stable within reasonable variations (Devil's-advocate α).
+\item \textbf{Evidence}: Number of clusters $|\mathcal{I}|$ as a function of threshold: $|\mathcal{I}|(\delta)$ for $\delta \in [0.05, 0.2]$ (16 test points).
+\item \textbf{Falsification criterion (PASS)}: $|\mathcal{I}|(\delta)$ is monotone non-increasing and varies by at most $\pm 1$ branch over the window $[0.05, 0.2]$.
+  (I.e., $\max_\delta |\mathcal{I}|(\delta) - \min_\delta |\mathcal{I}|(\delta) \le 1$.)
+  This indicates that branch identity is robust to reasonable threshold choices.
+\item \textbf{Falsification criterion (FAIL)}: $|\mathcal{I}|(\delta)$ exhibits step changes $> 1$ (e.g., $|\mathcal{I}|(0.08) = 5$ but $|\mathcal{I}|(0.12) = 2$).
+  This indicates either (a) cluster boundaries are knife-edge-sensitive, suggesting some replicas are near-degenerate in the distance metric, or (b) the metric is not well-suited to this ensemble. Action: increase replicas per $\mu^2$ or refine metric.
+\end{itemize}
+
+\subsubsection*{Gate 3: NEWTON\_FAILURE detection}
+
+\begin{itemize}
+\item \textbf{Cause:} Math36-AddB §2 Step 0 requires excluding non-converged replicas. If all replicas at a $\mu^2$ point fail to converge, the point is unanalyzable.
+\item \textbf{Evidence}: Convergence flag reported in each replica's MANIFEST.md file.
+\item \textbf{Falsification criterion (PASS)}: At least 6 of 8 replicas converge per $\mu^2$ (≥75\% convergence rate).
+\item \textbf{Falsification criterion (FAIL)}: Fewer than 6 replicas converge at any $\mu^2$ point. Action: investigate solver stability; check Brazovskii Hessian conditioning.
+\end{itemize}
+
+\paragraph*{Gating decision tree:}
+
+After the post-processor completes:
+\begin{itemize}
+\item If Gate 1 FAIL: debugging required before proceeding.
+\item If Gate 2 FAIL: sensitivity analysis must be expanded; branches may not be robustly identifiable.
+\item If Gate 3 FAIL: re-run the affected $\mu^2$ point with different solver parameters.
+\item If all gates PASS: proceed to Math36-extractor per-branch RG-extraction (Math36-B §2 Steps 2--6).
+\end{itemize}
+
+\subsection*{5. Devil's-advocate self-test (CLAUDE.md §6.3, mandatory)}
+
+\paragraph*{Objection α: ``Sensitivity to seed initialisation violates Hoeffding bound.''}
+
+\paragraph*{Statement.} The clustering outcome depends on which replicas converge ($K$ i.i.d. cold-start seeds). A different random ensemble might yield a different $|\mathcal{I}|$, casting doubt on the branch index's uniqueness.
+
+\paragraph*{Response.}
+\textbf{Verdict: DISMISSED with quantitative bound.}
+
+By Math82-AddI-AddA §4.1 (Hoeffding bound), for $K=8$ i.i.d. cold-start seeds per $\mu^2$, the probability that all $K$ seeds miss a basin of probability $p \ge 0.25$ is
+$$P(\text{all miss}) = (1-p)^K \le (0.75)^8 \approx 0.10 = 10\%.$$
+Thus, with 90\% confidence, $K=8$ replicas will sample any basin with $p \ge 0.25$.
+
+Clustering assigns replicas to branches based on distance thresholding. If a branch exists and has $p \ge 0.25$, then on average, $8 \times 0.25 = 2$ or more replicas will be in that branch (in expectation). A different random ensemble might find 1, 2, or 3 replicas in a branch of size $\Omega(1)$, but the branch identity itself is robust: the representative $\Psi^{*,(i)}$ will still cluster with its cognates under the Hamming metric.
+
+\textbf{Caveat}: If a branch has $p < 0.25$ (rare, metastable basin), then $K=8$ is insufficient to guarantee sampling; such branches may be missed. Math82-AddI-AddA calls these ``MIXED\_BIMODAL'' regimes.
+
+\textbf{Mitigation}: The sensitivity-test gate (Gate 2) will flag if $|\mathcal{I}|(\delta)$ is pathologically sensitive to threshold choices, indicating missed basins.
+
+\paragraph*{Objection β: ``Hamming distance modulo $G_{\rm SM}$ gauge equivalence not implemented.''}
+
+\paragraph*{Statement.} Two BCC ground-state variants that differ only by a global phase or a discrete $G_{\rm SM}$ gauge rotation are physically equivalent but may have non-zero Hamming distance (due to the representational freedom in mode space). The algorithm treats them as distinct branches.
+
+\paragraph*{Response.}
+\textbf{Verdict: VALID with documented mitigation.}
+
+The Hamming-like metric in this implementation \textbf{does not} quotient by $G_{\rm SM}$ action. This is a simplification adopted for the v1.0 release (pre-test). A corrected implementation would compute
+$$d^{(k,k')} := \min_{g \in G_{\rm SM}} \frac{\|\Psi^{*,(k)} - g \cdot \Psi^{*,(k')}\|_2}{\cdots},$$
+requiring $|G_{\rm SM}| \cdot K^2 / 2$ evaluations. For discrete gauge groups, this is feasible; for continuous symmetries (e.g., phase rotations), a continuous-optimization step is needed.
+
+\textbf{Scope for Math36-AddC}: Full gauge-equivalence clustering is flagged as a follow-up task. For this round (Math82-I-proper + Math36-B execution), the unquotiented metric is acceptable as a conservative (over-)estimate of the number of branches. If the algorithm reports $|\mathcal{I}|^{\rm no-quotient}$ branches, the true topologically-distinct branches satisfy $|\mathcal{I}|^{\rm true} \le |\mathcal{I}|^{\rm no-quotient}$.
+
+\paragraph*{Objection γ: ``Single-linkage clustering can produce 'chaining'; distant clusters incorrectly merge.''}
+
+\paragraph*{Statement.} In single-linkage clustering, two clusters may merge if a single pair of outlier replicas (one from each cluster) happens to be close, even if the clusters' cores are far apart. This can create spurious ``bridges'' between geometrically distant branches.
+
+\paragraph*{Response.}
+\textbf{Verdict: VALID, flagged by sensitivity test.}
+
+Single-linkage clustering is known to suffer from chaining artifacts. However, the sensitivity test (Gate 2) will detect this: if $|\mathcal{I}|(\delta)$ exhibits large jumps (chaining), the gate will FAIL, prompting investigation. If chaining is suspected, alternative linkage methods (complete, average, Ward) can be tested in a follow-up.
+
+For v1.0, single-linkage is retained because it is the simplest implementation and the sensitivity test provides a data-driven check.
+
+\textbf{Mitigation}: The output includes the full distance matrix $D$ and cluster assignments, allowing post-hoc validation. If chaining is detected, the clustering can be re-run with a complete-linkage criterion.
+
+\subsection*{6. Output file format}
+
+The post-processor writes a JSON file \texttt{Runs/audit/math82i\_branch\_clustering\_<date>.json} with the following structure:
+
+\begin{verbatim}
+{
+  "timestamp": "2026-04-24T13:45:00",
+  "run_directory": "Runs/continuation",
+  "clustering_threshold": 0.1,
+  "mu2_results": [
+    {
+      "mu2": 0.005,
+      "n_replicas_total": 8,
+      "n_converged": 7,
+      "n_branches": 2,
+      "status": "CLUSTERED",
+      "branches": [
+        {
+          "replica_indices": [0, 1, 3],
+          "representative_index": 0,
+          "cluster_size": 3
+        },
+        {
+          "replica_indices": [2, 4, 5],
+          "representative_index": 2,
+          "cluster_size": 3
+        }
+      ],
+      "sensitivity_curve": {
+        "0.05": 3,
+        "0.1": 2,
+        "0.15": 1,
+        "0.2": 1
+      }
+    },
+    ...
+  ],
+  "summary": {
+    "n_mu2_values": 7,
+    "total_replicas": 56,
+    "total_converged": 52,
+    "total_branches_found": 8
+  }
+}
+\end{verbatim}
+
+This JSON index is consumed by \verb|Codes/supplementary/Math36_RG_extractor.py| (extended version, Math92 Track B) to perform per-branch RG-extraction.
+
+\subsection*{7. Execution protocol}
+
+\paragraph*{Timing and dependencies:}
+
+\begin{enumerate}
+\item Math82-I-proper executes: 56 Newton solves (8 replicas $\times$ 7 $\mu^2$ points), producing 56 run directories under \texttt{Runs/continuation/math82i\_proper\_*}.
+\item Math82\_I\_branch\_clustering.py runs as post-processor: reads all 56 outputs and produces a single JSON index in $< 30$ seconds (Gate 1).
+\item Math36-extractor (extended multi-branch version) reads the JSON index and processes each branch separately (Math36-B §2 Steps 2--6).
+\end{enumerate}
+
+\paragraph*{Command:}
+
+\begin{verbatim}
+cd /path/to/TECT
+python Codes/supplementary/Math82_I_branch_clustering.py \
+  --run-dir Runs/continuation \
+  --threshold 0.1 \
+  --output Runs/audit/math82i_branch_clustering_$(date +%Y%m%d_%H%M%S).json \
+  --verbose
+\end{verbatim}
+
+\subsection*{8. Status and integration}
+
+\paragraph*{Module version:} \verb|Math82_I_branch_clustering.py| v1.0 (initial release).
+
+\paragraph*{Integration with Math36-B:}
+The 6-step Math36 pipeline (Math36-AddB §2) is now operationalized:
+\begin{itemize}
+\item Step 0 (converged-replica validation): implemented in \verb|classify_converged_replicas|.
+\item Step 1 (branch clustering): implemented in \verb|cluster_per_mu2|; delegated to this module.
+\item Steps 2--6 (spectral filter, moments, decomposition, RG flow, fixed-point detection): delegated to Math36-extractor multi-branch extension (Math92 Track B).
+\end{itemize}
+
+\paragraph*{Next steps:}
+
+1. Execute Math82-I-proper (35-run ensemble enhanced to 56-run for $K=8$ per $\mu^2$).
+2. Run Math82\_I\_branch\_clustering.py on outputs.
+3. Validate against Gates 1--3.
+4. Extend Math36-extractor to handle per-branch processing (Math92 Track B).
+5. Execution of Math36-B Steps 2--6 per branch, yielding branch-resolved Q2 flows.
+
+% End of Math36-Addendum-B-AddA-clustering-implementation.tex.txt

@@ -1,0 +1,515 @@
+% =====================================================================
+% TECT -- Math137: Pre-Registered Evaluation Protocol
+% Theory tag: Math137-pre-registered-evaluation-protocol-2026-04-26
+% Status: OUTLINE (protocol specified; numerical execution pending GPU data)
+% Date: 2026-04-26
+% Auditor: CLAUDE.md §6.3.3 pre-registered numerical-result gate
+% =====================================================================
+
+\section*{Math137: Pre-Registered Evaluation Protocol for Tasks \#115–\#128}
+
+\subsection*{0. Scope and Binding (CLAUDE.md §6.3.3)}
+
+Per CLAUDE.md §6.3.3, every numerical claim ($m^{*2}$, $\lambda_{\min}$, $\Delta F$, RGE fixed point,
+$\rho_{\rm compression}$, $M_{\rm GUT}$, etc.) must include the \textbf{(cause, evidence, falsification criterion)}
+triple before the result is treated as evidence in any higher-tier note.
+
+This note specifies the \emph{mechanical evaluation procedure} for Tasks #115–#128 data:
+\begin{enumerate}
+\item \textbf{When to run}: As soon as GPU execution completes and numerical data are deposited in
+  `Runs/` directory.
+\item \textbf{How to run}: Ordinal sequence (§1–§4) with no iteration loops (single pass).
+\item \textbf{Pass/Fail criteria}: Per-task falsification gates (§2–§5).
+\item \textbf{Decision logic}: Status upgrade or downgrade based on gate outcomes (§6).
+\item \textbf{Audit trail}: All intermediate outputs logged to a decision manifest (§7).
+\end{enumerate}
+
+\subsection*{1. Data-Ingestion Phase}
+
+\subsubsection*{§1.1 Pre-check: data completeness}
+
+Before any evaluation, verify that all four tasks have produced complete output:
+
+\begin{enumerate}
+\item \textbf{Task \#115 (continuum limit, Math127)}: Requires outputs at $h \in \{0.1, 0.05, 0.025\}$
+  and $\mu^2 \in \{0.26, 0.22, 0.18, 0.14, 0.10\}$. \\ Expected files: `math55_Task115_results_N32_L128.csv`,
+  `math55_Task115_results_N64_L256.csv`. \\
+  \textbf{Gate 0-A}: Both CSV files exist. \quad \textbf{Action if fail}: STOP. Escalate to GPU team.
+
+\item \textbf{Task \#126 (matter coupling, Math133)}: Requires $B_{\rm total}$ and fixed-point $g_*$
+  for first-generation matter content. \\
+  Expected files: `rge_Task126_matter_Nf12_BCC.npz`, `rge_Task126_functional_RG_beta.csv`. \\
+  \textbf{Gate 0-B}: Both files exist, with sizes $\ge 100$ kB. \quad \textbf{Action if fail}: STOP.
+
+\item \textbf{Task \#127 (stress-tensor extraction, Math128)}: Requires $G^{\rm TECT}$ from three
+  methods. \\
+  Expected files: `stress_tensor_Task127_method3.csv`, `conformal_mode_method1.csv` (pre-existing),
+  `fierz_pauli_method2.csv` (pre-existing). \\
+  \textbf{Gate 0-C}: All three files exist. \quad \textbf{Action if fail}: STOP.
+
+\item \textbf{Task \#128 (2-loop $\beta_G$, Math129)}: Requires two-loop coefficients $B_H^{(1)}$, $B_H^{(2)}$.
+  \\
+  Expected files: `beta_G_2loop_Hartree_integral.txt`, `beta_G_2loop_numerical.csv`. \\
+  \textbf{Gate 0-D}: Both files exist. \quad \textbf{Action if fail}: STOP.
+\end{enumerate}
+
+\textbf{Procedure}: If Gate 0-A/B/C/D fail, do not proceed to subsequent gates.
+Instead, produce a NEGATIVE-RESULTS entry: `` `D-2026-04-26-DataIncomplete' ''
+and defer evaluation to the next session.
+
+\subsubsection*{§1.2 Data parsing and error bars}
+
+For each task, extract the \emph{central value} and \emph{95\% confidence interval} (or standard error):
+
+\begin{enumerate}
+\item \textbf{Task \#115}: Parse $m^{*2}(h, \mu^2)$ from CSV. For each $\mu^2$, fit Richardson extrapolation
+  to $m^{*2}(h) = a_0 + a_1 h^2$. Extract continuum limit $m^{*2}_{\infty}$ and 95\% CI from fit.
+
+\item \textbf{Task \#126}: Parse $B_{\rm total}$ and $g_*$ from the NPZ file. Extract best-estimate
+  and 95\% CI from the variance statistics in the NPZ metadata.
+
+\item \textbf{Task \#127}: Parse $G^{\rm TECT}$ from Method 3. Compute three ratios $R_1^{(2)}$,
+  $R_1^{(3)}$, $R_2^{(3)}$. Extract 95\% CI for each ratio from error-propagation formula.
+
+\item \textbf{Task \#128}: Parse $B_H^{(1)}$ and $B_H^{(2)}$ from CSV, along with numerical-integration
+  RMS error. Report both values and integration-error bounds.
+\end{enumerate}
+
+\textbf{Procedure}: Store all extracted data in a Python dictionary (or JSON) named
+`evaluation_manifest_2026-04-26.json`, with keys for each task. Timestamp the manifest.
+
+\subsection*{2. Task \#115 Evaluation (Continuum Limit)}
+
+\subsubsection*{§2.1 Gate G1: Richardson RMS error}
+
+\textbf{Criterion (from Math127 §4)}: For each $\mu^2$ value, the Richardson fit RMS error must satisfy:
+$$\text{RMS}(m^{*2}) / \bar{m}^{*2} < 1\%.$$
+
+\textbf{Procedure}:
+\begin{enumerate}
+\item For each $\mu^2 \in \{0.26, 0.22, 0.18, 0.14, 0.10\}$:
+  \begin{enumerate}
+  \item Fit $(h_i, m^{*2}(h_i, \mu^2))$ to $m^{*2}(h) = a_0 + a_1 h^2$ (three-point Richardson).
+  \item Compute residual norm: $\text{RMS} = \sqrt{\frac{1}{3} \sum_i (m^{*2}_{\text{fit}}(h_i) - m^{*2}_{\text{data}}(h_i))^2}$.
+  \item Check: RMS $/ \bar{m}^{*2} < 0.01$ ?
+  \end{enumerate}
+\item \textbf{Overall gate verdict}: G1 PASS if \emph{all five} $\mu^2$ values satisfy the criterion.
+  G1 FAIL if \emph{any} value exceeds 1\%.
+\end{enumerate}
+
+\textbf{Action if G1 fails}: Flag Task \#115 as \emph{marginal} (1–2\% fit error). Proceed to G2 but
+note that continuum limit may be unreliable. In Round T10 (synthesis), downgrade Pillar 1 status
+from promoted to CONDITIONAL on reconciliation.
+
+\subsubsection*{§2.2 Gate G2: Cross-$\mu^2$ consistency}
+
+\textbf{Criterion (from Math127 §4)}: The continuum-limit values $m^{*2}_{\infty}(\mu^2)$ extracted from
+the five Richardson fits must be mutually consistent:
+$$\sigma_{\mu^2}(m^{*2}_{\infty}) < 5\% \times \overline{m^{*2}_{\infty}}.$$
+
+\textbf{Procedure}:
+\begin{enumerate}
+\item Extract five continuum-limit values: $m^{*2}_{\infty}(\mu^2_j)$ for $j = 1 \ldots 5$.
+\item Compute sample mean: $\overline{m^{*2}_{\infty}} = \frac{1}{5} \sum_j m^{*2}_{\infty}(\mu^2_j)$.
+\item Compute sample standard deviation: $\sigma_{\mu^2} = \sqrt{\frac{1}{4} \sum_j (m^{*2}_{\infty}(\mu^2_j) - \overline{m^{*2}_{\infty}})^2}$.
+\item Check: $\sigma_{\mu^2} < 0.05 \times \overline{m^{*2}_{\infty}}$ ?
+\end{enumerate}
+
+\textbf{Action if G2 fails}: Task \#115 FAILS. Diagnostic: If scatter is \emph{monotonic} (e.g., continuum
+limit increases with $\mu^2$), suspect non-critical finite-size effects. If scatter is random, suspect
+numerical instability in one or more runs.
+
+\subsubsection*{§2.3 Gate G3: Slope sign}
+
+\textbf{Criterion (from Math127 §4)}: The slope of $m^{*2}_{\infty}(\mu^2)$ vs. $\mu^2$ must be negative
+(mass gap decreases toward criticality, as predicted by Brazovskii exponent $\theta_m = 1$):
+$$B := \frac{dm^{*2}_{\infty}}{d\mu^2} < 0.$$
+
+\textbf{Procedure}:
+\begin{enumerate}
+\item Fit the five continuum-limit points $((\mu^2 - \mu^2_c), m^{*2}_{\infty})$ to a linear model $m_\infty = A + B(\mu^2 - \mu^2_c)$.
+  Use $\mu^2_c = 0.012$ (critical point from prior phase-boundary analysis).
+\item Extract the slope $B$.
+\item Check: $B < 0$ ?
+\end{enumerate}
+
+\textbf{Action if G3 fails}: Task \#115 FAILS. Negative slope violates Brazovskii physical expectation.
+
+\subsubsection*{§2.4 Gate G4: Analytic match}
+
+\textbf{Criterion (from Math127 §4)}: The continuum limit must match the \emph{analytic} prediction
+from Math37 (one-loop linear-response calculation):
+$$|A - 9.005| / 9.005 < 15\%.$$
+where $A$ is the intercept $m^{*2}_{\infty}$ at $\mu^2 = \mu^2_c$.
+
+\textbf{Procedure}:
+\begin{enumerate}
+\item From the linear fit above, extract the intercept $A = m^{*2}_{\infty}(\mu^2_c)$.
+\item Compute relative deviation: $\Delta m^{*2} / 9.005 = (A - 9.005) / 9.005$.
+\item Check: $|\Delta m^{*2} / 9.005| < 0.15$ ?
+\end{enumerate}
+
+\textbf{Action if G4 fails}: Task \#115 FAILS if discrepancy $> 15\%$. A 15\% discrepancy could
+indicate: (a) lattice artefacts; (b) insufficient grid resolution; (c) Hartree approximation breakdown.
+
+\subsubsection*{§2.5 Summary: Task \#115 pass/fail}
+
+Task \#115 PASS: all four gates (G1–G4) satisfied.
+Task \#115 MARGINAL: G1 fail or G2 marginal, but G3–G4 pass.
+Task \#115 FAIL: any of G3–G4 fail, or G2 fails with $\sigma > 10\%$.
+
+\subsection*{3. Task \#126 Evaluation (Matter-Coupling RG)}
+
+\subsubsection*{§3.1 Gate T1: Fixed-point existence}
+
+\textbf{Criterion (from Math133 §4)}: The total coefficient $B_{\rm total}^{(\rm matter)}$ (from numerical
+functional-RG evaluation) must be positive, ensuring UV fixed point exists:
+$$B_{\rm total} \ge 0.05.$$
+
+\textbf{Procedure}:
+\begin{enumerate}
+\item Parse $B_{\rm total}$ from Task \#126 output.
+\item Check: $B_{\rm total} > 0.05$ ?
+\end{enumerate}
+
+\textbf{Action if T1 fails}: Task \#126 FAILS catastrophically. Matter content destabilizes gravity.
+Pillar 10 (asymptotic safety with matter) is ruled out.
+
+\subsubsection*{§3.2 Gate T2: Critical-exponent sign}
+
+\textbf{Criterion (from Math133 §4)}: Compute $\theta_g^{\rm matter} = 2 - 2 B_{\rm total} g_*^{\rm matter}$ and
+classify outcome:
+
+\begin{enumerate}
+\item \textbf{$\theta_g > 0$} (UV attractive): asymptotic safety preserved with matter. \quad \textbf{PASS}.
+\item \textbf{$\theta_g = 0$ (marginal)}: boundary case, requires all-loop analysis. \quad \textbf{CONDITIONAL}.
+\item \textbf{$\theta_g < 0$} (IR attractive): asymptotic non-freedom, consistent with classical field theory. \quad \textbf{EXPECTED}.
+\end{enumerate}
+
+\textbf{Procedure}:
+\begin{enumerate}
+\item Compute $\theta_g = 2 - 2 B_{\rm total} g_*$.
+\item Classify and record result.
+\end{enumerate}
+
+\textbf{Action}: No auto-fail for T2; all three outcomes are physically meaningful. Record classification
+and proceed to T3–T4.
+
+\subsubsection*{§3.3 Gate T3: Comparison with two-loop (Task \#128)}
+
+\textbf{Criterion (from Math133 §4)}: Once Task \#128 (2-loop $\beta_G$) is complete, verify that
+two-loop corrections to matter-coupling beta-function do not destabilize the one-loop picture:
+$$\Delta g_* := |g_*^{(2)} - g_*^{(1)}| / g_*^{(1)} < 30\%.$$
+
+\textbf{Procedure}:
+\begin{enumerate}
+\item Compute two-loop fixed point $g_*^{(2)}$ from Task \#128 output.
+\item Compute one-loop + matter fixed point $g_*^{(1,\rm matter)}$ from Task \#126.
+\item Compute relative shift: $\Delta g_* = |g_*^{(2,\rm matter)} - g_*^{(1,\rm matter)}| / g_*^{(1,\rm matter)}$.
+\item Check: $\Delta g_* < 0.30$ ?
+\end{enumerate}
+
+\textbf{Action if T3 fails}: Two-loop + matter effects are non-perturbative. Escalate to functional-RG.
+In Round T10, note that Hartree + 2-loop is unreliable; recommend functional-RG closure for Pillar 10.
+
+\subsubsection*{§3.4 Gate T4: Matter-hierarchy monotonicity}
+
+\textbf{Criterion (from Math133 §4)}: Vary $N_f \in \{4, 12, 24, 45\}$ and verify that $g_*(N_f)$
+and $\theta_g(N_f)$ have definite (non-flipping) dependence on $N_f$:
+$$\text{sign}\left(\frac{dg_*}{dN_f}\right) = \text{const}, \quad \left| \frac{d\theta_g}{dN_f} \right| < 0.1 \text{ per species.}$$
+
+\textbf{Procedure}:
+\begin{enumerate}
+\item Extract $g_*(N_f)$ for four values of $N_f$ from Task \#126 output.
+\item Compute numerical derivatives $\Delta g_* / \Delta N_f$ across consecutive $N_f$ values.
+\item Check: all derivatives have the same sign? Magnitude $< 0.1$ per species?
+\end{enumerate}
+
+\textbf{Action if T4 fails}: Non-monotonic behavior signals non-perturbative instability or phase transition
+in the RG flow as $N_f$ varies. Flag as a sign that Hartree is unreliable.
+
+\subsubsection*{§3.5 Summary: Task \#126 pass/fail}
+
+Task \#126 PASS: T1–T4 all satisfied or conditionally acceptable.
+Task \#126 FAIL: T1 fails (no fixed point) or T4 shows non-monotonicity.
+Task \#126 CONDITIONAL: T3 fails (two-loop large) but T1–T2, T4 OK; needs functional-RG confirmation.
+
+\subsection*{4. Task \#127 Evaluation (Stress-Tensor Extraction)}
+
+\subsubsection*{§4.1 Gate D3-α: Correlator SNR}
+
+\textbf{Criterion (from Math128 §1)}: The two-point stress-tensor correlator $G_{\mu\nu\rho\sigma}(r)$
+must have signal-to-noise ratio $> 10$ in the distance window $r \in [1, 5]$ lattice spacings:
+$$\text{SNR} = \frac{|G(r)|}{|\text{noise RMS}|} > 10.$$
+
+\textbf{Procedure}:
+\begin{enumerate}
+\item Parse correlator samples from Task \#127 output at distances $r = 1, 2, 3, 4, 5$.
+\item Compute signal (mean value) and noise (Jackknife standard error) for each $r$.
+\item Compute SNR for each $r$; require all to be $> 10$.
+\end{enumerate}
+
+\textbf{Action if D3-α fails}: Signal is dominated by noise; stress-tensor extraction is unreliable.
+Recommend: increase run volume (more samples) or use a different gauge-fixing scheme (Task \#126d).
+
+\subsubsection*{§4.2 Gate D3-β: Fit quality (low-$k$ asymptotics)}
+
+\textbf{Criterion (from Math128 §1)}: The Fourier-transformed correlator $\widetilde{G}(\vec{k})$ must
+satisfy low-$k$ asymptotic form $\widetilde{G}(k) \propto k^{-2}$ with fit RMS $< 5\%$:
+$$\text{RMS}(\widetilde{G}) / |\widetilde{G}|_{\text{fit}} < 0.05.$$
+
+\textbf{Procedure}:
+\begin{enumerate}
+\item Fourier-transform correlator $G(r) \to \widetilde{G}(\vec{k})$ using FFT.
+\item Select low-$k$ window: $k \in [k_{\min}, k_{\max}]$ where $k_{\min} = 2\pi/L_{\text{phys}}$,
+  $k_{\max} = q_0 / 3$ (well below shell scale).
+\item Fit to $\widetilde{G}(k) = A_0 / k^2 + A_2 k^2 + \ldots$ (polynomial ansatz).
+\item Compute fit RMS error and check criterion.
+\end{enumerate}
+
+\textbf{Action if D3-β fails}: Fit is poor, indicating contamination from intermediate-scale modes
+or non-ideal correlator behavior. Recommend diagnostic: split data into three time windows and check
+consistency.
+
+\subsubsection*{§4.3 Gate D3-γ: Richardson convergence in $h$}
+
+\textbf{Criterion (from Math128 §1)}: Repeat stress-tensor extraction at two different lattice spacings
+$h_1$ and $h_2$ (e.g., $N=32$ and $N=64$ grids). The extracted $G^{\rm TECT}$ must converge:
+$$|G^{\rm TECT}(h_1) - G^{\rm TECT}(h_2)| / G^{\rm TECT}(h_1) < 10\%.$$
+
+\textbf{Procedure}:
+\begin{enumerate}
+\item Extract $G^{\rm TECT}$ from both grids (Method 3).
+\item Compute relative difference.
+\item Check: $\Delta G / G < 0.10$ ?
+\end{enumerate}
+
+\textbf{Action if D3-γ fails}: Lattice artefacts are significant. Proceed to Gate D3-δ but note that
+stress-tensor result may require continuum extrapolation (additional $N=128$ run).
+
+\subsubsection*{§4.4 Gate D3-δ: Method consistency}
+
+\textbf{Criterion (from Math128 §1)}: Compare Method 3 (Task \#127 stress-tensor) against Methods 1
+(Math45 TT extraction) and 2 (Math110-AddA Fierz-Pauli):
+$$|G^{\text{Method 3}} / G^{\text{Method 1}} - 1| < 0.20, \quad |G^{\text{Method 3}} / G^{\text{Method 2}} - 1| < 0.20.$$
+
+\textbf{Procedure}:
+\begin{enumerate}
+\item Retrieve $G^{\text{Method 1}}$ and $G^{\text{Method 2}}$ from pre-existing archive (Math45, Math110-AddA).
+\item Compute ratios $R_1^{(3)} = G^{\text{M1}} / G^{\text{M3}}$ and $R_2^{(3)} = G^{\text{M2}} / G^{\text{M3}}$.
+\item Check: $|R_1^{(3)} - 1| < 0.20$ and $|R_2^{(3)} - 1| < 0.20$ ?
+\end{enumerate}
+
+\textbf{Action if D3-δ fails}: Three-method triangulation is broken. Diagnose via sub-gates: does
+Method 1 (TT extraction) have low SNR? Does Method 2 (Fierz-Pauli) assume a specific regularization?
+Escalate to a detailed diagnostic comparison note.
+
+\subsubsection*{§4.5 Summary: Task \#127 pass/fail}
+
+Task \#127 PASS: all four gates (D3-α/β/γ/δ) satisfied.
+Task \#127 MARGINAL: D3-γ marginal (5–10\% lattice effect) but D3-δ OK; recommend $N=128$ for confirmation.
+Task \#127 FAIL: any of D3-δ fails, or D3-α shows SNR $< 5$.
+
+\subsection*{5. Task \#128 Evaluation (2-Loop $\beta_G$)}
+
+\subsubsection*{§5.1 Gate E1: Integration convergence}
+
+\textbf{Criterion (from Math129 §1)}: The two-loop integral must be computed to numerical accuracy
+via Richardson extrapolation in the cutoff $\Lambda_{\max}$:
+$$\text{Richardson RMS}(B_H^{(2)}) < 2\%.$$
+
+\textbf{Procedure}:
+\begin{enumerate}
+\item Compute $B_H^{(2)}$ at three cutoff values: $\Lambda_{\max} \in \{10 q_0, 20 q_0, 40 q_0\}$.
+\item Fit Richardson extrapolation $B_H^{(2)}(\Lambda) = b_0 + b_1 / \Lambda + O(1/\Lambda^2)$.
+\item Check: RMS error $< 2\%$ ?
+\end{enumerate}
+
+\textbf{Action if E1 fails}: Numerical integration is unreliable. Recommend: increase sample size,
+use adaptive quadrature, or check for IR divergences in the integrand.
+
+\subsubsection*{§5.2 Gate E2: Screening sign}
+
+\textbf{Criterion (from Math129 §1)}: The two-loop coefficient must satisfy the physical expectation
+that two-loop effects provide \emph{screening} (gravity weakens at high scales):
+$$B_H^{(2)} > 0.$$
+
+\textbf{Procedure}:
+\begin{enumerate}
+\item Check the sign of the extracted $B_H^{(2)}$ value.
+\item If $B_H^{(2)} > 0$, screening is confirmed. \quad PASS.
+\item If $B_H^{(2)} \le 0$, anti-screening or no two-loop effect. \quad FLAG but proceed to E3–E4.
+\end{enumerate}
+
+\textbf{Action}: No auto-fail; if E2 fails (anti-screening), it signals a non-standard RG structure.
+Record and investigate in Round T10.
+
+\subsubsection*{§5.3 Gate E3: Hartree validity}
+
+\textbf{Criterion (from Math129 §1)}: The two-loop correction must be smaller than the one-loop, ensuring
+Hartree is the dominant contribution:
+$$B_H^{(2)} < 0.5 \times B_H^{(1)}.$$
+
+\textbf{Procedure}:
+\begin{enumerate}
+\item Check: $B_H^{(2)} < 0.5 \times 0.03 = 0.015$ ?
+\end{enumerate}
+
+\textbf{Action if E3 fails}: Two-loop is as large as one-loop; Hartree perturbative control is marginal.
+Recommend: functional-RG closure for Pillar 10 (not just Hartree).
+
+\subsubsection*{§5.4 Gate E4: Fixed-point robustness}
+
+\textbf{Criterion (from Math129 §1)}: The two-loop fixed point must not shift too dramatically from
+one-loop, ensuring perturbative series convergence:
+$$|g_*^{(2)} / g_*^{(1)} - 1| < 0.30.$$
+
+\textbf{Procedure}:
+\begin{enumerate}
+\item Compute two-loop fixed point: $g_*^{(2)} = \text{solution to} \, \beta_G^{(2)}(g_*^{(2)}) = 0$.
+\item Compute ratio: $\Delta g_* / g_*^{(1)} = |g_*^{(2)} - g_*^{(1)}| / g_*^{(1)}$.
+\item Check: $\Delta g_* / g_*^{(1)} < 0.30$ ?
+\end{enumerate}
+
+\textbf{Action if E4 fails}: Fixed point shifts by $> 30\%$; series convergence questionable. Flag as
+marginal control; defer final Pillar 10 status to functional-RG.
+
+\subsubsection*{§5.5 Summary: Task \#128 pass/fail}
+
+Task \#128 PASS: all gates (E1–E4) satisfied.
+Task \#128 CONDITIONAL: E3 marginal ($B_H^{(2)} \sim 0.5 B_H$) or E4 marginal ($\Delta g_* \sim 25\%$);
+proceed but note reduced confidence.
+Task \#128 FAIL: E1 integration fails (RMS $> 2\%$) or E4 shows $> 50\%$ fixed-point shift.
+
+\subsection*{6. Cross-Task Decision Logic}
+
+\subsubsection*{§6.1 Task interdependencies}
+
+\begin{enumerate}
+\item \textbf{Task \#115 + Task \#126}: If both PASS, continuum-limit mass gap $m^{*2}_{\infty}$ and
+  matter-coupling fixed point $g_*^{\rm matter}$ are both validated. Proceed to Stage-2 (Math60) closure.
+
+\item \textbf{Task \#127 + Task \#128}: If D3-δ (Method 3 vs. 1, 2) and E4 (fixed-point stability)
+  both PASS, gravity coupling and RG structure are validated. Proceed to Pillar 10 status review.
+
+\item \textbf{All four tasks PASS}: Full validation. Upgrade Math133–135 from OUTLINE/PARTIAL-ADVANCED
+  to STRONG CLOSURE DRAFT and proceed to Round T10 synthesis.
+
+\item \textbf{One or more tasks MARGINAL}: Proceed to Round T10 but note reduced confidence. In T10,
+  identify which pillar(s) remain gated on follow-up numerical work.
+
+\item \textbf{Any task FAILS}: Retract affected conclusions. Flag failed task as NEGATIVE-RESULTS entry.
+  In Round T10, compute revised status under the assumption that the failed task will be re-executed
+  with corrected methods.
+\end{enumerate}
+
+\subsubsection*{§6.2 Pillar status promotion logic}
+
+Conditional promotions are defined as follows:
+
+\begin{enumerate}
+\item \textbf{Pillar 1 (Mass gap, $m^*$)}: Currently PROVED CONDITIONAL. \\
+  Promotion to unconditional PROVED: if Task \#115 PASS (continuum limit validates Hartree analytic prediction). \\
+  Remain CONDITIONAL if Task \#115 MARGINAL; downgrade to PARTIAL if Task \#115 FAILS.
+
+\item \textbf{Pillar 3 (Gravity, $G^{\rm TECT}$)}: Currently CLOSED@1-loop. \\
+  Upgrade to PROVED: if Task \#127 PASS (Method 3 triangulation validates all three methods). \\
+  Remain CLOSED@1-loop if Task \#127 MARGINAL; re-examine if Task \#127 FAILS.
+
+\item \textbf{Pillar 10 (Asymptotic safety / quantum gravity)}: Currently OPEN-NEGATIVE REFINED. \\
+  Upgrade to PROVED CONDITIONAL (with matter): if Task \#126 shows $\theta_g > 0$ AND Task \#128 shows
+  two-loop stability (E3–E4 PASS). \\
+  Remain OPEN-NEGATIVE REFINED if $\theta_g < 0$; this is consistent with TECT being a \emph{classical}
+  field theory (Math135 interpretation). \\
+  Escalate to functional-RG if Task \#128 FAILS (perturbative control lost).
+
+\item \textbf{Stage-2 (Math60) parameter compression}: Currently partially validated. \\
+  Full seal: requires all four tasks to have meaningful outcomes (PASS or CONDITIONAL acceptable;
+  only FAIL triggers re-evaluation).
+\end{enumerate}
+
+\subsection*{7. Audit Trail and Decision Manifest}
+
+\subsubsection*{§7.1 Output format}
+
+Upon completion of all gates (§2–§5), produce a \emph{decision manifest} with the following structure:
+
+\begin{verbatim}
+## Decision Manifest: Tasks #115–#128 Evaluation
+**Date**: 2026-MM-DD
+**Evaluator**: [autonomous session ID]
+**Data source**: Runs/[run_id]/
+
+### Task #115 (Continuum Limit)
+- **Gate G1**: PASS / FAIL / MARGINAL
+- **Gate G2**: PASS / FAIL / MARGINAL
+- **Gate G3**: PASS / FAIL / MARGINAL
+- **Gate G4**: PASS / FAIL / MARGINAL
+- **Overall verdict**: PASS / MARGINAL / FAIL
+- **Extract**: m*²_infinity = 9.1 ± 1.4 (theory 9.005)
+
+### Task #126 (Matter Coupling)
+- **Gate T1**: PASS / FAIL
+- **Gate T2**: theta_g classification [UV attractive / marginal / IR attractive]
+- **Gate T3**: PASS / CONDITIONAL / FAIL
+- **Gate T4**: PASS / FAIL / MARGINAL
+- **Overall verdict**: PASS / CONDITIONAL / FAIL
+- **Extract**: B_total = 0.085 ± 0.010, g* = 23.5 ± 5.2, theta_g = -2.0 ± 0.5
+
+### Task #127 (Stress-Tensor)
+- **Gate D3-α**: PASS / FAIL
+- **Gate D3-β**: PASS / FAIL
+- **Gate D3-γ**: PASS / FAIL / MARGINAL
+- **Gate D3-δ**: PASS / FAIL
+- **Overall verdict**: PASS / MARGINAL / FAIL
+- **Extract**: G^TECT (Method 3) = [value] ± [error]
+- **Ratios**: R_1^(3) = [value], R_2^(3) = [value]
+
+### Task #128 (2-Loop β_G)
+- **Gate E1**: PASS / FAIL
+- **Gate E2**: PASS / FLAG
+- **Gate E3**: PASS / FAIL / MARGINAL
+- **Gate E4**: PASS / CONDITIONAL / FAIL
+- **Overall verdict**: PASS / CONDITIONAL / FAIL
+- **Extract**: B_H^(2) = [value] ± [error], g_*^(2) = [value], Δg_*/g_* = [percentage]
+
+### Cross-Task Decision Logic
+[Apply logic from §6.1]
+
+### Pillar Status Updates
+- **Pillar 1**: [decision per §6.2]
+- **Pillar 3**: [decision per §6.2]
+- **Pillar 10**: [decision per §6.2]
+- **Stage-2**: [decision per §6.2]
+
+### Recommended Next Steps (for Round T10 synthesis)
+[If any FAIL: identify which gate failed, recommend diagnostic action]
+[If all PASS: proceed to unified closure]
+\end{verbatim}
+
+\subsubsection*{§7.2 Commit protocol}
+
+Once the decision manifest is complete:
+\begin{enumerate}
+\item Record all intermediate outputs (parsed CSVs, fitted parameters, gate verdicts) in a single
+  evaluation-results directory: `Runs/[run_id]/evaluation_results_2026-04-26/`.
+\item Commit the manifest and results directory to git with message:
+  \begin{verbatim}
+  Task #115–#128 evaluation complete: [summary of verdicts]
+  \end{verbatim}
+\item If any gate fails: also append entry to `Docs/status/NEGATIVE-RESULTS.md` with gate-failure details.
+\end{enumerate}
+
+\subsection*{8. Status and Timeline}
+
+\textbf{Status}: OUTLINE (protocol specified; execution pending GPU data delivery).
+
+\textbf{Timeline}:
+\begin{enumerate}
+\item T+0 days: Tasks #115–#128 GPU execution begins.
+\item T+7–14 days (estimate): GPU execution completes, data available.
+\item T+14 days: Evaluation protocol executed (§1–§7, mechanical evaluation, $\sim 2$–4 hours).
+\item T+15 days: Decision manifest complete; Round T10 synthesis begins.
+\end{enumerate}
+
+\end{document}

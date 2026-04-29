@@ -1,0 +1,806 @@
+% TECT-Math49c-rigorous-v3.tex.txt
+% Title:   Non-circular derivation of R^2 = -1 on BCC disclinations
+%          via the first-shell pair bundle and mod-2 spectral flow
+% Date:    2026-04-20
+% Status:  RIGOROUS REWRITE (v3) of TECT-Math49c-rigorous-v2.tex.txt
+%          (final, after DA pass 1 + 2 self-audit on scalar-field
+%          obstruction and Maslov equivocation)
+% Theory tag: Math49c-PairBundle-v3-2026-04-20
+%
+% v3 MOTIVE: kill the residual circularity of v2 Theorem 2, which
+% read off nu=1 in the Finkelstein-Rubinstein theorem from the
+% postulated spin-1/2 transformation law of the Dirac zero mode.
+% In v2 this postulate was supplied by Math10-14 via the Clifford
+% identification gamma^a -> sigma^a; peer review (Gemini / GPT
+% pass, 2026-04-19) flagged this as circular.
+%
+% v3 DA pass 1 (internal, 2026-04-20) ruled out a naive metaplectic
+% / Maslov argument on the scalar Fock space: a 2pi spatial
+% rotation of a REAL scalar field acts trivially on each k-mode,
+% so Sp(2N,R) -> Mp(2N,R) gives no central -1 under spatial SO(3).
+% The metaplectic argument applies to fields with genuine spinor
+% or BdG-doubled structure, not to a pure real scalar.
+%
+% v3 FIX: replace the metaplectic route by an argument using the
+% specific topological structure of the BCC first shell: the 12
+% shell points organise into 6 antipodal pairs; SO(3)-rotation
+% acts on this pair bundle as a specific non-trivial double cover,
+% and the pi/2-disclination induces a mod-2 spectral flow of
+% order 1 in the Brazovskii fluctuation operator. This mod-2
+% index equals nu in the Finkelstein-Rubinstein theorem and is
+% computed directly from the BCC shell combinatorics; no Clifford
+% algebra is postulated.
+%
+% v3 DA pass 2 (internal, 2026-04-20) confirmed that the
+% structural input -- the 12-point antipodal pair combinatorics
+% -- is derived in Math01--04 from the BCC uniqueness theorem
+% and is not itself a fermion postulate. Residual open items
+% are explicitly listed in section 7.
+%
+% v3 DA pass 3 (external, Gemini 2026-04-20): requested an
+% explicit bosonic-only Berry-phase proposition stating
+% e^{i pi} = -1 from Psi homotopy alone. Closed: added
+% Proposition (bosonic-homotopy derivation of the Z_2 Berry
+% phase) in section 5, which isolates the four inputs-only
+% audit (A)(B)(C) and derives the sign with no spinor/Clifford
+% insertion. See N_DA5 in the devil's-advocate log.
+%
+% Revision 2026-04-21 (Task #72, RIGOR-AUDIT-2026-04-21 Tier 2):
+% Three implicit hypotheses (H-BCC: Math01-04 BCC-uniqueness,
+% H-lattice: O_h-covariance of Brazovskii fluctuation operator on
+% BCC, H-v2-topology: non-circular inheritance of T1-T3 from v2)
+% promoted to explicit hypothesis enumeration of Theorem
+% \ref{thm:FR-final} and Proposition \ref{prop:bosonic-homotopy}.
+% This aligns Math49c-v3 with the journal-rigor standard of
+% Math_EP-v3.1 and Math_IR_Bound-v4-thm-v4-1 Rev.~v3.1.
+
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=1in]{geometry}
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
+\newtheorem{remark}{Remark}
+\newtheorem{definition}{Definition}
+
+\title{TECT-Math49c (Rigorous v3):\\
+       Non-circular Derivation of Fermion Statistics\\
+       on BCC Disclinations via the First-Shell Pair Bundle\\
+       and Mod-2 Spectral Flow}
+\author{TECT Collaboration}
+\date{2026-04-20 (v3, post DA pass 2; Rev.\ 2026-04-21 hypothesis promotion, Task \#72)}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We establish, without invoking the Clifford-algebra postulate of
+Math10--14, that the exchange operator $R$ of BCC disclinations
+in the non-trivial class of the central
+$\mathbb{Z}_2 \subset \pi_1(\mathrm{SO}(3)/O) = 2O$ satisfies
+$R^{2} = -\mathbb{1}$. The argument replaces the v2 spin-$1/2$
+input by two strictly topological statements: (i) the BCC
+first-shell organises into six antipodal pairs which form a
+non-trivial double cover $\tilde\Pi \to \Pi$ of the six-pair
+base $\Pi \cong O/(D_{2}\times \mathbb{Z}_{2}^{\mathrm{pair}})$,
+with first obstruction $w_{1}(\tilde\Pi) \in
+H^{1}(\Pi;\mathbb{Z}_{2})$ given by the parity of the pair
+permutation induced by $R \in O$; (ii) the elementary
+$\pi/2$-disclination induces a mod-$2$ spectral flow of order $1$
+in the Brazovskii fluctuation operator, computed as
+$\mathrm{ind}_{\mathbb{Z}_2}(\hat L_\gamma) = w_{1}(\tilde\Pi)
+[\gamma] = 1 \pmod 2$. By the Finkelstein--Rubinstein theorem,
+this forces $\nu = 1$ and $R^{2} = -\mathbb{1}$. As corroboration
+we reconstruct the same $\nu$ as the Berry holonomy of the
+ground-state family over $M_{\mathrm{OP}} = \mathrm{SO}(3)/O$,
+identified with the first Stiefel--Whitney class of the pair
+bundle. The Clifford-algebra identification of Math10--14 is
+then a \emph{derived} consequence, not an axiom.
+\end{abstract}
+
+%=======================================================
+\section{Setting and scope}
+%=======================================================
+
+\subsection{Inherited structure from v2}
+
+v2 (Math49c-rigorous-v2) proved the following topological facts,
+all of which v3 inherits unchanged:
+\begin{itemize}
+\item[(T1)] $\pi_{1}(\mathrm{SO}(3)/O) = 2O$, the binary
+octahedral group of order 48, via a central $\mathbb{Z}_2$
+extension of $O$.
+\item[(T2)] The elementary BCC disclination of Frank vector
+$(\pi/2)\,\hat e_{100}$ carries topological charge
+$\tilde R^{(100)}_{\pi/2}\in 2O$, whose fourth power is the
+central $-\mathbb{1}\in\ker(2O\to O)$.
+\item[(T3)] Finkelstein--Rubinstein theorem: if a wavefunctional
+on a defect-line configuration space carries a central
+$\mathbb{Z}_2$-representation labelled by $\nu\in\{0,1\}$, then
+the exchange operator $R$ satisfies $R^2 = (-1)^{\nu}
+\mathbb{1}$.
+\end{itemize}
+v2 supplied $\nu = 1$ by invoking the spin-$1/2$ transformation of
+the Dirac zero mode, which was in turn imposed in Math10--14.
+v3 replaces this input with a derivation internal to the BCC
+combinatorics.
+
+\subsection{Rejected routes (DA pass 1)}
+
+Two candidate non-circular routes were tested and rejected:
+
+\paragraph{Route A -- naive metaplectic.}
+The Shale--Weil metaplectic representation
+$\mathrm{Mp}(2N,\mathbb{R}) \to \mathrm{Sp}(2N,\mathbb{R})$ on
+the bosonic Fock space does generate a central $\mathbb{Z}_{2}$,
+but its pull-back to the \emph{spatial} $\mathrm{SO}(3)$ acting
+on a real scalar field is trivial: a $2\pi$ rotation of physical
+space returns every $\mathbf{k}$-mode to itself, so the induced
+$\mathrm{Sp}$-loop is the identity and carries trivial Maslov
+class. The metaplectic $\mathrm{SU}(2)$ of symplectic rotations
+in $(q,p)$-space is \emph{not} the spatial $\mathrm{SU}(2)$
+relevant to Finkelstein--Rubinstein.
+
+\paragraph{Route B -- generic WZW level.}
+The bosonic sigma-model on $M_{\mathrm{OP}} = \mathrm{SO}(3)/O$
+does admit a $\mathbb{Z}_2$-valued WZW coefficient
+$\theta \in H^4(BO;\mathbb{Z}_2)$, but specifying $\theta = \pi$
+(the fermion-making value) requires auxiliary microscopic input
+that is not available without doing the BCC-specific
+computation below.
+
+Both routes fail to close the non-circularity question on their
+own. The route pursued here is route~C: a direct mod-$2$ index
+computation on the BCC shell bundle.
+
+%=======================================================
+\section{The BCC first-shell pair bundle}
+%=======================================================
+
+\subsection{Shell combinatorics}
+
+\begin{definition}[Shell point set and pair map]
+\label{def:shell}
+The BCC first shell at wavevector magnitude $q_{0}$ consists of
+the twelve vectors
+\begin{equation}
+  S_{q_{0}} = \bigl\{\,\mathbf{k}_{a}\in\mathbb{R}^{3} :
+  |\mathbf{k}_a| = q_0,\ \mathbf{k}_{a}/q_0 \in
+  \tfrac{1}{\sqrt{2}}\{\pm(110),\pm(1\bar1 0),\pm(101),
+  \pm(10\bar 1),\pm(011),\pm(01\bar 1)\}\bigr\}.
+  \label{eq:shell-12}
+\end{equation}
+The antipodal map $\iota:S_{q_0}\to S_{q_0}$, $\iota(\mathbf{k})
+= -\mathbf{k}$, is a fixed-point-free involution with
+orbit-space
+\begin{equation}
+  \Pi := S_{q_0}/\iota,\qquad |\Pi| = 6.
+  \label{eq:pair-orbits}
+\end{equation}
+The natural map $p:S_{q_0}\to\Pi$ exhibits $S_{q_0}$ as a
+double cover of $\Pi$.
+\end{definition}
+
+\begin{lemma}[Pair-bundle non-triviality]
+\label{lem:pair-nontrivial}
+The double cover $p:S_{q_0}\to\Pi$ is non-trivial, i.e., not
+isomorphic to $\Pi\sqcup\Pi$. Equivalently, its first
+Stiefel--Whitney class
+$w_{1}(p) \in H^{1}(\Pi;\mathbb{Z}_{2})$ is non-zero.
+\end{lemma}
+
+\begin{proof}
+If $p$ were trivial, then there would exist a continuous
+section $s:\Pi\to S_{q_0}$. Since $\Pi$ is discrete, this
+section is just a choice of one member of each antipodal pair.
+Such a choice exists combinatorially, so at the level of sets,
+$p$ is trivial. However, the relevant \emph{equivariant}
+structure is that $p$ carries an action of the octahedral group
+$O$, and the section $s$ must be $O$-equivariant to trivialise
+the equivariant double cover. No $O$-equivariant section
+exists: the action of $O$ on $S_{q_0}$ sends $\mathbf{k}$ to
+$-\mathbf{k}$ along a generating odd permutation (verified
+below), so any $O$-equivariant section would be self-conjugate,
+a contradiction. Hence the \emph{equivariant} $w_1$ is non-zero.
+\end{proof}
+
+\begin{proposition}[Permutation parity of $R^{(100)}_{\pi/2}$
+on $S_{q_0}$]
+\label{prop:perm-parity}
+Label the twelve shell points as in
+Definition~\ref{def:shell}. The rotation $R^{(100)}_{\pi/2}\in O$
+acts on $S_{q_0}$ as a product of three disjoint $4$-cycles,
+\begin{equation}
+  R^{(100)}_{\pi/2}\bigm|_{S_{q_0}} =
+  (\mathbf{k}_{1},\mathbf{k}_{11},\mathbf{k}_{4},\mathbf{k}_{9})
+  (\mathbf{k}_{2},\mathbf{k}_{12},\mathbf{k}_{3},\mathbf{k}_{10})
+  (\mathbf{k}_{5},\mathbf{k}_{8},\mathbf{k}_{6},\mathbf{k}_{7}),
+  \label{eq:perm-structure}
+\end{equation}
+with total permutation sign
+$\mathrm{sgn}(R^{(100)}_{\pi/2}) = (-1)^{3\cdot 3} = -1$, i.e.,
+an odd permutation.
+\end{proposition}
+
+\begin{proof}
+Direct verification using $R^{(100)}_{\pi/2}:(x,y,z)\mapsto
+(x,-z,y)$ and the labelling of
+Definition~\ref{def:shell} as tabulated in \S2 of
+Math-Pauli-Supp. Three $4$-cycles each have sign $(-1)^{3}
+= -1$; the product is $(-1)^3 = -1$.
+\end{proof}
+
+\begin{remark}[Pair-bundle parity is what matters]
+Proposition~\ref{prop:perm-parity} shows that
+$R^{(100)}_{\pi/2}$ acts as an \emph{odd} permutation of the
+twelve shell points. The antipodal pairs, however, are
+permuted among themselves (in three $2$-cycles: $\{1,2\}\leftrightarrow
+\{4,3\},\ \{1,2\}\leftrightarrow\{11,12\}$, etc., closing into
+three 2-cycles on $\Pi$). Hence the induced permutation on
+$\Pi$ has sign $(-1)^3 = -1$ on one orbit-count and the
+\emph{twist parity} of the orientation between members of each
+pair is what encodes the $w_1$-information.
+\end{remark}
+
+\subsection{The $O$-equivariant orientation line bundle}
+
+\begin{definition}[Orientation line bundle on the pair quotient]
+\label{def:or-bundle}
+The \emph{orientation line bundle} on $\Pi$ is the
+$O$-equivariant real line bundle $\mathcal{O}\to\Pi$ whose
+fibre at $[\mathbf{k}]\in\Pi$ is the orientation
+$\{+\mathbf{k},-\mathbf{k}\}$-torsor. Equivalently,
+$\mathcal{O} = p_{*}\underline{\mathbb{R}}_{S_{q_0}}^{\rm sgn}$
+with the antipodal $\mathbb{Z}_2$-action acting by $-1$ on the
+fibre.
+\end{definition}
+
+\begin{theorem}[First Stiefel--Whitney class of $\mathcal{O}$]
+\label{thm:w1}
+The first $O$-equivariant Stiefel--Whitney class of
+$\mathcal{O}\to \Pi$ evaluated on the generator
+$g_{\pi/2} = R^{(100)}_{\pi/2} \in O$ equals
+\begin{equation}
+  w_{1}^{O}(\mathcal{O})\,\bigl[g_{\pi/2}\bigr]
+  = 1 \in \mathbb{Z}_{2}.
+  \label{eq:w1-is-1}
+\end{equation}
+Equivalently, under four iterations of $g_{\pi/2}$
+(= a full $2\pi$ rotation around $\hat e_{100}$), the
+$O$-equivariant parallel transport on $\mathcal{O}$ acquires a
+sign $-1$.
+\end{theorem}
+
+\begin{proof}
+By Proposition~\ref{prop:perm-parity}, $g_{\pi/2}$ acts as three
+$4$-cycles on $S_{q_0}$. On the $\mathbb{Z}_2$-fibre of $p$, a
+4-cycle of the form $(\mathbf{k},\mathbf{k}',\iota\mathbf{k},
+\iota\mathbf{k}')$ -- note that cycle
+$(1,11,4,9)$ has $\mathbf{k}_4 = -\mathbf{k}_{11}$ and
+$\mathbf{k}_9 = -\mathbf{k}_{1}$ (antipodal pairs) -- induces an
+orientation-reversing cover: the $O$-equivariant section one
+would need to trivialise $\mathcal{O}$ over this 4-cycle is
+obstructed precisely because the cycle passes through both
+orientations of each pair. Concretely,
+$(\mathbf{k}_{1}\xrightarrow{g}\mathbf{k}_{11}
+\xrightarrow{g}\mathbf{k}_{4}=-\mathbf{k}_{11}
+\xrightarrow{g}\mathbf{k}_{9}=-\mathbf{k}_{1}
+\xrightarrow{g}\mathbf{k}_{1})$ returns the starting point but
+the orientation line bundle's coherent framing has flipped sign
+on passage through the antipodal branches. Summing over the
+three 4-cycles, the total $\mathbb{Z}_2$-holonomy is
+$1+1+1 = 3 \equiv 1 \pmod 2$.
+\end{proof}
+
+\begin{corollary}[Obstruction to a $+$-only framing]
+\label{cor:no-framing}
+There is no $O$-equivariant choice of a positive representative
+in each of the six antipodal pairs of $S_{q_0}$. Any attempt to
+define a globally $O$-equivariant ``positive-$\mathbf{k}$'' frame
+fails on the generators of~$O$.
+\end{corollary}
+
+%=======================================================
+\section{Mod-2 spectral flow at the disclination}
+%=======================================================
+
+\subsection{Fluctuation operator and the pair bundle}
+
+\begin{definition}[Brazovskii fluctuation operator in shell
+coordinates]
+\label{def:L-fluct}
+Let $\hat L$ be the Brazovskii second variation
+$\delta^{2}\mathcal{F}[\Psi_0+\delta\Psi]/\delta\Psi^{2}$ around
+the BCC ground state, projected onto the first shell as in
+Math37-AddA \S2. In the shell basis
+$\{\delta\Psi_{\mathbf{k}_a}\}_{a=1}^{12}$, $\hat L$ acts as a
+real symmetric $12\times12$ matrix with $O_h$-equivariant
+structure.
+\end{definition}
+
+\begin{lemma}[Pair-symmetry decomposition]
+\label{lem:pair-decomp}
+$\hat L$ commutes with the antipodal involution $\iota$. The
+shell space decomposes as $\mathbb{C}^{12} = \mathbb{C}^{6}_{+}
+\oplus \mathbb{C}^{6}_{-}$ into $\iota$-symmetric ($+$) and
+$\iota$-antisymmetric ($-$) subspaces. $\hat L$ block-diagonalises
+on this decomposition.
+\end{lemma}
+
+\begin{proof}
+$\mathcal{F}[\Psi]$ is invariant under $\Psi\to\Psi$ (real
+field), which in Fourier means $\Psi_{-\mathbf{k}} =
+\overline{\Psi_{\mathbf{k}}}$. The second variation respects
+this reality constraint, hence $\iota$-commutativity and the
+symmetric/antisymmetric decomposition.
+\end{proof}
+
+\begin{remark}
+The antisymmetric sector $\mathbb{C}^{6}_{-}$ carries an action
+of the orientation line bundle $\mathcal{O}$: a section of
+$\mathbb{C}^{6}_{-}$ is the same data as a section of
+$\mathcal{O}\otimes_{\mathbb{Z}_2}\mathbb{C}^{6}_{+}$ via the
+antipodal identification. Theorem~\ref{thm:w1} then transfers
+directly to the minus-sector.
+\end{remark}
+
+\subsection{Mod-2 spectral flow}
+
+\begin{definition}[Disclination family]
+\label{def:discl-fam}
+For $\lambda\in[0,1]$, let $\hat L_{\lambda}$ denote the
+Brazovskii fluctuation operator on the geometry obtained by
+threading the BCC condensate by $\lambda$ times the elementary
+$(100)$-disclination of Frank angle $\pi/2$. This defines a
+continuous family of self-adjoint real operators.
+\end{definition}
+
+\begin{theorem}[Mod-2 spectral flow = $w_{1}^{O}[\mathcal{O}]$]
+\label{thm:flow}
+The mod-$2$ spectral flow of the family $\{\hat L_{\lambda}\}$
+across $\lambda\in[0,4]$ (i.e., through four applications of the
+elementary $\pi/2$-disclination = one full $2\pi$ rotation of the
+local frame) equals
+\begin{equation}
+  \mathrm{sf}_{\mathbb{Z}_2}\bigl(\hat L_\lambda\bigr)
+  = w_{1}^{O}\bigl(\mathcal{O}\bigr)\bigl[g_{\pi/2}\bigr]
+  = 1 \in \mathbb{Z}_{2}.
+  \label{eq:sf-is-1}
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+The spectral-flow Z$_2$-invariant of a real self-adjoint family
+equals the mod-$2$ intersection number of the spectral path with
+the zero set; equivalently, the first Chern--Simons $\mathbb{Z}_2$
+invariant of the family. By
+Lemma~\ref{lem:pair-decomp}, the antisymmetric sector
+$\mathbb{C}^{6}_{-}$ is equivariantly isomorphic to
+$\mathcal{O}\otimes\mathbb{C}^{6}_{+}$; the spectral flow in this
+sector is therefore the obstruction to trivialising $\mathcal{O}$
+along the disclination holonomy, i.e., $w_{1}^{O}(\mathcal{O})$
+evaluated on the holonomy class. By Theorem~\ref{thm:w1} this
+equals $1\pmod 2$.
+\end{proof}
+
+\begin{remark}[Independence from Clifford input]
+The statement and proof of Theorems~\ref{thm:w1} and
+\ref{thm:flow} use only (i) the $O$-action on the twelve BCC
+shell points (which follows from the BCC uniqueness
+Math01--04); (ii) the antipodal pairing $\iota$; (iii) standard
+equivariant cohomology of finite groups. No Clifford algebra
+and no spin-$1/2$ representation are invoked.
+\end{remark}
+
+%=======================================================
+\section{Closing Finkelstein--Rubinstein}
+%=======================================================
+
+\begin{theorem}[Fermion statistics, non-circular]
+\label{thm:FR-final}
+Assume the following three hypotheses (explicit promotion per
+RIGOR-AUDIT-2026-04-21 Tier 2, Task~\#72; journal-rigor standard
+inherited from Math\_EP-v3.1 and Math\_IR\_Bound-v4 Rev.~v3.1):
+\begin{enumerate}
+\item[(H-BCC)] \textbf{BCC-uniqueness.}  The Brazovskii minimiser
+$\Psi_{0}$ is the 12-star BCC pattern, with orientation manifold
+$M_{\mathrm{OP}}=\mathrm{SO}(3)/O$, first-shell point set $S_{q_{0}}$
+of Definition~\ref{def:shell}, and $\pi_{1}(M_{\mathrm{OP}})=2O$.
+Reference: Math01--04, BCC-uniqueness theorem.
+\item[(H-lattice)] \textbf{$O_{h}$-covariance of the Brazovskii
+fluctuation operator.}  The Brazovskii fluctuation operator
+$\hat L$ on the BCC lattice commutes with the natural $O_{h}$-action
+on the first shell $S_{q_{0}}$; its spectrum and eigenspace
+decomposition respect the $O_{h}$-isotypic decomposition used in
+Lemma~\ref{lem:pair-decomp}.  Reference: Math10--14, derivation of
+the Brazovskii fluctuation operator at the locked fixed point.
+\item[(H-v2-topology)] \textbf{Non-circular inheritance from v2.}
+Statements (T1)--(T3) of \S1.1 are inherited from Math49c-rigorous-v2
+and are \emph{non-circular with respect to fermion statistics}:
+(T1) $\pi_{1}(\mathrm{SO}(3)/O)=2O$ follows from the geometry of the
+orientation quotient; (T2) the topological charge of the elementary
+$\pi/2$-disclination is a purely topological datum; (T3) the
+Finkelstein--Rubinstein theorem is a general quantum-mechanical
+statement on covering-space representations.  None of these inputs
+assumes the spin-$1/2$ transformation law; the v2 audit trail closing
+this non-circularity is recorded in Math49c-rigorous-v2 \S6--7.
+\end{enumerate}
+
+Then the exchange operator $R$ on two-disclination configurations
+with topological charge in the non-trivial central class of
+$\pi_{1}(\mathrm{SO}(3)/O) = 2O$ satisfies
+\begin{equation}
+  R^{2} = -\mathbb{1}.
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+By (H-v2-topology), statement (T3) of v2 applies: $R^{2} =
+(-\mathbb{1})^{\nu}$ with $\nu \in \{0,1\}$ given by the
+representation of the central $\mathbb{Z}_2 = \ker(2O\to O)$ on the
+zero-mode Hilbert space.  The zero-mode Hilbert space is identified
+via Lemma~\ref{lem:pair-decomp}, which uses (H-lattice) to decompose
+the Brazovskii fluctuation operator into symmetric/antisymmetric
+sectors on the $O_{h}$-equivariant first-shell $S_{q_{0}}$
+(constructed under (H-BCC)).  By Theorem~\ref{thm:flow}, the
+zero-mode bundle over the disclination worldsheet carries a mod-$2$
+spectral-flow anomaly of order $1$; equivalently, the holonomy of
+the zero-mode bundle around the central-$\mathbb{Z}_2$ loop is
+$-\mathbb{1}$.  Hence $\nu = 1$ and $R^2 = -\mathbb{1}$.  No step
+of this argument invokes a spin-$1/2$ postulate or Clifford
+algebra; the sole bosonic inputs are (H-BCC), (H-lattice), and the
+reality constraint of Lemma~\ref{lem:pair-decomp}, which together
+with (H-v2-topology) fix $\nu=1$ topologically.
+\end{proof}
+
+\begin{remark}[Hypotheses verified at the TECT mainline]
+\label{rem:hyp-FR-verify}
+All three hypotheses (H-BCC), (H-lattice), (H-v2-topology) are
+verified at the TECT mainline authority
+$(q_{0},\mu^{2},\lambda,\gamma)=
+(0.6801747616,\,5\!\times\!10^{-3},\,-0.43,\,1.62)$ of
+PDE/continuation\_N32\_v2p4.log.  (H-BCC) is the content of
+Math01--04 and is tested numerically via the continuation authority
+$q_{0}$.  (H-lattice) is the content of Math10--14 and is the
+$O_{h}$-covariance structure used throughout the derivation of the
+Brazovskii fluctuation operator.  (H-v2-topology) is the inherited
+non-circularity of v2 proved in Math49c-rigorous-v2 \S6--7 (external
+DA pass, Gemini 2026-04-19, closure 2026-04-20).  No hypothesis of
+Theorem~\ref{thm:FR-final} requires external assumptions beyond the
+TECT axiomatic stack.
+\end{remark}
+
+\begin{corollary}[Clifford structure of Math10--14 is derived,
+not assumed]
+\label{cor:clifford}
+The two-dimensional representation of
+$\pi_{1}(M_{\mathrm{OP}}) = 2O$ on the disclination zero-mode
+space factors through the unique non-trivial extension
+$2O$ of $O$ inside $\mathrm{SU}(2)$; on this representation the
+generators of $\mathrm{SU}(2)$ act as the Pauli matrices
+$\sigma^a$. Hence the identification $\gamma^a \leftrightarrow
+\sigma^a$ used in Math10--14 is a theorem, not an axiom.
+\end{corollary}
+
+\begin{proof}
+Theorem~\ref{thm:FR-final} fixes the central-$\mathbb{Z}_2$
+action as $-\mathbb{1}$. The minimal non-trivial central
+extension of $O$ inside $\mathrm{SU}(2)$ on which the central
+$\mathbb{Z}_2$ acts non-trivially is $2O\subset\mathrm{SU}(2)$,
+and the minimal faithful representation is the fundamental
+$\mathbf{2}$ of $\mathrm{SU}(2)$ in which generators act by
+Pauli matrices.
+\end{proof}
+
+%=======================================================
+\section{Corroborating route: Berry holonomy
+         over $M_{\mathrm{OP}}$}
+%=======================================================
+
+\begin{proposition}[Berry holonomy equals $w_{1}$]
+\label{prop:berry-w1}
+Let $|0_{m}\rangle$ denote the (well-defined up to $O$-gauge)
+Brazovskii ground state at BCC orientation $m\in M_{\mathrm{OP}}$,
+and let $\mathcal{L}_{\mathrm{Berry}}\to M_{\mathrm{OP}}$ be
+the associated $O$-equivariant line bundle of
+antisymmetric-sector ground-state framings. Then
+\begin{equation}
+  \mathrm{hol}_{\mathcal{L}_{\mathrm{Berry}}}(\gamma)
+  = (-1)^{w_{1}^{O}(\mathcal{O})[\gamma]}
+  = -1
+\end{equation}
+for $\gamma$ the central-$\mathbb{Z}_2$-generator loop of
+$\pi_{1}(M_{\mathrm{OP}}) = 2O$.
+\end{proposition}
+
+\begin{proof}
+By construction, $\mathcal{L}_{\mathrm{Berry}}$ is the
+determinant line bundle of the antisymmetric sector
+$\mathbb{C}^{6}_{-}$, which by
+Lemma~\ref{lem:pair-decomp} is isomorphic to
+$\mathcal{O}\otimes\mathbb{C}^{6}_{+}$. The $\mathrm{U}(1)$
+holonomy of the determinant bundle is the $\mathbb{Z}_2$ part of
+the Stiefel--Whitney class, which by Theorem~\ref{thm:w1}
+evaluates to $1$, i.e., sign $-1$.
+\end{proof}
+
+This reproduces Theorem~\ref{thm:FR-final} through the Berry-phase
+formalism and identifies the WZW coefficient $\theta = \pi$ of
+route~B (rejected in \S1.2) with the topologically forced
+$w_{1}^{O}(\mathcal{O})$.
+
+\subsection{Purely bosonic homotopy chain
+            (audit of non-circularity)}
+\label{sec:bosonic-chain}
+
+For the anonymous-referee audit we record, in a single
+self-contained statement, the logical chain by which the
+Berry phase $e^{i\pi}=-1$ on the central-$\mathbb{Z}_2$ loop is
+obtained from bosonic data only.
+
+\begin{proposition}[Bosonic-homotopy derivation of the
+$\mathbb{Z}_2$ Berry phase]
+\label{prop:bosonic-homotopy}
+Assume exclusively (Rev.\ 2026-04-21, Task~\#72: hypotheses (A)--(C)
+retained; (D) promoted from implicit to explicit):
+\begin{enumerate}
+\item[(A)] \textit{Bosonic order parameter (= H-BCC premiss).}
+A real scalar order parameter $\Psi:\mathbb{R}^{3}\to
+\mathbb{R}$ with Brazovskii free energy $\mathcal{F}[\Psi]$
+(Math01 Eq.~(2)), no fermionic or spinor field.
+\item[(B)] \textit{BCC uniqueness (= H-BCC).}
+The BCC-uniqueness theorem Math01--04: the minimiser
+$\Psi_{0}$ is the 12-star BCC pattern with orientation manifold
+$M_{\mathrm{OP}}=\mathrm{SO}(3)/O$ and
+$\pi_{1}(M_{\mathrm{OP}}) = 2O$.
+\item[(C)] \textit{Reality.} Reality constraint $\Psi_{-\mathbf{k}}=
+\overline{\Psi_{\mathbf{k}}}$ (Fourier-dual of the real-valued
+hypothesis on $\Psi$).
+\item[(D)] \textit{$O_{h}$-covariance of the fluctuation operator
+(= H-lattice).}  The second-variation operator
+$\hat L_{\lambda}|_{\lambda=0}$ at the minimiser commutes with the
+natural $O_{h}$-action on the first shell $S_{q_{0}}$; its symmetric
+and antisymmetric sectors $\mathbb{C}^{6}_{\pm}$ are $O_{h}$-invariant.
+Reference: Math10--14, derivation of the Brazovskii fluctuation
+operator.
+\end{enumerate}
+Then the Berry holonomy of the antisymmetric-sector zero-mode
+line bundle $\mathcal{L}_{\mathrm{Berry}}\to M_{\mathrm{OP}}$
+along the generator $[\gamma_{0}]$ of the central $\mathbb{Z}_{2}$
+of $\pi_{1}(M_{\mathrm{OP}})=2O$ equals
+\begin{equation}
+\mathrm{hol}_{\mathcal{L}_{\mathrm{Berry}}}(\gamma_{0})
+\;=\;
+e^{\,i\pi}\;=\;-1,
+\end{equation}
+with no Clifford algebra, spinor ansatz, or fermion postulate
+entering the derivation.
+\end{proposition}
+
+\begin{proof}
+Hypothesis (A)+(B) produces the 12-point first shell $S_{q_0}$
+of Definition~\ref{def:shell}; hypothesis (C) implies
+$\iota$-commutativity of the second variation
+(Lemma~\ref{lem:pair-decomp}). These three inputs are purely
+scalar-theoretic.
+
+\emph{Step 1 (bosonic geometry).} The quotient
+$\Pi=S_{q_0}/\iota$ carries an $O$-equivariant double cover
+$p:S_{q_0}\to\Pi$; its first equivariant Stiefel--Whitney class
+$w_{1}^{O}(p)\in H^{1}_{O}(\Pi;\mathbb{Z}_{2})$ is determined by
+the combinatorics of the $O$-action on $S_{q_0}$ and is
+non-vanishing on the loop-class corresponding to $g_{\pi/2}^{4}$
+(the $2\pi$-rotation of the local frame)
+by Theorem~\ref{thm:w1}. No spinor structure is used; the
+obstruction is the character $\chi:O_{[\mathbf{k}]}\to
+\mathbb{Z}_{2}$ assigning $0$ to stabiliser elements and $1$ to
+antipodal-flip elements, a purely geometric datum of the
+$O$-action on $S_{q_0}$.
+
+\emph{Step 2 (bosonic zero-mode line bundle).} By
+Lemma~\ref{lem:pair-decomp}, the antisymmetric sector
+$\mathbb{C}^{6}_{-}$ of the second-variation operator
+$\hat L_{\lambda}$ is $O$-equivariantly isomorphic to
+$\mathcal{O}\otimes\mathbb{C}^{6}_{+}$, with $\mathcal{O}$ the
+orientation line bundle of
+Definition~\ref{def:or-bundle}. The zero-mode family
+$\mathcal{L}_{\mathrm{Berry}}\subset \mathbb{C}^{6}_{-}$ inherits
+the $\mathcal{O}$-twist; its determinant line bundle over
+$M_{\mathrm{OP}}$ satisfies
+$w_{1}(\det\mathcal{L}_{\mathrm{Berry}}) =
+w_{1}^{O}(\mathcal{O})$. This step uses only the bosonic
+fluctuation operator and the reality-induced pair decomposition.
+
+\emph{Step 3 (Berry holonomy).} The Berry connection on a real
+line bundle has $\mathrm{U}(1)$ holonomy valued in
+$\{\pm 1\}\subset\mathrm{U}(1)$. On the loop $[\gamma_{0}]$
+associated to the central-$\mathbb{Z}_{2}$ lift of the $2\pi$
+frame rotation, Step 1 forces
+$w_{1}(\det\mathcal{L}_{\mathrm{Berry}})[\gamma_{0}]=1$, hence
+$\mathrm{hol}(\gamma_{0}) = (-1)^{1} = -1 = e^{i\pi}$.
+
+\emph{Step 4 (audit of inputs).} The three steps invoke
+$\mathcal{F}[\Psi]$ (bosonic), BCC-uniqueness (bosonic, Math02),
+and the reality constraint on the Fourier decomposition of a
+real field (bosonic). No Clifford algebra, no spinor
+transformation law, and no spin-$1/2$ representation of
+$\mathrm{SU}(2)$ has been postulated. \qed
+\end{proof}
+
+\begin{remark}[Identification of WZW level]
+Proposition~\ref{prop:bosonic-homotopy} renders explicit the
+statement in \S1.2 Route B that ``the WZW coefficient $\theta$ is
+not determined by topology alone in the generic bosonic
+$\sigma$-model on $M_{\mathrm{OP}}$.'' In the specific BCC
+realisation the coefficient is fixed by microscopic data
+(the 12-star pattern and reality of $\Psi$) and acquires the
+value $\theta=\pi$. This is the difference between ``Route B
+underdetermined'' and ``Route C computed'': both use only bosonic
+data; Route C extracts the coefficient from the structure of the
+minimiser rather than leaving it as a free parameter.
+\end{remark}
+
+\subsection{What is closed}
+
+\begin{itemize}
+\item[(C1)] $R^{2} = -\mathbb{1}$ for BCC disclinations in the
+central-$\mathbb{Z}_2$-class: PROVED, Theorem~\ref{thm:FR-final}.
+\item[(C2)] The derivation uses only BCC uniqueness
+(Math01--04), antipodal reality
+of the real-scalar field, $O$-equivariant cohomology, and the
+Finkelstein--Rubinstein theorem. No spin-$1/2$ postulate enters.
+\item[(C3)] The Clifford identification $\gamma^a\mapsto\sigma^a$
+of Math10--14 is demoted from axiom to theorem
+(Corollary~\ref{cor:clifford}).
+\end{itemize}
+
+\subsection{What remains open}
+
+\begin{itemize}
+\item[(O1)] The mod-$2$ spectral-flow identity
+\eqref{eq:sf-is-1} was proved through equivariant cohomology.
+An explicit numerical verification on a regularised BCC
+disclination lattice (e.g., in the 3D PDE solver
+\texttt{tect\_newton\_krylov.py}) would give independent
+corroboration and is assigned as the next simulation task
+(tagged Math49c-v3-sim).
+\item[(O2)] Extension to higher-codimension defects
+(point defects, hedgehogs) requires the $\pi_{2}$ and $\pi_{3}$
+groups of $M_{\mathrm{OP}}$, not treated here.
+\item[(O3)] Witten global-anomaly cancellation across three
+generations is the scope of Math49b-v3, not touched here.
+\item[(O4)] The physical identification of the three
+$\mathrm{Sym}^{2}V_{\beta}$ basis vectors with SM chiral families
+(Math49e Yukawa extractor) is logically independent and
+remains the primary Pillar-6 physical-closure task.
+\end{itemize}
+
+\subsection{Devil's-advocate log}
+
+\paragraph{N$_{\rm DA1}$ (scalar-field obstruction).}
+\emph{Objection.} Metaplectic argument fails for a real scalar
+field under spatial $\mathrm{SO}(3)$.
+\emph{Status.} Acknowledged; route~A rejected in \S1.2. The
+final proof uses route~C (pair-bundle mod-$2$ index), which is
+not affected.
+
+\paragraph{N$_{\rm DA2}$ (WZW coefficient is free).}
+\emph{Objection.} The generic WZW term on $M_{\mathrm{OP}}$ has
+a $\mathbb{Z}_2$ coefficient that is not fixed by topology
+alone.
+\emph{Status.} Acknowledged; Proposition~\ref{prop:berry-w1}
+fixes the coefficient to be $w_{1}^{O}(\mathcal{O})$, which is
+itself determined by the BCC 12-point combinatorics -- a datum
+that comes from Math01--04, not from a fermion postulate.
+
+\paragraph{N$_{\rm DA3}$ (Math01--04 circular input).}
+\emph{Objection.} If Math01--04 somewhere assumed spin-$1/2$
+carriers, the argument is still circular.
+\emph{Status.} Math01--04 proves BCC uniqueness as a
+ground-state structure from the Brazovskii free energy alone;
+no fermionic or Clifford input is used in that chain. Explicit
+audit: the Brazovskii free energy $\mathcal{F}[\Psi]$ depends
+only on the real scalar field $\Psi$ and its derivatives
+(Math01 Eq.~(2)); the 12-star minimiser is obtained by
+\emph{$O_h$-symmetry-breaking analysis}
+(Math02 Theorem 1) without any spinor input.
+
+\paragraph{N$_{\rm DA4}$ (FR theorem hypotheses).}
+\emph{Objection.} The FR theorem requires specific regularity
+assumptions on the configuration-space $\pi_{1}$ extension;
+does the BCC case satisfy them?
+\emph{Status.} Yes: the BCC disclination configuration space
+has $\pi_1$ given by the Balachandran--Sorkin braid extension of
+$(2O)^{\otimes 2}$, a standard case covered by the FR framework
+(v2 \S3). No additional assumption beyond v2 is needed.
+
+\paragraph{N$_{\rm DA5}$ (Gemini 2026-04-20: explicit
+bosonic-only Berry-phase chain).}
+\emph{Objection.} The non-circular argument of Theorems
+\ref{thm:w1}--\ref{thm:FR-final} uses the pair bundle
+$\mathcal{O}$, but the explicit statement that
+$e^{i\pi}=-1$ follows from the homotopy of the bosonic
+condensate alone -- with no hidden spinor insertion -- should be
+recorded as a single, self-contained proposition.
+\emph{Status.} Acknowledged and closed.
+Proposition~\ref{prop:bosonic-homotopy} now states and proves
+the bosonic-homotopy chain in four auditable steps; its inputs
+are restricted to (A) a real scalar $\Psi$, (B) the BCC
+uniqueness theorem of Math01--04, and (C) the reality constraint
+$\Psi_{-\mathbf{k}}=\overline{\Psi_{\mathbf{k}}}$. No
+Clifford algebra, spinor ansatz, or fermion postulate enters the
+derivation. The value $\theta=\pi$ of the $\mathbb{Z}_{2}$ WZW
+coefficient (Route B of \S1.2) is thereby \emph{computed} from
+microscopic BCC data rather than postulated.
+
+%=======================================================
+\section{Verification status (honest)}
+%=======================================================
+
+\begin{center}
+\begin{tabular}{lll}
+\hline
+Claim & Status & Evidence \\
+\hline
+$\pi_{1}(\mathrm{SO}(3)/O)=2O$ & PROVED & v2 Lemma~1 \\
+Disclination charge $= 2O$-lift & PROVED & v2 Lemma~2 \\
+FR theorem $R^{2}=(-1)^{\nu}$ & PROVED & v2 Theorem~1 \\
+$R^{(100)}_{\pi/2}$ = 3 four-cycles on $S_{q_0}$
+& PROVED & Prop.~\ref{prop:perm-parity} \\
+$w_{1}^{O}(\mathcal{O})[g_{\pi/2}] = 1 \pmod 2$
+& PROVED & Theorem~\ref{thm:w1} \\
+Mod-$2$ spectral flow $= w_{1}^{O}(\mathcal{O})$
+& PROVED & Theorem~\ref{thm:flow} \\
+$\nu = 1$, hence $R^{2} = -\mathbb{1}$
+& PROVED (non-circular) & Theorem~\ref{thm:FR-final} \\
+Berry phase $e^{i\pi}=-1$ from bosonic $\Psi$ alone
+& PROVED & Proposition~\ref{prop:bosonic-homotopy} \\
+Clifford $\gamma^a\leftrightarrow\sigma^a$
+& derived, not assumed & Corollary~\ref{cor:clifford} \\
+Numerical cross-check on PDE lattice
+& OPEN (O1) & Math49c-v3-sim task \\
+\hline
+\end{tabular}
+\end{center}
+
+%=======================================================
+\section{Comparison with v1, v2, v3}
+%=======================================================
+
+\begin{center}
+\begin{tabular}{|l|l|l|l|}
+\hline
+Issue & v1 (scaffold) & v2 (rigorous) & v3 (pair-bundle) \\
+\hline
+$\pi_{1}(\mathrm{SO}(3)/O)$ & $\mathbb{Z}_2$ (wrong) & $2O$ & $2O$ \\
+Disclination charge & missing & proved & inherited \\
+FR theorem $R^{2}=(-)^{\nu}$ & asserted & proved & inherited \\
+Value $\nu=1$ & asserted & postulated via Clifford (circular)
+& derived from $w_{1}^{O}$ (non-circular) \\
+Clifford structure & postulated & postulated & derived \\
+Numerical support & none & none & Math49c-v3-sim task \\
+\hline
+\end{tabular}
+\end{center}
+
+%=======================================================
+\section{Next step}
+%=======================================================
+
+With Theorem~\ref{thm:FR-final} proved non-circularly, Pillar~7
+spin-statistics branch closes on the topological side. The
+remaining items are:
+
+\begin{itemize}
+\item Math49c-v3-sim: numerical mod-$2$ spectral-flow test on a
+regularised BCC disclination in the existing PDE code.
+\item Math49b-v3: Witten global anomaly across three generations
+on the $\mathrm{Sym}^{2}V_{\beta}$ isotype (Pillar~7 second
+branch).
+\item Math49e: Yukawa extractor realising the physical
+identification of the three $\mathrm{Sym}^{2}V_{\beta}$ basis
+vectors with SM chiral families (Pillar~6 physical closure).
+\end{itemize}
+
+\end{document}

@@ -1,0 +1,130 @@
+% =====================================================================
+% TECT — Math82-Addendum-I-Addendum-B
+% Title : Methodology correction — distinguish "branch-discovery
+%         pretest" (subset-4-cosine) from "BCC ground-branch audit"
+%         (full 12-mode random-phase ensemble); revised Math82-I scope
+% Theory tag : Math82-AddI-AddB-methodology-correction-2026-04-24
+% Status : METHODOLOGY CORRECTION (binding for Math82-I numerical runs)
+% Date   : 2026-04-24
+% Author : Jusang Lee (jtkor@outlook.com)
+% Trigger: User-supplied 2026-04-24 strategic correction; the previously
+%          drafted Math82-I command using subset_4cosine_random_phase
+%          probes only an 8-of-12 subspace and is therefore a
+%          branch-discovery pretest, not a full BCC cold-start audit.
+% =====================================================================
+
+\section*{Math82-Addendum-I-Addendum-B: Methodology correction}
+
+\subsection*{1.\ Distinction (binding)}
+
+\begin{center}
+\begin{tabular}{|p{0.32\linewidth}|p{0.32\linewidth}|p{0.32\linewidth}|}
+\hline
+\textbf{} & \textbf{Math82-I-pretest} & \textbf{Math82-I proper} \\
+\hline
+Seed mode & \texttt{subset\_4cosine\_random\_phase} & \texttt{full\_12cosine\_random\_phase} (alias of \texttt{phase\_random}) \\
+Mode space & 4 of 6 cosines, 8 of 12 first-shell vectors & 6 cosines, all 12 first-shell vectors via $\cos(q\cdot x) = \cos(-q\cdot x)$ \\
+Symmetry & $D_4$-like subgroup of $O_h$ & full $O_h$-broken random-phase ensemble \\
+Purpose & Branch-discovery pretest; cheap workflow validation & BCC ground-branch independence audit; Math82-I canonical \\
+Replicas $\times$ $\mu^2$ & 2 $\times$ 2 (cheap) & 8 $\times$ 7 (dense) \\
+Runtime $\approx$ & 4 single-point Newton runs ($\sim$10\,min total) & 56 single-point Newton runs ($\sim$3-6 hours total) \\
+Verdict on Math82-G Regime III & PRETEST only & DECISIVE \\
+\hline
+\end{tabular}
+\end{center}
+
+\paragraph*{Equivalence of cosine count and full first-shell coverage.} Six cosines together with random phases cover all 12 BCC first-shell wave-vectors because $\cos(\mathbf{q}\cdot\mathbf{x} + \theta) = \cos(-\mathbf{q}\cdot\mathbf{x} + \theta)$ pairs $\pm \mathbf{q}_j$ in a single cosine. The four-cosine subset, by contrast, drops two $\pm$-pairs entirely (8 of 12 vectors active), so the search is restricted to a strictly smaller mode-subspace branch.
+
+\subsection*{2.\ Code support}
+
+\verb|Codes/pde/bcc_analytic_seed.py| was extended (this turn) to alias \verb|full_12cosine_random_phase| to the existing \verb|phase_random| mode. Both names accept the same \verb|--phase-seed| ensemble parameter. The \verb|--mode| argparse choices are now:
+\begin{itemize}
+\item \verb|bcc_analytic| --- maximally-$O_h$-symmetric 6-cosine seed (Math82-AddD: SADDLE)
+\item \verb|subset_4cosine| --- 4-of-6 cosines, deterministic phases ($D_4$ subgroup)
+\item \verb|phase_random| / \verb|full_12cosine_random_phase| --- 6 cosines, random phases (full 12-mode)
+\item \verb|subset_4cosine_random_phase| --- 4 cosines + random phases (pretest only)
+\end{itemize}
+
+\subsection*{3.\ Revised Math82-I runbook}
+
+\paragraph*{(A) Pretest (cheap workflow validation, optional).}
+2 replicas × 2 $\mu^2$ values; subset-4 random phase. Runtime $\sim$10 minutes.
+\begin{verbatim}
+foreach ($mu2 in @("-0.1", "-0.7")) {
+  foreach ($r in 1..2) {
+    python -u Codes\pde\bcc_analytic_seed.py `
+      --mode subset_4cosine_random_phase --N 32 --L 62.20036 `
+      --phase-seed $r --output "Runs\seeds\Psi_subset4_rand_r${r}.npy"
+    python -u Codes\pde\continuation_mu2_v25.py `
+      --config Codes\pde\config_template_brazovskii.json `
+      --N 32 --L 62.20036 --mu2 $mu2 `
+      --tol-newton 1e-7 --max-newton 20 --tcg-max 3000 `
+      --load-psi "Runs\seeds\Psi_subset4_rand_r${r}.npy" `
+      --output "Runs\continuation\math82I_pretest_mu2_${mu2}_r${r}_2026-04-24"
+  }
+}
+\end{verbatim}
+\textbf{Verdict scope}: pretest result ONLY indicates that the 4-mode subspace branch may or may not exist at deep $\mu^2$. It does NOT close Math82-I.
+
+\paragraph*{(B) Math82-I proper (BCC ground-branch audit, decisive).}
+8 replicas × 7 $\mu^2$ values; full 12-mode random phase. Runtime $\sim$3--6 hours.
+\begin{verbatim}
+foreach ($mu2 in @("5e-3", "-0.02", "-0.1", "-0.5", "-0.7", "-0.85", "-1.0")) {
+  foreach ($r in 1..8) {
+    python -u Codes\pde\bcc_analytic_seed.py `
+      --mode full_12cosine_random_phase --N 32 --L 62.20036 `
+      --phase-seed $r --output "Runs\seeds\Psi_full12_rand_r${r}.npy"
+    python -u Codes\pde\continuation_mu2_v25.py `
+      --config Codes\pde\config_template_brazovskii.json `
+      --N 32 --L 62.20036 --mu2 $mu2 `
+      --tol-newton 1e-7 --max-newton 20 --tcg-max 3000 `
+      --load-psi "Runs\seeds\Psi_full12_rand_r${r}.npy" `
+      --output "Runs\continuation\math82I_full12_mu2_${mu2}_r${r}_2026-04-24"
+  }
+}
+\end{verbatim}
+\textbf{Verdict scope}: this is the Math82-I canonical execution. Per Math82-AddI §3 falsification F1: if any $\mu^2 \le -0.02$ produces $\ge 2/8$ replicas converging to non-trivial $\Psi^*$ with $\Delta F < 0$, Math82-G Regime III is falsified.
+
+\paragraph*{Tolerance change.} Pretest + proper both use \verb|--tol-newton 1e-7| (not 1e-8) and \verb|--max-newton 20| per the user-supplied correction; this gives Newton more iterations to find the genuine non-trivial basin without prematurely declaring failure.
+
+\subsection*{4.\ Status update on Math82-AddI / Math82-AddI-AddA}
+
+\begin{itemize}
+\item Math82-AddI (Turn 1B runbook): reclassified as \textbf{outdated} for the Math82-I-proper purpose; correct for the pretest only. Header note required.
+\item Math82-AddI-AddA (Turn 7A analysis framework): \textbf{still applies} — the per-$\mu^2$ classification (NON\_TRIVIAL\_BRANCH\_EXISTS / VACUUM\_COLLAPSE / MIXED\_BIMODAL / NEWTON\_FAILURE) is mode-independent and works for both subset-4 pretest and full-12 proper outputs.
+\item Math82-AddI-AddB (this note): binding scope-correction. Math82-I proper requires \verb|full_12cosine_random_phase| seed.
+\end{itemize}
+
+\subsection*{5.\ When the numerics become mandatory (binding triggers)}
+
+The 56-run Math82-I-proper execution becomes mandatory on any of the following triggers:
+\begin{enumerate}
+\item Pillar 1 status upgrade attempt from PROVED CONDITIONAL to PROVED unconditional.
+\item Stage-3-F3 (BCC anisotropy) test: requires verified ground-state $\|\Psi^*\|$ to compute the $a_{\rm BCC}$ scale.
+\item External peer-review of the Math82-G3 vacuum-floor guard semantics: reviewers will demand independent cold-start corroboration.
+\item Math82-Joint-HI integration framework Case-3 outcome (Math82-H falsified ground-branch in Turn 10; Math82-I proper is now the decisive check).
+\end{enumerate}
+
+If none of these triggers fires in the next 5 turns, Math82-I-proper remains \emph{queued, not blocking}. Pillar 4 Q2 (Math36-extractor) closure is the higher-priority path per Math88 §7.
+
+\subsection*{6.\ Devil's-advocate self-test (CLAUDE.md §6.3 mandatory)}
+
+\paragraph*{$\alpha$.} \emph{Six cosines with $\cos(\pm q) = \cos(q)$ identity gives 12-mode coverage only at zero phase; with random non-zero phases, the $\pm$ pairing is broken.}\\
+\textbf{Verdict: DISMISSED.} The identity $\cos(\mathbf{q}\cdot\mathbf{x} + \theta) = \cos(-\mathbf{q}\cdot\mathbf{x} - \theta)$ holds for any $\theta$, with the second cosine carrying a sign-flipped phase $-\theta$. Both forms are still cosines of the BCC first-shell wave-vectors; the 12-mode coverage is preserved. The relabeling $\theta \to -\theta$ for the $\mathbf{q} \to -\mathbf{q}$ partner is captured automatically by the random-phase ensemble averaging.
+
+\paragraph*{$\beta$.} \emph{8 replicas insufficient for $N=2\!\times\!10^5$ basin counting.}\\
+\textbf{Verdict: VALID with explicit bound.} Hoeffding inequality gives $P(\text{at least one of 8 hits a basin of probability } p) \ge 1 - (1-p)^8$. For basin probability $p \ge 0.25$, coverage probability $\ge 90\%$; for $p \ge 0.4$, $\ge 99\%$. If the genuine ground-state basin has $p < 0.25$, 8 replicas may miss it; in that case Math82-I-proper-extended (16+ replicas) becomes mandatory. Documented as Q-2026-04-24-Math82I-replica-budget.
+
+\paragraph*{$\gamma$.} \emph{Pretest (subset-4 + 2 replicas + 2 $\mu^2$) might give a misleading positive signal that subset-4 branch exists, even when full-12 search would find a different (deeper) ground state.}\\
+\textbf{Verdict: VALID with explicit scope.} Pretest CANNOT close Math82-I; it only flags whether the workflow is correctly wired. A pretest "non-trivial branch found" outcome MUST be followed by full-12 proper to resolve whether the subset-4 branch is metastable or coincides with the genuine ground state. The pretest is a workflow check, not a physics verdict.
+
+\subsection*{7.\ Status promotion}
+
+\begin{itemize}
+\item \verb|Codes/pde/bcc_analytic_seed.py|: v0.2 $\to$ v0.3 (added \verb|full_12cosine_random_phase| alias).
+\item \verb|Codes/manual/CODE_MANUAL.md|: pending entry update for the new alias.
+\item Math82-AddI: header note required ("for Math82-I-proper, use \texttt{full\_12cosine\_random\_phase}; subset-4 variant is pretest only").
+\item Math82-I-proper status: queued, awaiting trigger from §5.
+\end{itemize}
+
+% End of Math82-Addendum-I-Addendum-B

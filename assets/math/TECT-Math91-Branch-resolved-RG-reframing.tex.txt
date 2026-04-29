@@ -1,0 +1,124 @@
+% =====================================================================
+% TECT — Math91 Branch-resolved RG reframing
+% Title : User-supplied diagnostic of Math82-H deep-mu2 stalls as
+%         branch-discovery failure (NOT solver pathology); reframing of
+%         Pillar 4 Q2 from "single g(Λ) flow" to "branch-resolved
+%         g_i(Λ) family"; mandates Math82-I cold-start + branch
+%         discovery as the actual Q2 solution path
+% Theory tag : Math91-Branch-resolved-RG-reframing-2026-04-24
+% Status : CANONICAL REFRAMING (binding upgrade to Math88 §6 Q2 reduction;
+%          adds branch-index dimension to the Math36-extractor pipeline)
+% Date   : 2026-04-24
+% Author : Jusang Lee (jtkor@outlook.com)
+% Provenance: User-issued strategic diagnostic of Math82-H execution log,
+%             archived per CLAUDE.md §4 chat-content auto-archival rule
+% =====================================================================
+
+\section*{Math91: Branch-resolved RG reframing of Pillar 4 Q2}
+
+\subsection*{1.\ Diagnostic of Math82-H deep-$\mu^2$ stalls}
+
+The Math82-H execution log (Turn 10, 2675s GPU) shows 3-regime structure (Regime I metastable + Regime II saddle + Regime III stall). The Regime III stall pattern is NOT a numerical pathology in any of:
+
+\paragraph*{Eliminated diagnoses.}
+\begin{itemize}
+\item PCG: Jacobian SPD, antisymmetry $\sim 10^{-16}$ (perfect symmetry); linear solver is not the problem.
+\item Newton tolerance: $\|\nabla F\|/\sqrt{N} \sim 10^{-8}$ already; convergence has happened.
+\item Trust-region semantics: $\rho \to -\infty$, $\Delta \to 0$ in concert with the gradient floor; this is the consequence, not the cause.
+\end{itemize}
+
+\paragraph*{Actual diagnosis.}
+\[
+\boxed{\text{Newton converged to a stationary point that is NOT on the continuation branch.}}
+\]
+At deep $\mu^2$, the warm-start iterate is a stationary point of the projected residual but does not lie on any single continuation branch — it has fallen into a different basin or is at a topology-change locus where the branch structure bifurcates.
+
+\subsection*{2.\ Phase-structure interpretation}
+
+\begin{itemize}
+\item \textbf{Shallow regime} ($\mu^2 \in [-0.1, +5\!\times\!10^{-3}]$): single-branch continuation succeeds. At $\mu^2 = -0.1$, the saddle ($\lambda_0 < 0$, $\Delta F < 0$) is on the genuine condensate branch.
+\item \textbf{Deep regime} ($\mu^2 \le -0.5$): \textbf{branch bifurcation or topology change}. The single-branch warm-start can no longer track the equilibrium because either (a) multiple branches now exist with distinct basins, (b) the branch on which Newton was tracking has terminated, or (c) the Brazovskii first-order transition has been crossed.
+\end{itemize}
+
+\subsection*{3.\ Q2 reframing (binding update to Math88 §6)}
+
+\paragraph*{Wrong (Math88 §6 original framing):} ``Pillar 4 Q2 = single coupling flow $g(\Lambda)$ from BCC defect-moduli to SM gauge structure; the 5-step extractor produces this single trajectory.''
+
+\paragraph*{Correct (this note, Math91):}
+\[
+\boxed{\text{Q2}\;=\;\text{branch-resolved RG flow family}\quad\Lambda\;\mapsto\;\{g_i(\Lambda)\}_{i \in \mathcal{I}}}
+\]
+where $i$ indexes the branches of the equilibrium manifold accessible from any cold-start initialisation. The number of branches $|\mathcal{I}|$ is finite per $\mu^2$ but may change with $\mu^2$ (bifurcations, terminations, mergers).
+
+\paragraph*{Implication for Math36-extractor (Math88 §6 Step 5).} The fixed-point check
+\[
+(g_c, g_E, g_O)(\Lambda) \to \mathrm{const} \quad \text{as}\quad \Lambda \to \Lambda_{\rm IR}
+\]
+must be replaced by per-branch fixed-point checks
+\[
+(g_c^{(i)}, g_E^{(i)}, g_O^{(i)})(\Lambda) \to \mathrm{const} \quad \text{as}\quad \Lambda \to \Lambda_{\rm IR}\quad\text{for each}\ i\in\mathcal{I}.
+\]
+The gauge-emergence proof requires that AT LEAST ONE branch fixed-point matches the SM coupling pattern $\alpha_3 : \alpha_2 : \alpha_1$ within tolerance.
+
+\subsection*{4.\ Math82-H verdict (binding correction)}
+
+\[
+\boxed{\text{Math82-H = partial success + structural failure}}
+\]
+Partial success: shallow-regime branch confirmed (Points 1, 2, 3 accessible; Point 3 condensate energetically favourable). Structural failure: deep-regime branches inaccessible from a single warm-start because warm-start traps in a single basin.
+
+\subsection*{5.\ Solution path (Math82-I = cold-start + branch discovery)}
+
+The Math82-I cold-start scan with random-phase ensemble is exactly the branch-discovery mechanism. The previously drafted execution (Math82-AddI / Math82-AddI-AddA / Math82-AddI-AddB) becomes the canonical Q2 solution path:
+
+\begin{enumerate}
+\item \textbf{Random-seed ensemble}: per $\mu^2$, run $K \ge 8$ replicas with i.i.d. random phases (Math82-AddI-AddB §3 (B) full\_12cosine\_random\_phase).
+\item \textbf{Symmetry-broken seeds}: include subset-4 (4-mode $D_4$-broken) and full-12 random-phase seeds; ensure both subspaces are sampled.
+\item \textbf{Multi-initial ensemble}: minimum $K = 8$ replicas per $\mu^2$ for $p \ge 0.25$ basin coverage; raise to $K = 16$ if pretest indicates $p < 0.25$.
+\item \textbf{Clustering / branch classification}: post-process the converged $\Psi^*$'s into branches by Hamming distance in mode space; each cluster = one branch $i$.
+\item \textbf{Per-branch RG extraction}: apply Math36-extractor (Math88 §6 + Math36-AddA) to each branch's converged $\Psi^*$ separately to obtain $\{g_c^{(i)}, g_E^{(i)}, g_O^{(i)}\}(\Lambda)$.
+\end{enumerate}
+
+\subsection*{6.\ Pillar 4 Q2 status (revised)}
+
+Pre-Math91: ``PROVED REDUCIBLE to numerical RG extraction'' (Math88 §6).\\
+Post-Math91: \textbf{PROVED REDUCIBLE to branch-resolved numerical RG extraction}, i.e.\ Math82-I cold-start + clustering + per-branch Math36-extractor pipeline.
+
+The reducibility statement is unchanged in spirit; what changes is the algorithmic specification of the pipeline. The Math36-AddA Theorem `thm:Q2-pipeline-correctness' is correctly stated for the single-branch case; the multi-branch extension is a Math36-AddB future-work item.
+
+\subsection*{7.\ Devil's-advocate self-test (CLAUDE.md §6.3 mandatory)}
+
+\paragraph*{$\alpha$.} \emph{Branch reframing may be over-interpreting a numerical artefact: if vacuum-floor guard threshold were raised, the deep-$\mu^2$ stalls might disappear and the apparent ``branch failure'' could be a misdiagnosis.}\\
+\textbf{Verdict: VALID with empirical bound.} The vacuum-floor guard threshold $c_{\rm floor} = 100$ gives $\mathrm{vac\_floor} \approx 5\!\times\!10^{-12}$, which is $\sim 10^3$× below the actual stall-state $\|F\| \sim 5\text{-}11\!\times\!10^{-9}$. Raising $c_{\rm floor}$ to $10^4$ would shift threshold to $\approx 5\!\times\!10^{-10}$, still below stall state. The stalls are NOT vacuum-state; they are non-vacuum stationary points off the continuation branch. Branch reframing is correct.
+
+\paragraph*{$\beta$.} \emph{The 12-mode = subset-4 four-digit match (Math82-H Point 1 vs Math82-G Point 1) is a strong reproducibility signal that contradicts the branch-multiplicity claim: if multiple branches existed, why do two different seeds give identical answers?}\\
+\textbf{Verdict: DISMISSED with branch-projection argument.} Both subset-4 and 12-mode seeds, despite spanning different subspaces, project under Newton iteration onto the SAME branch in the shallow regime ($\mu^2 \in [-0.1, +5e-3]$). This is the metastable branch; it is the unique branch in this $\mu^2$ window. The branch-multiplicity claim applies to the deep regime ($\mu^2 \le -0.5$) where the metastable branch terminates and other branches (potentially multiple) exist.
+
+\paragraph*{$\gamma$.} \emph{Math82-I cold-start was already specified in Math82-AddI / Math82-AddI-AddB; what does Math91 add beyond renaming?}\\
+\textbf{Verdict: VALID with substantive content.} Math91 adds: (i) the explicit reinterpretation of Math82-H deep stalls as branch-discovery failure (not solver pathology), (ii) the binding reframing of Q2 from single flow to branch-resolved family, (iii) the requirement that Math36-extractor's Step 5 fixed-point check be per-branch, (iv) the clustering step (4) in §5 as the algorithmic bridge between cold-start ensemble and RG extraction.
+
+\subsection*{8.\ Status promotion}
+
+\begin{itemize}
+\item Math88 §6: superseded by Math91 §3 for the Q2 algorithmic specification (single-flow → branch-resolved).
+\item Math36-AddA Theorem `thm:Q2-pipeline-correctness': scope-restricted to single-branch case; multi-branch extension queued as Math36-AddB.
+\item Math82-I (Math82-AddI + AddA + AddB): elevated from ``branch-existence test'' to ``Q2 solution path''. Execution becomes mandatory once user is ready to invest the 56 Newton-run budget.
+\item Pillar 4 Q2 status: PROVED REDUCIBLE (single-branch) → \textbf{PROVED REDUCIBLE (branch-resolved)}; structural reformulation, status string unchanged but specification clarified.
+\end{itemize}
+
+\subsection*{9.\ Implications for Math89 next-10-turn plan}
+
+Math89 (Turn 10C) listed Math82-I as Turn 13 Track A. Math91 elevates this priority:
+\begin{itemize}
+\item \textbf{Turn 13 Track A} (Math82-I cold-start ensemble) becomes the Q2 closure mechanism.
+\item \textbf{Turn 13 Track B} (Stage-2-D Jacobian numerical) requires per-branch evaluation.
+\item \textbf{Turn 14} consolidation must include per-branch Math36-extractor application.
+\end{itemize}
+
+\subsection*{10.\ One-line summary}
+
+\[
+\boxed{\text{Q2's bottleneck is NOT RG theory; it is BRANCH-SPACE EXPLORATION via cold-start + clustering.}}
+\]
+
+% End of Math91 Branch-resolved RG reframing

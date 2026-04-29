@@ -1,0 +1,10 @@
+**Honest positioning (post Round 10 mainline sweep, 2026-04-24).**
+
+TECT is the first framework to derive the Standard Model gauge group algebraically from a single topological condensate structure ($\mathrm{Stab}_{SU(5)}\,\mathrm{Gr}(2,5) = G_{\mathrm{SM}}$), with a falsifiable numerical certification protocol. After the Round 10 mainline sweep:
+
+- **Pillar 6 advances substantially**: Q6a fully closed at theorem level (Math80-Addendum-A Lie-algebraic + Math80-Addendum-B topological); Q6b numerically salvaged via Pati-Salam two-step RGE (Math77-Q6b-Addendum-B: $M_{\mathrm{GUT}} = 6.36 \times 10^{16}$ GeV at $\alpha_{\mathrm{GUT}}^{-1} = 46.5$, no BCC-defect content required); Q6c, Q6d still open.
+- **Pillar 11 advances** from NEAR-CLOSURE to PROVED CONDITIONAL on (Pauli-Villars scheme + BCC condensate-energy convention) via Math58-v7's 4-sector chain.
+- **Pillar 1 numerical anchor achieved** (Math82-Addendum-F): first clean $m^{*2}$ measurement at the Brazovskii target operating point.
+- **Pillar 10 remains the binding scope-limiter** (OPEN-NEGATIVE REFINED via 8 independent failed routes including the R5 first-iteration FAILURE).
+
+**Operational classification: TECT is a Unified Classical Field Theory (UCFT) / Partial TOE.** $\hbar$ remains an external phenomenological parameter (Newton's $G$, Einstein's $\Lambda$, Dirac's $\alpha$ precedent). The audit-rollback discipline of 2026-04-24 (per `R-2026-04-24-RoundOverclaim`) establishes that theorem-level closure claims must survive both internal self-audit and a distinct external adversarial pass; this discipline is now incorporated as `UPDATE_POLICY` §14 SRP-v1 and §15 chat-archival rules.

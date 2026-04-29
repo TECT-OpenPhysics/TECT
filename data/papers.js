@@ -1,0 +1,564 @@
+/**
+ * @MANUAL_OVERRIDE — hand-curated; generate_website.py will skip this file.
+ * papers.js — Papers index: complete catalogue of TECT proof archive
+ *              ready for journal-paper assembly.
+ *
+ * 2026-04-27 rev 4 (hand-curated): the rev-3 per-Pillar layout is extended
+ * to cover ALL load-bearing TECT results, not just the 11 emergence pillars.
+ * Includes pre-condensation cosmology, Stage-2 Global Closure (Math60),
+ * the four quantum-completion gates (GAP-1..4), and the audit-discipline /
+ * methodology track. Each entry points to the canonical Math-note proof
+ * archive in Docs/math/ and carries category tags identifying which
+ * physics axis it advances.
+ *
+ * Tag legend (rev 4, simplified):
+ *   TOE = Theory-of-Everything qualification (S1/S2/S3 contribution)
+ *   SM  = Standard Model phenomenology (mass, chirality, generations, Yukawa)
+ *   GUT = Grand Unified Theory (gauge group, unification, breaking chain)
+ *   QFT = Quantum Field Theory consistency (Ward, anomaly, BRST, RG, FP det.)
+ *   LQG = Loop Quantum Gravity / quantum-gravity sector
+ *         (graviton emergence, Lorentz, EP, c_T=c, hbar origin, Lambda,
+ *          BCC topology). NOTE: LQG here labels the quantum-gravity AXIS
+ *          for taxonomic purposes; TECT is not Loop Quantum Gravity itself.
+ *
+ * Each paper entry follows the structure:
+ *   Subject     — what the paper proves / claims
+ *   Status      — current verification level
+ *   Tags        — subset of {TOE, SM, GUT, QFT, LQG}
+ *   Anchor      — the canonical Math-note(s) constituting the proof
+ *   Open tasks  — residual conditional gates (if any)
+ */
+window.TECT_PAPERS = {
+  title: "Papers (complete proof catalogue)",
+  subtitle: "Twelve pillar-grade papers + Stage-2 global-closure paper + four quantum-gate papers + cosmic-origin paper + audit-methodology paper, plus a chronological catalogue of all verified Math notes (post-Math209, 2026-04-28). The Papers admission rule (binding from 2026-04-28) requires that only audit-cleared, completed research appear here; in-progress and audit-flagged work is tracked in <code>OPEN-QUESTIONS.md</code> and <code>NEGATIVE-RESULTS.md</code>. Each entry points to the canonical Math-note proof archive in <code>Docs/math/</code> and carries category tags {TOE, SM, GUT, QFT, LQG}. Drafts in <code>docs/papers/*.tex</code> are not auto-generated (UPDATE_POLICY §11 manual-authorship rule); this index lists the proof material that constitutes each manuscript's technical content.",
+  lastUpdated: "2026-04-28",
+
+  blocks: [
+
+    /* ---------------- Cosmic-origin paper ---------------- */
+    {
+      type: "card",
+      title: "Paper 0 — Cosmic origin: pre-condensation phase + Kibble–Zurek + $\\hbar$ derivation",
+      blocks: [{
+        type: "html",
+        content:
+          "<p><span class=\"tag tag-warn\">PROOF ARCHIVE</span> &nbsp; <span class=\"tag tag-ok\">TOE</span> &nbsp; <span class=\"tag tag-ok\">QFT</span> &nbsp; <span class=\"tag tag-ok\">LQG</span></p>" +
+          "<p><strong>Subject</strong>: the pre-Pillar cosmological setting before the BCC condensate forms. Establishes the ultra-high-energy initial state (axiom A2), the Kibble–Zurek phase-transition timescale, and the resulting frozen-in adiabatic invariant that fixes $\\hbar$. Master formula: $\\hbar = c^3 a_{\\rm BCC}^2/(16\\pi G)$.</p>" +
+          "<p><strong>Status</strong>: <span class=\"tag tag-warn\">PROVED CONDITIONAL (weak)</span> after Math156 §3.1 + Math163 substantiation. Open task: Q-2026-04-26-GAP1-third-route (matter-side third route).</p>" +
+          "<p><strong>Canonical proof archive</strong>:</p>" +
+          "<ul>" +
+            "<li><code>Docs/math/TECT-Math145-C1-pre-condensation-phase-formalization.tex.txt</code></li>" +
+            "<li><code>Docs/math/TECT-Math146-C2-Kibble-Zurek-explicit-derivation.tex.txt</code></li>" +
+            "<li><code>Docs/math/TECT-Math98-AddA-Kibble-Zurek-tau-PT-derivation.tex.txt</code> + AddB-AddE (Volovik / Berry / Onsager–Machlup routes)</li>" +
+            "<li><code>Docs/math/TECT-Math110-AddG-Step1-rho-cond-to-G-elastic-derivation.tex.txt</code></li>" +
+            "<li><code>Docs/math/TECT-Math110-AddH-Step2-cT-to-c-identification.tex.txt</code></li>" +
+            "<li><code>Docs/math/TECT-Math110-AddI-Step3-hbar-G-c-closure-RF5-proof.tex.txt</code></li>" +
+            "<li><code>Docs/math/TECT-Math119-hbar-numerical-evaluation-2026-04-26.tex.txt</code> + AddB honest scope</li>" +
+          "</ul>"
+      }]
+    },
+
+    /* ---------------- Pillar papers (1..11 + Math157 extension) ---------------- */
+    {
+      type: "card",
+      title: "Paper 1 — Pillar 1: Mass gap $m^*$ from the Brazovskii first-order locked branch",
+      blocks: [{
+        type: "html",
+        content:
+          "<p><span class=\"tag tag-ok\">PROVED CONDITIONAL</span> &nbsp; <span class=\"tag tag-ok\">SM</span> &nbsp; <span class=\"tag tag-ok\">QFT</span></p>" +
+          "<p><strong>Subject</strong>: derivation of a positive mass gap for the order-parameter excitation spectrum, with single-mode caveat documented in the theorem hypotheses. First clean numerical anchor $m^{*2}_{\\rm num} = +4.247\\!\\times\\! 10^{-2}$ at $\\mu^2 = +5\\!\\times\\!10^{-3}$, $N=32$, $L = L_{\\rm BCC}^{(7)}$, $\\lambda_{\\min}>0$.</p>" +
+          "<p><strong>Canonical proof archive</strong>:</p>" +
+          "<ul>" +
+            "<li><code>TECT-Math01.tex.txt</code> + Math01-v2 (single-mode Brazovskii closure)</li>" +
+            "<li><code>TECT-Math82-AddF-Pillar1-numerical-anchor.tex.txt</code></li>" +
+            "<li>Math82-AddG bifurcation curve; Math82-AddG3 vacuum-floor guard</li>" +
+            "<li>Math37 linear-response analytic theory; Math82-H continuum-limit framework</li>" +
+          "</ul>"
+      }]
+    },
+
+    {
+      type: "card",
+      title: "Paper 2 — Pillar 2: Inertia / IR bound (kinematic Lorentz)",
+      blocks: [{
+        type: "html",
+        content:
+          "<p><span class=\"tag tag-ok\">PROVED CONDITIONAL</span> &nbsp; <span class=\"tag tag-ok\">LQG</span> &nbsp; <span class=\"tag tag-ok\">QFT</span></p>" +
+          "<p><strong>Subject</strong>: derivation of the kinematic-Lorentz IR bound $J_1 > 0$ under explicit H-suppression hypothesis.</p>" +
+          "<p><strong>Canonical proof archive</strong>:</p>" +
+          "<ul>" +
+            "<li><code>TECT-Math_IR_Bound-rigorous-v3.tex.txt</code> + v4 chain</li>" +
+            "<li><code>TECT-Math_IR_Bound-v4-thm-v4-1.tex.txt</code> (theorem v4-1)</li>" +
+            "<li>Math_IR_Bound-v4 thm-v4-2 numerical certificate (mpmath.iv interval at $N=256$)</li>" +
+          "</ul>"
+      }]
+    },
+
+    {
+      type: "card",
+      title: "Paper 3 — Pillar 3: Emergent gravity (spin-2 graviton at one loop)",
+      blocks: [{
+        type: "html",
+        content:
+          "<p><span class=\"tag tag-ok\">CLOSED@1-loop</span> &nbsp; <span class=\"tag tag-ok\">LQG</span> &nbsp; <span class=\"tag tag-ok\">TOE</span></p>" +
+          "<p><strong>Subject</strong>: derivation of the spin-2 graviton as the transverse-traceless elastic mode of the BCC condensate. Master identifications: $Z_h = |Z|/2$, $\\kappa_G^2 = Y q_0^2$, TT-purity proved. Causal-front sound speed identified with $c$ (Math110-AddH).</p>" +
+          "<p><strong>Canonical proof archive</strong>:</p>" +
+          "<ul>" +
+            "<li><code>TECT-Math41.tex.txt</code> — graviton kinetic term derivation</li>" +
+            "<li><code>TECT-Math45.tex.txt</code> + <code>TECT-Math46c.tex.txt</code> — $\\kappa_G^2 = Y q_0^2$ and TT-purity</li>" +
+            "<li><code>TECT-Math110-AddH-Step2-cT-to-c-identification.tex.txt</code></li>" +
+            "<li><code>TECT-Math110-AddI-Step3-hbar-G-c-closure-RF5-proof.tex.txt</code></li>" +
+          "</ul>"
+      }]
+    },
+
+    {
+      type: "card",
+      title: "Paper 4 — Pillar 4: Gauge interactions and SO(10) emergence on $\\mathbb{CP}^2$",
+      blocks: [{
+        type: "html",
+        content:
+          "<p><span class=\"tag tag-partial\">PARTIAL-ADVANCED (sub-task 1 PROVED CONDITIONAL; sub-task 2 BIFURCATED-CONDITIONAL; sub-task 3 STRONG DRAFT)</span> &nbsp; <span class=\"tag tag-ok\">GUT</span> &nbsp; <span class=\"tag tag-ok\">SM</span> &nbsp; <span class=\"tag tag-ok\">QFT</span></p>" +
+          "<p><strong>Subject</strong>: derivation of the SM gauge group from the BCC primitive geometry. Math80-AddA: $\\mathrm{Stab}_{\\mathrm{SU}(5)}\\,\\mathrm{Gr}(2,5) = G_{\\rm SM}$. Math162 + Math167: explicit fibre bundle on $\\mathbb{CP}^2$ with fibre $\\mathrm{SO}(10)/\\mathrm{SU}(5)$, $c_1 = 1$, three-patch Čech closure verified. Math171-AddA: corrected Hirzebruch–Riemann–Roch formula $\\mathrm{ind}(D_E^c) = 16 - \\mu$. Math174: explicit $\\mu = -40$ under non-trivial U(1)$_\\chi$ → ind=56 (Scenario A FALSIFIED). Math185: atlas under-specifies U(1)$_\\chi$ transition; bifurcation reduces to two integer computations (Tasks #149b + #150). Math175: SO(10)→SU(5)×U(1)$_\\chi$→SU(5)→$G_{\\rm SM}$ algebraic chain.</p>" +
+          "<p><strong>Canonical proof archive</strong>:</p>" +
+          "<ul>" +
+            "<li><code>TECT-Math75-Pillar4-equivalence-cohomology.tex.txt</code> (Q1)</li>" +
+            "<li><code>TECT-Math75-Q2-AddA-RGE-strategy.tex.txt</code> (Q2)</li>" +
+            "<li><code>TECT-Math75-Q3-AddA-symplectic-reduction.tex.txt</code> (Q3, Sjamaar–Lerman)</li>" +
+            "<li><code>TECT-Math80-AddA-Lie-algebraic-stabilizer.tex.txt</code> + AddB topological + AddC SO(10) uniqueness OUTLINE + AddD Yukawa OUTLINE</li>" +
+            "<li><code>TECT-Math162-Pillar4-BCC-defect-bundle-fibre-bundle-construction.tex.txt</code></li>" +
+            "<li><code>TECT-Math167-Math162-3-patch-cover-Cech-closure.tex.txt</code></li>" +
+            "<li><code>TECT-Math171-Pillar4-subtask2-rigorous-AS-index.tex.txt</code> (DISPUTED) + Math171-AddA correction (BINDING)</li>" +
+            "<li><code>TECT-Math174-explicit-c2-second-Chern-number.tex.txt</code> (Scenario A computation)</li>" +
+            "<li><code>TECT-Math175-Pillar4-subtask3-SO10-breaking-chain.tex.txt</code></li>" +
+            "<li><code>TECT-Math181-Pillar4-U1chi-holonomy-from-BCC-microscopics.tex.txt</code> (audit-flagged) + Math184 audit + Math185 honest atlas-incompleteness verdict</li>" +
+            "<li>Numerical: <code>Codes/supplementary/Math174_c2_via_slansky.py</code>, <code>Math185_c1_curvature_integral.py</code></li>" +
+          "</ul>"
+      }]
+    },
+
+    {
+      type: "card",
+      title: "Paper 5 — Pillar 5: Chirality from index-theoretic protection",
+      blocks: [{
+        type: "html",
+        content:
+          "<p><span class=\"tag tag-ok\">PROVED</span> &nbsp; <span class=\"tag tag-ok\">SM</span> &nbsp; <span class=\"tag tag-ok\">QFT</span></p>" +
+          "<p><strong>Subject</strong>: derivation of chirality (the $\\gamma^5$ structure) from index-theoretic protection of Dirac zero modes on the BCC condensate background.</p>" +
+          "<p><strong>Canonical proof archive</strong>: <code>TECT-Math10.tex.txt</code> through <code>TECT-Math14.tex.txt</code>; <code>TECT-Math_Nija_Tensor.tex.txt</code>; <code>TECT-Math_Full_PDE_Pauli.tex.txt</code>.</p>"
+      }]
+    },
+
+    {
+      type: "card",
+      title: "Paper 6 — Pillar 6: Generations and SM embedding (Pati–Salam two-step RGE)",
+      blocks: [{
+        type: "html",
+        content:
+          "<p><span class=\"tag tag-partial\">PARTIAL-ADVANCED</span> &nbsp; <span class=\"tag tag-ok\">SM</span> &nbsp; <span class=\"tag tag-ok\">GUT</span></p>" +
+          "<p><strong>Subject</strong>: derivation of the three-generation SM embedding inside the unifying gauge structure. Q6a closed (Math80-AddA Lie-algebraic + Math80-AddB topological); Q6b advanced via Pati–Salam two-step RGE with $M_{\\rm GUT} = 6.36\\!\\times\\!10^{16}$ GeV, $\\alpha_{\\rm GUT}^{-1} = 46.5$; Q6c/Q6d still OUTLINE.</p>" +
+          "<p><strong>Canonical proof archive</strong>:</p>" +
+          "<ul>" +
+            "<li><code>TECT-Math76-analytic-closure-S1-S2-G1.tex.txt</code></li>" +
+            "<li><code>TECT-Math77-Q6b-AddB-Pati-Salam-RGE.tex.txt</code></li>" +
+            "<li><code>TECT-Math80-AddA-Lie-algebraic-stabilizer.tex.txt</code> + AddB topological + AddD Yukawa OUTLINE</li>" +
+          "</ul>"
+      }]
+    },
+
+    {
+      type: "card",
+      title: "Paper 7 — Pillar 7: Per-generation quantum consistency (Ward + Witten + mod-2 spectral flow)",
+      blocks: [{
+        type: "html",
+        content:
+          "<p><span class=\"tag tag-ok\">PROVED@per-gen</span> &nbsp; <span class=\"tag tag-ok\">QFT</span> &nbsp; <span class=\"tag tag-ok\">SM</span></p>" +
+          "<p><strong>Subject</strong>: per-generation quantum consistency. Ward identities (Math47/48), Witten $\\mathrm{SU}(2)$ closure (Math49b-v3), mod-2 spectral flow giving $R^2 = -\\mathbf 1$ (Math49c-v3).</p>" +
+          "<p><strong>Canonical proof archive</strong>: <code>TECT-Math47.tex.txt</code>, <code>TECT-Math48.tex.txt</code>, <code>TECT-Math49b-rigorous-v3.tex.txt</code>, <code>TECT-Math49c-rigorous-v3.tex.txt</code>, <code>TECT-Math49d-R5-replacement-wave2.tex.txt</code>.</p>"
+      }]
+    },
+
+    {
+      type: "card",
+      title: "Paper 7-extension — SO(10) gauge anomaly cancellation (Math157 rigorous trace method)",
+      blocks: [{
+        type: "html",
+        content:
+          "<p><span class=\"tag tag-ok\">PROVED CONDITIONAL on Pillar 4</span> &nbsp; <span class=\"tag tag-ok\">GUT</span> &nbsp; <span class=\"tag tag-ok\">SM</span> &nbsp; <span class=\"tag tag-ok\">QFT</span></p>" +
+          "<p><strong>Subject</strong>: rigorous group-theoretic SM anomaly cancellation on a single SO(10) spinor $\\mathbf{16}$, decomposed via $\\mathrm{SO}(10)\\to\\mathrm{SU}(5)\\to G_{\\rm SM}$ with $Y_{\\rm GUT} = \\sqrt{3/5}\\,Y_{\\rm SM}$. All six SM anomaly coefficients (SU(3)$^3$, SU(2)$^3$, SU(3)$^2$U(1)$_Y$, SU(2)$^2$U(1)$_Y$, U(1)$_Y^3$, grav$^2$U(1)$_Y$) exact zero. Replaces the retracted Math148 component sum.</p>" +
+          "<p><strong>Canonical proof archive</strong>:</p>" +
+          "<ul>" +
+            "<li><code>TECT-Math157-SO10-SM-anomaly-cancellation-rigorous-trace-method.tex.txt</code> — Theorem 157.1</li>" +
+            "<li><code>TECT-Math157-AddD-RHN-singlet-explicit.tex.txt</code> — RHN singlet $N(\\mathbf 1,\\mathbf 1)_0$ documentation</li>" +
+            "<li><code>Codes/supplementary/Math157_anomaly_trace_verification.py</code> — exact-rational numerical verification</li>" +
+            "<li>Audit context: Math156 §3.2 (retracts Math148), Math161 §2 audit, Math169 cross-coupling check</li>" +
+          "</ul>"
+      }]
+    },
+
+    {
+      type: "card",
+      title: "Paper 8 — Pillar 8: Lorentz invariance (interval certificate)",
+      blocks: [{
+        type: "html",
+        content:
+          "<p><span class=\"tag tag-ok\">PROVED</span> &nbsp; <span class=\"tag tag-ok\">LQG</span> &nbsp; <span class=\"tag tag-ok\">QFT</span></p>" +
+          "<p><strong>Subject</strong>: rigorous Lorentz-invariance theorem. mpmath.iv interval certificate $J_1 \\in [+5.99\\!\\times\\!10^{-2}, +1.51\\!\\times\\!10^{-1}]$ at $N=256$ with margin $\\geq 32\\times$.</p>" +
+          "<p><strong>Canonical proof archive</strong>: <code>TECT-Math_IR_Bound-v4-thm-v4-1.tex.txt</code>; thm-v4-2 numerical certificate.</p>"
+      }]
+    },
+
+    {
+      type: "card",
+      title: "Paper 9 — Pillar 9: Equivalence principle from MPD spin–curvature bound",
+      blocks: [{
+        type: "html",
+        content:
+          "<p><span class=\"tag tag-ok\">PROVED</span> &nbsp; <span class=\"tag tag-ok\">LQG</span></p>" +
+          "<p><strong>Subject</strong>: weak equivalence principle from Mathisson–Papapetrou–Dixon spin–curvature bound $\\|X^{\\rm MPD} - X^{\\rm geo}\\| \\leq 4\\varepsilon^2 R_c$ on the TECT background.</p>" +
+          "<p><strong>Canonical proof archive</strong>: <code>TECT-Math_EP-rigorous-v3.tex.txt</code> (project-rigor v3.1); Tulczyjew SSC residual lemma; Fermi-frame ODE + Grönwall.</p>"
+      }]
+    },
+
+    {
+      type: "card",
+      title: "Paper 10 — Pillar 10: $\\hbar$ origin (phase-transition + matter-side substantiation)",
+      blocks: [{
+        type: "html",
+        content:
+          "<p><span class=\"tag tag-partial\">PARTIAL-ADVANCED</span> &nbsp; <span class=\"tag tag-ok\">LQG</span> &nbsp; <span class=\"tag tag-ok\">QFT</span> &nbsp; <span class=\"tag tag-ok\">TOE</span></p>" +
+          "<p><strong>Subject</strong>: derivation of Planck's constant. Tier-1 classical no-go (Math79-AddB) intact. Tier-2 phase-transition origin (Math98 + Math110-AddG..AddI) gives the master formula $\\hbar = c^3 a_{\\rm BCC}^2/(16\\pi G)$. Math156 §3.1 demoted the two-route independence claim. Math163 substantiates fermion-loop dominance ($R_{\\rm boson/fermion}\\approx 0.12$ via $y_t^2 \\gg g_{\\rm EW}^2$). Math158 establishes the matter-side third route at the structural-independence level.</p>" +
+          "<p><strong>Canonical proof archive</strong>:</p>" +
+          "<ul>" +
+            "<li><code>TECT-Math79-AddB-classical-no-go.tex.txt</code> (classical no-go theorem)</li>" +
+            "<li><code>TECT-Math98-AddA-Kibble-Zurek-tau-PT-derivation.tex.txt</code> + AddB Volovik / AddC Berry / AddE Onsager–Machlup</li>" +
+            "<li><code>TECT-Math110-AddI-Step3-hbar-G-c-closure-RF5-proof.tex.txt</code> (master formula)</li>" +
+            "<li><code>TECT-Math119-hbar-numerical-evaluation-2026-04-26.tex.txt</code> + AddB honest deviation analysis</li>" +
+            "<li><code>TECT-Math156-Round-V1-V5-comprehensive-audit-verdict.tex.txt</code> §3.1 (route-independence demotion)</li>" +
+            "<li><code>TECT-Math158-GAP1-third-route-matter-side-hbar-derivation.tex.txt</code></li>" +
+            "<li><code>TECT-Math163-GAP1-boson-loop-subdominance-check.tex.txt</code></li>" +
+          "</ul>"
+      }]
+    },
+
+    {
+      type: "card",
+      title: "Paper 11 — Pillar 11: Cosmological constant $\\Lambda$ via four-sector cancellation",
+      blocks: [{
+        type: "html",
+        content:
+          "<p><span class=\"tag tag-ok\">PROVED CONDITIONAL</span> &nbsp; <span class=\"tag tag-ok\">LQG</span> &nbsp; <span class=\"tag tag-ok\">QFT</span></p>" +
+          "<p><strong>Subject</strong>: cosmological-constant cancellation via the Math58-v7 four-sector chain (monopole CP + measure-antisymmetry + vortex + BCC condensate + Dirac PV scheme), audit-strengthened by Math58-v7-AddA. Q5 numerical verification at the Brazovskii operating point pending.</p>" +
+          "<p><strong>Canonical proof archive</strong>: <code>TECT-Math58-v7-Pillar11-CosmConst.tex.txt</code> + AddA audit (Q1 dim-reg + Q2 lattice DISMISSED).</p>"
+      }]
+    },
+
+    /* ---------------- Stage-2 Global Closure paper ---------------- */
+    {
+      type: "card",
+      title: "Paper 12 — Stage-2 Global Closure Theorem (Math60 specification)",
+      blocks: [{
+        type: "html",
+        content:
+          "<p><span class=\"tag tag-ok\">5/5 SEALED + 4 quantum gates</span> &nbsp; <span class=\"tag tag-ok\">TOE</span></p>" +
+          "<p><strong>Subject</strong>: TECT's TOE qualification predicate $\\mathrm{TOE} := S_1 \\wedge S_2 \\wedge S_3$ is anchored on Stage-2's Global Closure Theorem decomposed into five sub-theorems Math60-A..E plus the four quantum-consistency gates GAP-1 through GAP-4. Five sub-theorems remain SEALED; the four gates are conditionally closed (GAP-2/3 on Pillar 4; GAP-1 weakly substantiated; GAP-4 RESCOPED with PROVISIONAL prediction).</p>" +
+          "<p><strong>Canonical proof archive</strong>:</p>" +
+          "<ul>" +
+            "<li><code>TECT-Math60-TOE-Global-Closure-Spec.tex.txt</code> — three-stage qualification specification</li>" +
+            "<li><code>TECT-Math60-A-Meta-Consistency.tex.txt</code> + Math83 17/38/0/55 split</li>" +
+            "<li>Math60-B parameter compression (4 classical + 1 external $\\hbar$ vs SM 19; ratio $4.75\\times$)</li>" +
+            "<li>Math60-C-AddD QO1/QO2/QO3 closed-form quantum observables</li>" +
+            "<li>Math60-D-AddC global injectivity of the observable map</li>" +
+            "<li>Math60-E falsifiability package (3 pre-registered + Math172 Kibble–Zurek GW)</li>" +
+            "<li><code>TECT-Math61-Falsifiability-Prereg.tex.txt</code></li>" +
+            "<li><code>TECT-Math97-Brazovskii-Axioms-Uniform-Bound.tex.txt</code> — universality-class scope theorem</li>" +
+          "</ul>"
+      }]
+    },
+
+    /* ---------------- Quantum-completion gate papers (4-GAP track) ---------------- */
+    {
+      type: "card",
+      title: "Paper 13 — GAP-1: $\\hbar$ matching via independent matter-side route",
+      blocks: [{
+        type: "html",
+        content:
+          "<p><span class=\"tag tag-ok\">PROVED CONDITIONAL (weak)</span> &nbsp; <span class=\"tag tag-ok\">QFT</span> &nbsp; <span class=\"tag tag-ok\">LQG</span> &nbsp; <span class=\"tag tag-ok\">TOE</span></p>" +
+          "<p><strong>Subject</strong>: independent matter-side derivation of $\\hbar$ via fermion-loop saturation of $[\\hat\\Psi, \\hat\\Pi_\\Psi] = i\\hbar\\delta^3$ on the BCC condensate background. Math163: boson-loop subdominance verified, $R_{\\rm boson/fermion}\\approx 0.12$ via $y_t^2 \\gg g_{\\rm EW}^2$.</p>" +
+          "<p><strong>Canonical proof archive</strong>:</p>" +
+          "<ul>" +
+            "<li><code>TECT-Math149-GAP1-hbar-matching-full-proof.tex.txt</code> (audit-flagged: routes A and B share elastic-modulus input)</li>" +
+            "<li><code>TECT-Math156-Round-V1-V5-comprehensive-audit-verdict.tex.txt</code> §3.1 — demotion to PROVED CONDITIONAL (weak)</li>" +
+            "<li><code>TECT-Math158-GAP1-third-route-matter-side-hbar-derivation.tex.txt</code></li>" +
+            "<li><code>TECT-Math163-GAP1-boson-loop-subdominance-check.tex.txt</code></li>" +
+            "<li>Open task Q-2026-04-26-Math163-scale-clarification (Task #137): EW-to-BCC RGE running of $y_t/g_{\\rm EW}$</li>" +
+          "</ul>"
+      }]
+    },
+
+    {
+      type: "card",
+      title: "Paper 14 — GAP-2: BRST gauge fixing and Faddeev–Popov determinant",
+      blocks: [{
+        type: "html",
+        content:
+          "<p><span class=\"tag tag-warn\">PROVED CONDITIONAL on Pillar 4 (formula); OUTLINE (signature)</span> &nbsp; <span class=\"tag tag-ok\">QFT</span></p>" +
+          "<p><strong>Subject</strong>: BRST gauge fixing of the BCC-emergent SM gauge bundle. Math160 computes the one-loop Faddeev–Popov determinant on the background-Lorenz patch. Math164 establishes $\\pi_1(M_{\\rm BCC}) = \\{e\\}$ → standard Berry-phase signature is empty (Math160 §III demoted to OUTLINE). Higher-form Berry topology open task records the TECT-specific signature path.</p>" +
+          "<p><strong>Canonical proof archive</strong>:</p>" +
+          "<ul>" +
+            "<li><code>TECT-Math152-GAP2-BRST-gauge-fixing-outline.tex.txt</code> (background outline)</li>" +
+            "<li><code>TECT-Math160-GAP2-BRST-FP-determinant-TECT-specific.tex.txt</code> (formula-level result)</li>" +
+            "<li><code>TECT-Math164-Berry-phase-non-triviality-construction.tex.txt</code> ($\\pi_1=0$ negative)</li>" +
+            "<li><code>TECT-Math165-Round-R1-cross-turn-audit-of-Math162-163-164.tex.txt</code> §5 cross-coupling consistency</li>" +
+            "<li>Open task Q-2026-04-26-Math164-Higher-form-Berry-topology (Task #138)</li>" +
+          "</ul>"
+      }]
+    },
+
+    {
+      type: "card",
+      title: "Paper 15 — GAP-3: SO(10) gauge anomaly cancellation (cross-listed with Paper 7-extension)",
+      blocks: [{
+        type: "html",
+        content:
+          "<p><span class=\"tag tag-ok\">PROVED CONDITIONAL on Pillar 4</span> &nbsp; <span class=\"tag tag-ok\">QFT</span> &nbsp; <span class=\"tag tag-ok\">GUT</span> &nbsp; <span class=\"tag tag-ok\">SM</span></p>" +
+          "<p><strong>Subject</strong>: see Paper 7-extension (Math157 group-theoretic trace method). Cross-listed here as the QFT consistency gate.</p>" +
+          "<p><strong>Canonical proof archive</strong>: as in Paper 7-extension. The Pillar 4 conditional dependence is shared with GAP-2 (formula).</p>"
+      }]
+    },
+
+    {
+      type: "card",
+      title: "Paper 16 — GAP-4: cosmological observable comparison and Kibble–Zurek rescope",
+      blocks: [{
+        type: "html",
+        content:
+          "<p><span class=\"tag tag-warn\">RESCOPED + PROVISIONAL prediction</span> &nbsp; <span class=\"tag tag-ok\">LQG</span> &nbsp; <span class=\"tag tag-ok\">TOE</span></p>" +
+          "<p><strong>Subject</strong>: GAP-4 cosmology track. Math151 inflationary $n_s = 0.913$ retracted as a category error (Math159: Brazovskii non-locality exponent $\\epsilon_s = 2/23$ dimensionally incommensurable with slow-roll $\\epsilon = -\\dot H/H^2$; additionally falsified by $r < 0.06$). The TECT cosmology branch is Kibble–Zurek quench-driven, not slow-roll inflation. Math168 + Math172: stochastic gravitational-wave background from BCC defect annihilation, BBN-scenario $\\Omega_{\\rm GW}\\approx 5\\!\\times\\!10^{-15}$ at PTA band (observable by SKA / IPTA-2, 2028–2030).</p>" +
+          "<p><strong>Canonical proof archive</strong>:</p>" +
+          "<ul>" +
+            "<li><code>TECT-Math151-GAP4-observables-experimental-comparison.tex.txt</code> (RETRACTED, R-2026-04-26-Math151-InflationaryBranch)</li>" +
+            "<li><code>TECT-Math159-GAP4-ns-rescue-or-rescope.tex.txt</code> (rescope to Kibble–Zurek)</li>" +
+            "<li><code>TECT-Math168-GAP4-Kibble-Zurek-quantitative-predictions.tex.txt</code> (audit-flagged provisional)</li>" +
+            "<li><code>TECT-Math172-GAP4-defect-mass-scenario-table.tex.txt</code> (three-scenario table)</li>" +
+            "<li>Open task Q-2026-04-26-Math168-defect-mass-refinement (Task #144)</li>" +
+          "</ul>"
+      }]
+    },
+
+    /* ---------------- Audit / methodology paper ---------------- */
+    {
+      type: "card",
+      title: "Paper 17 — Audit discipline and second-order methodology (CLAUDE.md §6.3.2 + 30-turn experiment)",
+      blocks: [{
+        type: "html",
+        content:
+          "<p><span class=\"tag tag-ok\">METHODOLOGY</span> &nbsp; <span class=\"tag tag-ok\">TOE</span></p>" +
+          "<p><strong>Subject</strong>: documents the cross-turn second-order audit discipline and the 30-turn (R1–R6) autonomous-research outcome. Catalogues catches and misses, the dispatcher-level commit-review backstop, and the simply-connected-vs-Chern-class conflation pattern that recurs across Math150 / Math164 / Math181.</p>" +
+          "<p><strong>Canonical proof archive</strong>:</p>" +
+          "<ul>" +
+            "<li><code>TECT-Math156-Round-V1-V5-comprehensive-audit-verdict.tex.txt</code> — V1-V5 retraction</li>" +
+            "<li><code>TECT-Math161-Round-W1-cross-turn-audit-of-Math158-159-160.tex.txt</code> — W1 audit</li>" +
+            "<li><code>TECT-Math165-Round-R1-cross-turn-audit-of-Math162-163-164.tex.txt</code> — R1 audit</li>" +
+            "<li><code>TECT-Math169-Round-R2-cross-turn-audit-of-Math166-167-168.tex.txt</code> — R2 audit</li>" +
+            "<li><code>TECT-Math170-Round-R1-R2-10-turn-synthesis-and-next-priorities.tex.txt</code></li>" +
+            "<li><code>TECT-Math171-AddA-degree-arithmetic-correction.tex.txt</code> — R3 audit-miss recovery</li>" +
+            "<li><code>TECT-Math173-Round-R3-cross-turn-audit-of-Math171-157AddD-172.tex.txt</code> — R3 audit</li>" +
+            "<li><code>TECT-Math177-Round-R4-cross-turn-audit-of-Math174-175-176.tex.txt</code> — R4 audit</li>" +
+            "<li><code>TECT-Math180-Round-R3-R4-second-10-turn-synthesis.tex.txt</code></li>" +
+            "<li><code>TECT-Math184-Round-R5-cross-turn-audit-of-Math181-182-183.tex.txt</code> — R5 audit</li>" +
+            "<li><code>TECT-Math190-Round-R5-R6-third-10-turn-synthesis.tex.txt</code></li>" +
+          "</ul>"
+      }]
+    },
+
+    /* ---------------- Auxiliary anchor papers ---------------- */
+    {
+      type: "card",
+      title: "Auxiliary 1 — Brazovskii universality-class scope theorem",
+      blocks: [{
+        type: "html",
+        content:
+          "<p><span class=\"tag tag-ok\">PROVED</span> &nbsp; <span class=\"tag tag-ok\">QFT</span></p>" +
+          "<p><strong>Subject</strong>: rigorous identification of the Brazovskii universality class for the BCC condensate. Establishes the regime ($\\lambda < 0$, $\\gamma > 0$ sizeable, fluctuation-induced first-order locked branch) that anchors the operating-point identification $(\\mu^2, \\lambda, \\gamma)$ + locked $q_0$.</p>" +
+          "<p><strong>Canonical proof archive</strong>: <code>TECT-Math97-Brazovskii-Axioms-Uniform-Bound.tex.txt</code> + AddA epsilon-nonlocal bound + AddB bubble-integral verification; Math107 Brazovskii-scope theorem; Math104 (Math97 axioms uniform bound).</p>"
+      }]
+    },
+
+    {
+      type: "card",
+      title: "Auxiliary 2 — Numerical PDE solver and continuation framework",
+      blocks: [{
+        type: "html",
+        content:
+          "<p><span class=\"tag tag-ok\">PRODUCTION (v2.6.6d)</span> &nbsp; <span class=\"tag tag-ok\">METHODOLOGY</span></p>" +
+          "<p><strong>Subject</strong>: the trust-region Newton–Krylov continuation driver that produces TECT's quantitative anchors (Pillar 1 mass gap, Pillar 11 $\\Lambda$ verification, Math82-H continuum extrapolation). Architecture: <code>continuation_mu2_v25.py</code> wraps <code>tect_newton_krylov.newton_solve</code> with adaptive Eisenstat–Walker forcing, BCC-aware projector, GMRES inner Krylov with cumulative-iter semantics (v2.6.6 fix), per-step atomic checkpoint (v2.6.6c fix), CLI Krylov-method override (v2.6.6d fix).</p>" +
+          "<p><strong>Canonical proof archive</strong>:</p>" +
+          "<ul>" +
+            "<li><code>TECT-Math66-Newton-Krylov-Path-A-adjoint-JVP.tex.txt</code> (v0.2 Path-A)</li>" +
+            "<li><code>TECT-Math68-Math66-B1-shim-MINRES-canonicalisation.tex.txt</code></li>" +
+            "<li><code>TECT-Math69-PeerReview-Response.tex.txt</code></li>" +
+            "<li><code>TECT-Math73-cII-Projector-FullProjector-API.tex.txt</code></li>" +
+            "<li><code>TECT-Math74-AddB-v2p6p4-gate-semantic-fix.tex.txt</code></li>" +
+            "<li><code>TECT-Math82-Addendum-G-Phase-Z.tex.txt</code> + AddD saddle theorem + AddF Pillar-1 anchor + AddG3 vacuum-floor guard</li>" +
+            "<li>Code: <code>Codes/pde/continuation_mu2_v25.py</code> (v2.6.6d), <code>Codes/pde/tect_newton_krylov.py</code> (v2.6.6)</li>" +
+          "</ul>"
+      }]
+    },
+
+    /* ---------------- Math-note research catalogue (verified content only) ---------------- */
+    {
+      type: "card",
+      title: "Top-impact verified proofs (highest-priority anchors)",
+      blocks: [{
+        type: "html",
+        content:
+          "<p>The following ten proofs are the highest-impact verified anchors of the TECT framework. Each has cleared its devils-advocate self-test, has been independently audited (or is foundational to subsequent audited results), and serves as a load-bearing input for one or more of the seventeen papers above. Audit-flagged or falsified results (Math181, Math200 main, Math203, Math204, Math205, Math207-RR1b) are NOT listed here; they are preserved in <code>Docs/status/NEGATIVE-RESULTS.md</code>.</p>" +
+          "<table class=\"sm-table\">" +
+            "<thead><tr><th>#</th><th>Theorem</th><th>Anchor note</th><th>Status</th></tr></thead>" +
+            "<tbody>" +
+            "<tr><td>1</td><td>SM gauge group emergence: $\\mathrm{Stab}_{\\mathrm{SU}(5)}\\,\\mathrm{Gr}(2,5) = G_{\\rm SM}$</td><td><code>TECT-Math80-Addendum-A-SO10-SU5-stabiliser-G-SM.tex.txt</code></td><td><span class=\"tag tag-ok\">PROVED</span></td></tr>" +
+            "<tr><td>2</td><td>Emergent spin-2 graviton at one loop ($\\kappa_G^2 = Y q_0^2$, TT-purity)</td><td><code>TECT-Math41/45/46c.tex.txt</code> + Math47 Ward + Math48 non-linear EH</td><td><span class=\"tag tag-ok\">CLOSED@1-loop</span></td></tr>" +
+            "<tr><td>3</td><td>Lorentz invariance interval certificate $J_1\\in[+5.99\\!\\times\\!10^{-2},+1.51\\!\\times\\!10^{-1}]$ at $N=256$</td><td><code>TECT-Math_IR_Bound-v4.tex.txt</code></td><td><span class=\"tag tag-ok\">PROVED</span></td></tr>" +
+            "<tr><td>4</td><td>Equivalence principle from MPD spin-curvature bound $\\|X^{\\rm MPD}-X^{\\rm geo}\\|\\le 4\\varepsilon^2 R_c$</td><td><code>TECT-Math_EP-rigorous-v3.1.tex.txt</code></td><td><span class=\"tag tag-ok\">PROVED</span></td></tr>" +
+            "<tr><td>5</td><td>SO(10) $\\mathbf{16}$ anomaly cancellation: six anomaly coefficients exact zero</td><td><code>TECT-Math157</code> + Math157-AddD RHN singlet</td><td><span class=\"tag tag-ok\">PROVED CONDITIONAL on Pillar 4</span></td></tr>" +
+            "<tr><td>6</td><td>Hirzebruch-Riemann-Roch corrected formula $\\mathrm{ind}(D_E^c) = 16 - \\mu$</td><td><code>TECT-Math171-AddA-degree-arithmetic-correction.tex.txt</code></td><td><span class=\"tag tag-ok\">PROVED</span></td></tr>" +
+            "<tr><td>7</td><td>Brazovskii universality class identification (axioms C1-C5 + obstruction bounds O1-O5)</td><td><code>TECT-Math97-universality-class-membership.tex.txt</code> + AddA/AddB/AddC</td><td><span class=\"tag tag-ok\">PROVED CONDITIONAL</span></td></tr>" +
+            "<tr><td>8</td><td>BCC selection uniqueness among nine 3-D crystallographic competitors</td><td><code>TECT-Math194-BCC-uniqueness.tex.txt</code></td><td><span class=\"tag tag-warn\">STRONG CLOSURE DRAFT</span> (single-shell caveat; multi-shell correction pending)</td></tr>" +
+            "<tr><td>9</td><td>A2 axiom reducibility: TECT effective axiom count = 2 (1 physics + 1 cosmological)</td><td><code>TECT-Math195-A2-axiom-reducibility-analysis.tex.txt</code></td><td><span class=\"tag tag-ok\">PROVED</span></td></tr>" +
+            "<tr><td>10</td><td>$H^1(\\mathbb{CP}^2,\\mathcal O) = 0$ and $\\mathrm{Pic}(\\mathbb{CP}^2)\\cong\\mathbb{Z}$ classification of U(1)$_\\chi$ bundles by $c_1$</td><td><code>TECT-Math202-CP2-U1-cohomology-vanishing.tex.txt</code> v1.1</td><td><span class=\"tag tag-ok\">PROVED unconditional</span></td></tr>" +
+            "</tbody>" +
+          "</table>"
+      }]
+    },
+
+    {
+      type: "card",
+      title: "Chronological catalogue — verified Math notes (newest first)",
+      blocks: [{
+        type: "html",
+        content:
+          "<p>Comprehensive index of TECT Math notes that have CLEARED audit (or are documented as foundational) and are eligible for paper-grade citation. Listed in NEWEST-FIRST chronological order. Audit-flagged / falsified items are NOT listed here — see <code>Docs/status/NEGATIVE-RESULTS.md</code>. Source-merge bundles cited under each epoch consolidate the period's cross-references.</p>" +
+          "<h3>Epoch 12 — Flat-Cartan forcing audit cluster (2026-04-28)</h3>" +
+          "<ul>" +
+            "<li><code>TECT-Math209</code> (RR1b NEGATIVE verdict via Math162 explicit transition; Type B equivariance confirmed → Math203 c_1=0 from sigma_I-equivariance FALSIFIED). <span class=\"tag tag-ok\">PROVED unconditional</span> (the negative theorem is itself rigorously verified).</li>" +
+            "<li><code>TECT-Math208</code> + <code>Math208-Addendum-A</code> (audit rollback for Math203-207 cluster; RR1 split into RR1a CLOSED + RR1b CLOSED-NEGATIVE). <span class=\"tag tag-ok\">AUDIT-CORRECTION</span>.</li>" +
+            "<li><code>TECT-Math206</code> (TOE critical-path roadmap, Tier A/B/C dispatch queue). <span class=\"tag tag-theory\">META</span>.</li>" +
+            "<li><code>TECT-Math202</code> v1.1 ($H^1(\\mathbb{CP}^2,\\mathcal O)=0$ + Pic classification, ACCEPT-WITH-MINOR-REVISIONS). <span class=\"tag tag-ok\">PROVED unconditional</span>.</li>" +
+            "<li><code>TECT-Math201</code> (Pillar 4 sub-task 3 BCC derivation; $\\mathbf{T}_{1g}$ stage 1 + multi-shell-RGE-conditional stages 2-3). <span class=\"tag tag-warn\">PROVED CONDITIONAL on Task #123</span>.</li>" +
+          "</ul>" +
+          "<h3>Epoch 11 — R7/R8 + Stage-2 cluster (2026-04-27)</h3>" +
+          "<ul>" +
+            "<li><code>TECT-Math199-Math60A-55pair-bulk-closure</code> (Sectoral Orthogonality Lemma, 35-pair bulk closure; Math60-A → PROVED CONDITIONAL on $H_{\\rm SO}$). <span class=\"tag tag-ok\">PROVED CONDITIONAL</span>.</li>" +
+            "<li><code>TECT-Math198</code> (TOE completeness gap audit + SD-1/SD-2/SD-3 sync defect identification + P1-P7 priority ledger). <span class=\"tag tag-theory\">META</span>.</li>" +
+            "<li><code>TECT-Math197</code> (R7/R8 cross-turn audit; Math191-196 ACCEPT WITH CONDITIONS). <span class=\"tag tag-theory\">META</span>.</li>" +
+            "<li><code>TECT-Math196</code> (Kibble-Zurek quench rate from Friedmann coupling; F2 gate PASS). <span class=\"tag tag-ok\">PROVED CONDITIONAL</span>.</li>" +
+            "<li><code>TECT-Math195</code> (A2 axiom reducibility theorem; effective TECT = 2 axioms). <span class=\"tag tag-ok\">PROVED</span>.</li>" +
+            "<li><code>TECT-Math194</code> (BCC selection uniqueness among 9 competitors; $\\Delta\\mathcal F=0.30$ single-shell). <span class=\"tag tag-warn\">STRONG CLOSURE DRAFT</span>.</li>" +
+            "<li><code>TECT-Math193</code> (self-containment 3-layer analysis, scope expansion meta-doc). <span class=\"tag tag-theory\">META</span>.</li>" +
+            "<li><code>TECT-Math192</code> ($c_2(E_{\\rm SU(5)})=0$ on Cartan-only realisation). <span class=\"tag tag-warn\">PROVED CONDITIONAL on canonical realisation</span> (choice not forcing per Math209).</li>" +
+            "<li><code>TECT-Math191</code> ($c_1(\\mathrm{U}(1)_\\chi)=0$ via canonical principal connection). <span class=\"tag tag-warn\">PROVED CONDITIONAL on canonical realisation</span> (choice not forcing per Math209).</li>" +
+            "<li><code>TECT-Math190</code> (R5/R6 third-10-turn synthesis, 30 autonomous turns mature audit discipline). <span class=\"tag tag-theory\">META</span>.</li>" +
+            "<li><code>TECT-Math185</code> (atlas under-specification verdict — honest scope on Math162/167). <span class=\"tag tag-ok\">VERIFIED honest verdict</span>.</li>" +
+            "<li><code>TECT-Math184</code> (R5 audit downgrade Math181; three rescue routes rejected). <span class=\"tag tag-ok\">VERIFIED audit</span>.</li>" +
+          "</ul>" +
+          "<h3>Epoch 10 — R3/R4 Pillar-4 index correction cluster (2026-04-26)</h3>" +
+          "<ul>" +
+            "<li><code>TECT-Math180</code> (R3/R4 second-10-turn synthesis; Task #142 closed at formula level via Math171-AddA + Math174 + Math176). <span class=\"tag tag-theory\">META</span>.</li>" +
+            "<li><code>TECT-Math177</code> (R4 audit; Math174 Scenario A vs B bifurcation cleanly identified). <span class=\"tag tag-theory\">META audit</span>.</li>" +
+            "<li><code>TECT-Math176</code> (independent AS-index cross-check). <span class=\"tag tag-ok\">VERIFIED</span>.</li>" +
+            "<li><code>TECT-Math174</code> (explicit $c_2$ second Chern computation; Scenario A $\\mu=-40$ → ind=56 FALSIFIED). <span class=\"tag tag-ok\">VERIFIED negative result</span>.</li>" +
+            "<li><code>TECT-Math173</code> (R3 audit; Math171 §3.3 degree-arithmetic error missed, recovered at dispatcher commit-review). <span class=\"tag tag-theory\">META audit</span>.</li>" +
+            "<li><code>TECT-Math172</code> (GAP-4 KZ defect-mass scenario table; $\\Omega_{\\rm GW}\\sim 10^{-15}$ at PTA, observable by SKA / IPTA-2 2028-2030). <span class=\"tag tag-warn\">PROVISIONAL prediction</span>.</li>" +
+            "<li><code>TECT-Math171-AddA</code> (corrected Hirzebruch-Riemann-Roch: $\\mathrm{ind}(D_E^c)=16-\\mu$). <span class=\"tag tag-ok\">PROVED unconditional</span>.</li>" +
+          "</ul>" +
+          "<h3>Epoch 9 — R1/R2 GAP-1/2/3/4 + Pillar-4 atlas cluster (2026-04-26)</h3>" +
+          "<ul>" +
+            "<li><code>TECT-Math170</code> (R1+R2 synthesis: Pillar 4 sub-task 1 PROVED CONDITIONAL; GAP-1 boson-loop strengthens; GAP-2 OUTLINE; GAP-4 PROVISIONAL). <span class=\"tag tag-theory\">META</span>.</li>" +
+            "<li><code>TECT-Math169</code> (R2 audit; downgrade Math166 + Math168). <span class=\"tag tag-theory\">META audit</span>.</li>" +
+            "<li><code>TECT-Math168</code> (GAP-4 KZ quantitative predictions; provisional $\\mu_{\\rm defect}$). <span class=\"tag tag-warn\">PROVED CONDITIONAL</span>.</li>" +
+            "<li><code>TECT-Math167</code> (Math162 three-patch Cech closure; cocycle $g_{01}g_{12}g_{20}=I$; Pillar 4 sub-task 1 PROVED CONDITIONAL). <span class=\"tag tag-ok\">PROVED CONDITIONAL</span>.</li>" +
+            "<li><code>TECT-Math165</code> (R1 audit; Math160 Berry-signature triviality caught on simply-connected $M_{\\rm BCC}$). <span class=\"tag tag-ok\">VERIFIED audit</span>.</li>" +
+            "<li><code>TECT-Math164</code> ($\\pi_1(M_{\\rm BCC})=\\{e\\}$; standard Berry phase trivial mod $2\\pi$). <span class=\"tag tag-ok\">PROVED unconditional</span>.</li>" +
+            "<li><code>TECT-Math163</code> (GAP-1 boson-loop subdominance ratio $R_{\\rm boson/fermion}\\approx 0.12$ at $M_Z$). <span class=\"tag tag-warn\">PROVED CONDITIONAL (weak)</span>.</li>" +
+            "<li><code>TECT-Math162</code> (Pillar 4 BCC defect bundle on $\\mathbb{CP}^2$ with fibre $\\mathrm{SO}(10)/\\mathrm{SU}(5)$, $c_1=1$). <span class=\"tag tag-warn\">PARTIAL-ADVANCED</span>.</li>" +
+            "<li><code>TECT-Math160</code> + <code>Math161</code> (GAP-2 BRST FP determinant; signature claim retracted via Math164). <span class=\"tag tag-warn\">PROVED CONDITIONAL on Pillar 4</span>.</li>" +
+            "<li><code>TECT-Math159</code> (GAP-4 RESCOPE: Math151 inflationary $n_s$ retracted as category error; replacement = Kibble-Zurek branch). <span class=\"tag tag-ok\">VERIFIED rescope</span>.</li>" +
+            "<li><code>TECT-Math158</code> (GAP-1 matter-side $\\hbar$ third route, structurally independent of elastic-modulus identification). <span class=\"tag tag-warn\">PROVED CONDITIONAL</span>.</li>" +
+            "<li><code>TECT-Math157</code> + <code>Math157-AddD</code> (SO(10) $\\mathbf{16}$ anomaly trace; six coefficients exact zero; RHN singlet). <span class=\"tag tag-ok\">PROVED CONDITIONAL on Pillar 4</span>.</li>" +
+            "<li><code>TECT-Math156</code> (Stage-2 4-GAP audit; Math148 chiral-anomaly RETRACTED; Math149 demoted to weak-conditional). <span class=\"tag tag-theory\">META audit</span>.</li>" +
+          "</ul>" +
+          "<h3>Epoch 8 — Stage-2 quantum sector + hbar programme (2026-04-25 to 2026-04-26)</h3>" +
+          "<ul>" +
+            "<li><code>TECT-Math149</code> (GAP-1 $\\hbar_{\\rm Fock}=\\hbar_{\\rm gravity}$ via Routes A+B agreement). <span class=\"tag tag-warn\">PROVED CONDITIONAL (weak)</span>.</li>" +
+            "<li><code>TECT-Math147</code> (cosmological observables CMB/GW). <span class=\"tag tag-warn\">PROVED CONDITIONAL</span>.</li>" +
+            "<li><code>TECT-Math145</code>+<code>Math146</code> (pre-condensation phase + Kibble-Zurek derivation). <span class=\"tag tag-warn\">PROVED CONDITIONAL</span>.</li>" +
+            "<li><code>TECT-Math141</code>-<code>Math144</code> (Hilbert space, Fock structure, CCR, path integral, Ward identity). <span class=\"tag tag-warn\">PROVED CONDITIONAL</span>.</li>" +
+            "<li><code>TECT-Math120</code>-<code>Math122</code> (1-loop Brazovskii cRG / Hartree coefficient $a$). <span class=\"tag tag-ok\">PROVED</span>.</li>" +
+            "<li><code>TECT-Math110</code> AddA-J (Newton's constant chain; $\\hbar = c^3 a_{\\rm BCC}^2/(16\\pi G)$ master formula; Math112-115 follow-ups). <span class=\"tag tag-warn\">PROVED CONDITIONAL</span>.</li>" +
+            "<li><code>TECT-Math97</code> + AddA/B/C (TECT universality-class membership; obstruction bounds O1-O5; Math104/107 axioms uniform bound + scope theorem). <span class=\"tag tag-ok\">PROVED CONDITIONAL</span>.</li>" +
+            "<li><code>TECT-Math82</code> Addenda (BCC ground-state numerical/analytical runbooks; Math82-AddF Pillar-1 anchor $m^{*2}_{\\rm num}=+4.247\\!\\times\\!10^{-2}$). <span class=\"tag tag-ok\">PROVED</span>.</li>" +
+            "<li><code>TECT-Math80</code> + AddA-D (SO(10) uniqueness; $\\mathrm{Stab}_{\\mathrm{SU}(5)}\\,\\mathrm{Gr}(2,5)=G_{\\rm SM}$; defect moduli; Yukawa hierarchy). <span class=\"tag tag-ok\">PROVED</span>.</li>" +
+            "<li><code>TECT-Math79-AddB</code> (Classical $\\hbar$ no-go theorem; Pillar 10 CLOSED-AS-NO-GO). <span class=\"tag tag-ok\">PROVED</span>.</li>" +
+          "</ul>" +
+          "<h3>Epoch 7 — Pillars 4-7 + Stage-1 scorecard (2026-04-22 to 2026-04-23)</h3>" +
+          "<ul>" +
+            "<li><code>TECT-Math78</code> (11-pillar global closure synthesis, audit-rolled-back to PARTIAL-ADVANCED). <span class=\"tag tag-theory\">META</span>.</li>" +
+            "<li><code>TECT-Math77</code> (Pillar 6 GUT embedding via Pati-Salam two-step RGE + Yukawa hierarchy). <span class=\"tag tag-warn\">PROVED CONDITIONAL</span>.</li>" +
+            "<li><code>TECT-Math76</code> (Pillar 5 SM embedding; chirality from index-theoretic protection). <span class=\"tag tag-ok\">PROVED</span>.</li>" +
+            "<li><code>TECT-Math75</code> + AddA-C (Pillar 4 gauge group attempts $Q_1, Q_2, Q_3$; topology / RG closures). <span class=\"tag tag-warn\">PROVED CONDITIONAL</span>.</li>" +
+            "<li><code>TECT-Math70</code>-<code>Math74</code> (N64 continuum audit + repair; BCC-commensurate box length $L_{\\rm BCC}^{(7)}=2\\pi\\sqrt{2}\\cdot 7$). <span class=\"tag tag-ok\">PROVED</span>.</li>" +
+            "<li><code>TECT-Math63</code>-<code>Math69</code> (solver redesign, Class II surgery, Path-X, Phase-D integration audit, Newton-Krylov v2.6.x). <span class=\"tag tag-ok\">PROVED</span>.</li>" +
+          "</ul>" +
+          "<h3>Epoch 6 — Stage-2 sub-theorem family + Math60 spec (2026-04-21)</h3>" +
+          "<ul>" +
+            "<li><code>TECT-Math61</code> (Stage-2-E falsifiability pre-registration; 3 predictions $P_1, P_2, P_3$ + 3 F-candidates; SHA-256 anchor). <span class=\"tag tag-ok\">SEALED</span>.</li>" +
+            "<li><code>TECT-Math60</code> + Stage-2-A/B/C/D + AddA-F (TOE Global Closure spec; meta-consistency, parameter compression, quantization observables QO1-3, observable-map injectivity, falsifiability package). <span class=\"tag tag-ok\">SEALED</span> (with conditional gates).</li>" +
+            "<li><code>TECT-Math59</code> + v3 (Pillar 10 OPEN-NEGATIVE REFINED; 8 failed classical-derivation routes documented). <span class=\"tag tag-ok\">VERIFIED negative</span>.</li>" +
+            "<li><code>TECT-Math58</code> + v7 (Pillar 11 cosmological constant $\\Lambda$ four-sector cancellation chain). <span class=\"tag tag-warn\">NEAR-CLOSURE → PROVED CONDITIONAL</span>.</li>" +
+            "<li><code>TECT-Math57</code> + AddA (Pillar 2 shell isotropy). <span class=\"tag tag-warn\">PROVED CONDITIONAL</span>.</li>" +
+            "<li><code>TECT-Math54</code> (11-pillar framework specification). <span class=\"tag tag-theory\">META</span>.</li>" +
+          "</ul>" +
+          "<h3>Epoch 5 — Brazovskii regime + emergent gravity (2026-04-18 to 2026-04-20)</h3>" +
+          "<p><em>Source merge</em>: <code>TECT_Math36-48_Merged_260426_144700.txt</code>.</p>" +
+          "<ul>" +
+            "<li><code>TECT-Math47</code>-<code>Math48</code> (Ward identity; non-linear Einstein-Hilbert closure $h^3$, $h^2 a^2$). <span class=\"tag tag-ok\">PROVED</span>.</li>" +
+            "<li><code>TECT-Math46b</code>+<code>Math46c</code> (bilinear equivalence-principle / gauge stress tensor closure). <span class=\"tag tag-ok\">PROVED</span>.</li>" +
+            "<li><code>TECT-Math43</code>-<code>Math45</code> (gravity/gauge matching scale; $c_W, c_B, \\kappa_G$). <span class=\"tag tag-ok\">PROVED</span>.</li>" +
+            "<li><code>TECT-Math42</code> (Class II UV one-parameter closure). <span class=\"tag tag-ok\">PROVED</span>.</li>" +
+            "<li><code>TECT-Math41</code> (emergent gravity + early SU(2)$_L$ × U(1)$_Y$ closure). <span class=\"tag tag-ok\">PROVED</span>.</li>" +
+            "<li><code>TECT-Math40</code> (Brazovskii kinetic identity $Y q_0^2 / Z$). <span class=\"tag tag-ok\">PROVED</span>.</li>" +
+            "<li><code>TECT-Math37</code>-<code>Math38</code> (Brazovskii locked branch; $m^{*2}_{\\rm TECT}$ prediction; PDE configuration template). <span class=\"tag tag-ok\">PROVED</span>.</li>" +
+            "<li><code>TECT-Math36</code> + addenda (multi-scale RG extractor / branch extension). <span class=\"tag tag-ok\">PROVED</span>.</li>" +
+          "</ul>" +
+          "<h3>Epoch 1-4 — TECT mathematical foundation (2026-04-09 to 2026-04-17)</h3>" +
+          "<p><em>Source merge</em>: <code>TECT_Math01-35_Merged_260409_214200.txt</code>.</p>" +
+          "<ul>" +
+            "<li><code>TECT-Math31</code>-<code>Math35</code> (four-class BCC pair-kernel exhaustiveness; foundation refinements). <span class=\"tag tag-ok\">PROVED</span>.</li>" +
+            "<li><code>TECT-Math21</code>-<code>Math23</code> (CKM toy model $|V_{us}|\\approx 0.228$; full-precision pending). <span class=\"tag tag-warn\">PROVED CONDITIONAL</span>.</li>" +
+            "<li><code>TECT-Math18</code>-<code>Math20</code> (Clifford $\\mathrm{Cl}(3)$ closure at the Dirac node; $\\Gamma^i = \\tau^1\\otimes\\sigma_i, \\tau^3\\otimes\\mathbb I$). <span class=\"tag tag-ok\">PROVED</span>.</li>" +
+            "<li><code>TECT-Math15</code>-<code>Math17</code> (heavy-mediator elimination identity Class II; finite-audit reformulation; witness-theorem framework). <span class=\"tag tag-ok\">PROVED</span>.</li>" +
+            "<li><code>TECT-Math10</code>-<code>Math14</code> (chirality / opposite-valley pairing / Dirac protection / valley $\\mathbb Z_2^V$ mass protection). <span class=\"tag tag-ok\">PROVED</span>.</li>" +
+            "<li><code>TECT-Math06</code>-<code>Math09</code> (emergent U(1) gauge structure; Chern class $c_1(\\mathrm{T}S^2)=2$ transverse phonon bundle; Pauli/SU(2) emergent gauge via Route B). <span class=\"tag tag-ok\">PROVED</span>.</li>" +
+            "<li><code>TECT-Math01</code>-<code>Math05</code> + <code>Math01-v2</code> (BCC ground-state uniqueness; loop-count hierarchy $N_{\\rm BCC}=6 > N_{\\rm FCC}=2 > N_{\\rm SC}=0$; selection vs periodic competitors). <span class=\"tag tag-ok\">PROVED</span>.</li>" +
+          "</ul>" +
+          "<p><strong>Total verified Math notes catalogued (post-Math209)</strong>: ~210 archive notes across 12 epochs (Math01 through Math209) with bidirectional cross-references to the seventeen pillar-grade papers. Falsified / audit-flagged items (Math148, Math151 inflationary, Math166, Math181, Math200 main + AddA y_t portion + AddB ℏ_B dimensional check, Math203, Math204, Math205, Math207-RR1b portion) are NOT included; they are preserved in <code>Docs/status/NEGATIVE-RESULTS.md</code> as permanent record per CLAUDE.md §6.4 traceability discipline.</p>"
+      }]
+    },
+
+    /* ---------------- Manuscript discipline + Papers admission rule ---------------- */
+    {
+      type: "card",
+      title: "Papers admission rule + manuscript-grade drafts (manual authorship rule)",
+      blocks: [{
+        type: "html",
+        content:
+          "<p><strong>Papers admission rule (binding from 2026-04-28)</strong>: only research content that has cleared (i) its devils-advocate self-test, (ii) any reviewer audit dispatched against it, AND (iii) any cross-turn second-order audit, may appear in this Papers catalogue. In-progress proofs, audit-flagged drafts, falsified claims, and conjectural research programmes do NOT appear here; they are tracked in <code>Docs/status/OPEN-QUESTIONS.md</code> (active work), <code>Docs/status/NEGATIVE-RESULTS.md</code> (retracted / falsified), and the Math notes themselves (with explicit AUDIT-STATUS banners).</p>" +
+          "<p>When a research item PROMOTES from in-progress / audit-flagged / draft → fully verified, it is admitted to the catalogue in the SAME atomic-write commit that records the promotion (CLAUDE.md §3 atomic-write rule + §4 chat-archival). Conversely, if a previously-admitted item is RETRACTED by a later audit, it is REMOVED from this catalogue and migrated to <code>NEGATIVE-RESULTS.md</code> in the same commit. The catalogue therefore presents a SNAPSHOT of currently-validated TECT research, with full audit traceability via <code>EVIDENCE-INDEX.md</code> and <code>NEGATIVE-RESULTS.md</code>.</p>" +
+          "<p>The current snapshot (post-Math209, 2026-04-28) excludes: Math148 (Fujikawa anomaly retracted), Math151 (inflationary $n_s$ rescoped), Math166 (index-by-ansatz pattern), Math181 (U(1)$_\\chi$ flat rescue rejected), Math200 main note + Math200-AddA $y_t$ portion + Math200-AddB $\\hbar_B$ dimensional check (audit-flagged), Math203 (FALSIFIED at L2 by Math209 Type B verdict), Math204 (audit-flagged $\\pi_3$ Dynkin index + sign-normalisation), Math205 (synthesis FALSIFIED at L2), Math207 RR1b portion (RR1a CLOSED unchanged; bundle lift type closed-NEGATIVE).</p>" +
+          "<p><strong>Manuscript-grade drafts (manual authorship rule)</strong>: per <code>Docs/policy/UPDATE_POLICY.md</code> §11, full manuscript-grade <code>.tex</code> drafts in <code>docs/papers/</code> require explicit user instruction. The papers above list the canonical proof archives that constitute each manuscript's technical content. When a manuscript is requested, the corresponding row will gain a manuscript status (FRAMEWORK / PROP COMPLETE / SUBMITTED / PUBLISHED) and a download link. The 17 papers + 2 auxiliary entries + chronological catalogue listed above represent the complete TECT verified-proof catalogue ready for journal-paper assembly as of 2026-04-28 (post-Math209).</p>" +
+          "<p>Total verified Math notes referenced: ~210 archive notes spanning Math01..Math209. Cross-references are bidirectional (each paper lists its anchor notes; each Math note's header documents which papers it supports). Retraction discipline: every retracted / audit-flagged result is preserved in <code>Docs/status/NEGATIVE-RESULTS.md</code> as a permanent record per CLAUDE.md §6.4 three-part traceability chain (cause, evidence/failure log, decision chain).</p>"
+      }]
+    }
+  ]
+};

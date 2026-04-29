@@ -1,0 +1,1 @@
+**A0 (the single axiom).** Physical reality is a three-dimensional BCC topological condensate described by the Brazovskii free energy $\mathcal{F}[\Psi]$ with spontaneously locked parameters $(\mu^2, \lambda, \gamma)$. Every physical law must emerge as a mathematical or thermodynamic necessity from this structure alone.

@@ -1,0 +1,439 @@
+% =========================================================
+%  TECT -- Math48 research note (2026-04-16)
+%  Non-linear Einstein-Hilbert closure: cubic graviton
+%  self-coupling and the h^2 a^2 vertex.
+%
+%  Purpose:
+%    Math47 established the bilinear equivalence-principle
+%    closure: the gauge sector gravitates with coupling
+%    kappa_G at the h a a vertex.  This is one-loop and
+%    one-graviton only.  A broader IR-matching claim requires that
+%    the non-linear structure of emergent gravity also
+%    matches Einstein-Hilbert:
+%      (i)  the cubic graviton self-vertex must equal the
+%           GR h^3 vertex with the same kappa_G;
+%      (ii) the h^2 a^2 vertex must equal the GR expansion of
+%           sqrt(-g) F_{mn} F^{mn} with the same kappa_G and
+%           the same (c_W, c_B);
+%      (iii) non-linear diffeomorphism invariance (second-
+%           order Ward / Zinn-Justin identity) must hold.
+%    Math48 formalises these three statements as operational
+%    audits T8a / T8b / T8c on the same locked package, the
+%    same actual backend Hessian, and (now) third and fourth
+%    functional derivatives of S_eff.
+%
+%    Passing T8a-T8c, together with Math43 (matching scale),
+%    Math44 (c_W, c_B), Math45 (kappa_G), Math46b/46c/47
+%    (bilinear closure), would establish a finite-lattice,
+%    numerical matching, at one-loop leading log and 1%
+%    tolerance on the soft-mode window, between the
+%    Brazovskii-locked IR effective action and
+%    Einstein-Hilbert + SU(2)_W x U(1)_Y Yang-Mills.  This
+%    is a partial IR-matching result; it does not cover the
+%    fermion sector (Math49, reserved), the cosmological
+%    constant (Math50, reserved), higher-loop corrections,
+%    or any claim about ultraviolet completion.
+%
+%  Feeds: Math44 Thm cWcB; Math45 Thm kappaG; Math46b/46c/47.
+%
+%  Theory tag after this note: Math48-nonlinear-EH-match-2026-04-16
+% =========================================================
+
+\documentclass{article}
+\usepackage{amsmath,amssymb,amsthm}
+\newtheorem{thm}{Theorem}
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{cor}[thm]{Corollary}
+\theoremstyle{definition}
+\newtheorem{defn}[thm]{Definition}
+\theoremstyle{remark}
+\newtheorem*{rmk}{Remark}
+\begin{document}
+
+\section*{Math48: Cubic graviton self-vertex and the $h^{2}a^{2}$
+vertex: non-linear IR matching to Einstein--Hilbert on the
+Brazovskii-locked vacuum}
+
+\subsection*{0. Motivation}
+
+Math47 established $\kappa_G^{\mathrm{mix}}=\kappa_G$ at the
+bilinear $h\,a\,a$ vertex; this is a statement about one
+graviton insertion into the gauge two-point function. A more
+complete matching of the emergent IR effective action to
+Einstein--Hilbert coupled to $SU(2)_W\!\times\!U(1)_Y$
+Yang--Mills — restricted to the orders in $h$ accessible to
+the one-loop effective action on the Brazovskii-locked
+vacuum — requires checking higher graviton multiplicities.
+Math48 audits the minimal next terms:
+\begin{enumerate}
+\item the pure cubic graviton vertex $\Gamma^{(hhh)}$ reproduces
+the GR expansion of $\tfrac{1}{2\kappa_G^{2}}\!\int\!\sqrt{-g}R$
+at $O(h^{3})$ with the \emph{same} $\kappa_G$;
+\item the $h^{2}a^{2}$ vertex reproduces the GR expansion of
+$\tfrac14\sqrt{-g}F_{\mu\nu}F^{\mu\nu}$ at $O(h^{2}a^{2})$ with
+the same $\kappa_G$ and the same $(c_W,c_B)$ as Math44;
+\item the non-linear diffeomorphism Ward identity (second-order
+consistency of Lem~47 `Ward') holds.
+\end{enumerate}
+Math48 operationalises these three statements.
+
+\subsection*{1. Cubic geometric probe}
+
+\begin{defn}[Triple affine deformation]
+\label{defn:triple-probe}
+Fix three probe momenta $p_{1},p_{2},p_{3}$ with
+$p_{1}+p_{2}+p_{3}=0$ and $|p_{k}|\ll q_{0}$, orthonormal triads
+$(\hat p_{k},\hat e_{1,k},\hat e_{2,k})$, and TT polarisations
+$E_{k}\in\{E^{(TT1)}_{k},E^{(TT2)}_{k}\}$ (Math46c Def
+probe-basis). Define the three-parameter deformation
+\begin{equation}
+\Psi_{\varepsilon_{1},\varepsilon_{2},\varepsilon_{3}}(x)
+ \;:=\;
+ \Psi_{\mathrm{lock}}\!\bigl(\Phi_{\vec\varepsilon}(x)\bigr),
+\qquad
+\Phi_{\vec\varepsilon}(x)\;:=\;\Bigl(I\!+\!
+\sum_{k=1}^{3}\varepsilon_{k}E_{k}\cos(p_{k}\!\cdot\!x)\Bigr)\,x.
+\label{eq:triple-def}
+\end{equation}
+The composition is associative at $O(\varepsilon^{3})$; the
+commutator of two affine deformations generates the $O(h^{2})$
+diffeomorphism bracket required for the non-linear Ward identity
+(Prop~\ref{prop:nonlin-Ward} below).
+\end{defn}
+
+\begin{defn}[Cubic graviton vertex]
+\label{defn:Gamma-hhh}
+The cubic graviton vertex at the locked vacuum is
+\begin{equation}
+\Gamma^{(hhh)}_{E_{1}E_{2}E_{3}}(p_{1},p_{2},p_{3})
+ \;:=\;
+ \frac{1}{V}\,
+ \frac{\partial^{3}S_{\mathrm{eff}}}
+      {\partial\varepsilon_{1}\,\partial\varepsilon_{2}\,
+       \partial\varepsilon_{3}}
+ \Bigg|_{\vec\varepsilon=0},
+\end{equation}
+evaluated on-shell with $p_{1}+p_{2}+p_{3}=0$.
+\end{defn}
+
+\subsection*{2. Einstein--Hilbert target}
+
+\begin{lem}[GR cubic target]
+\label{lem:GR-cubic}
+The Einstein--Hilbert action
+$S_{\mathrm{EH}}=\tfrac{1}{2\kappa_G^{2}}\!\int\!\sqrt{-g}R$
+expanded on $g_{\mu\nu}=\eta_{\mu\nu}+\kappa_G h_{\mu\nu}$ yields,
+in the transverse-traceless gauge $\partial^{\mu}h_{\mu\nu}=0$,
+$h^{\mu}{}_{\mu}=0$,
+\begin{equation}
+S_{\mathrm{EH}}^{(3)}[h]
+ \;=\;\kappa_G\!\int\! d^{3}x\;
+ \mathcal{V}^{\mu\nu\rho\sigma\alpha\beta}
+ \bigl(\partial h\bigr)\bigl(\partial h\bigr)\bigl(\partial h\bigr),
+\label{eq:GR-cubic}
+\end{equation}
+with $\mathcal{V}$ the standard Einstein cubic vertex kernel (a
+homogeneous polynomial of degree two in momenta, degree six in
+polarisations). Its closed form is tabulated in Appendix of
+Goroff--Sagnotti (1986) and collapses on the TT shell to the
+kinematic structure
+$\mathcal{V}_{TT}(p_{1},p_{2},p_{3})
+ =c_{1}p_{1}\!\cdot\!p_{2}\,E_{1}\!\cdot\!E_{3}\,E_{2}\!\cdot\!E_{3}
+ +\text{perms}$
+with the coefficient $c_{1}$ fixed by the Einstein normalisation
+$1/(16\pi G_{N})=Z_{h}$.
+\end{lem}
+
+\begin{defn}[Cubic graviton ratio]
+\label{defn:kappa3}
+Define
+\begin{equation}
+\kappa_G^{(3)}\;:=\;
+ \lim_{p\to 0}\,
+ \frac{\Gamma^{(hhh)}_{E_{1}E_{2}E_{3}}(p_{1},p_{2},p_{3})}
+      {\mathcal{V}^{\mathrm{GR}}_{E_{1}E_{2}E_{3}}(p_{1},p_{2},p_{3};\kappa_G=1)},
+\end{equation}
+where the denominator is the GR kinematic structure of
+Lem~\ref{lem:GR-cubic} with $\kappa_G$ factored out. Then
+$\kappa_G^{(3)}=\kappa_G$ is the non-linear Einstein-closure
+statement.
+\end{defn}
+
+\subsection*{3. The $h^{2}a^{2}$ vertex}
+
+\begin{defn}[$h^{2}a^{2}$ probe]
+\label{defn:h2a2-probe}
+Compose the double affine deformation $(E_{1},E_{2})$ of
+Def~\ref{defn:triple-probe} (restricted to $k=1,2$) with the
+Math46b plane-wave gauge probe at momenta $q_{1},q_{2}$,
+$q_{1}+q_{2}=-p_{1}-p_{2}$. The quadri-bilinear response is
+\begin{equation}
+\Gamma^{(hhaa)}_{E_{1}E_{2},\hat\epsilon_{1}\hat\epsilon_{2}}
+ (p_{1},p_{2};q_{1},q_{2})
+ \;:=\;
+ \frac{1}{V}\,
+ \frac{\partial^{4}S_{\mathrm{eff}}}
+      {\partial\varepsilon_{h,1}\,\partial\varepsilon_{h,2}\,
+       \partial\varepsilon_{a,1}\,\partial\varepsilon_{a,2}}
+ \Bigg|_{\vec\varepsilon=0}.
+\end{equation}
+\end{defn}
+
+\begin{lem}[GR $h^{2}a^{2}$ target]
+\label{lem:GR-h2a2}
+The expansion of $\tfrac14\sqrt{-g}F_{\mu\nu}F^{\mu\nu}$ on
+$g_{\mu\nu}=\eta_{\mu\nu}+\kappa_G h_{\mu\nu}$ at $O(h^{2}a^{2})$
+yields
+\begin{equation}
+S^{(2,2)}[h,a]\;=\;\kappa_G^{2}\!\int\! d^{3}x\;
+ \mathcal{W}^{\mu\nu\rho\sigma;\alpha\beta\gamma\delta}
+ \,h_{\mu\nu}h_{\rho\sigma}\,
+ \partial_{\alpha}a_{\beta}\partial_{\gamma}a_{\delta},
+\end{equation}
+with $\mathcal{W}$ the standard quadratic-in-metric coupling
+kernel and overall normalisation $(c_W,c_B)$ entering through
+the polarisation structure of the gauge field strength.
+\end{lem}
+
+\begin{defn}[$h^{2}a^{2}$ ratio]
+\label{defn:kappa-mix2}
+Define
+\begin{equation}
+\bigl(\kappa_G^{(2)}\bigr)^{2}
+ \;:=\;
+ \lim_{p,q\to 0}\,
+ \frac{\Gamma^{(hhaa)}(p_{1},p_{2};q_{1},q_{2})}
+      {\mathcal{W}^{\mathrm{GR}}(p_{1},p_{2};q_{1},q_{2};
+         \kappa_G=1,c_W,c_B)},
+\end{equation}
+with $(c_W,c_B)$ in the denominator the Math46b-extracted
+values.
+\end{defn}
+
+\subsection*{4. Non-linear Ward identity}
+
+\begin{prop}[Second-order Ward / Zinn-Justin]
+\label{prop:nonlin-Ward}
+Under the second-order diffeomorphism
+$x^{\mu}\to x^{\mu}+\xi^{\mu}+\tfrac12\xi^{\nu}\partial_{\nu}\xi^{\mu}
++O(\xi^{3})$ with $\xi^{\mu}=\zeta^{\mu}_{1}\cos p_{1}\!\cdot\!x+
+\zeta^{\mu}_{2}\cos p_{2}\!\cdot\!x$, the effective action
+satisfies
+\begin{equation}
+\delta^{(2)}_{\xi}S_{\mathrm{eff}}
+ \;=\;
+ \int\! d^{3}x\;
+ \xi^{\mu}\xi^{\nu}\,
+ \bigl[\partial_{\mu}\partial_{\nu}T^{(a)}_{\rho\sigma}
+ -\text{anom}\bigr]\eta^{\rho\sigma}
+ \;+\;O(\xi^{3}),
+\end{equation}
+where the anomalous piece $\mathrm{anom}$ must vanish in the
+continuum limit for a consistent emergent geometry.
+\end{prop}
+
+\begin{defn}[Ward-consistency residual]
+\label{defn:Ward-res}
+The dimensionless Ward-consistency residual is
+\begin{equation}
+\Delta^{(2)}_{\mathrm{Ward}}
+ \;:=\;
+ \frac{\lVert\mathrm{anom}\rVert_{F}}
+      {\lVert T^{(a)}\rVert_{F}\cdot\lVert\xi\rVert^{2}/\ell^{\star 2}}
+ \;\stackrel{!}{\le}\;10^{-2}.
+\end{equation}
+\end{defn}
+
+\subsection*{5. Operational audit T8}
+
+\begin{defn}[T8a: cubic-graviton universality]
+\label{defn:T8a}
+\begin{equation}
+\Delta^{(3)}_{\mathrm{EH}}
+ \;:=\;
+ \frac{\lvert\kappa_G^{(3)}-\kappa_G\rvert}{\kappa_G}
+ \;\stackrel{!}{\le}\;10^{-2}.
+\end{equation}
+\end{defn}
+
+\begin{defn}[T8b: $h^{2}a^{2}$ matching]
+\label{defn:T8b}
+\begin{equation}
+\Delta^{(2)}_{\mathrm{hha}a}
+ \;:=\;
+ \frac{\lvert\kappa_G^{(2)}-\kappa_G\rvert}{\kappa_G}
+ \;\stackrel{!}{\le}\;10^{-2}.
+\end{equation}
+\end{defn}
+
+\begin{defn}[T8c: non-linear Ward consistency]
+\label{defn:T8c}
+$\Delta^{(2)}_{\mathrm{Ward}}\le 10^{-2}$ per
+Def~\ref{defn:Ward-res}.
+\end{defn}
+
+\begin{prop}[T8 falsification modes]
+\label{prop:T8fail}
+T8 is falsified on refined grids $N\in\{32,64,128\}$ if any of:
+\begin{enumerate}
+\item[(H1)] $\kappa_G^{(3)}(N)$ does not converge to $\kappa_G$
+      at rate $\ge O(N^{-2})$.
+\item[(H2)] $\kappa_G^{(2)}(N)$ does not converge to $\kappa_G$
+      at rate $\ge O(N^{-2})$.
+\item[(H3)] $\Delta^{(2)}_{\mathrm{Ward}}(N)$ does not decrease
+      as $N\to\infty$, signalling a persistent non-geometric
+      anomaly.
+\item[(H4)] $\kappa_G^{(3)}$ extracted from distinct TT
+      polarisation triples differ by more than $1\%$ after BCC
+      orbit averaging.
+\end{enumerate}
+Any of (H1)--(H4) refutes non-linear Einstein--Hilbert closure,
+and, by Math47 Thm~\textnormal{EP}, also forces reinterpretation
+of Math44/45/47.
+\end{prop}
+
+\subsection*{6. One-loop IR-matching proposition}
+
+\begin{thm}[One-loop IR matching on the Brazovskii-locked vacuum]
+\label{thm:IRmatch}
+Let a Math48-compliant joint extractor, acting on a Math40
+locked-triple solver package with Math43 matching scale
+$\ell^{\star}=1$, satisfy:
+\begin{itemize}
+\item[(C1)] Math46c T1 purity, T2 Einstein normalisation
+$Z_h=|Z|/2$, T3 universality on $N\in\{32,64,128\}$.
+\item[(C2)] Math46b T6 with $c_W=1/(96\pi^{2})$,
+$c_B=1/(64\pi^{2})$; gauge-isotropy $\le 1\%$.
+\item[(C3)] Math47 T7 equivalence-principle defect
+$\Delta_{\mathrm{EP}}\le 10^{-2}$.
+\item[(C4)] Math48 T8a, T8b, T8c as defined above.
+\end{itemize}
+Then, at one-loop leading log and on the continuum-limit-
+extrapolated scale, the IR effective action on the soft-mode
+window $|p|\ll q_0$ admits the decomposition
+\begin{equation}
+S_{\mathrm{IR}}
+ \;=\;
+ \frac{1}{2\kappa_G^{2}}\!\int\!\sqrt{-g}R
+ \;-\;\frac{c_W}{4}\!\int\!\sqrt{-g}\,F^{a}_{\mu\nu}F^{a\,\mu\nu}
+ \;-\;\frac{c_B}{4}\!\int\!\sqrt{-g}\,B_{\mu\nu}B^{\mu\nu}
+ \;+\;\Delta S,
+\end{equation}
+with $\lVert\Delta S\rVert\le 10^{-2}\cdot\lVert S_{\mathrm{IR}}\rVert$
+in operator norm on the soft-mode window. The theorem asserts a
+numerical matching at the enumerated vertex orders only
+(bilinear and cubic in $h$; bilinear in $a_\mu$; mixed $ha^2$
+and $h^2 a^2$). It makes no claim about fermion content, the
+cosmological-constant coefficient of $\sqrt{-g}$, two-loop or
+higher corrections, operators outside the span of
+(C1)--(C4), or the ultraviolet completion of the effective
+theory. In abbreviated form: within the enumerated operator
+set, the IR action matches Einstein--Hilbert $+$ electroweak
+Yang--Mills with couplings $\kappa_G=\sqrt{2/|Z|}$ and
+$(c_W,c_B)$ fixed by the Math40 triple, at a numerical
+tolerance of $1\%$.
+\end{thm}
+
+\begin{proof}
+The four conditions (C1)--(C4) each assert equality of a
+specific coefficient of the one-loop $\tfrac12\mathrm{Tr}\log
+L_{\mathrm{full}}$ expansion with its Einstein--Hilbert$+$YM
+target to $\le 1\%$. The coefficients (C1)--(C4) are a spanning
+set for the IR effective action at orders $(h^{2},h^{3},
+h a^{2},h^{2}a^{2})$ with $a^{2}$ implicit. Any two actions
+with matching coefficients on a spanning set of their IR
+expansion differ by operators of higher mass dimension,
+suppressed by $q_{0}/\Lambda_{\mathrm{UV}}$ — absorbed into
+$\Delta S$ — or by operators that vanish by the Math47 Ward
+identity (the diffeomorphism Lie bracket structure is already
+enforced by Prop~\ref{prop:nonlin-Ward}).
+\end{proof}
+
+\subsection*{7. Joint extractor interface (J6--J9)}
+
+Extending the Math47 interface:
+\begin{description}
+\item[\textbf{J6.}] Construct the triple affine deformation
+      composition of Def~\ref{defn:triple-probe} on the locked
+      package via FFT resampling, preserving associativity at
+      $O(\varepsilon^{3})$.
+\item[\textbf{J7.}] Evaluate the cubic derivative
+      $\partial^{3}S_{\mathrm{eff}}/\partial\varepsilon^{3}$ by
+      three-point finite difference with
+      $\varepsilon=10^{-5}$; Hutchinson $N_{s}\ge 64$.
+\item[\textbf{J8.}] Evaluate the quartic derivative
+      $\partial^{4}S_{\mathrm{eff}}/
+       \partial\varepsilon_{h}^{2}\partial\varepsilon_{a}^{2}$
+      by two nested three-point stencils; require
+      $N_{s}\ge 128$ to control variance.
+\item[\textbf{J9.}] Compute $\Delta^{(2)}_{\mathrm{Ward}}$ by
+      applying the second-order diffeomorphism
+      $\xi+\tfrac12\xi\partial\xi$ to the probe and checking
+      that $\delta^{(2)}_{\xi}S_{\mathrm{eff}}$ reduces to the
+      stress-tensor bilinear up to the tolerated anomaly.
+\end{description}
+
+\subsection*{8. Cost budget}
+
+Per cubic-graviton configuration: 8 evaluations
+($\pm\varepsilon$ on three axes) of
+$\tfrac12\mathrm{Tr}\log L_{\mathrm{full}}$ at Hutchinson
+$N_s=64$. Per $h^{2}a^{2}$ configuration: 16 evaluations at
+$N_s=128$. With $\sim 10$ kinematic configurations per grid
+and three grids:
+\begin{equation}
+C_{\mathrm{T8}}
+ \;\approx\;
+ \bigl(8\!\cdot\!64 + 16\!\cdot\!128\bigr)\!\cdot\!10\!\cdot\!3
+ \cdot C_{\mathrm{Hess}}(N)
+ \;\approx\;
+ 7.7\cdot 10^{4}\cdot C_{\mathrm{Hess}}(N).
+\end{equation}
+At $N=128$ on a single A100, $\sim 2$--$3$ weeks wall-clock,
+or $\sim 2$--$3$ days on an 8$\times$A100 node. The full
+Math40--Math48 closure campaign on a single node therefore
+takes $\sim 1$ month single-A100 / $\sim 3$--$4$ days 8-A100.
+
+\subsection*{9. Residual and deferred}
+
+(a) Two-loop corrections to the TT graviton self-energy carry
+unknown coefficient and would shift $\kappa_G^{(3)}$ by
+$O(\hbar^{2})\sim O(1/q_{0}^{2})$. Math48 closure is a
+\emph{one-loop} statement; claiming two-loop closure is
+Math49 territory.
+
+(b) The GR cubic vertex $\mathcal{V}$ of Lem~\ref{lem:GR-cubic}
+is stated in continuum 3D (Euclidean); its BCC-lattice
+discretisation carries finite-$N$ artefacts of order $O(1/N^{2})$.
+The $N^{-2}$ Richardson extrapolation is assumed; if the
+convergence rate departs from $N^{-2}$, the BCC $O_{h}$ artefact
+structure must be modelled (Q-20 ticket).
+
+(c) Fermion-sector IR matching (Math49, reserved: Dirac
+operator on the locked vacuum and chiral-anomaly audit) is
+independent of Math48 and is a prerequisite for any broader
+Standard-Model-side matching claim. Math48 does not address
+the fermion sector.
+
+(d) The cosmological constant: Math48 fixes the coefficient of
+$R$ but leaves the zero-derivative $\sqrt{-g}$ coefficient
+$\Lambda_{\mathrm{cc}}$ unaudited. Math50 (vacuum-energy
+cancellation via Math31 Class-III scalar sector) is reserved.
+
+\subsection*{10. Records pointers}
+
+\begin{itemize}
+\item \texttt{CHANGELOG.md}: theory tag
+      \texttt{Math48-nonlinear-EH-match-2026-04-16}.
+\item Math48 consumes the Math47 §7(c) non-linear-vertex
+      deferral.
+\item Joint extractor interface J6--J9 (§7) extends the
+      Math47 J1--J5 contract; no scaffolded code is deposited
+      pending user-supplied Python skeleton (same discipline
+      as Math46b/46c/47).
+\item Math49 (fermion sector), Math50 (cosmological constant):
+      reserved tags for subsequent closure notes.
+\end{itemize}
+
+\end{document}

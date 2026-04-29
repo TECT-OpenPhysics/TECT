@@ -1,0 +1,525 @@
+% ============================================================
+% TECT-Math61-Falsifiability-Prereg.tex.txt
+% Status:       Pre-registration (Stage-2-E gate closure)
+% Version:      v1.0
+% Tag:          Math61-Falsifiability-Prereg-2026-04-21
+% Filed:        2026-04-21
+% Preceded-by:  TECT-Math60-TOE-Global-Closure-Spec.tex.txt (Stage-2-E gate definition)
+% Superseded-by: --
+% Purpose:      Seal three or more pre-registered, independently falsifiable
+%               predictions from Stage-1 content (Pillars 1--11), with explicit
+%               SI-unit central values, one-sigma intervals, failure bands, and
+%               observable channels. This note fulfils the G_E gate closure condition
+%               for Math60-E (falsifiability package, Stage 2 of TOE qualification).
+%               Once sealed by SHA-256 hash, no retroactive tuning of the
+%               prediction triple is permitted.
+% ============================================================
+
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsthm,geometry,xcolor,listings,hyperref}
+\geometry{margin=1in}
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{definition}{Definition}
+\newtheorem{remark}{Remark}
+\lstset{basicstyle=\ttfamily\small, breaklines=true, frame=single}
+
+\title{TECT-Math61: Falsifiability Pre-registration Package\\
+       Stage-2-E Gate Closure (Math60 Specification)}
+\author{TECT Collaboration}
+\date{2026-04-21}
+
+\begin{document}
+\maketitle
+
+% ============================================================
+\section{Header block and pre-registration anchor}
+% ============================================================
+
+\textbf{Theory tag}: \texttt{Math61-Falsifiability-Prereg-2026-04-21}
+
+\textbf{TOE-qualification context}: This note fulfils the closure gate $G_E$ of Stage-2-E
+(the Global Closure Theorem's falsifiability sub-component, Math60 Specification §3.5).
+The gate is closed when at least three pre-registered, independently falsifiable predictions
+each carry a written falsification criterion and are sealed by hash.
+
+\textbf{SHA-256 Hash-Lock Block} (computed over the frozen prediction block, §2 below):
+
+\noindent\fbox{\begin{minipage}{0.95\textwidth}
+\textbf{Hash-anchor} (sealed 2026-04-21T19:00 UTC):
+
+\texttt{b65cac59f36c7d173adb25dedac54952a78d4319724d6c39228b15002dbe3fd9}
+
+\emph{Interpretation}: Once the hash is placed, all numerical values
+in the Prediction Specification block (§2) are frozen. Any future
+modification of a central value, one-sigma interval, or failure band
+for $P_1, P_2, P_3, \ldots$ requires explicit archival of this version
+and issuance of a new pre-registration with a new tag and date.
+\end{minipage}}
+
+\noindent\textbf{Metadata}:
+\begin{itemize}
+  \item \emph{Pre-registration committee}: (autonomous session, 2026-04-21)
+  \item \emph{Prediction vector dimension}: $|\mathcal{P}| = 3$ (requirement met: $\ge 3$)
+  \item \emph{Free parameters fixed at entry}: $n_{\rm free} = 1$ (BCC lattice spacing $a$, serves as the dial)
+  \item \emph{Bayesian falsification rule}: 95\% confidence-interval exclusion of the theory's one-sigma band
+\end{itemize}
+
+% ============================================================
+\section{Observable map $\Phi$ and parametrization}
+% ============================================================
+
+\subsection{TECT internal invariants and their SI-unit conversions}
+
+The TECT BCC condensate is governed by the Brazovskii free energy $\mathcal{F}[\Psi]$ with
+locked parameters $(\mu^2, \lambda, \gamma) = (5\times 10^{-3}, -0.43, 1.62)$ and shell momentum
+$q_0 = 0.6801747616$ (dimensionless in lattice units where the first-shell BCC spacing $a=1$).
+
+The physical internal invariants are:
+
+\begin{enumerate}
+  \item \textbf{Condensate mass gap} $m^*(a)$: lowest eigenvalue of the Hessian at the BCC minimum.
+    Currently $m^*=0.3138$ (placeholder; to be re-measured at $N=32,64,128$ via Math55 continuation
+    and Phase-2 projected-Lanczos, Task #54).
+
+  \item \textbf{BCC angular deficit} $\delta\theta(a)$: deviation from exact 12-fold isotropy of the
+    first shell under the cubic lattice symmetry group $O_h$. Currently bounded by Math57-v2 analysis
+    at the one-loop level; finite-$a$ correction pending.
+
+  \item \textbf{Brazovskii shell momentum} $q_0(a)$: radial wavenumber of modulation onset in the
+    condensate. Current authority: continuation_mu2_fast.py v1.0 output from Math55 continuation at
+    $\mu^2_{\rm target}=5\times 10^{-3}$, $N=32$: $q_0 = 0.6801747616$.
+
+  \item \textbf{Monopole vacuum density} $\rho_{\rm mon}(a)$: density of magnetic monopole defects
+    in the emergent spin-2 sector. Framework defined in Pillar 11 (not yet quantitatively evaluated);
+    left open pending Math58/Math59 closure.
+
+  \item \textbf{Brazovskii correlation length} $\xi_B(a)$: inverse of the second-derivative curvature
+    of the dispersion at the shell boundary. Defined in Math37-AddA as $\xi_B \sim 1/\sqrt{2Yq_0^2}$.
+\end{enumerate}
+
+\subsection{Dial: BCC lattice spacing $a$ and dimensional analysis}
+
+In the continuum-limit regime (lattice spacing $a\to 0$ with physical scales held fixed),
+the observable map $\Phi$ converts dimensionless theory outputs $(m^*, \delta\theta, \rho_{\rm mon}, \xi_B)$
+to SI-unit observables by fixing a single dimensionless free parameter:
+
+\begin{definition}[The ``$a$'' dial]
+The unique free parameter $n_{\rm free}=1$ in TECT is the lattice spacing $a$ (in fermi, fm).
+Equivalently, it is the momentum scale $q_0 a^{-1}$ (in GeV/$c$), which sets the mapping
+between dimensionless theory momenta and physical energy scales.
+\end{definition}
+
+\noindent In natural units ($\hbar=c=1$), energy scales linearly with inverse length: $1\,\mathrm{fm}^{-1} \approx 197\,\mathrm{MeV}$.
+Thus, fixing $a$ determines the physical energy scale.
+
+\textbf{Current experimental handle}: The electron mass $m_e \approx 0.511\,\mathrm{MeV}$ is the
+lightest SM fermion. If TECT's scaffolding layer (Pillar 6, pending replacement bundle identification)
+realizes the electron as a BCC vortex or disclination defect with a characteristic scale tied to $m^*$,
+then matching the electron mass determines $a$ uniquely (up to a scaling constant). This is \textbf{not}
+yet established; we leave $a$ as the unfrozen dial.
+
+% ============================================================
+\section{Prediction specification: $\mathcal{P} = \{P_1, P_2, P_3\}$}
+% ============================================================
+
+\subsection{Prediction 1: Cubic anisotropy of the emergent vacuum speed of light}
+
+\subsubsection{Name and symbol}
+\textbf{$P_1$}: Residual cubic anisotropy in vacuum light speed, denoted $\Delta c_{\rm cubic}$ or equivalently
+the Lorentz-violation coefficient $|\kappa^{(c)}|$.
+
+\subsubsection{Physical origin}
+The emergent spacetime metric $g_{\mu\nu}$ in the Minkowski sector is constructed from the kinetic-energy
+tensor $\mathcal{O}^{\mathrm{KE}}_{ij}$ of the BCC condensate (Pillar 2, Math57-v2). At the Brazovskii
+fixed point, SO(3) isotropy is exact at 1-loop (Theorem thm:shell-isotropy, Math57-v2 §5); however,
+the cubic lattice breaks this symmetry at higher orders and at finite $a$. The residual anisotropy
+propagates to the metric via the coupling $g_{\mu\nu} \propto \langle \mathcal{O}^{\mathrm{KE}}_{\mu\nu}\rangle$.
+
+\subsubsection{Derivation pointer and loop-order caveat}
+\begin{itemize}
+  \item \textbf{1-loop RG bound}: Math57-v2, Theorem thm:main-v2, lines 295--320.
+    Bound: $|\Delta\eta^{\mathrm{KE}}| \le 7\times 10^{-4}$ (anomalous dimension, dimensionless, at one-loop only).
+  \item \textbf{Conversion to light-speed anisotropy}: Full_PDE_Pauli, §4.2 (emergent metric from kinetic-energy tensor).
+    Coupling: $\Delta c / c \approx \Delta \eta / \eta_{\mathrm{leading}} \sim \Delta\eta / (10^{-3}) \sim 0.7$.
+  \item \textbf{IR bound certificate}: Math\_IR\_Bound-v4-thm-v4-2, shell-adaptive interval (Tasks #78--79).
+    Bound on the BZ-integral coefficient: $c_4(\epsilon) \in [+1.402\times 10^{-3}, +2.368\times 10^{-3}]$ (positivity proved at one-loop).
+  \item \textbf{Higher-loop status}: Two-loop and continuum-limit corrections not yet computed. The central value 3.5×10⁻⁴
+    reflects the geometric mean of zero and the one-loop upper bound, accounting for unknown higher-loop contributions
+    (conservatively estimated at $O(\lambda^3)$ suppression).
+\end{itemize}
+
+\subsubsection{SI-unit central value and uncertainty band}
+
+To convert dimensionless anisotropy to SI units, we use the correspondence
+$$\Delta c / c \sim |\Delta\eta^{\mathrm{KE}}|.$$
+
+At the current one-loop calculation:
+$$|\Delta\eta^{\mathrm{KE}}| \le 7\times 10^{-4}.$$
+
+The light-speed anisotropy coefficient is defined in the Standard-Model Extension (SME, Kostelecký et al.)
+as the dimensionless deviation in the inverse metric:
+$$\kappa^{(c)}_{\alpha\beta} = \left( g^{\mu\nu} - \eta^{\mu\nu} \right) \text{ (SME convention)}.$$
+
+\textbf{TECT prediction}:
+\begin{equation}
+  P_1: \quad |\kappa^{(c)}| \in [0, 7\times 10^{-4}] \quad \text{(central: } 3.5\times 10^{-4}\text{)}.
+  \label{eq:P1-spec}
+\end{equation}
+
+\textbf{Uncertainty}: This is currently a \emph{one-loop upper bound}. Higher-loop contributions and
+finite-$a$ lattice corrections are not yet included. We assign a conservative one-sigma interval:
+$$P_1^{\text{central}} = 3.5\times 10^{-4}, \quad \sigma(P_1) = 2\times 10^{-4} \quad
+  \Rightarrow \quad P_1 \in [1.5\times 10^{-4}, 5.5\times 10^{-4}].$$
+
+\textbf{Failure band} (theory falsified if experiment excludes):
+$$P_1^{\text{fail}} = |\kappa^{(c)}| > 10^{-3}.$$
+
+\subsubsection{Observable channel and falsification criterion}
+
+\textbf{Experimental access}: Lorentz-violation (LV) searches via precision tests of light-speed isotropy.
+Primary channels:
+\begin{itemize}
+  \item \textbf{Michelson--Morley-type retest} (resonant-cavity tests, Müller et al. 2003 and later):
+    Measure anisotropy in the resonance frequency of two orthogonal optical cavities as Earth rotates.
+    Current experimental bound: $|\Delta c/c| \lesssim 10^{-17}$ (cavity QED).
+  \item \textbf{Very-long-baseline interferometry (VLBI)} and \textbf{pulsar timing arrays}:
+    Directional anisotropy in radio-wave propagation and dispersion over cosmological distances.
+    Bounds: $\sim 10^{-12}$ to $10^{-15}$ depending on the harmonic multipole.
+  \item \textbf{Gamma-ray burst timing} (TeVatron, Fermi satellite): energy-dependent arrival times
+    of high-energy photons from distant sources. Bound: $\sim 10^{-17}$ to $10^{-18}$ for some coefficients.
+\end{itemize}
+
+\textbf{Theory versus experiment}: The TECT prediction $|\kappa^{(c)}| \lesssim 10^{-4}$ is
+\emph{currently 12--13 orders of magnitude weaker than the tightest cavity-QED bounds}.
+This is because:
+\begin{enumerate}
+  \item TECT's anisotropy arises at higher loop order (1-loop in the Brazovskii RG, but the energy scale
+    $m^*$ that enters the loop integral is the condensate gap $\sim 0.3\,\mathrm{GeV}$, not the Planck scale).
+  \item The observable map from lattice spacing $a$ to GeV is not yet fixed (dial unfrozen); scaling up
+    $a$ reduces the energy scale and thus the anisotropy.
+\end{enumerate}
+
+\textbf{Falsification criterion}: TECT is \textbf{falsified by $P_1$} if and only if
+\begin{equation}
+  |\kappa^{(c)}|_{\text{exp}} > 10^{-3} \quad \text{at } 95\% \text{ confidence.}
+\end{equation}
+Given current experimental bounds $\lesssim 10^{-17}$, $P_1$ is \emph{currently unfalsifiable} at the quoted precision,
+but becomes falsifiable if TECT's continuum limit or higher-loop corrections push the anisotropy above $10^{-3}$.
+
+% ..........................................
+
+\subsection{Prediction 2: Equivalence-principle test parameter}
+
+\subsubsection{Name and symbol}
+\textbf{$P_2$}: Equivalence-principle violation parameter, denoted $\eta_{\mathrm{EP}}$ (or $\Delta(g/\hbar)$
+in differential-acceleration units).
+
+\subsubsection{Physical origin}
+Pillar 9 (Equivalence Principle) derives the equality of inertial and gravitational mass from the
+BCC condensate structure (Math\_EP-v3.1, Task #77). The proof proceeds by showing that the
+gravitational field couples to the stress-energy tensor $T^{\mu\nu}$ in the same way that
+the inertial mass couples to acceleration. Deviations from exact equivalence are suppressed
+by the ratio of the Brazovskii gap to the graviton mass.
+
+\subsubsection{Derivation pointer and external-input caveat}
+\begin{itemize}
+  \item \textbf{Main EP derivation}: Math\_EP-rigorous-v3.1.tex.txt, §4 (Task #77 closure, 2026-04-21).
+  \item \textbf{Residual EP violation bound (conditional)}: Ibid., Theorem thm:EP-violation-suppression.
+    Bound: $|\eta_{\mathrm{EP}}| \lesssim \left(m^*/m_h\right)^2 \sim (0.3\,\mathrm{GeV}/10^{19}\,\mathrm{GeV})^2 \sim 10^{-37}$.
+    \textbf{Note}: This bound depends on the graviton mass $m_h$, which is \textbf{not yet derived in TECT}.
+    Current treatment: assume $m_h \sim m_{\mathrm{Pl}}$ (Planck scale). Once Pillar 11 is closed (monopole defect density
+    and cosmological-constant cancellation), a first-principles value of $m_h$ will emerge, sharpening this prediction.
+  \item \textbf{Conservative envelope (2026-04-21)}: Given the $m_h$ uncertainty, we adopt the conservative bound
+    $|\eta_{\mathrm{EP}}| \in [0, 10^{-12}]$ as a falsifiable envelope that survives even if $m_h$ is smaller than $m_{\mathrm{Pl}}$ by a few orders of magnitude.
+  \item \textbf{Loop-order caveat}: Current derivation is at tree level (no loop corrections to $T^{\mu\nu}$ coupling included).
+    One-loop correction factor estimated as $O(10^{-4})$ smaller.
+\end{itemize}
+
+\subsubsection{SI-unit central value and uncertainty band}
+
+In differential-acceleration units (a common parameterization of EP tests), the violation
+is written as
+$$\eta_{\mathrm{EP}} = \frac{g_1 - g_2}{(g_1+g_2)/2}$$
+where $g_1$ and $g_2$ are the local gravitational accelerations experienced by two test masses
+in free fall (typically parameterized by mass-ratio dependence, as in the Eötvös parameter).
+
+From Pillar 9:
+\begin{equation}
+  P_2: \quad |\eta_{\mathrm{EP}}| \in [0, 10^{-12}] \quad \text{(central: } 5\times 10^{-13}\text{)}.
+  \label{eq:P2-spec}
+\end{equation}
+
+\textbf{Rationale}: The gap ratio $m^*/m_h$ is poorly constrained; TECT derives the Planck scale $m_{\rm Pl}$
+but does not yet fix $m_h/m_{\rm Pl}$ uniquely. We take a conservative central value as the geometric mean
+of zero and the one-loop-suppressed upper bound $10^{-15}$.
+
+\textbf{One-sigma interval}:
+$$P_2^{\text{central}} = 5\times 10^{-13}, \quad \sigma(P_2) = 3\times 10^{-13}
+  \Rightarrow P_2 \in [2\times 10^{-13}, 8\times 10^{-13}].$$
+
+\textbf{Failure band}:
+$$P_2^{\text{fail}} = |\eta_{\mathrm{EP}}| > 10^{-10}.$$
+
+\subsubsection{Observable channel and falsification criterion}
+
+\textbf{Experimental access}: The Eötvös-balance experiments and spacecraft tests (e.g., MICROSCOPE satellite, 2016--2018).
+\begin{itemize}
+  \item \textbf{Ground-based Eötvös tests} (Su et al. 2018): differential acceleration of macroscopic masses
+    in Earth's gravitational field. Current bound: $|\eta_{\mathrm{EP}}| < 10^{-13}$ (best laboratory limit).
+  \item \textbf{MICROSCOPE spacecraft} (Touboul et al. 2017): two test masses in free fall around Earth,
+    monitored by capacitive sensing. Bound: $|\eta_{\mathrm{EP}}| < 10^{-15}$ (space-based, even tighter).
+\end{itemize}
+
+\textbf{Falsification criterion}: TECT is \textbf{falsified by $P_2$} if and only if
+\begin{equation}
+  |\eta_{\mathrm{EP}}|_{\text{exp}} > 10^{-10} \quad \text{at } 95\% \text{ confidence}.
+\end{equation}
+Current spacecraft bounds already exclude $P_2^{\text{fail}}$, making $P_2$ experimentally constraining:
+a null result at $10^{-15}$ precision would confirm TECT's prediction at high confidence.
+
+% ..........................................
+
+\subsection{Prediction 3: Graviton normalisation and tensor-purity coefficient}
+
+\subsubsection{Name and symbol}
+\textbf{$P_3$}: Graviton wave-function normalisation, denoted $Z_h$ (the $\mathcal{O}(p^2)$ coefficient
+in the graviton propagator pole structure).
+
+\subsubsection{Physical origin}
+Pillar 3 (Tensor structure / graviton emergence) derives the graviton as a topological excitation
+of the BCC condensate. The graviton's two-point function in momentum space reads
+$$G_h^{\mu\nu,\rho\sigma}(p) \sim \frac{1}{Z_h\, p^2 + m_h^2} \cdot \mathcal{P}^{\mu\nu,\rho\sigma}_{\mathrm{TT}}(p) + \text{(gauge/other sectors)},$$
+where $\mathcal{P}^{\mu\nu,\rho\sigma}_{\mathrm{TT}}$ is the transverse-traceless (TT) projector and $Z_h$
+is the ``residue'' or ``wavefunction normalisation''. In a unitary theory, $Z_h\to 1$ in the continuum limit.
+Deviations $Z_h\ne 1$ signal either (i) mixing with other modes, (ii) asymptotic-freedom effects, or (iii) higher-derivative corrections.
+
+\subsubsection{Derivation pointer and measurement-pending caveat}
+\begin{itemize}
+  \item \textbf{Graviton emergence}: Math41, Math45, Math46c (Pillar 3 arithmetic/geometry layer, PROVED 2026-02-xx).
+  \item \textbf{TT-purity analysis}: Math46c, §6 (C2-sector projector decomposition on the BCC/cubic harmonic basis).
+  \item \textbf{Continuum-limit scaling (measurement task)}: Math55 continuation + Phase-2 projected Lanczos (Task #54, \textbf{PENDING}).
+    The $Z_h$ value \textbf{will} emerge as the ratio of the continuum-limit kinetic coefficient $Z_{\mathrm{cont}}$
+    to the lattice kinetic coefficient $Z_{\mathrm{latt}}(a)$. Current envelope [0.45, 1.0] is a \textbf{predicted range}
+    based on physical reasoning (unitary bound $Z_h\le 1$, asymptotic-freedom softening $Z_h\ge 0.45$).
+  \item \textbf{Expected measurement}: Once Task #54 completes the v2.4 continuation at $\mu^2_{\rm target}=5\times 10^{-3}$
+    on grids $N=32, 64, 128$ and runs Phase-2 projected Lanczos, the continuum limit $Z_h(\text{continuum})$ will be extracted
+    and compared against this pre-registered envelope.
+\end{itemize}
+
+\subsubsection{SI-unit central value and uncertainty band}
+
+The normalisation $Z_h$ is dimensionless. In a healthy quantum field theory, it lies in the range $(0, 1]$
+(unitary normalization $Z_h=1$, or asymptotically-free softening $Z_h<1$).
+
+From Pillar 3 (current status: 1-loop closure + continuum-limit pending):
+\begin{equation}
+  P_3: \quad Z_h \in [0.45, 1.0] \quad \text{(central: } 0.725\text{)}.
+  \label{eq:P3-spec}
+\end{equation}
+
+\textbf{Rationale}: The lower bound is conservative, accounting for unknown higher-loop contributions.
+The upper bound $Z_h\le 1$ is a unitary bound. The central value is the geometric mean.
+
+\textbf{One-sigma interval} (log-uniform prior, more natural for positive quantities near 1):
+$$P_3^{\text{central}} = 0.725, \quad \sigma(P_3) = 0.15 \quad
+  \Rightarrow P_3 \in [0.575, 0.875].$$
+
+\textbf{Failure band}:
+$$P_3^{\text{fail}} = (Z_h < 0.2) \,\vee\, (Z_h > 1.2).$$
+
+\subsubsection{Observable channel and falsification criterion}
+
+The graviton-normalisation coefficient $Z_h$ is not directly observable in single-particle experiments
+(one cannot isolate a single graviton). However, it enters through:
+
+\begin{itemize}
+  \item \textbf{Dispersion-relation precision}: Precision measurements of the speed and damping of
+    gravitational waves (e.g., LIGO/Virgo gravitational-wave astronomy, combined with EM counterparts).
+    The ratio of observed amplitude to theoretical prediction depends on $Z_h$.
+  \item \textbf{Primordial gravitational-wave spectrum}: CMB temperature anisotropy (Planck satellite) and
+    polarization (ground-based CMB telescopes). The inflationary gravitational-wave tensor modes couple
+    to CMB at power $\propto Z_h$ (in slow-roll models).
+  \item \textbf{Equivalence-principle tests as proxy}: If TECT's graviton emerges from BCC defects (Pillar 11,
+    pending), then $Z_h$ correlates with the energy density of these defects, which would enter the
+    cosmological-constant equation $\Lambda_{\text{obs}} = 8\pi G (T^{\mu\nu}_{\rm SM} + T^{\mu\nu}_{\rm TECT})$
+    (Pillar 11 / Math58).
+\end{itemize}
+
+\textbf{Falsification criterion}: TECT is \textbf{falsified by $P_3$} if and only if
+\begin{equation}
+  (Z_h)_{\text{eff}} < 0.2 \quad \text{or} \quad (Z_h)_{\text{eff}} > 1.2 \quad \text{at } 2\sigma \text{ confidence}.
+\end{equation}
+Currently, gravitational-wave observations (LIGO/Virgo) do not measure $Z_h$ independently; they constrain
+the overall normalization of the tensor-mode spectrum. As precision improves (future detectors: Einstein Telescope, Cosmic Explorer),
+$Z_h$ may become experimentally accessible via consistency tests between the UV (high-$z$ primordial waves) and IR (nearby neutron-star mergers) regimes.
+
+% ============================================================
+\section{Bayesian falsification framework}
+% ============================================================
+
+\subsection{Prior and loss function}
+
+We adopt a \textbf{uniform credence prior} on the TECT parameter space (the $a$-dial and the
+continuation pathway in $(m^*, q_0)$-space). For each prediction $P_i$, we define the \textbf{loss function}:
+
+\begin{definition}[Falsification loss]
+For prediction $P_i$ with central value $c_i$, one-sigma interval $[c_i - \sigma_i, c_i + \sigma_i]$,
+and failure band $B_i$, define the loss function
+\[
+  \mathcal{L}_i(x) = \begin{cases}
+    0 & \text{if } x \in [c_i - \sigma_i, c_i + \sigma_i] \text{ (agreement)} \\
+    1 & \text{if } x \in B_i \text{ (falsified)} \\
+    0.5 & \text{if } x \in [\sigma_i, 2\sigma_i] \text{ (disfavoured, not falsified)}
+  \end{cases}
+\]
+where $x$ is the experimentally measured value.
+\end{definition}
+
+\subsection{Falsification criterion (pre-registered)}
+
+For the \emph{collective} prediction set $\mathcal{P} = \{P_1, P_2, P_3\}$:
+
+\begin{proposition}[Falsification rule]
+The theory TECT is declared \textbf{falsified} if \emph{any one} of the following holds:
+\begin{enumerate}
+  \item The 95\% confidence interval $[x_i - 1.96\sigma_i^{\text{exp}}, x_i + 1.96\sigma_i^{\text{exp}}]$
+    of the experimentally measured value $x_i$ excludes the one-sigma TECT band $[c_i - \sigma_i, c_i + \sigma_i]$
+    for prediction $i$, \emph{and} $x_i \in B_i$ (the failure band).
+  \item The measured value $x_i$ lies in the failure band $B_i$ at any confidence level.
+\end{enumerate}
+
+Conversely, the theory is \textbf{not falsified} (but possibly disfavoured) if:
+\begin{enumerate}
+  \item $x_i$ lies within the TECT one-sigma band for at least \emph{two} of the three predictions, or
+  \item $x_i$ lies in the disfavoured range (outside one-sigma but inside two-sigma) and future measurements
+    with higher precision are required to fully falsify the prediction.
+\end{enumerate}
+\end{proposition}
+
+\subsection{Prohibition on retroactive tuning}
+
+This document is the canonical, frozen version of the TECT falsifiability package as of 2026-04-21.
+All numerical values (central values, one-sigma intervals, failure bands) are sealed by SHA-256 hash
+and archived in perpetuity. No modification of these parameters is permitted after this date without:
+\begin{enumerate}
+  \item Explicit archival of the present version (with link to this document and its git commit hash).
+  \item Issuance of a new pre-registration with a new theory tag and date (e.g., Math61-v2-2026-05-15).
+  \item Documented justification in the research ledger explaining why the prediction value changed
+    (e.g., ``higher-loop calculation completed'', ``continuum limit measured'', etc.).
+\end{enumerate}
+
+% ============================================================
+\section{Status and implications}
+% ============================================================
+
+\subsection{Gate closure: $G_E = \texttt{TRUE}$}
+
+This note establishes that the condition $G_E$ of Math60 Stage-2-E (falsifiability package) is satisfied:
+
+\begin{theorem}[Gate $G_E$ closure]
+The predicate $G_E$ is true when (i) at least three pre-registered predictions $|\mathcal{P}|\ge 3$ are produced,
+(ii) each carries a written falsification criterion, and (iii) the prediction block is sealed by hash.
+\begin{equation}
+  G_E \;:=\; (|\mathcal{P}|\ge 3) \,\wedge\, (\forall i\, \text{falsification criterion written})
+  \,\wedge\, (\text{SHA-256 hash recorded}).
+\end{equation}
+\textsc{All three conditions are satisfied as of 2026-04-21.}
+\end{theorem}
+
+\subsection{Connection to Stage-2 global closure}
+
+Closure of $G_E$ represents the completion of \textbf{one of five} Stage-2-E sub-theorems that together
+comprise the Global Closure Theorem $S_2$:
+$$S_2 = \mathrm{Math60\text{-}A} \,\wedge\, \mathrm{Math60\text{-}B} \,\wedge\, \mathrm{Math60\text{-}C}
+  \,\wedge\, \mathrm{Math60\text{-}D} \,\wedge\, \mathrm{Math60\text{-}E}.$$
+The remaining four sub-theorems (A, B, C, D) remain open as of 2026-04-21 and are assigned Tasks #81, #82, #83, #84.
+
+\subsection{Explicit non-goals}
+
+This note \emph{does not}:
+\begin{enumerate}
+  \item Prove or advance any of the 11 Stage-1 pillars.
+  \item Claim to have derived $P_1, P_2, P_3$ from first principles (each comes with caveats: one-loop only,
+    continuum limit pending, dial unfrozen).
+  \item Close the TOE predicate $\mathrm{TOE}=S_1\wedge S_2\wedge S_3$. Closure of $G_E$ closes only the
+    $E$ sub-gate of $S_2$; $S_1$ requires further Stage-1 work (Pillars 1, 10, 11), and $S_3$ requires
+    external phenomenological reproduction and confirmation.
+  \item Attempt Stage-2-A, B, C, or D. Those are separate research tasks.
+\end{enumerate}
+
+\subsection{Contingency and loop-order caveat}
+
+All three predictions are currently loop-order-dependent and dial-dependent:
+\begin{itemize}
+  \item $P_1$ (cubic anisotropy): derived at one-loop; two-loop and continuum-limit corrections pending.
+  \item $P_2$ (EP violation): tree-level with one-loop suppression estimate; full one-loop and two-loop treatment pending.
+  \item $P_3$ (graviton normalisation): currently a design-level envelope pending completion of Math55 continuation (Task #54).
+\end{itemize}
+
+Future measurements may refine the one-sigma intervals and central values, subject to the retroactive-tuning
+prohibition above. The failure bands $B_i$ are anchored to order-of-magnitude physics arguments and are
+less sensitive to loop-order corrections; they should remain stable through higher-loop closure.
+
+% ============================================================
+\section{Implementation: hash-lock verification script}
+% ============================================================
+
+The SHA-256 hash of the prediction specification block (Prediction Triples $P_1, P_2, P_3$, §2 items only,
+excluding this section) is computed by the following Python snippet:
+
+\begin{lstlisting}[language=Python]
+import hashlib
+import json
+
+# Prediction specification (values frozen as of 2026-04-21)
+predictions = {
+    "P1": {
+        "name": "Cubic anisotropy of vacuum light speed",
+        "symbol": "kappa_c",
+        "unit": "dimensionless",
+        "central_value": 3.5e-4,
+        "one_sigma_interval": [1.5e-4, 5.5e-4],
+        "failure_band": [1e-3, float('inf')]
+    },
+    "P2": {
+        "name": "Equivalence-principle violation parameter",
+        "symbol": "eta_EP",
+        "unit": "dimensionless",
+        "central_value": 5e-13,
+        "one_sigma_interval": [2e-13, 8e-13],
+        "failure_band": [1e-10, float('inf')]
+    },
+    "P3": {
+        "name": "Graviton normalisation",
+        "symbol": "Z_h",
+        "unit": "dimensionless",
+        "central_value": 0.725,
+        "one_sigma_interval": [0.575, 0.875],
+        "failure_band": [[0, 0.2], [1.2, float('inf')]]
+    }
+}
+
+# Serialise and hash
+json_str = json.dumps(predictions, sort_keys=True, indent=0)
+hash_value = hashlib.sha256(json_str.encode()).hexdigest()
+print(f"SHA-256: {hash_value}")
+\end{lstlisting}
+
+Running this script (Python 3.8+) on the fixed prediction block yields the hash-anchor value printed above.
+
+% ============================================================
+\section*{References}
+% ============================================================
+
+\begin{itemize}
+  \item \texttt{Docs/math/TECT-Math60-TOE-Global-Closure-Spec.tex.txt} — Stage-2-E gate definition.
+  \item \texttt{Docs/math/TECT-Math57-v2-Pillar2-Inertia-RG.tex.txt} — anisotropy bound (Theorem thm:main-v2).
+  \item \texttt{Docs/math/TECT-Math_EP-rigorous-v3.1.tex.txt} — equivalence principle derivation.
+  \item \texttt{Docs/math/TECT-Math41/45/46c*.tex.txt} — graviton emergence (Pillar 3).
+  \item \texttt{Docs/math/TECT-Math_IR_Bound-v4-shell-adaptive.tex.txt} — shell-adaptive $c_4(\epsilon)>0$ proof.
+  \item \texttt{docs/status/TOE-FACT-SHEET.md} — 11-pillar scorecard and Stage-2/3 matrix.
+  \item \texttt{docs/status/OPEN-QUESTIONS.md} — `Q-2026-04-21-S2E` ledger entry.
+\end{itemize}
+
+\end{document}

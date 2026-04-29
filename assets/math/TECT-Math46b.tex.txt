@@ -1,0 +1,581 @@
+% =========================================================
+%  TECT -- Math46b research note (2026-04-16)
+%  Probe-mode linear-response definition of the Math44
+%  Yang-Mills kinetic coefficients (c_W, c_B).
+%
+%  Purpose:
+%    The Math46 v0.1 C3 extractor falsely attempted to read c_W, c_B
+%    from vacuum averages <F^2>, <B^2> at the locked background.
+%    That is wrong: on the Brazovskii-locked vacuum the gauge
+%    sector is flat (F_mn = 0, B_mn = 0 up to lattice noise), so
+%    any vacuum expectation of F^2 / B^2 is noise, NOT the
+%    coupling constant.
+%
+%    Math46b fixes this by defining c_W, c_B as the second
+%    functional derivatives of the effective action with respect
+%    to prescribed probe gauge fluctuations, and by supplying the
+%    extraction identities that a faithful C3 extractor must
+%    implement.
+%
+%  Feeds: Math46 §3 (C3 extractor redesign);
+%         Math44 Thm cWcB (closure).
+%
+%  Theory tag after this note: Math46b-probe-response-2026-04-16
+% =========================================================
+
+\documentclass{article}
+\usepackage{amsmath,amssymb,amsthm}
+\newtheorem{thm}{Theorem}
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{cor}[thm]{Corollary}
+\theoremstyle{definition}
+\newtheorem{defn}[thm]{Definition}
+\theoremstyle{remark}
+\newtheorem*{rmk}{Remark}
+\begin{document}
+
+\section*{Math46b: Probe-mode linear-response definition of the
+Math44 Yang--Mills kinetic coefficients $(c_{W},c_{B})$}
+
+\subsection*{0. Motivation}
+
+On the Brazovskii-locked Class-III vacuum, the emergent gauge
+connection $A_{\mu}^{(0)}(x) = -iF_{0}^{\dagger}(x)\partial_{\mu}F_{0}(x)$
+is pure gauge: its curvature
+$\mathcal{F}_{\mu\nu}^{(0)}=0$ up to $O(dx^{2})$ lattice noise.
+Consequently,
+\begin{equation}
+\bigl\langle F^{a}_{\mu\nu}F^{a,\mu\nu}\bigr\rangle_{\mathrm{vac}}
+\;=\;0,
+\qquad
+\bigl\langle B_{\mu\nu}B^{\mu\nu}\bigr\rangle_{\mathrm{vac}}
+\;=\;0,
+\label{eq:vac-trivial}
+\end{equation}
+so the $c_{W},c_{B}$ appearing in Math44 Thm~cWcB \emph{cannot} be
+read off a vacuum expectation. They are kinetic coefficients of a
+functional that appears only \emph{once a source is applied}. The
+correct definition is linear-response.
+
+\subsection*{1. Linear-response definition of $(c_{W},c_{B})$}
+
+\begin{defn}[Effective action on a gauge-perturbed background]
+\label{defn:Seff-source}
+Let $F_{0}(x)$ denote the locked frame of Math44 Lem (frame
+completion). Let $a_{\mu}(x)\in\mathfrak{u}(2)$ be a prescribed
+external source, decomposed as
+\begin{equation}
+a_{\mu}(x) \;=\; w_{\mu}^{a}(x)\,T^{a}\;+\;b_{\mu}(x)\,Y.
+\label{eq:amu-def}
+\end{equation}
+Deform the frame by a left-action:
+\begin{equation}
+F_{a}(x) \;:=\; F_{0}(x)\,\mathrm{Pexp}\!\left[i\int_{x_{0}}^{x}\!
+a_{\mu}(y)\,dy^{\mu}\right].
+\label{eq:Fa-def}
+\end{equation}
+Define the one-loop effective action in the fast-mode integration
+of Math44 \S 4:
+\begin{equation}
+S_{\mathrm{eff}}[a]
+ \;:=\;\tfrac{1}{2}\,\mathrm{Tr}\log\bigl[-D_{a}^{2}+U''(\rho_{D})\bigr]
+ \Bigm|_{\mathrm{shell}\,\Sigma_{q_{0},\Delta}},
+\qquad
+D_{a,\mu}\;=\;\partial_{\mu}-iA_{\mu}^{(0)}-ia_{\mu}.
+\label{eq:Seff-def}
+\end{equation}
+\end{defn}
+
+\begin{defn}[Probe-response coefficients]
+\label{defn:cWcB}
+The Yang--Mills kinetic coefficients are the second functional
+derivatives of $S_{\mathrm{eff}}$ with respect to the source at
+$a=0$:
+\begin{align}
+c_{W}\,\delta^{ab}\,(\delta_{\mu\rho}\delta_{\nu\sigma}
+   - \delta_{\mu\sigma}\delta_{\nu\rho})
+  &\;\equiv\;
+  \frac{1}{V}\,\frac{\delta^{2}S_{\mathrm{eff}}[a]}
+    {\delta f^{a}_{\mu\nu}(x)\,\delta f^{b}_{\rho\sigma}(y)}
+  \Bigg|_{a=0}
+  \,,\label{eq:cW-def}\\[2pt]
+c_{B}\,(\delta_{\mu\rho}\delta_{\nu\sigma}
+   - \delta_{\mu\sigma}\delta_{\nu\rho})
+  &\;\equiv\;
+  \frac{1}{V}\,\frac{\delta^{2}S_{\mathrm{eff}}[a]}
+    {\delta g_{\mu\nu}(x)\,\delta g_{\rho\sigma}(y)}
+  \Bigg|_{a=0}
+  \,,\label{eq:cB-def}
+\end{align}
+where $f^{a}_{\mu\nu}:=\partial_{\mu}w_{\nu}^{a}-\partial_{\nu}w_{\mu}^{a}$
+and $g_{\mu\nu}:=\partial_{\mu}b_{\nu}-\partial_{\nu}b_{\mu}$ are
+the \emph{linearised} field strengths (the non-Abelian commutator
+term $-i[a_{\mu},a_{\nu}]$ drops out at second order). The factor
+$V=N^{3}(dx)^{3}$ normalises to the intensive coefficient.
+\end{defn}
+
+\begin{rmk}
+Definition (\ref{eq:cW-def})--(\ref{eq:cB-def}) is the correct
+operational replacement for Math46 v0.1's mistaken vacuum averages.
+$c_{W},c_{B}$ are \emph{response functions}, not order parameters.
+\end{rmk}
+
+\subsection*{2. Plane-wave probe identities}
+
+\begin{lem}[Plane-wave response]
+\label{lem:plane-wave}
+Let the source be a single-mode probe
+\begin{equation}
+a_{\mu}(x)\;=\;\varepsilon\,\bigl[\,
+  \hat{e}^{a}_{\mu}T^{a}\,+\,\hat{e}^{0}_{\mu}Y
+\,\bigr]\,\cos(q\!\cdot\!x),
+\qquad
+\varepsilon \ll 1,
+\end{equation}
+with $\hat{e}^{a}_{\mu}\,q^{\mu}=0$ (transverse polarisation) and
+$|q|\ll q_{0}$. Then
+\begin{equation}
+\Delta S_{\mathrm{eff}}(\varepsilon,q)
+ \;:=\; S_{\mathrm{eff}}[a]\,-\,S_{\mathrm{eff}}[0]
+ \;=\; \tfrac{1}{2}\,V\,\varepsilon^{2}\,q^{2}\,
+   \Bigl[
+     c_{W}\,\hat{e}^{a}_{\mu}\hat{e}^{a,\mu}
+     \,+\,c_{B}\,\hat{e}^{0}_{\mu}\hat{e}^{0,\mu}
+   \Bigr]
+ \,+\,O(\varepsilon^{4}).
+\label{eq:response}
+\end{equation}
+\end{lem}
+
+\begin{proof}
+Expand $S_{\mathrm{eff}}[a]$ in powers of $a_{\mu}$ using
+(\ref{eq:Seff-def}); the linear term vanishes by gauge invariance
+at the locked vacuum; the quadratic term, after plane-wave
+substitution, collapses to the stated expression with
+$\langle\cos^{2}(q\!\cdot\!x)\rangle=\tfrac{1}{2}$ absorbed into
+the factor $\tfrac{1}{2}V$.
+\end{proof}
+
+\begin{cor}[Extraction identities]
+\label{cor:extract}
+From three independent polarisation experiments
+$(\hat{e}^{a}_{\mu},\hat{e}^{0}_{\mu})\in
+ \{(\hat{e}^{(1)},0),\,(\hat{e}^{(2)},0),\,(0,\hat{e}^{(3)})\}$
+at fixed $|q|\ll q_{0}$, the coefficients are extracted as
+\begin{align}
+c_{W}
+ &\;=\;\frac{2}{V\,\varepsilon^{2}\,q^{2}}\,
+       \Delta S_{\mathrm{eff}}^{(1)}
+       \;=\;\frac{2}{V\,\varepsilon^{2}\,q^{2}}\,
+       \Delta S_{\mathrm{eff}}^{(2)},\\
+c_{B}
+ &\;=\;\frac{2}{V\,\varepsilon^{2}\,q^{2}}\,
+       \Delta S_{\mathrm{eff}}^{(3)}.
+\end{align}
+The equality of the two $c_{W}$ estimates is a gauge-isotropy
+consistency check.
+\end{cor}
+
+\subsection*{3. Consistency with Math44 Thm~cWcB}
+
+\begin{thm}[Math46b--Math44 consistency]
+\label{thm:consistency}
+Under the Math40 locked triple and the Math43 matching scale
+$\ell^{\star}=1$, the linear-response coefficients of
+Def~\ref{defn:cWcB} satisfy
+\begin{equation}
+c_{W} \;=\; \frac{1}{96\pi^{2}},
+\qquad
+c_{B} \;=\; \frac{1}{64\pi^{2}},
+\end{equation}
+matching Math44 Thm~cWcB. The equality is a statement about
+operators, not just numbers: the second functional derivative of
+$\mathrm{Tr}\log$ at $a=0$ is the one-loop polarisation tensor that
+Math44 \S 4 expands.
+\end{thm}
+
+\begin{proof}
+Equations (\ref{eq:cW-def})--(\ref{eq:cB-def}) reproduce the
+$O(a^{2})$ coefficient of the Math44 $\mathrm{Tr}\log$ expansion;
+the Math44 Thm~cWcB computation is exactly the evaluation of that
+$O(a^{2})$ term on the Brazovskii shell with $\ell=\ell^{\star}=1$.
+\end{proof}
+
+\subsection*{4. Falsification conditions}
+
+\begin{prop}[Three failure modes]
+\label{prop:fail}
+A C3 extractor implementing Definition \ref{defn:cWcB} and
+Corollary \ref{cor:extract} falsifies Math44 Thm~cWcB if any of the
+following occurs on refined grids $N\in\{32,64,128\}$:
+\begin{enumerate}
+\item[(F1)] $c_{W}(N)$ does not converge to $1/(96\pi^{2})$ at rate
+$\ge O(N^{-2})$.
+\item[(F2)] $c_{B}(N)$ does not converge to $1/(64\pi^{2})$ at rate
+$\ge O(N^{-2})$.
+\item[(F3)] The two independent $c_{W}$ estimates
+$(\hat{e}^{(1)},\hat{e}^{(2)})$ disagree by more than $1\%$
+(gauge-isotropy breakdown).
+\end{enumerate}
+Any of (F1)--(F3) invalidates Math44.
+\end{prop}
+
+\subsection*{5. Interface specification for the C3 extractor}
+
+A faithful Math46b-compliant C3 extractor must expose exactly the
+following operations:
+
+\begin{itemize}
+\item[\textbf{E1.}] \texttt{load\_locked\_package(path)} ---
+read the actual solver output: $(\Psi_{\mathrm{full}},
+\rho_{\mathrm{BCC}},\ldots)$ from \texttt{.npy} files and
+\texttt{metadata.json}.
+\item[\textbf{E2.}] \texttt{project\_doublet(}$\Psi_{\mathrm{full}}$\texttt{)}
+--- return $\Psi_{D}\in\mathbb{C}^{N^{3}\times 2}$ by the Math31
+Class-III projection (which channels of the full field constitute
+the doublet).
+\item[\textbf{E3.}] \texttt{polar\_frame(}$\Psi_{D}$\texttt{)} ---
+return $F_{0}(x)\in U(2)$ by polar decomposition with the
+$U(1)_{\mathrm{em}}$ gauge \emph{exposed} (not silently fixed).
+\item[\textbf{E4.}] \texttt{apply\_probe(}$F_{0}, a_{\mu}$\texttt{)} ---
+return $F_{a}$ by the path-ordered exponential (\ref{eq:Fa-def}),
+specialised to plane-wave probes.
+\item[\textbf{E5.}] \texttt{compute\_Seff(}$F_{a},\psi$\texttt{)} ---
+call the \emph{actual backend} Hessian $L_{\mathrm{full}}$
+(family, locking, shell-bias, Class-II terms included) to compute
+$\tfrac{1}{2}\mathrm{Tr}\log L_{\mathrm{full}}$ on the shell
+$\Sigma_{q_{0},\Delta}$.
+\item[\textbf{E6.}] \texttt{extract\_cWcB()} --- run three
+polarisation experiments and apply Corollary \ref{cor:extract}.
+\item[\textbf{E7.}] \texttt{audit\_T6()} --- return
+$c_{W}\cdot 96\pi^{2}$, $c_{B}\cdot 64\pi^{2}$, the gauge-isotropy
+ratio, and pass/fail flags per Proposition \ref{prop:fail}.
+\end{itemize}
+
+\begin{rmk}[What Math46 v0.1 did wrong, formally]
+v0.1 implemented \emph{none} of E5 correctly (used a scalar
+Brazovskii surrogate Hessian), skipped E4 entirely (no probe), and
+collapsed E6 to a vacuum average of $\mathcal{F}^{(0) 2}$. All three
+are structural, not cosmetic, failures.
+\end{rmk}
+
+\subsection*{6. Cost budget (probe-mode)}
+
+Each plane-wave experiment requires one $\mathrm{Tr}\log
+L_{\mathrm{full}}$ evaluation at $O(a^{0})$ and one at $O(a^{2})$.
+On the shell $\Sigma_{q_{0},\Delta}$ the trace is approximated by
+stochastic probes (Hutchinson) with $N_{s}\sim 32$ samples,
+yielding $\approx 10^{-2}$ relative error. With three
+polarisations and three grids $N\in\{32,64,128\}$, the total cost
+is
+\begin{equation}
+C_{\mathrm{probe}}
+ \;\approx\; 2\cdot N_{s}\cdot 3\cdot 3 \cdot C_{\mathrm{Hess}}(N)
+ \;\approx\; 180\cdot C_{\mathrm{Hess}}(N),
+\end{equation}
+where $C_{\mathrm{Hess}}(N)=O(N^{3}\log N)$ is one Hessian
+application. At $N=128$ on a single A100 this is
+$\sim 3$--$4$ hours wall-clock.
+
+\subsection*{7. What remains (Math46b residual)}
+
+(a) The Hutchinson trace-log estimator carries its own variance
+floor; convergence to the $1\%$ audit threshold must be verified
+empirically.
+
+(b) Gauge-fixing of the probe polarisations (transversality
+$\hat{e}^{a}_{\mu}q^{\mu}=0$) must be performed on-grid; non-zero
+longitudinal components are absorbed by the gauge-isotropy check.
+
+(c) The path-ordered exponential in (\ref{eq:Fa-def}) reduces to a
+global multiplication for plane-wave probes; the generalisation to
+curved-background probes (needed if Math47 introduces mixed
+$h$-$\mathcal{F}$ operators) is deferred to a future addendum
+(Math47 supplement).  The Math46c tag is reserved for the C2
+extractor v2 redesign.
+
+\subsection*{8. Records pointers}
+
+\begin{itemize}
+\item \texttt{CHANGELOG.md}: theory tag
+      \texttt{Math46b-probe-response-2026-04-16}.
+\item \texttt{docs/math/TECT-Math46.tex.txt}: cross-reference
+      added in \S 3 --- the advertised $c_{W},c_{B}$ extraction is
+      \emph{only} valid through the probe-mode driver defined
+      here.
+\item The withdrawn \texttt{math46\_c3\_extractor.py} header is
+      updated to cite Math46b as a hard prerequisite.
+\end{itemize}
+
+\subsection*{9. Addendum: v0.3--v0.5 extractor amendments
+(tags Math46b-c3-extractor-v0.3 \ldots v0.5)}
+
+The \texttt{math46\_c3\_extractor.py} implementation passed through
+three peer-review rounds after the withdrawn v0.1.  The definitive
+formal content of the v0.3--v0.5 amendments is recorded here so that
+the theory note tracks the production code in a single place.
+
+\paragraph{v0.3 reformulation (D1--D4).}
+
+Version v0.3 replaced the v0.2 path-ordered Wilson-line probe
+(whose straight-line primitive $I(x)=(\hat{e}\!\cdot\!x)\,
+\mathrm{sinc}(q\!\cdot\!x)$ is not globally periodic on
+$\mathbb{T}^{3}$ for transverse $\epsilon$) by a Fourier-space
+covariant-derivative perturbation of the full Hessian
+\begin{equation}
+\label{eq:cov-pert-def}
+  L(\epsilon) \;=\; L_{\mathrm{full}}
+  \;+\; \epsilon\, M_{1}[a]
+  \;+\; \epsilon^{2}\, M_{2}[a],
+  \qquad
+  a_{\mu}(x) \;=\; \epsilon_{\mu}\cos(q\!\cdot\!x),
+\end{equation}
+with
+\begin{equation}
+  M_{1}[a]\,v \;=\; 2\mathrm{i}\,a_{\mu}T\,(\partial_{\mu}v)
+  + \mathrm{i}\,(\partial_{\mu}a_{\mu})\,T\,v,
+  \qquad
+  M_{2}[a]\,v \;=\; (a_{\mu}a^{\mu})\,T^{2}\,v,
+\end{equation}
+and $T = T^{a}$ the doublet generator on the metadata-locked
+two-channel subspace.  The objects are strictly periodic, so the
+torus boundary artefacts which forced the withdrawal of v0.2 are
+absent by construction.  Item-level specification:
+\begin{itemize}[leftmargin=1.7em]
+\item[\textbf{D1.}] The identification of the doublet subspace
+      $\mathcal{H}_{D}\subset\mathcal{H}_{\mathrm{full}}$ is
+      \emph{fail-closed}: \texttt{metadata['doublet\_channels']} is
+      mandatory; the extractor rejects any package without it.
+\item[\textbf{D2.}] Former \texttt{polar\_frame} is renamed
+      \texttt{frame\_lift}; it returns the Householder-completed
+      $U(2)$ frame together with the integer phase winding of
+      $\det F_{0}$ along each lattice axis (topological charge of
+      the locked vacuum).
+\item[\textbf{D3.}] \texttt{apply\_probe} is replaced by
+      (\ref{eq:cov-pert-def}) above; the v0.2 Wilson-line primitive
+      is discarded.
+\item[\textbf{D4.}] The Lanczos Tr$\log$ kernel reports
+      \texttt{negative\_ritz\_count} without silent flooring, and
+      $\Delta S_{\mathrm{eff}}^{\mathrm{sym}}
+      =\tfrac{1}{2}[\Delta S(+\epsilon)+\Delta S(-\epsilon)]$
+      is the reported observable.
+\end{itemize}
+
+\paragraph{v0.4 interface closure (P1--P3).}
+\begin{itemize}[leftmargin=1.7em]
+\item[\textbf{P1.}] \texttt{ActualBackendAdapter} exposes
+      $\pi\circ H_{\mathrm{full}}\circ\iota$ where
+      $\iota:\mathcal{H}_{D}\hookrightarrow\mathcal{H}_{\mathrm{full}}$
+      is the metadata-channel embedding and $\pi=\iota^{\dagger}$
+      its adjoint.
+\item[\textbf{P2.}] \texttt{perturbed\_hessian\_vec\_factory} is
+      fail-closed on the covariant coupling $M_{1},M_{2}$: silent
+      fall-through to a kinetic-Laplacian surrogate is eliminated;
+      \texttt{allow\_surrogate=True} is a debug-only escape hatch
+      that is recorded in the JSON \texttt{compliance} block.
+\item[\textbf{P3.}] Production CLI + \texttt{load\_backend()}
+      restored; the synthetic harness is demoted to an internal
+      \texttt{\_smoke\_test()}.
+\end{itemize}
+
+\paragraph{v0.5 accuracy fixes (Q1--Q3).}
+These three items are \emph{theorem-level} corrections, not merely
+engineering patches; each is stated as a proposition below.
+
+\begin{prop}[Shell-restricted Han--Avron--Saad prefactor, Q1]
+\label{prop:han-avron-saad}
+Let $A$ be a Hermitian operator on $\mathbb{C}^{n}$ and
+$P_{\Sigma}=P_{\Sigma}^{2}=P_{\Sigma}^{\dagger}$ the orthogonal
+projector onto the Brazovskii shell
+$\Sigma_{q_{0},\Delta}\subset\widehat{\mathbb{T}}^{3}$.  Let
+$v_{0}=P_{\Sigma} z$ where $z$ is a complex Rademacher vector on
+$\mathbb{C}^{n}$ (so that $\mathbb{E}[zz^{\dagger}]=I_{n}$), and let
+$T_{m}\in\mathbb{R}^{m\times m}$ be the tridiagonal Lanczos
+matrix generated from the unit vector $q_{1}=v_{0}/\lVert
+v_{0}\rVert$ with $m$ steps applied to $A$.  Then the $m$-step
+Han--Avron--Saad log estimator
+\begin{equation}
+  \widehat{L}_{m}(v_{0})
+  \;:=\;
+  \lVert v_{0}\rVert^{2}\,\sum_{k=1}^{m}U_{1k}^{2}\,\log\theta_{k},
+  \qquad T_{m}=U\,\mathrm{diag}(\theta_{k})\,U^{T},
+\end{equation}
+satisfies
+\begin{equation}
+  \mathbb{E}\!\bigl[\widehat{L}_{m}(v_{0})\bigr]
+  \;\xrightarrow[m\to\infty]{}\;
+  \mathrm{Tr}\bigl(P_{\Sigma}\log(A)\,P_{\Sigma}\bigr)
+  \;=\;
+  \mathrm{Tr}\log\bigl(A\bigr|_{\Sigma}\bigr).
+\end{equation}
+In particular the correct prefactor is
+$\lVert v_{0}\rVert^{2}=\langle v_{0},v_{0}\rangle$, \emph{not} the
+ambient dimension $n$.  The latter coincides with
+$\lVert v_{0}\rVert^{2}$ only in the unrestricted case
+$P_{\Sigma}=I$; on the shell it over-counts by the fill-fraction
+factor $n/\lVert v_{0}\rVert^{2}\approx f_{\Sigma}^{-1}$, where
+$f_{\Sigma}=\lvert\Sigma\rvert/n$ is the shell occupation.
+\end{prop}
+
+\begin{proof}[Proof sketch]
+$\mathbb{E}[v_{0}v_{0}^{\dagger}]=P_{\Sigma}$; therefore
+$\mathbb{E}[\langle v_{0},f(A)v_{0}\rangle]
+=\mathrm{Tr}(P_{\Sigma}f(A)P_{\Sigma})$ for any analytic $f$.  The
+Lanczos identity
+$\langle v_{0},f(A)v_{0}\rangle
+=\lVert v_{0}\rVert^{2}e_{1}^{T}f(T_{m})e_{1}+O(m^{-c})$
+for the Hermitian $A$ (Saad, \emph{Numerical Methods for Large
+Eigenvalue Problems}, Ch.~13) then gives the estimator as stated.
+\end{proof}
+
+\begin{prop}[Symmetrised $\Delta S$ error propagation, Q2]
+\label{prop:dS-variance}
+Let $\widehat{S}_{+},\widehat{S}_{0},\widehat{S}_{-}$ be
+independent unbiased estimators of
+$S(\pm\epsilon), S(0)$ with variances
+$\sigma_{+}^{2},\sigma_{0}^{2},\sigma_{-}^{2}$.  Define
+\begin{equation}
+  \widehat{\Delta S}_{\mathrm{sym}}
+  \;:=\;
+  \tfrac{1}{2}\bigl[(\widehat{S}_{+}-\widehat{S}_{0})
+  +(\widehat{S}_{-}-\widehat{S}_{0})\bigr]
+  \;=\;
+  \tfrac{1}{2}\widehat{S}_{+}
+  +\tfrac{1}{2}\widehat{S}_{-}
+  -\widehat{S}_{0}.
+\end{equation}
+Then
+\begin{equation}
+  \mathrm{Var}\bigl(\widehat{\Delta S}_{\mathrm{sym}}\bigr)
+  \;=\;
+  \tfrac{1}{4}\sigma_{+}^{2}
+  +\tfrac{1}{4}\sigma_{-}^{2}
+  +\sigma_{0}^{2}
+  \;=\;
+  \tfrac{1}{4}\bigl(\sigma_{+}^{2}+\sigma_{-}^{2}+4\sigma_{0}^{2}\bigr).
+\end{equation}
+The v0.4 implementation used the coefficient $2$ in place of $4$
+on $\sigma_{0}^{2}$, under-weighting the zero-field noise.
+\end{prop}
+
+\begin{prop}[Doublet/full-shape adapter identity, Q3]
+\label{prop:shape-adapter}
+Let $\iota:\mathcal{H}_{D}\hookrightarrow\mathcal{H}_{\mathrm{full}}$
+be the metadata-channel embedding and $\pi=\iota^{\dagger}$ its
+adjoint.  For a covariant coupling $M_{\ell}[a]$ acting on
+$\mathcal{H}_{\mathrm{full}}$ via the doublet generator
+$T\in\mathrm{End}(\mathcal{H}_{D})$ extended by zero on
+$\mathcal{H}_{D}^{\perp}$,
+\begin{equation}
+  \pi\circ M_{\ell}[a]\circ\iota
+  \;=\;
+  M_{\ell}^{D}[a],
+  \qquad
+  \ell\in\{1,2\},
+\end{equation}
+where $M_{\ell}^{D}[a]$ is the same operator regarded on
+$\mathcal{H}_{D}$ directly.  Consequently, if a production backend
+returns $M_{\ell}[a]v_{D}$ in full shape $(C,N,N,N)$, restricting
+via $\pi$ produces the same doublet-shape vector that the
+extractor's probe-space matvec expects; no physics is lost.  The
+v0.5 native-backend branch therefore accepts both return shapes
+and reduces to $M_{\ell}^{D}[a]v_{D}$ in either case.
+\end{prop}
+
+The three corrections are mutually independent but all three must
+hold simultaneously for the extracted $c_{W},c_{B},Z_{h}$ to equal
+their Math44 / Math45 targets to $O(10^{-2})$; Proposition
+\ref{prop:han-avron-saad} alone accounts for a systematic bias of
+order $f_{\Sigma}^{-1}$ (typically $\sim 10^{2}$ on a standard
+$N=64$ shell) in the unshifted v0.4 Tr$\log$ output.
+
+\paragraph{v0.6 completeness closure (R1--R3).}
+
+These three items are audit-completeness and payload-semantics
+corrections on top of the v0.5 numerical core; the Q1--Q3
+propositions above are retained unchanged.
+
+\begin{itemize}[leftmargin=1.7em]
+\item[\textbf{R1.}] Compliance semantics.  The JSON field
+      \texttt{compliance.fail\_closed\_E4} is defined by
+      \begin{equation*}
+        \texttt{fail\_closed\_E4}
+        \;\Leftrightarrow\;
+        \neg\,\texttt{uses\_surrogate\_M1M2},
+      \end{equation*}
+      where \texttt{uses\_surrogate\_M1M2} is the disjunction of the
+      per-probe surrogate flags returned by
+      \texttt{perturbed\_hessian\_vec\_factory}.  v0.5 hard-coded
+      this field to $\top$, which misreported
+      \texttt{allow\_surrogate=True} runs.
+\item[\textbf{R2.}] CLI metadata tracks the module version:
+      \texttt{argparse} description ``v0.6 production'' and
+      \texttt{--out} default \texttt{math46\_c3\_audit\_v0\_6.json}.
+\item[\textbf{R3.}] Frame-singularity audit.  The Householder lift
+      $F_{0}(x)$ is stabilised at $\lVert\psi_{D}(x)\rVert <
+      \varepsilon_{\mathrm{floor}}=10^{-14}$ by a division by
+      $\max(\lVert\psi_{D}\rVert,\varepsilon_{\mathrm{floor}})$.
+      Points $x$ where $\lVert\psi_{D}(x)\rVert$ is vanishingly
+      small constitute doublet \emph{nodes} at which the frame
+      direction is geometrically ill-defined and the lift is
+      silently fictitious.  v0.6 promotes this to an explicit audit
+      predicate,
+      \begin{equation}
+        \texttt{pass\_frame\_nonzero}
+        \;\Leftrightarrow\;
+        \min_{x\in\mathbb{T}^{3}_{N}}
+          \bigl\lVert\psi_{D}(x)\bigr\rVert
+        \;>\; 10^{-10},
+      \end{equation}
+      and emits both \texttt{min\_norm} and the predicate in the CLI
+      \texttt{frame\_audit} block.  A failed predicate does not
+      automatically void the extracted $c_{W},c_{B}$ but must be
+      flagged downstream as a Class-II geometric risk.
+\end{itemize}
+
+\paragraph{v0.7 final-closure (R4--R5).}
+
+\begin{itemize}[leftmargin=1.7em]
+\item[\textbf{R4.}] \emph{$\mathtt{pass\_T6\_final}$ gate.}
+      The spectral-numeric audit predicate $\mathtt{pass\_T6}$ is
+      necessary but not sufficient for a valid extraction: a doublet
+      node (site $x_{0}$ with $\lVert\psi_{D}(x_{0})\rVert < 10^{-10}$)
+      silently corrupts the Householder frame lift and therefore the
+      extracted $c_{W},c_{B}$ even when $\mathtt{pass\_T6}=\top$.  The
+      production-go/no-go predicate is therefore
+      \begin{equation}
+        \mathtt{pass\_T6\_final}
+        \;\Leftrightarrow\;
+        \mathtt{pass\_T6}
+        \;\wedge\;
+        \mathtt{pass\_frame\_nonzero},
+      \end{equation}
+      which is injected (together with $\mathtt{pass\_frame\_nonzero}$)
+      into the CLI \texttt{audit} JSON block.
+\item[\textbf{R5.}] \emph{$\mathtt{\_SmokeBackend}$ full-field contract.}
+      The smoke backend \texttt{hessian\_vec} previously read
+      $N=v.\mathtt{shape}[0]$ and applied FFT on axes $(0,1,2)$,
+      consistent with a doublet-shape $(N,N,N,2)$ input.  The actual
+      adapter calls \texttt{hessian\_vec\_full} with full-field tensors
+      of shape $(C,N,N,N)$; v0.7 unpacks $(\mathtt{\_C},N,\_,\_)$ and
+      applies FFT on axes $(1,2,3)$ with $K^{2}$ broadcast as $(1,N,N,N)$.
+      The smoke test now exercises the identical code path as production.
+\end{itemize}
+
+\paragraph{Updated records pointer (v0.3--v0.7).}
+\begin{itemize}
+\item \texttt{CHANGELOG.md}: theory tags
+      \texttt{Math46b-c3-extractor-v0.3-2026-04-16},
+      \texttt{...-v0.4-2026-04-16},
+      \texttt{...-v0.5-2026-04-16},
+      \texttt{...-v0.6-2026-04-16},
+      \texttt{...-v0.7-2026-04-16}.
+\item \texttt{PDE/stamp\_version\_headers.py}:
+      \texttt{math46\_c3\_extractor.py = v0.7}.
+\item \texttt{Website/data/version\_index.json}:
+      current tag
+      \texttt{Math46b-c3-extractor-v0.7-2026-04-16}.
+\end{itemize}
+
+\end{document}

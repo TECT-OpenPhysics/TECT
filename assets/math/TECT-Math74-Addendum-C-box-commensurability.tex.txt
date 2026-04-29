@@ -1,0 +1,307 @@
+%%============================================================================
+%% TECT-Math74-Addendum-C — Box-commensurability audit and corrected
+%% Task #54 CLI
+%%
+%% Theory tag  : Math74-AddC-box-commensurability-2026-04-23
+%% Supersedes  : the `--L 16.0` recommendation in the 2026-04-23 v2.6.4
+%%               landing CLI and in Math74 Addendum-B §\ref{sec:math74-addB-cli}.
+%% Cross-refs  : Math56 (Brazovskii constants, shell radius q_0);
+%%               Math57-v2 (cubic-anisotropy interval certificate);
+%%               Math66 v0.2 (Path-A adjoint-JVP);
+%%               Math74 / Math74 Addendum-A / Math74 Addendum-B
+%%               (continuation-driver live-wire + R'₃ gate fix +
+%%                Eisenstat-Walker recalibration);
+%%               Math68 §3 Prop. `math68-B1-fix` (`minres → gmres`
+%%               canonicalisation).
+%% Trigger     : Post-upload peer-review audit on 2026-04-23 of the
+%%               v2.6.4 Task #54 CLI recommendation. The review
+%%               correctly identified that the box length L = 16 is
+%%               not commensurate with the Brazovskii BCC first shell
+%%               at the code-internal q_0 = 1, and that the L = 16
+%%               live run should therefore be treated as a
+%%               software/integration smoke test rather than as
+%%               physics-grade evidence for the m_*^2 / ΔF endpoint
+%%               observables.
+%% Rule of use : This addendum is the authoritative correction to the
+%%               Task #54 CLI. The v2.6.4 driver code itself is
+%%               unchanged; only the recommended --L value and the
+%%               interpretation of the in-flight L = 16 run are
+%%               revised.
+%%============================================================================
+
+\section{Math74 Addendum-C — Box-commensurability audit of the Task~\#54
+continuation CLI}
+\label{sec:math74-addC}
+
+\subsection{Motivation}
+\label{sec:math74-addC-motivation}
+
+The v2.6.4 landing on 2026-04-23 (Math74 Addendum-B) specified a
+canonical single-shot CLI for Task~\#54 with
+$N = 32$, $L = 16.0$, and a five-point warmup schedule
+$\mu^2 \in \{-1.0,\,-0.5,\,-0.1,\,-0.02,\,5 \times 10^{-3}\}$.
+A same-day peer-review audit concluded that, while the driver and
+gate semantics are correct, the choice $L = 16.0$ is not compatible
+with the Brazovskii BCC first-shell commensurability and therefore
+distorts any physics-grade interpretation of the resulting
+endpoint.  The live $L = 16$ run retains value as a software /
+integration smoke test but must not be cited as evidence for
+$m_*^2$, $\Delta F$, $F_{\mathrm{condensate}}$, $F_{\mathrm{vacuum}}$
+at the Math55 endpoint.
+
+\subsection{BCC commensurability condition}
+\label{sec:math74-addC-condition}
+
+Let $q_0 = 1$ (code-internal shell radius) be the Brazovskii natural
+wavenumber.  The BCC first Brillouin shell consists of twelve
+wavevectors of the form
+\begin{equation}
+  \mathbf{k}_{\mathrm{BCC}}
+  \;=\; q_0 \cdot \mathbf{e},
+  \qquad
+  \mathbf{e} \in \frac{1}{\sqrt{2}}\,
+  \bigl\{(\pm 1,\pm 1,0),(\pm 1,0,\pm 1),(0,\pm 1,\pm 1)\bigr\},
+  \label{eq:math74-addC-bcc-shell}
+\end{equation}
+so that each component satisfies
+$k_{\mathrm{BCC},\alpha} \in \{0, \pm q_0/\sqrt{2}\}$.
+
+On a periodic spectral box of side $L$ with $N^3$ lattice points,
+the Fourier grid is $(2\pi/L)\cdot \mathbf{n}$ with
+$\mathbf{n} \in \mathbb{Z}^3$.  For the full BCC first shell to sit
+exactly on Fourier-grid integers, every non-zero component of every
+$\mathbf{k}_{\mathrm{BCC}}$ must satisfy
+\begin{equation}
+  \frac{q_0 / \sqrt{2}}{2\pi / L}
+  \;=\;
+  \frac{L\,q_0}{2\pi\sqrt{2}}
+  \;\in\; \mathbb{Z}.
+  \label{eq:math74-addC-bcc-condition}
+\end{equation}
+
+Solving for $L$,
+\begin{equation}
+  \boxed{\;
+    L_{\mathrm{BCC}}(n)
+    \;=\; \frac{2\pi\sqrt{2}\,n}{q_0}
+    \;=\; 2\pi\sqrt{2}\,n
+    \quad(q_0 = 1)
+    \;}
+  \qquad n \in \mathbb{Z}_{>0}.
+  \label{eq:math74-addC-L-bcc}
+\end{equation}
+
+Tabulating the first several BCC-commensurate box lengths for
+$q_0 = 1$,
+\begin{equation}
+  \begin{array}{r|c|c}
+    n & L_{\mathrm{BCC}}(n) & \text{Δx at } N = 32 \\\hline
+    1 & \approx 8.886   & 0.278 \\
+    2 & \approx 17.771  & 0.555 \\
+    3 & \approx 26.657  & 0.833 \\
+    4 & \approx 35.543  & 1.111 \\
+    5 & \approx 44.429  & 1.388 \\
+    6 & \approx 53.315  & 1.666 \\
+    7 & \approx 62.200  & 1.943 \\
+    10 & \approx 88.858 & 2.777
+  \end{array}
+  \label{eq:math74-addC-L-bcc-table}
+\end{equation}
+
+\subsection{Comparison of the three candidate box lengths}
+\label{sec:math74-addC-comparison}
+
+Define the BCC-commensurability error for an arbitrary box length
+$L$ as the distance of the dimensionless ratio from the nearest
+positive integer,
+\begin{equation}
+  \epsilon_{\mathrm{BCC}}(L)
+  \;:=\;
+  \min_{n \in \mathbb{Z}_{>0}}
+  \left| \frac{L\,q_0}{2\pi\sqrt{2}} - n \right|.
+  \label{eq:math74-addC-epsilon}
+\end{equation}
+
+For the three candidates discussed in the 2026-04-23 peer-review
+exchange:
+\begin{equation}
+  \begin{array}{l|r|r|l}
+    L & L\,q_0 / (2\pi\sqrt{2}) & \epsilon_{\mathrm{BCC}}(L) & \text{Verdict} \\\hline
+    16.00              & 1.800 & 0.200 & \text{strongly non-commensurate} \\
+    20\pi \approx 62.83 & 7.071 & 0.071 & \text{nearly commensurate} \\
+    2\pi\sqrt{2}\cdot 7 \approx 62.20 & 7.000 & 0.000 & \text{exactly BCC-commensurate}
+  \end{array}
+  \label{eq:math74-addC-verdict-table}
+\end{equation}
+
+$L = 16$ misses the nearest commensurate length by $20\%$,
+$L = 20\pi$ by $1\%$, and $L = 2\pi\sqrt{2}\cdot 7$ by $0\%$.
+
+\subsection{Physical consequence of non-commensurability}
+\label{sec:math74-addC-physics}
+
+When the BCC first shell is not exactly on the Fourier grid, each of
+the twelve BCC peaks is forced to split across its nearest
+lattice-point neighbours.  This induces:
+
+\begin{enumerate}
+\item A spurious frustration of the condensation order parameter
+(the condensate can only partially commit to the ``true'' BCC
+direction).
+\item A box-dependent correction to $F_{\mathrm{condensate}}$ that
+scales like $(\epsilon_{\mathrm{BCC}} L/\Delta x)^2$, polluting the
+$\Delta F = F_{\mathrm{condensate}} - F_{\mathrm{vacuum}}$ reading.
+\item A similar box-dependent correction to $m_*^2$ via the Phase-2
+projected-Hessian spectrum.
+\item An anisotropy that partially mimics the genuine cubic-lattice
+breaking (Pillar 2, Math57-v2) and therefore cannot be cleanly
+separated from the physics of interest.
+\end{enumerate}
+
+These distortions are $O(10^{-3})$ or smaller at
+$\epsilon_{\mathrm{BCC}} \sim 0.01$ ($L = 20\pi$) but become
+$O(10^{-1})$ at $\epsilon_{\mathrm{BCC}} = 0.20$ ($L = 16$).  The
+magnitude of $m_*^2$ itself is of order $10^{-1}$ at the Math55
+target, so a $10\%$ box-induced perturbation is scientifically
+fatal whereas a $1\%$ perturbation is tolerable with explicit
+error budget.
+
+\subsection{Status of the in-flight \texorpdfstring{$L = 16$}{L=16} run}
+\label{sec:math74-addC-L16-run}
+
+The 2026-04-23 live Task~\#54 run at $L = 16$ is reclassified as
+
+\begin{equation}
+  \boxed{\;
+    \textsc{software / integration smoke test; not physics-grade evidence.}
+    \;}
+  \label{eq:math74-addC-reclassification}
+\end{equation}
+
+It retains the following legitimate uses:
+\begin{itemize}
+\item Confirms that the v2.6.4 driver performs exactly one
+  \texttt{newton\_solve} per $\mu^2$ point with correct
+  convergence propagation.
+\item Confirms that the R'$_3$ semantic fix (Math74 Addendum-B §3)
+  produces the correct \texttt{pass\_math63\_2d} boolean.
+\item Confirms the Eisenstat-Walker forcing $\eta_{\min} = 0.05$
+  keeps the inner-CG cost bounded in the near-convergence regime.
+\item Confirms the endpoint JSON schema
+  \texttt{continuation\_mu2\_v25\_endpoint/1.1} is emitted with
+  twenty-nine fields and the correct \texttt{pass\_math63\_2d}
+  value.
+\end{itemize}
+
+It must \emph{not} be cited as evidence for:
+\begin{itemize}
+\item the value of $m_*^2$ at any $\mu^2$ point,
+\item the sign of $\Delta F$,
+\item the favorability of the BCC condensate vs.\ the trivial vacuum,
+\item the continuum-limit extrapolation of any of the above.
+\end{itemize}
+
+\subsection{Corrected Task \#54 CLI}
+\label{sec:math74-addC-corrected-cli}
+
+The canonical Task~\#54 single-shot CLI is corrected to use
+$L = 2\pi\sqrt{2}\cdot 7 \approx 62.20036$.  PowerShell-safe form:
+
+\begin{verbatim}
+python -u PDE\continuation_mu2_v25.py `
+    --config       PDE\config_template_brazovskii.json `
+    --N            32 `
+    --L            62.20036 `
+    --mu2          -1.0 -0.5 -0.1 -0.02 5e-3 `
+    --tol-newton   1e-8 `
+    --max-newton   12 `
+    --ew-eta-min   0.05 `
+    --ew-eta-max   0.9 `
+    --tcg-max      3000 `
+    --rho-min      0.05 `
+    --output       results\math55_endpoint_N32_Lbcc7_2026-04-23
+\end{verbatim}
+
+Here the output directory name encodes the BCC commensurability
+integer ($n = 7$) so downstream interpretation scripts can parse
+$L$ from the filename.  At $N = 32$, $\Delta x = L / N \approx 1.94$,
+i.e.\ approximately $3.24$ samples per natural wavelength
+$\lambda = 2\pi/q_0 \approx 6.28$, which is safely above the Nyquist
+limit of two samples per wavelength.
+
+If the maintainer prefers the peer-reviewer's exact
+recommendation $L = 20\pi$, use \texttt{--L 62.83185} and annotate
+the $1\%$ residual BCC-mismatch in the downstream-interpretation
+note.  The $L = 20\pi$ choice is not recommended as the default
+because the exact-commensurate $n = 7$ value is available at
+essentially the same cost.
+
+\subsection{On the \texttt{--krylov minres} routing label}
+\label{sec:math74-addC-krylov}
+
+The peer-reviewer correctly noted that specifying
+\texttt{--krylov minres} at the v2.6.4 CLI does not currently
+execute native MINRES because the solver-core B1-shim
+canonicalises
+\[
+  \{\texttt{pcg}\mapsto\texttt{cg},\
+    \texttt{fgmres}\mapsto\texttt{gmres},\
+    \texttt{minres}\mapsto\texttt{gmres}\}
+\]
+per Math68 §3 Prop.\ \texttt{math68-B1-fix}.  Until Task~\#112
+(native MINRES) lands, the label \texttt{minres} expresses an
+\emph{intent} but not a \emph{guarantee} of MINRES execution.  For
+the Task~\#54 target run, the auto-routing from the Phase-A
+Jacobian-symmetry probe (which on 2026-04-23 selected
+\texttt{fgmres} at $\mathrm{antisym} = 2.66\times 10^{-4}$) is the
+current canonical behaviour and does not need to be overridden.
+
+The live $L = 16$ log showed inner-CG counts
+$t_{\mathrm{CG}} \in \{1,\,1,\,2,\,6,\,29,\,2304,\,\ldots\}$ at
+Newton iterations $0\ldots 5$, indicating that the Path-X operator
+is in fact well-conditioned in most of its spectrum and only
+degenerates in the near-convergence asymptote where
+Eisenstat-Walker forcing clips to $\eta_{\min} = 0.01$ (old
+default).  The v2.6.4 $\eta_{\min} = 0.05$ recalibration already
+mitigates this; a native MINRES would offer further inner-cost
+savings but is not a prerequisite for a physics-grade run at
+BCC-commensurate $L$.
+
+\subsection{Traceability chain}
+\label{sec:math74-addC-trace}
+
+\begin{description}
+\item[\textbf{Cause.}] Same-day peer-review audit on 2026-04-23 of
+  the v2.6.4 Task~\#54 CLI recommendation identified
+  $L = 16$ as non-commensurate with the Brazovskii BCC first shell
+  at $q_0 = 1$.
+\item[\textbf{Evidence.}]
+  (i) Live run log confirms \texttt{Q0 = 1.0 > 0 (code-internal
+  units)}.
+  (ii) BCC first-shell commensurability condition
+  Eq.~\eqref{eq:math74-addC-bcc-condition} evaluated to
+  $\epsilon_{\mathrm{BCC}}(16) = 0.200$ (20\% mismatch) versus
+  $\epsilon_{\mathrm{BCC}}(20\pi) = 0.071$ (1\%) and
+  $\epsilon_{\mathrm{BCC}}(2\pi\sqrt{2}\cdot 7) = 0.000$ (exact).
+  (iii) Live $t_{\mathrm{CG}}$ trace $\{1, 1, 2, 6, 29, 2304, \ldots\}$
+  confirms Path-X operator health; peer-reviewer's interpretation of
+  the $\eta_{\mathrm{EW}} \to \eta_{\min}$ clip as the dominant cost
+  driver is correct.
+\item[\textbf{Decision chain.}]
+  (1) Reclassify the $L = 16$ run to
+  \texttt{software / integration smoke test} per
+  Eq.~\eqref{eq:math74-addC-reclassification}.
+  (2) Issue a corrected Task~\#54 CLI at
+  $L = 2\pi\sqrt{2}\cdot 7 \approx 62.20036$ (exact BCC-commensurate,
+  $n = 7$).
+  (3) Retire the ``\texttt{--krylov minres} gives MINRES execution''
+  interpretation — it is currently an intent-label only, routing
+  through the B1-shim to GMRES.
+  (4) File this addendum as the authoritative correction to
+  Math74 Addendum-B §\ref{sec:math74-addB-cli}; update
+  \texttt{CHANGELOG.md}, \texttt{Docs/manual/CODE\_MANUAL.md},
+  \texttt{Docs/runbooks/v263\_execution\_verification\_runbook.md},
+  and \texttt{NAVIGATION.md} to reflect the corrected CLI.
+\end{description}
+
+%% End of Math74 Addendum-C.

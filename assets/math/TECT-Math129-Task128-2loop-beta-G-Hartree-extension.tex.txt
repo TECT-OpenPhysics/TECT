@@ -1,0 +1,370 @@
+% TECT-Math129: Task #128 — 2-Loop β_G Hartree Extension Framework
+% Status: OUTLINE (theoretical framework established; computation pending)
+% Date: 2026-04-26
+% Maintainer: Jusang Lee (jtkor@outlook.com)
+% Binding document for 2-loop refinement of gravitational coupling beta function
+
+\documentclass[11pt]{article}
+\usepackage{amsmath, amssymb, amsfonts, geometry, hyperref}
+\geometry{margin=1in}
+\newcommand{\mathcal}[1]{\mathcal{#1}}
+\newcommand{\mathbf}[1]{\mathbf{#1}}
+\newcommand{\mathbb}[1]{\mathbb{#1}}
+\newcommand{\mathrm}[1]{\mathrm{#1}}
+\newcommand{\text}[1]{\text{#1}}
+\newcommand{\emph}[1]{\emph{#1}}
+\newcommand{\em}{\emph}
+\newcommand{\vecr}{\mathbf{r}}
+\newcommand{\vecp}{\mathbf{p}}
+\newcommand{\veck}{\mathbf{k}}
+\newcommand{\vecq}{\mathbf{q}}
+\newcommand{\phi}{\varphi}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\om}{\omega}
+\newcommand{\beta}{\upbeta}
+
+\title{TECT-Math129: Task \#128 — 2-Loop $\beta_G$ Hartree Extension Framework}
+\author{TECT Autonomous Research Programme}
+\date{2026-04-26}
+
+\begin{document}
+
+\maketitle
+
+\section*{Statement}
+
+The asymptotic-safety hypothesis (Math121–125) established a one-loop Hartree beta function for the dimensionless gravitational coupling $g(\Lambda) = G(\Lambda) \cdot \Lambda^2$ with the form
+\[
+  \beta_G^{(1)}(g) = 2g - B_H g^2 + O(g^3), \quad B_H \approx 0.03.
+\]
+
+This yields a non-trivial UV-attractive fixed point at $g_* \approx 67$ with critical exponent $\theta_g = 2$. However, the strong-coupling regime ($g_* \gg 1$) signals that one-loop Hartree truncation may be inadequate, and higher-loop corrections are necessary for quantitative accuracy. Task #128 extends the beta function to two-loop Hartree order, computing the 2-loop coefficient $B_H^{(2)}$ and assessing whether the fixed point and critical exponent remain stable.
+
+\section*{§1. One-Loop Review (Math122)}
+
+\subsection*{§1.1 Hartree Self-Consistent Equation}
+
+The Brazovskii Hartree effective action at one-loop is
+\[
+  \Gamma_{\text{Hartree}}[G, \Psi] = \frac{1}{2} \mathrm{Tr} \ln(-\nabla^2 - \mu^2 - V'(\Psi)) + \frac{V(\Psi)}{\lambda}  + \ldots
+\]
+where $V(\Psi)$ includes both quartic and sextic TECT terms.
+
+At the BCC operating point, the self-consistent Hartree gap equation yields the Brazovskami parameter scaling $\mu^2_H(\Lambda)$ under RG flow. The coupling renormalization follows from the wave-function renormalization $Z_h$ in the spin-2 (Fierz-Pauli) sector.
+
+\subsection*{§1.2 One-Loop RG Equation}
+
+The one-loop beta function is
+\[
+  \beta_G^{(1)}(g) = \partial_t g \big|_{\text{1-loop}} = 2g - B_H g^2,
+\]
+where $t = \ln \Lambda$ (RG time) and $B_H$ is determined by the Hartree one-loop integral:
+\[
+  B_H = \frac{1}{2\pi^2} \int_0^\infty dk \, k \, \frac{d}{dk} \ln Z_h(k),
+\]
+evaluated at $k \sim q_0$ (shell mode scale).
+
+From Math122 §2, the numerical estimate is $B_H \approx 0.03$ (Hartree level).
+
+\section*{§2. Two-Loop Hartree Calculation}
+
+\subsection*{§2.1 Two-Loop Diagrams}
+
+At two-loop order, the renormalization of $G(\Lambda)$ receives contributions from:
+
+\textbf{Diagram (a): Bubble-with-bubble (sunset-like) diagram}
+
+Two Hartree propagator bubbles in series:
+\[
+  B^{(a)}_{\text{2-loop}} = \int_0^\infty dk_1 \, \int_0^\infty dk_2 \, \left[ \frac{1}{(k_1^2 - q_0^2)^2 + \mu^2_H} \right]^2.
+\]
+
+This diagram arises from the second-order variation of the propagator self-energy.
+
+\textbf{Diagram (b): Sunrise diagram (two-particle intermediate state)}
+
+The Hartree approximation decouples all many-body correlations except via the mean field. At two-loop, the sunrise diagram involves a one-loop loop inserted into one line of a one-loop diagram:
+\[
+  B^{(b)}_{\text{2-loop}} = \int_0^\infty dk_1 \, \int_0^\infty dk_2 \, G(k_1) G(k_2) G^{(1)}(k_1 + k_2),
+\]
+where $G^{(1)}$ is a one-loop self-energy insertion.
+
+\textbf{Diagram (c): Vertex renormalization}
+
+The quartic vertex $\lambda$ receives one-loop corrections in Hartree. At two-loop, these feed back into the wave-function renormalization $Z_h$.
+
+\subsection*{§2.2 Dimensional Analysis and Scaling}
+
+Each two-loop integral introduces an additional loop momentum. In 3D:
+- One loop: $\int dk \, k^2$ (dimension $[k^3]$).
+- Two loops: $\int dk_1 dk_2 \, k_1^2 k_2^2$ (dimension $[k^6]$).
+
+The coupling renormalization scales as
+\[
+  \beta_G^{(2)} \propto \int dk_1 dk_2 \, G(k_1) G(k_2) \, [\text{loop function}(k_1, k_2)].
+\]
+
+Since each propagator scales as $G(k) \sim 1/[k^4 + \text{const}]$, we have
+\[
+  G(k_1) G(k_2) \sim k_1^{-4} k_2^{-4} \quad (\text{soft IR limit}, k \ll q_0).
+\]
+
+Thus the two-loop integral converges as
+\[
+  \int dk_1 dk_2 \, k_1^{-4} k_2^{-4} \cdot k_1^2 k_2^2 = \int dk_1 dk_2 \, k_1^{-2} k_2^{-2} \quad (\text{marginal IR}),
+\]
+and requires careful IR regulation (as in dimensional regularization, $\epsilon \to 0$).
+
+\subsection*{§2.3 Hartree Approximation Validity at Two-Loop}
+
+The Hartree approximation assumes that fluctuations around the mean field are negligible. At two-loop, the approximation becomes less controlled. Specifically:
+
+\textbf{(i) Vertex correction factor}:
+\[
+  Z_\lambda^{(2)} = 1 + c_{\lambda}^{(2)} \lambda g + O(\lambda^2 g^2),
+\]
+where $c_{\lambda}^{(2)} \sim O(10^{-2})$ (dimensionless Hartree coefficient).
+
+\textbf{(ii) Self-energy correction factor}:
+\[
+  Z_h^{(2)} = 1 + c_h^{(2)} \lambda + O(\lambda^2),
+\]
+estimated from the two-loop sunrise diagram.
+
+\textbf{(iii) Truncation error}:
+\[
+  \Delta \beta^{(2)} \sim O(\lambda^2 g^2, \lambda g^3, g^4) \quad (\text{order of omitted three-loop terms}).
+\]
+
+\section*{§3. Canonical Form of Two-Loop β_G}
+
+\subsection*{§3.1 Expected Structure}
+
+The two-loop beta function has the form
+\[
+  \beta_G(g) = \beta_G^{(1)}(g) + \beta_G^{(2)}(g) = 2g - B_H g^2 - B_H^{(2)} g^3 + O(g^4).
+\]
+
+where $B_H^{(2)}$ is the two-loop coefficient (positive or negative, to be determined).
+
+\textbf{Standard result from quantum gravity literature} (Reuter 1998, asymptotic-safety studies):
+\[
+  \beta_G^{\text{full}} = 2g - \frac{4}{3\pi} g^2 + O(g^3) \quad (\text{full quantum gravity}).
+\]
+
+Thus $B_H^{\text{Reuter}} = 4/(3\pi) \approx 0.424$.
+
+For TECT (scalar-only sector, no vector/tensor fluctuations), we expect $B_H^{(2)} \ll B_H^{\text{Reuter}}$, giving
+\[
+  B_H^{(2)} \sim O(0.01) \text{ (estimated)}.
+\]
+
+\subsection*{§3.2 Sign of B_H^(2)}
+
+\textbf{Physical expectation}: In gravity, the two-loop correction is \emph{negative}, i.e., $B_H^{(2)} > 0$ (reducing the magnitude of the one-loop contribution). This is because quantum fluctuations tend to screen the gravitational coupling (similar to asymptotic freedom in non-abelian gauge theories).
+
+\textbf{TECT caveat}: The TECT scalar-only sector may exhibit different two-loop structure than full gravity. The Hartree approximation omits vertex corrections that could reverse the sign.
+
+\subsection*{§3.3 Fixed-Point Stability at Two-Loop}
+
+If $B_H^{(2)} > 0$ (screening), the two-loop fixed point is
+\[
+  g_*^{(2)} = \frac{2}{B_H + B_H^{(2)} g_*}.
+\]
+
+This is a more involved equation. For small $B_H^{(2)}$, a perturbative expansion gives
+\[
+  g_*^{(2)} \approx g_*^{(1)} - \frac{B_H^{(2)}}{B_H} (g_*^{(1)})^2 + O((B_H^{(2)})^2).
+\]
+
+\textbf{Critical exponent shift}:
+\[
+  \theta_g^{(2)} = -\frac{\partial \beta_G}{\partial g}\bigg|_{g_*^{(2)}} = -[- B_H - 3 B_H^{(2)} g_*^{(2)}] = B_H + 3 B_H^{(2)} g_*^{(2)}.
+\]
+
+If $B_H^{(2)} > 0$ (screening), then $\theta_g^{(2)} > \theta_g^{(1)} = B_H$ (critical exponent \emph{increases}, more attractive).
+
+\section*{§4. Calculation Plan}
+
+\subsection*{§4.1 Step-by-Step Procedure}
+
+\textbf{Step 1: Identify one-loop propagators and vertices}
+\[
+  G_0(k) = \frac{1}{(k^2 - q_0^2)^2 + \mu^2_H}, \quad \Gamma_0 = \lambda_0.
+\]
+
+\textbf{Step 2: Compute Hartree bubbles}
+
+Sunset diagram:
+\[
+  \Pi_{\text{sunset}}(p) = \int_0^\infty dk_1 dk_2 \, G(k_1) G(k_2) G(|k_1 + k_2 - p|).
+\]
+
+\textbf{Step 3: Extract wave-function renormalization}
+
+From the $p$-dependent part of $\Pi(p)$:
+\[
+  Z_h^{(2)} = 1 + c^{(2)} \frac{\partial \Pi(p)}{\partial p^2}\bigg|_{p=0}.
+\]
+
+\textbf{Step 4: Compute $B_H^{(2)}$}
+
+\[
+  B_H^{(2)} = \frac{1}{2\pi^2} \int_0^\infty dk \, k \, \frac{d Z_h^{(2)}}{dk}.
+\]
+
+\textbf{Step 5: Form the full two-loop beta function}
+
+\[
+  \beta_G^{(2)}(g) = 2g - B_H g^2 - B_H^{(2)} g^3 + O(g^4).
+\]
+
+\textbf{Step 6: Locate fixed point and critical exponent}
+
+Solve $\beta_G^{(2)}(g_*) = 0$; compute $\theta_g^{(2)} = -\beta_G'(g_*^{(2)})$.
+
+\subsection*{§4.2 Symbolic vs. Numerical Computation}
+
+The integrals in Steps 2–4 involve products of Brazovskii propagators. At present, no closed-form analytic expression is known. \textbf{Two approaches}:
+
+\textbf{(a) Numerical integration} (Task #128):
+\[
+  B_H^{(2)} = \frac{1}{2\pi^2} \int_0^{k_{\max}} dk \, k \, \frac{d Z_h^{(2)}(k)}{dk}, \quad k_{\max} = 10 q_0.
+\]
+
+Use adaptive Simpson or Gauss-Legendre quadrature. Estimate error via Richardson extrapolation in $k_{\max}$.
+
+\textbf{(b) Analytic approximation}:
+
+In the IR limit ($k \ll q_0$), the Brazovskii propagator simplifies to
+\[
+  G(k) \approx \frac{1}{\mu^2_H + (k^2 - q_0^2)^2} \approx \frac{1}{\mu^2_H + q_0^4} \quad (\text{constant approx., crude}).
+\]
+
+Under this approximation, the two-loop integrals can be performed in closed form. However, this crude approximation misses important structure near $k \approx q_0$ (shell-mode resonance).
+
+\textbf{Recommended approach}: Perform \emph{both} (a) and (b); compare results to assess the truncation error.
+
+\section*{§5. Pre-Registered Numerical Protocol}
+
+\subsection*{§5.1 Inputs and Parameters}
+
+\textbf{Operating point} (from Math122):
+\[
+  q_0 = 0.6801747616, \quad \mu^2_H = 0.26, \quad \lambda_0 = -0.43, \quad \gamma_0 = 1.62.
+\]
+
+\textbf{Integration domain}:
+\[
+  k \in [10^{-3} q_0, 20 q_0] \quad (\text{span 4 orders of magnitude in } k).
+\]
+
+\textbf{Numerical precision}: Use 64-bit floating-point (sufficient for $B_H^{(2)} \sim 10^{-2}$).
+
+\subsection*{§5.2 Computation Steps}
+
+\textbf{Step A}: Compute one-loop propagator on a logarithmic $k$-grid (100 points).
+
+\textbf{Step B}: Compute two-loop bubble integrals (sunset diagram) at each $k$.
+
+\textbf{Step C}: Numerically differentiate to extract $\frac{d Z_h^{(2)}}{dk}$.
+
+\textbf{Step D}: Integrate (trapezoidal rule or Simpson) to obtain $B_H^{(2)}$.
+
+\textbf{Step E}: Verify convergence by doubling the $k$-grid and checking error $< 1\%$.
+
+\subsection*{§5.3 Falsification Criteria}
+
+\textbf{Gate E1 (Integration convergence)}:
+\[
+  \text{require } \left| \frac{B_H^{(2)}(k_{\max} = 10 q_0) - B_H^{(2)}(k_{\max} = 20 q_0)}{B_H^{(2)}} \right| < 0.02 \text{ (Richardson error)}.
+\]
+
+\textbf{Gate E2 (Positivity of two-loop correction)}:
+\[
+  \text{require } B_H^{(2)} > 0 \text{ (screening behavior, physical expectation)}.
+\]
+
+\textbf{Gate E3 (Hartree validity check)}:
+\[
+  \text{require } B_H^{(2)} < 0.5 \, B_H \text{ (two-loop not yet larger than one-loop, Hartree controlled)}.
+\]
+
+\textbf{Gate E4 (Fixed-point shift)}:
+\[
+  \text{require } \left| \frac{g_*^{(2)} - g_*^{(1)}}{g_*^{(1)}} \right| < 0.30 \text{ (shift less than 30\%, fixed point remains robust)}.
+\]
+
+\section*{§6. Expected Results and Predictions}
+
+\subsection*{§6.1 One-Loop Fixed Point (baseline)}
+
+From Math123:
+\[
+  g_*^{(1)} = \frac{2}{B_H} \approx \frac{2}{0.03} \approx 67.
+\]
+
+\subsection*{§6.2 Two-Loop Estimate (prediction)}
+
+Assuming $B_H^{(2)} \approx 0.005$ (rough guess, $\sim 1/6$ of $B_H^{(1)}$):
+\[
+  g_*^{(2)} \approx 67 - (0.005 / 0.03) \times 67^2 \approx 67 - 75 \approx -8 \quad (\text{spurious!}).
+\]
+
+This spurious negative result suggests that either (i) the guess $B_H^{(2)} \approx 0.005$ is too large, or (ii) the one-loop + two-loop perturbative expansion is breaking down in the strong-coupling regime.
+
+\textbf{Alternative scenario}: If $B_H^{(2)} < 0$ (antiscreening, unexpected), the two-loop correction \emph{increases} the fixed-point value:
+\[
+  g_*^{(2)} \approx 67 + |B_H^{(2)}| \, \text{const} \quad (\text{grows to higher coupling}).
+\]
+
+This would signal \textbf{non-perturbative} physics beyond Hartree.
+
+\subsection*{§6.3 Critical Exponent}
+
+One-loop: $\theta_g^{(1)} = 2$.
+
+Two-loop (if $B_H^{(2)} > 0$, screening):
+\[
+  \theta_g^{(2)} = B_H + 3 B_H^{(2)} g_*^{(2)} \approx 2 + 3 \times 0.005 \times 67 \approx 2 + 1 \approx 3.
+\]
+
+(Critical exponent \emph{increases} due to two-loop screening.)
+
+\section*{§7. Devil's-Advocate Self-Test (CLAUDE.md §6.3.1)}
+
+\subsection*{Objection α: Hartree approximation breaks down at two-loop; vertex corrections and fluctuation effects become non-negligible}
+
+\textbf{Assessment}: UPHELD (honest scope limitation). The Hartree truncation assumes the mean-field potential dominates over fluctuations. At two-loop order, the backaction of fluctuations on the propagator structure is non-negligible, especially in the strong-coupling regime ($g_* \approx 67 \gg 1$). \textbf{Mitigation}: The two-loop calculation provides an upper bound on the control of Hartree; if the two-loop corrections are large ($B_H^{(2)} \sim B_H$), the Hartree framework is unreliable and functional RG (e.g., Wetterich equation) is needed.
+
+\subsection*{Objection β: The "two-loop beta function" is not the beta function in the sense of RG; it is only the two-loop contribution to the wave-function renormalization}
+
+\textbf{Assessment}: DISMISSED (notation clarification). In the modern RG literature (Weinberg, Reuter), the beta function is defined as $\beta(g) = \partial_t g = d g / d \ln \Lambda$, where the RG time $t$ runs the coupling through all scales. The one-loop and two-loop contributions together form the full perturbative beta function. The Hartree two-loop calculation gives the next-to-leading term in this expansion. No conceptual error here.
+
+\subsection*{Objection γ: Lattice artifacts (discrete vs. continuum propagator) may qualitatively change $B_H^{(2)}$; numerical extraction on finite-$N$ BCC state may have large finite-size effects}
+
+\textbf{Assessment}: VALID (caveat on numerical closure). If Task #128 computation is done on the lattice (using the discrete Brazovskii Hessian from Newton-Krylov), the propagator includes lattice discretization effects. The continuum limit (Task #115) must be applied before extracting $B_H^{(2)}$ reliably. \textbf{Remediation}: Perform the two-loop calculation at multiple grid spacings $h \in \{0.1, 0.05, 0.025\}$; use Richardson extrapolation to extract $B_H^{(2)}(\infty)$ (continuum limit).
+
+\section*{§8. Implications for TECT}
+
+If Gates E1–E4 pass and $B_H^{(2)}$ is computed reliably:
+
+\begin{enumerate}
+\item \textbf{UV-attractive fixed point robustness}: the two-loop fixed point $g_*^{(2)}$ determines whether asymptotic safety persists to higher order. If $g_*^{(2)} > 0$ and $\theta_g^{(2)} > 0$ (UV-attractive), TECT's asymptotic-safety hypothesis is \emph{strengthened}.
+
+\item \textbf{Pillar 10 quantum-gravity closure}: the two-loop control extends the asymptotic-safety pathway from one-loop (Math122) to two-loop (this task), moving toward formal proof of UV completeness.
+
+\item \textbf{Matter coupling (Task #126)}: inclusion of fermions and gauge bosons (Pillars 5-6) will modify the two-loop structure, but the framework developed here provides the template.
+
+\item \textbf{Critical surface dimension (Math124 → Task #128 update)}: the critical-surface dimension $n_{\text{crit}}$ may shift at two-loop; this affects the parameter-compression predictions (Pillar 4 / Stage-2-B).
+\end{enumerate}
+
+\section*{§9. Status and Next Steps}
+
+\textbf{Status}: OUTLINE (framework and numerical protocol established; calculation pending).
+
+\textbf{Next step (Round T2)}: Derive precise formulas for Hartree two-loop sunrise and sunset integrals; set up numerical integration infrastructure.
+
+\textbf{Dependency}: Task #128 GPU numerical execution (when Task #115 yields converged BCC state).
+
+\end{document}

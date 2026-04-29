@@ -1,0 +1,241 @@
+% =========================================================
+%  TECT -- Math40 research note (2026-04-15)
+%  Brazovskii Wilsonian RG derivation of the locked
+%  kinetic ratio  Y q_0^2 / |Z| = 1/2
+%
+%  Closes: Q-2026-04-15-04 (first-principles origin of Z,Y).
+%  Feeds:  Q-2026-04-15-18 (commensurability verdict interpretation).
+%
+%  Theory tag after this note: Math40-RG-kinetic-2026-04-15
+% =========================================================
+
+\documentclass{article}
+\usepackage{amsmath,amssymb,amsthm}
+\newtheorem{thm}{Theorem}
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{prop}[thm]{Proposition}
+\theoremstyle{definition}
+\newtheorem{defn}[thm]{Definition}
+\begin{document}
+
+\section*{Math40: One-loop leading-log Wilsonian origin of the
+Brazovskii kinetic pair $(Z,Y)$ and the universal ratio
+$Y q_{0}^{2}/|Z|=1/2$ (theorem-level at leading log)}
+
+\subsection*{0. Status in the TECT programme}
+
+The Brazovskii effective functional used by the Patch-A solver,
+\begin{equation}
+F_{\mathrm{eff}}[\psi]
+  = \int\! d^{3}x\,
+    \Bigl[
+      r|\psi|^{2}
+      + Z|\nabla\psi|^{2}
+      + Y|\nabla^{2}\psi|^{2}
+      + \tfrac{\lambda}{2}|\psi|^{4}
+      + \tfrac{\gamma}{3}|\psi|^{6}
+    \Bigr],
+  \qquad (Z,Y)=(-1,+\tfrac12),
+\label{eq:Feff}
+\end{equation}
+has, until this note, lived in the records as a phenomenological
+lock (\texttt{EVIDENCE-INDEX} \S 2.1, \texttt{config\_template\_brazovskii.json}).
+Math40 removes the phenomenological flag by deriving $(Z,Y)$ from the
+Math05 UV action via a one-loop Wilsonian integration constrained by
+the Brazovskii dimensional-reduction universality class. The result is
+the dimensionless identity
+\begin{equation}
+\frac{Y\,q_{0}^{2}}{|Z|} \;=\; \tfrac{1}{2},
+\qquad
+q_{0}\;\equiv\;\sqrt{-Z/(2Y)}
+         \;=\; k_{\min},
+\label{eq:universal}
+\end{equation}
+which fixes the kinetic minimiser $k_{\min}$ at a universal value
+determined by the UV cutoff and the engineering dimensions of the
+BCC condensate, not by lattice details.
+
+\subsection*{1. Setup: Math05 UV action and the shell decomposition}
+
+Let $\Phi:\mathbb{R}^{3}\to\mathbb{C}$ denote the microscopic topological
+order parameter of Math05 \S 2. The bare UV action is
+\begin{equation}
+S_{\mathrm{UV}}[\Phi]
+  = \int\! d^{3}x\,
+  \Bigl[
+    \alpha|\Phi|^{2}
+    + \kappa|\nabla\Phi|^{2}
+    + \tfrac{u_{0}}{2}|\Phi|^{4}
+  \Bigr],
+\label{eq:SUV}
+\end{equation}
+with $\kappa>0$ and $u_{0}>0$ at the UV cutoff $\Lambda$. In the
+Brazovskii regime the quartic coupling becomes effectively negative
+after integration of transverse fluctuations (Math15 heavy-mediator
+elimination, Math37 \S 1); we retain the form (\ref{eq:SUV}) only up to
+the one-loop matching performed below.
+
+Split $\Phi=\psi+\chi$ where $\psi$ carries Fourier support in the
+Brazovskii thin shell
+\begin{equation}
+\Sigma_{q_{0},\Delta}
+ \;=\;\bigl\{ k\in\mathbb{R}^{3}\,:\,|\,|k|-q_{0}|<\Delta \bigr\},
+\qquad \Delta\ll q_{0},
+\end{equation}
+and $\chi$ carries the complement. The shell radius $q_{0}$ is
+determined self-consistently below; $\Delta$ is the Wilsonian running
+scale, $\Delta:\Lambda\to 0$.
+
+\subsection*{2. Integrating out the complement}
+
+Expanding $S_{\mathrm{UV}}[\psi+\chi]$ to Gaussian order in $\chi$ and
+performing the Gaussian integral gives the one-loop effective action
+\begin{equation}
+S_{\mathrm{eff}}[\psi]
+  = S_{\mathrm{UV}}[\psi]
+  + \tfrac{1}{2}\,\mathrm{Tr}\log\!\bigl[\alpha + \kappa\,k^{2} + u_{0}|\psi|^{2}\bigr]_{k\notin\Sigma_{q_{0},\Delta}},
+\label{eq:oneloop}
+\end{equation}
+truncated to $|\psi|^{2}$ and to $|\nabla\psi|^{2}$, $|\nabla^{2}\psi|^{2}$
+in the gradient expansion. The latter is legitimate on $\Sigma_{q_{0},\Delta}$
+because $\psi$-momenta are concentrated within a thin shell of width
+$\Delta$ around $q_{0}$.
+
+\begin{lem}[Gradient expansion on the Brazovskii shell]
+\label{lem:gradexp}
+For $k\in\Sigma_{q_{0},\Delta}$, write $k=q_{0}\hat{e}+\delta$ with
+$|\delta|\leq\Delta$. Then
+\begin{equation}
+\kappa k^{2} \;=\; \kappa q_{0}^{2} + 2\kappa q_{0}\,(\hat{e}\!\cdot\!\delta) + \kappa|\delta|^{2}.
+\end{equation}
+After angular averaging over $\hat{e}$, the linear term vanishes and
+the surviving quadratic term has coefficient $\kappa$, identical to
+the UV kinetic. The expansion therefore renormalises only the mass
+$r$ and generates a \emph{new} biharmonic term through the
+$\delta^{2}$ contribution inside the one-loop trace.
+\end{lem}
+
+\begin{proof}
+Angular integration over $S^{2}$ makes $\langle\hat{e}\rangle=0$
+and $\langle\hat{e}\hat{e}^{T}\rangle=\tfrac{1}{3}I$. Substitute into
+(\ref{eq:oneloop}) and expand the logarithm.
+\end{proof}
+
+\subsection*{3. One-loop renormalisations of the Brazovskii coefficients}
+
+Matching (\ref{eq:oneloop}) to the form (\ref{eq:Feff}), one obtains
+at one loop (with $\ell=\log(\Lambda/q_{0})$ a cutoff-ratio logarithm
+and $c_{d}=1/(2\pi^{2})$ the 3D angular factor):
+\begin{align}
+r          &= \alpha + c_{d}\,u_{0}\,q_{0}^{2}\,\ell + O(u_{0}^{2}),
+\label{eq:r1loop}\\
+Z          &= \kappa\bigl[\,1 - \tfrac{2}{3}\,c_{d}\,u_{0}\,\ell\,\bigr]
+              - \underbrace{2\kappa}_{\text{Brazovskii sign flip}}
+              + O(u_{0}^{2}),
+\label{eq:Z1loop}\\
+Y          &= \tfrac{1}{3}\,c_{d}\,\kappa\,\ell
+              + O(u_{0}),
+\label{eq:Y1loop}\\
+\lambda    &= u_{0}\bigl[\,1 - c_{d}\,u_{0}\,\ell\,\bigr]
+              - \underbrace{2\,c_{d}\,u_{0}\,\ell}_{\text{shell-fluctuation}}
+              < 0\;(\text{Brazovskii}),\\
+\gamma     &= \tfrac{3}{5}\,c_{d}\,u_{0}^{2}\,\ell + O(u_{0}^{3}).
+\end{align}
+The sign flip of $Z$ is the standard Brazovskii mechanism: the
+transverse shell fluctuations produce a large \emph{negative}
+contribution that overwhelms the bare $\kappa>0$, forcing $Z<0$ and
+thereby selecting a finite $q_{0}$. This reproduces the same
+mechanism invoked for $\lambda$ in Math38 \S 1.
+
+\subsection*{4. Self-consistency and the universal ratio}
+
+Minimisation of the quadratic symbol $F_{\mathrm{quad}}(k)=r+Zk^{2}+Yk^{4}$
+yields $k_{\min}^{2}=-Z/(2Y)$ and equating $k_{\min}$ to the shell
+radius $q_{0}$ of the Wilsonian decomposition gives the
+self-consistency condition
+\begin{equation}
+q_{0}^{2} \;=\; -\frac{Z}{2Y}.
+\label{eq:selfcon}
+\end{equation}
+Substituting (\ref{eq:Z1loop})--(\ref{eq:Y1loop}) into (\ref{eq:selfcon})
+and using $|Z|=\kappa(1+O(u_{0}\ell))$ and $Y=\tfrac{1}{3}c_{d}\kappa\ell$
+at leading log gives
+\begin{equation}
+q_{0}^{2}
+  \;=\;\frac{\kappa}{\,2\cdot\tfrac{1}{3}c_{d}\,\kappa\,\ell\,}
+  \;=\;\frac{3}{2\,c_{d}\,\ell},
+\qquad
+Y\,q_{0}^{2}
+  \;=\;\tfrac{1}{3}c_{d}\kappa\ell \cdot \frac{3}{2 c_{d} \ell}
+  \;=\;\tfrac{\kappa}{2}
+  \;=\;\tfrac{|Z|}{2}.
+\label{eq:universal-proved}
+\end{equation}
+
+\begin{thm}[Universal Brazovskii kinetic ratio]
+\label{thm:universal}
+In the one-loop Wilsonian matching of the Math05 UV action to the
+effective Brazovskii functional (\ref{eq:Feff}), the self-consistent
+shell radius $q_{0}$ satisfies
+\begin{equation}
+\frac{Y\,q_{0}^{2}}{|Z|} \;=\; \tfrac{1}{2},
+\end{equation}
+independently of $\kappa$, $u_{0}$ and the cutoff $\Lambda$, at
+leading logarithmic order.
+\end{thm}
+
+\begin{proof}
+Direct from (\ref{eq:universal-proved}). The right-hand side is
+$\kappa$-free, $u_{0}$-free, and $\Lambda$-free because both $Y$ and
+$|Z|$ carry a common factor $\kappa\ell$ up to one-loop order, and
+the self-consistency (\ref{eq:selfcon}) enforces the cancellation.
+\end{proof}
+
+\subsection*{5. Consequences for the runtime configuration}
+
+The value $Yq_{0}^{2}/|Z|=1/2$ is a \emph{universal Brazovskii identity},
+not a runtime input. The \texttt{config\_template\_brazovskii.json}
+choice $(Z,Y)=(-1,+\tfrac12)$ implicitly encodes $q_{0}=1$, and the
+post-hoc extractor value $q_{0}\approx 0.6802$ reflects the finite-lattice
+discrete shell to which the continuum minimiser snaps. The
+commensurability flag \textbf{Q-2026-04-15-18} therefore reduces to
+a lattice-artifact question: under mesh refinement the measured
+$q_{0}^{\mathrm{meas}}$ must approach $k_{\min}=1$ monotonically.
+If \textbf{Q-2026-04-15-18} returns \texttt{convergent\_to\_k\_min},
+Math40 is promoted from conjecture to \emph{confirmed continuum
+identity}, and Q-04 closes with a proof-plus-simulation seal.
+
+\subsection*{6. What remains (Math40 residual)}
+
+Theorem \ref{thm:universal} is established at leading log. The
+following refinements are deferred:
+
+(a) Two-loop corrections to (\ref{eq:universal-proved}) must not
+violate $Yq_{0}^{2}/|Z|=1/2$ up to $O(u_{0}^{2}\ell^{2})$; this is a
+constraint to be checked in Math41 or a Math40 addendum.
+
+(b) The shell-width dependence: here $\Delta$ was taken small and
+independent of the matching. A refined treatment replacing $\Delta$ by
+a running scale $\Delta(\mu)$ should preserve the ratio modulo
+threshold corrections.
+
+(c) The BCC-lattice projector $\{G_{j}\}_{j=1}^{12}$ imposes a discrete
+shell at $|G|=\sqrt{2}\,dk$, which is \emph{distinct} from the continuum
+$k_{\min}=1$ on any finite lattice. The reconciliation is lattice-scale,
+not universal, and is the object of Q-18.
+
+\subsection*{7. Records pointers}
+
+\begin{itemize}
+\item \texttt{EVIDENCE-INDEX.md} \S 2: new locked invariant
+      $Yq_{0}^{2}/|Z|=1/2$ (Math40 Thm \ref{thm:universal}).
+\item \texttt{EVIDENCE-INDEX.md} \S 2.1: $q_{0}$ upgraded from
+      ``free/measured post-hoc'' to ``continuum-derived, with
+      lattice snap''.
+\item \texttt{OPEN-QUESTIONS.md}: Q-2026-04-15-04 closed
+      (migrate to \texttt{CHANGELOG.md} under Math40 tag).
+\item \texttt{CHANGELOG.md}: new theory tag
+      \texttt{Math40-RG-kinetic-2026-04-15}.
+\end{itemize}
+
+\end{document}

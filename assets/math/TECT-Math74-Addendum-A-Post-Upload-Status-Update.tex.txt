@@ -1,0 +1,195 @@
+%%============================================================================
+%% TECT-Math74-Addendum-A — Post-Upload Status Update
+%%
+%% Theory tag  : Math74-AddA-Post-Upload-Status-Update-2026-04-23
+%% Supersedes  : caveat in Math74 §7 that Math73 and Math74 were
+%%               "documentation-level" closures only.
+%% Cross-refs  : Math74 (primary note); Math73 (cII projector API);
+%%               Math66 v0.2 (Path-A adjoint-JVP); Math72 Addendum-A
+%%               (Post-54 Runbook endpoint-JSON contract).
+%% Trigger     : User peer-review of the actual on-disk files
+%%               PDE/tect_newton_krylov.py (v2.6.2) and
+%%               PDE/continuation_mu2_v25.py (v2.6.3) after the 2026-04-23
+%%               landing + 7-invariant refactor-contract closure.
+%% Rule of use : This addendum is the authoritative same-day status bulletin
+%%               issued after the uploads were inspected against the text
+%%               of Math73 / Math74. It revises the "doc-only" caveat that
+%%               was appropriate pre-upload and is no longer correct.
+%% Author      : Jusang Lee (jtkor@outlook.com)
+%% Date        : 2026-04-23
+%%============================================================================
+
+\section{Math74 Addendum-A --- updated status after the actual v2.6.2 /
+v2.6.3 code uploads}
+\label{sec:math74-addA}
+
+The previous caution that Math73 and Math74 were only
+documentation-level closures must now be revised.  After a direct
+peer-review of the uploaded modules
+\texttt{PDE/tect\_newton\_krylov.py} and
+\texttt{PDE/continuation\_mu2\_v25.py} the correct reading is the
+following.
+
+\subsection{Solver core}
+\label{sec:math74-addA-solver}
+
+The uploaded \texttt{tect\_newton\_krylov.py} is genuinely at v2.6.2:
+\begin{itemize}
+\item the adjoint Jacobian--vector product $\mathcal{J}^{\dagger} v$
+      is implemented by a torch-native residual composition rather
+      than a NumPy-detached path (Math66 v0.2 Path-A landed);
+\item the old \texttt{cii\_block\_mask} framing is structurally retired
+      in favor of the \texttt{CiiProjector} API introduced in Math73;
+\item \texttt{FullProjector} and \texttt{ChannelProjector} are present
+      in code; \texttt{FullProjector} is the v2.6.2 default and is
+      bit-identical to the v2.6.1 code path under the
+      all-\textsc{True}-mask reduction.
+\end{itemize}
+
+Hence:
+\begin{equation}
+\text{B2 is code-level resolved,}
+\qquad
+\text{B3 is code-level landed.}
+\label{eq:math74-addA-B2B3-code-level}
+\end{equation}
+
+\subsection{Continuation driver}
+\label{sec:math74-addA-driver}
+
+The uploaded \texttt{continuation\_mu2\_v25.py} is genuinely at v2.6.3:
+\begin{itemize}
+\item the outer fake Newton loop of v2.5.7 is removed;
+\item \texttt{newton\_solve()} is called exactly once per $\mu^{2}$
+      point;
+\item convergence is propagated from
+      \begin{equation}
+      H[-1][\texttt{"grad\_norm"}] < \texttt{tol\_newton},
+      \label{eq:math74-addA-conv-criterion}
+      \end{equation}
+      bit-identically matching the solver-internal criterion at
+      \texttt{tect\_newton\_krylov.py:1231};
+\item Phase 2 (\texttt{lanczos\_hessian} +
+      \texttt{analyze\_projected\_spectrum} $\to m_{\ast}^{2}$) and
+      Phase 3 (\texttt{compute\_energy\_difference} $\to$ $(F_{\rm cond},
+      F_{\rm vac}, \Delta F, \text{favorable})$) are wired live;
+\item endpoint JSON emission is implemented for the final converged
+      point, pinned at schema
+      \texttt{"continuation\_mu2\_v25\_endpoint/1.0"} with sixteen
+      fields, satisfying the Math72 Addendum-A Post-54 Runbook
+      physics-fields non-null invariant.
+\end{itemize}
+
+Therefore the correct updated verdict is:
+\begin{align}
+&\text{Task \#104 solver core: landed on the present path,}
+\label{eq:math74-addA-task104}\\
+&\text{Task \#54 driver layer: landed,}
+\label{eq:math74-addA-task54-driver}\\
+&\text{Task \#54 execution layer: still pending live endpoint}\notag\\
+&\text{verification.}
+\label{eq:math74-addA-task54-exec}
+\end{align}
+
+\subsection{Residual (non-blocking) items}
+\label{sec:math74-addA-residual}
+
+Three strictly non-blocking items remain.  They do not gate any
+physics result and are booked for cleanup, not for Tier-1 rigor:
+
+\begin{itemize}
+\item[$\mathbf{R^{\prime}_{1}}$.] \emph{B1 elegance.} The solver core
+retains the B1 name-map shim $\{\texttt{pcg}\mapsto\texttt{cg},
+\texttt{fgmres}\mapsto\texttt{gmres},
+\texttt{minres}\mapsto\texttt{gmres}\}$.  B1 is therefore
+\emph{operationally closed} (Math68 Addendum~A \S A.4 user-verified
+$1F/3P/1S$ signature) rather than elegantly closed; a native
+\texttt{minres} implementation for the indefinite-symmetric sector is
+booked as a future cleanup but is not a correctness blocker because
+the \texttt{gmres} fallback is correct on Hermitian-indefinite
+systems at the cost of storage per inner iteration.
+
+\item[$\mathbf{R^{\prime}_{2}}$.] \emph{\texttt{eta\_ew} placeholder.}
+The \texttt{NewtonStep.eta\_ew} field is still a placeholder
+$0.5$ in v2.6.3 because \texttt{NewtonStepRecord} produced by
+\texttt{tect\_newton\_krylov.newton\_solve} does not surface an
+inexact-Newton forcing sequence directly.  This only affects the
+informational richness of the per-point MANIFEST table; the
+convergence contract of Eq.~\eqref{eq:math74-addA-conv-criterion}
+is unaffected.
+
+\item[$\mathbf{R^{\prime}_{3}}$.] \emph{Math63 \S2D gate boolean.}
+The Math63 \S2D acceptance gate (Newton $\le 8$,
+$t_{\rm CG}\le 300$, $\rho_{\rm lin}\le 0.05$ at $\mu^{2}=-1.0$) is
+not yet asserted programmatically as a
+\texttt{pass\_math63\_2d: bool} field in \texttt{ContinuationPoint}.
+The underlying numbers \emph{are} surfaced in the per-point MANIFEST
+table; only the boolean certification is missing.
+\end{itemize}
+
+\subsection{What still remains --- execution-level proof}
+\label{sec:math74-addA-next}
+
+The main remaining work is no longer implementation but
+execution-level proof:
+\begin{enumerate}
+\item run the v2.6.3 continuation driver on the target schedule,
+\item verify that
+      \texttt{continuation\_mu2\_v25\_endpoint.json} is emitted,
+\item confirm that
+      \[
+      m_{\ast}^{2},\ \Delta F,\ F_{\rm condensate},\ F_{\rm vacuum},\
+      \mathrm{rms\ amplitude}
+      \]
+      are finite and consistent with the audit path
+      (\texttt{n64\_continuum\_audit.py} at the same $N, \mu^{2}$),
+\item then close the endpoint-validation layer of Task~\#54,
+\item and add a Task~\#115 routing / acceptance regression test that
+      asserts both the JSON schema contract and the Math63~\S2D gate
+      as a single pytest fixture.
+\end{enumerate}
+
+\subsection{One-line verdict}
+\label{sec:math74-addA-verdict}
+
+\begin{equation}
+\boxed{\ \text{implementation mostly landed, execution proof next.}\ }
+\label{eq:math74-addA-verdict}
+\end{equation}
+
+That is the present state of TECT on the continuation-driver axis.
+
+\subsection{Traceability chain (3-part)}
+\label{sec:math74-addA-trace}
+
+\begin{description}
+\item[\textbf{Cause.}] User peer-review on 2026-04-23 established that
+the uploaded code files had moved past the Math73 / Math74 text and
+that the pre-upload caveat ``doc-only closure'' was no longer
+accurate.
+\item[\textbf{Evidence / failure log.}]
+(i) \texttt{tect\_newton\_krylov.py} contains the
+\texttt{CiiProjector} / \texttt{FullProjector} /
+\texttt{ChannelProjector} classes and the torch-native
+\texttt{\_compute\_adjoint\_jacobian\_vec\_v26} body at module version
+\textbf{2.6.2}; (ii) \texttt{continuation\_mu2\_v25.py} contains the
+single-\texttt{newton\_solve} \texttt{run\_one\_point\_v25}, the
+endpoint-JSON emission block, and the preserved exit-code contract
+at module version \textbf{2.6.3}; (iii) the 7-invariant refactor
+contract $I_{1}$--$I_{7}$ on v2.6.3 returns \textsc{OVERALL: PASS}
+(same-day V1 closure, 2026-04-23); (iv) the three residual items
+$R^{\prime}_{1}$--$R^{\prime}_{3}$ of this section are strictly
+non-blocking for any physics claim.
+\item[\textbf{Decision chain.}] (1) Promote B2 and B3 from
+documentation-level to \emph{code-level resolved} /
+\emph{code-level landed}. (2) Reclassify Task~\#54 blocker from
+``driver-layer not integrated'' to
+``execution-layer awaiting live endpoint''. (3) Keep Task~\#104
+marked \emph{completed} on the solver-core axis. (4) Book
+$R^{\prime}_{1}$--$R^{\prime}_{3}$ as cleanup, not as rigor gates.
+(5) The next work item on the continuation axis is the V3--V5
+execution-level verification plan of Math74 \S\ref{sec:math74-addA-next}
+and the Task~\#115 routing / acceptance regression test.
+\end{description}
+
+%% End of Math74 Addendum-A.

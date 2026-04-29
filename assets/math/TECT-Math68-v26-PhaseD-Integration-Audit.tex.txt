@@ -1,0 +1,482 @@
+% ============================================================
+% TECT-Math68-v26-PhaseD-Integration-Audit.tex.txt
+% Status:       AUDIT NOTE v0.1 (2026-04-22). Devil's-advocate audit of
+%               the three 2026-04-22 uploads (Math66 v0.1, Newton--Krylov
+%               v2.6.0, continuation_mu2_v25 v2.6.0) driven by the first
+%               live pytest execution on the user's Windows machine.
+%               Filed as a separate audit note because Math66 is a
+%               theorem/spec document and the present findings are
+%               primarily integration defects and priority re-ordering.
+% Version:      v0.1 (2026-04-22) — initial audit. Three authoritative
+%               sections: (§1) updated critical-path priority after the
+%               Math64/65/66 chain; (§2) Math66 status retraction from
+%               "THEOREM, complete" to "operational theorem / impl spec";
+%               (§3) Task #104 integration audit, five blocker list, and
+%               immediate-fix queue (#112--#116).
+% Tag:          TECT-Math68-v26-PhaseD-Integration-Audit-2026-04-22
+% Filed:        2026-04-22
+% Preceded-by:  Math66-cII-OperatorSurgery-PathX-2026-04-22 (v0.1)
+%               Math65-cII-EulerLagrange-Rewrite-2026-04-22 (v0.1.3)
+%               Math64-cII-Stage-Alpha-Audit-2026-04-22 (v1.1)
+%               Math63-Solver-Redesign-v2p5-2026-04-22 (v1.7)
+% Companion to: PDE/tect_newton_krylov.py               (v2.6.0, defects noted)
+%               PDE/continuation_mu2_v25.py             (v2.6.0, defects noted)
+%               Tests/test_v26_phase_d.py               (pytest 2F/1S/2P)
+%               Tools/check_jacobian_blocks.py          (v1.4)
+% Supersedes:   --
+% Purpose:      Freeze the PI-level re-ordering of the TECT critical path
+%               after the cII variational-parent search has been
+%               sealed as branch (I) Class Insufficiency by Math65
+%               v0.1.3; correct the Math66 v0.1 status over-claim; and
+%               log the five executable-integration blockers revealed by
+%               the 2026-04-22 live pytest run on the user's Windows
+%               machine (`pytest tests/test_v26_phase_d.py -v`).
+% ============================================================
+
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsthm,geometry,xcolor,listings,hyperref}
+\geometry{margin=1in}
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{definition}{Definition}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
+\newtheorem{remark}{Remark}
+
+\title{\textbf{TECT Math68 --- v2.6.0 Phase D Integration Audit: \\
+Post-Math66 Priority Re-Ordering, Math66 Status Retraction, and \\
+Five Executable-Integration Blockers Revealed by Live pytest}\\
+\large (v0.1 --- 2026-04-22)}
+\author{TECT Research Collaboration}
+\date{2026-04-22 --- v0.1}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+This note freezes three decisions reached during the devil's-advocate
+audit of the 2026-04-22 uploads. (i) The Math64/65 chain has sealed the
+scalar-$E_{\mathrm{cII}}$ class insufficiency (Math65 Prop.\
+\texttt{math65-class-insufficient}); accordingly the cII
+variational-parent search is \emph{demoted} from the TECT mainline
+critical path to a separate research track, and an updated eight-stage
+priority chain is filed (§\ref{sec:math68-priority}). (ii) The Math66
+v0.1 header label \emph{``THEOREM v0.1, complete''} is retracted as
+over-claim, and the correct status \emph{``operational theorem /
+implementation specification v0.1''} is substituted, with the rigorous
+proofs of the Hermiticity, spectral-gap, full-operator consistency, and
+Newton--Krylov convergence statements explicitly deferred to v0.2
+(§\ref{sec:math68-math66-status}). (iii) The first live
+\texttt{pytest tests/test\_v26\_phase\_d.py -v} on the user's Windows
+machine returned $(2 \text{F}, 2 \text{P}, 1 \text{S})$; five
+executable-integration blockers are extracted and logged against the
+v2.6.0 landing: (B1) solver-name API mismatch between the continuation
+driver and the Newton--Krylov solver; (B2) graph-disconnected adjoint
+JVP; (B3) dummy all-True cII block mask; (B4) skeletal test coverage
+that cannot detect (B1); (B5) \texttt{KeyError('Lx')} caused by
+missing $L_{x,y,z}$ keys in the test config dict
+(§\ref{sec:math68-blockers}). Task \#104 is accordingly classified as
+\emph{partial live integration; executable closure open}, with the
+immediate-fix queue \#112--\#116 opened.
+\end{abstract}
+
+% ============================================================
+\section{Updated critical-path priority after Math64/65/66}
+\label{sec:math68-priority}
+
+The Math65 v0.1.3 sealing of branch (I) Class Insufficiency
+(Prop.~\texttt{math65-class-insufficient}) and the Math66 v0.1 filing
+of Path-X as the operational closure pathway change exactly one
+priority judgement in the TECT TOE programme:
+\begin{equation}
+\label{eq:math68-priority-demotion}
+\boxed{\;
+\text{the scalar-}E_{\mathrm{cII}}\text{ search is no longer on the main
+critical path.}
+\;}
+\end{equation}
+The reason is now explicit in the record: the executable backend
+contains no pre-existing scalar $E_{\mathrm{cII}}[\Psi]$ in
+\texttt{PDE/real\_backend\_pt\_bcc\_mixed\_v3.py}; the three candidate
+functionals $E_{\mathrm{cII}}^{(A,B,C)}$ of Math65 §2 all fail the
+decisive $F_{\mathrm{cII}}^{\mathrm{grad}}$-vs-$F_{\mathrm{cII}}^{\mathrm{impl}}$
+test in the same orthogonal-subspace regime (Math65 Eq.\
+\texttt{math65-cos-triangulation}:
+$|\cos\theta^{(X)}| \le 1.27\times 10^{-2}$ for every $X \in \{A,B,C\}$).
+Hence the scalar-$E$ class is insufficient, Math66 operator surgery is
+mandatory, and the operational closure for v2.6.0 Phase D is Path-X:
+in-solver symmetrisation
+$\widetilde{\mathcal{J}}_{\mathrm{cII}} := \tfrac{1}{2}(\mathcal{J}_{\mathrm{cII}} + \mathcal{J}_{\mathrm{cII}}^{\dagger})$.
+
+The updated priority chain is therefore
+\begin{equation}
+\label{eq:math68-priority-chain}
+\boxed{\;
+\begin{aligned}
+1. &\ \text{v2.6.0 Phase-D wiring with Path-X and PCG default} \\
+2. &\ \text{Math64 D5: } a_{\mathrm{cII}}(N)\ \text{scaling and } \tau_{\mathrm{struct}}\ \text{confirmation} \\
+3. &\ \text{Pillar 1 / Phase 4 continuum closure (} m_{*}^{2},\ \Delta F\ \text{extrapolation)} \\
+4. &\ \text{Math60-B parameter compression (}G_{B2}\!\to\!G_{B1}\!\to\!G_{B3}\text{)} \\
+5. &\ \text{Math60-C quantization closure (blocker: }G_{C2}\text{ continuum UV-completeness)} \\
+6. &\ \text{Pillar 6 physical replacement-bundle closure} \\
+7. &\ \text{Pillar 11 closure (monopole vacuum energy cancellation)} \\
+8. &\ \text{Math60-D full observable-map re-audit}
+\end{aligned}
+\;}
+\end{equation}
+
+The cII Euler--Lagrange rewrite (Path-Y in Math64 §5) remains a valid
+research direction, but it is a \emph{separate track} and no longer an
+immediate blocker for the TECT mainline. Task \#104 consumes only
+Path-X.
+
+\begin{remark}[Relation to Math60 Global Closure Theorem]
+\label{rem:math68-math60-relation}
+Under the priority chain \eqref{eq:math68-priority-chain}, Math60-B
+and Math60-C both inherit Pillar~1 / Phase~4 continuum closure as their
+upstream dependency; consequently the two critical-path bottlenecks for
+Math60 global closure are (i) item~3 of
+\eqref{eq:math68-priority-chain} (the $a \to 0$ extrapolation) and
+(ii) item~1 (the v2.6.0 landing that enables item~3). The present note
+does not alter this dependency tree; it only re-orders the priorities
+\emph{within} the solver-preparation phase.
+\end{remark}
+
+% ============================================================
+\section{Math66 v0.1 status retraction: operational theorem, not
+         complete theorem}
+\label{sec:math68-math66-status}
+
+The Math66 v0.1 header originally carried the label
+\emph{``THEOREM v0.1, complete''}. Devil's-advocate audit finds that
+this label is over-claim relative to the Math66 body, which explicitly
+marks four key results as proof sketches with full proofs deferred to
+v0.2:
+\begin{itemize}
+\item Lemma \texttt{math66-hermiticity} (real-part projection is exactly Hermitian);
+\item Lemma \texttt{math66-spectral-gap} (Bendixson spectral-gap preservation);
+\item Theorem \texttt{math66-full-consistency} (condition-number preservation at full-operator level);
+\item Theorem \texttt{math66-convergence} (Newton--Krylov q-linear rate).
+\end{itemize}
+The Math66 v0.1 Conclusion §``open items'' also enumerates these four
+results as v0.2 targets. The status label and the body must therefore
+be brought into agreement.
+
+\begin{proposition}[Math66 v0.1 status classification]
+\label{prop:math68-math66-status}
+The correct four-status classification of Math66 v0.1 is
+\begin{equation}
+\label{eq:math68-math66-four-status}
+\boxed{\;
+\begin{aligned}
+\text{(S1) path-selection closure:}      &\quad \text{CLOSED} \\
+\text{(S2) implementation-spec closure:} &\quad \text{CLOSED} \\
+\text{(S3) rigorous math closure:}       &\quad \text{OPEN to v0.2} \\
+\text{(S4) execution-verification closure:} &\quad \text{OPEN}
+\end{aligned}
+\;}
+\end{equation}
+(S1) is closed because Math65 Prop.\
+\texttt{math65-class-insufficient} rules out the variational-parent
+search and Math64 Thm.\ \texttt{math64-full-sympd} legitimises in-solver
+symmetrisation. (S2) is closed because Math66 §7 specifies the API
+contract for \texttt{tect\_newton\_krylov.newton\_solve(...,
+use\_symmetrised\_cII=True)} and §8 specifies the
+U1--U4/R1--R2/C1 verification plan. (S3) is open because the four
+results above are proof sketches. (S4) is open because the verification
+plan has not yet passed; see §\ref{sec:math68-blockers}.
+\end{proposition}
+
+\begin{corollary}[Status-label correction for Math66 v0.1]
+\label{cor:math68-math66-label}
+The Math66 v0.1 header status line is corrected from
+\emph{``THEOREM v0.1, complete''} to
+\emph{``OPERATIONAL THEOREM / IMPLEMENTATION SPECIFICATION v0.1''},
+with the above four-status classification
+\eqref{eq:math68-math66-four-status} appended. This produces agreement
+between the Math66 v0.1 header, abstract, body, and Conclusion
+§open-items. The content of Math66 v0.1 is unchanged.
+\end{corollary}
+
+\begin{remark}[Mainline operational sufficiency]
+\label{rem:math68-mainline-sufficiency}
+The (S3) open status does not block Task~\#104. For the purposes of the
+Newton--Krylov inner solver, the proof-sketch level of Lemma
+\texttt{math66-hermiticity} is in fact rigorous at the operator level
+(the real-part projection is exactly Hermitian by construction), and
+the proof-sketch level of Theorem \texttt{math66-convergence} quotes
+the standard Saad--Schultz Krylov convergence theorem. The v0.2 upgrade
+concerns lifting these from quoted results to self-contained TECT
+derivations with explicit constants, not establishing them for the
+first time. Hence the v2.6.0 Phase-D landing is free to consume Math66
+v0.1 as the operational specification without waiting for v0.2.
+\end{remark}
+
+% ============================================================
+\section{Task \#104 integration audit: five blockers from the live pytest}
+\label{sec:math68-blockers}
+
+The first live \texttt{pytest tests/test\_v26\_phase\_d.py -v} on the
+user's Windows machine on 2026-04-22 produced the verdict
+$(2\ \mathrm{FAIL},\ 2\ \mathrm{PASS},\ 1\ \mathrm{SKIP})$ over the five
+tests defined in \texttt{tests/test\_v26\_phase\_d.py}. Devil's-advocate
+parsing of the uploads extracts five executable-integration blockers.
+
+\subsection{Blocker (B1): solver-name API mismatch between continuation
+and Newton layers}
+
+\begin{definition}[Solver-name API mismatch]
+\label{def:math68-B1}
+The continuation driver function
+\texttt{continuation\_mu2\_v25.select\_krylov\_solver(...)}
+returns one of
+\[
+\{\texttt{"pcg"},\ \texttt{"minres"},\ \texttt{"fgmres"}\}
+\]
+per the Math63 §2A.3 Cor.\ \texttt{math63-2A3-solver-routing}
+taxonomy. The callee
+\texttt{tect\_newton\_krylov.newton\_solve(...)} currently validates its
+\texttt{krylov\_method} argument against the restricted set
+\[
+\{\texttt{"cg"},\ \texttt{"gmres"}\}
+\]
+only, raising \texttt{ValueError} otherwise. Hence the adaptive routing
+contract specified in Math64 Cor.\ \texttt{math64-inner-solver-routing}
+is not executable under the present v2.6.0 landing.
+\end{definition}
+
+\begin{proposition}[Temporary-fix mapping and permanent repair]
+\label{prop:math68-B1-fix}
+The minimal temporary patch is the surjective name map
+\begin{equation}
+\label{eq:math68-B1-map}
+\texttt{pcg} \mapsto \texttt{cg},\qquad
+\texttt{fgmres} \mapsto \texttt{gmres},\qquad
+\texttt{minres} \mapsto \texttt{gmres}\text{ (degraded)},
+\end{equation}
+applied inside the call site of \texttt{newton\_solve}. This restores
+executability but collapses the MINRES branch onto GMRES and therefore
+does not honour the Math63 §2A.3 symmetric-indefinite route. The
+permanent repair is to extend \texttt{newton\_solve} to accept the
+triple $\{\texttt{pcg}, \texttt{minres}, \texttt{fgmres}\}$ natively
+and dispatch to the SciPy \texttt{cg}/\texttt{minres}/\texttt{gmres}
+(or to \texttt{scipy.sparse.linalg.gmres} with restart for FGMRES).
+Task \#112 tracks this repair.
+\end{proposition}
+
+\subsection{Blocker (B2): graph-disconnected adjoint JVP
+                           $J^{\dagger} v$}
+
+\begin{definition}[Graph-disconnected adjoint]
+\label{def:math68-B2}
+The current
+\texttt{tect\_newton\_krylov.\_compute\_adjoint\_jacobian\_vec\_v26}
+sets \texttt{Psi\_torch.requires\_grad\_(True)} but then computes the
+residual via \texttt{backend.residual(Psi, params)} on the underlying
+\texttt{numpy} array \texttt{Psi}, and subsequently wraps the numpy
+output back into a torch tensor. The autograd graph therefore does not
+connect the output tensor to \texttt{Psi\_torch}, and
+\texttt{torch.autograd.grad(loss, Psi\_torch)} yields a zero or
+ill-defined gradient. The quantity returned under the identifier
+$J^{\dagger} v$ is therefore not the adjoint Jacobian--vector product in
+the Wirtinger-$\mathbb{R}$-linear sense required by Math66 §2.
+\end{definition}
+
+\begin{proposition}[Required repair of the adjoint JVP]
+\label{prop:math68-B2-fix}
+Either (a) replace the numpy residual call by a torch-native residual
+implementation that preserves the autograd graph, or (b) implement
+$J^{\dagger} v$ explicitly as the adjoint of the forward JVP using the
+known structure of the BCC spectral Laplacian and the Class-II projected
+divergence. Option (a) is the cleanest and matches Math66 §7 API;
+option (b) is unavoidable if the backend residual cannot be made
+torch-native without refactor. Task \#113 tracks this repair.
+\end{proposition}
+
+\subsection{Blocker (B3): dummy all-True cII block mask}
+
+\begin{definition}[Dummy cII mask]
+\label{def:math68-B3}
+The current \texttt{tect\_newton\_krylov.\_get\_cii\_block\_mask(Psi)}
+returns an all-\texttt{True} boolean mask of shape matching
+\texttt{Psi}, and the live \texttt{newton\_solve(...)} call site does
+not auto-compute or auto-pass a cII-local mask. Hence the present
+symmetrisation is global (applied to the entire Jacobian--vector
+output), not block-local as required by Math66 §2 Eq.\
+\texttt{math66-path-X-operator} and by the Math64 §5(X)
+specification.
+\end{definition}
+
+\begin{proposition}[Required repair of the cII mask]
+\label{prop:math68-B3-fix}
+The cII block mask must be constructed from the channel-projector
+structure of \texttt{real\_backend\_pt\_bcc\_mixed\_v3.\_classII\_effective\_term\_t}
+(lines 423--461): the mask is \texttt{True} on the sites where the
+scalar-vector contraction
+$[p_{JJ}\nabla\!\cdot\! J + p_{JK}\nabla\!\cdot\! K]\,(T\Psi - q\Psi)$
+has non-trivial support, and \texttt{False} elsewhere. An explicit
+implementation returns a shape-$(3, N, N, N)$ boolean tensor matching
+the complex seed. Task \#114 tracks this repair.
+\end{proposition}
+
+\subsection{Blocker (B4): skeletal test coverage cannot detect (B1)}
+
+\begin{remark}[Test coverage gap]
+\label{rem:math68-B4}
+The current \texttt{tests/test\_v26\_phase\_d.py} contains five tests,
+of which the functionally-relevant ones (Hermiticity, PCG routing,
+regression) either skip due to missing backend infrastructure
+(\texttt{backend.hessian\_vec not available: 'Lx'}) or fail at the
+residual-call layer (\texttt{KeyError('Lx')}; see (B5)). Critically,
+the test file does \emph{not} assert the continuation-layer routing
+contract
+\[
+\texttt{select\_krylov\_solver(...) output} \in
+\texttt{newton\_solve input domain},
+\]
+so blocker (B1) is invisible to the test harness.
+\end{remark}
+
+\begin{proposition}[Required repair of the test harness]
+\label{prop:math68-B4-fix}
+A new test
+\texttt{test\_continuation\_to\_newton\_routing\_contract} must be
+added to \texttt{tests/test\_v26\_phase\_d.py} that enumerates every
+element of \texttt{select\_krylov\_solver}'s output range and asserts
+that each is accepted by \texttt{newton\_solve}'s
+\texttt{krylov\_method} parameter without raising \texttt{ValueError}.
+Additionally, \texttt{test\_symmetrised\_jvp\_hermiticity} must
+construct a minimal BCC params dict with \texttt{Lx, Ly, Lz} keys
+explicitly present (see (B5)), and
+\texttt{test\_minres\_fallback\_indefinite} must execute an actual
+MINRES solve rather than only instantiating
+\texttt{HessianOperator}. Task \#115 tracks this repair.
+\end{proposition}
+
+\subsection{Blocker (B5): \texttt{KeyError('Lx')} in the test config}
+
+\begin{definition}[Missing $L_{x,y,z}$ keys in test config]
+\label{def:math68-B5}
+The backend helper
+\texttt{real\_backend\_pt\_bcc\_mixed\_v3.\_params\_lengths(params)}
+at line 106 requires \texttt{params["Lx"]}, \texttt{params["Ly"]},
+\texttt{params["Lz"]} as float keys. The two failing tests
+(\texttt{test\_pcg\_routing\_spd} and \texttt{test\_v24\_regression})
+supply only \texttt{config = \{"L": 1.0, "N": N, "lambda": -1.0,
+"gamma": 0.8, "mu2": -0.5\}}, with the scalar \texttt{"L"} but not the
+three-axis \texttt{Lx/Ly/Lz}, which yields the traceback
+\[
+\texttt{PDE\textbackslash real\_backend\_pt\_bcc\_mixed\_v3.py:106: KeyError: 'Lx'}
+\]
+at
+\texttt{PDE\textbackslash tect\_newton\_krylov.py:901:
+  F\_old = float(backend.shell\_free\_energy(Psi, params))}.
+This is a test-dict defect, not a v2.6.0 solver defect.
+\end{definition}
+
+\begin{proposition}[Minimal test-dict patch]
+\label{prop:math68-B5-fix}
+Every BCC-backend-touching test config dict must include
+\begin{equation}
+\label{eq:math68-B5-fix}
+\texttt{config["Lx"]} = \texttt{config["Ly"]} = \texttt{config["Lz"]} =
+\texttt{config["L"]} \text{ (isotropic fallback)}.
+\end{equation}
+An additional \texttt{conftest.py} helper
+\texttt{make\_bcc\_config(L=1.0, N=4, ...)} should centralise this
+pattern so future test additions cannot regress (B5). Task \#116 tracks
+this repair.
+\end{proposition}
+
+\subsection{Summary: Task \#104 current status classification}
+
+\begin{proposition}[Task \#104 four-state classification]
+\label{prop:math68-task104-status}
+As of 2026-04-22, after the three uploads and the first live pytest,
+\begin{equation}
+\label{eq:math68-task104-status}
+\boxed{\;
+\begin{aligned}
+\text{Path-X selection:}                       &\quad \text{CLOSED} \\
+\text{partial live integration:}                &\quad \text{ACHIEVED} \\
+\text{executable closure of Task \#104:}        &\quad \text{OPEN} \\
+\text{verification-suite pass (U1--U4/R1--R2):} &\quad \text{OPEN}
+\end{aligned}
+\;}
+\end{equation}
+Closure of Task \#104 requires sequential resolution of blockers
+(B1)--(B5) per Propositions
+\ref{prop:math68-B1-fix}--\ref{prop:math68-B5-fix}.
+\end{proposition}
+
+\begin{remark}[Why ``partial live integration'' is the correct label]
+\label{rem:math68-partial-integration}
+The \texttt{continuation\_mu2\_v25.py} v2.6.0 body does call
+\texttt{newton\_solve(..., use\_symmetrised\_cII=True)} in Phase D,
+which is a genuine advance over the v2.5 PLACEHOLDER behaviour
+(previous CHANGELOG entry for v2.5.3 documented the placeholder print
+path). The call site is present and linked; the defect is in the
+interface and the adjoint implementation downstream of the call. Hence
+\emph{``partial live integration''} is the honest classification, as
+opposed to either \emph{``still skeleton''} (too pessimistic) or
+\emph{``landed executable''} (too optimistic).
+\end{remark}
+
+% ============================================================
+\section{Immediate-fix queue and hand-off}
+\label{sec:math68-fix-queue}
+
+The immediate-fix queue is
+\begin{equation}
+\label{eq:math68-fix-queue}
+\boxed{\;
+\begin{aligned}
+\text{Task \#112:} &\quad \text{unify solver-name API between continuation and Newton layers (B1)} \\
+\text{Task \#113:} &\quad \text{implement graph-connected or explicit adjoint JVP (B2)} \\
+\text{Task \#114:} &\quad \text{replace dummy cII mask by real channel-projector block selector (B3)} \\
+\text{Task \#115:} &\quad \text{add continuation-layer routing contract test + upgrade existing tests (B4)} \\
+\text{Task \#116:} &\quad \text{patch test-config dicts with }L_{x,y,z}\text{ isotropic fallback + conftest helper (B5)} \\
+\text{Task \#104:} &\quad \text{close only after (B1)--(B5) resolved AND U1--U4, R1--R2 pass} \\
+\end{aligned}
+\;}
+\end{equation}
+Recommended execution order: (B5) → (B1) → (B3) → (B2) → (B4), because
+(B5) is a one-line per-test fix that unblocks further test runs, (B1)
+is a small solver-name mapping, (B3) and (B2) are Path-X core
+implementation items with (B3) the simpler, and (B4) is the
+verification upgrade that then certifies the chain.
+
+\begin{remark}[Non-regression of Math65/Math66 theoretical content]
+\label{rem:math68-non-regression}
+None of (B1)--(B5) affect the correctness of Math65 v0.1.3
+Prop.~\texttt{math65-class-insufficient}, Math66 v0.1 operator spec,
+or the Math64 §2A.3 solver-routing Corollary. The Math68 audit is
+purely at the implementation layer: the theory is sound, and the
+integration requires polishing before the verification suite can
+certify executability.
+\end{remark}
+
+% ============================================================
+\section{Conclusion and hand-off}
+
+This audit freezes three decisions:
+\begin{enumerate}
+\item Eq.~\eqref{eq:math68-priority-chain} re-orders the TECT
+critical-path priority after the Math64/65/66 chain, demoting
+cII-variational-parent search to a separate research track.
+\item Cor.~\ref{cor:math68-math66-label} corrects the Math66 v0.1
+status label from \emph{``THEOREM, complete''} to \emph{``operational
+theorem / impl spec''} with the four-status classification
+\eqref{eq:math68-math66-four-status}.
+\item Prop.~\ref{prop:math68-task104-status} classifies Task \#104 as
+\emph{``partial live integration, executable closure open''} with the
+five-blocker fix queue \eqref{eq:math68-fix-queue} opened.
+\end{enumerate}
+
+The immediate next action is \emph{not} further cII theoretical work;
+it is execution of the fix queue \eqref{eq:math68-fix-queue} in the
+recommended order, followed by the Math66 §8 U1--U4/R1--R2 verification
+battery, followed by the Pillar~1 / Phase~4 continuum closure per
+priority \#3 of \eqref{eq:math68-priority-chain}.
+
+\end{document}

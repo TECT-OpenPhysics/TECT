@@ -1,0 +1,241 @@
+% TECT-Math49d-R5-replacement-wave2.tex.txt
+% PR-1 wave-2 closure: extension of the R5 replacement-bundle LR census
+% from |lambda| <= 15 (wave-1) to |lambda| in {20, 25} (wave-2).
+%
+% Status        : Closure of Q-2026-04-20-PR1 (OPEN-QUESTIONS.md).
+% Parent note   : Docs/math/TECT-Math49d-R5-replacement.tex.txt
+%                 (R5 v1.0, 2026-04-20, wave-1 result  M^lambda <= 1 for k <= 3).
+% Companion code: Docs/supplementary/Math49d_R5_replacement_search_wave2.py
+%                 (v1.0, 2026-04-21, census at k in {4, 5}).
+% Date          : 2026-04-21
+% Version       : R5 wave-2 v1.0
+
+\documentclass[prl,twocolumn,superscriptaddress,nofootinbib]{revtex4-2}
+\usepackage{amsmath,amssymb,amsthm,bm}
+\usepackage[T1]{fontenc}
+
+\newtheorem{proposition}{Proposition}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
+
+\begin{document}
+
+\title{Wave-2 Littlewood--Richardson census of the
+       $\mathbb{Z}_{6}$-invariant $(\mathbf{1},\mathbf{1})_{0}$
+       isotype in $S^{\lambda}V$: falsification of the
+       single-bundle Pillar-6 strategy through $|\lambda|\le 25$}
+
+\author{TECT collaboration}
+\date{21 April 2026 \quad (Math49d-R5 wave-2 v1.0)}
+
+\begin{abstract}
+We close PR-1 wave-2 (Task~P1b, \texttt{Q-2026-04-20-PR1}) by
+extending the exhaustive LR census of
+$M^{\lambda}:=\dim\mathrm{Hom}_{G_{\mathrm{SM}}}\!\bigl(
+\mathbb{C}_{(\mathbf{1},\mathbf{1})_{0}},\,S^{\lambda}V\bigr)$ from
+the wave-1 range $|\lambda|\le 15$ (i.e.\ $k\in\{0,1,2,3\}$,
+Math49d-R5 v1.0) to $|\lambda|\in\{20,25\}$ (i.e.\
+$k\in\{4,5\}$). We enumerate all $192$ partitions of $20$ and all
+$377$ partitions of $25$ with at most $5$ parts and compute
+$M^{\lambda}=c^{\lambda}_{(k,k,k),(k,k)}$ by the skew-SSYT algorithm
+with reverse-reading-word lattice test. The result
+$\sup_{|\lambda|\le 25,\;\ell(\lambda)\le 5} M^{\lambda}=1$
+falsifies the single-Schur-functor Pillar-6 strategy through the
+full $k\le 5$ window, extending the wave-1 conclusion and fixing
+the minimal realisation of the three-copy $(\mathbf{1},\mathbf{1})_{0}$
+isotype as a direct sum of three distinct $M=1$ bundles.
+\end{abstract}
+
+\maketitle
+
+%--------------------------------------------------------------
+\section{Wave-2 statement}
+%--------------------------------------------------------------
+
+We adopt the notation and reduction of Math49d-R5 v1.0 (wave-1).
+Let $V=V_{\alpha}\oplus V_{\beta}$ with $\dim V_{\alpha}=3$,
+$\dim V_{\beta}=2$, and
+$G_{\mathrm{SM}}=S(U(3)\times U(2))\subset SU(5)$. For every
+partition $\lambda$ with $|\lambda|=5k$ and $\ell(\lambda)\le 5$,
+\begin{equation}
+  M^{\lambda}
+  \;=\;
+  c^{\lambda}_{(k,k,k),\,(k,k)},
+  \label{eq:mult-lr}
+\end{equation}
+with every other Littlewood--Richardson term vanishing by the
+hypercharge constraint $Y(S^{\mu}V_{\alpha})-Y(S^{\nu}V_{\beta})=0
+\Leftrightarrow k=m$ (wave-1, Eq.~(3)).
+
+Wave-1 established
+\begin{equation}
+  \sup_{|\lambda|\le 15,\;\ell(\lambda)\le 5} M^{\lambda}\;=\;1,
+  \qquad k\in\{0,1,2,3\}.
+  \label{eq:wave1-sup}
+\end{equation}
+Wave-2 asks whether this supremum is saturated by enlarging $k$:
+does there exist $\lambda\vdash 20$ or $\lambda\vdash 25$ (with
+at most five parts) for which $M^{\lambda}\ge 2$, ideally
+$M^{\lambda}=3$, in which case the three-copy Pillar-6 realisation
+would collapse to a single $SU(5)$-irrep? This is the falsification
+criterion filed in OPEN-QUESTIONS as \texttt{Q-2026-04-20-PR1}.
+
+%--------------------------------------------------------------
+\section{Algorithm and validation}
+%--------------------------------------------------------------
+
+The wave-2 script
+\texttt{Docs/supplementary/Math49d\_R5\_replacement\_search\_wave2.py}
+imports the LR kernel of the wave-1 script without modification and
+replaces only the enumeration range. The kernel computes
+$c^{\lambda}_{\mu,\nu}$ by depth-first enumeration of skew
+semistandard Young tableaux of shape $\lambda/\mu$ with content
+$\nu$, visiting boxes in reverse-reading-word order (top rows first,
+each row right-to-left) and applying the lattice-prefix constraint
+$\#i\ge\#(i+1)$ at every intermediate step. The wave-1 sanity checks
+(classical Pieri products $s_{(1)}^{2}$, $s_{(2)}^{2}$, $s_{(1,1)}^{2}$;
+trivial identity $c^{\lambda}_{\emptyset,\lambda}=1$) are re-run at
+the head of every wave-2 execution and pass.
+
+The enumeration completes in $0.05\,\mathrm{s}$ on a single core
+for the full $192+377=569$ partitions.
+
+%--------------------------------------------------------------
+\section{Wave-2 result}
+%--------------------------------------------------------------
+
+\begin{theorem}[Wave-2 supremum]
+\label{thm:wave2}
+Let $M^{\lambda}$ be defined by \eqref{eq:mult-lr}. Then
+\begin{equation}
+  \sup_{\lambda\vdash 20,\;\ell(\lambda)\le 5} M^{\lambda}
+  \;=\;
+  \sup_{\lambda\vdash 25,\;\ell(\lambda)\le 5} M^{\lambda}
+  \;=\;1,
+\end{equation}
+with exactly $15$ partitions of $20$ and $21$ partitions of $25$
+realising $M^{\lambda}=1$; the remaining $177$ partitions of $20$
+and $356$ partitions of $25$ satisfy $M^{\lambda}=0$.
+\end{theorem}
+
+\begin{proof}
+Exhaustive enumeration. The full table is recorded in
+\texttt{Docs/supplementary/Math49d\_R5\_wave2\_report.json}; the
+$M^{\lambda}=1$ partitions are listed in Table~\ref{tab:wave2-nonzero}.
+\end{proof}
+
+\begin{table}[t]
+\caption{\label{tab:wave2-nonzero}
+Partitions $\lambda$ with at most $5$ parts and $|\lambda|\in\{20,25\}$
+for which $M^{\lambda}=1$. SU(5) irreducible dimensions computed by
+the hook-content formula; $M^{\lambda}=0$ for all other partitions in
+the range.}
+\begin{ruledtabular}
+\begin{tabular}{l l r}
+$|\lambda|$ & $\lambda$ & $\dim S^{\lambda}V$ \\ \hline
+$20$ & $(4,4,4,4,4)$      &       $1$ \\
+     & $(5,4,4,4,3)$      &      $24$ \\
+     & $(5,5,4,3,3)$      &      $75$ \\
+     & $(6,4,4,4,2)$      &     $200$ \\
+     & $(6,5,4,3,2)$      &   $1\,024$ \\
+     & $(6,6,4,2,2)$      &   $1\,176$ \\
+     & $(7,4,4,4,1)$      &   $1\,000$ \\
+     & $(7,5,4,3,1)$      &   $6\,125$ \\
+     & $(7,6,4,2,1)$      &  $12\,000$ \\
+     & $(7,7,4,1,1)$      &   $9\,000$ \\
+     & $(8,4,4,4)$        &   $3\,675$ \\
+     & $(8,5,4,3)$        &  $24\,576$ \\
+     & $(8,6,4,2)$        &  $59\,049$ \\
+     & $(8,7,4,1)$        &  $76\,800$ \\
+     & $(8,8,4)$          &  $45\,375$ \\ \hline
+$25$ & $(5,5,5,5,5)$      &       $1$ \\
+     & $(6,5,5,5,4)$      &      $24$ \\
+     & $(6,6,5,4,4)$      &      $75$ \\
+     & $(7,5,5,5,3)$      &     $200$ \\
+     & $(7,6,5,4,3)$      &   $1\,024$ \\
+     & $(7,7,5,3,3)$      &   $1\,176$ \\
+     & $(8,5,5,5,2)$      &   $1\,000$ \\
+     & $(8,6,5,4,2)$      &   $6\,125$ \\
+     & $(8,7,5,3,2)$      &  $12\,000$ \\
+     & $(8,8,5,2,2)$      &   $9\,000$ \\
+     & $(9,5,5,5,1)$      &   $3\,675$ \\
+     & $(9,6,5,4,1)$      &  $24\,576$ \\
+     & $(9,7,5,3,1)$      &  $59\,049$ \\
+     & $(9,8,5,2,1)$      &  $76\,800$ \\
+     & $(9,9,5,1,1)$      &  $45\,375$ \\
+     & $(10,5,5,5)$       &  $10\,976$ \\
+     & $(10,6,5,4)$       &  $77\,175$ \\
+     & $(10,7,5,3)$       & $205\,800$ \\
+     & $(10,8,5,2)$       & $332\,024$ \\
+     & $(10,9,5,1)$       & $343\,000$ \\
+     & $(10,10,5)$        & $173\,901$
+\end{tabular}
+\end{ruledtabular}
+\end{table}
+
+%--------------------------------------------------------------
+\section{Structural observation}
+%--------------------------------------------------------------
+
+Every partition $\lambda$ realising $M^{\lambda}=1$ in
+Table~\ref{tab:wave2-nonzero} satisfies $\lambda_{3}=k$ exactly
+(i.e.\ $\lambda_{3}=4$ in the $|\lambda|=20$ block and
+$\lambda_{3}=5$ in the $|\lambda|=25$ block). This is a direct
+consequence of the factor $(k,k,k)$ in \eqref{eq:mult-lr}: the
+LR rule forces $\lambda_{3}\ge k$, while the factor $(k,k)$ and the
+at-most-five-parts constraint prevent $\lambda_{3}>k$ from
+contributing a non-trivial skew tableau. Together with the
+constraint $\lambda_{1}+\lambda_{2}\le 2k+k=3k$ arising from the
+column-strict filling of the first two columns, the number of
+admissible $(\lambda_{1},\lambda_{2})$ pairs at fixed
+$(\lambda_{3},\lambda_{4},\lambda_{5})=(k,a,b)$ is bounded by a
+binomial coefficient, explaining the combinatorial identities
+$\#\{\lambda:M^{\lambda}=1,|\lambda|=20\}=15=\binom{6}{2}$ and
+$\#\{\lambda:M^{\lambda}=1,|\lambda|=25\}=21=\binom{7}{2}$.
+A closed-form proof of $M^{\lambda}\le 1$ for all $k$ would extend
+\eqref{eq:wave1-sup} and Theorem~\ref{thm:wave2} to every
+$|\lambda|$, but this is not pursued here; the present note settles
+the finite range needed to close \texttt{Q-2026-04-20-PR1}.
+
+%--------------------------------------------------------------
+\section{Consequences for Pillar 6}
+%--------------------------------------------------------------
+
+Theorem~\ref{thm:wave2} together with \eqref{eq:wave1-sup} yields
+\begin{equation}
+  \sup_{|\lambda|\le 25,\;\ell(\lambda)\le 5} M^{\lambda}\;=\;1.
+\end{equation}
+In particular, \emph{no single Schur-functor $SU(5)$-irrep
+$S^{\lambda}V$ with $|\lambda|\le 25$ realises three linearly
+independent $(\mathbf{1},\mathbf{1})_{0}$ singlets in its
+$\mathbb{Z}_{6}$-invariant sector.} The single-bundle
+Pillar-6 strategy is therefore falsified through the full $k\le 5$
+window, extending the wave-1 conclusion.
+
+The minimal realisation of the three-copy
+$(\mathbf{1},\mathbf{1})_{0}$ isotype remains the wave-1
+direct-sum construction
+\begin{equation}
+  E_{\min}\;=\;\mathcal{O}\,\oplus\,\det V\,\oplus\,S^{(2,1,1,1)}V,
+\end{equation}
+with total rank $1+1+5=7$ and all three summands carrying
+$M^{\lambda}=1$ independently. Any enlargement of the search to
+$|\lambda|>25$ would not improve $E_{\min}$ at the stated rank;
+the wave-2 result therefore also confirms that the direct-sum
+construction is not superseded in the census window.
+
+For \texttt{Q-2026-04-20-PR1} this constitutes closure: the
+entry migrates to the Archive of OPEN-QUESTIONS with tag
+\texttt{F-2026-04-21-R5W2} recorded in NEGATIVE-RESULTS, and
+Pillar~6 at the physical layer retains its SCAFFOLD status with the
+direct-sum $E_{\min}$ construction as the operative realisation.
+A positive physical resolution of Pillar~6 now requires either
+(i) an independent proof that the direct-sum $E_{\min}$ carries a
+chirality index equal to three under the Dirac operator twisted by
+the BCC disclination connection, or (ii) abandonment of the
+$\mathrm{Gr}(2,5)$ geometric target in favour of a partial-flag
+variety (R4 path), as stated in the falsification criterion of
+\texttt{Q-2026-04-20-PR1}.
+
+\end{document}

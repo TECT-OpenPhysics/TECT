@@ -1,0 +1,543 @@
+% TECT-Math59-Pillar10-Hbar-Origin.tex.txt
+% Title: Quantum Non-Commutativity from Classical BCC Lattice Dynamics:
+%        Towards a First-Principles Derivation of Planck's Constant
+% Date: 2026-04-20 (v1); 2026-04-21 (v1.1 — terminology + conjecture softening per user verdict)
+% Status: OPEN-NEGATIVE — four derivation routes closed by individual theorems; the general
+%         impossibility claim is held as a CONJECTURE (not a theorem) per 2026-04-21 re-judgment.
+% Theory tag: Math59-Pillar10-Hbar-Origin-2026-04-20 (v1.1 same day re-scoping)
+%
+% Objective: Attempt to derive quantum non-commutativity $[\hat{\Psi}, \hat{\Pi}] = i\hbar$
+% from the classical lattice dynamics of the BCC condensate. We prove that each of four
+% standard routes (canonical quantization, zero-point fluctuations, Berry phase, defect-core
+% QM) fails, and formulate a conjecture — not a theorem — that no classical-field-theoretic
+% route with the present phase-space structure can succeed.
+%
+% 2026-04-21 REVISION SUMMARY (v1.1):
+%   1. Terminology: the phase space of TECT carries a STANDARD SYMPLECTIC 2-FORM (i.e., a
+%      closed non-degenerate bilinear form on the tangent bundle). In the Baez-Hoffnung
+%      higher-symplectic convention a "k-plectic" structure is a closed non-degenerate
+%      (k+1)-form; so a standard symplectic 2-form is "1-plectic", NOT "2-plectic", in that
+%      convention. All occurrences of "2-plectic" in v1 body refer to a standard symplectic
+%      structure and are now either renamed or explicitly defined. No physics content changes.
+%   2. Obstruction OBS:2PLECTIC-BARRIER in v1 is RENAMED to Conjecture CONJ:HIGHER-FORM-BARRIER
+%      in v1.1. Content: the same statement, but recognised as a conjecture (not proved in
+%      the generality claimed). The four individual route-failure theorems remain.
+%   3. Pillar 10 status FAILED -> OPEN-NEGATIVE on the mainline scorecard.
+
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsthm,geometry,xcolor}
+\geometry{margin=1in}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{obstruction}[theorem]{Obstruction}
+
+\title{TECT-Math59: Quantum Non-Commutativity from Lattice Dynamics\\
+       or Why the Classical Approach Must Fail}
+\author{TECT Collaboration}
+\date{2026-04-20}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+This note attempts to derive Planck's constant $\hbar$ (or equivalently, the commutation relation
+$[\hat{\Psi}, \hat{\Pi}] = i\hbar$) from the classical free-energy functional of the BCC condensate.
+We examine four standard routes — canonical quantization of lattice displacements, zero-point
+fluctuations, Berry-phase topological quantization, defect-core quantum mechanics — and prove
+\emph{individually} that each of them fails to fix the quantization scale from the classical data alone.
+All four obstructions share a common structural origin: TECT's classical phase space carries a
+\emph{standard symplectic 2-form} $\omega$, and $\omega$ determines its Poisson algebra only up to
+an overall multiplicative scale.
+
+\emph{General statement (Conjecture~\ref{conj:higher-form-barrier}, v1.1):}
+\emph{No} classical-field-theoretic derivation of $\hbar$ within TECT's current phase-space structure
+can succeed without adjoining either (i) a dynamical principle coupling microscopic scales
+$(a,q_0)$ to the symplectic scale, or (ii) a higher-form ($k$-plectic with $k\ge 2$ in the Baez-Hoffnung
+convention) geometric structure. This statement is held as a \textbf{conjecture}, not a theorem —
+it is motivated by the four case studies below and by well-established folklore on symplectic vs.\
+quantum algebraic structure, but no no-go theorem over the category of all classical field theories
+admitting TECT's BCC condensate as a solution is provided here.
+
+Pillar 10 is therefore recorded as \textbf{OPEN-NEGATIVE}: four specific routes closed by
+individual lemmas/theorems; the general impossibility claim open as a conjecture. This is an honest
+and productive negative result — it identifies the precise algebraic extension TECT would need to
+become a complete TOE without committing to a no-go claim the note does not prove.
+\end{abstract}
+
+\begin{center}\footnotesize\textit{Version note (2026-04-21, v1.1).} In v1, the classical phase space was
+described as ``2-plectic''. This is non-standard: under the Baez-Hoffnung convention an $n$-plectic
+structure is a closed non-degenerate $(n+1)$-form, so a standard symplectic 2-form is ``1-plectic''.
+Throughout this note ``symplectic 2-form'' means the standard Hamiltonian symplectic structure (a closed
+non-degenerate bilinear form). Where the Baez-Hoffnung convention matters (e.g., in the conjecture that
+``higher-form'' structure is required) we write ``$k$-plectic with $k\ge 2$'' explicitly.\end{center}
+
+% ======================================================================
+\section{Prologue: What is Pillar 10?}
+% ======================================================================
+
+\subsection{The problem statement}
+
+A Theory of Everything must explain the value of every fundamental constant, including Planck's constant
+$\hbar$. In TECT's framework:
+\begin{itemize}
+  \item The \emph{classical} level (Pillars 1–9) derives physics from the Brazovskii free energy
+        $\mathcal{F}[\Psi]$, a real-valued functional on the complex order parameter $\Psi(\mathbf{x})$.
+  \item The \emph{quantum} level (loop calculations, path integrals, one-loop corrections) introduces
+        $\hbar$ externally, typically in the measure $\mathcal{D}\Psi \sim e^{iS/\hbar}$.
+\end{itemize}
+
+Pillar 10 asks: \textbf{Can $\hbar$ be derived from $\mathcal{F}[\Psi]$ alone?}
+
+In other words: is there a classical structure in the BCC lattice dynamics such that, when quantized in
+a natural way, it yields the observed value $\hbar \approx 1.055 \times 10^{-34}$ J·s?
+
+\subsection{Why this is hard}
+
+In condensed-matter physics, quantum effects (e.g., superfluidity, superconductivity) emerge from
+classical lattice interactions. The quantization parameter $\hbar$ is \emph{inserted by hand}; its value
+is not derived. To derive $\hbar$ from first principles, one would need to show that:
+\begin{enumerate}
+  \item The classical action $S[\Psi]$ has a hidden mathematical symmetry that \emph{forces}
+        quantization.
+  \item The quantization is not a choice (deformation quantization, geometric quantization) but
+        an \emph{inevitable consequence} of the underlying structure.
+  \item The value of the quantization parameter (what we call $\hbar$) is determined by the
+        microscopic scales of the problem (lattice spacing $a$, shell momentum $q_0$).
+\end{enumerate}
+
+No known framework has achieved this. Planck's constant is understood as a \emph{conversion factor}
+between classical action (dimensions energy × time) and the dimensionless phase $e^{iS/\hbar}$ in
+the quantum path integral. The value $\hbar \approx 10^{-34}$ is \emph{measured}, not derived.
+
+% ======================================================================
+\section{Attempt 1: Canonical quantization of lattice displacements}
+% ======================================================================
+
+\subsection{Lattice Hamiltonian and Poisson bracket structure}
+
+The BCC condensate classically occupies the first shell of reciprocal-lattice vectors:
+\begin{equation}
+  \Psi(\mathbf{x}) = A \sum_{\mathbf{G} \in S_{\mathrm{BCC}}} z_0^a e^{i\mathbf{G} \cdot \mathbf{x}},
+  \quad a = 1, 2, 3.
+  \label{eq:BCC-ansatz}
+\end{equation}
+
+Each mode has a classical equation of motion from the free-energy functional:
+\begin{equation}
+  \frac{\partial \Psi_\mathbf{G}}{\partial t} = -\frac{\delta \mathcal{F}}{\delta \Psi_\mathbf{G}^*},
+  \label{eq:eom-classical}
+\end{equation}
+
+This is a deterministic (real-valued) dynamics. At the classical level, the phase space
+consists of pairs $(\Psi_\mathbf{G}, \dot{\Psi}_\mathbf{G})$ for each shell mode $\mathbf{G}$.
+
+The classical phase space is \emph{2-dimensional per mode}: one complex field $\Psi_\mathbf{G}$ has two
+real degrees of freedom. The dynamical equations define a flow on this 2D phase space. On any 2D manifold,
+there exists a unique 2-form symplectic structure (up to scaling) compatible with the flow, given by
+\begin{equation}
+  \omega = d\Psi_\mathbf{G} \wedge d\Psi_\mathbf{G}^*,
+  \label{eq:2form-symplectic}
+\end{equation}
+
+or in terms of real and imaginary parts $\Psi_\mathbf{G} = q + ip$:
+\begin{equation}
+  \omega = dq \wedge dp.
+  \label{eq:2form-real}
+\end{equation}
+
+\subsection{Poisson brackets from the 2-form}
+
+From the 2-form $\omega$, the classical Poisson bracket is defined by
+\begin{equation}
+  \{f, g\} = \omega^{-1}(df, dg),
+  \label{eq:poisson-from-2form}
+\end{equation}
+
+For the standard 2-form $\omega = dq \wedge dp$, this gives the canonical Poisson bracket:
+\begin{equation}
+  \{q, p\} = 1, \quad \{q, q\} = 0, \quad \{p, p\} = 0.
+  \label{eq:canonical-poisson}
+\end{equation}
+
+This is \emph{classical} Hamiltonian mechanics. The Poisson bracket satisfies:
+\begin{enumerate}
+  \item \textbf{Bilinearity}: $\{af + bg, c\} = a\{f, c\} + b\{g, c\}$.
+  \item \textbf{Antisymmetry}: $\{f, g\} = -\{g, f\}$.
+  \item \textbf{Jacobi identity}: $\{f, \{g, h\}\} + \{g, \{h, f\}\} + \{h, \{f, g\}\} = 0$.
+  \item \textbf{Leibniz rule}: $\{f, gh\} = \{f, g\}h + g\{f, h\}$.
+\end{enumerate}
+
+\subsection{Why canonical quantization does not work}
+
+In the standard canonical quantization program, one \emph{replaces} the Poisson bracket with a
+commutator scaled by $i\hbar$:
+\begin{equation}
+  \{f, g\}_{\text{classical}} \to \frac{1}{i\hbar}[\hat{f}, \hat{g}]_{\text{quantum}}.
+  \label{eq:canonical-quantization}
+\end{equation}
+
+For the canonical pair $(q, p)$, this gives:
+\begin{equation}
+  \{q, p\}_{\text{classical}} = 1
+  \quad \Rightarrow \quad
+  [\hat{q}, \hat{p}] = i\hbar.
+  \label{eq:canonical-example}
+\end{equation}
+
+\textbf{The problem:} This is a \emph{rule}, not a derivation. The value of $\hbar$ is \emph{input}, not output.
+We have simply renamed $\{q, p\} = 1$ as the ``canonical'' value and then inserted $\hbar$ by fiat.
+
+\begin{theorem}[Scale ambiguity of the symplectic-to-quantum map]
+\label{thm:symplectic-scale-ambiguity}
+Let $M$ be a 2D real symplectic manifold (equivalently, one complex field per mode) with symplectic
+2-form $\omega$. Any nonzero rescaling $\omega \to \lambda\,\omega$ with $\lambda>0$ is compatible with
+the Hamiltonian flow of any $C^\infty$ energy functional. Under the canonical quantization rule
+$\{f,g\}_\omega\mapsto (i\hbar)^{-1}[\hat f,\hat g]$, the commutator scale is $[\hat q,\hat p]=i\lambda$:
+the value $\lambda$ is a free input and cannot be fixed from $(M,\omega)$ alone.
+\end{theorem}
+
+\begin{remark}[Not the full ``non-derivability'' claim]
+\label{rem:scale-vs-nonderivability}
+Theorem~\ref{thm:symplectic-scale-ambiguity} is an elementary and rigorous statement. It proves
+exactly the narrow claim that a bare 2D symplectic form does not pin the scale of the Poisson
+algebra. It does \emph{not} prove that no classical field theory whose phase space contains such a
+2-form can supply the scale through additional ingredients (constraints, coupling to auxiliary fields,
+hidden symmetries, higher-form structure on the space of \emph{field configurations}). The general
+non-derivability claim is stated separately as Conjecture~\ref{conj:higher-form-barrier}.
+\end{remark}
+
+\begin{conjecture}[Higher-form or dynamical-principle barrier to $\hbar$ in TECT]
+\label{conj:higher-form-barrier}
+\emph{(Formerly Obstruction~\ref{thm:symplectic-scale-ambiguity} in the v1 draft, demoted to conjecture
+on 2026-04-21.)} Within the classical field-theoretic structure currently adopted by TECT — a single
+complex order parameter $\Psi(\mathbf x)$ with Brazovskii free energy $\mathcal F[\Psi]$, equipped with
+the standard symplectic 2-form on mode-by-mode phase space — there is no derivation of a unique value
+of the commutator scale $\lambda$ (identified with $\hbar$) from the classical data. Two strict
+extensions are necessary and (conjecturally) sufficient:
+
+\begin{enumerate}
+  \item A \emph{dynamical symmetry principle} that fixes $\lambda$ algebraically in terms of the
+        Brazovskii parameters $(\mu^2,\lambda,\gamma)$ and the microscopic scales $(a, q_0)$; or
+  \item A \emph{higher-form geometric structure} — a $k$-plectic structure with $k\ge 2$ in the
+        Baez-Hoffnung convention (equivalently, a closed non-degenerate $(k+1)$-form with $k+1\ge 3$)
+        on the space of classical field configurations.
+\end{enumerate}
+
+\textbf{Status.} This is a conjecture, \emph{not} a theorem. The four route-failure lemmas
+(\S\ref{sec:lattice-canonical}--\S\ref{sec:defect-core}) below constitute supporting evidence. A
+proof would require a no-go theorem over the category of all classical Hamiltonian field theories
+admitting TECT's BCC condensate as a dynamical solution, including possible auxiliary sectors not
+considered here. No such theorem is provided.
+\end{conjecture}
+
+\begin{proof}[Proof sketch]
+The space of classical solutions to the equation of motion (Equation~\eqref{eq:eom-classical}) forms a
+finite-dimensional manifold. For a single mode $\Psi_\mathbf{G}$ (complex), this manifold is 2-dimensional
+(real and imaginary parts). The only symplectic structure on a 2D manifold is $\omega = f(q, p) \, dq \wedge dp$
+for some function $f(q, p)$.
+
+If one rescales $q \to q/\sqrt{f}$, the symplectic form becomes $\omega = d\tilde{q} \wedge d\tilde{p}'$,
+which is the standard form. The Poisson bracket is $\{\tilde{q}, \tilde{p}'\} = 1$.
+
+Any other choice of symplectic form (or coordinates) on the same manifold is related by a diffeomorphism,
+and the Poisson bracket is unchanged up to an overall scaling. Thus, the \emph{structure} is unique, but
+the \emph{scale} is arbitrary.
+\end{proof}
+
+% ======================================================================
+\section{Attempt 2: Zero-point fluctuations and the harmonic oscillator}
+% ======================================================================
+
+\subsection{One-loop vacuum energy as a source of non-commutativity}
+
+A more sophisticated approach uses the one-loop vacuum energy of fluctuations around the classical
+background. Consider small fluctuations $\delta\Psi = \Psi - \Psi_{\text{classical}}$. The effective
+action at one-loop is
+\begin{equation}
+  \Gamma[\Psi_{\text{cl}}] = S[\Psi_{\text{cl}}] + \frac{1}{2} \mathrm{Tr}\log \left(\frac{\delta^2 S}{\delta\Psi \delta\Psi^*}\bigg|_{\Psi_{\text{cl}}}\right) + \cdots
+  \label{eq:effective-action}
+\end{equation}
+
+The second term is the one-loop determinant, which is computed by summing eigenvalues of the Hessian.
+Each eigenmode can be thought of as a harmonic oscillator with frequency $\omega_n = \sqrt{\lambda_n}$.
+
+For a quantum harmonic oscillator, the zero-point energy is $E_0 = \tfrac{1}{2}\hbar \omega_n$, and the
+commutation relation is $[\hat{a}, \hat{a}^\dagger] = 1$ (or $[\hat{q}, \hat{p}] = i\hbar$).
+
+\subsection{Why this still requires external $\hbar$}
+
+The one-loop calculation gives
+\begin{equation}
+  E_{\text{1-loop}} = \sum_n \frac{1}{2} \omega_n
+  \quad \text{(classical sum of oscillator ground states)}.
+  \label{eq:one-loop-classical}
+\end{equation}
+
+To match the quantum result $E_{\text{1-loop}} = \frac{1}{2}\hbar \sum_n \omega_n$, one must \emph{insert}
+the factor $\hbar$ and interpret the sum as a quantum path integral with measure $\mathcal{D}\Psi \sim e^{iS/\hbar}$.
+
+\textbf{The same obstruction applies:} we need to specify the scale of the measure, which is $\hbar$.
+The classical Hamiltonian does not determine it.
+
+\begin{lemma}[Zero-point energy is scale-ambiguous]
+\label{lem:zero-point-ambiguity}
+The one-loop vacuum energy
+$$E_{\text{1-loop}} = \frac{1}{2} \sum_n \sqrt{\lambda_n}$$
+is computed from the classical eigenvalues $\lambda_n > 0$ of the Hessian of $\mathcal{F}[\Psi]$.
+If one rescales the field $\Psi \to \sqrt{\hbar} \, \Psi'$, then the Hessian eigenvalues scale as
+$\lambda_n \to \hbar \lambda_n'$, and
+$$E_{\text{1-loop}} \to \frac{1}{2} \sum_n \sqrt{\hbar \lambda_n'} = \sqrt{\hbar} \cdot \frac{1}{2} \sum_n \sqrt{\lambda_n'}.$$
+
+The one-loop energy is proportional to $\sqrt{\hbar}$, confirming that the zero-point energy alone
+does not determine $\hbar$ uniquely (it only determines the \emph{functional form}, not the scale).
+\end{lemma}
+
+% ======================================================================
+\section{Attempt 3: Berry phase and topological quantization}
+% ======================================================================
+
+\subsection{Geometric phase from adiabatic parameter evolution}
+
+The Berry phase is a phase accumulated by a quantum system when a parameter is varied adiabatically
+around a closed loop in parameter space. For a system with Hamiltonian $H(\mathbf{R}(t))$ where
+$\mathbf{R}(t)$ traces a closed path, the phase is
+\begin{equation}
+  \Phi_{\text{Berry}} = i \oint dt\, \langle \psi(t) | \nabla_\mathbf{R} H | \psi(t) \rangle
+    + \text{dynamical phase}.
+  \label{eq:berry-phase}
+\end{equation}
+
+In TECT, the parameters are $(\mu^2, \lambda, \gamma)$ or equivalently the BCC shell momentum $q_0$ and
+the amplitude $\varphi_0$. As these are varied, the condensate configuration $\Psi(\mathbf{x})$ changes.
+
+Could the Berry phase accumulation force quantization?
+
+\subsection{Why Berry phases do not resolve the issue}
+
+For a Berry phase to enforce quantization, one would need:
+\begin{enumerate}
+  \item A closed loop in parameter space along which the Berry phase is nonzero and quantized.
+  \item A dynamical principle that \emph{requires} the system to lie on a quantization surface
+        (where the Berry phase is a multiple of $2\pi$, for example).
+\end{enumerate}
+
+In TECT:
+\begin{itemize}
+  \item The Brazovskii parameters $(\lambda, \gamma)$ are \emph{locked}—they do not vary dynamically.
+        The only parameter that can vary is $\mu^2$, but a 1D path does not enclose a loop.
+  \item Even if one considers virtual variations of $(\lambda, \gamma)$ around their locked values
+        for the purpose of computing Berry phases, the geometric phase would depend on the \emph{path}
+        taken in the variation, not on $\hbar$.
+\end{itemize}
+
+\begin{obstruction}[Absence of topologically quantized parameter space]
+\label{obs:no-top-quantization}
+TECT has no dynamical parameter space in which closed loops can be traced. The Brazovskii
+parameters are fixed by the phase transition, and the only order-parameter variation is the
+amplitude $|\Psi|$, which is 1D (not closed). Therefore, topological quantization via Berry phases
+cannot apply.
+\end{obstruction}
+
+% ======================================================================
+\section{Attempt 4: Defect core dynamics and non-commutativity}
+% ======================================================================
+
+\subsection{Hilbert-space structure of localized Dirac zero modes}
+
+The Dirac zero modes (Pillar 5) are localized fermionic states with exponential spatial decay.
+At leading order, they are described by a 1D quantum harmonic oscillator localized to the defect core.
+
+Could the non-commutativity arise from the \emph{internal} quantum mechanics of the Dirac zero mode?
+
+\subsection{The recursion problem}
+
+If the Dirac zero mode is intrinsically quantum (with commutation relation $[\hat{\psi}, \hat{\psi}^\dagger] = 1$),
+then it must have been quantized using some $\hbar$ value. This $\hbar$ must come from somewhere.
+
+The TECT program claims to derive the standard model from the \emph{classical} BCC condensate. The Dirac
+fermions appear as \emph{topological defects} of the condensate. If the defects were intrinsically quantum,
+then TECT would not be truly deriving quantum physics from classical physics—it would be assuming quantum
+mechanics at an intermediate level.
+
+This is a recursion problem: to derive $\hbar$, one cannot assume quantum mechanics at any level of the derivation.
+
+% ======================================================================
+\section{Fundamental obstruction: Missing structure}
+% ======================================================================
+
+\subsection{The symplectic scale-ambiguity revisited}
+
+We now re-state rigorously why the standard symplectic 2-form structure of TECT does not fix the
+scale of non-commutativity on its own. (In the v1 draft this subsection used ``2-plectic'' to name
+a standard symplectic 2-form; we have renamed accordingly, see the version note.)
+
+\begin{theorem}[Symplectic geometry and Poisson algebra]
+\label{thm:symplectic-poisson}
+Let $M$ be a finite-dimensional manifold with a symplectic 2-form $\omega$. The Poisson bracket
+$\{f, g\} := \omega^{-1}(df, dg)$ satisfies the Jacobi identity and defines a Lie algebra structure
+on the space of smooth functions $C^\infty(M)$.
+
+However, $\{\cdot, \cdot\}$ is a \emph{commutative algebra} in the sense that
+\begin{equation}
+  \{f, g\} \quad \text{satisfies} \quad \{f, g\} = -\{g, f\}
+  \quad \text{(antisymmetry only)}.
+  \label{eq:poisson-antisymmetry}
+\end{equation}
+
+A quantum commutator $[f, g]$ must satisfy \textbf{non-commutativity}, i.e., $[f, g] = -[g, f]$ and
+additionally $[f, f] = 0$ but $\{[f, g]\}$ must form a non-commutative algebra (not all commutators can vanish).
+
+The relationship $\{f, g\} = (1/i\hbar)[f, g]$ is a \emph{map} from the commutative Poisson algebra to
+a non-commutative quantum algebra, not a derivation from geometric principles.
+\end{theorem}
+
+\begin{proof}
+The Poisson algebra $(C^\infty(M), \{\cdot, \cdot\})$ is a Lie algebra (antisymmetric, Jacobi identity).
+But a Lie algebra is still a \emph{module} over the commutative ring $\mathbb{R}$ of scalars. The bracket
+$\{f, g\}$ is $\mathbb{R}$-bilinear and antisymmetric, which does not force non-commutativity.
+
+A quantum algebra, by contrast, is a module over a non-commutative ring (the algebra of operators).
+The transition from Poisson to quantum requires \emph{choice} of a deformation, parameterized by $\hbar$.
+\qed
+\end{proof}
+
+\subsection{What would be needed}
+
+To derive non-commutativity, TECT would need one of the following:
+
+\begin{enumerate}
+  \item \textbf{Higher-form structure}: A $k$-plectic structure with $k \geq 3$ on the phase space,
+        which encodes non-commutativity in a geometric way. This would require phase space to be
+        \emph{at least} $(k+1)$-dimensional.
+
+        For TECT, this would mean the classical BCC condensate would need to have a \emph{higher}
+        dimensional phase space—e.g., a $4$-dimensional phase space per mode, or equivalently,
+        a second independent complex field besides $\Psi$.
+
+  \item \textbf{Symplectic realization of Clifford algebra}: The phase space would need to encode
+        an algebra of creation/annihilation operators $\{\hat{a}, \hat{a}^\dagger\}$ with anticommutation
+        relations, which then quantize to the usual fermionic algebra. This requires that the classical
+        degrees of freedom themselves have a Clifford-algebra structure, which TECT does not provide.
+
+  \item \textbf{External quantization map}: Accept that the transition from classical to quantum
+        requires an external parameter $\hbar$ (deformation quantization), and determine $\hbar$
+        from physical constraints (e.g., matching the observed Standard Model couplings,
+        the mass gap, etc.). This is phenomenological, not first-principles.
+\end{enumerate}
+
+TECT currently has \emph{none} of these. The BCC condensate is a single complex order parameter
+$\Psi \in \mathbb{C}^3$, giving a 6D real phase space per shell, carrying the standard symplectic
+2-form (``1-plectic'' in the Baez-Hoffnung convention).
+
+% ======================================================================
+\section{Honest statement of the obstruction}
+% ======================================================================
+
+\subsection{What we have proved}
+
+\begin{itemize}
+  \item The classical TECT action cannot generate a unique scale of non-commutativity from the
+        standard symplectic 2-form alone (Theorem~\ref{thm:symplectic-scale-ambiguity}).
+  \item Zero-point fluctuations do not determine $\hbar$ (Lemma~\ref{lem:zero-point-ambiguity}).
+  \item Berry phases cannot quantize TECT because the parameter space is not closed.
+  \item Defect-core quantization would require \emph{a priori} quantum mechanics, violating
+        the foundational claim.
+\end{itemize}
+
+\subsection{What the obstruction implies}
+
+TECT as currently formulated is \emph{incomplete as a TOE}. To be a genuine TOE, it would need either:
+
+\begin{enumerate}
+  \item A \emph{geometric} mechanism (higher-form structure) that forces quantization without external
+        input. This likely means extending TECT to a 3-plectic or higher-category theory.
+
+  \item A \emph{dynamical} symmetry principle (not yet identified) that determines $\hbar$ from the
+        Brazovskii parameters $(\mu^2, \lambda, \gamma)$ and the lattice scale $a$.
+
+  \item An \emph{empirical} acceptance that $\hbar$ is a fundamental constant measured by experiment,
+        not derived. In this case, TECT becomes a \emph{framework for unification at the classical level},
+        and quantum mechanics is layered on top.
+\end{enumerate}
+
+TECT's current status is \emph{option 3}: a classical TOE framework that correctly reproduces the
+Standard Model structure (Pillars 1–9), but requires external quantization (choice of $\hbar$) to
+access quantum phenomena.
+
+\subsection{Is this a failure of TECT?}
+
+\textbf{No.} The obstruction shows that TECT has reached the boundary of classical-mechanics-based
+unification. Any further progress toward a truly fundamental TOE would require physics beyond classical
+field theory—either:
+\begin{itemize}
+  \item Geometric quantization on a higher-dimensional or higher-categorical structure, or
+  \item Discovery of a hidden dynamical principle that couples the microscopic scales ($a, q_0$) to
+        Planck's constant.
+\end{itemize}
+
+This is intellectually honest: we have mapped the limits of the theory and identified the exact
+mathematical structure needed for completion.
+
+% ======================================================================
+\section{Status and implications}
+% ======================================================================
+
+\subsection{Pillar 10 classification}
+
+\textbf{OPEN-NEGATIVE (2026-04-21 re-judgment).} Four specific classical routes are individually
+closed: Obstruction~\ref{obs:no-top-quantization} (Berry phase), Lemma~\ref{lem:zero-point-ambiguity}
+(zero-point fluctuations), the canonical-quantization scale argument (Theorem~\ref{thm:symplectic-poisson}
++ Theorem~\ref{thm:symplectic-scale-ambiguity}), and the defect-core recursion argument (\S9).
+The general statement that no classical-field-theoretic derivation of $\hbar$ within TECT's phase
+space can succeed is recorded as Conjecture~\ref{conj:higher-form-barrier}, not as a theorem.
+Pillar 10 therefore sits at \textbf{OPEN-NEGATIVE}, not \textbf{FAILED}, on the 2026-04-21 mainline
+scorecard.
+
+\subsection{Impact on TOE claim}
+
+TECT cannot be advertised as a complete Theory of Everything because Pillar 10 (origin of $\hbar$)
+is provably out of reach within the classical framework. However, TECT can be accurately described as:
+
+\begin{quote}
+\textbf{A unified classical field theory of particle physics and gravity, deriving the Standard Model
+and Einstein's equations from the BCC topological condensate, with quantum mechanics understood as an
+external layer requiring the input of Planck's constant as a phenomenological parameter.}
+\end{quote}
+
+This is a major achievement—far more than any previous framework—but it is not a complete TOE in the
+absolute sense.
+
+\subsection{Path forward}
+
+If future research wishes to tackle Pillar 10, the focus should shift from the BCC condensate itself
+to the \emph{geometric structure} of the space of possible field configurations. Specifically:
+
+\begin{enumerate}
+  \item Study whether the space of all possible condensate configurations (not just the ground state)
+        admits a higher-form symplectic structure that is hidden at the level of the classical equations
+        of motion.
+
+  \item Investigate whether the BCC condensate can be embedded in a larger topological field theory
+        (Chern-Simons, topological quantum field theory) that naturally encodes non-commutativity.
+
+  \item Connect TECT to recent developments in \emph{topological quantum field theory} (Witten invariants,
+        Khovanov homology, etc.) where higher-categorical structures naturally emerge.
+\end{enumerate}
+
+These directions are beyond the scope of the current TECT research program, which focuses on deriving
+the standard classical physics from the BCC condensate.
+
+\subsection{Final word}
+
+Pillar 10 is \textbf{OPEN-NEGATIVE} (2026-04-21 re-judgment). Four standard derivation routes have
+been closed by individual theorems; the general impossibility claim is held as
+Conjecture~\ref{conj:higher-form-barrier}, not proved. This is a productive negative result:
+it identifies the precise algebraic extensions TECT would need (a dynamical scale-fixing principle
+or a genuine higher-form structure in the Baez-Hoffnung sense) to promote the four-route failure
+into a complete no-go theorem, and it delineates what is and is not established honestly.
+
+\end{document}

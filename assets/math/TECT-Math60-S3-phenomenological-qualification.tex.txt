@@ -1,0 +1,915 @@
+% ============================================================
+% TECT-Math60-S3-phenomenological-qualification.tex.txt
+% Status:       Stage-3 Qualification Audit (self-review, non-theorem)
+% Version:      v1.0
+% Tag:          Math60-S3-Phenomenological-Qualification-2026-04-23
+% Filed:        2026-04-23
+% Preceded-by:  TECT-Math60-TOE-Global-Closure-Spec.tex.txt (Stage-3 definition)
+%               TECT-Math61-Falsifiability-Prereg.tex.txt (three predictions)
+%               TECT-Math60-A through Math60-D (Stage-2 sub-theorems)
+%               TOE-FACT-SHEET.md (Stage-1 pillar status)
+% Superseded-by: --
+% Purpose:      Self-audit of whether the current TECT framework (as of 2026-04-23)
+%               would pass a PRL-grade phenomenological-qualification review for
+%               Stage 3 of the TOE qualification hierarchy (Math60). This is NOT
+%               a new theorem, but a structured self-referee note against the three
+%               S3 sub-conditions: reproducibility, prediction, and falsification-
+%               window survival. The audit honestly evaluates the current state
+%               against the S3 criteria and records the gap list for future closure.
+% ============================================================
+
+\documentclass[prl,aps,twocolumn,showpacs,superscriptaddress,nofootinbib]{revtex4-1}
+\usepackage{amsmath,amssymb,amsthm,mathtools,mathrsfs}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{booktabs}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{hypothesis}[theorem]{Hypothesis}
+\newtheorem{observation}[theorem]{Observation}
+
+% Custom color for status markers
+\definecolor{met}{HTML}{228B22}      % Forest green
+\definecolor{partial}{HTML}{FF8C00}  % Dark orange
+\definecolor{missing}{HTML}{DC143C}  % Crimson red
+
+\newcommand{\statusmet}[1]{{\textcolor{met}{[MET]}}\;#1}
+\newcommand{\statuspartial}[1]{{\textcolor{partial}{[PARTIAL]}}\;#1}
+\newcommand{\statusmissing}[1]{{\textcolor{missing}{[MISSING]}}\;#1}
+
+\begin{document}
+
+\title{Stage-3 Phenomenological Qualification Audit for TECT\\
+PRL-grade self-referee assessment (Math60, non-theorem)}
+
+\author{TECT collaboration}
+\affiliation{Internal working note}
+\date{2026-04-23}
+
+\begin{abstract}
+This note is a rigorous self-audit of the Topological Energy Condensate Theory against the
+\textbf{Stage-3 phenomenological-qualification criteria} defined in Math60 (TOE Global Closure
+Specification, §3, 2026-04-21). Stage 3 is the external qualification step: it consists of
+three sub-conditions (reproducibility, pre-registered prediction match, falsification-window
+survival) that must all be satisfied for the framework to qualify as a Theory of Everything.
+
+The audit proceeds criterion-by-criterion against the three S3 sub-conditions, assigning each
+criterion a status of MET / PARTIAL / MISSING based on the framework's current state as of
+2026-04-23. A structured self-devil's-advocate pass verifies whether any ``MET'' claims are
+actually PARTIAL in disguise, whether predicted signatures are experimentally distinguishable
+from SM baselines, and whether the framework makes genuinely falsifiable predictions not
+already constrained by existing data.
+
+\textbf{Key findings}: The framework currently stands at approximately 0 of 3 S3 sub-conditions
+fully MET (reproducibility: no independent verification lodged; prediction: pre-registration
+complete but no experimental match yet; survival: falsification window not yet open long enough).
+Two critical barriers are identified: (i) the continuum limit of the mass gap has not been
+extracted (Task \#54, Math55 continuation pending), blocking dimensional calibration of all
+S3 predictions; (ii) no independent numerical reproduction of a Stage-1/2 certificate has been
+attempted outside the collaboration. A positive recommendation depends on clearing these barriers
+within the 12-month Stage-3 window.
+\end{abstract}
+
+\pacs{11.15.-q, 11.30.Cp, 04.60.-m}
+\maketitle
+
+% ============================================================
+\section{Context: Stage-3 qualification criteria per Math60}
+% ============================================================
+
+The Math60 specification (2026-04-21) defines Stage 3 as the external qualification layer
+sitting above Stage 1 (eleven-pillar internal closure) and Stage 2 (global consistency theorem).
+The three sub-conditions are:
+
+\begin{definition}[Stage-3 sub-conditions (Math60 §3)]
+\label{def:s3}
+\textbf{$S_3 := S_3^{(\mathrm{reproduce})} \wedge S_3^{(\mathrm{predict})} \wedge S_3^{(\mathrm{survive})}$.}
+
+\begin{enumerate}
+  \item \textbf{$S_3^{(\mathrm{reproduce})}$}: At least one independent reproduction of a
+    Stage-1 or Stage-2 numerical certificate is lodged. Examples: (a) an outside group
+    re-running the Math56 audit on the Hessian eigenvalue computation; (b) independent
+    numerical verification of the Math\_IR\_Bound-v4-thm-v4-2 interval certificate
+    at the same grid resolution and mpmath precision.
+
+  \item \textbf{$S_3^{(\mathrm{predict})}$}: At least one pre-registered prediction $\pi_j
+    \in \mathcal{P}$ (the Math61 three-prediction ledger) is matched by experiment at
+    its pre-registered precision.
+
+  \item \textbf{$S_3^{(\mathrm{survive})}$}: At least one prediction $\pi_k \in \mathcal{P}$
+    has had its experimental window open for at least one year without the theory being falsified
+    at the failure-band threshold.
+\end{enumerate}
+
+All three must be satisfied ($\wedge$ logic) for Stage 3 to pass.
+\end{definition}
+
+The present audit assesses the framework's status on 2026-04-23 (two days after Math60 was filed)
+against each of the three sub-conditions.
+
+% ============================================================
+\section{Self-audit: criterion-by-criterion assessment}
+% ============================================================
+
+\subsection{Criterion S3.1: Independent numerical reproduction}
+
+\subsubsection{Definition and scope}
+
+\textbf{Requirement}: At least one independent reproduction of a Stage-1 or Stage-2 numerical
+certificate must be lodged (archived, attributed to an outside party with no institutional
+overlap with the TECT core team).
+
+\textbf{Scope}: ``Numerical certificate'' means a rigorous computation that carries an explicit
+uncertainty interval or error bound, such as:
+\begin{itemize}
+  \item The Math56 audit: wavenumber-stratified Hessian decomposition and Grid-Invariance
+    Theorem verification on a certified BCC condensate.
+  \item The Math\_IR\_Bound-v4-thm-v4-2 interval certificate: mpmath.iv rigorous enclosure
+    of the 1-loop anisotropy coefficient $c_4(\epsilon)$ at a fixed grid resolution.
+  \item The Math57-v2 cubic-anisotropy interval: shell-concentrated propagator analysis with
+    interval-arithmetic $m^*$ bounds.
+  \item The Newton-Krylov v2.6.1 validation suite: projected-Lanczos eigenvalue extraction
+    on a converged BCC solution with residual-norm certification.
+\end{itemize}
+
+\subsubsection{Current status (as of 2026-04-23)}
+
+\statusmissing{No independent numerical verification has been lodged.}
+
+\textbf{Evidence}:
+\begin{itemize}
+  \item The TECT codebase (PDE/, tools/, Docs/supplementary/) has been developed entirely
+    within the collaboration. No outside group has run the Newton-Krylov solver, the BZ integrators,
+    or the interval-arithmetic certificates.
+  \item The Math56 audit is a self-contained Hessian decomposition theorem; it could in principle
+    be independently implemented. However, no reproduction attempt is recorded in the project
+    ledger or external communications as of 2026-04-23.
+  \item The Math\_IR\_Bound-v4 interval certificate is embedded in the tex with a script md5 hash
+    for bit-reproducibility. The log files are archived. But independent verification from a
+    non-TECT group is absent.
+\end{itemize}
+
+\textbf{Blocking factors}:
+\begin{enumerate}
+  \item \textbf{Codebase complexity and entry barrier}: The Newton-Krylov solver, the Phase-1--Phase-4
+    protocol, and the interval-arithmetic machinery all require substantial setup and validation
+    investment. No standalone documentation or tutorial is currently available to lower this barrier.
+  \item \textbf{Implicit dependency chain}: The numerical certificates depend on intermediate quantities
+    (e.g., the locked Brazovskii parameters, the $q_0$ value at continuation $\mu^2_{\mathrm{target}}=5\times 10^{-3}$)
+    that have themselves not been re-computed outside the collaboration.
+  \item \textbf{No prior advertising or invitation}: The collaboration has not yet issued a public
+    invitation for independent verification, nor has a standalone reproducibility package been
+    prepared for external groups.
+\end{enumerate}
+
+\subsubsection{Action items for closure}
+
+\begin{enumerate}
+  \item \textbf{Prepare a reproducibility package}: (a) Extract the minimal code needed to run the
+    Math56 wavenumber-stratified decomposition on a given BCC Hessian snapshot. (b) Include a
+    standalone python script with detailed comments. (c) Include the expected output for a reference
+    grid ($N=32$ or $N=64$) so that independent reproducers can verify bit-reproducibility.
+  \item \textbf{Advertise openly}: Post the reproducibility challenge on arXiv, the theory forum,
+    and directly invite 2--3 independent numerical-methods groups (e.g., a condensed-matter numerics
+    team, a lattice-QFT group).
+  \item \textbf{Timeline}: Aim for at least one independent verification within 6 months (by 2026-10-23).
+\end{enumerate}
+
+\subsubsection{Verdict}
+
+\textbf{Status: MISSING} — no independent reproduction lodged. Closure requires external-group
+involvement and is not internally controllable.
+
+---
+
+\subsection{Criterion S3.2: Experimental prediction match}
+
+\subsubsection{Definition and scope}
+
+\textbf{Requirement}: At least one of the three pre-registered predictions $\mathcal{P} = \{\pi_1, \pi_2, \pi_3\}$
+must be matched by experiment at its pre-registered precision.
+
+\textbf{Math61 prediction ledger}:
+\begin{enumerate}
+  \item $\pi_1$ (cubic anisotropy, Lorentz violation): $|\kappa^{(c)}| \in [1.5\times 10^{-4}, 5.5\times 10^{-4}]$
+    (central $3.5\times 10^{-4}$, failure band $> 10^{-3}$).
+  \item $\pi_2$ (equivalence-principle violation): $|\eta_{\mathrm{EP}}| \in [2\times 10^{-13}, 8\times 10^{-13}]$
+    (central $5\times 10^{-13}$, failure band $> 10^{-10}$).
+  \item $\pi_3$ (graviton normalisation): $Z_h \in [0.575, 0.875]$ (central $0.725$, failure band $Z_h < 0.2$ or $> 1.2$).
+\end{enumerate}
+
+\textbf{Definition of ``match''}: A prediction is matched if an experimental result (or upper/lower
+bound) falls within the theory's one-sigma interval $[\pi_{\mathrm{central}} - \sigma, \pi_{\mathrm{central}} + \sigma]$
+at 68\% confidence (or equivalently, the prediction interval is consistent with the experimental
+result at $\lesssim 1\sigma$ distance).
+
+\subsubsection{Current status (as of 2026-04-23)}
+
+\statusmissing{No prediction has yet been matched by experiment.}
+
+\textbf{Evidence and commentary for each prediction}:
+
+\paragraph{\textnormal{\textbf{$\pi_1$ (Lorentz violation $|\kappa^{(c)}|$)}}}
+
+Experimental status:
+\begin{itemize}
+  \item Current cavity-QED bounds (Müller et al., Herrmann et al.): $|\Delta c/c| \lesssim 10^{-17}$
+    (nearly 13 orders of magnitude tighter than the TECT one-sigma interval).
+  \item VLBI / pulsar-timing bounds: $\sim 10^{-12}$ to $10^{-15}$ depending on the harmonic.
+  \item Gamma-ray-burst bounds: $\sim 10^{-17}$ to $10^{-18}$ for high-energy anisotropy.
+\end{itemize}
+
+\textbf{Verdict}: \statusmissing{MISSING.} The TECT prediction $|\kappa^{(c)}| \sim 10^{-4}$ is
+\textbf{orders of magnitude weaker} than existing experimental constraints. The prediction is
+internally consistent (the one-loop anisotropy is suppressed by loop factors and the continuum
+limit is not yet fixed). However, under \textbf{current experimental bounds}, the prediction is
+\textbf{not falsifiable}; it is entirely consistent with zero anisotropy (i.e., the experimental
+upper bounds exclude the TECT interval). A ``match'' would require either (a) a completely
+unexpected jump in cavity-QED experimental precision, or (b) a reevaluation of the continuum-limit
+coefficient (if higher-loop corrections make the anisotropy larger). This does not constitute
+a meaningful phenomenological prediction at present.
+
+\paragraph{\textnormal{\textbf{$\pi_2$ (Equivalence-principle violation $|\eta_{\mathrm{EP}}|$)}}}
+
+Experimental status:
+\begin{itemize}
+  \item Ground-based Eötvös tests (Su et al. 2018): $|\eta_{\mathrm{EP}}| < 10^{-13}$.
+  \item MICROSCOPE spacecraft (Touboul et al. 2017): $|\eta_{\mathrm{EP}}| < 10^{-15}$ (space-based, tightest bound).
+  \item Ongoing tests: STEP, MICROSCOPE-2 (proposed), lunar laser ranging.
+\end{itemize}
+
+\textbf{Verdict}: \statusmissing{MISSING.} The TECT prediction $|\eta_{\mathrm{EP}}| \in [2\times 10^{-13}, 8\times 10^{-13}]$
+is \textbf{already excluded by the MICROSCOPE bound} $|\eta_{\mathrm{EP}}| < 10^{-15}$ at 95\%
+confidence. This is a \textbf{falsification event}: the one-sigma interval and central value
+both lie \textbf{above} the current experimental upper limit by a factor of 100--400.
+
+\textbf{Critical caveat}: The TECT prediction depends on the graviton mass $m_h$, which is
+\textbf{not yet derived} (Pillar 11, Math58/59 pending). The current envelope $|\eta_{\mathrm{EP}}| \in [2\times 10^{-13}, 8\times 10^{-13}]$
+assumes $m_h \sim m_{\mathrm{Pl}}$. If the actual TECT graviton mass is several orders of magnitude
+smaller (e.g., $m_h \sim 10^{15}$ GeV instead of $10^{19}$ GeV), the predicted EP violation would
+drop to $\sim 10^{-21}$, well below experimental sensitivity. Thus, the $\pi_2$ prediction is
+\textbf{conditional on Pillar 11 closure and the graviton-mass derivation}.
+
+In its current pre-registered form, $\pi_2$ is \textbf{falsified or highly constrained} depending
+on whether the graviton mass is derived to be Planck-scale or lower.
+
+\paragraph{\textnormal{\textbf{$\pi_3$ (Graviton normalisation $Z_h$)}}}
+
+Experimental status:
+\begin{itemize}
+  \item No direct single-graviton measurement possible (single gravitons are unobservable).
+  \item Indirect access through primordial gravitational-wave spectrum (CMB Planck constraints)
+    and LIGO/Virgo gravitational-wave astronomy.
+  \item CMB tensor-to-scalar ratio $r$ (Planck): $r < 0.056$ (95\% CL), corresponding to a
+    bound on the inflationary gravitational-wave amplitude. A connection to $Z_h$ would require
+    a precise inflationary model.
+  \item LIGO/Virgo GW observations: amplitude measurements depend on the effective graviton coupling,
+    which is degenerate with $Z_h$ at the precision of current observations ($\sim 5\%$).
+\end{itemize}
+
+\textbf{Verdict}: \statuspartial{PARTIAL.} The TECT prediction $Z_h \in [0.575, 0.875]$ cannot
+currently be matched because:
+\begin{enumerate}
+  \item The continuum-limit value of $Z_h$ \textbf{has not yet been measured} (Task \#54, Math55
+    continuation + Phase-2 projected Lanczos pending). The current envelope is an \textit{a priori}
+    theoretical range, not an extracted measurement.
+  \item Experimental access to $Z_h$ is indirect and model-dependent (it requires specifying an
+    inflationary scenario or making assumptions about high-energy physics).
+  \item However, the predicted interval $Z_h \in [0.575, 0.875]$ is not yet excluded by any
+    experiment. If the continuum-limit value is computed to be, say, $Z_h = 0.72$, it would
+    be consistent with the pre-registered interval.
+\end{enumerate}
+
+Thus, $\pi_3$ is \textbf{internally accessible} (measurement is technically possible) but
+\textbf{not yet matched} because the theory's value has not been extracted.
+
+\subsubsection{Blocking factors}
+
+\begin{enumerate}
+  \item \textbf{Continuum limit not yet extracted} (Task \#54): Until the mass gap $m^*(\text{continuum})$
+    and $Z_h(\text{continuum})$ are measured, the dimensional calibration of all three predictions
+    is incomplete. The $\pi_3$ prediction in particular requires the continuum extrapolation.
+
+  \item \textbf{Graviton mass $m_h$ not yet derived} (Pillar 11, Math58/59 pending): The $\pi_2$
+    prediction is hostage to this derivation. Until $m_h$ is fixed, the EP-violation bound floats
+    over a huge range ($10^{-21}$ to $10^{-10}$).
+
+  \item \textbf{Experimental precision mismatches}: Predictions $\pi_1$ and $\pi_2$ target precision
+    windows ($10^{-4}$ and $10^{-13}$, respectively) that are either much weaker than current
+    experimental bounds or already falsified. A ``match'' would be a remarkable coincidence or
+    would require a radical re-evaluation of higher-loop contributions.
+\end{enumerate}
+
+\subsubsection{Action items for closure}
+
+\begin{enumerate}
+  \item \textbf{Extract Task \#54 (continuum limit)}:
+    \begin{itemize}
+      \item Complete Math55 continuation at $\mu^2_{\mathrm{target}}=5\times 10^{-3}$ with the Phase-0
+        guarded quotient (RMS$|\Psi|/\varphi_0 \geq 0.3$) on grids $N=32, 64, 128$.
+      \item Run Phase-2 projected Lanczos to extract $m^*_{\mathrm{continuum}}$ and $Z_h(\text{continuum})$.
+      \item Update the $\pi_3$ prediction with the measured value and propagated error.
+    \end{itemize}
+
+  \item \textbf{Derive the graviton mass (Pillar 11, Math58/59 closure)}:
+    \begin{itemize}
+      \item Establish the monopole-defect density in the emergent spin-2 sector.
+      \item Compute the vacuum-energy contributions and near-cancellation mechanism.
+      \item Extract $m_h$ (or equivalently, the cosmological-constant scale).
+      \item Sharpen the $\pi_2$ prediction by fixing $m_h$ relative to $m_{\mathrm{Pl}}$.
+    \end{itemize}
+
+  \item \textbf{Re-audit $\pi_1$ at higher loop order}:
+    \begin{itemize}
+      \item If continuum-limit higher-loop corrections make the anisotropy $\kappa^{(c)}$ significantly
+        larger (e.g., $10^{-3}$ to $10^{-2}$), the prediction becomes experimentally testable in
+        future precision-measurement campaigns.
+      \item If the anisotropy remains $\lesssim 10^{-5}$, the prediction is not falsifiable with
+        foreseeable experimental precision.
+    \end{itemize}
+\end{enumerate}
+
+\subsubsection{Verdict}
+
+\textbf{Status: MISSING.} None of the three predictions has been matched by experiment.
+
+For $\pi_1$ and $\pi_2$, the predictions are either orders of magnitude weaker than experimental
+sensitivity (not falsifiable) or already falsified depending on the value of $m_h$ (not internally
+fixed).
+
+For $\pi_3$, the predicted interval is internally consistent, but the continuum-limit value has
+not yet been extracted, so no comparison is possible.
+
+Closure requires Tasks \#54 (continuum limit) and Pillar 11 closure (graviton mass derivation),
+both of which are currently pending.
+
+---
+
+\subsection{Criterion S3.3: Falsification-window survival}
+
+\subsubsection{Definition and scope}
+
+\textbf{Requirement}: At least one of the pre-registered predictions $\pi_j \in \mathcal{P}$ must
+have had its experimental window open for at least one year without the theory being falsified
+at the failure-band threshold.
+
+\textbf{Interpretation}: A prediction's falsification window is ``open'' when experimental tests
+begin to constrain its value. The window ``survives'' if, over the course of one year, no
+experimental result crosses the failure-band threshold (the boundary beyond which the theory is
+ruled out at 95\% CL).
+
+\textbf{Example}: If $\pi_2$ has a failure band $|\eta_{\mathrm{EP}}| > 10^{-10}$ and MICROSCOPE
+reports a yearly null result at precision $10^{-15}$, the window has survived if MICROSCOPE's
+bound has not changed significantly from the 2017 result.
+
+\subsubsection{Current status (as of 2026-04-23)}
+
+\statusmissing{No prediction's falsification window has been open for a full year.}
+
+\textbf{Evidence}:
+
+\begin{itemize}
+  \item \textbf{Math61 seal date}: 2026-04-21 (pre-registration occurred 2 days before this audit).
+  \item \textbf{One-year window opens}: approximately 2027-04-21.
+  \item \textbf{Current date}: 2026-04-23 (23 days into the first Stage-3 year, not yet one full year).
+\end{itemize}
+
+The stage-3 clock started on the date Math61 was sealed. For any prediction to satisfy S3.3,
+it must accumulate experimental data (or null results) over a 12-month period without falsification.
+
+\subsubsection{Prediction-specific commentary}
+
+\paragraph{\textnormal{\textbf{$\pi_1$ (Lorentz violation)}}}
+
+\textbf{Experimental status}: Multiple ongoing precision experiments provide yearly updates
+(cavity QED, VLBI, pulsar timing, GRB timing). However:
+\begin{itemize}
+  \item All current bounds are far tighter than the TECT one-sigma interval ($10^{-17}$ vs $10^{-4}$).
+  \item The TECT prediction is not yet falsifiable at current precision; thus, ``survival'' is
+    automatic.
+  \item If higher-loop corrections substantially increase the anisotropy, the window would become
+    falsifiable, and survival would matter.
+\end{itemize}
+
+\statusmissing{Not yet falsifiable.}
+
+\paragraph{\textnormal{\textbf{$\pi_2$ (Equivalence principle)}}}
+
+\textbf{Experimental status}: The MICROSCOPE spacecraft already exceeds the TECT one-sigma
+interval by 2 orders of magnitude (bound: $10^{-15}$; TECT: $10^{-13}$). Ongoing tests (MICROSCOPE-2,
+STEP, lunar laser ranging) will refine the bound further.
+
+\textbf{Critical issue}: As noted in S3.2, the $\pi_2$ prediction is \textbf{already falsified}
+in its pre-registered form (assuming $m_h \sim m_{\mathrm{Pl}}$). The falsification window is
+not just open—it has already crossed the failure band in the MICROSCOPE measurement.
+
+\statusmissing{Already falsified (conditional on $m_h$ value).}
+
+\paragraph{\textnormal{\textbf{$\pi_3$ (Graviton normalisation)}}}
+
+\textbf{Experimental status}: No direct or precise measurement of $Z_h$ exists as of 2026-04-23.
+The continuum-limit TECT value has not been measured (Task \#54 pending). Thus, no experimental
+window is yet open.
+
+Once the continuum extrapolation is completed and $Z_h(\text{continuum})$ is determined (e.g.,
+$Z_h = 0.72$ with a $\sim 10\%$ error band), the experimental window would open if:
+\begin{itemize}
+  \item CMB polarization measurements improve to constrain gravitational-wave amplitude to the
+    $\sim 5\%$ level (comparable precision to TECT's prediction).
+  \item Or LIGO/Virgo gravitational-wave amplitude measurements are combined with independent
+    measurements of the Planck mass and other graviton properties to extract $Z_h$ indirectly.
+\end{itemize}
+
+\statusmissing{Window not yet open (continuum-limit value not yet known).}
+
+\subsubsection{Blocking factors and timeline}
+
+\begin{enumerate}
+  \item \textbf{Math61 pre-registration date (2026-04-21)}: Stage-3 clock begins. One-year
+    threshold: 2027-04-21.
+  \item \textbf{Predictions not yet falsifiable or already falsified}:
+    \begin{itemize}
+      \item $\pi_1$ is too weak to be falsifiable with current experiments.
+      \item $\pi_2$ may already be falsified (depends on $m_h$ derivation).
+      \item $\pi_3$ cannot be tested until the continuum-limit value is extracted.
+    \end{itemize}
+  \item \textbf{One-year survival cannot be demonstrated until}:
+    \begin{itemize}
+      \item The falsification window is actually open (for $\pi_3$, requires Task \#54 completion).
+      \item Experimental bounds have accumulated for a year without crossing the failure band.
+    \end{itemize}
+\end{enumerate}
+
+\subsubsection{Projected timeline to S3.3 closure}
+
+Assuming Task \#54 (continuum limit) is completed by end of 2026 (Q4 2026), the $Z_h(\text{continuum})$
+value would be known by 2026-10-31. If experimental precision on GW amplitude or CMB improves such
+that $Z_h$ can be constrained at the $\sim 10\%$ level by late 2027, then $Z_h$ (prediction $\pi_3$)
+could satisfy S3.3 by mid-to-late 2027.
+
+For $\pi_1$ and $\pi_2$: closure depends on either (a) higher-loop corrections making the predictions
+stronger, or (b) Pillar 11 closure revealing a smaller graviton mass that softens the EP-violation
+bound to experimentally accessible levels.
+
+\subsubsection{Verdict}
+
+\textbf{Status: MISSING.} The one-year falsification window has not yet opened for any prediction.
+
+For $\pi_3$ (graviton normalisation), the window \textit{could} open by mid-2027 if Task \#54 is
+completed and experimental precision improves.
+
+For $\pi_1$ and $\pi_2$, the windows are either not yet falsifiable or already crossed (falsified),
+making the S3.3 criterion either vacuous or failed.
+
+---
+
+\section{Summary scorecard: S3 qualification status}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{@{}lcccl@{}}
+\toprule
+S3 Sub-condition & Symbol & Status & Blocking factors & Timeline to closure \\
+\midrule
+Reproducibility & $S_3^{(\mathrm{rep})}$ & MISSING & No external verification lodged & 6--12 months \\
+Prediction match & $S_3^{(\mathrm{pred})}$ & MISSING & Task \#54, Pillar 11 & 6--12 months \\
+Survival window & $S_3^{(\mathrm{surv})}$ & MISSING & Window not yet open & 12--24 months \\
+\midrule
+\multicolumn{4}{@{}l@{}}{Overall: $S_3 = S_3^{(\mathrm{rep})} \wedge S_3^{(\mathrm{pred})} \wedge S_3^{(\mathrm{surv})}$} & \textbf{OPEN} \\
+\bottomrule
+\end{tabular}
+\caption{Stage-3 qualification scorecard as of 2026-04-23. All three sub-conditions are currently
+MISSING. None of the three predictions has been experimentally validated, and no independent
+numerical reproduction has been lodged. The framework requires completion of Tasks \#54
+(continuum limit) and Pillar 11 (graviton mass) before S3.2 and S3.3 can realistically be assessed.}
+\label{tab:s3-scorecard}
+\end{table}
+
+**Overall Stage-3 predicate**: $S_3 = \mathrm{FALSE}$ (at least one sub-condition is MISSING).
+
+**Implication for TOE**: The TOE qualification predicate (Math60 definition) is:
+$$\mathrm{TOE} := S_1 \wedge S_2 \wedge S_3.$$
+Currently, $S_3 = \mathrm{FALSE}$, so $\mathrm{TOE} = \mathrm{FALSE}$, regardless of the status
+of $S_1$ and $S_2$. TECT is not yet a qualified Theory of Everything.
+
+---
+
+\section{Gap list and recommended actions}
+
+\subsection{Top-3 gap items (ordered by impact and urgency)}
+
+\begin{enumerate}
+  \item \textbf{Task \#54 (continuum limit of $m^*$ and $Z_h$) — HIGHEST PRIORITY}
+    \begin{itemize}
+      \item \textbf{What}: Complete Math55 v2.4 continuation protocol at $\mu^2_{\mathrm{target}}=5\times 10^{-3}$
+        on grids $N=32, 64, 128$. Run Phase-2 projected Lanczos to extract $m^*_{\text{continuum}}$
+        (in GeV via the continuum-limit scaling) and $Z_h(\text{continuum})$ (dimensionless).
+      \item \textbf{Why}: This is the bottleneck for S3.2 (prediction match) and S3.3 (survival window).
+        Without the continuum-limit value, prediction $\pi_3$ (graviton normalisation) cannot be
+        validated, and the dimensional calibration of all observations is incomplete.
+      \item \textbf{Timeline}: Target completion: Q4 2026 (8 months from now).
+      \item \textbf{Blocks}: S3.2 and S3.3 closure; also unblocks Stage-2-C (quantization closure)
+        gate advancement.
+    \end{itemize}
+
+  \item \textbf{Pillar 11 closure (graviton mass and monopole defects) — HIGH PRIORITY}
+    \begin{itemize}
+      \item \textbf{What}: Derive the graviton mass $m_h$ from first principles (monopole-defect
+        density in the emergent spin-2 sector). Re-compute the vacuum-energy contributions and
+        confirm near-cancellation mechanism.
+      \item \textbf{Why}: The $\pi_2$ (equivalence-principle) prediction currently depends on an
+        unspecified $m_h \sim m_{\mathrm{Pl}}$. If the actual value is 5--10 orders of magnitude
+        lower, the prediction shifts from falsified to protected by experimental insensitivity.
+        Pillar 11 closure pins this value.
+      \item \textbf{Timeline}: Target completion: Q3/Q4 2026 (concurrent with Task \#54).
+      \item \textbf{Blocks}: S3.2 closure (sharpening $\pi_2$); also Stage-2-B (parameter compression)
+        closure (fixing the Planck scale).
+    \end{itemize}
+
+  \item \textbf{Independent numerical reproducibility package — MEDIUM PRIORITY}
+    \begin{itemize}
+      \item \textbf{What}: Prepare a standalone, documented reproducibility challenge. Target the
+        Math56 audit (Hessian decomposition and Grid-Invariance Theorem) as the proof-of-concept.
+      \item \textbf{Why}: S3.1 (reproducibility) cannot be satisfied without external-group involvement.
+        Preparing a clear, inviting entry point is essential for recruiting independent verifiers.
+      \item \textbf{Timeline}: Prepare by Q3 2026 (3--4 months); solicit external groups immediately after.
+      \item \textbf{Blocks}: S3.1 closure (requires external action, not directly controllable).
+    \end{itemize}
+\end{enumerate}
+
+\subsection{Secondary action items}
+
+\begin{enumerate}
+  \item \textbf{Re-evaluate $\pi_1$ (Lorentz violation) at two-loop order}:
+    \begin{itemize}
+      \item Current prediction ($10^{-4}$) is 13 orders of magnitude weaker than cavity-QED bounds.
+      \item If two-loop corrections strengthen the anisotropy to $10^{-3}$ or higher, the prediction
+        becomes falsifiable and testable by new precision-measurement campaigns.
+      \item Otherwise, $\pi_1$ is phenomen ologically mute and should be considered for demotion
+        (replaced by a stronger falsifiable prediction from the Stage-1 closure).
+    \end{itemize}
+
+  \item \textbf{Pillar 6 replacement-bundle search}:
+    \begin{itemize}
+      \item The charged-lepton spectrum derivation is currently blocked. Identifying a replacement
+        bundle would unlock Stage-2-D (observable map, gate $G_{D2}$) and expand the prediction set.
+      \item Current status: Math49d-R5 wave-2 closed single-Schur-functor route; direct-sum $E_{\min}$
+        remains operative but complex.
+    \end{itemize}
+
+  \item \textbf{Dimensionless-constant ratio audit}:
+    \begin{itemize}
+      \item Once Task \#54 and Pillar 11 close, perform a full dimensional-analysis audit to ensure
+        that the observable map $\Phi$ (Math60-D) is internally consistent. Verify that no hidden
+        adjustable parameters have crept in.
+    \end{itemize}
+\end{enumerate}
+
+---
+
+\section{Devil's-advocate pass: are the ``MISSING'' verdicts actually robust?}
+
+This section applies stringent self-critical scrutiny to the audit. We ask: could any of the
+``MISSING'' classifications actually be hiding a ``PARTIAL'' or even ``MET'' status if we interpret
+the criteria generously?
+
+\subsection{Critique 1: Is reproducibility really MISSING?}
+
+\textbf{Potential counter-argument}:
+``The code and papers are publicly available on the TECT repository. Anyone can download the
+tools and re-run the Newton-Krylov solver. Isn't that reproducibility?''
+
+\textbf{Response}: No. S3.1 specifically requires ``an independent reproduction lodged''—i.e.,
+evidence that a party outside the TECT collaboration has performed the computation and archived
+the result. Mere code availability is a prerequisite, not a substitute. Until we have a written,
+attributed, timestamped verification from a non-TECT group, the criterion is not met.
+
+\textbf{Verdict}: The MISSING classification stands. However, the barrier is low: reproducibility
+is within reach if the collaboration issues a public reproducibility challenge within the next
+3--4 months.
+
+\subsection{Critique 2: Is prediction match really MISSING, or just premature?}
+
+\textbf{Potential counter-argument}:
+``The predictions were only sealed on 2026-04-21. It's unfair to declare them unmatched after
+just 2 days. Experimental searches take time; by late 2026 or 2027, new precision measurements
+might validate one of the predictions.''
+
+\textbf{Response}: This is a fair objection. The verdict ``MISSING'' is technically correct
+(no match as of 2026-04-23), but it could be reworded ``PENDING EXPERIMENTAL RESOLUTION''.
+However, the audit must also note a serious problem:
+
+Prediction $\pi_2$ (equivalence principle) is \textbf{already excluded} by the 2017 MICROSCOPE
+result at 95\% CL (assuming $m_h \sim m_{\mathrm{Pl}}$). This is not a case of ``too early to tell'';
+it is a case of \textbf{falsification}. The only way to resolve this is to demonstrate that $m_h$
+is actually much smaller (e.g., $10^{15}$ GeV instead of $10^{19}$ GeV), which would push the
+prediction below experimental sensitivity.
+
+Prediction $\pi_1$ (Lorentz violation) is the opposite problem: it is so weak that no conceivable
+near-future experiment can test it. Thus, the match is not just premature but may be permanently
+inaccessible.
+
+Prediction $\pi_3$ (graviton normalisation) is the only one that is genuinely ``pending'': the
+continuum-limit value is unknown, and future CMB/GW measurements might constrain it.
+
+\textbf{Revised verdict}:
+\begin{itemize}
+  \item $\pi_1$: MISSING (and likely inaccessible without major theoretical revision).
+  \item $\pi_2$: FALSIFIED or HIDDEN, depending on $m_h$ (requires Pillar 11 to resolve).
+  \item $\pi_3$: PENDING (genuinely resolvable by Task \#54 completion and improved CMB/GW precision).
+\end{itemize}
+
+The overall S3.2 status remains MISSING, but the structure is more nuanced than initially stated.
+
+\subsection{Critique 3: Does the survival-window criterion make sense yet?}
+
+\textbf{Potential counter-argument}:
+``S3.3 requires a prediction to survive falsification for one year. But the predictions were only
+sealed on 2026-04-21—that's barely 2 days ago. Expecting a one-year window to have elapsed is
+absurd. The criterion is procedurally premature.''
+
+\textbf{Response}: This is correct. S3.3 is a future criterion, not a present one. The stage-3
+clock began on 2026-04-21. Closure is expected around 2027-04-21 or later. The audit correctly
+reflects that the criterion is not yet satisfiable.
+
+However, there is a subtlety: if a prediction is \textbf{not falsifiable} (as in $\pi_1$) or
+\textbf{already falsified} (as in $\pi_2$), then the survival-window criterion becomes either
+vacuous (for non-falsifiable) or already failed (for falsified). Thus, S3.3 is not just premature—it
+is also conditionally moot.
+
+\textbf{Revised verdict}: S3.3 is MISSING due to procedural timing, but it is also structurally
+moot for $\pi_1$ and $\pi_2$. Only $\pi_3$ has a genuine path to S3.3 satisfaction by 2027.
+
+\subsection{Critique 4: Are the predictions inherently falsifiable?}
+
+\textbf{Key question}: Do the three pre-registered predictions actually satisfy the definition
+of ``independently falsifiable''?
+
+For a prediction to be falsifiable (in the Popperian sense), it must be possible to construct
+an experiment whose result would contradict the prediction at some fixed confidence level.
+
+\paragraph{\textnormal{\textbf{$\pi_1$ (Lorentz violation $|\kappa^{(c)}| \lesssim 10^{-4}$)}}}
+
+\textbf{Falsifiability}: An experiment that measures $|\kappa^{(c)}| > 10^{-3}$ would falsify TECT
+(failure band).
+
+\textbf{Practical issue}: The one-loop TECT bound is already orders of magnitude weaker than
+experimental sensitivity. Even if higher-loop corrections increase the anisotropy, the margin
+of safety is enormous. Thus, while \textit{technically} falsifiable, $\pi_1$ is \textit{practically}
+untestable with foreseeable technology. **Verdict**: Falsifiable in principle, but not a robust
+empirical test.
+
+\paragraph{\textnormal{\textbf{$\pi_2$ (Equivalence principle $|\eta_{\mathrm{EP}}| \lesssim 10^{-13}$)}}}
+
+\textbf{Falsifiability}: An experiment that measures $|\eta_{\mathrm{EP}}| > 10^{-10}$ would
+falsify TECT.
+
+\textbf{Practical issue}: The prediction is conditional on $m_h \sim m_{\mathrm{Pl}}$. If $m_h$
+is actually much smaller, the prediction shifts to $|\eta_{\mathrm{EP}}| \lesssim 10^{-21}$, far
+below experimental sensitivity. Thus, the falsifiability of $\pi_2$ is \textit{dependent on a
+currently-unknown parameter} (the graviton mass). Without Pillar 11 closure, the prediction is
+not a standalone, self-contained test. **Verdict**: Falsifiable in principle (if $m_h$ is Planck-scale),
+but currently conditional and opaque.
+
+\paragraph{\textnormal{\textbf{$\pi_3$ (Graviton normalisation $Z_h \in [0.575, 0.875]$)}}}
+
+\textbf{Falsifiability}: An experiment that measures $Z_h < 0.2$ or $Z_h > 1.2$ would falsify
+TECT.
+
+\textbf{Practical issue}: The continuum-limit TECT value has not been measured, so the prediction
+is a theoretical range, not a point estimate. If the continuum extrapolation yields (say)
+$Z_h(\text{continuum}) = 0.72 \pm 0.05$, then the failure band becomes accessible to improved
+CMB/GW measurements. Thus, $\pi_3$ is the \textit{most} robustly falsifiable of the three, but
+only after Task \#54 is completed. **Verdict**: Falsifiable and empirically testable once the
+continuum limit is known.
+
+\textbf{Summary of devil's-advocate pass}:
+
+\begin{enumerate}
+  \item $\pi_1$ is falsifiable in principle but so weak as to be practically inaccessible.
+  \item $\pi_2$ is falsifiable if (and only if) $m_h$ is Planck-scale; otherwise, it is protected
+    by insensitivity. Pillar 11 must resolve this.
+  \item $\pi_3$ is the only prediction that has a clear, robust path to empirical test once Task
+    \#54 is complete.
+\end{enumerate}
+
+Thus, the three pre-registered predictions do not form a uniform, equally-strong falsification
+package. TECT currently has \textbf{one genuinely-testable prediction} ($\pi_3$) and two that are
+either inaccessible ($\pi_1$) or conditional ($\pi_2$). This is a meaningful limitation on the
+falsifiability package and should be noted in the Math61 revision or amended in a follow-up note.
+
+---
+
+\section{Predicted phenomenological signatures (assuming all closures)}
+
+For context, we summarize the specific experimental signatures that would constitute a validated
+match for each prediction (assuming continued progression toward TECT closure).
+
+\subsection{$\pi_1$ (Lorentz violation): cavity-QED anisotropy measurement}
+
+\textbf{Predicted signature}: Residual cubic anisotropy in the resonance frequencies of two
+orthogonal optical cavities as Earth rotates, with the anisotropy coefficient lying in the range
+$|\kappa^{(c)}| \in [1.5\times 10^{-4}, 5.5\times 10^{-4}]$ (one-sigma).
+
+\textbf{How to test}: Upgrade cavity-QED experiments (Müller, Herrmann, et al.) to measure
+$\Delta\nu/\nu$ to $\sim 10^{-4}$ sensitivity (currently $\sim 10^{-17}$ or better). This would
+require relaxing the apparatus by 13 orders of magnitude, which is experimentally inaccessible
+with foreseeable technology.
+
+\textbf{Alternative if higher-loop corrections strengthen the anisotropy to $10^{-2}$ or higher}:
+Future precision experiments (e.g., next-generation atom interferometry, lunar laser ranging
+upgrades) might reach this sensitivity within 10--20 years.
+
+\subsection{$\pi_2$ (Equivalence principle): differential-acceleration measurement}
+
+\textbf{Predicted signature (conditional on $m_h \sim m_{\mathrm{Pl}}$)}: Fractional difference
+in gravitational acceleration experienced by two test masses, quantified as the Eötvös parameter
+$\eta_{\mathrm{EP}} \in [2\times 10^{-13}, 8\times 10^{-13}]$ (one-sigma).
+
+\textbf{How to test}: Continue and upgrade space-based equivalence-principle tests (MICROSCOPE-2,
+STEP, etc.). If the graviton mass is Planck-scale, the prediction is already falsified by
+MICROSCOPE (2017). If $m_h$ is smaller, the predicted interval shifts to levels below experimental
+sensitivity (10^{-21}$), and no test is possible.
+
+\textbf{Resolution path}: Complete Pillar 11 to determine $m_h$. This will either resurrect $\pi_2$
+as a testable prediction (if $m_h \gtrsim 10^{18}$ GeV) or eliminate it entirely (if $m_h \ll 10^{19}$ GeV).
+
+\subsection{$\pi_3$ (Graviton normalisation): CMB/GW amplitude measurement}
+
+\textbf{Predicted signature}: Graviton wave-function normalisation $Z_h \in [0.575, 0.875]$ (one-sigma,
+central 0.725).
+
+\textbf{How to test}:
+\begin{enumerate}
+  \item \textbf{Indirect route (CMB)}: Extract the inflationary tensor-to-scalar ratio $r$ from
+    CMB polarization measurements (Planck, ground-based experiments). A predicted upper bound on
+    the inflationary gravitational-wave amplitude constrains $Z_h$ via the coupling of primordial
+    GWs to the CMB. This is indirect and model-dependent (requires assumptions about the inflationary
+    potential).
+  \item \textbf{Direct route (LIGO/Virgo)}: Combine gravitational-wave amplitude measurements
+    from binary mergers (LIGO/Virgo) with independent measurements of the Planck mass and other
+    TECT-derived constants to extract an effective $Z_h$. This is challenging because the amplitude
+    measurement depends on the distance to the source and the masses of the merger, not directly on
+    $Z_h$.
+\end{enumerate}
+
+\textbf{Timeline}: If Task \#54 completes by Q4 2026 and yields $Z_h(\text{continuum}) = 0.70 \pm 0.1$
+(consistent with the pre-registered interval), then improvements in CMB polarization measurement
+by 2027--2028 might constrain $Z_h$ indirectly to a level where agreement/disagreement becomes
+statistically significant.
+
+---
+
+\section{Traceability chain}
+
+\subsection{Trigger}
+
+Math60 specification (2026-04-21) defined Stage 3 of the TOE qualification hierarchy and requested
+a self-audit of the framework's readiness for phenomenological qualification (Task \#86, S3). This
+audit is the direct response.
+
+\subsection{Evidence and failure log}
+
+\begin{enumerate}
+  \item \textbf{Math60-TOE-Global-Closure-Spec-2026-04-21}: Specification of the three-stage TOE
+    qualification hierarchy, including the definition of S3 and its three sub-conditions.
+  \item \textbf{Math61-Falsifiability-Prereg-2026-04-21}: Pre-registration and sealing of the three
+    predictions ($\pi_1, \pi_2, \pi_3$), with explicit SI-unit values and failure bands.
+  \item \textbf{TOE-FACT-SHEET.md (2026-04-21)}: Current Stage-1 pillar scorecard (4 PROVED, 1 CLOSED@1-loop,
+    1 PARTIAL, 3 SCAFFOLD/OPEN, 1 OPEN-NEGATIVE, 1 NOT ADDRESSED).
+  \item \textbf{Math60-A through Math60-D (2026-04-21)}: Stage-2 sub-theorem closure attempts. Current
+    status: A PASSED, B CONDITIONAL, C OPEN, D PARTIAL (gate $G_{D1}$ passed; $G_{D2}$ undecided).
+  \item \textbf{Math_IR_Bound-v4-thm-v4-1, Math_IR_Bound-v4-thm-v4-2 (2026-04-20)}: Interval certificates
+    and rigorous bounds supporting Pillar 8 closure. These are candidates for independent reproduction
+    under S3.1.
+  \item \textbf{Math56-audit (2026-04-20)}: Wavenumber-stratified Hessian decomposition and grid-invariance
+    theorem. Candidate for independent reproduction.
+  \item \textbf{Task \#54 (Math55 continuation, PENDING)}: Continuum limit of $m^*$ and $Z_h$. Blocker
+    for S3.2 and S3.3.
+  \item \textbf{Pillar 11 closure (Math58/Math59, PENDING)}: Graviton mass $m_h$ derivation. Blocker
+    for sharpening $\pi_2$ and closing parameter-compression gate (Math60-B).
+\end{enumerate}
+
+\subsection{Decision chain}
+
+\begin{enumerate}
+  \item \textbf{2026-04-21, Math60 filed}: The three-stage TOE qualification hierarchy was formally
+    specified. Task \#86 was created to audit Stage 3 readiness.
+  \item \textbf{2026-04-23, autonomous research session}: This audit was initiated to assess whether
+    the current framework satisfies the S3 criteria (reproducibility, prediction match, survival window).
+  \item \textbf{2026-04-23, this note}: Systematic assessment of each criterion against the three
+    sub-conditions. Results: all three are currently MISSING due to blocking factors (Task \#54,
+    Pillar 11, external reproducibility effort).
+  \item \textbf{Next action}: This audit informs the project roadmap. The top-priority task is to
+    complete Task \#54 (continuum limit) by Q4 2026, which would unblock S3.2 and S3.3 assessment
+    for prediction $\pi_3$.
+\end{enumerate}
+
+\subsection{Bidirectional links}
+
+\begin{itemize}
+  \item \textbf{Upstream dependencies}: Math60 (TOE qualification specification), Math61 (pre-registration),
+    Stage-1 pillar status (TOE-FACT-SHEET), Stage-2 sub-theorems (Math60-A through D).
+  \item \textbf{Downstream dependents}: Task \#86 status update, TOE qualification predicate, external
+    peer-review criteria, long-term research planning (12--24 months).
+  \item \textbf{Peer notes at same stage}: Math60-S3 is the only Stage-3 note; there are no peer Stage-3
+    assessments yet (Stage 3 is external to the collaboration).
+  \item \textbf{External dependencies}: Task \#54 (continuum limit), Pillar 11 closure (graviton mass),
+    independent numerical reproducers (for S3.1), experimental precision improvements (for S3.2 and S3.3).
+\end{itemize}
+
+---
+
+\section{Conclusion and recommendations}
+
+\subsection{Summary verdict}
+
+As of 2026-04-23, the TECT framework does \textbf{not yet satisfy any of the three Stage-3 sub-conditions}:
+
+\begin{itemize}
+  \item \textbf{Reproducibility (S3.1)}: MISSING. No independent numerical verification has been lodged.
+  \item \textbf{Prediction match (S3.2)}: MISSING. No prediction has been experimentally validated. Prediction
+    $\pi_2$ may be falsified (pending $m_h$ determination); $\pi_1$ is inaccessible; $\pi_3$ is awaiting
+    continuum-limit extraction.
+  \item \textbf{Falsification survival (S3.3)}: MISSING. The one-year experimental window has not yet
+    elapsed. Additionally, $\pi_1$ is not falsifiable, and $\pi_2$ may already be falsified.
+\end{itemize}
+
+Therefore, \textbf{Stage 3 is OPEN}, and the TOE qualification predicate is \textbf{FALSE}.
+
+\subsection{Recommended next steps}
+
+\begin{enumerate}
+  \item \textbf{Immediate (next 1--2 months)}:
+    \begin{itemize}
+      \item Prepare a standalone reproducibility package for the Math56 audit.
+      \item Issue a public reproducibility challenge and solicit external reproducers.
+    \end{itemize}
+
+  \item \textbf{High-priority (Q3--Q4 2026, 6--8 months)}:
+    \begin{itemize}
+      \item Complete Task \#54 (continuum-limit extraction of $m^*$ and $Z_h$).
+      \item Complete Pillar 11 closure (graviton mass derivation).
+      \item Once Task \#54 is done, update $\pi_3$ prediction with the measured continuum-limit value.
+    \end{itemize}
+
+  \item \textbf{Follow-up (2026--2027, 12--18 months)}:
+    \begin{itemize}
+      \item Monitor experimental progress on GW amplitude and CMB polarization measurements.
+      \item If experimental bounds improve to constrain $Z_h$ indirectly, assess whether the
+        measured value falls within the TECT one-sigma interval.
+      \item Revisit $\pi_1$ and $\pi_2$; consider whether higher-loop corrections or alternative
+        physics mechanisms could strengthen the predictions to more accessible precision windows.
+    \end{itemize}
+
+  \item \textbf{Risk mitigation}:
+    \begin{itemize}
+      \item If Task \#54 is delayed beyond Q4 2026, S3 closure will be postponed correspondingly.
+      \item If Pillar 11 determines $m_h \ll m_{\mathrm{Pl}}$, prediction $\pi_2$ loses falsifiability,
+        and the pre-registered prediction package must be amended (triggering a new Math61 version).
+      \item If Task \#54 yields $Z_h(\text{continuum})$ far outside the pre-registered interval
+        $[0.575, 0.875]$ (e.g., $Z_h \approx 0.2$), the framework is falsified at the continuum limit.
+    \end{itemize}
+\end{enumerate}
+
+\subsection{Honest assessment}
+
+This audit concludes that the TECT framework, as it stands on 2026-04-23, is \textbf{not yet ready
+for external phenomenological qualification}. The framework is at the ``publish the specification
+and seal the predictions'' stage, not the ``match experiment and survive scrutiny'' stage. This is
+a natural and healthy state: ambitious theories require time to transition from internal mathematical
+closure to external empirical validation.
+
+The path to TOE qualification is clear: complete the continuum limit (Task \#54), determine the
+graviton mass (Pillar 11), and prepare external-group reproducibility attempts (S3.1). If these
+are accomplished within the 12--24-month Stage-3 window, the framework has a realistic chance of
+satisfying all three Stage-3 criteria.
+
+However, there are also genuine risks. If higher-loop corrections or the continuum limit reveal
+that the predictions are too weak, too strong, or falsified, then the framework's claim to TOE
+status would need to be substantially revised or abandoned. This is the essence of falsifiability:
+the framework is constrained by experiment, not protected by pure mathematics.
+
+---
+
+\section*{References (internal)}
+
+\begin{itemize}
+  \item \texttt{Docs/math/TECT-Math60-TOE-Global-Closure-Spec.tex.txt} — three-stage TOE qualification hierarchy (Math60 specification).
+  \item \texttt{Docs/math/TECT-Math61-Falsifiability-Prereg.tex.txt} — three pre-registered predictions (sealed 2026-04-21, hash \texttt{b65cac59f36...}).
+  \item \texttt{Docs/math/TECT-Math60-A-Meta-Consistency.tex.txt} — Stage-2-A (meta-consistency gate $G_A$).
+  \item \texttt{Docs/math/TECT-Math60-B-Param-Compression.tex.txt} — Stage-2-B (parameter compression gate $G_B$).
+  \item \texttt{Docs/math/TECT-Math60-C-Quantization-Closure.tex.txt} — Stage-2-C (quantization gate $G_C$).
+  \item \texttt{Docs/math/TECT-Math60-D-Observable-Map.tex.txt} — Stage-2-D (observable map gates $G_{D1}, G_{D2}$).
+  \item \texttt{Docs/status/TOE-FACT-SHEET.md} — living Stage-1 pillar scorecard (updated 2026-04-21).
+  \item \texttt{docs/status/OPEN-QUESTIONS.md} — open-questions ledger, including Task \#54 (continuum limit), Task \#86 (S3 qualification).
+  \item \texttt{CHANGELOG.md} — project history and stage gates.
+\end{itemize}
+
+\end{document}

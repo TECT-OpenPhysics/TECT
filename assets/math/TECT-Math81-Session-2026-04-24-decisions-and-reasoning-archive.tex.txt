@@ -1,0 +1,432 @@
+% =====================================================================
+% TECT-Math81-Session-2026-04-24-decisions-and-reasoning-archive.tex.txt
+% Theory tag:  Math81-Session-2026-04-24-decisions-archive
+% Classification: RETROACTIVE ARCHIVAL NOTE (per UPDATE_POLICY §15.4)
+% Status:      DOCUMENTATION ONLY — no new theorem content.
+%              Captures substantive content that was produced in chat
+%              during the 2026-04-24 session but not previously archived
+%              to canonical Math notes.
+%
+% Trigger:     User feedback 2026-04-24:
+%              "이 내용을 내가 편집하고 있지 않으니 직접 문서화해서
+%              관리해주도록 해줘" — the user observed a leak of
+%              substantive LaTeX content from chat into oblivion (not
+%              archived in Math notes), and instructed the AI
+%              collaborator to take responsibility for archival.
+%
+% Motivation:  UPDATE_POLICY §15 (chat-content auto-archival rule)
+%              and CLAUDE.md §4 are the binding policies. This note
+%              is the §15.4 retroactive archival of the prior session's
+%              chat-only content.
+%
+% Scope:       Four chat-only substantive items are archived here:
+%              §1 Newton-Krylov v2.6.4 deep-endpoint convergence diagnostic
+%              §2 Session-discontinuity root-cause analysis
+%              §3 Audit-rollback verdict reasoning (full chain)
+%              §4 R5 channel-selection rationale (six → four filtering)
+% =====================================================================
+
+\documentclass[11pt,a4paper]{article}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=1in]{geometry}
+\usepackage{mathtools,booktabs}
+\usepackage{hyperref}
+
+\newtheorem{remark}{Remark}
+\newtheorem{lemma}{Lemma}
+\newtheorem{proposition}{Proposition}
+
+\title{TECT-Math81: Session 2026-04-24 Decisions and Reasoning Archive\\
+       (Retroactive archival of chat-only content per UPDATE\_POLICY \S 15.4)}
+\author{TECT collaboration}
+\date{2026-04-24}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+This note retroactively archives substantive content that was produced
+in chat during the 2026-04-24 session and was not previously written
+to canonical Math notes. The content is preserved verbatim where
+possible and re-formalised where the chat presentation was conversational.
+The note adds no new theorem content; its purpose is process-discipline
+compliance with UPDATE\_POLICY \S 15 (chat-content auto-archival rule).
+Future sessions should not produce this kind of un-archived chat
+content; \S 15 is binding from 2026-04-24.
+\end{abstract}
+
+\tableofcontents
+
+\section{Newton-Krylov v2.6.4 deep-endpoint convergence diagnostic}
+\label{sec:nk}
+
+\subsection{Run context}
+
+The continuation driver
+\texttt{PDE/continuation\_mu2\_v25.py} was executed at the deepest
+endpoint of the BCC continuation schedule with parameters
+\[
+N = 32, \qquad
+L = L_{\mathrm{BCC}}^{(7)} = 62.2003611342, \qquad
+\mu^{2} = -1.0,
+\]
+under the trust-region Newton--Krylov solver with B1-shim canonicalising
+FGMRES to GMRES (restart $= 50$), Eisenstat--Walker forcing
+$\eta_{\mathrm{EW}} \in [0.05, 0.9]$, and trust-region radius
+$\Delta = 41.82$.
+
+\subsection{Convergence trajectory (Newton iterations 0--10)}
+
+\begin{center}
+\begin{tabular}{r r r r r r}
+\toprule
+$n$ & $\|\nabla L\|/\sqrt{\mathrm{dof}}$ & merit & $t_{\mathrm{CG}}$ & $\eta_{\mathrm{EW}}$ & $\rho$ \\
+\midrule
+0  & $1.69 \cdot 10^{0}$  & $2.82 \cdot 10^{5}$  & 1     & 0.900 & 0.996 \\
+1  & $8.88 \cdot 10^{-1}$ & $7.76 \cdot 10^{4}$  & 1     & 0.729 & 0.997 \\
+2  & $4.21 \cdot 10^{-1}$ & $1.74 \cdot 10^{4}$  & 2     & 0.478 & 0.999 \\
+3  & $2.00 \cdot 10^{-1}$ & $3.92 \cdot 10^{3}$  & 13    & 0.206 & 1.000 \\
+4  & $4.01 \cdot 10^{-2}$ & $1.58 \cdot 10^{2}$  & 160   & 0.050 & 0.999 \\
+5  & $2.31 \cdot 10^{-3}$ & $5.25 \cdot 10^{-1}$ & 4519  & 0.050 & 0.998 \\
+6  & $1.60 \cdot 10^{-4}$ & $2.53 \cdot 10^{-3}$ & 15000 & 0.050 & 0.999 \\
+7  & $2.40 \cdot 10^{-5}$ & $5.68 \cdot 10^{-5}$ & 15000 & 0.050 & 1.003 \\
+8  & $1.15 \cdot 10^{-5}$ & $1.31 \cdot 10^{-5}$ & 15000 & 0.208 & 1.001 \\
+9  & $6.17 \cdot 10^{-6}$ & $3.75 \cdot 10^{-6}$ & 15000 & 0.257 & 1.001 \\
+10 & $4.03 \cdot 10^{-6}$ & $1.60 \cdot 10^{-6}$ & ---   & ---   & ---   \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{Diagnosis: inner-Krylov bottleneck}
+
+\begin{remark}[Outer Newton is healthy; inner Krylov is saturated]
+The merit functional drops by 11 decades ($1.44 \!\times\! 10^{5} \to
+1.60 \!\times\! 10^{-6}$) and trust-region trust ratio $\rho \approx 1$
+is maintained throughout. The outer Newton iteration is therefore
+operating correctly. However, $t_{\mathrm{CG}} = 15000$ saturates the
+inner-Krylov budget for iterations $n = 6, 7, 8, 9$, and
+$\eta_{\mathrm{EW}}$ self-promotes from $0.05$ to $0.26$ — the canonical
+signature of an inner-Krylov method that cannot deliver the requested
+forcing tolerance. Per-step contraction degrades from $0.23$ at
+$n = 7 \to 8$ to $0.43$ at $n = 9 \to 10$, indicating loss of
+quadratic Newton convergence rate.
+\end{remark}
+
+\subsection{Three coupled root causes}
+
+\begin{enumerate}
+\item[(i)] \textbf{Stiff Brazovskii spectrum at deep endpoint}.
+At $\mu^{2} = -1.0$ the linearised operator
+\[
+J(\varphi) \;=\; (\nabla^{2} + q_{0}^{2})^{2} - \mu^{2} + 3 u \varphi^{2}
+\]
+develops a stiff window between the soft $|q| \approx q_{0}$ shell and
+the hard short-wavelength modes; the spectral spread
+$\kappa \sim |\mu^{2}|/(\Delta q)^{2}$ is maximised at the deepest
+endpoint of the schedule. Twelve Goldstone-like soft modes (matching
+the BCC peak count) cluster near the Jacobian zero modes.
+
+\item[(ii)] \textbf{Thermal seed far from deep-BCC equilibrium}.
+The default seed has $\sigma_{\mathrm{seed}} = 0.266$, far below the
+deep-BCC equilibrium amplitude
+$A_{\mathrm{BCC}}^{(\mu^{2}=-1)} \sim \mathcal{O}\!\bigl(\sqrt{|\mu^{2}|/u}\bigr)$,
+producing the initial residual $F_{0} = 1.44 \!\times\! 10^{5}$.
+
+\item[(iii)] \textbf{B1-shim forces sub-optimal Krylov method}.
+The B1-shim canonicalises \texttt{krylov\_method='fgmres'} to
+\texttt{'gmres'} with \texttt{restart = 50}. For a Jacobian with
+anti-Hermitian residual at machine-noise level
+($\|J - J^{\dagger}\|/\|J\| \approx 1.76 \!\times\! 10^{-5}$), restarted
+GMRES is strictly worse than a Hermitian-symmetrised MINRES; the
+native MINRES backend is Task \#112, currently deferred.
+\end{enumerate}
+
+\subsection{Three mitigations (ordered by tractability)}
+
+\begin{enumerate}
+\item[(M1)] \textbf{Reverse the continuation schedule}: walk
+$\mu^{2} \;:\; +5 \!\times\! 10^{-3} \to -2 \!\times\! 10^{-2} \to
+-1 \!\times\! 10^{-1} \to -5 \!\times\! 10^{-1} \to -1.0$, so each
+$\mu^{2}$ point is initialised by the converged solution of its
+predecessor. Cheapest fix; large effect.
+
+\item[(M2)] \textbf{BCC analytic seed}: replace the thermal seed by
+\[
+\varphi^{(0)}(\mathbf{x}) \;=\; A_{\mathrm{BCC}} \sum_{j=1}^{6} \cos(\mathbf{q}_{j} \!\cdot\! \mathbf{x}),
+\qquad
+A_{\mathrm{BCC}} = \sqrt{\frac{2|\mu^{2}|}{15 u}},
+\]
+where $\{\mathbf{q}_{j}\}_{j=1}^{6}$ are the six independent BCC primitive
+wave-vectors with $|\mathbf{q}_{j}| = q_{0}^{\mathrm{phys}} = 0.6802$.
+Drops $F_{0}$ by several orders of magnitude.
+
+\item[(M3)] \textbf{Close Task \#112}: implement Hermitian-symmetrised
+MINRES on $\tfrac{1}{2}(J + J^{\dagger})$. For a Jacobian with
+anti-Hermitian residual at $10^{-5}$, MINRES is strictly the correct
+method. Largest effect; highest implementation cost.
+\end{enumerate}
+
+\subsection{Implication for Pillar 11 closure audit}
+
+The deep-endpoint convergence is healthy in trend (11 decades of merit
+reduction) but does not yet certify
+$\|\nabla \mathcal{M}\|/\sqrt{\dim} < 10^{-8}$ within the
+\texttt{--max-newton 12} budget. Until either (a) the analytic-seed
+re-run or (b) the symmetrised-MINRES re-run delivers a Newton residual
+below the prescribed tolerance, the deep endpoint of the Math55
+condensate-existence theorem should be tagged
+\[
+\boxed{\text{convergent in trend but not yet certified to } \|\nabla \mathcal{M}\|/\sqrt{\dim} < 10^{-8}.}
+\]
+This does not weaken the audit verdict that Pillar 11 is
+``very close to closure but not yet a clean final archive theorem'';
+it is consistent with that classification.
+
+\section{Session-discontinuity root-cause analysis}
+\label{sec:srp}
+
+\subsection{Observed symptom (2026-04-24 user report)}
+
+The user reported repeatedly across multiple sessions that ``connections
+break and results change'' — i.e.\ a new session would inspect the
+repository and reach different conclusions than the previous session
+had recorded. This produced a recurrent need for audit-rollback
+events.
+
+\subsection{Three-layer diagnosis}
+
+\begin{enumerate}
+\item[\textbf{Layer 1 (infrastructure)}]
+Cowork sessions are bound by context-window, network, and process-
+isolation limits. When a session terminates, its in-memory
+interpretation of the repository is lost. The next session has only
+\textit{repository files + memory directory} as state.
+
+\item[\textbf{Layer 2 (storage discipline)}]
+The autonomous Round 5--9 sessions (2026-04-22 to 2026-04-24) wrote
+$\sim 50$ Math notes, supplementary scripts, and session summaries to
+disk but never executed \texttt{git commit}. The files existed on
+disk but were untracked. A new session running \texttt{git ls-files}
+would see none of them.
+
+\item[\textbf{Layer 3 (canonical-source hierarchy)}]
+Even if all files are committed, the absence of an explicit hierarchy
+(``which document is mainline?'') causes new sessions to consult
+different documents and reach different conclusions. The autonomous
+Round 9 wrote \texttt{Math78-TOE-Global-Closure-Synthesis} as a
+``publication-ready'' synthesis, while the underlying pillar-level
+notes (Math58-v6, Math77-Q6c-Q6d) carried weaker statuses; a new
+session reading the synthesis would conclude pillars are closed when
+the underlying notes say they are not.
+\end{enumerate}
+
+\subsection{Three-layer fix (deployed in 2026-04-24 commit chain)}
+
+\begin{enumerate}
+\item[\textbf{Fix 1 (atomic write)}]
+\texttt{UPDATE\_POLICY \S 14.4}: every accepted result writes
+simultaneously to the pillar-level theorem note, CHANGELOG,
+TOE-FACT-SHEET, EVIDENCE-INDEX, and a single git commit. Partial
+writes are policy violations.
+
+\item[\textbf{Fix 2 (SRP-v1)}]
+\texttt{UPDATE\_POLICY \S 14.1--14.6}: every new session executes a
+read-only prelude (INDEX $\to$ TOE-FACT-SHEET $\to$ research-log $\to$
+CHANGELOG $\to$ OPEN-QUESTIONS $\to$ NEGATIVE-RESULTS $\to$
+UPDATE\_POLICY $\S\S$1--7) before any computation, and emits one
+Korean status line confirming canonical-state load.
+
+\item[\textbf{Fix 3 (canonical hierarchy)}]
+\texttt{UPDATE\_POLICY \S 14.3}: pillar-level theorem note $\succ$
+round summary $\succ$ global synthesis draft. A status claim in a
+higher tier never overrides a pillar-level note.
+\end{enumerate}
+
+\subsection{Persistent record}
+
+The fix is recorded in
+\texttt{Docs/policy/UPDATE\_POLICY.md \S\S 14--15}, in the master
+\texttt{CLAUDE.md}, and is tested on every new session by the
+\texttt{[SRP-OK] \dots} status-line contract.
+
+\section{Audit-rollback verdict reasoning}
+\label{sec:audit}
+
+\subsection{Trigger}
+
+External reviewer audit 2026-04-24 reviewed the autonomous Round 9
+(2026-04-24 same day) closure declarations and identified three
+over-claims.
+
+\subsection{Verdict 1 — Pillar 6 FULL CLOSURE $\to$ PARTIAL-ADVANCED}
+
+\begin{lemma}[Pillar 6 status-semantics conflict]
+The Math77-Q6c-Q6d-closure note simultaneously labels Q6c and Q6d
+themselves as \texttt{PARTIAL-ADVANCED} while declaring
+\texttt{Pillar 6 FULL CLOSURE}. This is internally inconsistent:
+\textit{Pillar 6 closure $\Leftarrow$ Q6a $\wedge$ Q6b $\wedge$ Q6c $\wedge$ Q6d}, so
+if Q6c and Q6d are themselves only PARTIAL-ADVANCED, Pillar 6 cannot
+be FULL CLOSURE.
+\end{lemma}
+
+The audit therefore reverts Pillar 6 to PARTIAL-ADVANCED, accepting
+Math77-Pillar6-GUT-embedding + Math77-Q6a-Q6b-closure as the operative
+support, and explicitly rejecting the Pillar-6 FULL CLOSURE wording
+of Math77-Q6c-Q6d-closure.
+
+\subsection{Verdict 2 — Pillar 11 FULLY PROVED $\to$ NEAR-CLOSURE}
+
+\begin{lemma}[Math58-v6 internal status-sync defect]
+The Math58-v6-Pillar11-Dirac-sector-closure note's total
+$\Lambda_{\mathrm{cosmo}}$ summation labels the vortex sector as
+``partial'' and writes ``once the vortex-sector sub-lemmas are
+closed'', although the sibling note
+\texttt{Math58-v4-sublemma-closure} (in the same upload bundle)
+already closes those sub-lemmas. The document is one revision behind
+its own bundle.
+\end{lemma}
+
+\begin{lemma}[Math58-v6 renormalisation-convention argument]
+The Dirac-sector vanishing rests on the chain ``UV zero-point integral
+is a contact term $\propto V$; absorbed by vacuum renormalisation in a
+periodic box; finite fermionic energy is a chemical-potential shift;
+the finite part is zero for $\Lambda$ by definition''. This is
+plausible but is a renormalisation-convention statement, not a
+symmetry-driven cancellation theorem of the same evidentiary class as
+the monopole CP and vortex CP sectors.
+\end{lemma}
+
+The audit therefore holds Math58-v6 as a STRONG CLOSURE DRAFT and
+reverts Pillar 11 to NEAR-CLOSURE / not yet final archive theorem.
+The v2/v3/v4-sublemma/v5 sectors are accepted as mainline support.
+
+\subsection{Verdict 3 — Pillar 4 UNCONDITIONAL PROVED $\to$ PARTIAL-ADVANCED}
+
+\begin{lemma}[Pillar 4 sub-task status]
+Math75 Q1 (equivariant cohomology) gives a NEGATIVE result on
+topological forcing — strengthens but does not close. Math75 Q2
+(RG-flow derivation) self-classifies as
+\texttt{PARTIAL WITH CONCRETE RG EVIDENCE} — full numerical RG
+integration to the exact $G_{\mathrm{SM}}$ IR fixed point pending.
+Math75 Q3 (symplectic reduction) closes the local moment-map and
+reduced-dimension-$24$ statements but the identification with the
+$G_{\mathrm{SM}}$ gauge-field phase space remains conjectural.
+\end{lemma}
+
+The audit therefore reverts Pillar 4 to PARTIAL-ADVANCED.
+
+\subsection{Verdict 4 — Pillar 10 OPEN-NEGATIVE $\to$ OPEN-NEGATIVE REFINED}
+
+The Math59-v3-Pillar10-post-TOE-audit note is accepted as a refinement
+(strengthening) of the existing OPEN-NEGATIVE classification: three
+additional post-TOE routes (geometric quantisation on $M_{\mathrm{red}}$,
+$\Lambda = 0$ consistency, $SO(10)$ scale $\times$ lattice spacing) are
+tested and fail coherently. The classification becomes
+OPEN-NEGATIVE REFINED. No regression; this is the only positive
+verdict in the audit.
+
+\subsection{Stage-3 score consequence}
+
+Round 8's advance from $0/3$ MISSING to $1.5/3$ PARTIAL-ADVANCED
+depended in part on $\pi_{2}$ FALSIFIED by Pillar 11 closure. With
+Pillar 11 reverted to NEAR-CLOSURE, the $\pi_{2}$ falsification is no
+longer a derived consequence; S3 is provisionally returned to
+$\le 1/3$ PARTIAL-ADVANCED. Task \#87 (Math61 amendment) is REOPENED.
+
+\section{R5 channel-selection rationale (six $\to$ four filtering)}
+\label{sec:r5channels}
+
+\subsection{Six initial candidates}
+
+\[
+\bigl\{\,\Lambda,\;\;F_{\mathrm{Casimir}},\;\;a_e\;(g{-}2),\;\;R_\infty,\;\;\lambda_{\mathrm{Compton}},\;\;\sigma_{\mathrm{SB}}/b_{\mathrm{Wien}}\,\bigr\}.
+\]
+
+\subsection{Filtering against the five admissibility criteria}
+
+\begin{proposition}[Filtering record]
+The thermal-radiation channels $\sigma_{\mathrm{SB}}$ and $b_{\mathrm{Wien}}$
+fail criterion (C1) (sharpness): classical TECT does not yield a
+native thermal-radiation spectrum without invoking an external
+statistical-mechanical postulate; the resulting $C_i$ cannot be
+honestly written.
+
+The Rydberg constant $R_\infty$ partially passes (C1)--(C2) but is
+dropped in favour of the Compton wavelength because the latter has a
+strictly cleaner classical-TECT companion length scale
+$a_{\mathrm{BCC}}$ and avoids the emergent-Coulomb subtlety of Pillar 4.
+\end{proposition}
+
+\subsection{The fixed canonical four}
+
+\[
+\boxed{
+\bigl\{\,\delta\Lambda,\;\;\delta F_{\mathrm{Casimir}},\;\;\delta\lambda_{\mathrm{Compton}},\;\;\delta a_e\,\bigr\}
+}
+\]
+
+\subsection{Why this set is uniquely good}
+
+\begin{enumerate}
+\item \textbf{Scale span}: 122 orders of magnitude
+(cosmological $\to$ atomic $\to$ sub-atomic-precision $\to$ laboratory boundary).
+A common $\chi_*$ across this span would be a strong universality
+statement.
+
+\item \textbf{$\lambda_{\mathrm{Compton}}$ as calibration channel}:
+$\chi_*^{(\mathrm{Comp})} = \hbar\,q_0 / (2\pi\,m_e\,c) = \hbar/S_{\mathrm{BCC}}^{(e)}$
+literally is the canonical-uplift definition. The other three
+channels test whether they yield the same $\chi_*$.
+
+\item \textbf{Pillar diversity}: cosmological (Pillar 11), boundary
+QED (Pillar 11 sector), kinematic (Pillars 1+6), precision QED
+(Pillar 7) — failure would inform which pillar's classical structure
+is least-coupled to the missing scale.
+\end{enumerate}
+
+\subsection{First-iteration outcome (Math79-Addendum-A)}
+
+The audit failed at the dimensional-ansatz level: $\rho_\Lambda \approx
+3.4 \!\times\! 10^{-44}$, $\rho_{\mathrm{Cas}} \approx -8.7 \!\times\! 10^{-7}$,
+$\rho_{g{-}2} \approx +8.0 \!\times\! 10^{+7}$. The three failure modes
+go in three different directions, so no rescaling can reconcile them.
+This reinforces Pillar 10 OPEN-NEGATIVE REFINED via 8 independent
+failed routes (4 Math59 + 3 Math59-v3 + R5-first-iteration).
+
+\section{Honest scope statements (re-archived)}
+\label{sec:scope}
+
+These boxed conclusions appeared in chat during the 2026-04-24
+session. They are re-archived here for reference:
+
+\[
+\boxed{\text{TECT remains a Unified Classical Field Theory (UCFT) / Partial TOE.}}
+\]
+\[
+\boxed{\text{TECT does not derive }\hbar\text{ from pure classical first principles.}}
+\]
+\[
+\boxed{\text{Pillar 11 is very close to closure, but not yet at the level of a completely clean final archive theorem.}}
+\]
+\[
+\boxed{\text{Pillar 6 = PARTIAL-ADVANCED, not FULL CLOSURE.}}
+\]
+\[
+\boxed{\text{R5 first-iteration audit fails: no single external completion scale unifies the four channel residuals at the dimensional-ansatz level.}}
+\]
+\[
+\boxed{\text{The 10-defect-moduli count remains a CONJECTURE; Math80 establishes the closure pathway but does not execute it.}}
+\]
+
+\section{Note on archival discipline (forward-looking)}
+
+This note is the canonical example of the failure mode that
+\texttt{UPDATE\_POLICY \S 15} is designed to prevent. Future sessions
+must not require retroactive notes of this type. The discipline is:
+substantive LaTeX in chat $\Leftrightarrow$ Math note on disk, in the
+same response, in the same git commit.
+
+The user's 2026-04-24 instruction ``이 내용을 내가 편집하고 있지 않으니
+직접 문서화해서 관리해주도록 해줘'' is the binding origin of \S 15.
+
+\end{document}

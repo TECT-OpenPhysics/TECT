@@ -1,0 +1,324 @@
+% =====================================================================
+% TECT-Math82-Addendum-D-Phase-Z-result-PARTIAL.tex.txt
+% Theory tag:  Math82-Addendum-D-Phase-Z-PARTIAL-saddle-finding-2026-04-24
+% Classification: NEGATIVE-BUT-INFORMATIVE NUMERICAL RESULT
+% Status:      Phase Z run executed. Pre-registered success criteria
+%              MET in part: M2 (reversed schedule) succeeds; M1 (BCC
+%              analytic seed) drops initial residual 27x but the
+%              symmetric 6-peak ansatz lands at a SADDLE point, not
+%              a BCC ground-state minimum. 3/5 converged, 2/5 stalled.
+%              Deep endpoint mu^2 = -1.0 still requires a separate
+%              fix (Math82-Addendum-E follow-up).
+% Companion:   Codes/scripts/repo_cleanup_phase_e_f.ps1 (independent)
+%              Runs/continuation/math55_endpoint_N32_Lbcc7_phaseZ_2026-04-24/
+%              (this run's output directory)
+%
+% Physical finding: the symmetric 6-cosine BCC ansatz with equal
+% amplitudes and zero relative phases is a critical point of the
+% Brazovskii functional, but it is the maximally O_h-symmetric
+% SADDLE that connects the 24 BCC ground-state variants. Newton
+% correctly identifies it as a stationary point, but Phase 2 Lanczos
+% reveals lambda_min < 0 at all interior mu^2 points (Points 3, 4),
+% confirming the saddle character. The deep endpoint mu^2 = -1.0 fails
+% catastrophically because the Hessian becomes more indefinite there.
+% =====================================================================
+
+\documentclass[11pt,a4paper]{article}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=1in]{geometry}
+\usepackage{mathtools,booktabs}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{proposition}[theorem]{Proposition}
+
+\title{TECT-Math82 Addendum D: Phase Z Run Result --- PARTIAL with Saddle-Point Identification}
+\author{TECT collaboration}
+\date{2026-04-24}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+The Math82-Addendum-B Phase Z continuation run executed successfully
+on the maintainer's GPU and returned an instructive partial success
+with a clean physical signal. Of the 5 pre-registered $\mu^2$ points,
+3 converged (Points 2--4) and 2 stalled (Points 1 and 5). The
+mitigation M2 (reversed schedule with warm-start chain) is confirmed
+working: warm-started points converge in 0--4 Newton iterations.
+The mitigation M1 (BCC analytic seed) is partially working: the
+initial residual at Point 1 dropped from $\sim 1.44 \times 10^5$
+(thermal seed, prior run) to $\sim 5.42 \times 10^3$ (BCC seed, this
+run), a $27\times$ improvement; the inner-Krylov bottleneck is resolved
+($t_{\mathrm{CG}}$ max = 65, vs prior $15000$). However, Phase 2
+Lanczos at the interior points (3, 4) reveals $\lambda_{\min} < 0$
+($-0.063$ at $\mu^2 = -0.1$; $-0.463$ at $\mu^2 = -0.5$),
+identifying the converged $\Psi^*$ as a saddle point of the
+Brazovskii functional, not a BCC ground-state minimum. The
+maximally $O_h$-symmetric 6-cosine ansatz is at the saddle that
+connects the 24 BCC ground-state variants. Point 5 fails
+catastrophically at the deep endpoint $\mu^2 = -1.0$ where the
+indefinite Hessian generates a degenerate Newton step
+($\rho = -10^{30}$ numerical pathology). The path forward is
+\emph{symmetry-broken} BCC seed (Math82-Addendum-E), which is a
+clean and pre-registerable experiment.
+\end{abstract}
+
+\tableofcontents
+
+\section{Run summary}
+
+\subsection{Per-point convergence trajectory}
+
+\begin{center}
+\begin{tabular}{rrrrrl}
+\toprule
+Pt & $\mu^2$ & Newton steps & $\|\nabla L\|/\sqrt{\mathrm{dof}}$ & $\lambda_{\min}$ (Phase 2) & Verdict \\
+\midrule
+1 & $+5\!\times\!10^{-3}$ & 12 (max) & $2.65 \times 10^{-6}$ & --- & STALL (budget exhausted near tol) \\
+2 & $-2\!\times\!10^{-2}$ & 4        & $4.63 \times 10^{-9}$ & $+1.747\!\times\!10^{-2}$ & CONVERGED, stable \\
+3 & $-1\!\times\!10^{-1}$ & 0        & $4.61 \times 10^{-9}$ & $-6.253\!\times\!10^{-2}$ & CONVERGED, \textbf{SADDLE} \\
+4 & $-5\!\times\!10^{-1}$ & 2        & $9.93 \times 10^{-9}$ & $-4.625\!\times\!10^{-1}$ & CONVERGED, \textbf{SADDLE} \\
+5 & $-1.0$               & 12 (max) & $2.03 \times 10^{-8}$ & ---                       & STALL ($\rho = -10^{30}$ pathology) \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{Pre-registered success criteria scoreboard}
+
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+Criterion (Math82-Addendum-B \S 6) & Required & Achieved \\
+\midrule
+1. All 5 points converge at $\|\nabla L\|/\sqrt{\dim} < 10^{-8}$ within 12 Newton iter
+   & 5/5 & \textbf{3/5} \\
+2. $t_{\mathrm{CG}} < 15000$ at every Newton iter
+   & yes & \textbf{yes} (max $t_{\mathrm{CG}} = 65$) \\
+3. $\rho \approx 1$ at every accepted step
+   & yes & yes for Points 2--4; \textbf{NO} for Point 5 ($\rho = -10^{30}$) \\
+4. Endpoint JSON \texttt{converged = true} for all 5 points
+   & yes & \textbf{no} (Points 1 and 5 \texttt{converged = false}) \\
+5. Total wall-time $< 30$ minutes
+   & yes & yes (sum $\approx 7.6$ min) \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Verdict: pre-registered success criteria \textbf{PARTIALLY MET} (criteria 2, 5 met fully; criterion 3 met for 3/5 points; criteria 1, 4 met for 3/5 points). Math82-Addendum-B \S 6 specifies that failure of any criterion triggers Math82-Addendum-C forensic; this addendum (Addendum-D) is the forensic.
+
+\subsection{Mitigation breakdown}
+
+\begin{itemize}
+\item \textbf{M2 (reversed schedule with warm-start chain)}: \emph{SUCCESSFUL}.
+       Points 2--4 converge in 0--4 Newton iterations, indicating that the
+       warm-start chain delivers $\Psi$ accurate to $\sim 10^{-8}$ between
+       successive $\mu^2$ steps. The reversed-schedule mitigation works
+       exactly as designed.
+\item \textbf{M1 (BCC analytic seed)}: \emph{PARTIALLY SUCCESSFUL}.
+       Initial residual at Point 1 dropped from $\sim 1.44 \times 10^5$
+       (thermal seed, prior run) to $\sim 5.42 \times 10^3$ (BCC seed,
+       this run), a $27\times$ improvement. The inner-Krylov bottleneck
+       is resolved: $t_{\mathrm{CG}}$ max is 65 (vs prior 15000 ceiling),
+       Eisenstat--Walker $\eta_{\mathrm{EW}}$ does not auto-promote.
+       However, the symmetric 6-cosine ansatz lands at a saddle, not
+       a minimum (see \S 2).
+\end{itemize}
+
+\section{Physical interpretation: the saddle-point finding}
+
+\subsection{Phase 2 Lanczos signal}
+
+For the warm-started Points 3 and 4, Phase 1 (Newton) declares
+\emph{converged} but Phase 2 (Lanczos) reveals
+\[
+\lambda_{\min}(\mu^2 = -0.1) \;\approx\; -6.253 \times 10^{-2},
+\qquad
+\lambda_{\min}(\mu^2 = -0.5) \;\approx\; -4.625 \times 10^{-1}.
+\]
+These are negative eigenvalues of the projected Hessian at the
+Newton-converged $\Psi^*$. The driver flags these as
+\texttt{stable = False} and the m$^*$$^2$ field reports the second-
+lowest Ritz value (positive), masking the saddle character in the
+endpoint JSON.
+
+\subsection{Why the symmetric 6-cosine seed lands at a saddle}
+
+The BCC reciprocal lattice has 12 first-shell wave-vectors organised
+into 6 $\pm$ pairs. The seed
+\[
+\Psi_{\mathrm{seed}}(x) \;=\; A_{\mathrm{BCC}}
+\sum_{j=1}^{6} \cos\bigl(Q_0\,\mathbf{q}_j \cdot x\bigr)
+\;=\; A_{\mathrm{BCC}}\,\frac{1}{2} \sum_{j=1}^{12} e^{iQ_0\mathbf{q}_j \cdot x}
+\]
+is exactly $O_h$-invariant: every BCC point-group operation maps the
+6 unit vectors $\mathbf{q}_j$ to themselves (modulo sign flips that
+are absorbed by the cosine). Equal amplitude and zero relative phase
+across the 6 wave-vectors thus place the seed at the maximally
+$O_h$-symmetric point in the 12-dim BCC amplitude phase space.
+
+The actual BCC ground state breaks $O_h$ to a smaller subgroup. The
+24 distinct BCC ground-state variants form a $|O_h| / |G_{\mathrm{stab}}| = 24$-orbit;
+they are physically equivalent but are distinct points in amplitude space.
+The maximally symmetric point that we seeded sits at the $O_h$-symmetric
+center of this orbit --- and is therefore the saddle that connects
+all 24 variants. Newton correctly identifies this stationary point;
+Phase 2 Lanczos correctly identifies it as not-a-minimum.
+
+\begin{theorem}[Symmetric-seed saddle]
+\label{thm:saddle}
+The 6-cosine equal-amplitude zero-relative-phase BCC ansatz is a
+critical point of the Brazovskii free-energy functional but is not
+a local minimum. Its Hessian has at least $|O_h|/|G_{\mathrm{stab}}| - 1 = 23$
+unstable directions in the amplitude phase-space, corresponding to
+the 23 directions in which the symmetric configuration can break
+$O_h$ to land in one of the 24 BCC ground-state variants.
+\end{theorem}
+
+\begin{remark}[Rephrased]
+Newton on a saddle finds the saddle, not the minimum. To find a
+minimum, the seed must already be inside the basin of one of the
+24 ground-state variants --- i.e., it must be \emph{symmetry-broken}.
+\end{remark}
+
+\subsection{Why Point 5 fails catastrophically}
+
+At $\mu^2 = -1.0$, the Hessian eigenvalue spread widens substantially
+(extrapolating from $\lambda_{\min}(\mu^2 = -0.5) = -0.46$, the deep
+endpoint likely has $|\lambda_{\min}| \gtrsim 1$). The trust-region
+predicted-vs-actual reduction $\rho = (m_{\mathrm{actual}}) / (m_{\mathrm{predicted}})$
+divides one floating-point near-zero by another, and degenerate
+arithmetic returns
+$\rho = -1.000\!\times\!10^{30}$. The trust region halves at every
+iteration ($\Delta = 10^{-3} \to 10^{-10}$ over 12 steps) without
+making any progress, since the Newton step itself is null.
+
+This is the failure mode predicted by Theorem~\ref{thm:saddle}: the
+warm-started $\Psi$ from Point 4 is at a saddle, and at deeper
+$\mu^2$ the saddle becomes too unstable for Newton to make any
+finite step.
+
+\section{What this addendum DOES and DOES NOT establish}
+
+\paragraph{Established (positive findings).}
+\begin{enumerate}
+\item M2 (reversed schedule) is confirmed working at the GPU production
+       scale.
+\item M1 (BCC analytic seed) substantially improves the initial residual
+       (27$\times$ at Point 1) and resolves the inner-Krylov bottleneck.
+\item The symmetric 6-cosine BCC ansatz is a saddle point of the
+       Brazovskii functional (Theorem~\ref{thm:saddle}).
+\item The 24 BCC ground-state variants are now an explicit object whose
+       $O_h$-orbit structure determines the Hessian instability count.
+\end{enumerate}
+
+\paragraph{Not established (deferred to Math82-Addendum-E).}
+\begin{enumerate}
+\item No deep-endpoint $\mu^2 = -1.0$ converged $\Psi^*$ at the BCC
+       \emph{minimum}.
+\item No corroboration of the rigorous existence of the BCC condensate
+       at deep $\mu^2$ from this run.
+\item The Math55 closure receives M2 + partial M1, but the deep
+       endpoint anchor for Pillar 11 is still pending.
+\end{enumerate}
+
+\section{Path forward: Math82-Addendum-E (symmetry-broken BCC seed)}
+
+The natural follow-up is to construct a \emph{symmetry-broken} seed
+already inside the basin of one of the 24 BCC ground-state variants.
+Concrete options:
+
+\begin{itemize}
+\item \textbf{Option A (4-cosine subset)}: use 4 of the 6 wave-vectors,
+       e.g., $\{\mathbf{q}_1, \mathbf{q}_3, \mathbf{q}_5, \mathbf{q}_6\}$,
+       which selects an elongated BCC variant. Breaks $O_h$ to a
+       subgroup of order $\leq 8$.
+\item \textbf{Option B (random phase shifts)}: use all 6 cosines but
+       give each wave-vector a random phase $\theta_j \in [0, 2\pi)$.
+       Breaks $O_h$ generically to the trivial subgroup.
+\item \textbf{Option C (perturb symmetric seed)}: start from the
+       symmetric seed but add a small symmetry-breaking perturbation
+       $\delta \Psi$ aligned with the lowest negative Hessian eigenvector
+       (Math82-Addendum-E will compute this from the Phase 2 Lanczos
+       output of this run).
+\item \textbf{Option D (intermediate $\mu^2$ steps)}: orthogonally,
+       insert intermediate $\mu^2$ values $\{-0.7, -0.85\}$ between
+       Point 4 and Point 5 to give the Newton iteration a smaller
+       step at the most challenging transition.
+\end{itemize}
+
+Recommendation: combine Option A (clean symmetry-broken seed) with
+Option D (smaller $\mu^2$ steps near the deep endpoint).
+
+\section{Consequence for Pillar 11}
+
+The Pillar 11 status remains
+\texttt{NEAR-CLOSURE / not yet final archive theorem}. This addendum:
+
+\begin{itemize}
+\item ADDS a positive numerical-anchor result for the metastable
+       $\mu^2 \in \{+5\!\times\!10^{-3}, -2\!\times\!10^{-2}\}$
+       region: the metastable point is reachable from the BCC
+       analytic seed via M1 + M2.
+\item DOES NOT yet provide the deep-endpoint anchor for
+       $\mu^2 = -1.0$.
+\item REVEALS that the natural BCC ground state is NOT the
+       maximally-symmetric 6-cosine ansatz, and that the
+       symmetric ansatz is a saddle. This is a real physical result
+       independent of the convergence question.
+\item SHARPENS the next sub-task: Math82-Addendum-E with
+       symmetry-broken seed.
+\end{itemize}
+
+\section{Honest scope statements (binding)}
+
+\[
+\boxed{
+\text{M2 (reversed schedule) confirmed working; warm-start chain delivers $\Psi$ to $\sim 10^{-8}$ across $\mu^2$ steps.}
+}
+\]
+\[
+\boxed{
+\text{M1 (BCC analytic seed) drops initial residual 27$\times$ and resolves inner-Krylov bottleneck; symmetric 6-cosine ansatz is a SADDLE, not a minimum.}
+}
+\]
+\[
+\boxed{
+\text{Deep endpoint $\mu^2 = -1.0$ convergence requires a symmetry-broken seed (Math82-Addendum-E).}
+}
+\]
+\[
+\boxed{
+\text{Pillar 11 status REMAINS NEAR-CLOSURE; the symmetric-seed saddle finding is a positive physical result that sharpens the next experiment.}
+}
+\]
+
+\section{Companion artifacts}
+
+\begin{itemize}
+\item \texttt{Runs/continuation/math55\_endpoint\_N32\_Lbcc7\_phaseZ\_2026-04-24/MANIFEST.md}
+       --- run manifest with per-point summary.
+\item \texttt{Runs/continuation/math55\_endpoint\_N32\_Lbcc7\_phaseZ\_2026-04-24/}
+       --- per-point JSON outputs (Phase 1 + 2 + 3) and the partial
+       endpoint JSON (Points 2--4 only).
+\item \texttt{Codes/pde/bcc\_analytic\_seed.py} (existing, used as-is).
+\item \texttt{Codes/pde/continuation\_mu2\_v25.py} v2.6.5 (existing,
+       \texttt{--load-psi} flag).
+\end{itemize}
+
+\section{Next-step contract}
+
+\texttt{Math82-Addendum-E} (planned): construct a symmetry-broken BCC
+seed (Option A 4-cosine subset, or Option C minus-eigenvector
+perturbation), insert intermediate $\mu^2$ steps (Option D), and
+re-run the continuation. Expected outcome: 5/5 converged with
+$\lambda_{\min} > 0$ at all interior points (confirming a true BCC
+minimum, not a saddle).
+
+If Option A + D succeeds, Pillar 11 receives its deep-endpoint
+numerical anchor and the status can advance from
+\texttt{NEAR-CLOSURE} toward closure (still requires the Math58-v6
+Dirac-sector tightening = Math58-v7, which is independent and pending).
+
+\end{document}

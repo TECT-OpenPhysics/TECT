@@ -1,0 +1,300 @@
+% =====================================================================
+% TECT-Math77-Q6b-Addendum-A-RGE-extraction.tex.txt
+% Theory tag:  Math77-Q6b-Addendum-A-RGE-numerical-extraction-2026-04-24
+% Classification: NEGATIVE-BUT-INFORMATIVE NUMERICAL RESULT
+% Status:      Q6b "M_GUT ~ 10^16 GeV from gauge unification" as-stated
+%              FALSIFIED for pure SM 1-loop (no SUSY, no intermediate
+%              scale). The TECT Pati-Salam two-step path remains a
+%              candidate but requires explicit BCC-defect beta-function
+%              derivation (next sub-task).
+% Companion:   Codes/supplementary/Math77_Q6b_RGE_integration.py
+% Output:      Codes/supplementary/Math77_Q6b_RGE_integration_results.json
+%
+% [AUDIT-STATUS 2026-04-24]
+% This addendum executes the numerical RGE check that Math77-Q6a-Q6b-
+% closure deferred. The pure-SM 1-loop result is well-known textbook
+% physics: the three SM gauge couplings DO NOT unify at one scale.
+% TECT Q6b's claim that "M_GUT ~ 10^16 GeV is consistent with gauge
+% unification" requires either (i) SUSY content (not in TECT), (ii)
+% Pati-Salam intermediate breaking with new matter content, or (iii)
+% TECT-specific BCC-defect contribution to the beta functions.
+% This addendum establishes the BASELINE; subsequent work must improve
+% on it to support the Q6b conjecture.
+% =====================================================================
+
+\documentclass[11pt,a4paper]{article}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=1in]{geometry}
+\usepackage{mathtools,booktabs}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{remark}[theorem]{Remark}
+
+\title{TECT-Math77 Q6b Addendum A:\\
+       1-Loop SM Gauge-Coupling RGE Numerical Extraction\\
+       (Pure SM Baseline — No SUSY, No Intermediate Scale)}
+\author{TECT collaboration}
+\date{2026-04-24 (Round 10 sprint, Q6b numerical baseline)}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We execute the deferred numerical 1-loop renormalisation-group
+integration of the three Standard Model gauge couplings
+$\alpha_1, \alpha_2, \alpha_3$ from $M_Z$ up to $M_{\mathrm{Planck}}$,
+using PDG 2024 initial conditions in GUT normalisation. The result
+confirms the well-known pure-SM-1-loop non-unification: the three
+pairwise meeting scales are
+\[
+M_{12} \approx 1.0 \times 10^{13}\ \mathrm{GeV},
+\quad
+M_{13} \approx 2.5 \times 10^{14}\ \mathrm{GeV},
+\quad
+M_{23} \approx 1.0 \times 10^{17}\ \mathrm{GeV},
+\]
+spanning $\log_{10}(M_{23}/M_{12}) \approx 4.0$ orders of magnitude.
+The geometric mean $M_{\mathrm{GUT}}^{\mathrm{geom}} \approx 6.4
+\times 10^{14}\ \mathrm{GeV}$ is below the rough Super-K
+proton-decay safety threshold ($\sim 4 \times 10^{15}\ \mathrm{GeV}$).
+The TECT Q6b conjecture ``$M_{\mathrm{GUT}} \sim 10^{16}\ \mathrm{GeV}$
+from gauge-coupling unification'' is therefore \emph{falsified at the
+pure-SM-1-loop level} and remains viable only via TECT's Pati-Salam
+intermediate-scale path with appropriate BCC-defect matter content
+(the next sub-task).
+\end{abstract}
+
+\tableofcontents
+
+\section{Setup and inputs}
+
+\subsection{Initial conditions at $M_Z$ (PDG 2024, GUT normalisation)}
+
+\begin{align*}
+M_Z                 &= 91.1876\ \mathrm{GeV}, \\
+\alpha_{\mathrm{em}}^{-1}(M_Z) &= 127.952\ \text{(MS-bar)}, \\
+\sin^2\theta_W(M_Z) &= 0.23122\ \text{(MS-bar)}, \\
+\alpha_s(M_Z)       &= 0.1184\ \text{(world average)}.
+\end{align*}
+
+In GUT normalisation $g_1 = \sqrt{5/3}\, g_Y$:
+\begin{align*}
+\alpha_1^{-1}(M_Z) &= \tfrac{3}{5}\,\cos^2\theta_W \,/\, \alpha_{\mathrm{em}}(M_Z) \;\approx\; 59.020, \\
+\alpha_2^{-1}(M_Z) &= \sin^2\theta_W \,/\, \alpha_{\mathrm{em}}(M_Z) \;\approx\; 29.585, \\
+\alpha_3^{-1}(M_Z) &= 1 / \alpha_s(M_Z) \;\approx\; 8.446.
+\end{align*}
+
+\subsection{1-loop $\beta$-function coefficients (Standard Model)}
+
+\[
+\frac{d \alpha_i^{-1}}{d \ln \mu} \;=\; -\, \frac{b_i}{2 \pi},
+\quad
+b_1 = +\frac{41}{10},
+\quad
+b_2 = -\frac{19}{6},
+\quad
+b_3 = -7.
+\]
+These are the standard textbook values (e.g., Peskin–Schroeder \S 16.5).
+
+\subsection{1-loop solution}
+
+\[
+\alpha_i^{-1}(\mu) \;=\; \alpha_i^{-1}(M_Z) \;-\; \frac{b_i}{2 \pi}\, \ln\!\frac{\mu}{M_Z}.
+\]
+Pairwise meeting scales solve $\alpha_i^{-1}(\mu) = \alpha_j^{-1}(\mu)$:
+\[
+M_{ij} \;=\; M_Z \,\exp\!\left[ \frac{2 \pi (\alpha_i^{-1}(M_Z) - \alpha_j^{-1}(M_Z))}{b_i - b_j} \right].
+\]
+
+\section{Numerical results}
+
+\subsection{Pairwise meeting scales}
+
+\begin{center}
+\begin{tabular}{lrr}
+\toprule
+Pair & Meeting scale $M_{ij}$ [GeV] & $\alpha$ at meeting \\
+\midrule
+$\alpha_1 = \alpha_2$  & $1.031 \times 10^{13}$ & $0.02358$ ($1/\alpha = 42.41$) \\
+$\alpha_1 = \alpha_3$  & $2.470 \times 10^{14}$ & $0.02479$ ($1/\alpha = 40.34$) \\
+$\alpha_2 = \alpha_3$  & $1.018 \times 10^{17}$ & $0.02125$ ($1/\alpha = 47.05$) \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{Unification quality}
+
+\begin{align*}
+M_{\mathrm{GUT}}^{\mathrm{geom}}
+   &\;:=\; \bigl( M_{12} \cdot M_{13} \cdot M_{23} \bigr)^{1/3} \;\approx\; 6.38 \times 10^{14}\ \mathrm{GeV}, \\
+\log_{10}\!\bigl(M_{23} / M_{12}\bigr) &\;\approx\; 3.99\ \text{orders of magnitude.}
+\end{align*}
+
+At $M_{\mathrm{GUT}}^{\mathrm{geom}}$:
+\begin{align*}
+\alpha_1^{-1} &\approx 39.72, \quad
+\alpha_2^{-1}  \approx 44.49, \quad
+\alpha_3^{-1}  \approx 41.40, \\
+\overline{\alpha^{-1}} &\approx 41.87, \quad
+\sigma_{\mathrm{rms}}  \approx 1.98\ (4.72\% \text{ of mean}).
+\end{align*}
+
+\subsection{Proton-decay bound}
+
+Super-K (2024) gives $\tau_p > 1.6 \times 10^{34}\ \mathrm{yr}$ for
+the $p \to e^+ \pi^0$ channel. Tree-level gauge-mediated proton decay
+gives $\Gamma \sim \alpha_{\mathrm{GUT}}^2 m_p^5 / M_X^4$, requiring
+roughly $M_X \gtrsim 4 \times 10^{15}\ \mathrm{GeV}$.
+
+\begin{center}
+\begin{tabular}{lc}
+\toprule
+Scale & Above $4 \times 10^{15}$ GeV? \\
+\midrule
+$M_{12} = 1.03 \times 10^{13}\ \mathrm{GeV}$ & FALSE (way below) \\
+$M_{13} = 2.47 \times 10^{14}\ \mathrm{GeV}$ & FALSE (below) \\
+$M_{23} = 1.02 \times 10^{17}\ \mathrm{GeV}$ & TRUE \\
+$M_{\mathrm{GUT}}^{\mathrm{geom}} = 6.38 \times 10^{14}\ \mathrm{GeV}$ & FALSE (below) \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\section{Verdict}
+
+\begin{theorem}[Pure-SM 1-loop non-unification, numerical confirmation]
+\label{thm:no-unification}
+At the level of pure-SM 1-loop renormalisation-group running with
+PDG 2024 initial conditions and no intermediate-scale matter content,
+the three SM gauge couplings $\alpha_1, \alpha_2, \alpha_3$ do not
+meet at a single scale. The pairwise meeting scales
+$\{M_{12}, M_{13}, M_{23}\}$ span approximately $4$ orders of
+magnitude. The geometric mean
+$M_{\mathrm{GUT}}^{\mathrm{geom}} \approx 6.4 \times 10^{14}\ \mathrm{GeV}$
+is below the rough Super-K proton-decay safety threshold of
+$\sim 4 \times 10^{15}\ \mathrm{GeV}$.
+\end{theorem}
+
+\begin{remark}[Q6b conjecture as-stated FALSIFIED at this level]
+The Math77-Q6a-Q6b-closure note stated the Q6b conjecture as
+``$M_{\mathrm{GUT}} \sim 10^{16}\ \mathrm{GeV}$ matches gauge-coupling
+unification + proton-decay bound''. Theorem~\ref{thm:no-unification}
+falsifies the conjecture as a pure-SM-1-loop statement: the SM does
+not unify at any single scale, let alone at $10^{16}\ \mathrm{GeV}$,
+and $M_{\mathrm{GUT}}^{\mathrm{geom}}$ is below the proton-decay
+threshold. Therefore the Q6b conjecture is viable only with additional
+structure between $M_Z$ and $M_{\mathrm{GUT}}$.
+\end{remark}
+
+\section{What can rescue Q6b}
+
+The Q6b conjecture is rescuable if one of the following provides
+appropriate additional content between $M_Z$ and $M_{\mathrm{GUT}}$:
+
+\subsection{Option (a) — SUSY (not in TECT)}
+
+The MSSM beta-function coefficients are
+$b_1^{\mathrm{MSSM}} = 33/5,\, b_2^{\mathrm{MSSM}} = 1,\, b_3^{\mathrm{MSSM}} = -3$,
+which gives clean unification at $M_{\mathrm{GUT}} \approx 2 \times 10^{16}\ \mathrm{GeV}$,
+$\alpha_{\mathrm{GUT}}^{-1} \approx 25$. This option requires
+supersymmetric partners not present in TECT and is therefore not
+the route TECT can take.
+
+\subsection{Option (b) — Pati-Salam intermediate breaking (TECT-natural)}
+
+TECT's Math77-Pillar6-GUT-embedding identifies Pati-Salam $G_{\mathrm{PS}} =
+\mathrm{SU}(4)_C \times \mathrm{SU}(2)_L \times \mathrm{SU}(2)_R$ as
+the intermediate breaking $\mathrm{SO}(10) \to G_{\mathrm{PS}} \to G_{\mathrm{SM}}$.
+At an intermediate scale $M_{\mathrm{PS}}$, the running changes from
+SM-coefficients $(b_1, b_2, b_3)$ to PS-coefficients
+$(b_4, b_{2L}, b_{2R})$. The choice of $M_{\mathrm{PS}}$ that aligns
+the three SM couplings at a single $M_{\mathrm{GUT}}$ is a
+\emph{prediction} of the framework, not a free parameter, and depends
+on the matter content between $M_Z$ and $M_{\mathrm{PS}}$.
+
+\subsection{Option (c) — BCC-defect content modifies running (TECT-specific)}
+
+The BCC condensate may carry additional defect-mediated states
+contributing to the beta functions at scales between $M_Z$ and
+$M_{\mathrm{GUT}}$. The Math77-Q6c-Q6d-closure note gestures at this
+via the "$Y_I \propto |\cos\theta_I|$" Yukawa structure, but does not
+write the explicit RG corrections. This is the TECT-specific
+ingredient that distinguishes the framework from generic
+intermediate-scale GUTs.
+
+\section{Q6b sub-status, post Math77-Q6b-Addendum-A}
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+Sub-problem & Pre-Addendum-A & Post-Addendum-A \\
+\midrule
+Q6b-1: pure-SM 1-loop unification baseline
+   & assumed
+   & \textbf{FALSIFIED} (Theorem~\ref{thm:no-unification}). \\
+Q6b-2: Pati-Salam two-step running with TECT BCC content
+   & implicit
+   & OPEN (next sub-task). \\
+Q6b-3: $M_{\mathrm{GUT}}$ proton-decay safety
+   & assumed
+   & FALSIFIED at $M_{\mathrm{GUT}}^{\mathrm{geom}}$; salvageable only at $M_{23}$. \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\section{Honest scope statements (binding)}
+
+\[
+\boxed{
+\text{Pure SM 1-loop running does not unify the three gauge couplings at a single scale.}
+}
+\]
+\[
+\boxed{
+\text{Q6b "$M_{\mathrm{GUT}} \sim 10^{16}\ \mathrm{GeV}$ from gauge unification" as-stated is FALSIFIED at this level.}
+}
+\]
+\[
+\boxed{
+\text{Q6b remains viable only via TECT's Pati-Salam two-step path with BCC-defect content (Q6b-2 next sub-task).}
+}
+\]
+
+\section{Implication for Pillar 6 status}
+
+Pillar 6 status REMAINS \texttt{PARTIAL-ADVANCED}. This addendum:
+\begin{itemize}
+\item REMOVES the implicit assumption that pure-SM 1-loop running
+       supports $M_{\mathrm{GUT}} \sim 10^{16}\ \mathrm{GeV}$.
+\item ADDS a numerical baseline against which the next sub-task
+       (Pati-Salam two-step with BCC content) must improve.
+\item DOES NOT downgrade Pillar 6 (which is already PARTIAL-ADVANCED).
+\item DOES require Math77-Q6a-Q6b-closure to be amended with the
+       audit-status banner \emph{``the Q6b unification claim requires
+       intermediate-scale BCC-defect content; pure-SM 1-loop alone is
+       insufficient (Q6b-Addendum-A)''}.
+\end{itemize}
+
+\section{Next sub-task}
+
+\texttt{Math77-Q6b-Addendum-B} (planned): execute Pati-Salam two-step
+RGE with explicit TECT BCC-defect content. Required ingredients:
+\begin{enumerate}
+\item Choose $M_{\mathrm{PS}}$ as a function of TECT parameters
+       (BCC lattice spacing, $\mu^2_{\mathrm{target}}$, etc.).
+\item Compute the BCC-defect contribution to $b_1, b_2, b_3$ between
+       $M_Z$ and $M_{\mathrm{PS}}$, and to $b_4, b_{2L}, b_{2R}$
+       between $M_{\mathrm{PS}}$ and $M_{\mathrm{GUT}}$.
+\item Solve for $(M_{\mathrm{PS}}, M_{\mathrm{GUT}})$ such that all
+       three SM couplings align at $M_{\mathrm{GUT}}$.
+\item Check that the resulting $M_{\mathrm{GUT}}$ satisfies the
+       Super-K proton-decay bound.
+\item If successful, Q6b-2 is closed and Pillar 6 advances toward
+       full closure (still requires Q6c, Q6d, and Math80-Addendum-B
+       Q6a-equivariance).
+\end{enumerate}
+
+Estimated effort: 2--3 turns (requires explicit BCC-defect spectrum).
+
+\end{document}

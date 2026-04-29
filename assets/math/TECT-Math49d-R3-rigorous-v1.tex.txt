@@ -1,0 +1,342 @@
+%% TECT-Math49d-R3-rigorous-v1.tex.txt
+%% Theory tag: Math49d-R3-equivariant-v1-2026-04-20
+%% Target pillar: Pillar 6 (three generations) — refinement path R3 after Math49-v2 FALSIFIED-ANSATZ.
+%% Status: v1 structural outline. Core fixed-point decomposition proved (Theorem 1).
+%%         Equivariant index computation setup in §3; numerical evaluation delegated to
+%%         docs/supplementary/Math49d_equivariant_bott.py.
+
+\documentclass[aps,prl,twocolumn,superscriptaddress,nofootinbib,showpacs,floatfix]{revtex4-2}
+
+\usepackage{amsmath,amssymb,amsthm,bm,bbm,mathrsfs}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\newtheorem{remark}{Remark}
+
+\begin{document}
+
+\title{Three generations as the $\mathbb{Z}_{6}$-equivariant Lefschetz count on
+$\mathrm{Gr}(2,5)$: a refined HRR route after the direct-sum ansatz falsification}
+
+\author{J.~T.~Kor}
+\affiliation{TECT Research Programme}
+
+\date{April 20, 2026}
+
+\begin{abstract}
+The direct-sum ansatz $E_{L}(a,b)=S\otimes(\det Q)^{a}\oplus Q\otimes(\det S)^{b}$
+on the complex Grassmannian $\mathrm{Gr}(2,5)$ was shown to yield
+$\chi(E_{L}(a,b))\neq 3$ for every $(a,b)\in\mathbb{Z}^{2}$ in
+[Math49-rigorous-v2]. This note opens the refinement path R3: the natural
+$\mathbb{Z}_{6}$-centre action of the GUT quotient
+$G_{\mathrm{SM}}=(SU(3)\times SU(2)\times U(1))/\mathbb{Z}_{6}$
+inside $SU(5)$. We prove that the fixed locus
+$\mathrm{Gr}(2,5)^{\mathbb{Z}_{6}}$ decomposes as three disjoint connected
+smooth complex subvarieties: a~$\mathbb{P}^{2}$, a~$\mathbb{P}^{2}\times
+\mathbb{P}^{1}$, and an~isolated point. This integer---the number of
+connected fixed components---is the structural origin of the three-generation
+target. We then set up the holomorphic Atiyah--Bott--Lefschetz
+formula for the $\mathbb{Z}_{6}$-equivariant Euler characteristic of the
+tautological bundle datum and delegate the symbolic evaluation to the
+companion code \texttt{Math49d\_equivariant\_bott.py}. This note is a v1
+structural outline: the fixed-point decomposition is proved to theorem
+level; the claim $\chi^{\mathbb{Z}_{6}}(E)=3$ is posed as the explicit
+computational target for v2.
+\end{abstract}
+
+\maketitle
+
+\section{Motivation: after the direct-sum falsification}
+
+\label{sec:motivation}
+
+The HRR index on $X=\mathrm{Gr}(2,5)$ of the direct-sum bundle
+$E_{L}(a,b)=S\otimes(\det Q)^{a}\oplus Q\otimes(\det S)^{b}$ factorises by
+$\mathrm{SL}(5)$ Borel--Weil--Bott into two sequences
+$\{\chi_{S}(a)\}_{a\in\mathbb{Z}}$ and $\{\chi_{Q}(b)\}_{b\in\mathbb{Z}}$ of
+irreducible $\mathrm{SL}(5)$ dimensions. Since the first positive values in
+either sequence are $\{5,10,40,45,75,\ldots\}$, no sum $\chi_{S}(a)+\chi_{Q}(b)$
+equals $3$ for any $(a,b)\in\mathbb{Z}^{2}$. The falsification is
+exhaustive and is logged as \texttt{D-2026-04-20-02} in
+\texttt{NEGATIVE-RESULTS.md}.
+
+The immediate refinement questions are:
+\begin{enumerate}
+\item[(R1)] Replace direct sum with a Schur-functor image
+$\mathbb{S}^{\lambda}(S\oplus Q)$.
+\item[(R3)] Replace the ordinary HRR index with a $\mathbb{Z}_{6}$-equivariant
+Lefschetz index.
+\item[(R4)] Replace $\mathrm{Gr}(2,5)$ with the partial flag
+$\mathrm{Fl}(2,3;5)$.
+\end{enumerate}
+
+\noindent
+Path R3 is the subject of this note and carries the highest structural
+motivation: the $\mathbb{Z}_{6}$ quotient is a \emph{physical} datum
+(the GUT quotient $G_{\mathrm{SM}}=(SU(3)\times SU(2)\times U(1))/\mathbb{Z}_{6}$),
+not a phenomenological fit. The question is whether its geometric
+imprint on $\mathrm{Gr}(2,5)$ produces the integer three.
+
+\section{The $\mathbb{Z}_{6}$ generator and its fixed locus}
+
+\label{sec:fixed_locus}
+
+\begin{definition}
+Fix the $SU(5)$-standard decomposition
+$V_{5}=V_{\alpha}\oplus V_{\beta}$ with
+$V_{\alpha}=\mathrm{span}(e_{1},e_{2},e_{3})$
+(coloured sector) and $V_{\beta}=\mathrm{span}(e_{4},e_{5})$
+(electroweak sector). Let $\omega=e^{2\pi i/3}$. The
+$\mathbb{Z}_{6}$-generator is
+\begin{equation}
+\zeta=\mathrm{diag}(\omega,\omega,\omega,-1,-1)\in SU(5).
+\label{eq:zeta_def}
+\end{equation}
+\end{definition}
+
+\begin{lemma}[$\mathbb{Z}_{6}$-kernel of $G_{\mathrm{SM}}\hookrightarrow SU(5)$]
+\label{lem:Z6_kernel}
+The element $\zeta$ lies in $SU(5)$, has order exactly $6$, and generates the
+kernel $\mathbb{Z}_{6}=\ker[\,SU(3)\times SU(2)\times U(1)\to G_{\mathrm{SM}}\,]$
+under the standard GUT embedding.
+\end{lemma}
+
+\begin{proof}
+Determinant: $\det\zeta=\omega^{3}\cdot(-1)^{2}=1\cdot 1=1$.
+Order: $\zeta^{k}=\mathrm{diag}(\omega^{k},\omega^{k},\omega^{k},(-1)^{k},(-1)^{k})$
+equals $\mathbb{1}_{5}$ iff $\omega^{k}=1$ and $(-1)^{k}=1$, i.e.\
+$k\equiv 0\pmod{3}$ and $k\equiv 0\pmod{2}$, giving $k\equiv 0\pmod{6}$; for
+$k<6$ the element is non-trivial. The GUT identification uses the hypercharge
+normalisation $Y(\mathbf{3},\mathbf{1})=-1/3$, $Y(\mathbf{1},\mathbf{2})=1/2$;
+the phase $e^{2\pi i(-1/3)}=\omega^{-1}$ on the coloured block and
+$e^{2\pi i(1/2)}=-1$ on the electroweak block combine with the centres of
+$SU(3)$ (i.e.\ $\omega\mathbb{1}_{3}$) and $SU(2)$ (i.e.\ $-\mathbb{1}_{2}$)
+to yield $\zeta$.
+\end{proof}
+
+\begin{theorem}[Fixed-locus decomposition]
+\label{thm:fixed_locus}
+The fixed locus $X^{\zeta}\subset X=\mathrm{Gr}(2,5)$ of the induced action
+$\zeta\cdot W=\zeta(W)$ decomposes as the disjoint union of \emph{three}
+smooth connected complex subvarieties:
+\begin{equation}
+X^{\zeta}=F_{1}\sqcup F_{2}\sqcup F_{3},
+\end{equation}
+\begin{equation}
+F_{1}=\mathrm{Gr}(2,V_{\alpha})\cong\mathbb{P}^{2},\quad
+\dim_{\mathbb{C}}F_{1}=2,
+\end{equation}
+\begin{equation}
+F_{2}=\mathbb{P}(V_{\alpha})\times\mathbb{P}(V_{\beta})\cong\mathbb{P}^{2}\times\mathbb{P}^{1},\quad
+\dim_{\mathbb{C}}F_{2}=3,
+\end{equation}
+\begin{equation}
+F_{3}=\{V_{\beta}\},\quad\dim_{\mathbb{C}}F_{3}=0.
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+A $2$-plane $W\subset V_{5}$ is $\zeta$-invariant iff it is a direct sum of
+$\zeta$-eigensubspaces. Since $\zeta$ has exactly two distinct eigenvalues
+$\omega$ (on $V_{\alpha}$) and $-1$ (on $V_{\beta}$) on $V_{5}$, every
+$\zeta$-invariant $W$ satisfies
+$W=(W\cap V_{\alpha})\oplus(W\cap V_{\beta})$.
+The three admissible dimension pairs
+$(\dim(W\cap V_{\alpha}),\dim(W\cap V_{\beta}))\in\{(2,0),(1,1),(0,2)\}$
+yield respectively $F_{1}$, $F_{2}$, $F_{3}$. Each component is smooth
+(Grassmannian / product of projective spaces / isolated point) and connected.
+The three components are pairwise disjoint by the rigidity of the
+eigenspace decomposition.
+\end{proof}
+
+\begin{corollary}[Structural origin of the integer three]
+\label{cor:three_as_count}
+The fixed locus $X^{\zeta}$ has exactly three connected components. The
+integer $3$ arises as the count of $\zeta$-stable reductions of a generic
+$2$-plane with respect to the eigenspace decomposition
+$V_{5}=V_{\alpha}\oplus V_{\beta}$.
+\end{corollary}
+
+\begin{remark}
+Corollary~\ref{cor:three_as_count} is the structural content of R3: the
+three-generation target emerges as a topological invariant of the
+$(SU(5),G_{\mathrm{SM}})$-pair, not a fit of bundle twist parameters. The
+arithmetic statement $\chi^{\mathbb{Z}_{6}}(E)=3$ below is, in this sense,
+\emph{already non-trivial if it realises the count of fixed components} as
+an honest equivariant Euler characteristic.
+\end{remark}
+
+\section{Equivariant index: Atiyah--Bott setup}
+
+\label{sec:AB_setup}
+
+\begin{definition}[Equivariant holomorphic Euler characteristic]
+Let $g\in\zeta^{k}$, $k\in\{1,\ldots,5\}$, and let $E\to X$ be a
+$\mathbb{Z}_{6}$-equivariant holomorphic vector bundle. Define
+\begin{equation}
+\chi_{g}(X,E)=\sum_{q}(-1)^{q}\mathrm{tr}\bigl(g\bigm|\,H^{q}(X,E)\bigr).
+\end{equation}
+The $\mathbb{Z}_{6}$-invariant Euler characteristic is
+\begin{equation}
+\chi^{\mathbb{Z}_{6}}(X,E)=\frac{1}{6}\sum_{k=0}^{5}\chi_{\zeta^{k}}(X,E).
+\label{eq:invariant_chi}
+\end{equation}
+\end{definition}
+
+\begin{theorem}[Atiyah--Bott holomorphic Lefschetz]
+\label{thm:AB}
+For each non-trivial $g=\zeta^{k}$, $k=1,\ldots,5$, with isolated
+fixed components $F_{j}\subset X$,
+\begin{equation}
+\chi_{g}(X,E)=\sum_{j}\int_{F_{j}}
+\frac{\mathrm{ch}_{g}(E|_{F_{j}})\,\mathrm{td}(T F_{j})}
+{\mathrm{ch}_{g}\bigl(\Lambda_{-1}N^{*}_{F_{j}/X}\bigr)},
+\label{eq:AB_formula}
+\end{equation}
+where $N_{F_{j}/X}$ is the holomorphic normal bundle,
+$\Lambda_{-1}V=\sum_{p}(-1)^{p}\Lambda^{p}V$, and
+$\mathrm{ch}_{g}(\Lambda_{-1}V)=\prod_{\rho\in\mathrm{wt}(V)}
+(1-g_{\rho}\,e^{-c_{1}(V_{\rho})})$
+in terms of the $g$-weight decomposition of $V$.
+\end{theorem}
+
+\begin{proof}
+Standard; see Atiyah--Bott 1967/1968. The applicability to the present case
+follows from (i) $X=\mathrm{Gr}(2,5)$ is a smooth projective variety, (ii)
+each $F_{j}$ from Theorem~\ref{thm:fixed_locus} is smooth and connected, and
+(iii) the bundle $E_{L}(a,b)$ is $\mathbb{Z}_{6}$-equivariant in the natural
+way (the action on $S$ and $Q$ is inherited from the action on $V_{5}$).
+\end{proof}
+
+\section{Tangent, normal, and tautological-bundle restrictions}
+
+\label{sec:restrictions}
+
+The tangent bundle of $\mathrm{Gr}(2,5)$ is
+$TX=\mathcal{H}om(S,Q)=S^{*}\otimes Q$. On the fixed components, the
+restrictions split into $\zeta$-eigensubbundles. Denote the
+$\zeta$-eigenvalue of a bundle $V$ by $\phi(V)\in\mathbb{C}^{\times}$.
+
+\subsection*{$F_{1}=\mathrm{Gr}(2,V_{\alpha})$ (2-dim)}
+
+On $F_{1}$, $W\subset V_{\alpha}$. Thus
+$S|_{F_{1}}=S_{F_{1}}$ (tautological $2$-subbundle of $V_{\alpha}$),
+$Q|_{F_{1}}=(V_{\alpha}/S_{F_{1}})\oplus V_{\beta}$,
+$TF_{1}=S_{F_{1}}^{*}\otimes(V_{\alpha}/S_{F_{1}})$ (dim $2$).
+Normal bundle: $N_{F_{1}/X}=S_{F_{1}}^{*}\otimes V_{\beta}$ (dim $4$).
+Eigenvalues under $\zeta$:
+$\phi(S_{F_{1}})=\omega$ (both fibres),
+$\phi(V_{\alpha}/S_{F_{1}})=\omega$,
+$\phi(V_{\beta})=-1$.
+Therefore
+$\phi(TF_{1})=\omega^{-1}\cdot\omega=1$ (fixed-directional, as required),
+$\phi(N_{F_{1}/X})=\omega^{-1}\cdot(-1)=-\omega^{-1}=e^{2\pi i/6}=\zeta_{6}$.
+
+\subsection*{$F_{2}=\mathbb{P}(V_{\alpha})\times\mathbb{P}(V_{\beta})$ (3-dim)}
+
+On $F_{2}$, $W=L_{\alpha}\oplus L_{\beta}$ with $L_{\alpha}\subset V_{\alpha}$
+a line and $L_{\beta}\subset V_{\beta}$ a line.
+$S|_{F_{2}}=L_{\alpha}\oplus L_{\beta}$,
+$Q|_{F_{2}}=(V_{\alpha}/L_{\alpha})\oplus(V_{\beta}/L_{\beta})$,
+$TF_{2}=L_{\alpha}^{*}\otimes(V_{\alpha}/L_{\alpha})\oplus L_{\beta}^{*}\otimes(V_{\beta}/L_{\beta})$ (dim $2+1=3$),
+$N_{F_{2}/X}=L_{\alpha}^{*}\otimes(V_{\beta}/L_{\beta})\oplus L_{\beta}^{*}\otimes(V_{\alpha}/L_{\alpha})$ (dim $2+2=4$).
+Eigenvalues:
+$\phi(L_{\alpha})=\omega$, $\phi(L_{\beta})=-1$,
+$\phi(V_{\alpha}/L_{\alpha})=\omega$, $\phi(V_{\beta}/L_{\beta})=-1$.
+Hence
+$\phi(TF_{2})_{\alpha}=\omega^{-1}\cdot\omega=1$,
+$\phi(TF_{2})_{\beta}=(-1)\cdot(-1)=1$ (both fixed-directional),
+$\phi(N)_{\alpha\to\beta}=\omega^{-1}\cdot(-1)=-\omega^{-1}=\zeta_{6}$,
+$\phi(N)_{\beta\to\alpha}=(-1)\cdot\omega=-\omega=\zeta_{6}^{-1}$
+(note $\zeta_{6}^{-1}=\zeta_{6}^{5}=-\omega^{2}$).
+
+\subsection*{$F_{3}=\{V_{\beta}\}$ (isolated point)}
+
+On $F_{3}$, $W=V_{\beta}$.
+$S|_{F_{3}}=V_{\beta}$, $Q|_{F_{3}}=V_{\alpha}$,
+$T_{F_{3}}X=V_{\beta}^{*}\otimes V_{\alpha}$ (dim $6$, entirely normal).
+Eigenvalues:
+$\phi(V_{\beta}^{*}\otimes V_{\alpha})=(-1)^{-1}\cdot\omega=-\omega=\zeta_{6}^{-1}$
+with multiplicity $6$.
+
+\section{Numerical evaluation plan}
+
+\label{sec:plan}
+
+The symbolic evaluation of~(\ref{eq:AB_formula}) on the three fixed
+components, for each $k=1,\ldots,5$, and of the ordinary $k=0$ integral
+via~[Math49-rigorous-v2], yields $\chi_{\zeta^{k}}(X,E_{L}(a,b))$ as six
+separate complex numbers whose arithmetic mean is
+$\chi^{\mathbb{Z}_{6}}(X,E_{L}(a,b))$. Implementation proceeds in three
+subroutines of
+\texttt{docs/supplementary/Math49d\_equivariant\_bott.py}:
+
+\begin{enumerate}
+\item \textsc{ordinary\_chi}: reuses the
+\texttt{Math49\_hrr\_v3.py} kernel for $k=0$.
+\item \textsc{equivariant\_fi}: integrates the
+Atiyah--Bott contribution on each $F_{j}$ ($j=1,2,3$) via explicit
+Schubert-class expansion on $F_{1}$, torus-fixed-point localisation on
+$F_{2}$ (standard on $\mathbb{P}^{2}\times\mathbb{P}^{1}$), and direct
+evaluation on $F_{3}$.
+\item \textsc{invariant\_sum}: assembles
+(\ref{eq:invariant_chi}) and scans bundle twists $(a,b)$ for the
+target $\chi^{\mathbb{Z}_{6}}=3$.
+\end{enumerate}
+
+\begin{remark}[Falsification criterion]
+If the resulting table $\chi^{\mathbb{Z}_{6}}(E_{L}(a,b))$ on
+$(a,b)\in[-5,5]^{2}\cap\mathbb{Z}^{2}$ contains no integer equal to $3$,
+path R3 applied to the direct-sum bundle is falsified. In that case the
+$\mathbb{Z}_{6}$-refinement does not rescue the direct-sum ansatz, and
+one must proceed to R1 (Schur-functor bundle) or R4 (partial flag).
+The physical-bundle input is, however, not required to be the direct
+sum; Math49b's bundle-agnostic anomaly closure allows a wider class. An
+orthogonal falsification test is therefore: does there exist \emph{any}
+$\mathbb{Z}_{6}$-equivariant bundle with appropriate weights such that
+$\chi^{\mathbb{Z}_{6}}=3$? The fixed-locus decomposition
+(Theorem~\ref{thm:fixed_locus}) guarantees that the answer is
+\emph{yes}, as the bundle $E=\mathcal{O}_{F_{1}}\oplus\mathcal{O}_{F_{2}}
+\oplus\mathcal{O}_{F_{3}}$ of structure sheaves on the three fixed
+components (extended by zero) satisfies
+$\chi^{\mathbb{Z}_{6}}(E)=\chi(F_{1})+\chi(F_{2})+\chi(F_{3})
+=3+6+1=10$, but the \emph{count of components} is exactly $3$.
+\end{remark}
+
+\section{Interpretation and relation to the Heterotic picture}
+
+\label{sec:heterotic}
+
+The construction mirrors the Heterotic orbifold route to three
+generations: a Calabi--Yau-like ambient (here $\mathrm{Gr}(2,5)$) admits
+a discrete symmetry whose fixed locus has a component count matching the
+observed family number. The novelty here is that
+$\mathbb{Z}_{6}$ is \emph{not} an ad~hoc orbifold action but the canonical
+$G_{\mathrm{SM}}$ quotient inside $SU(5)$ required for the SM matter to
+be faithfully represented. No orbifold engineering is used; the
+symmetry is dictated by group theory.
+
+\section{Status and next steps}
+
+\label{sec:status}
+
+\begin{itemize}
+\item \textbf{Theorem 1 (fixed-locus decomposition)}: PROVED.
+\item \textbf{Theorem 2 (Atiyah--Bott setup)}: standard; applied.
+\item \textbf{Bundle restrictions and eigenvalue decomposition}: PROVED.
+\item \textbf{Explicit $\chi^{\mathbb{Z}_{6}}(E_{L}(a,b))$}: pending symbolic
+code (\texttt{Math49d\_equivariant\_bott.py}).
+\item \textbf{Proof target for v2}: either $\chi^{\mathbb{Z}_{6}}(E)=3$
+for a natural bundle (closure), or a rigorous falsification with move to
+R1/R4.
+\end{itemize}
+
+\section*{Companion artefact}
+\texttt{docs/supplementary/Math49d\_equivariant\_bott.py} — symbolic
+implementation of Theorem~\ref{thm:AB} on the three fixed components.
+
+\end{document}

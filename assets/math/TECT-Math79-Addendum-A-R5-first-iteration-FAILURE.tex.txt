@@ -1,0 +1,240 @@
+% =====================================================================
+% TECT-Math79-Addendum-A-R5-first-iteration-FAILURE.tex.txt
+% Theory tag:  Math79-Pillar10-R5-first-iteration-FAILURE-2026-04-24
+% Classification: NEGATIVE RESULT (pre-registered failure criterion triggered)
+% Status:      R5 first-iteration audit FAILS the pre-registered success
+%              criterion. Pillar 10 = OPEN-NEGATIVE REFINED is REINFORCED.
+%
+% This addendum records the numerical outcome of the R5 audit defined
+% in Math79 §§4-7. The dimensional-ansatz form of C_i, applied to the
+% four canonical residual channels {delta Lambda, delta F_Cas,
+% delta lambda_C, delta a_e}, does not yield a single common
+% completion scale chi_* across channels.
+%
+% Scope: this addendum reports the FIRST-ITERATION result (dimensional
+% C_i). It does NOT preclude that a more rigorous derivation of C_i
+% (from explicit Brazovskii defect-mediated calculations) could change
+% the verdict. However, the gap is so wide (44+ orders of magnitude on
+% the Lambda channel) that recovering universality via refined C_i is
+% considered unlikely at this stage.
+%
+% Audit reference: Math79 §7 Theorem on R5 failure.
+% =====================================================================
+
+\documentclass[11pt,a4paper]{article}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\geometry{margin=1in}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{remark}[theorem]{Remark}
+
+\title{Math79 Addendum A: First-Iteration R5 Numerical Extraction --- Pre-Registered Failure Criterion Triggered}
+\author{TECT collaboration}
+\date{2026-04-24}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We execute the first iteration of the Math79 R5 residual-matching audit
+on the four canonical channels $\{\delta\Lambda, \delta F_{\mathrm{Casimir}},
+\delta\lambda_{\mathrm{Compton}}, \delta a_e\}$. Using the dimensional-ansatz
+form of the classical-TECT coefficients $C_i$ and two independent
+calibration conventions (Compton-anchored and electron-energy-anchored),
+the extracted ratios are
+\[
+\rho_\Lambda \;=\; \chi_*^{(\Lambda)} / \chi_*^{(\mathrm{Comp})} \;\approx\; 3.4\times 10^{-44},
+\quad
+\rho_{\mathrm{Cas}} \;\approx\; -8.7\times 10^{-7},
+\quad
+\rho_{g{-}2} \;\approx\; +8.0\times 10^{+7}.
+\]
+None lies inside the pre-registered success window $[0.5, 2.0]$, and all
+three lie outside the conservative failure window $[0.1, 10]$. The
+Math79 \S 7 Theorem on R5 failure is therefore satisfied, with the
+verdict
+\[
+\boxed{\;\text{Pillar 10 = OPEN-NEGATIVE REFINED is REINFORCED.}\;}
+\]
+\end{abstract}
+
+\section{Numerical setup}
+
+The extraction script
+\texttt{Codes/supplementary/Math79\_R5\_chi\_star\_extraction.py} (md5
+to be added) implements the dimensional ansatz of Math79 \S\S4--6 with
+the following inputs:
+\begin{itemize}
+\item \textbf{Observational anchors} (SI):
+\begin{align*}
+\hbar_{\mathrm{obs}}    &= 1.055 \times 10^{-34}\ \mathrm{J\,s},\quad
+c = 2.998 \times 10^{8}\ \mathrm{m/s},\\
+m_e                     &= 9.109 \times 10^{-31}\ \mathrm{kg},\quad
+e = 1.602 \times 10^{-19}\ \mathrm{C},\\
+\lambda_C               &= h_{\mathrm{obs}} / (m_e c) = 2.426 \times 10^{-12}\ \mathrm{m},\\
+\Lambda_{\mathrm{obs}}  &= 1.106 \times 10^{-52}\ \mathrm{m}^{-2}\quad\text{(Planck 2018, LCDM)},\\
+F_{\mathrm{Cas}}/A      &= -\,\frac{\pi^{2}\hbar c}{240\,d^{4}}
+                        = -1.300 \times 10^{-3}\ \mathrm{Pa}\quad\text{at}\ d = 1\ \mu\mathrm{m},\\
+a_e^{(\mathrm{obs})}    &= 1.160 \times 10^{-3}.
+\end{align*}
+\item \textbf{TECT classical inputs} (lattice-natural, dimensionless):
+$q_0^{\mathrm{lat}} = 0.6802$, $a_{\mathrm{BCC}}^{\mathrm{lat}} = 2\pi/q_0 \approx 9.24$,
+$Y^{\mathrm{lat}} = 1.62$, $\lambda^{\mathrm{lat}} = -0.43$.
+\item \textbf{Free dimensional parameters}: physical lattice spacing
+$a_{\mathrm{BCC}}^{\mathrm{phys}}$ (m) and Brazovskii stiffness in SI,
+$Y_{\mathrm{SI}}$ (J\,m). Two independent calibration conventions are
+tested.
+\end{itemize}
+
+\section{Calibration option 1: Compton-anchored}
+
+Setting $\chi_*^{(\mathrm{Comp})} = 1$ forces $a_{\mathrm{BCC}}^{\mathrm{phys}} = \lambda_C = 2.43\times 10^{-12}$~m
+(electron-Compton lattice spacing). The free parameter $Y_{\mathrm{SI}}$ is then
+scanned over the range $10^{-50}$ to $10^{+10}$~J\,m. The optimum
+$Y_{\mathrm{SI}}$ (defined as the value minimising $|\log_{10}\rho_\Lambda|$)
+is $Y_{\mathrm{SI}} \approx 10^{-50}$~J\,m, at which:
+\[
+\chi_*^{(\mathrm{Comp})} = 1.0,
+\quad
+\chi_*^{(\Lambda)} \approx 6.5\times 10^{-26},
+\quad
+\chi_*^{(\mathrm{Cas})} \approx -1.65\times 10^{+12},
+\quad
+\chi_*^{(g{-}2)} \approx 1.46\times 10^{-25}.
+\]
+Even at the boundary of the scanned range, no value of $Y_{\mathrm{SI}}$
+brings the four channels to a common scale.
+
+\section{Calibration option 2: electron-energy-anchored}
+
+Adopting the lattice-to-SI conversion
+\[
+Y_{\mathrm{SI}} \;=\; Y^{\mathrm{lat}}\cdot E_{\mathrm{BCC}}^{\mathrm{phys}}\cdot a_{\mathrm{BCC}}^{\mathrm{phys}},
+\quad
+E_{\mathrm{BCC}}^{\mathrm{phys}} = m_e c^{2} = 8.19\times 10^{-14}\ \mathrm{J},
+\]
+(electron rest-energy as the natural energy scale) and scanning
+$a_{\mathrm{BCC}}^{\mathrm{phys}}$ over $[10^{-15},\,10^{-8}]$~m yields
+the table:
+\[
+\begin{array}{rrrrr}
+\toprule
+a_{\mathrm{BCC}}^{\mathrm{phys}}\;[\mathrm{m}] & \rho_\Lambda & \rho_{\mathrm{Cas}} & \rho_{g{-}2} \\
+\midrule
+10^{-15} & 3.4\times 10^{-58} & -8.7\times 10^{-21} & +8.0\times 10^{-7} \\
+10^{-13} & 3.4\times 10^{-54} & -8.7\times 10^{-17} & +8.0\times 10^{-3} \\
+3.16\times 10^{-12} & 3.4\times 10^{-51} & -8.7\times 10^{-14} & +8.0 \\
+10^{-10} & 3.4\times 10^{-48} & -8.7\times 10^{-11} & +8.0\times 10^{+3} \\
+10^{-8}  & 3.4\times 10^{-44} & -8.7\times 10^{-7}  & +8.0\times 10^{+7} \\
+\bottomrule
+\end{array}
+\]
+All three ratios scale jointly as $a_{\mathrm{BCC}}^{\mathrm{phys},\,2}$, so the
+ratios cannot be brought to unity simultaneously by any choice of
+$a_{\mathrm{BCC}}^{\mathrm{phys}}$. The optimum joint value
+($\sum_i |\log_{10}\rho_i|$ minimised) gives
+\[
+a_{\mathrm{BCC}}^{\mathrm{phys, joint-opt}} \approx 10^{-8}\ \mathrm{m},
+\quad
+\rho_\Lambda \approx 3.4\times 10^{-44},
+\quad
+\rho_{\mathrm{Cas}} \approx -8.7\times 10^{-7},
+\quad
+\rho_{g{-}2} \approx +8.0\times 10^{+7}.
+\]
+
+\section{Verdict}
+
+\begin{theorem}[R5 first-iteration outcome]
+For both calibration conventions tested, none of the three ratios
+$\{\rho_\Lambda,\,\rho_{\mathrm{Cas}},\,\rho_{g{-}2}\}$ lies in the
+pre-registered success window $[0.5,\,2.0]$, and all three lie outside
+the conservative failure window $[0.1,\,10]$. The Math79 \S 7 Theorem
+on R5 failure is satisfied:
+\[
+\boxed{
+\text{Pillar 10 = OPEN-NEGATIVE REFINED is REINFORCED.}
+}
+\]
+\end{theorem}
+
+\section{Interpretation}
+
+The three independent failure modes are physically informative:
+\begin{itemize}
+\item \textbf{$\rho_\Lambda \approx 3.4\times 10^{-44}$}: the cosmological
+constant residual is $\sim 44$ orders of magnitude smaller than what
+a Compton-scale universal completion parameter would predict. This is
+quantitatively consistent with the standard cosmological-constant
+problem (60--120 orders-of-magnitude mismatch in QFT vacuum-energy
+estimates), and indicates that the $\Lambda$ residual physics is not
+in the same universality class as electron-Compton physics.
+\item \textbf{$\rho_{\mathrm{Cas}} \approx -8.7\times 10^{-7}$}: the
+Casimir residual is $\sim 7$ orders of magnitude smaller than the
+universal scale and carries an opposite sign. The sign mismatch is an
+artefact of the dimensional ansatz (which does not encode the
+attractive boundary condition); the magnitude mismatch indicates that
+classical-TECT defect-mediated stiffness is not the dominant boundary-
+energy mechanism.
+\item \textbf{$\rho_{g{-}2} \approx +8.0\times 10^{+7}$}: the $g{-}2$
+residual is $\sim 7$ orders of magnitude \emph{larger} than the
+dimensional defect-loop coupling predicts. This indicates that the
+QED loop structure providing the $\alpha/(2\pi)$ Schwinger term is
+fundamentally larger than a naive classical defect-vertex estimate.
+\end{itemize}
+The three failure modes go in three different directions: $\Lambda$ is
+too small, Casimir is too small with wrong sign, $g{-}2$ is too large.
+A single universal $\chi_*$ cannot reconcile them, even at the
+order-of-magnitude level.
+
+\section{Honest scope statement (binding)}
+
+\[
+\boxed{
+\text{TECT does not derive }\hbar\text{ from pure classical first principles.}
+}
+\]
+\[
+\boxed{
+\text{R5 first-iteration audit fails: no single external completion scale unifies the four channel residuals at the dimensional-ansatz level.}
+}
+\]
+
+\section{What remains open}
+
+\begin{itemize}
+\item \textbf{Refined-$C_i$ second iteration}: derive $C_i$ from explicit
+Brazovskii defect-mediated calculations (rather than dimensional analysis).
+This would be a Math79-Addendum-B effort. Given the magnitude of the
+present mismatch (44 orders for $\Lambda$, 7 orders for Casimir and
+$g{-}2$), the prospect of recovering universality at refined order is
+considered low, but not zero.
+\item \textbf{Channel reduction}: drop the cosmological channel (which
+is plausibly governed by physics outside TECT scope) and retry R5 on
+the three laboratory channels $\{\mathrm{Cas},\,\mathrm{Comp},\,g{-}2\}$.
+This still requires bringing $\rho_{\mathrm{Cas}}$ and $\rho_{g{-}2}$
+into mutual consistency, which is not achieved by the dimensional
+ansatz.
+\item \textbf{Honest acceptance of OPEN-NEGATIVE}: the R5 framework was
+designed to provide a binary verdict; it has done so. The most
+scientifically honest outcome is to record the negative result and
+reaffirm Pillar 10 as OPEN-NEGATIVE REFINED with the additional R5
+constraint.
+\end{itemize}
+
+\section*{Supersession map}
+
+\begin{itemize}
+\item This addendum closes \texttt{Q-2026-04-24-P10-R5-residual-matching}
+in the OPEN-QUESTIONS ledger by negative verdict.
+\item Math59-v3-Pillar10-post-TOE-audit's classification of Pillar 10
+as OPEN-NEGATIVE REFINED is reinforced; Math79 augments this with the
+R5 failure constraint.
+\item Pillar 10 mainline status remains OPEN-NEGATIVE REFINED. No upgrade.
+\end{itemize}
+
+\end{document}

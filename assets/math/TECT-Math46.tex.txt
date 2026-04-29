@@ -1,0 +1,378 @@
+% =========================================================
+%  TECT -- Math46 research note (2026-04-16)
+%  Parallel design of the C2 and C3 finite-audit extractors
+%  from the locked Brazovskii Hessian.
+%
+%    (C2) K_ij(p) and H_{TT}/H_{tr}/H_V block extractor for the
+%         displacement / strain sector (emergent gravity audit);
+%    (C3) Local U(2)_EW frame F(x), connection A_mu = -iF^dag d_mu F,
+%         and curvature F_mn extractor (electroweak audit).
+%
+%  Reference implementations:
+%    PDE/math46_c2_extractor.py
+%    PDE/math46_c3_extractor.py
+%
+%  Closes (as design): design-layer of Math44/Math45 finite audits.
+%  Feeds: Q-18 sweep data; Q-01 production run post-processing.
+%
+%  Theory tag after this note: Math46-extractor-design-2026-04-16
+% =========================================================
+
+\documentclass{article}
+\usepackage{amsmath,amssymb,amsthm}
+\newtheorem{thm}{Theorem}
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{cor}[thm]{Corollary}
+\theoremstyle{definition}
+\newtheorem{defn}[thm]{Definition}
+\theoremstyle{remark}
+\newtheorem*{rmk}{Remark}
+\begin{document}
+
+\section*{Math46: Parallel design of the C2 (gravity) and C3 (gauge)
+finite-audit extractors from the locked Brazovskii Hessian}
+
+\subsection*{0. Objective}
+
+Math44 (C3) and Math45 (C2) reduced the Class-III (gauge) and
+Class-II (gravity) sector completions to \emph{finite audit
+questions}: a small set of numerical tests $(T1,T2,T3)$ on three
+grid refinements that must pass at the $1\%$ level. Math46 designs
+the two extractors required to run those tests. The two designs are
+intentionally \emph{parallel}: they share the same Hessian-projection
+pipeline, differ only in the projection target (strain subspace vs.
+phase-frame subspace), and are implemented as two siblings of a
+common PyTorch scaffolding.
+
+\subsection*{1. Common pipeline}
+
+Let $\psi(x)$ denote the locked Brazovskii order parameter on an
+$N^{3}$ periodic grid of side $L$ with $dk=2\pi/L$. Let
+\begin{equation}
+H_{\alpha\beta}(x,y)
+ \;\equiv\;\frac{\delta^{2}F_{\mathrm{eff}}}
+                {\delta\psi_{\alpha}(x)\,\delta\psi_{\beta}(y)}
+ \Bigg|_{\psi=\psi_{\mathrm{lock}}}
+\label{eq:Hessian}
+\end{equation}
+denote the quadratic Hessian around the locked configuration, where
+$\alpha,\beta$ run over real and imaginary parts (or over doublet
+components for C3). The pipeline has four stages:
+
+\begin{enumerate}
+\item[S1.] \textbf{Locked background}: converge the Patch-A Brazovskii
+solver to $(\mu^{2},\lambda,\gamma)=(0.26,-0.43,+1.62)$ on grids
+$N\in\{32,64,128\}$ with $L=N\cdot dk^{-1}$ and shell-consistent $dk$.
+\item[S2.] \textbf{Hessian action}: implement $v\mapsto H v$ as a
+spectral operator via FFT, avoiding $O(N^{6})$ dense storage.
+\item[S3.] \textbf{Projection}: apply the appropriate projector
+$P^{(\bullet)}$ to both argument and range of $H$ to obtain the
+projected Hessian $H^{(\bullet)}=P^{(\bullet)\dagger}H P^{(\bullet)}$.
+\item[S4.] \textbf{Mode-by-mode diagonalisation}: for each $p$ on the
+Fourier grid, diagonalise the small projected block $H^{(\bullet)}(p)$
+and read off the spectrum.
+\end{enumerate}
+
+\begin{rmk}
+The full Hessian is $O(N^{6})$ dense; the FFT-based spectral action
+in S2 keeps the cost at $O(N^{3}\log N)$ per Hessian application.
+Projection onto $p$-local subspaces (S3) reduces S4 to $N^{3}$
+independent small ($3\times3$ or $2\times2$) eigenproblems.
+\end{rmk}
+
+\subsection*{2. C2 extractor: $K_{ij}(p)$ and the
+$H_{TT}/H_{\mathrm{tr}}/H_{V}$ blocks}
+
+\subsubsection*{2.1 Displacement projection}
+
+By Math45 Lem~1, the phase shell of $\psi$ linearises to a
+displacement $u_{i}(x)$. Explicitly, write
+$\psi(x)=\sqrt{\rho}(x)\,e^{i\theta(x)}$, $\theta=q_{0}\hat{n}\cdot u
++ \theta_{\perp}$.
+
+\begin{defn}[C2 projector]
+\label{defn:PC2}
+$P^{(C2)}$ maps a scalar field $\theta(x)$ to the vector field
+$u_{i}(x)$ via
+\begin{equation}
+u_{i}(x)
+ \;=\;\mathcal{F}^{-1}\!\left[
+ \frac{i\,\hat{p}_{i}}{q_{0}}\,
+ \mathbf{1}_{|p|\le q_{0}}\,
+ \widehat{\theta}(p)\right](x),
+\label{eq:u-of-theta}
+\end{equation}
+where the indicator $\mathbf{1}_{|p|\le q_{0}}$ projects onto the
+infrared shell (non-shell fluctuations contribute beyond the
+displacement approximation).
+\end{defn}
+
+\subsubsection*{2.2 Displacement kernel}
+
+\begin{defn}[$K_{ij}(p)$]
+The quadratic part of $F_{\mathrm{eff}}$ restricted to the
+displacement subspace reads
+\begin{equation}
+F_{\mathrm{quad}}^{(u)}
+ = \tfrac{1}{2}\int\!\frac{d^{3}p}{(2\pi)^{3}}\,
+   u_{i}(-p)\,K_{ij}(p)\,u_{j}(p),
+\qquad
+K_{ij}(p) \;=\; P^{(C2)\dagger}(p)\,H(p)\,P^{(C2)}(p).
+\end{equation}
+\end{defn}
+
+\begin{lem}[Diagonalisation at each $p$]
+\label{lem:Kp-diag}
+At each $p\ne 0$, $K_{ij}(p)$ is a symmetric $3\times 3$ matrix.
+Its eigenvalues $(\lambda_{L}(p),\lambda_{T,1}(p),\lambda_{T,2}(p))$
+with eigenvectors $(\hat{p},\hat{e}_{T,1},\hat{e}_{T,2})$
+implement the longitudinal--transverse split of Math45 Lem~2.
+\end{lem}
+
+\subsubsection*{2.3 Strain-block projectors}
+
+\begin{defn}[Strain-space block projectors]
+On the 6-dimensional symmetric strain tensor space $\{\varepsilon_{ij}\}$,
+\begin{align}
+P^{TT}_{ij,kl}(p)
+ &= \tfrac{1}{2}(P_{ik}P_{jl}+P_{il}P_{jk})
+    -\tfrac{1}{2}P_{ij}P_{kl},
+ & P_{ij}&=\delta_{ij}-\hat{p}_{i}\hat{p}_{j},\\
+P^{\mathrm{tr}}_{ij,kl}(p)
+ &= \tfrac{1}{3}\delta_{ij}\delta_{kl},\\
+P^{V}_{ij,kl}(p)
+ &= \tfrac{1}{2}(\hat{p}_{i}P_{jl}\hat{p}_{k} + \ldots),
+\end{align}
+satisfying $P^{TT}+P^{\mathrm{tr}}+P^{V}+P^{L}=\mathbb{1}_{6}$ with
+$P^{L}$ the pure longitudinal block.
+\end{defn}
+
+\begin{defn}[Projected Hessian blocks]
+\label{defn:H-blocks}
+\begin{equation}
+H_{TT}(p) := \mathrm{tr}\bigl[P^{TT}(p)\,H_{\varepsilon}(p)\bigr],
+\quad
+H_{\mathrm{tr}}(p):=\mathrm{tr}\bigl[P^{\mathrm{tr}}\,H_{\varepsilon}\bigr],
+\quad
+H_{V}(p):=\mathrm{tr}\bigl[P^{V}\,H_{\varepsilon}\bigr],
+\end{equation}
+where $H_{\varepsilon}(p)=(ip)^{2}K(p)$ is the strain-space lift of
+$K_{ij}$ via $\varepsilon_{ij}(p)=\tfrac{1}{2}i(p_{i}u_{j}+p_{j}u_{i})$.
+\end{defn}
+
+\subsubsection*{2.4 Finite audit tests (C2)}
+
+\begin{defn}[T1--T3 for C2]
+\label{defn:C2-tests}
+\begin{align}
+T1(p) &:= H_{TT}(p)/\bigl[H_{\mathrm{tr}}(p)+H_{V}(p)\bigr],
+ &&\text{target: }\tfrac{p^{2}}{2q_{0}^{2}},\\
+T2 &:= \kappa_{G}^{-2}(\text{extracted})\,/\,(Y q_{0}^{2}),
+ &&\text{target: }1,\\
+T3_{\alpha} &:= \kappa_{\alpha}/\kappa_{G}-1,
+ &&\text{target: }|T3_{\alpha}|<0.01.
+\end{align}
+\end{defn}
+
+\begin{prop}[C2 audit convergence]
+\label{prop:C2-conv}
+On grids $N\in\{32,64,128\}$ at the locked triple, all three tests
+converge to their targets at rate $O(N^{-2})$ if and only if Math45
+Thms~C2\_Einstein and C2\_univ are correct.
+\end{prop}
+
+\subsection*{3. C3 extractor: local frame $F(x)$, $A_{\mu}$, and
+$\mathcal{F}_{\mu\nu}$}
+
+\subsubsection*{3.1 Frame extraction}
+
+\begin{defn}[Polar decomposition of the doublet]
+Given the Class-III locked doublet $\Psi_{D}(x)\in\mathbb{C}^{2}$ with
+$\rho_{D}(x)=|\Psi_{D}(x)|^{2}>0$, define
+\begin{equation}
+F(x) \;:=\; \Psi_{D}(x)\,\Xi_{0}^{\dagger}\,/\,\sqrt{\rho_{D}(x)},
+\qquad \Xi_{0}=(0,1)^{T},
+\end{equation}
+extended to a full $U(2)_{\mathrm{EW}}$ element by the Gram--Schmidt
+completion of $\Psi_{D}/\sqrt{\rho_{D}}$ against $\Xi_{0}$.
+\end{defn}
+
+\begin{lem}[Numerical stability]
+The polar decomposition is well-defined on $\{x:\rho_{D}(x)\ge\epsilon\}$
+for $\epsilon=10^{-6}\phi_{0}^{2}$; elsewhere the locked condensate
+is exponentially small and the frame is extended by nearest-neighbour
+interpolation.
+\end{lem}
+
+\subsubsection*{3.2 Connection extraction}
+
+\begin{defn}[Discrete covariant derivative]
+\begin{equation}
+A_{\mu}(x) \;:=\; -i\,F^{\dagger}(x)\,\frac{F(x+\hat{\mu}\,dx)-F(x-\hat{\mu}\,dx)}{2\,dx},
+\end{equation}
+decomposed onto $\{T^{a}\}_{a=1,2,3}\cup\{Y\}$ via
+$W_{\mu}^{a}(x)=2\,\mathrm{tr}(T^{a}A_{\mu})$ and $B_{\mu}(x)=2\,\mathrm{tr}(Y A_{\mu})$.
+\end{defn}
+
+\subsubsection*{3.3 Curvature extraction}
+
+\begin{defn}[Lattice field strength]
+Using the non-commutative lattice plaquette
+\begin{equation}
+U_{\mu\nu}(x) \;=\;
+ e^{-i A_{\mu}(x)dx}\,e^{-i A_{\nu}(x+\hat{\mu}dx)dx}\,
+ e^{+i A_{\mu}(x+\hat{\nu}dx)dx}\,e^{+i A_{\nu}(x)dx},
+\end{equation}
+read off $\mathcal{F}_{\mu\nu}(x) = (i/dx^{2})\log U_{\mu\nu}(x)$
+with principal branch.
+\end{defn}
+
+\subsubsection*{3.4 Finite audit tests (C3)}
+
+\begin{defn}[T4--T6 for C3]
+\begin{align}
+T4 &:= \frac{1}{N^{3}}\sum_{x}\mathrm{tr}\bigl[F^{a}_{\mu\nu}(x)F^{a,\mu\nu}(x)\bigr],
+ &&\text{extract }c_{W}\text{ coeff},\\
+T5 &:= \frac{1}{N^{3}}\sum_{x}B_{\mu\nu}(x)B^{\mu\nu}(x),
+ &&\text{extract }c_{B}\text{ coeff},\\
+T6 &:= c_{W}\cdot(96\pi^{2}),\; c_{B}\cdot(64\pi^{2}),
+ &&\text{targets: both }=1.
+\end{align}
+\end{defn}
+
+\begin{prop}[C3 audit convergence]
+\label{prop:C3-conv}
+On grids $N\in\{32,64,128\}$ at the locked triple, $T6$ converges to
+$1$ at rate $O(N^{-2})$ if and only if Math44 Thm~cWcB is correct.
+\end{prop}
+
+\subsection*{4. Implementation: parallel PyTorch scaffolding}
+
+Both extractors are implemented as subclasses of a common base
+\texttt{BrazovskiiHessianExtractor} with shared FFT infrastructure:
+
+\begin{itemize}
+\item \texttt{PDE/math46\_c2\_extractor.py} --- implements
+\texttt{ExtractorC2} with methods \texttt{compute\_Kij(p)},
+\texttt{compute\_H\_blocks()}, \texttt{run\_audit(T1,T2,T3)}.
+\item \texttt{PDE/math46\_c3\_extractor.py} --- implements
+\texttt{ExtractorC3} with methods \texttt{extract\_frame()},
+\texttt{extract\_connection()}, \texttt{extract\_curvature()},
+\texttt{run\_audit(T4,T5,T6)}.
+\end{itemize}
+
+Both use \texttt{torch.float64}, \texttt{torch.fft.fftn/ifftn}, and
+share the locked background from Patch-A via
+\texttt{tect\_solver\_pt\_v3.py}.
+
+\subsection*{5. Cost and stability budget}
+
+\begin{itemize}
+\item Locked background converge: $O(N^{3}\log N)$ per iteration, $\sim 10^{3}$ iterations at $N=128$.
+\item Hessian action per call: $O(N^{3}\log N)$ via FFT.
+\item Number of $p$-modes to diagonalise: $N^{3}$, each $O(1)$ (3$\times$3 or 2$\times$2).
+\item Total wall-clock at $N=128$, float64, single A100: $\sim 20$ min for C2; $\sim 15$ min for C3.
+\end{itemize}
+
+\subsection*{6. Pass/fail criterion}
+
+Math44 and Math45 close \emph{simultaneously} iff all six tests
+$(T1,T2,T3,T4,T5,T6)$ converge to their Math44/Math45 targets at
+rate $\ge O(N^{-2})$ on $N\in\{32,64,128\}$ with final-grid
+relative error below $1\%$. Any single test failing falsifies the
+corresponding theorem.
+
+\subsection*{7. Records pointers}
+
+\begin{itemize}
+\item \texttt{CHANGELOG.md}: theory tag
+      \texttt{Math46-extractor-design-2026-04-16}.
+\item \texttt{PDE/stamp\_version\_headers.py}: register new modules
+      \texttt{math46\_c2\_extractor.py v0.1},
+      \texttt{math46\_c3\_extractor.py v0.1}.
+      \textbf{[Superseded: see \S9 addendum; current versions
+      are v0.8 and v0.7 respectively.]}
+\item Outputs: \texttt{PDE/outputs/math46\_c2\_audit.json},
+      \texttt{PDE/outputs/math46\_c3\_audit.json}.
+\end{itemize}
+
+% -----------------------------------------------------------------
+\subsection*{8. Addendum (2026-04-16): Extractor development
+history --- v0.1 design to final-candidate production versions}
+% -----------------------------------------------------------------
+
+\paragraph{Overview.}
+Math46 constituted the design specification for two parallel
+extractors at initial version v0.1. Both extractors underwent
+iterative peer review and code correction, documented in the
+sibling notes Math46b (C3 branch) and Math46c (C2 branch). The
+initial v0.1 registration in \S7 was subsequently superseded by
+the following production versions:
+
+\begin{center}
+\begin{tabular}{lllll}
+\hline
+\textbf{Module} & \textbf{Branch} & \textbf{Final version}
+  & \textbf{Theory note} & \textbf{Theory tag} \\
+\hline
+\texttt{math46\_c2\_extractor.py} & C2 (gravity)
+  & v0.8 & Math46c & \texttt{Math46c-c2-extractor-v0.8-2026-04-16} \\
+\texttt{math46\_c3\_extractor.py} & C3 (gauge)
+  & v0.7 & Math46b & \texttt{Math46b-c3-extractor-v0.7-2026-04-16} \\
+\hline
+\end{tabular}
+\end{center}
+
+\paragraph{C2 extractor revision summary (Math46c).}
+Starting from the probe-tangent design of \S2, development
+proceeded through eight minor versions. Critical corrections:
+\begin{itemize}
+\item v0.6 (F1--F3): \texttt{audit\_T2} NameError in singular-TT
+      branch; \texttt{probe\_consistency\_mode} fail-safe.
+\item v0.7 (A--C): Gram-whitened sector-mixing estimator
+      $\tilde{\nu}_{ss'}$ (basis-invariant); \texttt{load\_backend}
+      fail-closed on missing \texttt{hessian\_vec}.
+\item v0.8 (S): $p^{2}$-weighted $Z_{h}$ aggregate in lieu of
+      naive mean.
+\end{itemize}
+
+\paragraph{C3 extractor revision summary (Math46b).}
+Starting from the Fourier-space covariant-derivative probe of
+\S3, development proceeded through seven minor versions.
+Critical corrections:
+\begin{itemize}
+\item v0.5 (Q1--Q3): Han--Avron--Saad prefactor corrected to
+      $\|v_{0}\|^{2}$ (not $n_{\dim}$); $\Delta S_{\mathrm{sym}}$
+      variance formula corrected; shape adapter identity
+      $\pi\circ M_{\ell}\circ\iota = M_{\ell}^{D}$ established.
+\item v0.6 (R1--R3): \texttt{fail\_closed\_E4}
+      $= \neg\,\texttt{uses\_surrogate}$ (previously always
+      \texttt{True}); \texttt{pass\_frame\_nonzero} predicate in
+      \texttt{FrameData}.
+\item v0.7 (R4--R5): \texttt{pass\_T6\_final}
+      $:= \texttt{pass\_T6} \wedge \texttt{pass\_frame\_nonzero}$;
+      \texttt{\_SmokeBackend.hessian\_vec} corrected to
+      full-field $(C,N,N,N)$ contract.
+\end{itemize}
+
+\paragraph{Pass/fail criterion (updated).}
+The criterion of \S6 stands. Both extractors are now at
+final-candidate production status. The open item is the
+production run on the locked triple at $N\in\{32,64,128\}$
+to generate both audit JSON files and confirm all six tests
+$(T1,\ldots,T6)$ within $1\%$.
+
+\paragraph{Records pointer update.}
+\begin{itemize}
+\item \texttt{PDE/stamp\_version\_headers.py}: current module
+      versions are \texttt{math46\_c2\_extractor.py v0.8}
+      and \texttt{math46\_c3\_extractor.py v0.7}.
+\item \texttt{Website/data/version\_index.json}: current theory
+      tag \texttt{Math46b-c3-extractor-v0.7-2026-04-16};
+      both module versions reflected.
+\item Cross-reference: Math46b \S9 (C3 addenda);
+      Math46c \S11 (C2 addenda); Math44 \S9; Math45 \S8.
+\end{itemize}
+
+\end{document}

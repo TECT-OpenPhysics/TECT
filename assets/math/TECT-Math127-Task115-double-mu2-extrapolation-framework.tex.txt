@@ -1,0 +1,260 @@
+% TECT-Math127: Task #115 Double-μ² Extrapolation Framework
+% Status: OUTLINE (theoretical framework established; numerical closure pending)
+% Date: 2026-04-26
+% Maintainer: Jusang Lee (jtkor@outlook.com)
+% Binding document for the continuum limit of the Brazovskii lattice BCC condensate
+
+\documentclass[11pt]{article}
+\usepackage{amsmath, amssymb, amsfonts, geometry, hyperref}
+\geometry{margin=1in}
+\newcommand{\mathcal}[1]{\mathcal{#1}}
+\newcommand{\mathbf}[1]{\mathbf{#1}}
+\newcommand{\mathbb}[1]{\mathbb{#1}}
+\newcommand{\mathrm}[1]{\mathrm{#1}}
+\newcommand{\text}[1]{\text{#1}}
+\newcommand{\emph}[1]{\emph{#1}}
+\newcommand{\em}{\emph}
+\newcommand{\vecr}{\mathbf{r}}
+\newcommand{\vecp}{\mathbf{p}}
+\newcommand{\veck}{\mathbf{k}}
+\newcommand{\vecq}{\mathbf{q}}
+\newcommand{\phi}{\varphi}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\om}{\omega}
+
+\title{TECT-Math127: Task \#115 — Double-$\mu^2$ Extrapolation Framework}
+\author{TECT Autonomous Research Programme}
+\date{2026-04-26}
+
+\begin{document}
+
+\maketitle
+
+\section*{Statement}
+
+The Brazovskii Hartree effective free energy at operating point $(q_0, \mu^2_{\text{op}}, \lambda_{\text{op}}, \gamma_{\text{op}}) = (0.6801747616, 0.26, -0.43, 1.62)$ governs the BCC spatial pattern-formation on a 3D cubic lattice of spacing $a$. To extract the continuum (lattice-independent) BCC lattice constant $a_{\text{BCC}}^{\text{cont}}$ and mass gap $m^{*}$ from numerical Newton-Krylov solutions on finite grids $(N=32, 64, 128)$ and lattice spacings $h \in \{0.1, 0.05, 0.025\}$, we employ a **double-extrapolation** procedure: (i) Richardson extrapolation in $h$ (lattice spacing), (ii) critical-exponent scaling in Brazovskii distance $\delta = |\mu^2 - \mu^2_c|$ near the continuous $O(2)$ ferromagnetic critical point.
+
+\section*{§1. Brazovskii Phase Space and Critical Behavior}
+
+\subsection*{§1.1 Lock Equations and the Operating Point}
+
+The Brazovskii mean-field Hamiltonian at zero temperature is
+\[
+  H_{\text{Brazovskii}} = \sum_{\veck} \left[ (q_0^2 - k^2)^2 + \mu^2 \right] |\psi_{\veck}|^2 + \text{(quartic interactions)}.
+\]
+
+The lock equation (saddle-point condition at one-loop Hartree) states
+\[
+  q_0^2 = \int_0^\infty dk \, k^2 \, f_{\text{bubble}}(k) + O(\lambda^3),
+\]
+where $f_{\text{bubble}}(k) = 1/[(k^2-q_0^2)^2 + \mu^2]$ (Brazovskii bubble propagator).
+
+At the operating point $q_0 \approx 0.6801747616$ (validated in Math97 universality-class proof), the lock equation is \textbf{satisfied unconditionally}.
+
+\subsection*{§1.2 Phase Transition and Universality Class}
+
+The transition from disordered ($|\psi| = 0$) to BCC-ordered ($|\psi| \ne 0$) phase occurs at critical Brazovskii distance
+\[
+  \delta_c = |\mu^2 - \mu^2_c| = 0.
+\]
+
+Near the transition, the order-parameter amplitude $\phi_0 \propto \delta_c^{\beta_{\text{Brazovskii}}}$ (exponent $\beta_B$) and the correlation length $\xi \propto \delta_c^{-\nu}$ (exponent $\nu$). These exponents are \textbf{universal} — they depend only on the symmetry-breaking pattern ($O(2) \to \mathbb{Z}_2$) and spatial dimension ($d=3$), not on lattice details.
+
+By Brazovskii 1975 and subsequent RG analysis (Math97), TECT ∈ $\mathcal{U}_{\text{iso-Brazovskii}}$ universality class, entailing
+\[
+  \beta_B = 1/2, \quad \nu = 2/3, \quad \eta = 0.
+\]
+
+\section*{§2. Lattice Spacing and Grid Dependence}
+
+\subsection*{§2.1 Parametrization}
+
+The discrete lattice in the Newton-Krylov solver has characteristic spacing $h \in \{0.1, 0.05, 0.025\}$ (cubic grid of size $N \times N \times N$). The physical lattice constant $a_{\text{BCC}}$ (spacing of the six BCC lattice vectors) depends on both:
+\begin{enumerate}
+\item The grid spacing $h$ (continuum limit: $h \to 0$).
+\item The Brazovskii distance $\delta = |\mu^2 - \mu^2_c|$ from criticality.
+\end{enumerate}
+
+Define the spectral gap (mass gap) measured on grid spacing $h$ as
+\[
+  m^{*2}(h, \mu^2) = \lambda_{\min}(\hat{\Delta})|_{\text{grid }, h, \mu^2}.
+\]
+
+\subsection*{§2.2 Richardson Extrapolation in $h$}
+
+For smooth functions, Richardson extrapolation predicts
+\[
+  m^{*2}_{\infty} = m^{*2}(h) + c_1 h^p + c_2 h^{2p} + O(h^{3p}),
+\]
+where $p$ is the formal convergence order. For the Brazovskii lattice Hessian (3D cubic lattice, second-order finite differences), we expect $p = 2$ (leading lattice correction $\propto h^2$).
+
+\textbf{Two-point Richardson formula} (using grids $h_1 = 0.05$ and $h_2 = 0.1$):
+\[
+  m^{*2}_{\text{Rich}} = \frac{h_2^p \, m^{*2}(h_1) - h_1^p \, m^{*2}(h_2)}{h_2^p - h_1^p} + O(h_1^{2p}).
+\]
+
+\textbf{Three-point Richardson formula} (using $h_1 = 0.025, h_2 = 0.05, h_3 = 0.1$):
+\[
+  m^{*2}_{\text{Rich,3pt}} = \text{[least-squares fit to } m^{*2}(h) = a_0 + a_1 h^p + a_2 h^{2p}\text{]}.
+\]
+
+\section*{§3. Critical-Exponent Scaling Near Criticality}
+
+\subsection*{§3.1 Expected Scaling Laws}
+
+Near the BCC critical point $\mu^2_c \approx 0.012$ (predicted by Hartree analysis; see Math122 §3), the lattice constant of the BCC pattern scales as
+\[
+  a_{\text{BCC}}(\delta) \propto \delta^{-\nu}
+\]
+where $\nu = 2/3$ (Brazovskii exponent). Thus
+\[
+  a_{\text{BCC}}(\delta) = A \, \delta^{-2/3} + \text{regular terms},
+\]
+for some constant $A > 0$.
+
+The mass gap at the operating point $\mu^2 = 0.26 \gg 0.012$ is \textbf{away from} criticality, so the scaling is \textbf{not} the simple power law. Instead, we expect
+\[
+  m^{*2}(\mu^2) = m^{*2}_{\text{sat}} + B \, (\mu^2_c - \mu^2)^{\theta} + O((\mu^2_c - \mu^2)^{2\theta}),
+\]
+where $\theta = 1$ (anomalous dimension in the Brazovskii RG) and $m^{*2}_{\text{sat}}$ is the saturated mass gap far from criticality.
+
+\textbf{Key observation}: at $\mu^2 = 0.26$, the operating point is \emph{well away} from the critical Brazovskii distance $\delta_c = |\mu^2 - \mu^2_c| \approx 0.25$. The continuum limit is therefore dominated by smooth lattice-spacing dependence, not critical scaling.
+
+\subsection*{§3.2 Joint Richardson + Critical-Scaling Ansatz}
+
+We assume a joint expansion in both lattice spacing $h$ and Brazovskii distance $\delta$:
+\[
+  m^{*2}(h, \mu^2) = m^{*2}_{\infty, c}(\mu^2) + c_1(h, \mu^2) h^2 + O(h^4),
+\]
+where the continuum-limit term $m^{*2}_{\infty, c}(\mu^2)$ obeys
+\[
+  m^{*2}_{\infty, c}(\mu^2) = m^{*2}_{\text{sat}} + B_1 (\mu^2_c - \mu^2)^{1} + B_2 (\mu^2_c - \mu^2)^{2} + \ldots
+\]
+
+To leading order (keeping only linear term in $\delta$):
+\[
+  m^{*2}_{\infty, c}(\mu^2) \approx m^{*2}_{\text{sat}} + B_1 (0.012 - \mu^2).
+\]
+
+At $\mu^2 = 0.26$: $\delta = 0.248$, so
+\[
+  m^{*2}_{\infty, c}(0.26) \approx m^{*2}_{\text{sat}} - 0.248 B_1.
+\]
+
+\section*{§4. Pre-Registered Numerical Protocol}
+
+\subsection*{§4.1 Data Collection}
+
+For each lattice spacing $h \in \{0.1, 0.05, 0.025\}$ and each Brazovskii parameter $\mu^2 \in \{\mu^2_{\text{op}}, \mu^2_{\text{alt}}\}$ (to be specified), execute Newton-Krylov solver on $N \times N \times N$ grid (with $N$ chosen so that physical domain is fixed, $L_{\text{phys}} = N h = \text{const}$).
+
+\textbf{Pre-registered target}: $L_{\text{phys}} = 3.2$ (fixing Brazovskii shell at $q_0 \approx 0.68$, requires $N \approx 32, 64, 128$ respectively for $h = 0.1, 0.05, 0.025$).
+
+\textbf{Output per run}:
+\begin{enumerate}
+\item Converged ground-state order parameter $\Psi^*(x, y, z; h, \mu^2)$.
+\item Hessian eigenvalue spectrum; report $\lambda_{\min}$ (smallest nonzero eigenvalue; exclude accidental zero modes).
+\item Spectral gap $m^{*2}(h, \mu^2) = \lambda_{\min}$ (in units of $\varphi_0^2$ as defined in Math56).
+\end{enumerate}
+
+\subsection*{§4.2 Richardson Extrapolation}
+
+For each fixed $\mu^2$, collect three data points:
+\[
+  (h_1, m^{*2}(h_1)), \quad (h_2, m^{*2}(h_2)), \quad (h_3, m^{*2}(h_3)).
+\]
+
+Fit the ansatz $m^{*2}(h) = a_0 + a_1 h^2 + a_2 h^4$ (least squares). Extract $a_0 = m^{*2}_{\infty, c}(\mu^2)$ (continuum limit).
+
+\textbf{Convergence criterion}: report Richardson residual $\text{RMS}(\text{fit}) / |a_0|$ and require $< 1\%$.
+
+\subsection*{§4.3 Critical-Distance Scan}
+
+Execute continuum-limit extraction (via Richardson) at \textbf{multiple} Brazovskii distances: $\mu^2 \in \{0.26, 0.22, 0.18, 0.14, 0.10\}$ (spanning $\delta \in [0.09, 0.25]$, all away from criticality).
+
+Fit the continuum-limit data to the ansatz
+\[
+  m^{*2}_{\infty, c}(\mu^2) = m^{*2}_{\text{sat}} + B_1 (\mu^2_c - \mu^2) + B_2 (\mu^2_c - \mu^2)^2.
+\]
+
+Extract $m^{*2}_{\text{sat}}$ and $B_1$ (quadratic term $B_2$ secondary).
+
+\subsection*{§4.4 Falsification Criteria}
+
+\textbf{Gate G1 (Richardson convergence)}:
+\[
+  \text{require } \text{RMS}(\text{Richardson fit}) / |m^{*2}_{\infty, c}| < 0.01 \text{ for each } \mu^2.
+\]
+
+\textbf{Gate G2 (Cross-$\mu^2$ consistency)}:
+\[
+  \text{require } \sigma(\text{extrapolated } m^{*2}_{\text{sat}}) < 0.05 \, m^{*2}_{\text{sat}} \text{ (standard error across } \mu^2 \text{ scans)}.
+\]
+
+\textbf{Gate G3 (Critical-scaling shape)}:
+\[
+  \text{require } B_1 < 0 \text{ (mass gap decreases toward criticality, physical expectation)}.
+\]
+
+\textbf{Gate G4 (Comparison with analytic)}:
+\[
+  \text{require } |m^{*2}_{\infty, c, \text{num}} - m^{*2}_{\text{analytic}}| / m^{*2}_{\text{analytic}} < 0.15 \text{ (analytic value from Math37 AddA: } m^{*2}_{\text{analytic}} = 9.005 \text{)}.
+\]
+
+\section*{§5. Theoretical Predictions}
+
+\subsection*{§5.1 Expected Continuum-Limit Value}
+
+From Math37 AddA §A.4 (linear-response calculation, continuum field theory):
+\[
+  m^{*2}_{\infty, c, \text{theory}} = 9.005.
+\]
+
+\subsection*{§5.2 Richardson Convergence Rate}
+
+Given second-order finite-difference Hessian on 3D cubic lattice, expect Richardson exponent $p = 2$. Thus
+\[
+  m^{*2}_{\infty, c} = m^{*2}(h_1) + c \, (h_2^2 - h_1^2) + O(h^4).
+\]
+
+\subsection*{§5.3 Critical-Scaling Correction}
+
+The saturated mass gap (far from BCC critical point) should be \textbf{independent} of $\mu^2$ for $\mu^2 \gg \mu^2_c$. Thus
+\[
+  m^{*2}_{\text{sat}} \approx 9.005 \quad (\text{matches analytic prediction}).
+\]
+
+The linear coefficient $B_1$ should be \textbf{negative} (mass gap suppressed near criticality, physical expectation).
+
+\section*{§6. Devil's-Advocate Self-Test (CLAUDE.md §6.3.1)}
+
+\subsection*{Objection α: Richardson extrapolation assumes smooth $h$-dependence; lattice discretization introduces nonsmooth (e.g., phase-transition) artifacts}
+
+\textbf{Assessment}: VALID (implicit assumption, but reasonable). On a 3D cubic lattice with second-order finite-difference Hessian, the ground state $\Psi^*$ is continuous in $h$. The spectral gap $m^{*2}(h)$ is a smooth function of $h$ far from phase transitions. Since $\mu^2 = 0.26$ is far from criticality ($\mu^2_c \approx 0.012$), the assumption holds. \textbf{Remediation}: report $m^{*2}(h_1, h_2, h_3)$ for inspection; if any three points are strongly noncollinear in a log-log plot, flag the run as suspect.
+
+\subsection*{Objection β: The critical-exponent ansatz assumes single-scale separation ($\nu = 2/3$); Brazovskii theory is approximate (Hartree, no higher-loop)}
+
+\textbf{Assessment}: VALID (honest scope). The Brazovskii critical exponents are exact only at fixed point; Hartree is one-loop (higher-loop corrections possible). However, for the operating point $\mu^2 = 0.26 \gg \mu^2_c$, the scaling is not in the critical regime, so higher-loop exponent corrections are subleading. \textbf{Remediation}: asymptotic-safety (Math121–125) controls higher-loop flow; if 2-loop $\beta_G$ changes the RG trajectory significantly (Task #128), the exponent values may shift slightly, but the structure (linear + quadratic in $\delta$) persists.
+
+\subsection*{Objection γ: Continuum limit ($h \to 0$) assumes thermodynamic limit ($N \to \infty$ at fixed $L_{\text{phys}}$); finite-$N$ effects may be large}
+
+\textbf{Assessment}: VALID (subtle caveat). The Richardson extrapolation extracts lattice-spacing dependence at fixed $N$ (not the thermodynamic limit). If $N$ is too small, finite-size effects can contaminate the fit. \textbf{Remediation}: repeat the procedure at two different fixed $L_{\text{phys}}$ (e.g., $L_{\text{phys}} = 3.2$ and $4.8$); verify that Richardson-extrapolated $m^{*2}_{\infty, c}$ is insensitive to $L_{\text{phys}}$ (within Gate G2 tolerance).
+
+\section*{§7. Implications for TECT}
+
+If Gates G1–G4 all pass:
+\begin{enumerate}
+\item \textbf{Pillar 1 mass-gap closure}: $m^{*2}_{\infty, c, \text{num}}$ is determined from continuum limit; comparison with analytic value validates Hartree one-loop prediction.
+\item \textbf{Continuum-scaling hypothesis}: critical-exponent shape ($B_1 < 0$) confirms Brazovskii universality class membership.
+\item \textbf{Gate F5 (Planck ratio) closure}: combined with Task #127 $G^{\rm TECT}$ extraction, allows computation of $R_{\text{F5}} = a_{\text{BCC}} / (4\sqrt{\pi}\ell_P)$ (Math110-AddB target).
+\item \textbf{Pillar 10 asymptotic-safety pathway}: the continuum limit, together with 2-loop $\beta_G$ (Task #128), establishes UV-attractive fixed point robustness (Math121–125).
+\end{enumerate}
+
+\section*{§8. Status and Next Steps}
+
+\textbf{Status}: OUTLINE (framework established; numerical closure pending).
+
+\textbf{Next step (Round T2)}: Derive precise Brazovskii critical exponents ($\nu, z, \eta$) for the operating point using Hartree treatment. Establish how these exponents propagate to the continuum-limit shape of $m^{*2}(\mu^2)$.
+
+\textbf{Dependency}: Awaits Newton-Krylov solver output (Task #115 GPU runs).
+
+\end{document}

@@ -1,0 +1,420 @@
+% =====================================================================
+%  TECT-Math69 — Independent Peer Review of Math66 v0.2
+%  (Devil's-Advocate Audit of the Adjoint-JVP Rigorous Derivation)
+% =====================================================================
+%  Cross-refs : Math66 v0.1 (Path-X), Math66 v0.2 (rigorous-executable),
+%               Math68 v0.1 + Addendum A §§A.1–A.6,
+%               PDE/tect_newton_krylov.py v2.6.1,
+%               PDE/real_backend_pt_bcc_mixed_v3.py v3.1 (r478–r497),
+%               tests/test_v26_phase_d.py U1.
+%  Purpose    : Apply a PRL-grade adversarial audit to Math66 v0.2
+%               before declaring B2 (Math68 §3) closed. Identify every
+%               non-trivial hidden assumption, quantify the residual
+%               theoretical risk, and issue a verdict for the v2.6.1
+%               code patch.
+%  Status     : PEER-REVIEW-CLOSED (minor-revision merged in line).
+% =====================================================================
+
+\documentclass[11pt,a4paper]{article}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+
+\newtheorem{proposition}{Proposition}
+\newtheorem{lemma}[proposition]{Lemma}
+\newtheorem{theorem}[proposition]{Theorem}
+\newtheorem{corollary}[proposition]{Corollary}
+\theoremstyle{definition}
+\newtheorem{objection}{Objection}
+\newtheorem{remark}[proposition]{Remark}
+
+\title{TECT-Math69 --- Independent Peer Review of Math66 v0.2
+  (Devil's-Advocate Audit of the Adjoint-JVP Rigorous Derivation)}
+\author{TECT research project}
+\date{2026-04-22}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Math66 v0.2 promotes the Class-II Path-X adjoint-JVP construction
+\cite{Math66v02} from skeleton-executable to rigorous-executable status
+and closes Math68 \S 3 Blocker B2 at the structural level. We carry out
+an adversarial referee-grade audit, applying \emph{Physical Review
+Letters}\/-level rigor standards. Four non-trivial objections are
+formulated and resolved; three residual assumptions are isolated and
+explicitly booked to downstream blockers (B3, B4, and the
+UV-renormalisation audit of Pillar~1). We issue a conditional
+\textbf{ACCEPT}: Math66 v0.2 is adopted as the production theory for
+\texttt{tect\_newton\_krylov.py} v2.6.1, subject to the three tracked
+residuals.
+\end{abstract}
+
+% =====================================================================
+\section{Scope of this audit}
+% =====================================================================
+
+This note subjects Math66 v0.2 --- specifically Props.\ \texttt{math66v02-pathA}
+and \texttt{math66v02-pathB}, Thm.\ \texttt{math66v02-Hermiticity}, and
+Cor.\ \texttt{math66v02-recipe-block-diag} --- to a devil's-advocate
+referee pass. The audit framework follows the four-layer protocol of
+the \texttt{tect-math-verify} skill: dimensional analysis,
+symmetry/invariance, topological consistency, and non-perturbative
+regime soundness.
+
+No new physical claim is introduced. What follows is an \emph{audit
+certificate}: any claim that survives \S\S\ref{sec:objection-wirtinger}--\ref{sec:objection-cii-gauge}
+is signed off as merging-ready into the v2.6.1 production codebase.
+
+% =====================================================================
+\section{Objection 1: Wirtinger-grad convention collapse}
+\label{sec:objection-wirtinger}
+% =====================================================================
+
+\begin{objection}[Wirtinger convention ambiguity]
+Math66 v0.2 \S 5 asserts that for a real-valued loss
+$L(\Psi) = \operatorname{Re}\langle v, F(\Psi)\rangle_{\mathbb{C}}$ with
+$\Psi \in \mathbb{C}^{3N^3}$, the PyTorch output
+$\texttt{torch.autograd.grad}(L, \Psi)$ returns precisely the real-Hilbert
+adjoint $\mathcal{J}^\dagger v$. However, PyTorch documentation specifies
+the \emph{conjugate}-Wirtinger convention \cite{PyTorchComplex}, which
+can differ from $\mathcal{J}^\dagger v$ by a factor of~2 and/or a
+complex-conjugation relative to ``adjoint in the C-Euclidean sense''
+$J^H = \overline{J}^\top$. If this convention mismatch is unresolved,
+Thm.\ \texttt{math66v02-Hermiticity} is simply wrong by a factor-of-2
+rescaling, and the pytest Hermiticity bound $\le 10^{-13}$ becomes
+vacuous.
+\end{objection}
+
+\paragraph{Resolution.}
+Fix notation: let $F : \mathbb{C}^n \to \mathbb{C}^n$ be Fr\'echet
+differentiable as an $\mathbb{R}$-linear map from $\mathbb{C}^n$ to
+itself. View $\mathbb{C}^n$ as a real Hilbert space with inner product
+\begin{equation}
+\langle a, b\rangle_{\mathbb{R}}
+  := \operatorname{Re}\sum_{i} \overline{a_i}\, b_i .
+\label{eq:m69-real-inner}
+\end{equation}
+Let $\mathcal{J}(\Psi) := DF(\Psi)$ denote the $\mathbb{R}$-linear
+Fr\'echet derivative. The real-Hilbert adjoint
+$\mathcal{J}(\Psi)^\dagger$ is characterised uniquely by
+$\langle \mathcal{J}^\dagger v, w\rangle_{\mathbb{R}}
+ = \langle v, \mathcal{J} w\rangle_{\mathbb{R}}$ for every
+$w \in \mathbb{C}^n$.
+
+Consider the scalar
+\begin{equation}
+L_v(\Psi) := \operatorname{Re}\langle v, F(\Psi)\rangle_{\mathbb{C}}
+  = \operatorname{Re}\sum_i \overline{v_i}\, F_i(\Psi) .
+\label{eq:m69-loss}
+\end{equation}
+Its Fr\'echet derivative along a test direction $w\in\mathbb{C}^n$ is
+\begin{equation}
+DL_v(\Psi)[w]
+  = \operatorname{Re}\sum_i \overline{v_i}\, (\mathcal{J} w)_i
+  = \langle v, \mathcal{J} w\rangle_{\mathbb{R}}
+  = \langle \mathcal{J}^\dagger v, w\rangle_{\mathbb{R}}.
+\label{eq:m69-DLv}
+\end{equation}
+Thus by the Riesz representation theorem applied to the real inner
+product \eqref{eq:m69-real-inner}, there exists a unique $g \in
+\mathbb{C}^n$ such that $DL_v(\Psi)[w] = \langle g, w\rangle_{\mathbb{R}}$,
+and
+\begin{equation}
+\boxed{\; g = \mathcal{J}(\Psi)^\dagger v. \;}
+\label{eq:m69-adjoint-identification}
+\end{equation}
+
+The PyTorch conjugate-Wirtinger convention, by construction, returns
+$\texttt{Psi.grad}$ equal to the Riesz representative $g$ of
+$DL_v(\Psi)$ under exactly the real inner product
+\eqref{eq:m69-real-inner}. This is documented behaviour (see
+\cite{PyTorchComplex} \S ``Autograd for Complex Numbers'', which states:
+``Conceptually, \ldots if $f : \mathbb{C}^n \to \mathbb{R}$, the
+gradient is computed as the direction in input space along which a
+given step produces the greatest increase in the output''; this
+defines $g$ in the real sense \eqref{eq:m69-real-inner} with no
+factor-of-2 ambiguity). Hence
+\begin{equation}
+\texttt{torch.autograd.grad}(L_v, \Psi_\text{torch})[0]
+  = \mathcal{J}(\Psi)^\dagger v ,
+\label{eq:m69-autograd-identity}
+\end{equation}
+exactly, with no prefactor. The $1/2$ factor that appears in some
+complex-gradient-descent references arises from writing the gradient as
+$\partial L/\partial \Psi + \partial L/\partial \overline{\Psi}$; PyTorch
+folds this into the returned tensor by its convention.
+
+\paragraph{Status.}
+Objection~1 is \emph{resolved}. The identification
+\eqref{eq:m69-adjoint-identification} is an unconditional theorem of
+real-linear analysis; no new assumption on $F$ is invoked.
+Thm.\ \texttt{math66v02-Hermiticity} remains valid \emph{verbatim}.
+
+% =====================================================================
+\section{Objection 2: \texttt{\_to\_torch} dtype-coercion graph break}
+\label{sec:objection-to-torch}
+% =====================================================================
+
+\begin{objection}[Backend helper graph opacity]
+The backend helpers $\texttt{\_brazovskii\_linear\_term\_t}$,
+$\texttt{\_family\_term\_t}$, \ldots each call
+$\texttt{\_to\_torch}(\Psi_t, \mathrm{params})$ internally. In the
+case the caller passes a torch leaf with $\texttt{requires\_grad=True}$
+but the backend's $\texttt{\_get\_cdtype(params)}$ returns
+$\texttt{complex128}$, \texttt{\_to\_torch} executes the branch
+\begin{verbatim}
+if isinstance(arr, torch.Tensor):
+    ...
+    else:
+        arr = arr.to(dtype=cdtype)
+    return arr.to(device=device)
+\end{verbatim}
+Both calls to \texttt{.to} create \emph{new} tensors. Does this break
+the autograd chain between the leaf $\Psi_\text{torch}$ and the returned
+tensor?
+\end{objection}
+
+\paragraph{Resolution.}
+$\texttt{torch.Tensor.to}$ is an autograd-tracked operation whenever
+either the target dtype or the target device differs from the source
+(see \cite{PyTorchTo}); even when dtype and device coincide, the method
+returns \emph{self} (same tensor object) and preserves
+$\texttt{grad\_fn}$ tracking. Explicitly:
+\begin{enumerate}
+\item If $\texttt{Psi\_torch.dtype} = \texttt{cdtype}$ and
+$\texttt{Psi\_torch.device} = \texttt{device}$, then
+$\texttt{Psi\_torch.to(dtype=cdtype).to(device=device)}$ is an
+identity up to reference. The autograd leaf is preserved.
+\item If the dtype or device \emph{does} differ, \texttt{.to} inserts
+a differentiable copy node (e.g.\ \texttt{\_ToCopyBackward}) into
+the graph, and gradients flow back to the leaf.
+\end{enumerate}
+In both cases the autograd chain from the leaf to the six
+backend-term outputs is intact. The v2.6.1 patch explicitly constructs
+\begin{verbatim}
+    Psi_torch = torch.from_numpy(Psi_np).to(dtype=cdtype, device=device)
+    Psi_torch.requires_grad_(True)
+\end{verbatim}
+so the leaf's dtype and device match $\texttt{\_to\_torch}$'s targets
+by construction --- the first case applies and $\texttt{.to}$ is a
+no-op.
+
+\paragraph{Status.}
+Objection~2 is \emph{resolved}. The chain is provably graph-connected
+under either branch of \texttt{\_to\_torch}. Book this as an
+\emph{empirical verification requirement}: the pytest
+$\le 10^{-13}$ Hermiticity bound of U1 provides the live
+certificate.
+
+% =====================================================================
+\section{Objection 3: Divergence-chain hidden non-holomorphy in cII}
+\label{sec:objection-cii-nonholo}
+% =====================================================================
+
+\begin{objection}[Class-II spectral-divergence non-holomorphy]
+The Class-II term \texttt{\_classII\_effective\_term\_t} contains
+$\rho(\Psi) = |\Psi|^2 + \epsilon$ in the denominator
+($\epsilon = 10^{-12}$), then mixes this with spectral derivatives of
+$\gradm^i$ and $K^i$. The expression
+\begin{equation}
+q_T(\Psi) = \frac{m_T(\Psi)}{\rho(\Psi)+\epsilon} ,
+  \qquad m_T := \overline{\Psi}^a (T\Psi)^a ,
+\label{eq:m69-qT-def}
+\end{equation}
+is non-holomorphic in $\Psi$ (because $\rho$ and $m_T$ are themselves
+non-holomorphic). Does the autograd recipe remain valid? Specifically:
+does $\texttt{torch.autograd.grad}$ handle the non-holomorphic
+denominator correctly, or does it silently assume holomorphy and
+produce an incorrect $\mathcal{J}^\dagger v$?
+\end{objection}
+
+\paragraph{Resolution.}
+The autograd identification \eqref{eq:m69-autograd-identity} requires
+$F$ to be Fr\'echet differentiable as an $\mathbb{R}$-linear map from
+$\mathbb{C}^n$ to $\mathbb{C}^n$ --- \emph{not} complex
+differentiable. The derivation of \eqref{eq:m69-DLv} in
+\S\ref{sec:objection-wirtinger} never uses holomorphy; it uses only
+the real-linear Fr\'echet derivative $DF(\Psi)$. PyTorch's Wirtinger
+autograd is precisely the real-linear Fr\'echet derivative expressed
+in conjugate-Wirtinger coordinates. Therefore the non-holomorphic
+$\rho(\Psi)$ and $q_T(\Psi)$ are handled correctly by PyTorch; the
+adjoint is the real-Hilbert adjoint, not a spurious C-linear adjoint.
+
+Concretely, the backend term
+\begin{equation}
+F_\text{cII}^a(\Psi)
+= \sum_T \bigl[ c_{JJ}^{\text{eff}} \operatorname{div} J_T
+       + c_{JK}^{\text{eff}} \operatorname{div} K_T \bigr]
+  \bigl( T\Psi - q_T \Psi\bigr)^a
+\label{eq:m69-FcII}
+\end{equation}
+(per Math66 v0.2 Eq.\ \texttt{math66v02-classII-def}) is a composition
+of smooth $\mathbb{R}$-differentiable operators on $\mathbb{C}^n$: FFT
+(C-linear), pointwise products (bilinear), $|\Psi|^2$
+(real-quadratic), and reciprocal (smooth away from the
+$\epsilon$-regularised zero set). All of these are supported by
+PyTorch complex autograd \cite{PyTorchComplex}. The six-term sum
+$F = F_\text{lin}+F_\text{fam}+\cdots+F_\text{cII}$ is the same type
+of composition; no branch escapes the autograd machinery.
+
+\paragraph{Risk booking.}
+The $\epsilon$-regularisation $\rho + 10^{-12}$ can in principle cause
+numerical singularity when $|\Psi|^2 \ll 10^{-12}$ pointwise; this is
+the trivial-vacuum regime where the Math56-Addendum Phase-0 gate G0
+already refuses to certify Phases~2/3/4 (see
+\texttt{tect\_newton\_krylov.py} \S 3 commentary). So the
+non-holomorphic denominator is bounded below by $\epsilon$ on any
+physically admissible iterate. \emph{Objection~3 is resolved.}
+
+% =====================================================================
+\section{Objection 4: Class-II residual as a \emph{gauge} object}
+\label{sec:objection-cii-gauge}
+% =====================================================================
+
+\begin{objection}[Gauge-covariance of the adjoint]
+The Class-II term is built from Gell-Mann-embedded generators $T_a
+\in \mathfrak{u}(2) \hookrightarrow \mathfrak{u}(3)$
+\cite{Math66v02Sec4}. If one views $\mathcal{J}^\dagger v$ as a
+Jacobian-adjoint of a \emph{gauge-covariant} residual, the
+Hermitian-symmetrisation $\tfrac{1}{2}(\mathcal{J} + \mathcal{J}^\dagger)$
+must itself be gauge-covariant; otherwise Path-X introduces a spurious
+gauge-breaking operator into the Newton step. Has gauge-covariance of
+$\tfrac{1}{2}(\mathcal{J} + \mathcal{J}^\dagger)$ been verified?
+\end{objection}
+
+\paragraph{Resolution.}
+Let $g \in U(2) \hookrightarrow U(3)$ act on $\Psi \mapsto g\Psi$, and
+let $F^g(\Psi) := gF(g^{-1}\Psi)$ denote the gauge-transformed
+residual. Because $F$ transforms covariantly
+($F(g\Psi) = gF(\Psi)$ for the physically relevant
+\emph{stability subgroup} of the embedded $U(2)$), its Fr\'echet
+derivative transforms as
+\begin{equation}
+\mathcal{J}(g\Psi) = g\, \mathcal{J}(\Psi)\, g^{-1} .
+\label{eq:m69-J-covariance}
+\end{equation}
+Because $g$ is unitary in the real-Hilbert sense (the embedded
+$U(2)$-action preserves $\langle\cdot,\cdot\rangle_{\mathbb{R}}$),
+\begin{equation}
+\mathcal{J}(g\Psi)^\dagger
+  = (g \mathcal{J}(\Psi) g^{-1})^\dagger
+  = g \mathcal{J}(\Psi)^\dagger g^{-1} .
+\label{eq:m69-Jdag-covariance}
+\end{equation}
+Hence
+\begin{equation}
+\tfrac{1}{2}\bigl(\mathcal{J}(g\Psi) + \mathcal{J}(g\Psi)^\dagger\bigr)
+  = g \cdot \tfrac{1}{2}\bigl(\mathcal{J}(\Psi) + \mathcal{J}(\Psi)^\dagger\bigr) \cdot g^{-1} ,
+\label{eq:m69-sym-covariance}
+\end{equation}
+i.e.\ the symmetrised operator is gauge-covariant exactly under the
+embedded stability subgroup. Path-X does \emph{not} introduce a
+spurious gauge-breaking term.
+
+\paragraph{Risk booking.}
+The covariance \eqref{eq:m69-J-covariance} assumes $F$ transforms
+covariantly under the \emph{full embedded} $U(2)$. In the current
+executable proxy of \texttt{\_classII\_effective\_term\_t}, the
+Gell-Mann generators $T_1, T_2, T_3$ embed only the diagonal
+sub-$SU(2)$; the off-diagonal $T_{4,5,6,7}$ and the $T_8$ are
+absent. Therefore \eqref{eq:m69-J-covariance} holds only for the
+embedded $SU(2)$-subgroup, not the full flavour $SU(3)$.
+This is \emph{not} a Math66 v0.2 defect; it is a backend-side
+modelling choice recorded already in Math53 \S 4. The defect lives
+at the theory-currency boundary of Pillar~7 (flavour structure),
+not inside the Path-X recipe.
+
+\emph{Objection~4 is resolved at the theorem level;} the residual
+$SU(3)$-covariance upgrade is tracked as a separate (non-B2)
+theoretical task. See \S\ref{sec:residual-risks} item~(R2).
+
+% =====================================================================
+\section{Residual risks explicitly booked}
+\label{sec:residual-risks}
+% =====================================================================
+
+The following three items are \emph{not} resolved by Math66 v0.2 +
+this audit, and must be tracked separately:
+
+\begin{description}
+\item[(R1) Real cII channel-projector mask (B3 / Task \#114).] The
+  current mask \texttt{cii\_block\_mask} defaults to all-True, so
+  symmetrisation is applied to the full field. When the real mask
+  lands, Path-X becomes strictly more benign (the symmetrisation is
+  \emph{weaker}) and U1 Hermiticity cannot degrade. \emph{B3 is
+  independent of B2 per Cor.\ \texttt{math66v02-recipe-block-diag}.}
+
+\item[(R2) Full-$SU(3)$ covariance of the Class-II residual.] The
+  argument of \S\ref{sec:objection-cii-gauge} guarantees covariance
+  only under the embedded $SU(2)$. Promotion of
+  \texttt{\_gellmann\_embedded\_tlist} to the full eight-generator
+  set is a Pillar-7 task, not a B2 dependency.
+
+\item[(R3) UV-finiteness under Math66 v0.2 composition.] The six
+  torch-native terms produce the same residual as
+  \texttt{backend.residual(Psi, params)} pointwise on the lattice.
+  No new UV behaviour is introduced by the Path-A recomposition.
+  The UV-audit required for Pillar~1 continuum-limit certification
+  is inherited unchanged from the Math55 / Math56-Addendum Theory-1
+  chain and is \emph{not} disturbed by v2.6.1.
+\end{description}
+
+Items (R1)--(R3) are bookkeeping, not Math66 v0.2 defects.
+
+% =====================================================================
+\section{Verdict}
+% =====================================================================
+
+\paragraph{Classification.}
+\emph{Accept (minor revision already merged).}
+
+\paragraph{Production-code status.}
+\texttt{PDE/tect\_newton\_krylov.py} v2.6.1 (theory tag
+\texttt{Math66-v0p2-AdjointJVP-RigorousDerivation-2026-04-22}) may be
+merged as the production Newton-Krylov solver subject to the three
+residuals (R1)--(R3) booked in \S\ref{sec:residual-risks}, none of
+which block B2 closure.
+
+\paragraph{Pytest contract.}
+Under the Math66 v0.2 Path-A patch, the target signature of
+\texttt{tests/test\_v26\_phase\_d.py} is
+\begin{equation}
+\boxed{\; \mathbf{0F / 5P / 0S} \;}
+\label{eq:m69-target-signature}
+\end{equation}
+on any CPU machine with a functional torch installation. Any
+deviation from this signature post-merge signals a regression in
+autograd-path connection (not a Math66 v0.2 theoretical defect) and
+is first-line-debugged by rerunning
+\texttt{Tools/check\_jacobian\_blocks.py --selftest}
+(currently 6/6~PASS per Math68 Addendum A \S A.6).
+
+\paragraph{Continuum-limit implication.}
+With B2 closed, the Newton-Krylov evidence pipeline feeding
+Pillar~1 (continuum limit of the Brazovskii shell free energy at
+$\mu^2_\text{target}$) becomes CPU-executable. The next structural
+milestone is task \#55 (measuring $\sigma_V$ on converged Math55
+endpoints at $N\in\{32, 64, 128\}$) with the Path-X adjoint now
+available for in-solver Hermitian pre-conditioning. This is the
+concrete path from ``Math66 v0.2 is rigorous'' to ``Pillar~1
+Phase~4 numerical certificate can be issued''.
+
+% =====================================================================
+\begin{thebibliography}{9}
+\bibitem{Math66v02}
+  TECT research notes, \emph{Math66-v02-AdjointJVP-RigorousDerivation},
+  \texttt{docs/math/TECT-Math66-v02-AdjointJVP-RigorousDerivation.tex.txt},
+  2026-04-22.
+\bibitem{Math66v02Sec4}
+  TECT research notes, Math66 v0.2 \S 4 (Path B oracle: analytic
+  Hermiticity).
+\bibitem{PyTorchComplex}
+  PyTorch documentation, \emph{Autograd for Complex Numbers},
+  \url{https://pytorch.org/docs/stable/notes/autograd.html#autograd-for-complex-numbers}.
+\bibitem{PyTorchTo}
+  PyTorch documentation, \texttt{torch.Tensor.to},
+  \url{https://pytorch.org/docs/stable/generated/torch.Tensor.to.html}.
+\end{thebibliography}
+
+\end{document}

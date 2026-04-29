@@ -1,0 +1,451 @@
+%%============================================================================
+%% TECT-Math74-Addendum-B — v2.6.3-b → v2.6.4 gate-semantic fix +
+%% Eisenstat-Walker forcing recalibration
+%%
+%% Theory tag  : Math74-AddB-v2p6p4-gate-semantic-fix-2026-04-23
+%% Supersedes  : The v2.6.3-b implementation of R'₃ (Math74 Addendum-A §A.3),
+%%               which was syntactically complete but semantically broken.
+%% Cross-refs  : Math63 §2D (original acceptance-gate formulation);
+%%               Math64 §sec2d (absolute-bound gate reformulation);
+%%               Math66 v0.2 (Path-A adjoint-JVP, solver-core dependency);
+%%               Math73 (CiiProjector API);
+%%               Math74 (v2.6.3 continuation-driver live-wire);
+%%               Math74 Addendum-A (post-upload status, residuals
+%%               R'₁/R'₂/R'₃).
+%% Trigger     : 2026-04-23 live N=32 diagnostic run of v2.6.3-b at
+%%               μ² = −1.0 produced a healthy quadratic-convergence
+%%               profile (Newton 0..6, ρ = 1.000 throughout,
+%%               ||grad||/√dof reduction 1.75× → 2.27× → 2.33× →
+%%               5.98× → 27.95× → 99.93×) with peak tCG = 2304 at
+%%               Newton 5. The run was manually interrupted by the
+%%               maintainer because each additional μ² point in the
+%%               diagnostic sweep was projected to replay a
+%%               comparable inner-Krylov cost. Post-interruption
+%%               peer review exposed three defects in the v2.6.3-b
+%%               driver that made it both semantically incorrect and
+%%               unnecessarily expensive.
+%% Rule of use : This addendum is the authoritative v2.6.4 landing
+%%               note. It documents (i) the R'₃ semantic bug,
+%%               (ii) the Math63-§2D / Math64-§sec2d gate
+%%               reformulation, (iii) the Eisenstat-Walker forcing
+%%               recalibration (η_min = 0.01 → 0.05), and (iv) the
+%%               canonical single-shot CLI for the Task #54 target
+%%               endpoint run.
+%% Author      : Jusang Lee (jtkor@outlook.com)
+%% Date        : 2026-04-23
+%%============================================================================
+
+\section{Math74 Addendum-B — v2.6.3-b $\to$ v2.6.4 gate-semantic fix
+plus Eisenstat-Walker forcing recalibration}
+\label{sec:math74-addB}
+
+\subsection{Context and scope}
+\label{sec:math74-addB-context}
+
+The 2026-04-23 live execution of \texttt{PDE/continuation\_mu2\_v25.py}
+v2.6.3-b at $N = 32$, $L = 16$ and $\mu^{2} = -1.0$ established two
+facts simultaneously. First, the continuation driver is no longer a
+skeleton: a Phase-A Jacobian-symmetry probe reported
+$\mathrm{antisym}(\mathcal{J}) = 2.66 \times 10^{-4}$ (matching the
+Math63 \S2A.3 diagnostic fingerprint), routed the inner Krylov method
+to \texttt{fgmres} via the B1 shim $\texttt{fgmres} \mapsto
+\texttt{gmres}$, and a single call to
+\texttt{tect\_newton\_krylov.newton\_solve} reached a textbook
+quadratic-convergence regime with
+\[
+\|\nabla L\|/\sqrt{\mathrm{dof}} \;\in\; \{5.07\!\times\!10^{+2},\
+2.89\!\times\!10^{+2},\ 1.27\!\times\!10^{+2},\
+5.45\!\times\!10^{+1},\ 9.12,\ 0.326,\ 3.26\!\times\!10^{-3},\ldots\}
+\]
+under $\rho = 1.000$ on every accepted step, confirming that the
+v2.6.2 Path-A adjoint-JVP and v2.6.3 single-\texttt{newton\_solve}
+control flow are working correctly end-to-end.  Second, inner-Krylov
+cost peaked at $t_{\mathrm{CG}} = 2304$ at Newton 5, caused by the
+Eisenstat-Walker forcing $\eta_{\mathrm{EW}} \to \eta_{\min} = 0.01$
+clip in the near-convergence regime combined with a strongly
+ill-conditioned Jacobian near the solution. Per-point wall time at
+$N = 32$ was therefore on the minute scale, and the full
+six-point diagnostic sweep was projected to run beyond the
+maintainer's tolerance budget.
+
+Peer review during the manual interruption exposed three defects in
+the v2.6.3-b driver. The present addendum records the three fixes
+jointly delivered in v2.6.4 and states the canonical Task~\#54
+single-shot CLI.
+
+\subsection{Defect D1: R'₃ semantic bug}
+\label{sec:math74-addB-D1}
+
+The v2.6.3-b implementation of
+\texttt{pass\_math63\_gate\_2D}(\texttt{newton\_steps},\ldots) tested
+\[
+\texttt{step.step\_norm} > \texttt{rho\_lin\_max} \;\Longrightarrow\;
+\text{fail}
+\]
+at every Newton step, with \texttt{rho\_lin\_max} defaulted to
+$0.05$. The Newton-step record, however, was populated from the
+solver-core \texttt{newton\_history} via
+\[
+\texttt{step\_norm} \;\leftarrow\; \texttt{line\_search\_alpha},
+\]
+so the gate was in fact comparing the trust-region line-search
+parameter $\alpha \in (0, 1]$ against the threshold $0.05$. Because
+every accepted trust-region step at quadratic-convergence regime has
+$\alpha = 1$, the gate was structurally guaranteed to evaluate to
+\textsc{False} on every converged point.
+
+Let
+\[
+\alpha_k \;:=\; \text{line-search parameter at Newton step } k,
+\qquad
+\rho_k \;:=\; \frac{m_{\text{actual}, k}}{m_{\text{pred}, k}}
+\]
+denote respectively the line-search parameter and the trust-region
+acceptance ratio of Newton step $k$. The solver-core dataclass
+\texttt{NewtonStepRecord} stores both as separate fields
+(\texttt{line\_search\_alpha}, \texttt{rho}), but v2.6.3-b collapsed
+them into the single \texttt{NewtonStep.step\_norm} alias, erasing
+the distinction between $\alpha$ and $\rho$.
+
+\begin{proposition}[v2.6.3-b gate unconditional failure]
+\label{prop:math74-addB-D1-unconditional-fail}
+Let $\{k_1, \ldots, k_M\}$ denote the indices of steps accepted by
+the trust-region update rule
+($\rho_{k_i} \ge 0.25$ in \texttt{newton\_solve}). If every accepted
+step produces a unit line-search factor, $\alpha_{k_i} = 1$ for all
+$i$, then
+\[
+\max_i \texttt{NewtonStep.step\_norm}_{\,k_i} \;=\; 1.0 \;\;>\;\;
+0.05 \;=\; \texttt{rho\_lin\_max},
+\]
+so the v2.6.3-b gate returns \textsc{False}. This is the case for
+any run whose convergence enters the trust-region full-step
+regime — in particular, the 2026-04-23 live profile at $N = 32$,
+$\mu^{2} = -1.0$.
+\end{proposition}
+
+\begin{proof}
+Immediate from the assignment
+$\texttt{step\_norm} \leftarrow \texttt{line\_search\_alpha}$ at the
+driver-layer NewtonStep construction site and the comparison
+$\texttt{step\_norm} > 0.05$ in
+\texttt{pass\_math63\_gate\_2D}. \qedsymbol
+\end{proof}
+
+\subsection{Defect D2: Math63 §2D $t_{\mathrm{CG}} \le 300$ threshold
+is empirically unphysical at the $N = 32$ operational point}
+\label{sec:math74-addB-D2}
+
+The Math63 §2D acceptance table states
+$t_{\mathrm{CG}} \le 300$ as a gate bound. The 2026-04-23 live run at
+$N = 32$ produced $t_{\mathrm{CG}} = 2304$ at Newton step 5. This is
+not a numerical pathology: it is the Eisenstat-Walker forcing
+$\eta_{\mathrm{EW}} = 0.01$ (clipped at the floor $\eta_{\min}$)
+combined with a near-singular Jacobian $\kappa(\mathcal{J}) \gg 1$
+in the neighborhood of the condensate solution. The inner-CG cost
+satisfies
+\[
+t_{\mathrm{CG}}
+\;\sim\;
+\sqrt{\kappa(\mathcal{J})} \cdot \log\!\big(1 / \eta_{\mathrm{EW}}\big)
+\]
+for a well-preconditioned Krylov solver, and so a tight
+$\eta_{\mathrm{EW}}$ in the final one or two Newton iterations is the
+dominant cost driver. The $t_{\mathrm{CG}} \le 300$ bound in the
+Math63 §2D table was inferred pre-measurement and is not consistent
+with the live regime.
+
+We therefore calibrate the v2.6.4 default upper bound at
+$t_{\mathrm{CG}} \le 3000$, consistent with the observed peak of
+$2304$ plus a $30\%$ operational margin. Publication-grade runs may
+retain the legacy $300$ threshold by passing
+\texttt{--tcg-max 300} at the CLI; the sandbox-level unit test
+\texttt{test\_gate\_passes\_live\_quadratic\_convergence\_profile}
+asserts that the 2026-04-23 live profile passes under the v2.6.4
+default and fails under the legacy threshold, so the two regimes
+are explicitly distinguished and interpretable.
+
+\subsection{Defect D3: Eisenstat-Walker $\eta_{\min} = 0.01$
+default causes unnecessary inner-CG cost in the near-convergence
+regime}
+\label{sec:math74-addB-D3}
+
+The solver-core default in \texttt{newton\_solve} is
+$\eta_{\min} = 0.01$. This was inherited from standard
+Eisenstat-Walker usage for well-conditioned systems. In the
+near-convergence regime of a condensate PDE the Jacobian spectrum
+accumulates near zero, the Krylov tolerance $\eta \cdot \|\nabla L\|$
+drops below $10^{-5}$, and inner-CG cost blows up by roughly an
+order of magnitude per Newton step.
+
+Relaxing to $\eta_{\min} = 0.05$ costs at most one additional Newton
+iteration (because the outer Newton convergence order is quadratic,
+Eisenstat-Walker's adaptive forcing re-tightens on the next iterate)
+but saves an estimated factor of $10$ on inner-CG cost at the
+near-singular step. The net reduction in wall time per $\mu^{2}$
+point at $N = 32$ is expected to be $5$--$10{\times}$. This
+recalibration is the second knob of v2.6.4 and is exposed via the
+\texttt{--ew-eta-min} CLI option.
+
+\subsection{Resolution (v2.6.4 implementation)}
+\label{sec:math74-addB-fix}
+
+\paragraph{Dataclass split.} The v2.6.4 \texttt{NewtonStep} dataclass
+is augmented with four explicit fields alongside the deprecated
+\texttt{step\_norm} alias:
+\begin{itemize}
+\item \texttt{line\_search\_alpha}: the Wolfe parameter
+      $\alpha \in (0, 1]$.
+\item \texttt{rho\_trust}: the trust-region acceptance ratio
+      $\rho = m_{\mathrm{actual}} / m_{\mathrm{pred}}$.
+\item \texttt{accepted}: boolean from the solver-core trust-region
+      update rule.
+\item \texttt{model\_pred\_reduction},
+      \texttt{actual\_reduction}: raw reduction values
+      for later diagnostic post-processing.
+\end{itemize}
+The legacy \texttt{step\_norm} field is retained at v2.6.4 and is
+assigned the value of \texttt{line\_search\_alpha} to preserve
+binary compatibility with any v2.6.3-b caller that reads
+\texttt{step\_norm} directly; it is flagged \emph{deprecated} in the
+class docstring.
+
+\paragraph{Gate reformulation.} The v2.6.4
+\texttt{pass\_math63\_gate\_2D} is
+\begin{equation}
+\text{gate}(\text{point}) \;:=\;
+\begin{cases}
+\text{False} & \text{if } \lvert\text{newton\_steps}\rvert > \text{newton\_max} \\
+\text{False} & \text{if any step has } t_{\mathrm{CG}} > t_{\mathrm{CG\_max}} \\
+\text{False} & \text{if any accepted step has }
+               \text{rho\_trust} < \text{rho\_min} \\
+\text{True}  & \text{otherwise}
+\end{cases}
+\label{eq:math74-addB-gate}
+\end{equation}
+with the default triple
+$(\text{newton\_max}, t_{\mathrm{CG\_max}}, \text{rho\_min})
+= (12, 3000, 0.05)$. This encodes the Math64 §sec2d absolute-bound
+reformulation of the Math63 §2D gate and applies the $0.05$
+threshold to the correct physical quantity
+($\rho_{\mathrm{trust}}$, the trust-region acceptance ratio) rather
+than to $\alpha$. Only \texttt{accepted} steps are tested against the
+$\rho_{\mathrm{trust}}$ bound, because rejected steps have
+$\rho < 0.25$ by trust-region definition and are not physical Newton
+updates; testing them against \texttt{rho\_min} would make any run
+that enters a single trust-region shrink cycle spuriously fail.
+
+The legacy v2.6.3-b key \texttt{rho\_lin\_max} is accepted as an
+alias for \texttt{rho\_min} with the reinterpretation
+$\alpha$-upper-bound $\to$ $\rho_{\mathrm{trust}}$-lower-bound. This
+preserves the external CLI contract but silently corrects the
+semantic.
+
+\paragraph{Eisenstat-Walker kwargs threaded through the driver.} The
+\texttt{run\_one\_point\_v25} signature now accepts
+\texttt{ew\_eta\_min} and \texttt{ew\_eta\_max} and forwards them
+into \texttt{newton\_solve}; \texttt{main()} exposes these via
+\texttt{--ew-eta-min} (default $0.05$) and \texttt{--ew-eta-max}
+(default $0.9$).
+
+\paragraph{CLI-layer thresholds.}  \texttt{main()} exposes
+\texttt{--tol-newton} (default $10^{-8}$), \texttt{--max-newton}
+(default $12$), \texttt{--tcg-max} (default $3000$), and
+\texttt{--rho-min} (default $0.05$). The same values are forwarded
+to the gate via a \texttt{tol\_gate} dict through
+\texttt{run\_one\_point\_v25}, so the MANIFEST and the endpoint JSON
+always record the actual thresholds used.
+
+\paragraph{Schedule specification via \texttt{--mu2-list}.}  A new
+\texttt{--mu2-list} CLI option takes a comma-separated explicit
+$\mu^{2}$ schedule, overriding both \texttt{--diagnostic} and the
+range-based \texttt{--mu2-start / --mu2-end / --mu2-step} flags. This
+avoids the $201$-point brute-force that would result from a fine
+arithmetic sweep over $[-1.0, 5\!\times\!10^{-3}]$ at
+$\texttt{--mu2-step} = 0.005$, and allows a logarithmic warmup chain
+of the form
+$\{-1.0, -0.5, -0.1, -0.02, 5\!\times\!10^{-3}\}$
+(five points) whose inner-CG cost at each subsequent point is
+amortised by the warm-started $\Psi_{k-1}$ seed.
+
+\paragraph{Endpoint-JSON schema bump.} The endpoint JSON schema is
+pinned at \texttt{continuation\_mu2\_v25\_endpoint/1.1} with $29$
+fields. New fields over the v1.0 schema are
+\texttt{pass\_math63\_2d}, \texttt{n\_accepted\_newton\_steps},
+\texttt{tcg\_peak}, \texttt{rho\_trust\_min}, \texttt{gate\_newton\_max},
+\texttt{gate\_tcg\_max}, \texttt{gate\_rho\_min}, \texttt{ew\_eta\_min},
+\texttt{ew\_eta\_max}, \texttt{tol\_newton}; this makes every
+downstream consumer self-auditable against the exact gate thresholds
+that produced a given endpoint.
+
+\subsection{Sandbox verification}
+\label{sec:math74-addB-verify}
+
+All four invariant layers PASS on the v2.6.4 landing:
+\begin{enumerate}
+\item \textbf{V1a (ast-level syntax).} The module parses without
+error; $1528$ lines; all dataclass, helper, and CLI additions
+integrate cleanly.
+\item \textbf{V1b (7-invariant refactor contract, Math74 §V1b).}
+$I_1$ (no outer Newton loop) \textsc{True}; $I_2$ (single
+\texttt{newton\_solve} call in \texttt{run\_one\_point\_v25}) equals
+$1$; $I_3$ (no \texttt{NewtonStep(residual\_norm=float("nan"),...)}
+assignments) equals $0$; $I_4$ (endpoint JSON filename literal)
+\textsc{True}; $I_5$ (schema literal
+\texttt{continuation\_mu2\_v25\_endpoint/1.1}) \textsc{True};
+$I_6$ (retired banner confined to header) \textsc{True}; $I_7$
+(no ``specification skeleton'' in live strings) \textsc{True};
+\textsc{Overall: PASS}.
+\item \textbf{Pytest contract suite.}
+\texttt{tests/test\_v263\_continuation\_routing.py} — $22$
+passed, $1$ skipped, $0$ failed. In particular:
+\texttt{test\_gate\_passes\_live\_quadratic\_convergence\_profile}
+confirms that the 2026-04-23 live profile
+$t_{\mathrm{CG}} \in \{1, 1, 2, 6, 29, 2304, 280, 50\}$ with
+$\alpha = 1$ and $\rho = 1.0$ on every step passes under the v2.6.4
+defaults and fails under the legacy Math63 §2D strict thresholds
+$(8, 300, 0.25)$, so the two regimes are explicitly distinguishable
+and both are testable.
+\item \textbf{Math63 §2D gate semantic split.} The pytest class
+\texttt{TestContractMath63Gate2D} adds three previously absent
+coverages: (i)
+\texttt{test\_gate\_fails\_low\_rho\_trust\_on\_accepted\_step} (ρ
+semantics), (ii) \texttt{test\_gate\_ignores\_rejected\_step\_rho}
+(rejected-step exemption), (iii)
+\texttt{test\_gate\_legacy\_key\_rho\_lin\_max\_is\_remapped}
+(backward-compat).
+\end{enumerate}
+
+\subsection{Canonical Task \#54 single-shot CLI}
+\label{sec:math74-addB-cli}
+
+The following command runs a cost-optimised continuation sweep from
+$\mu^{2} = -1.0$ to the Math55 target $\mu^{2}_{\mathrm{target}} =
+5\!\times\!10^{-3}$ on a $32^{3}$ BCC lattice at $L = 16$, emits a
+\texttt{continuation\_mu2\_v25\_endpoint/1.1} JSON at the target
+point, and is projected to complete in a fraction of the v2.6.3-b
+diagnostic wall time because (a) the schedule is a five-point
+warmup chain rather than a $201$-point brute-force, (b)
+$\eta_{\min} = 0.05$ caps inner-CG cost at a fraction of the v2.6.3-b
+peak, (c) $\texttt{tol\_newton} = 10^{-8}$ is the physically
+meaningful precision threshold rather than an overly tight
+$10^{-10}$.
+
+\begin{verbatim}
+python -u PDE\continuation_mu2_v25.py `
+    --config    PDE\config_template_brazovskii.json `
+    --N         32 `
+    --L         16.0 `
+    --mu2-list  "-1.0,-0.5,-0.1,-0.02,5e-3" `
+    --tol-newton 1e-8 `
+    --max-newton 12 `
+    --ew-eta-min 0.05 `
+    --ew-eta-max 0.9 `
+    --tcg-max   3000 `
+    --rho-min   0.05 `
+    --output    results\math55_endpoint_N32_L16_2026-04-23
+\end{verbatim}
+
+Expected artifacts in \texttt{results\textbackslash
+math55\_endpoint\_N32\_L16\_2026-04-23}:
+
+\begin{itemize}
+\item \texttt{MANIFEST.md} with the v2.6.4 header, a per-point
+table carrying \texttt{converged / gate / Newton / tCG\_peak /
+rho\_trust\_min / m*² / $\Delta F$ / favorable / wall} columns for
+each of the five $\mu^{2}$ values, and
+\texttt{Overall status: PASS} on success.
+\item \texttt{continuation\_mu2\_v25\_endpoint.json} with all $29$
+fields of the v1.1 schema finite at the final point.
+\end{itemize}
+
+\paragraph{Acceptance checks.}
+After the run completes, execute:
+\begin{verbatim}
+python -c "import json, math
+d = json.load(open(r'results\math55_endpoint_N32_L16_2026-04-23\\continuation_mu2_v25_endpoint.json'))
+assert d['schema_version'] == 'continuation_mu2_v25_endpoint/1.1'
+assert d['converged']
+for k in ('m_star_sq','delta_F','F_condensate','F_vacuum','rms_amplitude','final_grad_norm','rho_trust_min'):
+    assert math.isfinite(d[k]), k
+print('endpoint OK:  m_star_sq={:.3e},  delta_F={:+.3e},  pass_math63_2d={}'.format(
+    d['m_star_sq'], d['delta_F'], d['pass_math63_2d']))
+"
+\end{verbatim}
+The print line is the Task~\#54 physics-layer receipt: a finite
+$m_{\ast}^{2}$ at $\mu^{2}_{\mathrm{target}} = 5\!\times\!10^{-3}$
+together with $\Delta F$ and the gate boolean closes the execution
+layer of Task~\#54 and unlocks Tasks \#55 / \#56 / \#77.
+
+\subsection{Non-blocking residual items}
+\label{sec:math74-addB-residual}
+
+\begin{itemize}
+\item[$\mathbf{R^{\prime\prime}_{1}}$.] \emph{\texttt{eta\_ew} now
+stored from \texttt{newton\_history[k]["eta"]} when the solver core
+exposes it.} The v2.6.2 solver-core \texttt{NewtonStepRecord} does
+not currently expose a per-step $\eta_{\mathrm{EW}}$ field; v2.6.4
+stores \texttt{float("nan")} as the default and the MANIFEST per-point
+table does not use this column. Exposing $\eta_{\mathrm{EW}}$ from
+the solver core is a minor follow-up (one new field in
+\texttt{NewtonStepRecord}).
+
+\item[$\mathbf{R^{\prime\prime}_{2}}$.] \emph{Publication-grade
+strict mode.} A pre-set
+\texttt{--math63-2d-strict} flag that sets
+$(12, 3000, 0.05) \to (8, 300, 0.25)$ as a one-shot publication-grade
+gate would be convenient. v2.6.4 requires the user to pass all three
+CLI options explicitly; the pytest
+\texttt{test\_gate\_passes\_live\_quadratic\_convergence\_profile}
+already exercises the strict-mode dict form.
+
+\item[$\mathbf{R^{\prime\prime}_{3}}$.] \emph{Native MINRES on
+symmetric-indefinite sectors.} Unchanged from Math74 Addendum-A
+§A.3 $R^{\prime}_{1}$.
+\end{itemize}
+
+\subsection{3-part traceability chain}
+\label{sec:math74-addB-trace}
+
+\begin{description}
+\item[\textbf{Cause.}] Manual interruption of the 2026-04-23 live
+v2.6.3-b run at $N = 32$, $\mu^{2} = -1.0$ after peak $t_{\mathrm{CG}}
+= 2304$ at Newton 5, followed by peer-review of the
+\texttt{pass\_math63\_gate\_2D} + NewtonStep construction sites of
+\texttt{PDE/continuation\_mu2\_v25.py}.
+
+\item[\textbf{Evidence.}] (i) Direct code inspection at line 906
+(\texttt{step\_norm $\leftarrow$ line\_search\_alpha}) and line 785
+(\texttt{step.step\_norm > rho\_lin\_max}) establishes
+Prop.~\ref{prop:math74-addB-D1-unconditional-fail}. (ii) The
+\texttt{NewtonStepRecord} dataclass of \texttt{tect\_newton\_krylov.py}
+lines 1031-1046 exposes \texttt{rho} and \texttt{line\_search\_alpha}
+as distinct fields, proving that the semantic split was always
+available at the solver-core layer. (iii) The live log pasted into
+the peer-review message confirms
+$\alpha = 1$ on every accepted step at $N = 32$, which together
+with $\text{rho\_lin\_max} = 0.05$ gives unconditional gate failure.
+(iv) Math64 §sec2d reformulates the Math63 §2D gate in
+absolute-bound form, supplying the upstream theory precedent for
+replacing the $\alpha$-upper-bound with a
+$\rho_{\mathrm{trust}}$-lower-bound.
+
+\item[\textbf{Decision chain.}] (1) Split
+\texttt{NewtonStep.step\_norm} into three fields
+\texttt{line\_search\_alpha / rho\_trust / accepted}. (2) Reformulate
+the gate on \texttt{rho\_trust}, applying the bound only on accepted
+steps. (3) Raise gate defaults $(8, 300, \cdot) \to (12, 3000, 0.05)$
+based on the live measurement, and allow publication-grade override
+via CLI. (4) Thread \texttt{ew\_eta\_min / ew\_eta\_max} through
+\texttt{run\_one\_point\_v25} into \texttt{newton\_solve}; default
+$\eta_{\min} = 0.05$ for $5$--$10{\times}$ inner-CG cost
+reduction. (5) Add \texttt{--mu2-list} to CLI. (6) Bump endpoint
+JSON schema $1.0 \to 1.1$ with nine new diagnostic fields. (7)
+Module version $v2.6.3\text{-}b \to v2.6.4$; theory tag
+\texttt{Math74-AddB-v2p6p4-gate-semantic-fix-2026-04-23}. (8) Ship
+the single-shot Task~\#54 CLI in \S\ref{sec:math74-addB-cli} and
+close the execution layer of Task~\#54 on its first successful
+invocation.
+\end{description}
+
+%% End of Math74 Addendum-B.

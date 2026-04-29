@@ -1,0 +1,1 @@
+Chronological record of TECT development — auto-generated from `CHANGELOG.md` (top 30 entries) by `Codes/tools/generate_website.py`. To add a milestone, append a new entry to `CHANGELOG.md` in the Keep-a-Changelog format and re-run the generator.

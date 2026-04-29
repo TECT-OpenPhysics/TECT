@@ -1,0 +1,318 @@
+% ============================================================
+%  TECT-Math53 : Eisenstat-Walker Inexact Newton Forcing Terms
+%                for the TECT Newton-Krylov Solver (v2.3)
+%  Status      : ESTABLISHED (runtime validated N=32)
+%  Date        : 2026-04-16
+% ============================================================
+
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs}
+\newtheorem{proposition}{Proposition}[section]
+\newtheorem{definition}{Definition}[section]
+\newtheorem{remark}{Remark}[section]
+
+\title{TECT-Math53: Eisenstat--Walker Adaptive Forcing Terms\\
+for the Newton--Krylov Inner Solve}
+\author{TECT Collaboration}
+\date{2026-04-16}
+
+\begin{document}
+\maketitle
+
+% ────────────────────────────────────────────────────────────
+\section{Problem statement}
+% ────────────────────────────────────────────────────────────
+
+The v2.2 Newton--Krylov solver (Math52) achieves quadratic
+convergence on the BCC condensate using the merit function
+$m(\Psi) = \tfrac{1}{2}\|R_{\mathrm{proj}}\|^2$ and GMRES as
+the inner Krylov solver.  However, the fixed inner-solve
+relative tolerance $\eta_{\mathrm{fixed}} = 5\times 10^{-4}$
+causes GMRES iteration counts to explode near convergence:
+
+\begin{center}
+\begin{tabular}{cccr}
+\toprule
+Step $k$ & $\|\nabla\|/\sqrt{\mathrm{dof}}$ & $\eta_k$ (fixed) & tCG \\
+\midrule
+0 & $1.92\times 10^{1}$  & $5\times 10^{-4}$ & 112  \\
+1 & $1.43\times 10^{1}$  & $5\times 10^{-4}$ & 120  \\
+2 & $4.73\times 10^{0}$  & $5\times 10^{-4}$ & 139  \\
+3 & $2.36\times 10^{-3}$ & $5\times 10^{-4}$ & 1945 \\
+4 & $1.14\times 10^{-6}$ & $5\times 10^{-4}$ & 2839 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent
+The root cause: at step~$k$, GMRES solves
+$J\,s = -g_{\mathrm{proj}}$ to relative residual $\eta_k$,
+i.e.\ $\|J s + g\| \le \eta_k \|g\|$.  When $\|g\|$ is very
+small (quadratic convergence), even moderate $\eta_k$ demands
+extreme absolute precision, and the Krylov subspace must grow
+correspondingly.
+
+The remedy is the \emph{Eisenstat--Walker forcing sequence}
+\cite{EisenstatWalker1996}, which adapts $\eta_k$ to the
+observed outer convergence rate.
+
+% ────────────────────────────────────────────────────────────
+\section{Inexact Newton framework}
+% ────────────────────────────────────────────────────────────
+
+\begin{definition}[Inexact Newton condition]
+\label{def:inexact}
+At outer iteration $k$, the inner Krylov solve produces a step
+$s_k$ satisfying
+\begin{equation}
+  \label{eq:inexact}
+  \|J_k s_k + g_k\| \;\le\; \eta_k \,\|g_k\|,
+\end{equation}
+where $\eta_k \in (0,1)$ is the \emph{forcing term}.
+\end{definition}
+
+The classical result (Dembo, Eisenstat \& Steihaug 1982) states:
+
+\begin{proposition}[Convergence rate vs.\ forcing sequence]
+\label{prop:convergence}
+Let the outer Newton iteration satisfy~\eqref{eq:inexact} with
+$\eta_k \to 0$.  Then:
+\begin{enumerate}
+\item If $\eta_k \to 0$, convergence is \emph{q-superlinear}.
+\item If $\eta_k = O(\|R_k\|)$, convergence is \emph{q-quadratic}.
+\item If $\eta_k \le \eta_{\max} < 1$ for all $k$, convergence is
+      at least \emph{q-linear} with rate $\eta_{\max}$.
+\end{enumerate}
+\end{proposition}
+
+\noindent
+In the TECT solver, the outer Newton already exhibits quadratic
+convergence (Math52, $\rho\to 1$).  The inner solve need only be
+accurate enough not to destroy this rate.  Critically, the inner
+tolerance does \emph{not} need to be driven to zero --- it merely
+needs to decrease, and $\eta_k \sim 10^{-2}$ suffices for the
+quadratic error term $O(\|s_k\|^2)$ to dominate.
+
+% ────────────────────────────────────────────────────────────
+\section{Eisenstat--Walker Choice~2}
+% ────────────────────────────────────────────────────────────
+
+\begin{definition}[EW Choice 2 forcing sequence]
+\label{def:ew2}
+\begin{equation}
+  \label{eq:ew2}
+  \eta_k^{\mathrm{raw}}
+    = \gamma \left(\frac{\|R_k\|}{\|R_{k-1}\|}\right)^{\!\alpha},
+  \qquad k \ge 1,
+\end{equation}
+with safeguard preventing too-rapid decrease:
+\begin{equation}
+  \label{eq:safeguard}
+  \eta_k = \max\!\bigl(\eta_k^{\mathrm{raw}},\;
+            \gamma\,\eta_{k-1}^{\alpha}\bigr),
+  \qquad
+  \eta_k \gets
+    \mathrm{clamp}\bigl(\eta_k;\;\eta_{\min},\;\eta_{\max}\bigr).
+\end{equation}
+At step $k=0$: $\eta_0 = \eta_{\max}$.
+\end{definition}
+
+\noindent
+\textbf{Rationale for the safeguard.}  When the outer Newton
+converges quadratically, $\|R_k\|/\|R_{k-1}\|$ can drop by
+orders of magnitude in a single step (observed: ratio
+$\sim 5\times 10^{-4}$ at steps 3--4).  Without the safeguard,
+$\eta_k^{\mathrm{raw}}$ would collapse to $O(10^{-7})$ in one
+step, defeating the purpose of adaptive forcing.  The safeguard
+$\gamma\eta_{k-1}^\alpha$ enforces a geometrically smooth
+decrease.
+
+% ────────────────────────────────────────────────────────────
+\section{Parameter selection}
+% ────────────────────────────────────────────────────────────
+
+\begin{proposition}[Default parameters and convergence guarantee]
+\label{prop:params}
+With $\gamma = 0.9$, $\alpha = 2.0$, $\eta_{\max} = 0.9$,
+$\eta_{\min} = 0.01$:
+\begin{enumerate}
+\item The forcing sequence is monotonically decreasing (modulo
+      clamping), ensuring superlinear outer convergence
+      (Proposition~\ref{prop:convergence}).
+\item For $\alpha = 2$, the safeguard decay rate is
+      $\eta_k \sim \gamma^{(2^k-1)/(2-1)} = 0.9^{2^k-1}$, which
+      gives approximately $\eta_k \approx 0.9, 0.73, 0.48, 0.21,
+      0.04, 0.01$ for $k = 0,\ldots,5$.
+\item The minimum $\eta_{\min} = 0.01$ prevents over-solving:
+      GMRES need never reduce relative residual below 1\%.
+\item For the observed TECT convergence profile ($N=32$), the
+      expected tCG counts at steps 3--4 decrease from
+      $\{1945, 2839\}$ to approximately $\{100\text{--}200,
+      150\text{--}300\}$ (GMRES relative tolerance relaxed by
+      $20$--$80\times$).
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+Item (1): by construction, $\eta_{k+1} \le \gamma\eta_k^\alpha
+\le 0.9\cdot\eta_k^2 < \eta_k$ whenever $\eta_k > 0.9$, which
+is satisfied from step 1 onward.  Below $\eta_{\min}$ the
+clamping holds $\eta_k$ constant.
+
+Item (2): the recurrence $\eta_0 = 0.9$,
+$\eta_{k+1} = 0.9\,\eta_k^2$ gives
+$\eta_k = 0.9^{(2^k - 1)} \cdot (0.9)^{2^k} / 0.9
+= 0.9^{2^{k+1}-1}$ (geometric series in log).  Evaluation:
+$\eta_0 = 0.9$, $\eta_1 = 0.729$, $\eta_2 = 0.478$,
+$\eta_3 = 0.206$, $\eta_4 = 0.038$, $\eta_5 = 0.01$
+(clamped).
+
+Item (3): direct from $\eta_{\min} = 0.01$.
+
+Item (4): GMRES iteration count scales roughly as
+$O(\log(1/\eta_k) \cdot \sqrt{\kappa})$.  For step 3:
+$\log(1/0.206)/\log(1/5\times 10^{-4}) \approx 0.21$, giving
+an estimated factor $\sim 4\text{--}5\times$ reduction.
+\end{proof}
+
+% ────────────────────────────────────────────────────────────
+\section{Runtime validation ($N=32$, Phase 1)}
+% ────────────────────────────────────────────────────────────
+
+Three configurations were compared on the $N=32$ BCC condensate
+($\mathrm{flat\_dim}=196608$, tolerance $10^{-9}$):
+
+\begin{center}
+\begin{tabular}{lcccc}
+\toprule
+Configuration & Newton steps & Total GMRES & Max tCG & Late-stage rate \\
+\midrule
+v2.2: fixed $\eta=5\times10^{-4}$ & 6 & 5155 & 2839 & quadratic \\
+v2.3: $\eta_{\min}=0.01$  & 11 & \textbf{3956} & \textbf{1437} & linear ($r=0.01$) \\
+v2.3: $\eta_{\min}=0.001$ & 10 & 5555 & 2180 & linear ($r=0.001$) \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{Detailed trace ($\eta_{\min}=0.01$, recommended default)}
+
+\begin{center}
+\begin{tabular}{ccccc}
+\toprule
+Step & $\|\nabla\|/\sqrt{\mathrm{dof}}$ & $\eta_k$ & tCG & $\rho$ \\
+\midrule
+ 0 & $1.92\times 10^{1}$ & 0.900 &    1 & 1.000 \\
+ 1 & $1.17\times 10^{1}$ & 0.729 &    3 & 0.999 \\
+ 2 & $8.03\times 10^{0}$ & 0.478 &   10 & 0.997 \\
+ 3 & $5.40\times 10^{0}$ & 0.407 &    8 & 0.999 \\
+ 4 & $1.94\times 10^{0}$ & 0.149 &   21 & 1.000 \\
+ 5 & $2.72\times 10^{-1}$ & 0.020 &   95 & 1.000 \\
+ 6 & $5.36\times 10^{-3}$ & 0.010 &  570 & 1.000 \\
+ 7 & $5.35\times 10^{-5}$ & 0.010 &  859 & 1.000 \\
+ 8 & $5.34\times 10^{-7}$ & 0.010 &  1437 & 1.000 \\
+ 9 & $5.33\times 10^{-9}$ & 0.010 &  952 & 1.000 \\
+10 & $5.32\times 10^{-11}$ & \multicolumn{3}{c}{(converged)} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{Analysis}
+
+\begin{proposition}[Linear convergence at clamped $\eta_{\min}$]
+\label{prop:linear}
+Once $\eta_k$ is clamped to $\eta_{\min}$, the inexact Newton
+iteration converges linearly at rate $\eta_{\min}$:
+\begin{equation}
+  \|R_{k+1}\| \;\approx\; \eta_{\min}\,\|R_k\|.
+\end{equation}
+This is confirmed by the observed ratios at steps 6--9:
+$\|R_{k+1}\|/\|R_k\| \approx 0.010$ (exactly $\eta_{\min}$).
+\end{proposition}
+
+\begin{proof}
+The inexact Newton step satisfies
+$\|J_k s_k + g_k\| \le \eta_k\|g_k\|$.  Near the solution,
+$R(\Psi_k + s_k) = R_k + J_k s_k + O(\|s_k\|^2)$, so
+$\|R_{k+1}\| \le \eta_k\|R_k\| + O(\|s_k\|^2)$.  When the
+quadratic term is negligible (deeply in the basin of convergence),
+the linear term dominates: $\|R_{k+1}\| \approx \eta_k\|R_k\|$.
+With $\eta_k = \eta_{\min}$ clamped, this is linear convergence
+at rate $\eta_{\min}$.
+\end{proof}
+
+\noindent
+\textbf{Key tradeoff.} EW with $\eta_{\min}=0.01$ trades
+quadratic convergence (few expensive steps) for linear convergence
+at rate 0.01 (many cheap steps).  For $N=32$ the total GMRES cost
+is 23\% lower.  The benefit grows with system size: at $N=64$
+($\mathrm{flat\_dim}=1{,}572{,}864$) the per-iteration GMRES cost
+scales with dimension, making the 49\% reduction in max-tCG
+($2839 \to 1437$) critical for memory and wall time.
+
+\noindent
+\textbf{Default recommendation.}  $\eta_{\min} = 0.01$. Lowering
+to $0.001$ saves one Newton step but increases total GMRES cost by
+40\% ($3956 \to 5555$), a net loss.  The user can override via
+\texttt{--ew-eta-min} if the problem structure changes at larger $N$.
+
+% ────────────────────────────────────────────────────────────
+\section{Implementation summary (v2.3)}
+% ────────────────────────────────────────────────────────────
+
+\begin{enumerate}
+\item \texttt{newton\_solve()} gains parameters
+  \texttt{eisenstat\_walker} (default \texttt{True}),
+  \texttt{ew\_eta\_max} (0.9), \texttt{ew\_eta\_min} (0.01),
+  \texttt{ew\_gamma} (0.9), \texttt{ew\_alpha} (2.0).
+\item Before each inner Krylov call, $\eta_k$ is computed via
+  Definition~\ref{def:ew2} and passed as
+  \texttt{tol\_rel=current\_eta} to
+  \texttt{gmres\_trust\_region\_solve()} or
+  \texttt{truncated\_cg\_solve()}.
+\item State variables \texttt{prev\_grad\_norm} and
+  \texttt{prev\_eta} persist across Newton iterations.
+\item Verbose output includes $\eta_k$ when EW is active.
+\item CLI: \texttt{--no-eisenstat-walker} disables (reverts to
+  fixed \texttt{tcg\_tol\_rel}).  \texttt{--ew-eta-max} and
+  \texttt{--ew-eta-min} adjust bounds.
+\item EW is propagated through \texttt{run\_proof\_pipeline()} and
+  \texttt{run\_continuum\_audit()} for Phase 4 multi-grid runs.
+\end{enumerate}
+
+% ────────────────────────────────────────────────────────────
+\section{Open items}
+% ────────────────────────────────────────────────────────────
+
+\begin{enumerate}
+\item \textbf{Runtime validation}: \textsc{done}.  $N=32$ Phase 1
+  validated with three configurations (see \S5).  Default
+  $\eta_{\min}=0.01$ achieves lowest total GMRES cost (3956 vs.\
+  5155 fixed, 5555 at $\eta_{\min}=0.001$).
+\item \textbf{Phase 1--4 at $N=64$}: the EW rule is essential for
+  $N=64$ feasibility, where $\mathrm{flat\_dim} = 1{,}572{,}864$
+  and fixed $\eta = 5\times 10^{-4}$ would require
+  $O(10^4)$ GMRES iterations per late Newton step.
+\item \textbf{$\alpha$ sensitivity}: $\alpha = 2.0$ produces
+  safeguard sequence
+  $\eta = 0.9, 0.73, 0.48, 0.41, 0.15, 0.02, 0.01$ (clamped
+  at step 6).  Behaviour is acceptable for $N=32$; may need
+  revisiting at larger $N$ if early-stage EW is too aggressive.
+\item \textbf{cKK vs cJK mismatch} (carried from Math52): does not
+  affect solver but should be resolved for Phase 3 energy audits.
+\end{enumerate}
+
+% ────────────────────────────────────────────────────────────
+\begin{thebibliography}{9}
+\bibitem{EisenstatWalker1996}
+  S.~C.~Eisenstat and H.~F.~Walker,
+  ``Choosing the Forcing Terms in an Inexact Newton Method,''
+  \emph{SIAM J.\ Sci.\ Comput.}, 17(1):16--32, 1996.
+
+\bibitem{DemboEisenstatSteihaug1982}
+  R.~S.~Dembo, S.~C.~Eisenstat, and T.~Steihaug,
+  ``Inexact Newton Methods,''
+  \emph{SIAM J.\ Numer.\ Anal.}, 19(2):400--408, 1982.
+\end{thebibliography}
+
+\end{document}

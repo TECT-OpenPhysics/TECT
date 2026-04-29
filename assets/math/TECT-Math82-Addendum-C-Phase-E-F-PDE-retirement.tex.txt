@@ -1,0 +1,250 @@
+% =====================================================================
+% TECT-Math82-Addendum-C-Phase-E-F-PDE-retirement.tex.txt
+% Theory tag:  Math82-Addendum-C-Phase-E-F-PDE-retirement-2026-04-24
+% Classification: PROCESS NOTE (no theorem content)
+% Status:      EXECUTION PLAN + LOG for Phase E + F of the 2026-04-24
+%              repo cleanup. Completes the PDE/ retirement initiated
+%              in Phase A+B+C (Math82) and Phase D (Math82-Addendum-A).
+% Companion:   Codes/scripts/repo_cleanup_phase_e_f.ps1
+% =====================================================================
+
+\documentclass[11pt,a4paper]{article}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=1in]{geometry}
+\usepackage{mathtools,booktabs,longtable}
+\usepackage{hyperref}
+
+\title{TECT-Math82 Addendum C: Phase E + F --- \texttt{PDE/} Retirement}
+\author{TECT collaboration}
+\date{2026-04-24}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+This addendum executes Phase E + F of the 2026-04-24 repository
+cleanup, completing the \texttt{PDE/} directory retirement initiated
+in Phase A+B+C (Math82) and Phase D (Math82-Addendum-A). The cleanup
+proceeds in six Phase-E steps (policy docs, .bat scripts, Phase-1
+result txt, historical execution data subtrees, deprecated subtree
+preservation, untracked content removal) followed by two Phase-F steps
+(byte-equal Python and JSON mirror retirement, then \texttt{PDE/}
+top-level removal). The Phase Z continuation run launched in parallel
+uses \texttt{Codes\textbackslash pde\textbackslash continuation\_mu2\_v25.py}
+and is therefore unaffected by this retirement.
+\end{abstract}
+
+\tableofcontents
+
+\section{Pre-cleanup state (2026-04-24, post Phase A+B+C+D)}
+
+After commits \texttt{1a9e5170} (Phase A+B+C) and the Phase D
+\texttt{repo\_cleanup\_phase3\_d.ps1} commit, only one deprecated path
+remains in the repository root: \texttt{PDE/}. It hosts the live
+Task \#54 driver execution path until the user switches to
+\texttt{Codes\textbackslash pde\textbackslash}, which is now done
+(Phase Z run is using \texttt{Codes/pde/continuation\_mu2\_v25.py}).
+
+\subsection{Per-subtree scope summary}
+
+\texttt{PDE/} contains:
+
+\begin{itemize}
+\item \textbf{Top-level Python and JSON modules} (38 \texttt{.py} +
+       4 \texttt{.json}): byte-equal mirrors of \texttt{Codes/pde/}
+       (verified Math82-Addendum-A \S 2.1 \texttt{cmp -s}). Safe for
+       \texttt{git rm}.
+\item \textbf{Top-level policy docs} (\texttt{RECORDS\_CUTOFF.md},
+       \texttt{RESULT\_TEMPLATE.md}, \texttt{RETRO\_MANIFEST\_NOTE.md}):
+       relocate to \texttt{Docs/policy/}.
+\item \textbf{Top-level \texttt{.bat}} (\texttt{check\_and\_continue\_finetune.bat}):
+       relocate to \texttt{Codes/scripts/}.
+\item \textbf{Top-level Phase-1 result text}
+       (\texttt{Phase\_1\_grid64\_emergence\_result.txt}):
+       relocate to \texttt{Runs/legacy/}.
+\item \textbf{Untracked seed files} (\texttt{Psi\_*.npy}, $\sim 11$
+       files): gitignored per \texttt{.gitignore} \texttt{*.npy} rule;
+       remove via \texttt{Remove-Item}.
+\item \textbf{Untracked Python bytecode} (\texttt{\_\_pycache\_\_/}):
+       gitignored; remove via \texttt{Remove-Item}.
+\item \textbf{Historical execution data subtrees} (32 subdirectories):
+       relocate to \texttt{Runs/historical/<name>/}. The full list:
+       \texttt{backup\_GL\_2026-04-15}, \texttt{bcc\_compare},
+       \texttt{bcc\_recalib64}, \texttt{continuation\_N16},
+       \texttt{continuation\_N32\_v2p4}, \texttt{continuation\_fast\_stable\_N16},
+       \texttt{data\_pt\_64\_quick}, \texttt{emerge\_N64\_mixed\_s17},
+       \texttt{newton\_rigorous\_N\{32,64,128\}}, \texttt{newton\_test\_N32},
+       \texttt{rank2\_D0\_1em4}, \texttt{run\_emerge\_N64\_s42} (+ 3 variants),
+       \texttt{run\_finetune\_bcc\_ideal}, \texttt{runs},
+       \texttt{scan\_1em3/4/2em4/5em4} (4 sweeps),
+       \texttt{smoke\_mixedbcc/purenoise/seeded} (+ 3 \texttt{\_extract}),
+       \texttt{sweep\_mu2\_results}, \texttt{validation\_runs},
+       \texttt{validation\_runs\_tuned}.
+\item \textbf{Deprecated subtree} (\texttt{PDE/deprecated/}, 55 files):
+       per \texttt{.gitignore} \texttt{!PDE/deprecated/} rule, this is
+       explicitly tracked. Preserve as immutable archive in
+       \texttt{Backup/pre-PDE-retirement-2026-04-24/PDE\_deprecated/}.
+\end{itemize}
+
+\section{Phase E execution plan}
+
+\subsection{E.1 --- Policy docs $\to$ \texttt{Docs/policy/}}
+
+\begin{verbatim}
+git mv PDE/RECORDS_CUTOFF.md       Docs/policy/
+git mv PDE/RESULT_TEMPLATE.md       Docs/policy/
+git mv PDE/RETRO_MANIFEST_NOTE.md  Docs/policy/
+\end{verbatim}
+
+\subsection{E.2 --- \texttt{.bat} scripts $\to$ \texttt{Codes/scripts/}}
+
+\begin{verbatim}
+git mv PDE/check_and_continue_finetune.bat  Codes/scripts/check_and_continue_finetune.bat
+\end{verbatim}
+
+\subsection{E.3 --- Phase-1 result $\to$ \texttt{Runs/legacy/}}
+
+\begin{verbatim}
+git mv PDE/Phase_1_grid64_emergence_result.txt  Runs/legacy/
+\end{verbatim}
+
+\subsection{E.4 --- 32 historical-data subtrees $\to$ \texttt{Runs/historical/<name>/}}
+
+For each subtree under \texttt{PDE/}, the script issues either
+\texttt{git mv} (if the subtree has tracked content) or
+\texttt{Move-Item} (if all content is untracked / gitignored
+.\,npy/.\,log artifacts). This preserves history where it exists
+and avoids \texttt{git mv} errors on purely untracked subtrees.
+
+\subsection{E.5 --- \texttt{PDE/deprecated/} $\to$ \texttt{Backup/}}
+
+\texttt{PDE/deprecated/} is explicitly un-ignored and contains
+$\sim 55$ tracked files (per \texttt{.gitignore} rule
+\texttt{!PDE/deprecated/}). It is preserved as an immutable archive
+under
+\texttt{Backup/pre-PDE-retirement-2026-04-24/PDE\_deprecated/}.
+
+\subsection{E.6 --- Untracked content removal}
+
+\begin{verbatim}
+Remove-Item -Recurse -Force PDE/__pycache__
+Get-ChildItem PDE/Psi_*.npy | Remove-Item -Force
+\end{verbatim}
+
+\section{Phase F execution plan}
+
+\subsection{F.1 --- \texttt{git rm} byte-equal Python and JSON mirrors}
+
+The 38 \texttt{.py} and 4 \texttt{.json} files at the top level of
+\texttt{PDE/} are byte-equal with their canonical counterparts in
+\texttt{Codes/pde/} (verified Math82-Addendum-A \S 2.1
+\texttt{cmp -s}). They are removed from the index via \texttt{git rm};
+git history preserves them.
+
+\subsection{F.2 --- Remove now-empty \texttt{PDE/}}
+
+If all preceding steps succeeded, \texttt{PDE/} is empty.
+\texttt{Remove-Item -Recurse -Force PDE} removes the directory itself.
+
+\section{Post-cleanup state}
+
+\subsection{Repo-root listing expected after Phase E + F}
+
+\begin{verbatim}
+Contents/
+├── .git/
+├── .gitignore
+├── .pytest_cache/
+├── Backup/
+├── CHANGELOG.md
+├── CLAUDE.md
+├── Codes/
+├── Docs/
+├── NAVIGATION.md
+├── Runs/
+├── Website/
+└── tect-research.plugin
+\end{verbatim}
+
+This matches the canonical layout in \texttt{REPO\_LAYOUT.md \S 1}
+exactly. No deprecated paths remain.
+
+\subsection{\texttt{Runs/} sub-tree after Phase E + F}
+
+\begin{verbatim}
+Runs/
+├── audit/             (11 files from Phase D)
+├── continuation/      (active Phase Z output destination)
+│   ├── continuation_v263_smoke/
+│   ├── math55_endpoint_N32_L16_2026-04-23/
+│   └── math55_endpoint_N32_Lbcc7_phaseZ_2026-04-24/  (Phase Z output)
+├── historical/        (NEW: 32 subtrees from PDE/<historical-data-dir>)
+│   ├── backup_GL_2026-04-15/
+│   ├── bcc_compare/
+│   ├── bcc_recalib64/
+│   ├── continuation_N16/
+│   ├── ...
+│   └── validation_runs_tuned/
+├── legacy/            (R-2026-04-21-* + R-2026-04-22-* + R-2026-04-23-*
+│                       + Phase_1_grid64_emergence_result.txt)
+└── logs/              (4 .log files unchanged)
+\end{verbatim}
+
+\subsection{\texttt{Backup/} sub-tree after Phase E + F}
+
+\begin{verbatim}
+Backup/
+├── pre-restructure-2026-04-23/    (existing pre-cleanup snapshot)
+└── pre-PDE-retirement-2026-04-24/  (NEW)
+    └── PDE_deprecated/             (~55 files, immutable)
+\end{verbatim}
+
+\section{Safety: live Phase Z run interaction}
+
+The Phase Z continuation run launched in parallel uses
+\texttt{python -u Codes\textbackslash pde\textbackslash continuation\_mu2\_v25.py}
+with \texttt{--config Codes\textbackslash pde\textbackslash config\_template\_brazovskii.json}.
+Neither path includes \texttt{PDE\textbackslash}. The script does not
+touch \texttt{Codes\textbackslash pde\textbackslash} or
+\texttt{Runs\textbackslash continuation\textbackslash math55\_endpoint\_N32\_Lbcc7\_phaseZ\_2026-04-24\textbackslash}.
+Therefore, retiring \texttt{PDE/} during the run is safe.
+
+\section{Honest scope statement (binding)}
+
+\[
+\boxed{
+\text{Phase E + F is a structural-discipline commit; no theory or pillar status changes.}
+}
+\]
+\[
+\boxed{
+\text{The Phase Z run is unaffected; its output continues to land at Runs/continuation/math55\_endpoint\_N32\_Lbcc7\_phaseZ\_2026-04-24/.}
+}
+\]
+\[
+\boxed{
+\text{After this commit, the repository matches the canonical REPO\_LAYOUT.md \S 1 layout exactly.}
+}
+\]
+
+\section{Update obligations (per atomic-write rule \S 14.4)}
+
+This commit must simultaneously update:
+
+\begin{itemize}
+\item \texttt{Docs/policy/REPO\_LAYOUT.md} \S 1 (top-level layout)
+       --- remove \texttt{PDE/} from the deprecated-but-live list,
+       reduce to "all canonical".
+\item \texttt{Docs/policy/REPO\_LAYOUT.md} \S 4 (migration table) ---
+       mark \texttt{PDE/} RETIRED.
+\item \texttt{NAVIGATION.md} --- remove the \texttt{PDE/} reference;
+       add \texttt{Runs/historical/} subtree.
+\item \texttt{CHANGELOG.md} --- file the Phase E + F entry citing this
+       Math82-Addendum-C note.
+\item Math82-Addendum-C itself (this file).
+\item \texttt{Codes/scripts/repo\_cleanup\_phase\_e\_f.ps1} (the
+       executable companion).
+\item Single \texttt{git commit} stamping all of the above.
+\end{itemize}
+
+\end{document}

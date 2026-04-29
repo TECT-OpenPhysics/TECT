@@ -1,0 +1,673 @@
+% TECT-Math58-v2-Pillar11-CosmConst-skeleton.tex.txt
+% Title:   Vacuum-Energy Residue and the Topological Origin of the
+%          Cosmological Constant in TECT --- Parametric Skeleton (v2)
+% Date:    2026-04-21 (Task #77 -- skeleton draft)
+% Status:  SKELETON (pending Task #54 v2.4 continuation endpoint).
+%          Upon mechanical instantiation becomes either
+%          NEAR-FINAL CONDITIONAL (if algebraic cancellation holds)
+%          or FALSIFIED (if scale closure fails by > 3 orders of magnitude).
+% Theory tag: Math58-v2-skeleton-2026-04-21
+%
+% Relation to v1 (HELD):
+%   v1 (TECT-Math58-Pillar11-CosmConst.tex.txt, 2026-04-20) was held from
+%   the mainline at the 2026-04-21 rigor audit on three independent grounds:
+%     (D1) stale parameter anchor (mu^2, lambda, gamma) = (0.26, -0.43, 1.62);
+%     (D2) numerical-scale inconsistency (10^-120 vs 10^-30, 10^-32, 10^-40,
+%          10^-60 M_P^4 quoted for distinct contributions with no common
+%          derivational base);
+%     (D3) sign-convention ambiguity (the defect-sector sign was fixed by
+%          hand rather than derived).
+%   The present v2 skeleton is designed so that the instantiation step ---
+%   substituting the v2.4 continuation endpoint (phi_+^*, mu^2_*) once
+%   Task #54 converges --- is a mechanical algebraic operation that
+%   automatically resolves (D1), (D2), and (D3) simultaneously.
+%
+% Instantiation gate (block; cannot be bypassed):
+%   Inputs required from Task #54 v2.4 continuation:
+%     I1. phi_+^*        -- BCC-moment endpoint amplitude (dimensionless)
+%     I2. mu^2_*         -- endpoint gap parameter (dimensionless; nominal 5e-3)
+%     I3. epsilon^{2*}   -- shell-width ratio at endpoint (epsilon^2 = r/q_0^2)
+%     I4. (optional) sigma_V(N) from X6 (Task #55)
+%     I5. (optional) kappa from X7 (Task #56)
+%   Inputs fixed by mainline conventions (already locked):
+%     F1. q_0            = 0.6801747616   (Math55 continuation mainline, N=32)
+%     F2. lambda         = -0.43          (BCC first-shell K_4 = 1)
+%     F3. gamma          = +1.62          (BCC first-shell K_6 = 5/2)
+%     F4. Z              = -1.0           (Brazovskii dispersion)
+%     F5. Y              = +1.0           (Brazovskii dispersion)
+%     F6. phi_0          = varphi_0       (Pillar-3 gravity normalisation;
+%                                          canonical bridge to Planck units)
+
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=1in]{geometry}
+\usepackage{xcolor,mathtools,booktabs}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{conjecture}[theorem]{Conjecture}
+
+% Placeholder macro for endpoint values to be substituted on instantiation.
+\newcommand{\PARAM}[1]{{\color{red}\ensuremath{\langle #1 \rangle}}}
+
+\DeclareMathOperator{\tr}{tr}
+\DeclareMathOperator{\sgn}{sgn}
+
+\title{TECT-Math58-v2: Vacuum-Energy Residue and the\\
+       Topological Origin of the Cosmological Constant\\
+       \large{Parametric Skeleton (Pre-Instantiation Draft)}}
+\author{TECT Collaboration}
+\date{2026-04-21}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We present a parametric skeleton for Pillar~11 (cosmological-constant
+cancellation) that is instantiated mechanically once the v2.4 continuation
+endpoint $(\phi_+^*, \mu^{2*})$ is produced by Task~\#54.  Three
+defects of the v1 draft --- stale parameter anchor, scale-inconsistency,
+and hand-fixed sign conventions --- are addressed architecturally:
+(i)~all numerical quantities descend from a single dimensional bridge
+$(\varphi_0, q_0)$;
+(ii)~the sign of every defect-sector contribution is derived from a local
+energy-positivity inequality, not postulated;
+(iii)~the BCC-sector free-energy gap $\Delta F_{\mathrm{BCC}}$ is read
+directly from the v2.4 endpoint, eliminating the ambiguity associated
+with the now-retracted $\mu^{2}_{\mathrm{locked}} = 0.26$ regime.
+The skeleton yields a closed-form scale-closure theorem
+(Thm.~\ref{thm:scale-closure}) whose evaluation at the endpoint is a
+finite algebraic operation, and supplies the trigger checklist for the
+Task~\#66 lattice Monte-Carlo audit.
+\end{abstract}
+
+\tableofcontents
+
+%======================================================================
+\section{Design principles and v1 supersession}
+\label{sec:design}
+%======================================================================
+
+\subsection{Defect inheritance and architectural remedies}
+
+The three open defects of Math58-v1 were catalogued in the 2026-04-21
+rigor-audit (\texttt{RIGOR-AUDIT-2026-04-21.md}).  Each is addressed by
+a specific architectural constraint that the skeleton enforces:
+
+\begin{center}
+\begin{tabular}{@{}p{0.30\textwidth} p{0.30\textwidth} p{0.33\textwidth}@{}}
+\toprule
+v1 defect & root cause & v2 remedy \\
+\midrule
+(D1) stale anchor $(\mu^{2},\lambda,\gamma) = (0.26,-0.43,1.62)$
+  & manuscript written before v2.4 $\mu^{2}_{\text{target}} = 5{\times}10^{-3}$ re-targeting
+  & $\mu^{2}$ enters only as $\mu^{2}_{*}$: a placeholder for the Task~\#54 endpoint \\[1.2ex]
+(D2) $10^{-120}$ vs $10^{-30}$/$10^{-32}$/$10^{-40}$/$10^{-60}\,M_{P}^{4}$
+  & distinct non-dimensionalisations across sectors
+  & single dimensional bridge $\mathcal{B}(\varphi_{0}, q_{0})$ in \S\ref{sec:bridge}; all $\rho$ expressed as $\varphi_{0}^{a} q_{0}^{b}$ with $a + b = 4$ \\[1.2ex]
+(D3) sign of $E_{\text{defect}}$ fixed by hand
+  & no energy-positivity principle was invoked
+  & sign is a \emph{proposition} (Prop.~\ref{thm:mono-sign}, Prop.~\ref{thm:vortex-sign}) derived from local energy inequalities, conditional on the hypotheses of \S\ref{subsec:hypotheses} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{Hypotheses of the skeleton}
+\label{subsec:hypotheses}
+
+The scale-closure theorem below (Thm.~\ref{thm:scale-closure}) is
+conditional on a finite list of hypotheses that are explicitly named
+rather than tacit:
+
+\begin{description}
+  \item[\textbf{H-bridge}.]
+    The condensate vev $\varphi_{0}$ and the shell momentum $q_{0}$
+    bridge to Planck units via $\varphi_{0}/M_{P} \simeq 10^{-3}$,
+    the Pillar-3 gravity normalisation (Math05, Math35).  In lattice
+    units this is the identification $a \equiv 1/\varphi_{0}$.
+  \item[\textbf{H-CoulombGas-ZeroT}.]
+    The $T\to 0^{+}$ variational minimum of the $3$-dimensional
+    Coulomb-gas free energy \eqref{eq:f-CG} exists and lies in the
+    dilute-pair regime $n_{\mathrm{pair}}^{*}\,a^{3} \ll 1$.  This
+    is the standard non-rigorous zero-temperature limit; a lattice-UV
+    regularised proof is deferred to the instantiation stage.
+  \item[\textbf{H-Callias}.]
+    Vortex contributions to $\rho_{\mathrm{vortex}}$ originate from a
+    Callias-type index pairing between the Brazovskii scalar $\Psi$
+    and the vortex core Dirac zero mode
+    (Pillar-5/7 companion structure).  Without this hypothesis the
+    vortex sector carries \emph{non-negative} energy
+    (Prop.~\ref{thm:vortex-sign}.i is vacuous).
+  \item[\textbf{H-Yukawa}.]
+    For the Coleman-Weinberg estimate \eqref{eq:rho-dirac-CW}, fermion
+    masses are taken of the schematic form
+    $m_{f} = y_{f}\,\phi_{+}^{*}\,\varphi_{0}$.  This is \emph{not}
+    TECT-native: the mainline mechanism (topological Dirac zero modes
+    on BCC disclinations, Pillar~5) predicts a different scaling
+    $m_{f} \sim \varphi_{0}\,e^{-1/g}$ with $g$ the topological
+    coupling.  The Coleman-Weinberg block is therefore an
+    \emph{order-of-magnitude placeholder}; Cor.~\ref{cor:dirac-scale}
+    must be re-derived on instantiation using the Pillar-5 mass
+    formula.
+\end{description}
+
+Theorem~\ref{thm:scale-closure} is accurate under
+$\{$\textbf{H-bridge}, \textbf{H-CoulombGas-ZeroT}, \textbf{H-Callias},
+\textbf{H-Yukawa}$\}$; its evaluation at the Task~\#54 endpoint will
+inherit their caveats.
+
+\subsection{Instantiation protocol}
+
+The skeleton is a function of two symbolic inputs,
+$(\phi_{+}^{*}, \mu^{2*})$.  Upon the convergence of the Task~\#54
+continuation run, the instantiation procedure is purely mechanical:
+
+\begin{enumerate}
+  \item read $\phi_{+}^{*}$ and $\mu^{2*}$ from the Math55
+        continuation-endpoint JSON;
+  \item substitute into
+        \eqref{eq:DeltaFstar}, \eqref{eq:rho-mono-closed},
+        \eqref{eq:rho-vortex-closed}, \eqref{eq:rho-dirac-closed};
+  \item evaluate the scale-closure sum \eqref{eq:Lambda-closed};
+  \item compare with the observational value
+        $\Lambda_{\mathrm{cc}}^{\mathrm{obs}} \simeq 1.1{\times}10^{-122}\,M_{P}^{4}$;
+  \item classify the outcome according to \S\ref{sec:classification}.
+\end{enumerate}
+
+No manuscript prose below \S\ref{sec:bridge} changes at instantiation
+beyond the substitution of four numerical values.  This is by design:
+the instantiation is a \emph{verification} step, not a re-derivation.
+
+%======================================================================
+\section{Unified unit system and the single dimensional bridge}
+\label{sec:bridge}
+%======================================================================
+
+\subsection{The bridge}
+
+All energy densities below are expressed in TECT natural units
+$(\hbar = c = 1)$ and decorated by the single dimensional bridge
+\begin{equation}
+  \boxed{\;\mathcal{B}(\varphi_{0}, q_{0}) := \varphi_{0}^{4}\,,\qquad
+         [\varphi_{0}] = \text{mass},\qquad [q_{0}] = \text{mass}\,.\;}
+  \label{eq:bridge}
+\end{equation}
+The condensate vev $\varphi_{0}$ is the Pillar-3 gravity normalisation
+scale ($\varphi_{0} \sim 10^{16}\,\mathrm{GeV}$ on the current mainline,
+giving $\varphi_{0} / M_{P} \simeq 10^{-3}$).  The shell momentum
+$q_{0} = 0.6801747616$ is the v2.4 continuation value in lattice-constant
+units $(a = 1)$; its Planck-unit translation is fixed by
+$q_{0}/M_{P} = q_{0} \cdot (\varphi_{0}/M_{P})$ \emph{if and only if} the
+lattice spacing $a$ is identified with $1/\varphi_{0}$ (the natural
+condensate wavelength).  We adopt this identification throughout.
+
+\begin{lemma}[Dimensional factorisation]
+\label{lem:dim-fact}
+Any energy density $\rho$ in TECT natural units factorises uniquely as
+\begin{equation}
+  \rho = c_{\rho}\;\varphi_{0}^{a}\,q_{0}^{b},\qquad a + b = 4, \quad (a,b) \in \mathbb{Z}_{\geq 0}^{2},
+  \label{eq:dim-fact}
+\end{equation}
+with $c_{\rho}$ dimensionless.  Hence every contribution $\rho_{\bullet}$
+in \S\S\ref{sec:BCC-sector}--\ref{sec:Dirac-sector} admits an unambiguous
+translation into Planck units via a \emph{single} assumption,
+$\varphi_{0}/M_{P} = 10^{-3}$.
+\end{lemma}
+
+\begin{proof}
+The mass dimension of an energy density in $3{+}1$-dimensional field
+theory is $[\rho] = 4$.  Natural-unit dimensional analysis using only the
+two scales in the problem, $(\varphi_{0}, q_{0})$, and the fact that
+$[\varphi_{0}] = [q_{0}] = 1$, forces \eqref{eq:dim-fact}.  Uniqueness
+follows because $\varphi_{0}$ and $q_{0}$ are algebraically independent
+in the lattice-theoretic construction (Math55 Sec.~3).
+\qed
+\end{proof}
+
+Lemma~\ref{lem:dim-fact} is the architectural cure for defect (D2):
+every sector's contribution is written in the \emph{same} closed form
+$c_{\bullet}\,\varphi_{0}^{a_{\bullet}}\,q_{0}^{b_{\bullet}}$ with
+$a_{\bullet} + b_{\bullet} = 4$, so that sector-to-sector scale
+comparisons are meaningful.
+
+%======================================================================
+\section{BCC-condensate sector (parametric)}
+\label{sec:BCC-sector}
+%======================================================================
+
+\subsection{Endpoint free-energy gap}
+
+The reduced BCC-moment free-energy density (Math37-AddA \S A.3, with
+Math56-Addendum \S F correction $\phi_{0}^{2} = -\lambda/(5\gamma)$) is
+\begin{equation}
+  \mathcal{F}(\phi) = \mu^{2}\phi^{2} + \lambda\phi^{4}
+    + \tfrac{5}{2}\gamma\phi^{6}, \qquad
+    \lambda = -0.43,\ \gamma = 1.62.
+  \label{eq:Freduced-v2}
+\end{equation}
+Let $(\phi_{+}^{*}, \mu^{2*})$ denote the v2.4 continuation endpoint.
+Then the condensate-sector vacuum energy gap is
+\begin{equation}
+  \boxed{\;
+    \Delta F_{\mathrm{BCC}}^{*}
+      \;=\;
+      \mu^{2*}(\phi_{+}^{*})^{2}
+      + \lambda(\phi_{+}^{*})^{4}
+      + \tfrac{5}{2}\gamma(\phi_{+}^{*})^{6}
+      \;=\;
+      \PARAM{\Delta F_{\mathrm{BCC}}^{*}}\,\varphi_{0}^{4}\,.
+    \;}
+  \label{eq:DeltaFstar}
+\end{equation}
+The red placeholder becomes a concrete dimensionless number upon
+evaluation at the endpoint, with sign fixed automatically by
+$\mathcal{F}(\phi_{+}^{*}) - \mathcal{F}(0)$.
+
+\subsection{Sign dichotomy at the endpoint}
+
+\begin{proposition}[Endpoint sign dichotomy]
+\label{prop:sign-dichotomy}
+The Brazovskii first-order scale is
+$\mu^{2}_{c,\mathrm{global}} = \lambda^{2}/(10\gamma) = 0.01141$.  At
+the Task~\#54 endpoint $\mu^{2*}$:
+\begin{enumerate}[(i)]
+  \item if $\mu^{2*} > \mu^{2}_{c,\mathrm{global}}$:
+    $\Delta F_{\mathrm{BCC}}^{*} > 0$ (BCC branch is metastable;
+    compensation by defect sectors is mandatory for vacuum stability);
+  \item if $\mu^{2*} < \mu^{2}_{c,\mathrm{global}}$:
+    $\Delta F_{\mathrm{BCC}}^{*} < 0$ (BCC branch is ground state;
+    defect sectors must at most partially offset);
+  \item if $\mu^{2*} = \mu^{2}_{c,\mathrm{global}}$:
+    $\Delta F_{\mathrm{BCC}}^{*} = 0$ at tree level (phase-coexistence).
+\end{enumerate}
+The nominal v2.4 target $\mu^{2}_{\mathrm{target}} = 5{\times}10^{-3}
+< 0.01141$ falls in case~(ii), so $\Delta F_{\mathrm{BCC}}^{*} < 0$ is
+\emph{expected}; however, the actual endpoint may differ and must be
+read from the Task~\#54 JSON.
+\end{proposition}
+
+\begin{proof}
+Direct evaluation of \eqref{eq:Freduced-v2} at the non-trivial root of
+$\mathcal{F}'(\phi) = 0$.  The first-order transition (both minima
+degenerate) occurs exactly at $\mu^{2}_{c,\mathrm{global}}$; monotonicity
+of $\Delta F_{\mathrm{BCC}}$ in $\mu^{2}$ across this point gives the
+dichotomy.
+\qed
+\end{proof}
+
+Proposition~\ref{prop:sign-dichotomy} is the architectural cure for
+defect (D1): once the endpoint is substituted, the sign is determined,
+not chosen.
+
+%======================================================================
+\section{Monopole sector: sign from the Coulomb-gas inequality}
+\label{sec:monopole-sector}
+%======================================================================
+
+\subsection{Statement and setting}
+
+On the dual BCC lattice the $\mathrm{SU}(3)_{c}$ sector admits 't~Hooft
+monopoles (Pillar~4, colour charge).  Let $n_{\mathrm{pair}}$ denote the
+(translation-invariant) pair-density of monopole-antimonopole pairs,
+$a \sim 1/q_{0}$ the lattice scale, and $\alpha_{s}(q_{0})$ the running
+colour coupling at the Brazovskii shell momentum.  The $3$-dimensional
+Coulomb-gas free-energy density at pair density $n_{\mathrm{pair}}$ is
+\begin{equation}
+  f_{\mathrm{CG}}(n_{\mathrm{pair}})
+    = \underbrace{T \,n_{\mathrm{pair}} \ln(n_{\mathrm{pair}}\, a^{3})}_{\text{entropy}}
+    - \underbrace{\alpha_{s}(q_{0}) \,n_{\mathrm{pair}} \,\ln(r_{\mathrm{typ}}/a)}_{\text{binding}}
+    + O(n_{\mathrm{pair}}^{2}),
+  \label{eq:f-CG}
+\end{equation}
+with $r_{\mathrm{typ}} \sim n_{\mathrm{pair}}^{-1/3}$ the typical
+pair-separation and $T \to 0^{+}$ in the zero-temperature TECT setting
+(the entropic term is retained to regularise the variational problem).
+
+\begin{proposition}[Monopole sector sign, under \textbf{H-CoulombGas-ZeroT}]
+\label{thm:mono-sign}
+Assume the hypothesis \textbf{H-CoulombGas-ZeroT} of
+\S\ref{subsec:hypotheses}.  Then the free-energy density at the
+variational minimum of \eqref{eq:f-CG}
+satisfies
+\begin{equation}
+  \rho_{\mathrm{mono}}^{*} := \min_{n_{\mathrm{pair}} > 0}
+    f_{\mathrm{CG}}(n_{\mathrm{pair}}) \leq 0,
+  \label{eq:thm-mono-sign}
+\end{equation}
+with equality if and only if $\alpha_{s}(q_{0}) = 0$.  In particular,
+for $\alpha_{s}(q_{0}) > 0$ the monopole sector contributes
+\emph{strictly negative} energy density.
+\end{proposition}
+
+\begin{proof}[Sketch]
+Taking $\partial_{n_{\mathrm{pair}}} f_{\mathrm{CG}} = 0$ yields
+\begin{equation}
+  T\bigl[\ln(n_{\mathrm{pair}}\,a^{3}) + 1\bigr]
+    - \alpha_{s}(q_{0})\bigl[\ln(r_{\mathrm{typ}}/a) - \tfrac{1}{3}\bigr]
+    = 0.
+\end{equation}
+Under \textbf{H-CoulombGas-ZeroT}, the $T \to 0^{+}$ limit selects a
+dilute-pair extremum $n_{\mathrm{pair}}^{*}\,a^{3} \ll 1$ with
+$\ln(r_{\mathrm{typ}}/a) = -\tfrac{1}{3}\ln(n_{\mathrm{pair}}^{*}\,a^{3}) > 0$,
+so substituting back gives $f_{\mathrm{CG}}(n_{\mathrm{pair}}^{*}) < 0$
+whenever $\alpha_{s}(q_{0}) > 0$.  A fully rigorous proof requires a
+lattice-UV cutoff and is deferred to the instantiation stage --- see
+the open-question ledger item~\texttt{X-CG-ZeroT}.
+\qed
+\end{proof}
+
+\begin{corollary}[Monopole density in the bridge]
+\label{cor:mono-scale}
+In the unified unit system \eqref{eq:bridge},
+\begin{equation}
+  \boxed{\;
+    \rho_{\mathrm{mono}}^{*}
+      = -c_{\mathrm{mono}}(\alpha_{s}(q_{0}))\,q_{0}^{4},
+    \qquad
+    c_{\mathrm{mono}}(\alpha_{s}(q_{0})) \in (0, 1),
+    \;}
+  \label{eq:rho-mono-closed}
+\end{equation}
+with $c_{\mathrm{mono}} \approx \alpha_{s}(q_{0})/(4\pi)$ to leading log.
+\end{corollary}
+
+\subsection{Numerical placeholder}
+
+Given $\alpha_{s}(q_{0}) = \PARAM{\alpha_{s}(q_{0})}$ (running from
+$\alpha_{s}(M_{Z}) \simeq 0.118$ to the Brazovskii shell; a two-loop
+QCD RGE evaluation supplies this value mechanically), we have
+\begin{equation}
+  \rho_{\mathrm{mono}}^{*}
+    = -\PARAM{\alpha_{s}(q_{0}) / (4\pi)}\;q_{0}^{4}
+    = -\PARAM{c_{\mathrm{mono}}}\;\varphi_{0}^{0}\,q_{0}^{4}.
+\end{equation}
+Exponents $(a_{\mathrm{mono}}, b_{\mathrm{mono}}) = (0, 4)$, confirming
+Lemma~\ref{lem:dim-fact}.
+
+%======================================================================
+\section{Vortex sector: sign from the Callias-type inequality}
+\label{sec:vortex-sector}
+%======================================================================
+
+\subsection{Statement}
+
+Line-tension of a vortex in a Brazovskii condensate is manifestly
+\emph{positive}:
+$\tau_{v} \geq 0$ (integration by parts of the gradient part of $\mathcal{F}$).
+A naive inclusion of a static vortex tangle therefore gives a
+\emph{positive} energy contribution, in direct contradiction with v1
+which assigned $\rho_{\mathrm{vortex}} < 0$ by fiat (defect D3).  The
+correct statement is that vortex lines contribute negatively \emph{only}
+when they carry a non-trivial Callias-type index coupling them to the
+BCC-scalar background.
+
+\begin{proposition}[Vortex sector sign and bound, under \textbf{H-Callias}]
+\label{thm:vortex-sign}
+Let $\mathcal{V}$ be the set of smooth vortex configurations with
+winding $n_{v} \in \mathbb{Z}$ and Callias index $\mathrm{ind}_{\mathrm{C}}(v)$
+at finite BCC background $\Psi$.  Then
+\begin{equation}
+  \rho_{\mathrm{vortex}}
+    = \int_{\mathcal{V}} d\mu(v) \Bigl[\tau_{v}(v) - \mathrm{ind}_{\mathrm{C}}(v)\cdot \epsilon_{\mathrm{bind}}\Bigr],
+  \label{eq:rho-vortex-IBP}
+\end{equation}
+and $\rho_{\mathrm{vortex}} < 0$ if and only if
+$\mathrm{ind}_{\mathrm{C}}(v)\cdot \epsilon_{\mathrm{bind}}
+> \tau_{v}(v)$ on a positive-measure subset of $\mathcal{V}$.
+Furthermore the closed-form bound
+\begin{equation}
+  \boxed{\;
+    |\rho_{\mathrm{vortex}}|
+      \;\leq\;
+      c_{\mathrm{vortex}}\,\varphi_{0}^{4},
+      \qquad
+      c_{\mathrm{vortex}} = 1,
+    \;}
+  \label{eq:rho-vortex-closed}
+\end{equation}
+holds unconditionally.
+\end{proposition}
+
+\begin{proof}[Sketch]
+The first assertion is a direct consequence of the Bogomolnyi-rearrangement
+on the Brazovskii free energy: the vortex energy decomposes into a
+manifestly positive gradient-square term and a topological surface term
+that picks up $\mathrm{ind}_{\mathrm{C}}(v)\cdot \epsilon_{\mathrm{bind}}$
+(see Math49c-v3 Lemma pair-decomp for the analogous BCC first-shell
+identification).  The bound \eqref{eq:rho-vortex-closed} follows from
+the fact that the vortex line density cannot exceed the condensate
+density, hence $|\rho_{\mathrm{vortex}}| \leq |\mathcal{F}(\phi_{+}^{*})|
+\leq \varphi_{0}^{4}$.  Full details deferred to a companion note.
+\qed
+\end{proof}
+
+\noindent\emph{Note.}  Without \textbf{H-Callias}
+(\S\ref{subsec:hypotheses}) the first assertion is vacuous and only
+$|\rho_{\mathrm{vortex}}| \leq \varphi_{0}^{4}$ survives as a useful
+statement; the sign is then not determined by this skeleton.
+
+Exponents $(a_{\mathrm{vortex}}, b_{\mathrm{vortex}}) = (4, 0)$ --- the
+vortex contribution is of condensate scale, not of shell scale, which is
+the \emph{reason} why the order-of-magnitude estimates in v1 appeared to
+mix $10^{-30}$ and $10^{-60}$ incommensurably.  Lemma~\ref{lem:dim-fact}
+fixes this definitively.
+
+%======================================================================
+\section{Dirac-sea sector: Coleman-Weinberg one-loop}
+\label{sec:Dirac-sector}
+%======================================================================
+
+\subsection{Statement (conditional on \textbf{H-Yukawa})}
+
+For each chiral fermion species $f$ with mass $m_{f}$ generated by the
+Yukawa coupling to the BCC condensate \emph{assumed for the present
+estimate only} (see \textbf{H-Yukawa}, \S\ref{subsec:hypotheses};
+the TECT-native mechanism differs and must be substituted on
+instantiation), the one-loop Coleman-Weinberg
+effective potential at scale $\mu_{\mathrm{RG}} = q_{0}$ contributes
+\begin{equation}
+  \rho_{\mathrm{Dirac}}
+    = -\sum_{f} \frac{N_{f}\,g_{f}}{64\pi^{2}}\,m_{f}^{4}
+      \Bigl[\ln\!\left(\tfrac{m_{f}^{2}}{q_{0}^{2}}\right) - \tfrac{3}{2}\Bigr]
+      + O(\hbar^{2}),
+  \label{eq:rho-dirac-CW}
+\end{equation}
+with $N_{f}$ the colour multiplicity and $g_{f}$ the spin degeneracy.
+The sign is negative for massive Dirac species (fermion loops carry an
+overall minus sign).
+
+\begin{corollary}[Dirac density in the bridge]
+\label{cor:dirac-scale}
+With $m_{f} = y_{f}\,\phi_{+}^{*}\,\varphi_{0}$ (Yukawa to BCC endpoint),
+\begin{equation}
+  \boxed{\;
+    \rho_{\mathrm{Dirac}}
+      = -\Bigl(\sum_{f} \frac{N_{f}\,g_{f}\,y_{f}^{4}}{64\pi^{2}}\,(\phi_{+}^{*})^{4}
+               \bigl[\ln\!\left(\tfrac{y_{f}^{2}(\phi_{+}^{*})^{2}\varphi_{0}^{2}}{q_{0}^{2}}\right)
+                     - \tfrac{3}{2}\bigr]\Bigr)\,\varphi_{0}^{4}.
+    \;}
+  \label{eq:rho-dirac-closed}
+\end{equation}
+Exponents $(a_{\mathrm{Dirac}}, b_{\mathrm{Dirac}}) = (4, 0)$.
+\end{corollary}
+
+%======================================================================
+\section{Scale-closure theorem}
+\label{sec:closure-thm}
+%======================================================================
+
+\begin{theorem}[Scale-closure of the TECT vacuum energy,
+                conditional on \{\textbf{H-bridge}, \textbf{H-CoulombGas-ZeroT},
+                \textbf{H-Callias}, \textbf{H-Yukawa}\}]
+\label{thm:scale-closure}
+Summing \eqref{eq:DeltaFstar}, \eqref{eq:rho-mono-closed},
+\eqref{eq:rho-vortex-closed}, \eqref{eq:rho-dirac-closed}, and
+substituting the single dimensional bridge \eqref{eq:bridge}, the net
+TECT vacuum energy is a rational-logarithmic function of six inputs
+$(\phi_{+}^{*}, \mu^{2*}, q_{0}, \varphi_{0}, \alpha_{s}(q_{0}), \{y_{f}\})$:
+\begin{multline}
+  \Lambda_{\mathrm{cc}}\big|_{\mathrm{TECT}}
+    = \underbrace{\Bigl[\mu^{2*}(\phi_{+}^{*})^{2}
+      + \lambda(\phi_{+}^{*})^{4}
+      + \tfrac{5}{2}\gamma(\phi_{+}^{*})^{6}\Bigr]}_{\Delta F_{\mathrm{BCC}}^{*}/\varphi_{0}^{4}}\,\varphi_{0}^{4}\\
+    - \frac{\alpha_{s}(q_{0})}{4\pi}\,q_{0}^{4}
+    - c_{\mathrm{vortex}}^{*}\,\varphi_{0}^{4}
+    - \sum_{f}\frac{N_{f}\,g_{f}\,y_{f}^{4}}{64\pi^{2}}(\phi_{+}^{*})^{4}
+      \Bigl[\ln\!\Bigl(\tfrac{y_{f}^{2}(\phi_{+}^{*})^{2}\varphi_{0}^{2}}{q_{0}^{2}}\Bigr)
+            - \tfrac{3}{2}\Bigr]\,\varphi_{0}^{4},
+  \label{eq:Lambda-closed}
+\end{multline}
+with every term of manifest mass-dimension $4$ by
+Lemma~\ref{lem:dim-fact} and every sign derived from
+Prop.~\ref{prop:sign-dichotomy}, Prop.~\ref{thm:mono-sign},
+Prop.~\ref{thm:vortex-sign}, Cor.~\ref{cor:dirac-scale}.
+\end{theorem}
+
+\begin{proof}
+Collect the boxed expressions from
+\eqref{eq:DeltaFstar}--\eqref{eq:rho-dirac-closed}, each of which is
+established conditional on the corresponding hypothesis of
+\S\ref{subsec:hypotheses}, and apply Lemma~\ref{lem:dim-fact}.  No
+hand-tuned numerical coefficient enters beyond those carried by the
+hypotheses themselves.
+\qed
+\end{proof}
+
+\begin{remark}[Scale-consistency gate]
+\label{rem:scale-gate}
+Theorem~\ref{thm:scale-closure} dissolves defect (D2): \emph{every}
+contribution appears in the common bridge $\varphi_{0}^{4}$ up to
+ratios of $q_{0}/\varphi_{0}$, so the statement ``the terms have
+mismatched scales'' becomes vacuous.  The physical question is whether
+they \emph{cancel} numerically, not whether they are commensurable.
+\end{remark}
+
+%======================================================================
+\section{Classification logic on instantiation}
+\label{sec:classification}
+%======================================================================
+
+The Pillar-11 status after instantiation is determined algorithmically
+from two dimensionless numbers,
+\begin{equation}
+  \Xi_{\mathrm{TECT}} := \Lambda_{\mathrm{cc}}\big|_{\mathrm{TECT}} / M_{P}^{4},
+  \qquad
+  \Xi_{\mathrm{obs}} := 1.1{\times}10^{-122}.
+\end{equation}
+
+\begin{center}
+\begin{tabular}{@{}p{0.32\textwidth} p{0.35\textwidth} p{0.27\textwidth}@{}}
+\toprule
+$|\log_{10}(\Xi_{\mathrm{TECT}}/\Xi_{\mathrm{obs}})|$ & interpretation & Pillar-11 classification \\
+\midrule
+$\leq 1$  & cancellation within one order of magnitude & NEAR-FINAL CONDITIONAL \\
+$\leq 3$  & cancellation within three orders           & PARTIAL \\
+$\leq 10$ & order-of-magnitude agreement               & EXPLORATORY \\
+$> 10$    & scale mismatch                             & FALSIFIED (retract v2) \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+This classification gate is \emph{pre-registered}: the thresholds are
+fixed before the endpoint is known, eliminating post-hoc fitting.
+
+\begin{remark}[Expected outcome --- honest forecast]
+\label{rem:expected-outcome}
+Under the mainline bridge $\varphi_{0}/M_{P} \simeq 10^{-3}$, the natural
+magnitude of every term in \eqref{eq:Lambda-closed} is
+$\varphi_{0}^{4}/M_{P}^{4} \simeq 10^{-12}$, which exceeds
+$\Xi_{\mathrm{obs}} \simeq 10^{-122}$ by approximately $110$ orders of
+magnitude.  Absent a $110$-significant-figure cancellation between
+sectors --- which is the textbook statement of the cosmological-constant
+problem --- the pre-registered gate is therefore \emph{expected} to
+classify as \textbf{FALSIFIED} upon instantiation.  This outcome would
+not retract the skeleton architecture but rather confirm the
+long-standing fact that $\Lambda_{\mathrm{cc}}$ cannot be resolved at
+one-loop from condensate and defect energetics alone.  In that event
+the next research step is to identify either
+(i) a loop-suppression mechanism (Pillar-10 $\hbar$-origin, Math59 revisit),
+(ii) a dimensional-reduction lever (Pillar-3 gravity sector reformulation),
+or (iii) a redefinition of ``vacuum energy'' as a topological invariant
+(Chern-Simons or \"{O}st\"{o}rwalder-Schrader contraction) with
+parametrically smaller magnitude.  All three options are compatible
+with the Math58-v2 architecture and would enter as explicit refinements
+of the dimensional-factorisation Lemma~\ref{lem:dim-fact}.
+\end{remark}
+
+%======================================================================
+\section{Trigger checklist for Task~\#66 (Monte-Carlo)}
+\label{sec:MC-trigger}
+%======================================================================
+
+A lattice Monte-Carlo of the BCC~+ monopole vacuum (Task~\#66) is
+justified if and only if the instantiation of
+Theorem~\ref{thm:scale-closure} yields NEAR-FINAL CONDITIONAL or
+PARTIAL classification.  In that case the MC specification is:
+
+\begin{description}
+  \item[Inputs.]
+    $(\phi_{+}^{*}, \mu^{2*})$ from Task~\#54 endpoint; lattice
+    $N \in \{16, 32, 64\}$ with $L = 2\pi N / q_{0}$ (two shell
+    wavelengths); $10^{4}$ thermalisation + $10^{5}$ measurement sweeps.
+  \item[Observable.]
+    $\langle H\rangle / V$ with dynamical monopole insertions (heat-bath
+    update on the dual BCC lattice, 't~Hooft magnetic $Z_{3}$-centre
+    projection).
+  \item[Null hypothesis.]
+    $\langle H\rangle / V = \Lambda_{\mathrm{cc}}|_{\mathrm{TECT}}$
+    from \eqref{eq:Lambda-closed}, within $3\sigma_{\mathrm{MC}}$.
+  \item[Rejection.]
+    If MC result differs from the analytic prediction by
+    $> 5\sigma_{\mathrm{MC}}$ at $N = 32$ \emph{and} the discrepancy
+    grows with $N$, Theorem~\ref{thm:scale-closure} is falsified and
+    Pillar~11 returns to NOT ADDRESSED.
+  \item[Continuum limit.]
+    Richardson extrapolation in $N^{-2}$ across $N \in \{16, 32, 64\}$.
+\end{description}
+
+%======================================================================
+\section{Status, open dependencies, and ledger disposition}
+\label{sec:status}
+%======================================================================
+
+\subsection{Current status}
+
+\begin{description}
+  \item[Classification.] \textcolor{red}{\textbf{SKELETON}}.  This note
+    is \emph{not} a mainline partial closure.  It becomes one only after
+    mechanical instantiation of Task~\#54 endpoint.
+  \item[Pillar~11 scorecard impact.] \emph{None at present.}  Pillar~11
+    remains NOT ADDRESSED on the TOE fact-sheet.
+\end{description}
+
+\subsection{Dependency graph}
+
+\begin{center}
+\begin{tabular}{@{}p{0.20\textwidth} p{0.50\textwidth} p{0.25\textwidth}@{}}
+\toprule
+upstream task & content needed & task ledger \\
+\midrule
+Task~\#54 & v2.4 continuation endpoint $(\phi_{+}^{*}, \mu^{2*})$ & pending (external run) \\
+Task~\#55 & $\sigma_{V}$ at $N \in \{32, 64, 128\}$ --- optional, for MC noise floor & pending \\
+Task~\#56 & $\kappa$ in $\rho_{*} = \kappa\,\phi_{+}^{2}$ --- optional, refines \eqref{eq:rho-vortex-closed} & pending \\
+\midrule
+downstream task & triggered when this note instantiates & task ledger \\
+\midrule
+Task~\#66 & Monte-Carlo verification (\S\ref{sec:MC-trigger}) & blocked on this note \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{Ledger disposition}
+
+Upon creation (2026-04-21) this file is added to
+\texttt{docs/math/} with the \texttt{SKELETON} tag in
+\texttt{research-log.md}; the TOE fact-sheet Pillar~11 row is
+\emph{unchanged} (remains NOT ADDRESSED).  Upon instantiation the
+classification flag is updated per \S\ref{sec:classification} and the
+scorecard is adjusted accordingly.
+
+\end{document}

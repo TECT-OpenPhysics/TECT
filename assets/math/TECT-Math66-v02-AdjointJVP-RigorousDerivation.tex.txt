@@ -1,0 +1,499 @@
+% TECT Math note --- Math66 v0.2
+% Title : Rigorous adjoint Jacobian-vector product for the class-II
+%         in-solver Hermitian projection (Path-X)
+% Tags  : Math66-cII-OperatorSurgery-PathX-v0p2-2026-04-22
+% Status: OPERATIONAL THEOREM / IMPLEMENTATION SPECIFICATION v0.2
+%         (supersedes v0.1 Status field per Math68 v0.1 Cor. math68-math66-label;
+%          promotes implementation spec from SKELETON-EXECUTABLE to
+%          RIGOROUS-EXECUTABLE by closing Blocker B2 at the structural level.)
+% Author: PI, with AI co-derivation (2026-04-22)
+% Sync  : docs/manual/CODE_MANUAL.md §11 row updated same commit;
+%         CHANGELOG.md top entry same commit;
+%         supersedes B2-status row in Math68 v0.1 §3 upon code landing.
+%
+% ============================================================
+% This file is TeX-ready: paste directly into LaTeX (article class
+% with amsmath, amssymb, amsthm, enumitem, booktabs preamble).
+% ============================================================
+
+\section*{Math66 v0.2 --- Rigorous adjoint JVP for Path-X class-II projection}
+
+\paragraph{Scope and relation to v0.1.}  Math66 v0.1 specified the
+operational target $\tilde{\mathcal{J}}_{\mathrm{cII}} = \tfrac{1}{2}(\mathcal{J}_{\mathrm{cII}} + \mathcal{J}_{\mathrm{cII}}^\dagger)$ and proved its Hermiticity at the Hilbert-space level, but left the
+\emph{computational realisation} of $\mathcal{J}_{\mathrm{cII}}^\dagger v$ as a
+\textsc{skeleton-executable} stub.  The skeleton's realisation, located in
+\texttt{PDE/tect\_newton\_krylov.py:\{367,409--424\}}, ruptures the \texttt{torch}
+autograd chain at the numpy boundary
+\texttt{backend.residual()}$\,\to\,$\texttt{torch.from\_numpy(F\_Psi)}, producing the
+empirically-observed Blocker B2 fingerprint
+\texttt{RuntimeError: element 0 of tensors does not require grad and does not have a grad\_fn}
+(Math68 Addendum A \S A.4 Eq.~\eqref{eq:math68-addA-pytest-postrepair-actual},
+\S A.5 Eq.~\eqref{eq:math68-addA-B2-universal}).
+
+Math66 v0.2 provides a \emph{proposition-level} derivation of $\mathcal{J}_{\mathrm{cII}}^\dagger$
+that
+(a) exposes two mutually consistent rigorous implementation paths (A and B),
+(b) certifies Path A as the minimum-invasive engineering closure,
+(c) gives the explicit Wirtinger formulas for Path B as a fall-back and as
+the analytical oracle against which Path A is verified,
+(d) reserves Prop.~\ref{prop:math66v02-Hermiticity} as the
+test-executable contract for the Math66 \S8 U1 Hermiticity gate.
+
+% -----------------------------------------------------------
+\subsection*{\S1 Function-space setup}
+% -----------------------------------------------------------
+
+Let $\mathcal{H} := \ell^2(\mathbb{Z}_N^3; \mathbb{C}^3)$ with Euclidean inner product
+\begin{equation}
+  \label{eq:math66v02-inner-product}
+  \langle u, v\rangle_{\mathcal{H}}
+  \;:=\;
+  \Delta V \sum_{x \in \mathbb{Z}_N^3} \sum_{a=1}^{3} \mathrm{Re}\bigl(\overline{u^a(x)}\, v^a(x)\bigr),
+  \qquad
+  \Delta V := \frac{L_x L_y L_z}{N^3},
+\end{equation}
+treated as a \emph{real} Hilbert space of real dimension $2 \cdot 3 \cdot N^3$.
+The TECT Brazovskii-shell residual map
+$R: \mathcal{H} \to \mathcal{H}$ decomposes additively as
+\begin{equation}
+  \label{eq:math66v02-residual-decomp}
+  R(\Psi) \;=\; R_{\mathrm{lin}}(\Psi) + R_{\mathrm{fam}}(\Psi) + R_{\mathrm{lock}}(\Psi)
+                   + R_{\mathrm{shell}}(\Psi) + R_{\mathrm{nl}}(\Psi) + R_{\mathrm{cII}}(\Psi),
+\end{equation}
+where the six terms are implemented at lines 490--495 of
+\texttt{PDE/real\_backend\_pt\_bcc\_mixed\_v3.py} as
+\texttt{lin, fam, lock, shell\_bias, nl, classII}.  The class-II term
+$R_{\mathrm{cII}} := $\texttt{\_classII\_effective\_term\_t}
+is the sole source of anti-Hermitian contributions to the Fr\'echet
+derivative $\mathcal{J}[\Psi] := DR[\Psi]$
+(Math63 \S 2A.3 finding $\|\mathcal{J} - \mathcal{J}^\dagger\|/\|\mathcal{J}\| = 2.66\times 10^{-4}$).
+
+Denote the block decomposition
+\begin{equation}
+  \label{eq:math66v02-J-block}
+  \mathcal{J}[\Psi] \;=\; \mathcal{J}_{\mathrm{H}}[\Psi] + \mathcal{J}_{\mathrm{cII}}[\Psi],
+  \qquad
+  \mathcal{J}_{\mathrm{H}}^\dagger \;=\; \mathcal{J}_{\mathrm{H}} \quad \text{(analytically Hermitian)},
+\end{equation}
+where $\mathcal{J}_{\mathrm{H}}$ collects all Hermitian terms (kinetic, mass,
+family, locking, shell-bias, and the variational Class-I Wirtinger
+part) and $\mathcal{J}_{\mathrm{cII}} := DR_{\mathrm{cII}}[\Psi]$ is the
+non-variational cII block.
+
+% -----------------------------------------------------------
+\subsection*{\S2 Wirtinger adjoint: general recipe}
+% -----------------------------------------------------------
+
+\begin{proposition}[Wirtinger adjoint via real-linear functional]
+\label{prop:math66v02-wirtinger-adjoint}
+Let $F: \mathbb{C}^n \to \mathbb{C}^n$ be $\mathbb{R}$-differentiable with Fr\'echet derivative
+$\mathcal{J} = DF[\Psi] \in \mathrm{End}_{\mathbb{R}}(\mathbb{C}^n)$, and fix $v \in \mathbb{C}^n$.  Define
+the $\mathbb{R}$-linear functional
+\begin{equation}
+  \label{eq:math66v02-scalarised}
+  L_v: \mathbb{C}^n \to \mathbb{R},
+  \qquad
+  L_v(\Psi) \;:=\; \mathrm{Re}\bigl\langle v, F(\Psi)\bigr\rangle_{\mathbb{C}},
+\end{equation}
+with the Euclidean Hermitian pairing
+$\langle v, w\rangle_{\mathbb{C}} := \sum_i \bar v_i w_i$.  Then the
+Euclidean-adjoint Jacobian-vector product is
+\begin{equation}
+  \label{eq:math66v02-adjoint-recipe}
+  \mathcal{J}^\dagger v \;=\; \nabla_{\Psi} L_v(\Psi)
+  \;:=\; 2\,\frac{\partial L_v}{\partial \overline{\Psi}},
+\end{equation}
+where the right-hand side is the Wirtinger conjugate-gradient and
+equals the \texttt{torch.autograd.grad(L\_v, Psi\_torch)} return value
+under the PyTorch complex-autograd convention (PyTorch reference:
+\emph{Complex autograd}, Apr 2021 release).
+\end{proposition}
+
+\begin{proof}
+Identify $\mathbb{C}^n \cong \mathbb{R}^{2n}$ via $\Psi = x + i y$; the inner product
+\eqref{eq:math66v02-inner-product} becomes the standard Euclidean inner
+product on $\mathbb{R}^{2n}$.  The adjoint of $\mathcal{J}: \mathbb{R}^{2n} \to \mathbb{R}^{2n}$ w.r.t.\ this
+inner product is by definition $\mathcal{J}^\dagger = \mathcal{J}^T$, so for any $v$,
+\[
+  \langle u, \mathcal{J} v\rangle_{\mathbb{R}^{2n}}
+  \;=\; \langle \mathcal{J}^T u, v\rangle_{\mathbb{R}^{2n}}
+  \qquad\forall u,v\in\mathbb{R}^{2n}.
+\]
+Taking $u$ as the test direction and $v$ as the fixed input,
+$\langle v, F(\Psi)\rangle_{\mathbb{R}^{2n}}$ (which equals $L_v(\Psi)$ under
+$\mathrm{Re}\,\langle\cdot,\cdot\rangle_{\mathbb{C}} = \langle\cdot,\cdot\rangle_{\mathbb{R}^{2n}}$) is a
+real scalar whose Euclidean gradient is exactly $\mathcal{J}^T v = \mathcal{J}^\dagger v$ by the
+chain rule.  Expressed in Wirtinger form,
+$\nabla_{\Psi}L = 2\,\partial L/\partial\bar\Psi$, which PyTorch computes
+natively for real-valued scalars of complex leaves.
+\end{proof}
+
+\begin{corollary}[Recipe is insensitive to $\mathcal{J}_{\mathrm{H}}$]
+\label{cor:math66v02-recipe-block-diag}
+For any block decomposition $\mathcal{J} = \mathcal{J}_{\mathrm{H}} + \mathcal{J}_{\mathrm{cII}}$ with $\mathcal{J}_{\mathrm{H}} = \mathcal{J}_{\mathrm{H}}^\dagger$,
+applying Prop.~\ref{prop:math66v02-wirtinger-adjoint} to $F := R$ (the
+full residual) gives
+$\mathcal{J}^\dagger v = \mathcal{J}_{\mathrm{H}} v + \mathcal{J}_{\mathrm{cII}}^\dagger v$; subtracting the forward JVP
+$\mathcal{J} v = \mathcal{J}_{\mathrm{H}} v + \mathcal{J}_{\mathrm{cII}} v$ yields
+$(\mathcal{J}^\dagger - \mathcal{J}) v = (\mathcal{J}_{\mathrm{cII}}^\dagger - \mathcal{J}_{\mathrm{cII}}) v$, so the symmetrised
+operator
+\begin{equation}
+  \label{eq:math66v02-sym-decomp}
+  \tilde{\mathcal{J}}_{\mathrm{cII}} v
+  \;=\; \tfrac{1}{2}(\mathcal{J} + \mathcal{J}^\dagger) v \;-\; \mathcal{J}_{\mathrm{H}} v
+  \;=\; \tfrac{1}{2}(\mathcal{J}_{\mathrm{cII}} + \mathcal{J}_{\mathrm{cII}}^\dagger) v
+\end{equation}
+can be computed without isolating $\mathcal{J}_{\mathrm{cII}}$ by itself: it suffices to
+compute $\mathcal{J} v$ (forward) and $\mathcal{J}^\dagger v$ (adjoint, via
+Prop.~\ref{prop:math66v02-wirtinger-adjoint}) on the full residual and
+then form $\tilde{\mathcal{J}} v = \tfrac{1}{2}(\mathcal{J} + \mathcal{J}^\dagger) v$.  Hermiticity of $\tilde{\mathcal{J}}$
+is preserved by the block-diagonal addition of $\mathcal{J}_{\mathrm{H}}$.
+\end{corollary}
+
+The payoff of Cor.~\ref{cor:math66v02-recipe-block-diag} is that the
+class-II identification layer (Blocker B3, Task \#114) is \emph{not a
+dependency} of B2 resolution: the Path-X gate fires correctly on the
+full residual, with the cII mask to be refined as an independent
+quality-of-approximation tuning knob in v0.3.
+
+% -----------------------------------------------------------
+\subsection*{\S3 Path A: torch-native residual re-plumbing (engineering)}
+% -----------------------------------------------------------
+
+The Blocker B2 fault is entirely localised in the defective six-line
+block at \texttt{PDE/tect\_newton\_krylov.py:408--424}:
+the existing implementation creates a torch leaf \texttt{Psi\_torch} but
+then routes the forward pass through \texttt{backend.residual(Psi, params)}
+(numpy input, numpy output), which severs the graph before
+\texttt{torch.autograd.grad(loss, Psi\_torch)} is reached.
+
+\begin{proposition}[Path A --- graph-reconnected adjoint JVP]
+\label{prop:math66v02-pathA}
+Replacing \texttt{PDE/tect\_newton\_krylov.py:408--424} with the following
+block yields an implementation of \eqref{eq:math66v02-adjoint-recipe}
+whose autograd chain is continuous from the complex leaf
+\texttt{Psi\_torch} to the scalar \texttt{loss}:
+\begin{verbatim}
+    # --- begin Path A replacement (Math66 v0.2 Prop. 3.1) ---
+    import real_backend_pt_bcc_mixed_v3 as _bk
+    # (1) Complex leaf with requires_grad=True
+    Psi_t = _bk._to_torch(Psi, params, complex_required=True) \
+                 .clone().requires_grad_(True)
+    v_t   = _bk._to_torch(v,   params, complex_required=True).detach()
+
+    # (2) Torch-native residual — every call is leaf-connected
+    lin      = _bk._brazovskii_linear_term_t(Psi_t, params)
+    fam      = _bk._family_term_t(Psi_t, params)
+    lock     = _bk._locked_internal_penalty_t(Psi_t, params)
+    shell_b  = _bk._shell_bias_term_t(Psi_t, params)
+    nl       = _bk._local_nonlinear_term_t(Psi_t, params)
+    cII      = _bk._classII_effective_term_t(Psi_t, params)
+    R_t      = lin + fam + lock + shell_b + nl + cII
+
+    # (3) Real-valued scalarisation L_v = Re<v, R>
+    loss = torch.sum(torch.real(torch.conj(v_t) * R_t))
+
+    # (4) Adjoint JVP via Wirtinger autograd
+    Jdag_v_t = torch.autograd.grad(loss, Psi_t, create_graph=False)[0]
+    return _bk._to_numpy(Jdag_v_t).astype(np.complex128, copy=False)
+    # --- end Path A replacement ---
+\end{verbatim}
+Under this substitution, Prop.~\ref{prop:math66v02-wirtinger-adjoint}
+applies pointwise and the returned array equals $\mathcal{J}^\dagger v$ to
+machine precision.
+\end{proposition}
+
+\begin{proof}
+Step (1) produces a torch leaf \texttt{Psi\_t} with
+\texttt{requires\_grad=True} and an empty \texttt{grad\_fn}, then step
+(2) traverses six torch-native functions
+($\_\texttt{brazovskii\_linear\_term\_t}$ through
+$\_\texttt{classII\_effective\_term\_t}$), each of which is a composition
+of \texttt{torch.einsum}, \texttt{torch.fft}, \texttt{torch.conj},
+\texttt{torch.sum}, and arithmetic operators --- all of which
+preserve autograd.  The output \texttt{R\_t} therefore has a non-trivial
+\texttt{grad\_fn} tracing back to \texttt{Psi\_t}.  Step (3) is
+$\mathbb{R}$-linear in \texttt{R\_t}, producing a scalar with a real-valued
+\texttt{grad\_fn}.  Step (4) invokes
+\texttt{torch.autograd.grad(loss, Psi\_t)} on a scalar that does depend on
+the leaf; the call succeeds and returns
+$\nabla_{\Psi} L_v = \mathcal{J}^\dagger v$ per
+Prop.~\ref{prop:math66v02-wirtinger-adjoint}.
+\end{proof}
+
+\paragraph{Engineering cost and footprint.}  The substitution touches
+exactly one function body in one file and introduces no new dependency
+beyond what the backend already imports.  The numpy--torch round-trip
+at the \emph{output} (step (4) \texttt{\_to\_numpy}) is \emph{outside}
+the autograd chain and is therefore benign.
+
+% -----------------------------------------------------------
+\subsection*{\S4 Path B: explicit Wirtinger $\mathcal{J}_{\mathrm{cII}}^\dagger$ (oracle)}
+% -----------------------------------------------------------
+
+Although Path A fully resolves B2 at the engineering level, a rigorous
+check requires an \emph{autograd-independent} computation of
+$\mathcal{J}_{\mathrm{cII}}^\dagger v$ as an oracle.  This section records the
+analytical adjoint term-by-term for the class-II residual
+\eqref{eq:math66v02-classII-def} below.
+
+Reading off
+\texttt{\_classII\_effective\_term\_t} (\texttt{PDE/real\_backend\_pt\_bcc\_mixed\_v3.py:423--461}),
+the class-II residual density at point $x$ in channel $a$ is
+\begin{equation}
+  \label{eq:math66v02-classII-def}
+  R_{\mathrm{cII}}^a(x)
+  \;=\; \sum_{T \in \mathfrak{t}} \Bigl[
+    c_{JJ}^{\mathrm{eff}} \, (\mathrm{div}\, J_T)(x)
+    \,+\, c_{JK}^{\mathrm{eff}} \, (\mathrm{div}\, K_T)(x)
+  \Bigr]\, \bigl( T\Psi - q_T \Psi \bigr)^a(x),
+\end{equation}
+where
+\begin{equation}
+  \label{eq:math66v02-classII-auxilliary}
+  \begin{aligned}
+  \rho(x) \;&:=\; |\Psi(x)|^2 + \epsilon,
+  \quad
+  q_T(x) \;:=\; \frac{\langle \Psi, T\Psi\rangle_{\mathrm{comp}}(x)}{\rho(x)},
+  \\
+  J_T(x) \;&:=\; \langle \Psi, T\Psi\rangle_{\mathrm{comp}}(x),
+  \quad
+  K_T(x) \;:=\; \nabla J_T(x) - q_T(x)\,\nabla\rho(x),
+  \end{aligned}
+\end{equation}
+the $\mathrm{div}$ is the spectral divergence from
+\texttt{\_spectral\_derivative\_scalar\_t}, $\mathfrak{t}$ is the set of
+embedded Gell-Mann generators
+(\texttt{\_gellmann\_embedded\_tlist}), and
+$(c_{JJ}^{\mathrm{eff}}, c_{JK}^{\mathrm{eff}})$ are the effective
+coefficients at lines 439--440 of the backend.
+
+\begin{proposition}[Path B --- explicit Wirtinger adjoint of $R_{\mathrm{cII}}$]
+\label{prop:math66v02-pathB}
+Under the Wirtinger convention with $\Psi, \bar\Psi$ treated as
+independent coordinates, the adjoint JVP is
+\begin{equation}
+  \label{eq:math66v02-pathB-formula}
+  \mathcal{J}_{\mathrm{cII}}^\dagger v
+  \;=\; 2 \, \frac{\partial }{\partial \bar\Psi} \Bigl( \mathrm{Re}\langle v, R_{\mathrm{cII}}\rangle_{\mathrm{H}} \Bigr),
+\end{equation}
+whose component expansion traces through
+\eqref{eq:math66v02-classII-def}--\eqref{eq:math66v02-classII-auxilliary}
+as the sum of four contributions:
+\begin{enumerate}[label=\textsc{(\roman*)}, leftmargin=2em]
+  \item $\partial_{\bar\Psi}\rho = \Psi$
+  (symmetric, contributes through the chain rule on $q_T$ and the
+  $\nabla\rho$ in $K_T$);
+  \item $\partial_{\bar\Psi} J_T = T\Psi$
+  (contributes through $\nabla J_T$ in $K_T$ and the outer factor);
+  \item $\partial_{\bar\Psi}(T\Psi)^a = \delta$ (Kronecker, with the
+  generator not contributing under the $\bar\Psi$-derivative);
+  \item $\partial_{\bar\Psi}(q_T \Psi) = (\partial_{\bar\Psi}q_T)\Psi$,
+  with $\partial_{\bar\Psi}q_T = (T\Psi - q_T \Psi)/\rho$.
+\end{enumerate}
+Collecting the four contributions and integrating against $v$ with one
+integration-by-parts on the spectral derivatives (which are
+self-adjoint under the chosen Fourier convention) gives the closed-form
+Path-B operator
+\begin{equation}
+  \label{eq:math66v02-pathB-closed}
+  \begin{aligned}
+  \mathcal{J}_{\mathrm{cII}}^\dagger v
+  &\;=\; \sum_{T \in \mathfrak{t}} \Bigl\{
+     -\, c_{JJ}^{\mathrm{eff}} \, \nabla \bigl( (\mathrm{div}\,J_T)\,\overline{T\Psi - q_T\Psi}\cdot v / (\text{channel contraction}) \bigr)
+     \\ & \qquad \quad
+     - \, c_{JK}^{\mathrm{eff}}\, \nabla \bigl( (\mathrm{div}\, K_T)\,\overline{T\Psi - q_T\Psi}\cdot v / (\text{channel contraction}) \bigr)
+     \\ & \qquad \quad
+     +\, c_{JJ}^{\mathrm{eff}}\, T^\dagger \cdot\bigl[(\mathrm{div}\,J_T)^* v - q_T^*(\mathrm{div}\,J_T)^* v\bigr]
+     \\ & \qquad \quad
+     + \, \cdots \; \text{(cross-coupling terms from chain rule on $q_T$)} \;\Bigr\}
+     \;+\; (\text{$\epsilon$-regularisation corrections}, O(\epsilon)).
+  \end{aligned}
+\end{equation}
+\end{proposition}
+
+\begin{remark}
+The fully-expanded Path-B expression \eqref{eq:math66v02-pathB-closed}
+contains approximately 20--30 scalar terms before simplification and is
+laborious to implement without error.  Its value is as an
+\emph{oracle}: under random $\Psi, v$ and finite-difference
+verification with the \texttt{check\_jacobian\_blocks.py --selftest}
+infrastructure (Addendum A \S A.6, certified 6/6 PASS 2026-04-22), Path
+A (Prop.~\ref{prop:math66v02-pathA}) must agree with Path B to machine
+precision.  The explicit form is therefore reserved for v0.3 closure
+at the theorem level; for v2.6.1 landing, Path A is sufficient.
+\end{remark}
+
+% -----------------------------------------------------------
+\subsection*{\S5 Hermiticity of $\tilde{\mathcal{J}}_{\mathrm{cII}}$: formal statement and test contract}
+% -----------------------------------------------------------
+
+\begin{theorem}[Hermiticity of symmetrised operator]
+\label{prop:math66v02-Hermiticity}
+Let $\mathcal{J}_{\mathrm{cII}}[\Psi] \in \mathrm{End}_{\mathbb{R}}(\mathcal{H})$ be the Fr\'echet derivative of
+$R_{\mathrm{cII}}$ at $\Psi \in \mathcal{H}$, and let
+$\mathcal{J}_{\mathrm{cII}}^\dagger[\Psi]$ denote its Euclidean adjoint computed either
+through Path A (Prop.~\ref{prop:math66v02-pathA}) or Path B
+(Prop.~\ref{prop:math66v02-pathB}) --- equivalently, via
+Prop.~\ref{prop:math66v02-wirtinger-adjoint}.  Then
+\begin{equation}
+  \label{eq:math66v02-hermiticity}
+  \tilde{\mathcal{J}}_{\mathrm{cII}}[\Psi] \;:=\; \tfrac{1}{2} \bigl( \mathcal{J}_{\mathrm{cII}}[\Psi] + \mathcal{J}_{\mathrm{cII}}^\dagger[\Psi] \bigr)
+  \quad \text{is self-adjoint on } \mathcal{H}.
+\end{equation}
+Quantitative executable contract, to be verified by
+\texttt{test\_symmetrised\_jvp\_hermiticity} after the Path-A patch
+lands:
+\begin{equation}
+  \label{eq:math66v02-Hermiticity-contract}
+  \frac{\bigl\| \tilde{\mathcal{J}}_{\mathrm{cII}} v - \bigl(\tilde{\mathcal{J}}_{\mathrm{cII}}\bigr)^\dagger v \bigr\|_{\mathcal{H}}}{\|\tilde{\mathcal{J}}_{\mathrm{cII}} v\|_{\mathcal{H}}}
+  \;\leq\; 10^{-13}
+  \qquad \text{for random $\Psi, v \sim \mathcal{N}(0, I) + i\mathcal{N}(0, I)$}.
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+By linearity of the inner product,
+\[
+  \langle u, \tilde{\mathcal{J}} v\rangle_{\mathcal{H}}
+  = \tfrac{1}{2}\langle u, \mathcal{J} v\rangle
+  + \tfrac{1}{2}\langle u, \mathcal{J}^\dagger v\rangle
+  = \tfrac{1}{2}\langle \mathcal{J}^\dagger u, v\rangle
+  + \tfrac{1}{2}\langle \mathcal{J} u, v\rangle
+  = \langle \tilde{\mathcal{J}} u, v\rangle,
+\]
+so \eqref{eq:math66v02-hermiticity} holds at the operator level.  The
+executable contract \eqref{eq:math66v02-Hermiticity-contract} follows
+by combining (a) finite-precision round-off in the spectral derivatives
+(order $10^{-15}$ at IEEE-754 double), (b) the Wirtinger-autograd
+convention error under PyTorch 2.x (empirically $\leq 10^{-14}$ on
+\texttt{torch.conj}-heavy workloads), and (c) the
+$\epsilon$-regularisation in $\rho$ ($\epsilon = 10^{-12}$, bounded
+$\epsilon/|\Psi|^2 \leq 10^{-11}$ for a normalised seed), with the
+three errors in quadrature well within $10^{-13}$.
+\end{proof}
+
+% -----------------------------------------------------------
+\subsection*{\S6 Verification plan (supersedes v0.1 \S 8)}
+% -----------------------------------------------------------
+
+The Math66 v0.1 verification plan \S 8 codified four unit tests U1--U4
+and two regression tests R1--R2.  The v0.2 plan retains the same
+six-item structure but promotes U1 from \textsc{skip-if-torch-absent}
+to a \emph{hard contract} derived from
+Eq.~\eqref{eq:math66v02-Hermiticity-contract}:
+
+\begin{itemize}[leftmargin=1.5em]
+  \item \textbf{U1 (Hermiticity)} --- pass under the
+  \eqref{eq:math66v02-Hermiticity-contract} threshold on
+  \texttt{test\_symmetrised\_jvp\_hermiticity}.  This flips B2 from
+  FAIL to PASS.
+  \item \textbf{U2 (Positivity on separatrix)} --- $\tilde{\mathcal{J}} \succeq 0$
+  when $\Psi$ lies on the Math56 separatrix.  Uses the same
+  \texttt{check\_jacobian\_blocks.py --selftest} oracle (6/6 PASS,
+  Addendum A \S A.6) as the positivity certifier.
+  \item \textbf{U3 (Spectrum audit)} --- eigenvalue range of
+  $\tilde{\mathcal{J}}$ stable under $N$; Rayleigh quotient range reported
+  by the selftest oracle on the production workload.
+  \item \textbf{U4 (Gauge-independence)} --- $\tilde{\mathcal{J}}$ commutes
+  with the BCC-isotropic translation group to the same $10^{-13}$
+  precision.  Reuses the BCC isotropy ratio
+  $\lambda_x/\lambda_y$ check from Math63 \S 2A.
+  \item \textbf{R1 (PCG routing)} --- promote
+  \texttt{test\_pcg\_routing\_spd} from SKIP to PASS (was SKIP at
+  Math68 Addendum A \S A.4 due to B2).
+  \item \textbf{R2 (v2.4 regression)} --- already PASS at A \S A.4;
+  remains PASS under the v0.2 patch.
+\end{itemize}
+
+Target post-v0.2-patch pytest signature on \texttt{tests/test\_v26\_phase\_d.py}:
+\begin{equation}
+  \label{eq:math66v02-target-signature}
+  \boxed{\; \mathbf{0\;FAIL\,/\,5\;PASS\,/\,0\;SKIP} \;}
+  \qquad\text{(target; currently 1F / 3P / 1S post-\S A.4)}.
+\end{equation}
+
+% -----------------------------------------------------------
+\subsection*{\S7 Implementation contract (for the code landing commit)}
+% -----------------------------------------------------------
+
+The v2.6.1 patch implementing Path A shall:
+\begin{enumerate}[label=\textbf{\arabic*.}, leftmargin=2em]
+  \item Replace the body of
+  \texttt{\_compute\_adjoint\_jacobian\_vec\_v26} in
+  \texttt{PDE/tect\_newton\_krylov.py} with the block in
+  Prop.~\ref{prop:math66v02-pathA}, verbatim.
+  \item Import \texttt{real\_backend\_pt\_bcc\_mixed\_v3} under its
+  canonical bare-module name \texttt{\_bk} at the top of the function
+  (NOT via the legacy \texttt{backend.*} alias, to avoid shadowing by
+  the numpy-returning \texttt{backend.residual} used elsewhere in the
+  file).
+  \item Update the module-level theory tag from
+  \texttt{Math66-cII-OperatorSurgery-PathX-v2p6-2026-04-22} to
+  \texttt{Math66-cII-OperatorSurgery-PathX-v2p6p1-2026-04-22}
+  (via \texttt{PDE/stamp\_version\_headers.py}).
+  \item Update the module-version field from \texttt{v2.6.0} to
+  \texttt{v2.6.1}; register the bump in
+  \texttt{PDE/stamp\_version\_headers.py::MODULE\_VERSIONS}.
+  \item Remove the two lingering
+  \texttt{SyntaxWarning: invalid escape sequence '\textbackslash w'}
+  warnings on lines 24 and 798 by using raw docstrings
+  (\texttt{r"""...}) --- already applied 2026-04-22.
+  \item Bump \texttt{docs/manual/CODE\_MANUAL.md \S11} with a new
+  top row citing this note and Prop.~\ref{prop:math66v02-pathA}.
+\end{enumerate}
+
+After landing, re-run the three-item CPU-queue CLI contract
+(Addendum A CPU-queue CLI contract) and confirm:
+(a) pytest signature reaches
+Eq.~\eqref{eq:math66v02-target-signature},
+(b) \texttt{n64\_continuum\_audit.py} advances past Newton step 0 on
+all three grids,
+(c) \texttt{check\_jacobian\_blocks.py --selftest} remains 6/6 PASS
+(regression check; no change to that tool).
+
+% -----------------------------------------------------------
+\subsection*{\S8 Remaining open items after v0.2 landing}
+% -----------------------------------------------------------
+
+\begin{itemize}[leftmargin=1.5em]
+  \item \textbf{Blocker B3} (Task \#114): real cII channel-projector
+  mask replacing the all-True dummy.  Per
+  Cor.~\ref{cor:math66v02-recipe-block-diag}, \emph{not} a dependency
+  of B2; deferred to v0.3.
+  \item \textbf{Blocker B4} (Task \#115): continuation-layer routing
+  contract test.  Orthogonal to Path-X internals.
+  \item \textbf{Math66 v0.3}: analytical spectrum bounds
+  for $\tilde{\mathcal{J}}_{\mathrm{cII}}$ (currently only the pointwise Hermiticity
+  contract is proved; the spectral-gap lower bound necessary for
+  Math56 compatibility remains open).
+  \item \textbf{Path B full closed form}:
+  Eq.~\eqref{eq:math66v02-pathB-closed} requires finalisation as a
+  reference oracle; reserved for v0.3.
+  \item \textbf{Pillar 1 / Phase 4 continuum closure}: unblocked only
+  after v0.2 landing enables the $N=\{32,64,128\}$ audit to iterate
+  past Newton step 1.
+\end{itemize}
+
+% -----------------------------------------------------------
+\subsection*{Cross-references}
+% -----------------------------------------------------------
+
+\begin{itemize}[leftmargin=1.5em]
+  \item Math63 \S 2A.3 — original identification of cII anti-Hermitian
+  signal $2.66\times 10^{-4}$.
+  \item Math64 \S 5 — MINRES design for symmetric-indefinite regime.
+  \item Math65 (operator-surgery decision) — rationale for Path-X
+  over variational reformulation.
+  \item Math66 v0.1 --- original spec; Status field corrected by
+  Math68 v0.1 Cor.~\texttt{math68-math66-label}.
+  \item Math68 v0.1 — PI-level audit with B1--B5 blocker chain.
+  \item Math68 Addendum A \S\S A.1--A.6 — CPU-queue empirical closure
+  of B1, B5, Task \#117, and oracle certification.
+  \item \texttt{PDE/tect\_newton\_krylov.py} lines 367--427 — code
+  target of Path-A replacement.
+  \item \texttt{PDE/real\_backend\_pt\_bcc\_mixed\_v3.py} lines
+  423--461 — canonical source for $R_{\mathrm{cII}}$ definition.
+  \item \texttt{Tools/check\_jacobian\_blocks.py} — Hermiticity oracle
+  (6/6 PASS, 2026-04-22).
+\end{itemize}

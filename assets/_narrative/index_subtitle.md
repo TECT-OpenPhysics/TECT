@@ -1,0 +1,1 @@
+A research programme deriving the Standard Model, general relativity, and the quantum structure of nature as low-energy limits of a single topologically-locked BCC condensate — currently graded against a three-stage TOE qualification rubric ($S_1 \wedge S_2 \wedge S_3$).

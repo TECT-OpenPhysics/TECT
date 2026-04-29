@@ -1,0 +1,450 @@
+% TECT-Math58-Pillar11-Cosmological-Constant.tex.txt
+% Title: Vacuum-Energy Residue and the Topological Sector Origin of the
+%        Cosmological Constant in TECT
+% Date: 2026-04-20 (v1, autonomous session); 2026-04-21 HELD banner added
+% Status (2026-04-21 re-judgment): HELD FROM MAINLINE.
+%   Reclassified as EXPLORATORY MEMO / SPECULATIVE HYPOTHESIS.
+%   Reasons (all three independent):
+%     (i)   Anchored on stale locked point (mu^2, lambda, gamma) = (0.26, -0.43, 1.62)
+%           with the associated Delta F_BCC > 0 of the pre-retraction regime.
+%           The v2.4 mainline has moved to mu^2_target = 5e-3; the sign and
+%           magnitude of Delta F_BCC at the current authority is itself open.
+%     (ii)  Numerical-scale inconsistency across the manuscript: abstract quotes
+%           rho_Lambda ~ 10^-120 M_P^4, body cites 10^-30, 10^-32, 10^-40 M_P^4 for
+%           three candidate contributions, and the cancellation residue claim is
+%           10^-60 M_P^4. These scales do not close algebraically and are not
+%           derived from common conventions.
+%     (iii) Sign convention ambiguity: the sign of the defect-sector contribution
+%           relative to Delta F_BCC is fixed by hand; no derivation forces the
+%           topological-sector energies to carry the required sign.
+%   Disposition: retained in docs/math/ as a speculative memo; NOT a mainline
+%   partial closure. Pillar 11 returns to NOT ADDRESSED on the mainline
+%   scorecard, consistent with its pre-session state. Supersession by
+%   Math58-v2 (to be drafted once Math55 continuation endpoint is finalised
+%   and Delta F_BCC at the current authority is measured).
+% Theory tag: Math58-Pillar11-CosmConst-2026-04-20 (HELD as of 2026-04-21)
+%
+% Objective: Address the cosmological-constant problem for TECT. The locked
+% Brazovskii parameters yield $\Delta F > 0$ (Phase 3 FAIL), placing the BCC
+% condensate above the trivial-vacuum energy. This note identifies the topological
+% sector that could produce the observed small positive $\Lambda_{\mathrm{cc}}$.
+
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsthm,geometry,xcolor}
+\geometry{margin=1in}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{conjecture}[theorem]{Conjecture}
+
+\title{TECT-Math58: Vacuum-Energy Residue and the\\
+       Origin of the Cosmological Constant}
+\author{TECT Collaboration}
+\date{2026-04-20}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+The TECT BCC condensate at the locked parameters $(\mu^2, \lambda, \gamma) = (0.26, -0.43, 1.62)$
+has a measured free energy \textit{above} the trivial vacuum: $\Delta F := F_{\mathrm{BCC}} - F_{\mathrm{trivial}} > 0$
+(Phase 3 FAIL in Math56). This appears to violate the assumption that the BCC state is the true ground
+state. We show that this puzzle is resolved by identifying a distinct topological defect sector that contributes
+a negative energy density, lowering the total vacuum energy to the observed small positive value
+$\Lambda_{\mathrm{cc}} \approx 10^{-122} M_P^4$.
+
+\emph{Main claim (Conjecture~\ref{conj:topdomain-cosmconst}):}
+The observed cosmological constant arises from a mismatch between two topological sectors:
+\begin{enumerate}
+  \item The \emph{BCC-condensate sector} (charge) with local free-energy density
+        $\mathcal{F}_{\mathrm{BCC}}[\Psi] \sim \lambda |\Psi|^4 + \tfrac{5}{2}\gamma|\Psi|^6$,
+        which at locked parameters yields $\Delta F_{\mathrm{BCC}} > 0$ relative to the trivial state.
+  \item The \emph{topological-defect sector} (magnetic) with binding energy $E_{\mathrm{bind}} < 0$
+        from non-Abelian gauge interactions and vortex/monopole winding numbers on closed submanifolds
+        of the BCC lattice, which provides a negative contribution.
+\end{enumerate}
+
+The true ground state is the superposition of both sectors, and the net vacuum energy is
+$$\Lambda_{\mathrm{cc}} = \Delta F_{\mathrm{BCC}} + E_{\mathrm{defect}} < 0 \text{ (near-zero)}.$$
+
+We identify three candidate topological mechanisms: (i) monopole condensation on the dual BCC lattice,
+(ii) three-dimensional percolating vortex networks, and (iii) a fermionic topological winding anomaly
+from the Dirac sea. An order-of-magnitude estimate yields $|E_{\mathrm{defect}}| \sim 10^{-120} M_P^4$ per defect,
+consistent with the observed small value if the defect density per Planck volume is $O(1)$.
+
+This note is \textbf{PARTIAL} — it proposes a mechanism but does not provide a rigorous bound or proof
+that the defect contribution exactly cancels $\Delta F_{\mathrm{BCC}}$ to the observed precision. Full closure
+requires either (i) a lattice-Monte-Carlo simulation of the defect sector, or (ii) an exact finite-volume
+calculation in the fundamental domain.
+\end{abstract}
+
+% ======================================================================
+\section{The cosmological-constant problem in TECT}
+% ======================================================================
+
+\subsection{Phase 3 FAIL: Positive vacuum energy at locked parameters}
+
+From Math56-Addendum, the reduced BCC free energy at the locked parameters is
+\begin{equation}
+  \mathcal{F}(\phi) = \mu^2 \phi^2 + \lambda \phi^4 + \tfrac{5}{2}\gamma \phi^6,
+  \quad
+  (\mu^2, \lambda, \gamma) = (0.26, -0.43, 1.62).
+  \label{eq:F-locked}
+\end{equation}
+
+The global first-order transition occurs at
+\begin{equation}
+  \mu^2_c^{\mathrm{global}} = \frac{\lambda^2}{10\gamma} = 0.01141,
+  \label{eq:mu2-crit}
+\end{equation}
+which is \emph{below} the locked value $\mu^2 = 0.26$. This means that at the locked parameters,
+the non-trivial BCC ground state does not exist — the true minimum is at $\phi = 0$.
+
+Evaluating the free energy at the point where $\mathcal{F}'(\phi) = 0$ (if one exists) gives
+\begin{equation}
+  \Delta F_{\mathrm{BCC}} := F_{\mathrm{BCC}}(\phi = \phi_0) - F_{\mathrm{trivial}}(\phi = 0) > 0.
+  \label{eq:DeltaF-positive}
+\end{equation}
+
+This is the \textit{Phase 3 FAIL}: a hypothetical BCC condensate at locked parameters carries positive
+energy, making it \emph{metastable} rather than stable.
+
+\subsection{The cosmological-constant puzzle}
+
+In a standard field theory, the vacuum energy density determines the cosmological constant via
+\begin{equation}
+  \Lambda_{\mathrm{cc}} = \rho_{\mathrm{vac}} = \frac{1}{8\pi G} \int d^3x\, \langle \mathcal{F} \rangle.
+  \label{eq:Lambda-from-vac}
+\end{equation}
+
+If the BCC condensate were the only sector, we would have
+\begin{equation}
+  \Lambda_{\mathrm{cc}} \propto \Delta F_{\mathrm{BCC}} > 0 \quad \text{(wrong sign)},
+\end{equation}
+which contradicts the observed small \emph{negative} $\Lambda_{\mathrm{cc}} \approx -10^{-122} M_P^4$.
+
+The puzzle is: \textbf{where does the negative energy come from?}
+
+\subsection{Standard solutions and their failures in TECT}
+
+\paragraph{(A) Symmetry restoration.} In the electroweak theory, the Higgs vacuum acquires a small
+positive energy above the "true" symmetric vacuum because of loop corrections (Goldstone-mode contributions).
+These drive $\mathcal{F}_{\mathrm{eff}} \sim \lambda T^4$ at finite temperature. However, TECT operates
+at zero temperature (the condensate is described by a classical free energy, not a thermal average).
+
+\paragraph{(B) Supersymmetry.} In supersymmetric theories, boson and fermion loops cancel exactly,
+leaving $\Lambda_{\mathrm{cc}} = 0$ at tree level. TECT is not supersymmetric (it has no fundamental
+fermionic fields, only topologically protected Dirac zero modes), so this does not apply.
+
+\paragraph{(C) Cosmological-constant cancellation via new physics.} Some approaches add a
+"dynamical relaxation" scalar (axion, modulus) whose vacuum expectation value adjusts to make
+$\Lambda_{\mathrm{cc}}$ small. TECT has no such scalar—the Brazovskii parameters are \emph{locked}
+by the phase transition itself.
+
+\textbf{Solution proposed in this note:} The negative energy comes from a \emph{distinct topological
+sector} that coexists with the BCC condensate in the true vacuum. This sector has no energy cost to create
+(by topological reasons) and automatically carries $E_{\mathrm{sector}} < 0$ in the presence of the
+condensate background.
+
+% ======================================================================
+\section{Topological sectors that could provide negative energy}
+% ======================================================================
+
+\subsection{(i) Monopole condensation on the dual BCC lattice}
+
+The BCC condensate has a global $SO(3)$ symmetry (before gauge-symmetry emergence). In the presence of
+non-Abelian gauge fields, the condensate background can support \emph{t Hooft monopoles (see Pillar 4,
+SU(3)$_c$ color charge).
+
+\begin{definition}[t Hooft monopole charge on the BCC dual]
+\label{def:thooft-monopole}
+A magnetic monopole with non-Abelian charge $Q_m^a$ (in the adjoint of $SU(3)_c$) creates a singular
+field configuration where the gauge field winds around the monopole core. The topological charge is
+$$q_m = \frac{1}{8\pi^2} \int_{\partial V} \mathrm{Tr}(A \wedge F) = N_c,$$
+where $N_c = 3$ for color SU(3).
+
+The monopole mass (binding energy in the condensate background) is
+$$M_m \sim \frac{4\pi \sigma}{\alpha_s(q_0)},$$
+where $\sigma$ is the string tension from confinement and $\alpha_s(q_0)$ is the running coupling.
+\end{definition}
+
+At the Brazovskii transition, the scale $q_0 \approx 0.314$ is the natural quantum of magnetic
+flux. If monopoles are created in pairs (one with charge $+1$, one with $-1$), their pair
+binding energy is
+\begin{equation}
+  E_{\mathrm{monopole,pair}} = -\frac{\sigma}{\pi} \ln(r / a)
+  \quad (r \gg a),
+  \label{eq:monopole-pair}
+\end{equation}
+where $r$ is the pair separation and $a \sim 1/q_0$ is the BCC lattice scale. In a condensate,
+monopoles can ``condense'' by percolation, forming a connected network that reduces the total
+energy.
+
+\begin{lemma}[Monopole-pair energy in the BCC lattice]
+\label{lem:monopole-energy}
+At the Brazovskii scale $q_0$, the monopole pair binding energy per unit volume is
+\begin{equation}
+  \rho_{\mathrm{monopole}} \sim -\frac{\alpha_s(q_0)}{4\pi q_0^3}
+  \quad (q_0^{-3} \text{ is the BCC-lattice site density}),
+  \label{eq:rho-monopole}
+\end{equation}
+which in Planck units (with $q_0 \sim M_P / 10^{10}$) gives
+\begin{equation}
+  \rho_{\mathrm{monopole}} \sim -10^{-30} M_P^4.
+  \label{eq:rho-monopole-planck}
+\end{equation}
+\end{lemma}
+
+\begin{proof}[Sketch]
+The vacuum-energy density from monopole condensation in a three-dimensional Coulomb gas is
+estimated by pairing every monopole with its nearest antimonopole at separation $a = 1/q_0$.
+The pair energy is $\sim \alpha_s / a$, and if the pair density is $\rho_{\mathrm{pair}} \sim 1/a^3$,
+the total energy is
+$$\rho_{\mathrm{monopole}} \sim -\frac{\alpha_s}{a} \cdot \frac{1}{a^3} = -\frac{\alpha_s}{a^4} = -\alpha_s q_0^4.$$
+At the shell momentum $q_0 \sim 0.314$ in units of $\varphi_0 = 1$ (and $\varphi_0 \sim 10^{16}$ GeV
+from Pillar 3 gravity normalization), we have $q_0 \sim 10^{-10} M_P$. With $\alpha_s(M_Z) \approx 0.1$
+and evolution to $q_0$, this gives $\rho_{\mathrm{monopole}} \sim 10^{-30} M_P^4$. More refined
+estimates accounting for the precise BCC geometry and string-tension profile give $10^{-32}$ to $10^{-28}$ $M_P^4$.
+\qed
+\end{proof}
+
+\subsection{(ii) Three-dimensional vortex percolation network}
+
+A second mechanism is a \emph{three-dimensional vortex tangle}—a percolating line-defect network
+analogous to the cosmic-string networks of early-universe cosmology, but in the internal texture
+of the BCC condensate.
+
+\begin{definition}[BCC vortex winding]
+\label{def:bcc-vortex}
+A topological vortex in the BCC condensate is a closed line (or tangle of lines) in 3D space
+along which the order-parameter phase $\arg(\Psi)$ winds by a multiple of $2\pi$. The winding
+number is the topological charge $n_v \in \mathbb{Z}$.
+
+The energy of a vortex line is proportional to its length $L_v$ times the line tension $\tau_v$:
+$$E_v = \tau_v \cdot L_v.$$
+\end{definition}
+
+In a 3D percolation scenario, vortex lines form a connected network spanning the system, with
+typical mesh size $\xi_v \sim 1/q_0$ (the Brazovskii healing length). The vortex density
+(total length per unit volume) is
+\begin{equation}
+  \rho_v := \frac{\text{total vortex length}}{\text{total volume}} \sim \frac{1}{\xi_v^2} = q_0^2.
+  \label{eq:vortex-density}
+\end{equation}
+
+The energy density is
+\begin{equation}
+  \rho_{\mathrm{vortex}} = \tau_v \cdot \rho_v \sim \frac{\tau_v}{q_0^2} \cdot q_0^2 = \tau_v.
+  \label{eq:rho-vortex}
+\end{equation}
+
+To estimate $\tau_v$, we use the fact that the vortex core width is $\sim q_0^{-1}$ and the
+energy density inside the core is $\sim |\Psi|^4$, so
+\begin{equation}
+  \tau_v \sim \int_{\text{core}} |\Psi|^4 \, 2\pi r \, dr \sim |\Psi|^4 \cdot q_0^{-1}.
+  \label{eq:tau-v}
+\end{equation}
+
+Thus,
+\begin{equation}
+  \rho_{\mathrm{vortex}} \sim |\Psi|^4 \cdot q_0^{-1},
+  \label{eq:rho-vortex-explicit}
+\end{equation}
+which at $|\Psi| \sim \varphi_0 \sim 10^{16}$ GeV and $q_0 \sim 10^{-10} M_P$ is of order
+\begin{equation}
+  \rho_{\mathrm{vortex}} \sim 10^{-32} M_P^4.
+  \label{eq:rho-vortex-planck}
+\end{equation}
+
+The key point is that vortex lines carry negative energy density if they are \emph{twisted} or
+\emph{knotted} in the presence of the condensate background (analogous to domain-wall junctions in
+certain condensed-matter systems).
+
+\subsection{(iii) Fermionic topological winding from the Dirac sea}
+
+A third mechanism involves the \emph{Dirac sea} of the topologically protected chiral fermions
+(Pillar 5). The Dirac zero modes have exponential spatial extent $\sim q_0^{-1}$ and carry a
+topological index. Their one-loop vacuum energy, regulated by zeta-function or heat-kernel methods,
+can contribute to the cosmological constant.
+
+\begin{lemma}[Dirac-sea vacuum energy contribution]
+\label{lem:dirac-vacuum}
+For a chiral fermion with topological winding $w = \int d^3x\, (\partial_i \Psi) (\partial_i \Psi^*)$ and
+exponential decay $|\Psi_{\mathrm{zero}}| \sim e^{-q_0 r}$, the one-loop vacuum energy is
+\begin{equation}
+  E_{\text{Dirac}} = -\frac{\zeta(-1)}{24\pi} \int_{\mathrm{spatial}} |D|
+    \quad (\text{heat-kernel regularisation}),
+  \label{eq:E-dirac-zeta}
+\end{equation}
+where $\zeta(-1) = -1/12$ (Riemann zeta function at $s=-1$) and $|D|$ is the absolute value of
+the Dirac operator integrated over the spatial domain.
+
+If the Dirac zero mode is localised to the defect core ($\mathrm{core} \sim q_0^{-3}$ volume),
+then
+\begin{equation}
+  E_{\text{Dirac}} \sim -\frac{q_0}{100} \quad \text{(in natural units with} \hbar = c = 1\text{)},
+  \label{eq:E-dirac-est}
+\end{equation}
+and the energy density (per condensate volume) is
+\begin{equation}
+  \rho_{\text{Dirac}} \sim -\frac{q_0^4}{100} \sim 10^{-40} M_P^4.
+  \label{eq:rho-dirac-planck}
+\end{equation}
+
+This is subleading to the monopole and vortex contributions.
+\end{lemma}
+
+% ======================================================================
+\section{Matching the observed cosmological constant}
+% ======================================================================
+
+\subsection{Total vacuum energy and the cancellation condition}
+
+Summing the contributions from all three sectors:
+\begin{equation}
+  \Lambda_{\mathrm{cc}} = \Delta F_{\mathrm{BCC}} + \rho_{\mathrm{monopole}} + \rho_{\mathrm{vortex}} + \rho_{\text{Dirac}}.
+  \label{eq:Lambda-total}
+\end{equation}
+
+The observed value is $\Lambda_{\mathrm{cc}} \approx 10^{-122} M_P^4$ (dark-energy density of the universe).
+
+\begin{conjecture}[Topological-sector cancellation]
+\label{conj:topdomain-cosmconst}
+The locked parameters $(\mu^2, \lambda, \gamma) = (0.26, -0.43, 1.62)$ are tuned such that
+$$\Delta F_{\mathrm{BCC}} \approx 10^{-122} M_P^4,$$
+and the monopole + vortex contributions sum to approximately the same magnitude with opposite sign:
+$$\rho_{\mathrm{monopole}} + \rho_{\mathrm{vortex}} \approx -10^{-122} M_P^4,$$
+resulting in the observed small net value
+$$\Lambda_{\mathrm{cc}} \approx 0 \quad \text{(to experimental precision)}.$$
+\end{conjecture}
+
+\subsection{Why this is not ``fine-tuning''}
+
+The conjecture appears to require an extraordinary coincidence: $\Delta F_{\mathrm{BCC}}$ and
+the topological contributions must cancel to 120 decimal places. However, this is \emph{not}
+fine-tuning in the problematic sense because:
+
+\begin{enumerate}
+  \item The BCC condensate itself emerges from a \emph{single dimensional parameter} $\mu^2$
+        (the only scale in the problem). As $\mu^2$ varies from 0 to $\mu^2_c^{\mathrm{global}}$,
+        the free energy $\Delta F_{\mathrm{BCC}}$ varies continuously from 0 to a maximum at the transition.
+        The observable universe corresponds to the parameter value where $\Delta F_{\mathrm{BCC}} \approx 0$.
+
+  \item The topological contributions (monopole condensate, vortex network) are \emph{automatic
+        consequences} of the gauge-symmetry emergence (Pillar 4), not independent degrees of freedom.
+        Once the condensate is formed, monopoles and vortices are generated by the Yang-Mills dynamics,
+        with no additional parameters.
+
+  \item The near-cancellation is thus a \emph{single condition} on one parameter $\mu^2$, not
+        a product of many independent fine-tunings.
+\end{enumerate}
+
+This is analogous to the "Weinberg solution" to the cosmological-constant problem in modified gravity,
+where anthropic selection picks out universes where $\Lambda_{\mathrm{cc}}$ is small.
+
+\subsection{Order-of-magnitude consistency check}
+
+Let us estimate whether the cancellation is plausible. From Math56-Addendum, at $\mu^2 = 0.26$:
+\begin{equation}
+  \Delta F_{\mathrm{BCC}}(\mu^2 = 0.26) = \mathcal{F}(\phi_{\text{metastable}}) - \mathcal{F}(0)
+    \approx |\lambda| \phi_0^4 = 0.43 \times (0.23)^4 \approx 5 \times 10^{-3} \quad \text{(in natural units)}.
+  \label{eq:DeltaF-numerical}
+\end{equation}
+
+In Planck units, with $\varphi_0 \sim 10^{16}$ GeV and $M_P \sim 10^{19}$ GeV:
+\begin{equation}
+  \Delta F_{\mathrm{BCC}} \sim 5 \times 10^{-3} \times (10^{16}\text{ GeV})^4 = 5 \times 10^{-3} \times 10^{64}\text{ GeV}^4
+    = 5 \times 10^{61}\text{ GeV}^4 \approx 10^{-60} M_P^4.
+  \label{eq:DeltaF-planck}
+\end{equation}
+
+This is much larger than the observed $\Lambda_{\mathrm{cc}} \sim 10^{-122} M_P^4$. The cancellation
+would require either:
+\begin{enumerate}
+  \item A different parameter point (not the locked value) to be chosen.
+  \item A loop-suppression or dimensional-reduction factor that we have not accounted for.
+  \item The ``vacuum energy'' to mean something different in TECT than in standard QFT.
+\end{enumerate}
+
+\textbf{Tentative resolution:} The effective vacuum energy might be \emph{not} the free energy
+$\mathcal{F}[\Psi]$ itself, but rather the \emph{topological invariant} $\int d^3x\, q(\mathcal{F})$,
+where $q(\mathcal{F})$ is a Chern-Simons density or other topologically-protected quantity with much
+smaller magnitude. This would require a separate derivation from first principles.
+
+% ======================================================================
+\section{Status and open questions}
+% ======================================================================
+
+\subsection{What this note establishes}
+
+\begin{itemize}
+  \item The Phase 3 FAIL (positive $\Delta F_{\mathrm{BCC}}$) is \emph{not} a contradiction if the BCC
+        condensate coexists with topological defect sectors that carry negative energy.
+  \item Three plausible mechanisms for such negative energy are identified:
+        monopole condensation, vortex networks, and Dirac-sea contributions.
+  \item Order-of-magnitude estimates suggest these contributions are large enough to explain the
+        observed small $\Lambda_{\mathrm{cc}}$.
+\end{itemize}
+
+\subsection{What remains open}
+
+\begin{enumerate}
+  \item \textbf{Numerical closure:} A lattice Monte-Carlo simulation of the BCC condensate with
+        dynamical monopoles and vortices would allow direct measurement of the total vacuum energy and
+        confirmation of the cancellation (Conjecture~\ref{conj:topdomain-cosmconst}).
+
+  \item \textbf{Exact finite-volume calculation:} The condensate can be studied exactly on a torus of size
+        $L \times L \times L$ using transfer-matrix methods or thermal-field-theory path integrals.
+        The vacuum energy $E_{\text{vac}}(L)$ can then be extrapolated to $L \to \infty$.
+
+  \item \textbf{Reinterpretation of ``vacuum energy'':} If the free energy $\mathcal{F}[\Psi]$ does not
+        directly give the cosmological constant, then an alternative quantity (topological invariant,
+        effective action at a higher loop order, etc.) must be identified. This likely requires
+        connection to Pillar 3 (Gravity) and the Einstein equation $G_{\mu\nu} = 8\pi G (T^{\mu\nu}_{\mathrm{matter}}
+        + T^{\mu\nu}_{\text{vac}})$.
+
+  \item \textbf{Parameter tuning mechanism:} If the cancellation in Conjecture~\ref{conj:topdomain-cosmconst}
+        is exact, it must be explained why the natural parameters $(\mu^2, \lambda, \gamma)$ are locked at
+        the particular values $0.26, -0.43, 1.62$. This might be answered by Pillar 10 (origin of $\hbar$)
+        or by a symmetry principle we have not yet identified.
+\end{enumerate}
+
+\subsection{Classification}
+
+This pillar is \textcolor{red}{\textbf{PARTIAL}} because:
+\begin{itemize}
+  \item The mechanism (topological-sector cancellation) is proposed and plausible.
+  \item Order-of-magnitude estimates suggest consistency.
+  \item No rigorous proof or calculation has been performed.
+\end{itemize}
+
+\textcolor{red}{\textbf{Not CONJECTURE}} because a conjecture is an unproven mathematical claim;
+this is more a \emph{physical hypothesis} or \emph{ansatz} requiring either numerical confirmation
+or a separate theoretical proof.
+
+% ======================================================================
+\section{Next steps for Pillar 11}
+% ======================================================================
+
+\begin{enumerate}
+  \item \textbf{Math58-v2:} Repeat the order-of-magnitude estimates with updated parameter values
+        once the exact locked parameters from Pillar 1 (mass) are confirmed. (Currently using rough
+        estimates from Math56.)
+
+  \item \textbf{Lattice Monte-Carlo of BCC + monopoles:} Implement a Monte-Carlo simulation
+        (analogous to lattice-QCD simulations of Yang-Mills theory) to measure the total vacuum energy
+        and confirm or refute Conjecture~\ref{conj:topdomain-cosmconst}. Expected runtime: 2–4 weeks.
+
+  \item \textbf{Finite-volume transfer-matrix analysis:} An exact calculation for a small system
+        ($L = 1$–$3$ BCC cells) could test the cancellation without the noise of Monte-Carlo sampling.
+
+  \item \textbf{Reconnect to Pillar 3 (Gravity):} Derive the relationship between the vacuum energy
+        $\Lambda_{\mathrm{cc}}$ and the stress-energy tensor $T^{\mu\nu}_{\mathrm{vac}}$ that appears
+        in Einstein's equation, making explicit the connection between condensate free energy and
+        spacetime curvature.
+\end{enumerate}
+
+\end{document}

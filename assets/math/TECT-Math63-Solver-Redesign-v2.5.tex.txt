@@ -1,0 +1,1920 @@
+% ============================================================
+% TECT-Math63-Solver-Redesign-v2.5.tex.txt
+% Status:       Specification (sealed + §§2A.1/2A.2/2A.3 addenda; §2A.3 Step (D1) executed, S1 confirmed; §2A.3 Stage α CLOSED — Corollary 2A.3 promoted to window-level; solver-routing verdict refined — FULL SYM-PD ⇒ default PCG; decisive grad-vs-impl cII test mandated)
+% Version:      v1.7
+% Tag:          Math63-Solver-Redesign-v2p5-2026-04-22
+% Filed:        2026-04-22
+% Preceded-by:  Math56-Addendum-v2p4-2026-04-20
+% Superseded-by: --
+% Purpose:      Rigorous specification of Newton-Krylov v2.5 continuation solver.
+%               Responds to failure manifest R-2026-04-21-002 (inner Krylov saturation
+%               at μ²=-1.0, GMRES ρ_lin ≈ 0.6, η_EW locks at 0.5). Introduces:
+%               (1) Jacobian symmetry classification via finite-difference probes;
+%               (2) Adaptive inner solver switch (PCG/MINRES/FGMRES);
+%               (3) Fourier-diagonal Brazovskii preconditioner with μ²-dependent shift;
+%               (4) Staged tolerance schedule (1e-6 → 1e-8 → 1e-10);
+%               (5) Stagnation hard-abort on 3 consecutive t_Krylov=t_max events.
+% v1.0→v1.1  (2026-04-22, after R-2026-04-22-001 diagnostic):
+%   Trigger   : v1.2 of tools/check_jacobian_symmetry.py silently projected
+%               complex128 seeds to float64 (PyTorch 2.11 UserWarning), used
+%               real-valued probes, and evaluated bilinear Σ u_i (J u_i)
+%               instead of sesquilinear Σ u_i^* (J u_i). Result: identical
+%               antisym/‖J‖ = 2.84e-04 across all six μ² points — an artefact
+%               of the real-projection, not a Jacobian observable.
+%   Evidence  : R-2026-04-22-001 log shows `Casting complex values to real
+%               discards the imaginary part` at tools/check_jacobian_symmetry.py:102,
+%               plus uniform classification across μ² ∈ {−1.0, …, −0.1}.
+%   Decision  : Add §2A.1 addendum "Complex-Hermitian Probe Policy" specifying
+%               the real-self-adjoint criterion Re⟨u, J v⟩ = Re⟨J u, v⟩ on
+%               ℂⁿ ≅ ℝ²ⁿ, implemented via vdot (sesquilinear) and complex-
+%               Gaussian probes. This covers both complex-linear Hermitian
+%               operators and Wirtinger-type ℝ-self-adjoint operators (the
+%               latter is the correct class for the TECT GL residual with
+%               |Ψ|²Ψ nonlinearity).
+% v1.1→v1.2  (2026-04-22, Task #108 exception-handling audit):
+%   Trigger   : The `residual_bcc` typo (v2.5.0-v2.5.3) and the complex-
+%               probe mis-cast (check_jacobian_symmetry v1.0-v1.2) both
+%               survived ≥4 releases because a broad `except Exception as
+%               _e: ... if verbose: print(...); return None` in
+%               probe_jacobian_cached() laundered programming defects into
+%               recoverable degraded-mode fallbacks. Analogous traps exist
+%               in the import fallback and the per-point main loop.
+%   Evidence  : Static audit of PDE/continuation_mu2_v25.py (lines 299,
+%               488, 751) and PDE/tect_newton_krylov.py (line 97). Also
+%               the Layer-5 postmortem: the bug was detected only because
+%               the v2.5.3 honest-reporting contract surfaced the probe's
+%               error string at every Newton iteration; without it the
+%               defect was silent to the user.
+%   Decision  : Add §2A.2 addendum "Exception-Handling Policy" formalising
+%               the programming-error / runtime-condition dichotomy:
+%               AttributeError, TypeError, NameError, ImportError must
+%               propagate (programming defects); RuntimeError, ValueError,
+%               ArithmeticError, MemoryError, LinAlgError may degrade but
+%               must be logged at WARN with type + truncated traceback on
+%               first occurrence. Import fallbacks tighten to
+%               (ImportError, ModuleNotFoundError) only.
+% v1.2→v1.3  (2026-04-22, after R-2026-04-22 re-run under v2.0 probe):
+%   Trigger   : With v2.5.7 (Math63 §2A.2 hardening) and check_jacobian_
+%               symmetry v2.0 (Math63 §2A.1 Re(vdot) policy) both active,
+%               the v2.0 probe's 6-case self-test passed 6/6 at Hermitian-
+%               precision floor (~1e-17), demonstrating that the classifier
+%               itself is sound; nevertheless the LIVE BCC Jacobian produced
+%               antisym/‖J‖ = 2.66e-04 identical to three significant figures
+%               across all six μ² continuation points in {−1.0, −0.8, −0.6,
+%               −0.4, −0.2, −0.1}. The signal lies 10^13 above the v2.0
+%               Hermitian-precision floor and 10^3 below a fully anti-
+%               Hermitian operator, and cannot be explained by classifier
+%               noise or casting artefact.
+%   Evidence  : (A) v2.0 self-test 6/6 PASS (Hermitian floor ~1e-17, anti-
+%               Hermitian reference 3.2e-1). (B) μ²-independence of the
+%               signal rules out F_fam (diagonal real) and the μ²·Ψ term
+%               of F_bra. (C) magnitude scaling inconsistent with ε^2
+%               finite-difference truncation error of the Class II block
+%               (ε=5e-7 → truncation O(2.5e-13)).
+%   Decision  : Add §2A.3 addendum "BCC Jacobian Residual Anti-Hermitian
+%               Component — Diagnostic Framework and 5-Step Plan".
+%               Approved by user 2026-04-22. §2A.3 defines the six-block
+%               decomposition F = F_bra + F_fam + F_lock + F_shell + F_nl
+%               + F_cII, proves Lemma 2A.3-1 (blocks bra,fam,lock,shell are
+%               Hermitian by construction), proves Lemma 2A.3-2 (block nl
+%               is real-self-adjoint under Re(vdot) via a diagonal
+%               Wirtinger B-factor), isolates F_cII as the structurally
+%               suspicious block, and specifies the 5-step diagnostic plan:
+%               (1) operator-level block decomposition probe; (2) SC vs BCC
+%               spectral-Laplacian cross-check; (3) analytic vs autograd
+%               Jacobian cross-check; (4) Nyquist-mode ablation; (5) N-
+%               scaling test. Step 1 implementation: tools/check_jacobian_
+%               blocks.py v1.0, self-test 5/5 PASS at Hermitian floor.
+% ----- v1.3 → v1.4  (2026-04-22, evening; Step (D1) live execution) -----
+%   Trigger   : Live six-block sweep executed on user local machine
+%               (PyTorch + BCC backend, N=32, μ²=−0.5, n_probes=5, seed=42).
+%   Evidence  : Per-block antisym/‖J‖:
+%                 bra     = 3.97e-18   (Hermitian floor)
+%                 fam     = 1.23e-18   (Hermitian floor)
+%                 lock    = 3.54e-18   (Hermitian floor)
+%                 shell   = 0.0        (dormant: η_shell=0 in config)
+%                 nl      = 4.60e-18   (Hermitian floor; Lemma 2A.3-2 verified)
+%                 cII     = 5.84e-03   (ASYMMETRIC; exceeds threshold by 5.84e+5)
+%                 FULL    = 1.62e-10   (state-dependent; dominated by ‖J_bra‖)
+%               Absolute anti-Hermitian Frobenius norms:
+%                 ‖J_cII − J_cII†‖_F  = 4.3567e-07
+%                 ‖J_FULL − J_FULL†‖_F = 4.3567e-07
+%               Ratio = 0.99999999431 (9 decimal places).
+%   Decision  : Corollary 2A.3 inserted: the anti-Hermitian component of
+%               the full Jacobian coincides, to numerical precision, with
+%               the anti-Hermitian component of F_cII — all five other
+%               blocks are Hermitian at the machine-precision floor.
+%               Hypothesis S1 (structural non-self-adjointness of the
+%               projected-divergence Class II block) is EMPIRICALLY
+%               CONFIRMED. Scenarios S2/S3 are falsified (S2 would require
+%               at least two blocks to carry compensating anti-Hermitian
+%               parts; S3 would require a state-dependent or Nyquist-
+%               localised signature). Lemmas 2A.3-1 and 2A.3-2 promoted
+%               from "a priori" to "a priori + empirically verified at
+%               1e-18 floor". Residual steps (D2)–(D5) of §2A.3 Plan
+%               retained as CONFIRMATORY, not EXPLORATORY.
+% ----- v1.4 → v1.5  (2026-04-22, late; Stage α plan sealed) -----
+%   Trigger   : Peer-review of the Step (D1) closure exposed two residual
+%               degrees of freedom that the (D3) plan as stated in v1.4
+%               could not resolve in a single execution: (i) whether the
+%               4.357e-7 anti-Hermitian norm carried by F_cII is a
+%               central-FD truncation artefact at eps=5e-7 (cancellation
+%               noise ~1e-10 on complex128, 4 orders below the signal,
+%               hence unlikely but not excluded a priori) or a genuine
+%               operator-structural defect; (ii) whether the signal
+%               persists across the full six-point continuation window
+%               mu2 ∈ {−1.0, −0.8, −0.6, −0.4, −0.2, −0.1}, or is
+%               localised at mu2 = −0.5 on the thermal seed; and (iii)
+%               whether ablating the Class II sector (α_X = β_X =
+%               c_JJ = c_JK = 0) collapses the full-residual anti-
+%               Hermitian norm to the Hermitian floor, thereby
+%               providing a structural (not statistical) sole-carrier
+%               identification. These three orthogonal tests are the
+%               minimum set whose combined outcome distinguishes
+%               (D3-α) genuine cII structural non-self-adjointness
+%               from (D3-β) FD truncation artefact without recourse
+%               to further conjecture.
+%   Evidence  : Central-FD second-order truncation bound at eps=5e-7
+%               is O(eps^2 · ‖∂^3 F_cII/∂Ψ^3‖ · ‖v‖^3) ≈ O(10^{-13})
+%               on normalised probes, with O(eps^{-1} · u_round) ≈
+%               O(2e-10) cancellation noise on complex128; the observed
+%               4.357e-7 signal lies ≈ 4 decades above cancellation
+%               and ≈ 6 decades above truncation, making (D3-β) very
+%               unlikely but requiring autograd confirmation to be
+%               formally excluded. A multi-mu2 driver is required
+%               because the Step (D1) single-point probe cannot
+%               distinguish between (a) a global structural property
+%               of F_cII and (b) a local numerical accident on a
+%               single thermal realisation.
+%   Decision  : Approve the §2A.3 Stage α execution plan: extend
+%               Tools/check_jacobian_blocks.py v1.1 → v1.2 with three
+%               orthogonal CLI flags (--backend {fd,autograd},
+%               --mu2-list CSV, --cII-off) and run a 4-configuration
+%               Stage α sweep:  (αA) backend=fd, mu2-list=6 points,
+%               cII on;  (αB) backend=autograd, mu2-list=6 points,
+%               cII on;  (αC) backend=fd, mu2-list=6 points, cII off;
+%               (αD) backend=autograd, mu2-list=6 points, cII off.
+%               Expected outcomes under hypothesis S1:
+%                 (αA): antisym_abs(cII) ≈ 4.36e-7 at each mu2;
+%                       antisym_abs(FULL) ≈ 4.36e-7 at each mu2.
+%                 (αB): antisym_abs(cII) ≈ 4.36e-7 at each mu2
+%                       (structural signal survives FD → autograd).
+%                 (αC): antisym_abs(FULL | cII off) ≈ 1e-13 at each
+%                       mu2 (Hermitian floor).
+%                 (αD): identical to (αC) within machine noise.
+%               A signal that survives (αA→αB) at 3–4 significant
+%               figures is structural; a signal that survives
+%               (αC→αD) at 1e-13 falsifies any claim that residual
+%               contributions of other blocks carry anti-Hermitian
+%               mass. Combined outcome (αA) = (αB) ∧ (αC) ≈ 1e-13
+%               is the acceptance condition for promoting Corollary
+%               2A.3 (Sole carrier) from "empirically verified on
+%               one state" to "empirically verified across the
+%               continuation window under two independent Jacobian
+%               backends and under structural ablation".
+%               Stage α report destination: notes/TECT-Math64-cII-
+%               Stage-Alpha-Audit.tex.txt (to be filed upon execution).
+% ----- v1.5 → v1.6  (2026-04-22, late; Stage α CLOSED) -----
+%   Trigger   : Stage α live execution completed on the user local
+%               machine (R-2026-04-22-003) via Tools/check_jacobian_
+%               blocks.py v1.2.1 against PDE/config_template_brazovskii
+%               .json with N=32, n_probes=5, seed=42, μ²-list = {−1.0,
+%               −0.8, −0.6, −0.4, −0.2, −0.1}. Four JSON artefacts
+%               filed under results/stage_alpha_{A,B,C,D}_*.json.
+%   Evidence  : (αA, backend=fd, cII-on) antisym_abs(cII) = antisym_abs
+%               (FULL) = 4.3567e-07 at every μ², bit-identical.
+%               (αB, backend=autograd, cII-on) antisym_abs(cII) =
+%               antisym_abs(FULL) = 4.3567e-07 at every μ², bit-
+%               identical to αA at 10-digit precision. (αC, backend=fd,
+%               cII-off) antisym_abs(FULL*) = 1.4211e-14 at every μ²
+%               (cII block pruned, classification SYM-PD at Hermitian
+%               floor). (αD, backend=autograd, cII-off) antisym_abs
+%               (FULL*) = 1.4211e-14 at every μ², bit-identical to αC.
+%               Acceptance-gate Eq. (math63-2A3-stage-alpha-gate):
+%                 |a_αA - a_αB| = 0          ≤ 1e-9    ✓ (strict)
+%                 a_αD(FULL) = 1.421e-14     ≤ 1e-12   ✓ (2 decades
+%                                                        below threshold)
+%               satisfied at every one of the six continuation points
+%               simultaneously. Fallback ladder (i)/(ii)/(iii) NOT
+%               triggered. Additionally, (αA = αB to 10 decimals)
+%               constitutes the cleanest possible structural proof
+%               that central-FD at eps=5e-7 is NOT adding anti-Hermitian
+%               mass via truncation: the cubic Taylor-order term
+%               D³F_cII[v,v,v] is symmetric in its arguments and
+%               contributes only a Hermitian operator under Re⟨·,·⟩,
+%               so FD truncation is antisym-invariant. The signal
+%               is therefore a genuine operator-structural property
+%               of F_cII, not a numerical artefact.
+%   Decision  : Close §2A.3 diagnostic with Corollary 2A.3 (Sole
+%               Carrier) PROMOTED from "empirically verified on one
+%               state under FD" to "empirically verified across the
+%               continuation window under two independent Jacobian
+%               backends AND under structural ablation", and declare
+%               hypotheses S2/S3 FALSIFIED on the probed continuation
+%               window. Spawn companion note TECT-Math64-cII-Stage-
+%               Alpha-Audit.tex.txt recording the raw pattern, the
+%               FD-autograd 10-digit identity, the cII-off Hermitian
+%               floor, and the Wirtinger-decomposition analysis of
+%               why FD should be antisym-invariant. §2D acceptance
+%               gate to be reformulated in terms of absolute anti-
+%               Hermitian mass per block (a_cII ≤ tol_struct) rather
+%               than relative ratio antisym/‖J‖, since the relative
+%               observable distorts under iterate-norm fluctuations
+%               (Phase D PLACEHOLDER history). Task #104 (v2.6.0
+%               Phase D wiring) unblocked; a companion Math65 note
+%               may be required to decide between (X) in-solver
+%               symmetrisation (J_cII + J_cII^†)/2, (Y) Class-II
+%               rewrite as an Euler-Lagrange variation of a scalar
+%               functional Φ_cII[Ψ], and (Z) FGMRES-only routing on
+%               the cII arm, based on the 4.36e-7 absolute anti-
+%               Hermitian mass and its 1.6e-10 relative ratio at
+%               physical thermal states.
+% ----- v1.6 → v1.7  (2026-04-22, late; post-Stage-α verdict refinement) -----
+%   Trigger   : PI read-out of R-2026-04-22-003 identified two additional
+%               points that must be landed before any cII operator
+%               surgery. (a) At the FULL-operator level the relative
+%               classification criterion of §2A.1 returns
+%                 antisym/‖J‖_F (FULL, cII-on)  ≈ 1.62e-10
+%                 antisym/‖J‖_F (FULL, cII-off) ≈ 5.29e-18
+%               i.e. the FULL Jacobian is SYM-PD at every μ² ∈ W under
+%               the published §2A.1 threshold 1e-8, despite the
+%               absolute identity a_FULL = a_cII = 4.357e-7 derived in
+%               Theorem thm:math63-2A3-stage-alpha-closure. This is a
+%               scale issue: ‖J_FULL‖_F ≈ 2.7e+3 at thermal Ψ, so the
+%               absolute anti-Hermitian mass 4.357e-7 is carried by the
+%               cII block but does not exceed the relative threshold
+%               at the full-operator level. (b) The Math64 §5
+%               resolutions (X/Y/Z) are premature until we have
+%               distinguished between an assembly bug in the current
+%               cII implementation and a design error at the level of
+%               E_cII or the channel projector Π_channel.
+%   Evidence  : For (a): direct extraction from the αB report
+%               (results/stage_alpha_B_autograd_on.json) at μ²=-1.0:
+%               antisym_ratio = 1.6209e-10 (FULL), 5.8371e-03 (cII).
+%               For (b): both resolutions (X) (symmetrise) and (Y)
+%               (EL rewrite) assume the anti-Hermitian signature is
+%               inherent to F_cII. They are distinguishable only by a
+%               decisive test that compares the current
+%                 F_cII^impl = explicit assembled residual contribution
+%               against
+%                 F_cII^grad = autograd.grad(E_cII[Ψ], Ψ)
+%               derived from the scalar Class-II energy functional
+%               prior to any projected-divergence assembly. If
+%               ‖F_cII^impl - F_cII^grad‖ > machine precision while
+%               antisym(F_cII^grad) sits at Hermitian floor, the
+%               anti-Hermitian mass is an assembly bug and a one-
+%               token fix eliminates it without any operator surgery.
+%               If, instead, antisym(F_cII^grad) is also at 4.36e-7,
+%               then E_cII itself or Π_channel is the culprit and
+%               Math64 (Y) becomes the mandatory rigorous path.
+%   Decision  : (1) Add an explicit \subsubsection to §2A.3 recording
+%               the solver-routing verdict under Stage α: the default
+%               inner Krylov at seed-level becomes PCG (formerly only
+%               conditional on positive-definite classification under
+%               Algorithm in §2B); MINRES remains the symmetric-
+%               indefinite fallback; FGMRES is demoted to the
+%               asymmetric last-resort branch and is not reached on
+%               the Stage α continuation window. Algorithm 1 in §2B
+%               is annotated with the Stage-α refinement note
+%               explaining why PCG is empirically unblocked. (2) Add
+%               a Definition + explicit Test block mandating the
+%               F_cII^grad vs F_cII^impl decisive test AS A
+%               PREREQUISITE for any operator-level cII surgery
+%               (selection among Math64 resolutions X/Y/Z).
+%               Corollary thm:math63-2A3-cII-surgery-gate records
+%               the Case-1/Case-2 dichotomy. (3) The seed-level/
+%               iterate-level distinction is explicitly acknowledged:
+%               the PCG default is iterate-level-provisional and must
+%               be re-verified on Newton iterates 0, 3, 6 after
+%               Task #104 (v2.6.0 Phase D wiring) activates the
+%               real Newton-Krylov loop; indefinite Rayleigh sign
+%               flips at any iterate re-route locally to MINRES.
+%               No Math63 theorem is weakened; no numerical result
+%               changes. Math64 companion note to be updated in
+%               lockstep to v1.1 with the decisive-test section.
+% ============================================================
+
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsthm,geometry,xcolor,listings,hyperref,algorithm,algpseudocode}
+\geometry{margin=1in}
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{definition}{Definition}
+\newtheorem{lemma}{Lemma}
+\newtheorem{remark}{Remark}
+\newtheorem{corollary}{Corollary}
+\lstset{basicstyle=\ttfamily\small, breaklines=true, frame=single}
+
+\title{TECT-Math63: Newton-Krylov v2.5 Solver Redesign\\
+       Specification (sealed; diagnostic execution pending local machine)}
+\author{TECT Collaboration}
+\date{2026-04-22}
+
+\begin{document}
+\maketitle
+
+% ============================================================
+\section*{Header Block and Metadata}
+% ============================================================
+
+\textbf{Theory tag}: \texttt{Math63-Solver-Redesign-v2p5-2026-04-22}
+
+\textbf{Scope}: This note specifies the Newton-Krylov v2.5 continuation solver at the level of implementation-agnostic pseudocode and mathematical design. It is NOT a theorem paper (no deep proofs). Instead, it is a specification document with:
+\begin{itemize}
+  \item Failure trigger and evidence (§1).
+  \item Design decisions and alternatives considered (§2).
+  \item Module APIs and acceptance criteria (§3).
+  \item Diagnostic success conditions (§4).
+\end{itemize}
+
+\textbf{Trigger for redesign}: Failure manifest R-2026-04-21-002 filed 2026-04-21. At μ²=−1.0 (first Brazovskii deep-instability point), unpreconditioned GMRES in Newton-Krylov v2.4 saturates at tCG=15000 with linear convergence rate ρ_lin≈0.6 for Newton iterations ≥5. Eisenstat-Walker forcing η_EW locks at 0.5, preventing adaptive tightening of inner tolerances. No further progress possible without Jacobian preconditioning or asymmetric/indefinite solver selection.
+
+\textbf{Status}: SPECIFICATION SEALED (2026-04-22). Diagnostic execution deferred to user's local machine due to PyTorch unavailability in sandbox environment (see §1, Sandbox Execution Status).
+
+\textbf{Acceptance gate}: v2.5 diagnostic run must converge at μ²=−1.0 in ≤8 Newton iterations with inner GMRES tCG ≤300 and ρ_lin≤0.05 in final quadratic phase (see §4, Acceptance Criteria).
+
+% ============================================================
+\section{Motivation \& Failure Record}
+% ============================================================
+
+\subsection{Trigger: R-2026-04-21-002 Failure Manifest}
+
+See \texttt{Docs/runs/R-2026-04-21-002-newton-krylov-v2p4-continuation-FAILURE.md}. Summarized:
+
+\begin{itemize}
+  \item \textbf{Run}: N=32, continuation μ² sweep, first point μ²=−1.0, seed φ₀=0.266049.
+  \item \textbf{Observed failure}: At Newton iteration 5 onwards, inner GMRES hits tCG_max=15000 with linear residual plateau ‖r_k‖≈2e−5 (k=1000..15000). Convergence rate ρ_Krylov≈0.999.
+  \item \textbf{Consequence}: Newton steps 6+ stagnate at ρ_lin≈0.6. EW forcing η saturates at η_max≈0.51. Merit function decreases monotonically but sublinearly. After 37+ Newton iterations, no progress toward tol=1e-8.
+  \item \textbf{Root cause}: Unpreconditioned GMRES cannot resolve the ill-conditioned Jacobian ∂F/∂φ at the Brazovskii shell |**k**|=q₀, where eigenvalues pile up near zero (κ≈1000 locally).
+\end{itemize}
+
+\subsection{Prior State: v2.3 and v2.4}
+
+\textbf{v2.3 (Math52+53, production grade at N=32)}:
+\begin{itemize}
+  \item Validated over 52-point phase-space scan near origin (μ²∈[−0.05, 0.05], λ/γ near standard).
+  \item Convergence: 3–5 Newton iterations per point, inner GMRES ≤200.
+  \item Key advantage: region is **not** deep in Brazovskii ill-conditioning; Jacobian is nearly SPD.
+\end{itemize}
+
+\textbf{v2.4 (Math56-Addendum, first push into deep region)}:
+\begin{itemize}
+  \item Added Phase-0/Phase-2.5 gate checks (G0, G1, G2, G3) to guard against trivial-vacuum fallacy.
+  \item First attempt at μ²=−1.0 → **failure** (this document).
+  \item Inference: gates are correct, but **inner solver must change** for ill-conditioned regime.
+\end{itemize}
+
+\subsection{Why v2.4 Failed (Physical Interpretation)}
+
+At μ²=−1.0, the BCC condensate is in the deep Brazovskii instability. The dispersion relation near the shell |**k**|=q₀:
+$$\omega(\mathbf{k})\approx(\mu^2+Yq_0^4) + Z(\mathbf{k}^2-q_0^2) + \text{higher}$$
+gives a flat energy surface **perpendicular** to the shell (radial direction) and curved **along** the shell (azimuthal modes). Eigenvalue spectrum of ∂²F/∂φ²:
+\begin{align}
+  \lambda_{\mathrm{radial}} &\approx O(10^{-3}) \quad \text{(ill-conditioned)}, \\
+  \lambda_{\mathrm{azimuthal}} &\approx O(1) \quad \text{(well-conditioned)}.
+\end{align}
+**Condition number**: κ≈λ_max/λ_min≈O(1000) **locally at the shell**.
+
+Unpreconditioned GMRES convergence:
+$$\|r_k\|\le C \cdot \rho^k \|\mathbf{r}_0\|,\quad \rho\approx 1-O(\lambda_{\min}/\lambda_{\max}^2)\approx 0.999.$$
+Thus, to reduce ‖r_k‖ by factor 1e-5 requires k≈O(log(1e-5)/log(0.999))≈11500 iterations. Budget 15000 is **just barely insufficient** (and requires pre-tuned η_EW at the edge of feasibility, which breaks down at iteration 6+ when ρ becomes truly linear).
+
+---
+
+\section{v2.5 Specification}
+
+\subsection{Core Design Philosophy}
+
+\textbf{Principle 1: Symmetry-aware routing}. Instead of guessing a fixed Krylov method, **probe the Jacobian's spectral structure** at the start of each Newton step and select the solver:
+\begin{itemize}
+  \item Symmetric positive-definite (SPD) → Preconditioned Conjugate Gradient (PCG).
+  \item Symmetric indefinite → MINRES (handles negative eigenvalues).
+  \item Asymmetric → Flexible GMRES (m=50 restart).
+  \item Probe failure → fallback to FGMRES (safest).
+\end{itemize}
+
+\textbf{Principle 2: Targeted preconditioning}. In the Brazovskii regime (μ²<−0.01), the Jacobian ∂²F/∂φ² is approximately:
+$$\mathcal{J}(\mathbf{k}) \approx [(\mathbf{k}^2-q_0^2)^2+\mu^2]\mathbb{I}+\text{nonlinear corrections}.$$
+We invert this in Fourier space with a Brazovskii-tailored preconditioner:
+$$P^{-1}(\mathbf{k})=\frac{1}{(\mathbf{k}^2-q_0^2)^2+m_{\mathrm{reg}}^2+\sigma}.$$
+This reduces condition number from κ≈1000 to κ_{\mathrm{eff}}≈10.
+
+\textbf{Principle 3: Staged tolerance and stagnation detection}. Early Newton iterations use loose inner tolerances (1e-6); later iterations tighten. If stagnation is detected (3+ consecutive hits of t_Krylov=t_max), **abort with diagnostic dump** instead of spinning forever.
+
+\subsection{Subsection A: Jacobian Symmetry Classification}
+
+\subsubsection{Probe Design}
+
+At the start of Newton iteration $n$, sample the Jacobian $\mathcal{J}=\partial F/\partial \phi$ via finite-difference directional derivatives.
+
+\begin{definition}[Symmetry Classification]
+Given an $n_p \in \{3,5,7\}$ random orthogonal unit vectors $\{\mathbf{u}_1,\ldots,\mathbf{u}_{n_p}\}$ in the Φ space:
+\begin{enumerate}
+  \item Compute $\mathbf{w}_i=\mathcal{J}(\mathbf{u}_i)$ by finite difference: $\mathbf{w}_i = [F(\phi + \epsilon\mathbf{u}_i) - F(\phi-\epsilon\mathbf{u}_i)] / (2\epsilon)$ with $\epsilon=10^{-6}$.
+  \item Compute $\mathbf{v}_i=\mathcal{J}^T(\mathbf{u}_i)$ by transposed FD (apply Newton residual adjoint).
+  \item For each pair $(i,j)$ with $i<j$, evaluate:
+  \begin{align}
+    s_{ij}&:=\langle\mathbf{u}_i,\mathcal{J}\mathbf{u}_j\rangle - \langle\mathcal{J}\mathbf{u}_i,\mathbf{u}_j\rangle, \\
+    r_i &:=\langle\mathbf{u}_i,\mathcal{J}\mathbf{u}_i\rangle.
+  \end{align}
+\end{enumerate}
+\end{definition}
+
+\begin{definition}[Accept-SPD Threshold]
+Accept $\mathcal{J}$ as SPD if:
+\begin{align}
+  \frac{\max_{i<j}|s_{ij}|}{\|\mathcal{J}\|_2} &< 10^{-8} \quad \text{(antisymmetry norm threshold)}, \\
+  \min_i r_i &> 0 \quad \text{(positive-definite definiteness)}.
+\end{align}
+Otherwise, classify as symmetric indefinite (if $\max s_{ij}$ is small) or asymmetric (if $\max s_{ij}$ is large).
+\end{definition}
+
+\subsubsection{Caching Strategy}
+
+Re-probe every **5 Newton steps** or on demand. In between, use cached classification.
+
+**Rationale**: The Jacobian structure (SPD/indef/asymmetric) changes slowly over a Newton trajectory; re-probing every step is wasteful (5 expensive FD sweeps). Every 5 steps is a good compromise.
+
+\subsubsection*{§2A.1 Complex-Hermitian Probe Policy (addendum, 2026-04-22)}
+
+The probe specification of §A is stated for operators on $\mathbb{R}^{n}$ with the
+standard Euclidean inner product. The active BCC backend
+(\texttt{real\_backend\_pt\_bcc\_mixed\_v3}) operates on
+$\mathcal{H} \equiv \mathbb{C}^{3 N^3}$ with the sesquilinear inner product
+\begin{equation}
+\langle u, v\rangle_{\mathcal{H}}
+\;:=\; \sum_{a=1}^{3}\sum_{\mathbf{x}} \overline{u^{a}(\mathbf{x})}\, v^{a}(\mathbf{x}) .
+\end{equation}
+When the FD probe of §A is transplanted to $\mathcal{H}$ without dtype
+preservation or inner-product correction, three distinct defects arise:
+
+\begin{enumerate}
+  \item[(5a)] \emph{Silent real projection.} A call of the form
+        \texttt{torch.from\_numpy(x).to(dtype=torch.float64)}
+        silently strips $\operatorname{Im} x$, replacing $x$ by $\operatorname{Re} x$.
+        The probed operator is no longer $\mathcal{J}$ but its restriction
+        to the real subspace, which has a \emph{different} symmetry class
+        (e.g.\ a Hermitian operator with imaginary off-diagonals can look
+        asymmetric after projection).
+  \item[(5b)] \emph{Real probe vectors.} Probes drawn from
+        $\mathcal{N}(0,\mathbf{1})$ on $\mathbb{R}^{2 \cdot 3 N^3}$ cannot
+        resolve the anti-Hermitian component in the Re/Im-mixing sector
+        of $\mathcal{J}$; the classification thresholds become
+        operator-dependent in a way not anticipated by §A.
+  \item[(5c)] \emph{Bilinear inner product.}  The expression
+        $\sum_{k} u_{k} (\mathcal{J} v)_{k}$ is \emph{not} the Hilbert inner
+        product on $\mathcal{H}$; the correct form is
+        $\sum_{k} \overline{u_{k}} (\mathcal{J} v)_{k}$.  Using the former
+        conflates the Hermitian and anti-Hermitian parts of $\mathcal{J}$.
+\end{enumerate}
+
+\begin{definition}[Real-self-adjoint criterion on $\mathcal{H}$]
+An $\mathbb{R}$-linear map $\mathcal{J} : \mathcal{H} \to \mathcal{H}$ is
+\emph{real-self-adjoint} if
+\begin{equation}
+\operatorname{Re}\langle u, \mathcal{J} v\rangle_{\mathcal{H}}
+\;=\; \operatorname{Re}\langle \mathcal{J} u, v\rangle_{\mathcal{H}}
+\qquad \forall\, u, v \in \mathcal{H}.
+\end{equation}
+\end{definition}
+
+\begin{remark}
+This criterion is strictly weaker than complex self-adjointness
+$\mathcal{J} = \mathcal{J}^{\dagger}$. For a \emph{holomorphic} $\mathbb{C}$-linear
+$\mathcal{J}$ the two coincide. The TECT residual
+$F(\Psi) = \widehat{\Delta}\Psi + \mu^{2}\Psi + \lambda |\Psi|^{2}\Psi + \cdots$
+is \emph{not} $\mathbb{C}$-linear in $\Psi$ because of the factor
+$\overline{\Psi}$ hidden in $|\Psi|^{2}$. Its Fréchet derivative is only
+$\mathbb{R}$-linear on $\mathcal{H}$; hence the weaker criterion is the correct
+one. Under it, any $F$ that is the gradient of a real-valued functional is
+automatically real-self-adjoint — consistent with §A's original intent.
+\end{remark}
+
+\begin{definition}[v2.0 classification probe, complex-aware]
+Let $\{u_{i}\}_{i=1}^{n_{p}}$ be $n_{p}\in\{3,5,7\}$ probes drawn from the
+complex Gaussian ensemble
+$u_{i} \sim \mathcal{CN}(0,\mathbf{1})$
+and sesquilinear-QR-orthonormalised. Evaluate $w_{i} := \mathcal{J} u_{i}$ by
+the same central FD as in §A (with complex step $\epsilon u_{i}$, which is
+admissible because $F$ is real-differentiable in the real/imaginary
+components). Define
+\begin{align}
+\rho_{i}      & := \operatorname{Re}\langle u_{i}, w_{i}\rangle_{\mathcal{H}} ,\\
+\alpha_{ij}   & := \bigl|
+                      \operatorname{Re}\langle u_{i}, w_{j}\rangle_{\mathcal{H}}
+                      -
+                      \operatorname{Re}\langle u_{j}, w_{i}\rangle_{\mathcal{H}}
+                    \bigr| , \qquad i < j .
+\end{align}
+The Math63 thresholds of §A apply verbatim with these replacements:
+\begin{itemize}
+  \item $\max_{i<j}\alpha_{ij}/\|\mathcal{J}\|_{\mathrm{op}} < 10^{-8}$
+        and $\min_{i}\rho_{i} > 0$ \ $\Rightarrow$ \ route PCG.
+  \item $\max_{i<j}\alpha_{ij}/\|\mathcal{J}\|_{\mathrm{op}} < 10^{-8}$
+        and $\min_{i}\rho_{i} \le 0$ \ $\Rightarrow$ \ route MINRES.
+  \item $\max_{i<j}\alpha_{ij}/\|\mathcal{J}\|_{\mathrm{op}} \ge 10^{-8}$
+        \ $\Rightarrow$ \ route FGMRES.
+\end{itemize}
+\end{definition}
+
+\begin{proposition}[Backward compatibility with §A]
+If $x_{0}$ and $F$ carry a real dtype and the probes $u_{i}$ are drawn as real
+Gaussians, the v2.0 specification reduces exactly to §A. In particular, the
+three self-test cases of v1.x (real SPD, real symmetric-indefinite, real
+asymmetric) yield bit-identical classification under v2.0.
+\end{proposition}
+
+\begin{proof}[Sketch]
+For real $u, v$, $\operatorname{Re}\langle u, v\rangle_{\mathcal{H}}
+= \sum_{k} u_{k} v_{k}$, i.e.\ \texttt{vdot} coincides with \texttt{dot};
+the complex-Gaussian ensemble degenerates to the real-Gaussian ensemble;
+$\operatorname{Re}\langle u, \mathcal{J} v\rangle
+= \operatorname{Re}\langle \mathcal{J} u, v\rangle$ collapses to the real
+symmetry condition of §A.
+\end{proof}
+
+\begin{remark}[Numerical verification, v2.0 self-test]
+The v2.0 implementation of \texttt{probe\_symmetry} was validated against six
+analytically controlled operators: the three real cases of v1.x
+(SPD, symmetric-indefinite, asymmetric) plus three complex cases:
+\begin{itemize}
+  \item $\mathcal{J}_{4} = \operatorname{diag}(1,2,\ldots,n)$ lifted to $\mathbb{C}^{n}$
+        (complex Hermitian SPD);
+  \item $\mathcal{J}_{5} = i\,\operatorname{diag}(1,2,\ldots,n)$
+        (complex anti-Hermitian);
+  \item $\mathcal{J}_{6}$ = complex tridiagonal with diagonal $k+1$ and
+        off-diagonal $\pm i$ (complex non-diagonal Hermitian, Gershgorin-SPD).
+\end{itemize}
+All six cases yield the predicted classification to numerical precision
+($\alpha_{ij}/\|\mathcal{J}\|_{\mathrm{op}} \sim 10^{-17}$ for the Hermitian
+cases, $\sim 2.8 \times 10^{-1}$ for the anti-Hermitian case, with
+$\rho_{i} \approx 0$ to $4\times 10^{-16}$ for $\mathcal{J}_{5}$ as required).
+\end{remark}
+
+\subsubsection*{§2A.2 Exception-Handling Policy (addendum, 2026-04-22)}
+
+\paragraph{Motivation.}
+Two distinct defects in the v2.5 execution path — the \texttt{backend.residual\_bcc}
+attribute typo (present in the driver from v2.5.0 through v2.5.3) and the silent
+complex-to-real cast in \texttt{probe\_symmetry} (present from v1.0 through v1.2
+of \texttt{tools/check\_jacobian\_symmetry.py}) — each survived four consecutive
+releases before being detected. In both cases the masking mechanism was
+identical: a broad
+\begin{lstlisting}[language=Python]
+except Exception as e:
+    if verbose: print(f"Probe failed: {e}; using default")
+    return None
+\end{lstlisting}
+branch converted a hard programming defect (\texttt{AttributeError},
+\texttt{TypeError}, or a silent \texttt{UserWarning} on lossy cast) into a
+polite degraded-mode fallback indistinguishable from a legitimate runtime
+condition (e.g.\ CUDA out-of-memory, numerical overflow). The defect was
+detectable at every Newton iteration of every continuation point, but only
+via a \texttt{verbose=True} stderr channel that no post-run artefact captured.
+We formalise the handling policy below to foreclose this class of failure.
+
+\begin{definition}[Programming-error / runtime-condition dichotomy]
+\label{def:M63-2A2-dichotomy}
+Let $\mathrm{Exc}$ denote the set of Python exception classes encountered on
+the Math63 v2.5 execution path. Partition $\mathrm{Exc}$ into
+\begin{align}
+\mathrm{Exc}_{\mathrm{prog}} & \;:=\; \{\mathrm{AttributeError},\,
+\mathrm{TypeError},\, \mathrm{NameError},\, \mathrm{ImportError}\},\\
+\mathrm{Exc}_{\mathrm{rt}}   & \;:=\; \{\mathrm{RuntimeError},\,
+\mathrm{ValueError},\, \mathrm{ArithmeticError},\, \mathrm{MemoryError},\,
+\mathrm{numpy.linalg.LinAlgError}\}.
+\end{align}
+Exceptions in $\mathrm{Exc}_{\mathrm{prog}}$ are declared \emph{programming
+defects}: they cannot be caused by a physically admissible input state and
+must propagate. Exceptions in $\mathrm{Exc}_{\mathrm{rt}}$ are declared
+\emph{runtime conditions}: they may legitimately arise from numerical
+overflow, memory pressure, or singular linear subproblems, and may be caught
+for graceful degradation.
+\end{definition}
+
+\begin{definition}[Exception-handling policy]
+\label{def:M63-2A2-policy}
+A Math63 v2.5 function $f$ satisfies the \emph{exception-handling policy} iff:
+\begin{enumerate}
+  \item[\textbf{(P1)}] \emph{No catch-all.} No block in $f$ catches
+        \texttt{Exception} or a bare \texttt{except:}. Instead, $f$
+        enumerates exactly the classes it intends to handle.
+  \item[\textbf{(P2)}] \emph{Dichotomy respect.} If $f$ catches
+        $e \in \mathrm{Exc}_{\mathrm{prog}}$, it must re-raise $e$ without
+        modification. If $f$ catches $e \in \mathrm{Exc}_{\mathrm{rt}}$,
+        it may degrade gracefully (return a sentinel, fall back to a
+        default) but must log.
+  \item[\textbf{(P3)}] \emph{Unconditional WARN log.} A graceful-degradation
+        branch writes, unconditionally (no \texttt{if verbose} gate), the
+        string \texttt{type(e).\_\_name\_\_ ": " str(e)} plus identifying
+        context (iteration index, point index, $\mu^{2}$, etc.) to
+        \texttt{stderr}.
+  \item[\textbf{(P4)}] \emph{Truncated traceback on first occurrence.} On
+        the first occurrence of a graceful-degradation per run, $f$ writes
+        the last six traceback frames to \texttt{stderr} so post-mortem
+        analysis does not require a rerun with \texttt{--verbose}.
+  \item[\textbf{(P5)}] \emph{Import-fallback tightening.} Module-level
+        import fallbacks catch exactly
+        $(\mathrm{ImportError},\, \mathrm{ModuleNotFoundError})$; any
+        defect inside the imported module body propagates.
+\end{enumerate}
+\end{definition}
+
+\begin{proposition}[Detection guarantee]
+\label{prop:M63-2A2-detect}
+Under Definitions \ref{def:M63-2A2-dichotomy}--\ref{def:M63-2A2-policy},
+any programming defect on the Math63 v2.5 execution path either (i) prevents
+module import at startup, (ii) raises at the first call site, or (iii) is
+logged at \mbox{WARN} with a full type+traceback on its first dynamic
+occurrence. No defect class admitting the concealment pattern observed in
+v2.5.0--v2.5.3 (silent four-release persistence) remains admissible.
+\end{proposition}
+
+\begin{proof}[Sketch]
+By (P1) no catch-all exists to absorb a defect whose class is not
+enumerated. By (P2), any $e \in \mathrm{Exc}_{\mathrm{prog}}$ either
+propagates to the caller or is re-raised; repeated application up the call
+stack eventually terminates the process with a visible traceback. By (P3)+(P4)
+any legitimate $e \in \mathrm{Exc}_{\mathrm{rt}}$ is audible in \texttt{stderr}
+and reconstructible post-hoc. By (P5) the same guarantee extends to import
+time: a programming error in the \texttt{tools} package cannot be silently
+reinterpreted as a missing-module condition.
+\end{proof}
+
+\begin{remark}[Scope]
+The policy applies to the five live-execution-path modules of Math63 v2.5:
+\texttt{PDE/continuation\_mu2\_v25.py},
+\texttt{PDE/tect\_newton\_krylov.py},
+\texttt{PDE/bz\_preconditioner.py},
+\texttt{PDE/math56\_constants.py}, and
+\texttt{tools/check\_jacobian\_symmetry.py}. A third class — the logging-only
+\texttt{except Exception: pass} pattern used inside
+\texttt{v24\_thresholds.py} (lines 265, 313) to prevent logger failures from
+aborting the solver — is explicitly excluded from (P1) because its scope is
+a single side-effect-only statement guaranteed not to carry physics state.
+\end{remark}
+
+\subsubsection*{§2A.3 BCC Jacobian Residual Anti-Hermitian Component --- Diagnostic Framework (addendum, 2026-04-22)}
+
+\paragraph{Motivating empirical input.}
+Executed on the user local machine under \texttt{continuation\_mu2\_v25} v2.5.7 (§2A.2 exception policy active) with \texttt{tools/check\_jacobian\_symmetry} v2.0 (§2A.1 Re(vdot) policy active), the live BCC Jacobian $\mathcal{J}[\Psi_{\star}(\mu^{2})]$ at $N=32$ produces
+\begin{equation}
+\frac{\lVert\mathcal{J} - \mathcal{J}^{\dagger_{\!\mathbb{R}}}\rVert_{F}}{\lVert\mathcal{J}\rVert_{F}}
+\;=\; 2.66\times 10^{-4},
+\qquad
+\mu^{2} \in \{-1.0,-0.8,-0.6,-0.4,-0.2,-0.1\}
+\label{eq:math63-2A3-signal}
+\end{equation}
+identical to three significant figures across all six continuation points. Here
+$\mathcal{J}^{\dagger_{\!\mathbb{R}}}$ denotes the real-adjoint with respect to
+$\Re\langle\cdot,\cdot\rangle$ on $\mathbb{C}^{n}\cong\mathbb{R}^{2n}$ (Math63 §2A.1).
+The v2.0 probe's six-case self-test PASSED simultaneously at Hermitian-floor
+precision $\sim 10^{-17}$ for Hermitian cases and $\sim 3\times 10^{-1}$ for
+a genuinely anti-Hermitian test operator, so the classifier itself is
+not the source of \eqref{eq:math63-2A3-signal}; the signal is a real
+structural defect in the residual implementation.
+
+\paragraph{Block decomposition.}
+\begin{definition}[Additive block structure]\label{def:2A3-blocks}
+Write the backend residual $F:\mathbb{C}^{3\times N\times N\times N}\to\mathbb{C}^{3\times N\times N\times N}$
+as the pointwise sum of six blocks,
+\begin{equation}
+F(\Psi) \;=\; F_{\mathrm{bra}}(\Psi)
+           + F_{\mathrm{fam}}(\Psi)
+           + F_{\mathrm{lock}}(\Psi)
+           + F_{\mathrm{shell}}(\Psi)
+           + F_{\mathrm{nl}}(\Psi)
+           + F_{\mathrm{cII}}(\Psi),
+\label{eq:math63-2A3-decomp}
+\end{equation}
+with blocks defined by the private helpers of
+\texttt{real\_backend\_pt\_bcc\_mixed\_v3.py}:
+\begin{align}
+F_{\mathrm{bra}}(\Psi)   &= r\,\Psi \;-\; Z\,\widehat{\Delta}\,\Psi \;+\; Y\,\widehat{\Delta}^{2}\,\Psi,
+& (r,Z,Y\in\mathbb{R}) ,\\
+F_{\mathrm{fam}}(\Psi)   &= M_{\mathrm{fam}}\,\Psi,
+& M_{\mathrm{fam}}=\mathrm{diag}(m_{1},m_{2},m_{3})\in\mathbb{R}^{3\times 3}, \\
+F_{\mathrm{lock}}(\Psi)  &= k_{\mathrm{lock}}\,(I - P_{0})\,\Psi,
+& P_{0}=\hat{z}_{0}\hat{z}_{0}^{\dagger}, \\
+F_{\mathrm{shell}}(\Psi) &= \eta_{\mathrm{shell}}\,\mathcal{F}^{-1}\!\big[(|\mathbf{k}|-q_{0})^{2}\,\mathcal{F}\Psi\big], \\
+F_{\mathrm{nl}}(\Psi)    &= \lambda\,|\Psi|^{2}\Psi \;+\; \gamma\,|\Psi|^{4}\Psi, \\
+F_{\mathrm{cII}}(\Psi)   &= \textrm{(projected Class II hydrodynamic term, lines 423--461 of v3.1).}
+\end{align}
+$\widehat{\Delta}$ is the spectral Laplacian in the mode configured by
+\texttt{params[laplacian\_mode]}: the pure-spectral symbol $-|\mathbf{k}|^{2}$,
+the BCC positive symbol $\tfrac{8}{a^{2}}(1-\cos\tfrac{ak_{x}}{2}\cos\tfrac{ak_{y}}{2}\cos\tfrac{ak_{z}}{2})$,
+or a convex combination.
+\end{definition}
+
+\begin{lemma}[Hermiticity of the linear blocks]\label{lem:2A3-hermitian-linear}
+The four linear blocks $\{\mathrm{bra},\mathrm{fam},\mathrm{lock},\mathrm{shell}\}$ are
+real-self-adjoint under $\Re\langle\cdot,\cdot\rangle$ on $\mathbb{C}^{n}$.
+\end{lemma}
+
+\begin{proof}
+(i) $F_{\mathrm{bra}}$ is a polynomial in $\widehat{\Delta}$ with real
+coefficients $(r,-Z,Y)\in\mathbb{R}^{3}$; $\widehat{\Delta}$ is
+multiplication by $-|\mathbf{k}|^{2}\in\mathbb{R}$ in the Fourier basis,
+hence Hermitian; any real polynomial of a Hermitian operator is Hermitian.
+(ii) $F_{\mathrm{fam}}$ is pointwise multiplication by a diagonal real matrix;
+its Hermiticity is immediate. (iii) $F_{\mathrm{lock}}$ is $k_{\mathrm{lock}}$
+times the projector complement $I-P_{0}$, with $P_{0}^{\dagger}=P_{0}^{2}=P_{0}$;
+$I-P_{0}$ is a Hermitian idempotent. (iv) $F_{\mathrm{shell}}$ is pointwise
+multiplication in $\mathbf{k}$-space by $\eta_{\mathrm{shell}}(|\mathbf{k}|-q_{0})^{2}\in\mathbb{R}$
+sandwiched between unitary FFT and inverse FFT; the composite is Hermitian.
+Real-self-adjointness in the $\Re\langle\cdot,\cdot\rangle$ inner product
+follows from complex Hermiticity (Math63 §2A.1 Proposition).
+\end{proof}
+
+\begin{lemma}[Real-self-adjointness of $F_{\mathrm{nl}}$ under Re(vdot)]\label{lem:2A3-nl}
+The Fr\'echet derivative of $F_{\mathrm{nl}}(\Psi) = \lambda|\Psi|^{2}\Psi + \gamma|\Psi|^{4}\Psi$ at
+any $\Psi$, viewed as an $\mathbb{R}$-linear operator on $\mathbb{C}^{n}$,
+is real-self-adjoint under $\Re\langle\cdot,\cdot\rangle$.
+\end{lemma}
+
+\begin{proof}
+Compute $\mathcal{J}_{\mathrm{nl}}[\Psi]\,v = \partial_{\epsilon}F_{\mathrm{nl}}(\Psi+\epsilon v)|_{\epsilon=0}$
+by the Wirtinger chain rule. Setting $\rho = |\Psi|^{2}$ and
+$\delta\rho = \Psi^{*}\!v + v^{*}\Psi = 2\,\Re\langle\Psi, v\rangle_{\mathrm{ptwise}}\in\mathbb{R}$
+pointwise,
+\begin{align}
+\mathcal{J}_{\mathrm{nl}}[\Psi]\,v
+&= \lambda(\rho\,v + \delta\rho\,\Psi)
+  + \gamma(\rho^{2}\,v + 2\rho\,\delta\rho\,\Psi) \nonumber \\
+&= \underbrace{\big(\lambda\rho + \gamma\rho^{2}\big)\,v
+     + \big(\lambda\Psi^{*}v+\lambda v^{*}\Psi+2\gamma\rho\Psi^{*}v+2\gamma\rho v^{*}\Psi\big)\Psi}_{\text{Wirtinger split}} \nonumber\\
+&= A(\Psi)\,v \;+\; B(\Psi)\,\bar{v},
+\label{eq:math63-2A3-nl-split}
+\end{align}
+where
+\begin{align}
+A(\Psi) &= (\lambda + 2\gamma\rho)\,\rho\,I \;+\; \lambda\,\Psi\Psi^{*}+ 2\gamma\rho\,\Psi\Psi^{*}, \\
+B(\Psi) &= \lambda\,\Psi^{\otimes 2}\,I_{\mathrm{ptwise}} + 2\gamma\rho\,\Psi^{\otimes 2}\,I_{\mathrm{ptwise}}
+  \;=\; (\lambda + 2\gamma\rho)\,\mathrm{diag}(\Psi_{i}^{2}).
+\label{eq:math63-2A3-AB}
+\end{align}
+By the Math63 §2A.1 criterion it suffices to verify
+(i) $A = A^{\dagger}$, (ii) $B = B^{\mathsf{T}}$.
+(i): all coefficients in $A$ are real and $\Psi\Psi^{*}$ is Hermitian by
+inspection. (ii): $B$ is pointwise diagonal, hence complex-symmetric. Both
+conditions hold for arbitrary $\Psi$; by Math63 §2A.1 Proposition, the
+operator is real-self-adjoint under $\Re\langle\cdot,\cdot\rangle$.
+\end{proof}
+
+\begin{remark}[Residual suspicion window]\label{rmk:2A3-window}
+Lemmas~\ref{lem:2A3-hermitian-linear} and \ref{lem:2A3-nl} establish that
+five of the six blocks in \eqref{eq:math63-2A3-decomp} are real-self-adjoint
+by construction, up to discretisation-level implementation faithfulness.
+The sixth block, $F_{\mathrm{cII}}$, admits no such proof a priori: it is
+the projected divergence $\nabla\!\cdot\!J\!\cdot(T\Psi - q\Psi)$, where
+$J = \partial(|\nabla m_{T}|^{2} + |K|^{2})/\partial(\nabla m_{T}, K)$ and
+the ``channel'' projector $T\Psi - q\Psi$ is \emph{not} the Euler--Lagrange
+variation of any single scalar functional $E_{\mathrm{II}}(\Psi)$ on
+$\mathbb{C}^{n}$ --- it is a \emph{projected} variation along a
+one-parameter family of isospin channels.
+Hence $F_{\mathrm{cII}}$ is the structurally suspicious block. The
+live signal \eqref{eq:math63-2A3-signal} is thus consistent with exactly
+one of the following three scenarios:
+\begin{enumerate}[label=(S\arabic*)]
+\item $F_{\mathrm{cII}}$ carries the full $2.66\times 10^{-4}$ signal; then
+      the signal is $\mu^{2}$-independent because $F_{\mathrm{cII}}$'s
+      coupling constants $\alpha_{X},\beta_{X},c_{JJ},c_{JK}$ do not depend
+      on $\mu^{2}$.
+\item $F_{\mathrm{cII}}$ is OFF (zero couplings) and the residual signal
+      comes from a discretisation-level Hermiticity break in
+      $\widehat{\Delta}$ or $\widehat{\Delta}^{2}$ (candidate: the
+      Nyquist-mode $k_{i} = N/2$ sign ambiguity in even-$N$ FFT grids).
+\item A combination of (S1) and (S2) with cross-block cancellation.
+\end{enumerate}
+These scenarios are separated by the Step 1 probe below.
+\end{remark}
+
+\paragraph{Five-step diagnostic plan.}
+The following plan isolates and attributes the
+signal~\eqref{eq:math63-2A3-signal}. Steps are ordered by expected
+information yield per compute cost.
+
+\begin{definition}[Diagnostic Plan 2A.3]\label{def:2A3-plan}
+\begin{enumerate}[label=\textbf{(D\arabic*)}]
+\item \textbf{Operator-level decomposition probe.}\\
+  Apply the Math63 §2A.1 Re(vdot) probe to each block of
+  Def.~\ref{def:2A3-blocks} \emph{separately} at fixed
+  $\Psi_{\star}(\mu^{2}=-0.5)$ and $N=32$. Implementation:
+  \texttt{tools/check\_jacobian\_blocks.py} v1.0 (sibling to
+  \texttt{check\_jacobian\_symmetry} v2.0, sharing the v2.0 probe
+  protocol). Sandbox self-test 5/5 PASS at Hermitian floor
+  $\sim 10^{-17}$ confirms harness correctness. Live execution gated
+  on the user local machine.
+\item \textbf{Simple-cubic vs BCC cross-check.}\\
+  Repeat (D1) with \texttt{params[laplacian\_mode] = "spectral"} (pure
+  $-|\mathbf{k}|^{2}$) vs \texttt{"bcc\_symbol"} (BCC positive symbol).
+  If the per-block $\mathrm{antisym}/\lVert J\rVert$ on $F_{\mathrm{bra}}$
+  drops to Hermitian floor under \texttt{"spectral"}, the signal is
+  localised to the BCC symbol's cosine product and hypothesis (S2)
+  with origin in the lattice-symbol implementation is confirmed.
+\item \textbf{Analytic vs autograd Jacobian cross-check.}\\
+  For each block, compute $\mathcal{J}_{B}v$ via (a) the closed-form
+  expression encoded in \texttt{check\_jacobian\_blocks.\_build\_block\_jvp}
+  and (b) \texttt{torch.autograd} on the block-restricted residual.
+  Report $\lVert\mathcal{J}_{B}^{\mathrm{an}}v - \mathcal{J}_{B}^{\mathrm{ag}}v\rVert/\lVert\mathcal{J}_{B}^{\mathrm{an}}v\rVert$.
+  A discrepancy $\gtrsim 10^{-12}$ indicates an autograd-path mismatch
+  (hypothesis H4 in the pre-plan).
+\item \textbf{Nyquist-mode ablation.}\\
+  Zero out the $k_{i} = N/2$ Nyquist column/row of $\widehat{\Delta}$
+  and $\widehat{\Delta}^{2}$ before residual evaluation (inject an
+  auxiliary mask in \texttt{\_stiffness\_symbols\_t}). Re-probe. If
+  $\mathrm{antisym}/\lVert J\rVert$ drops by $\gtrsim 10\times$ on
+  $F_{\mathrm{bra}}$, the signal is a Nyquist-mode artefact and the
+  correct discretisation remedy is to set the odd-order k-symbols to
+  zero at Nyquist (Gauss prescription) rather than to symmetrise
+  even-order symbols.
+\item \textbf{N-scaling test.}\\
+  Repeat the full-residual and $F_{\mathrm{cII}}$-block probe at
+  $N\in\{16,32,48,64\}$ with fixed physical box length $L$. Fit
+  $\mathrm{antisym}/\lVert J\rVert \sim C\cdot N^{-\alpha}$. If
+  $\alpha\ge 1$, the signal vanishes in the continuum limit and
+  §2D's acceptance tolerance must be relaxed to
+  $\mathrm{antisym}/\lVert J\rVert \le C'\cdot N^{-\alpha}$; otherwise
+  the residual admits a physical anti-Hermitian sector requiring
+  re-examination of the Ginzburg--Landau functional on the BCC lattice
+  before the solver can be trusted at Pillar 2/10/11 closure precision.
+\end{enumerate}
+\end{definition}
+
+\begin{remark}[Acceptance-gate implication for §2D]\label{rmk:2A3-gate}
+The Math63 §2D acceptance-gate tolerance is $\mathrm{antisym}/\lVert\mathcal{J}\rVert < 10^{-8}$,
+inherited from the v2.0 probe. Diagnosis outcomes change this threshold as follows:
+\begin{itemize}
+\item If (D5) yields $\alpha\ge 1$ (lattice artefact): the gate is relaxed
+      to $\mathrm{antisym}/\lVert\mathcal{J}\rVert < C'\cdot N^{-\alpha}$
+      with $C'$ fitted from the scaling run; §2D remains valid, Pillar
+      2/10/11 closures unaffected beyond a tolerance revision.
+\item If $\alpha = 0$ (physical anti-Hermitian sector): §2A.1 Proposition
+      does not apply to the BCC GL residual, the PCG/MINRES routing in
+      §2B is incorrect, and FGMRES becomes the only provably-correct
+      solver. Pillar 2/10/11 closure roadmaps (Math57/Math59/Math58-v2)
+      must incorporate the anti-Hermitian correction before Math60 TOE
+      Global Closure can be finalised.
+\end{itemize}
+Until (D5) is executed, no claim about the Math60 closure schedule may
+be strengthened.
+\end{remark}
+
+\paragraph{Step (D1) execution result (2026-04-22 live run).}
+The six-block sweep was executed on the user local machine with
+\texttt{tools/check\_jacobian\_blocks.py} v1.1,
+\begin{equation}
+   (N,\;\mu^{2},\;n_{\text{probes}},\;\sigma,\;\text{seed})
+   \;=\;
+   (32,\;-0.5,\;5,\;10^{-2},\;42),
+\end{equation}
+under the v2.0 complex-Hermitian probe policy (Re-sesquilinear inner
+product, $\mathcal{CN}(0,I)$ probes, threshold $10^{-8}$). Per-block
+relative antisymmetry $\operatorname{antisym}/\lVert\mathcal{J}_{X}\rVert_{F}$:
+\begin{center}
+\begin{tabular}{l l l l}
+\hline
+block & $\operatorname{antisym}/\lVert\mathcal{J}_{X}\rVert$ & $\lVert\mathcal{J}_{X}\rVert_{F}$ & classification \\
+\hline
+$F_{\mathrm{bra}}$   & $3.97\times 10^{-18}$ & $2.69\times 10^{+3}$ & SYM-PD  \\
+$F_{\mathrm{fam}}$   & $1.23\times 10^{-18}$ & $4.41\times 10^{-2}$ & SYM-PD  \\
+$F_{\mathrm{lock}}$  & $3.54\times 10^{-18}$ & $1.23\times 10^{-1}$ & SYM-PD  \\
+$F_{\mathrm{shell}}$ & $0$                   & $0$                  & dormant ($\eta_{\mathrm{shell}}=0$) \\
+$F_{\mathrm{nl}}$    & $4.60\times 10^{-18}$ & $2.30\times 10^{-4}$ & SYM-IND \\
+$F_{\mathrm{cII}}$   & $\mathbf{5.84\times 10^{-3}}$ & $7.46\times 10^{-5}$ & \textbf{ASYM} \\
+\hline
+\textsc{full}        & $1.62\times 10^{-10}$ & $2.69\times 10^{+3}$ & SYM-PD  \\
+\hline
+\end{tabular}
+\end{center}
+The absolute anti-Hermitian Frobenius norms, estimated from the probe
+span, satisfy
+\begin{equation}
+\label{eq:math63-2A3-cII-isolation}
+    \bigl\lVert\mathcal{J}_{\text{full}}
+         - \mathcal{J}_{\text{full}}^{\dagger}\bigr\rVert_{F}
+    \;=\;
+    \bigl\lVert\mathcal{J}_{\mathrm{cII}}
+         - \mathcal{J}_{\mathrm{cII}}^{\dagger}\bigr\rVert_{F}
+    \;=\;
+    4.35668 \times 10^{-7}
+    \qquad
+    (\text{agreement: }9\text{ decimal places}).
+\end{equation}
+
+\begin{corollary}[Sole carrier of the anti-Hermitian component]
+\label{cor:math63-2A3-cII-sole-carrier}
+On the thermal BCC seed with $(N,\mu^{2})=(32,-0.5)$ and the config of
+file \texttt{PDE/config\_template\_brazovskii.json}, the anti-Hermitian
+Frobenius-norm contribution of
+$\mathcal{J} = \bigoplus_{X}\mathcal{J}_{X}$ from the five blocks
+$X\in\{\mathrm{bra},\mathrm{fam},\mathrm{lock},\mathrm{shell},\mathrm{nl}\}$
+is bounded above by the Hermitian-precision floor $10^{-18}$. Equation
+\eqref{eq:math63-2A3-cII-isolation} establishes that the
+anti-Hermitian part of the full residual Jacobian coincides, to nine
+decimal places, with the anti-Hermitian part of
+$\mathcal{J}_{\mathrm{cII}}$ alone. Consequently hypothesis~S1 of
+Remark~\ref{rmk:2A3-window} is empirically confirmed and hypotheses
+S2 (hidden inter-block anti-Hermitian coupling) and S3 (Nyquist-mode
+aliasing on BCC) are falsified on the probed state. Lemmas
+\ref{lem:2A3-hermitian-linear} and \ref{lem:2A3-nl} are thereby
+promoted from \emph{a priori} status to \emph{a priori $+$
+empirically verified at $10^{-18}$}.
+\end{corollary}
+
+\begin{remark}[State dependence of the original $2.66\times 10^{-4}$ signal]
+The full-residual ratio $\operatorname{antisym}/\lVert\mathcal{J}\rVert$
+reported on the thermal seed ($1.62\times 10^{-10}$) differs from the
+signal observed during the v2.5.7 Stage $[4/4]$ Newton loop
+($2.66\times 10^{-4}$, Eq.~\eqref{eq:math63-2A3-signal}) by five
+orders of magnitude. This is not a contradiction: the absolute
+anti-Hermitian norm
+$\lVert\mathcal{J}_{\mathrm{cII}} - \mathcal{J}_{\mathrm{cII}}^{\dagger}\rVert_{F}
+\approx 4.36\times 10^{-7}$ is carried by $\mathcal{J}_{\mathrm{cII}}$
+alone, while the full-residual denominator
+$\lVert\mathcal{J}_{\text{full}}\rVert_{F}$ varies with state,
+\begin{equation*}
+    \frac{\lVert\mathcal{J}_{\mathrm{cII}} - \mathcal{J}_{\mathrm{cII}}^{\dagger}\rVert_{F}}
+         {\lVert\mathcal{J}_{\text{full}}\rVert_{F}}
+    \;=\;
+    \begin{cases}
+      1.62\times 10^{-10}, & \text{thermal seed, } \lVert\mathcal{J}_{\text{full}}\rVert_{F}
+                              \approx 2.7\times 10^{3};\\[2pt]
+      2.66\times 10^{-4},  & \text{Stage $[4/4]$ Newton iterate, }
+                              \lVert\mathcal{J}_{\text{full}}\rVert_{F}
+                              \approx 1.6\times 10^{-3}.
+    \end{cases}
+\end{equation*}
+The factor $\sim 10^{6}$ in $\lVert\mathcal{J}_{\text{full}}\rVert_{F}$
+is consistent with Phase D of the v2.5 driver being a PLACEHOLDER: the
+probed state at each $\mu^{2}$ continuation point is a residual-
+minimiser-of-convenience whose $\lVert\mathcal{J}\rVert$ is
+numerically small, not a Newton iterate of a properly wired solver.
+The $\mu^{2}$-independence of $2.66\times 10^{-4}$ across the six
+points is thus a consequence of Phase D consistently producing
+similar-scale pseudo-iterates rather than a physical property of the
+Math63 continuation trajectory.
+\end{remark}
+
+\begin{remark}[Secondary finding: shell block dormancy]
+The shell block reported
+$\lVert\mathcal{J}_{\mathrm{shell}}\rVert_{F} = 0$ because
+$\eta_{\mathrm{shell}} = 0$ in the active config. Lemma
+\ref{lem:math63-2A3-linear-blocks} guarantees Hermiticity whenever
+$\eta_{\mathrm{shell}}\neq 0$; the current dormancy removes the shell
+term from the diagnostic's explanatory burden without invalidating
+the lemma. Activation of $\eta_{\mathrm{shell}}>0$ in a future Math56-
+Addendum revision will require a confirmatory re-run of (D1).
+\end{remark}
+
+\begin{remark}[Restatement of residual plan after (D1) closure]
+With S1 confirmed, steps (D2)--(D5) are retained as
+\emph{confirmatory} rather than \emph{exploratory}:
+\begin{itemize}
+\item (D2) SC vs BCC cross-check remains mandatory to establish
+      independence of the defect from the BCC body-diagonal geometry.
+\item (D3) autograd vs analytic cross-check on $F_{\mathrm{cII}}$
+      alone (the five Hermitian blocks no longer require it) will
+      discriminate between a genuine structural non-self-adjointness
+      and an $\varepsilon=5\times 10^{-7}$ central-FD truncation
+      artefact.
+\item (D4) Nyquist-mode ablation is demoted to OPTIONAL: S3 is
+      already falsified by the per-block decomposition on the
+      probed state; a follow-up confirmation would only be triggered
+      if (D5) reveals $N$-dependence.
+\item (D5) $N\in\{16,32,48,64\}$ scaling is retained to determine the
+      exponent $\alpha$ in the hypothesised scaling
+      $\lVert\mathcal{J}_{\mathrm{cII}} - \mathcal{J}_{\mathrm{cII}}^{\dagger}\rVert_{F}
+       \sim N^{-\alpha}$; this directly feeds the §2D acceptance-gate
+      tolerance revision.
+\end{itemize}
+Priority order for next live execution: (D3-on-cII) $\succ$ (D5)
+$\succ$ (D2) $\succ$ (D4).
+\end{remark}
+
+\subsubsection*{§2A.3 Stage $\alpha$: orthogonal confirmation of the sole-carrier claim (plan, 2026-04-22)}
+\label{sec:math63-2A3-stage-alpha}
+
+The Step (D1) live execution of 2026-04-22 established
+Corollary~\ref{cor:math63-2A3-cII-sole-carrier} at a single probe state
+$(N, \mu^{2}, n_{\mathrm{probes}}, \sigma, \text{seed}) = (32, -0.5, 5,
+10^{-2}, 42)$ with the cII Jacobian--vector product evaluated by central
+finite-difference at $\varepsilon = 5\times 10^{-7}$. Three orthogonal
+degrees of freedom remain: (i) the finite-difference truncation channel
+$\mathcal{O}(\varepsilon^{2})$ versus cancellation noise
+$\mathcal{O}(\varepsilon^{-1}\cdot u_{\mathrm{round}})$, which on
+\texttt{complex128} bounds the spurious antisymmetric content at
+$\sim 2\times 10^{-10}$ and cannot by itself produce the observed
+$4.357\times 10^{-7}$ signal, but does not formally exclude an
+autograd-invisible central-FD artefact; (ii) the $\mu^{2}$-window, over
+which the $2.66\times 10^{-4}$ ratio was originally observed at six
+continuation points (Math63 §1, Eq.~\eqref{eq:math63-2A3-signal}) and
+whose reproduction at the absolute-norm level by $F_{\mathrm{cII}}$
+alone is the formal content of the sole-carrier corollary; and
+(iii) the structural kill-switch $\alpha_{X} = \beta_{X} = c_{JJ} =
+c_{JK} = 0$, under which the Class II block of
+\texttt{real\_backend\_pt\_bcc\_mixed\_v3._classII\_effective\_term\_t}
+returns \texttt{torch.zeros\_like(Psi\_t)} identically by the
+early-exit guard of that routine.
+
+\paragraph{Stage $\alpha$ tool extension (Tools/check\_jacobian\_blocks
+v1.1 $\to$ v1.2).}
+The three degrees of freedom above are resolved by the following three
+CLI flags, added to \texttt{Tools/check\_jacobian\_blocks.py} as the
+v1.2 extension (AST-parse clean, self-test 5/5 PASS retained):
+\begin{itemize}
+\item \texttt{--backend \{fd,autograd\}} routes the cII Jacobian--vector
+      product through either central-finite-difference at
+      $\varepsilon_{\mathrm{classII\_hess}} = 5\times 10^{-7}$ (default,
+      matching \texttt{backend.hessian\_vec}) or forward-mode JVP via
+      \texttt{torch.func.jvp} with \texttt{torch.autograd.functional.jvp}
+      as graceful fallback. For a real-linear operator $F(\Psi) = A\Psi
+      + B\overline{\Psi}$ on $\mathbb{C}^{n} \cong \mathbb{R}^{2n}$,
+      forward-mode JVP evaluates
+      $\frac{d}{dt}\Big|_{t=0}\!F(\Psi + t\,v) = A\,v + B\,\overline{v}$
+      exactly, at machine precision on \texttt{complex128}. Every other
+      block (bra, fam, lock, shell, nl) is left on its existing
+      analytical path; the \texttt{--backend} flag acts only on the cII
+      arm. The FULL-residual probe routes through
+      \texttt{backend.hessian\_vec} unconditionally and therefore
+      inherits the \texttt{--backend} choice only indirectly, through
+      the cII component of that routine's internal central-FD.
+\item \texttt{--mu2-list CSV} replaces the single
+      \texttt{--mu2 VALUE} driver with a loop over a list of
+      continuation points, each with its own fresh thermal BCC seed
+      built via \texttt{math56\_constants.build\_seed\_bcc}. The
+      canonical Stage $\alpha$ list mirrors the original R-2026-04-22
+      signal window: $\mu^{2} \in \{-1.0, -0.8, -0.6, -0.4, -0.2,
+      -0.1\}$.
+\item \texttt{--cII-off} zeros
+      $(\alpha_{X},\,\beta_{X},\,c_{JJ},\,c_{JK})$ in a cloned
+      \texttt{params} dictionary, prunes \texttt{cII} from the block
+      sweep (its trivially zero-valued report would be
+      malformed under the $\operatorname{antisym}/\lVert\mathcal{J}\rVert$
+      division), and re-runs \texttt{backend.hessian\_vec} on the
+      ablated parameters. This is a structural, not statistical,
+      test: the FULL-residual antisymmetric norm collapsing to the
+      Hermitian precision floor under this switch is the \emph{only}
+      observation compatible with $F_{\mathrm{cII}}$ being the sole
+      anti-Hermitian carrier.
+\end{itemize}
+
+\paragraph{Stage $\alpha$ execution matrix.}
+Four configurations exhaust the orthogonal tests:
+\begin{equation}
+\label{eq:math63-2A3-stage-alpha-matrix}
+\begin{array}{c|cc|cc}
+\text{config}            & \text{backend}  & \text{cII}  & \text{mu2 list}                                   & \text{expected outcome} \\
+\hline
+(\alpha_{\mathrm{A}})    & \text{fd}       & \text{on}   & \{-1.0,\ldots,-0.1\}                              & a(\mathrm{cII})\approx 4.36\!\cdot\!10^{-7}\ \forall\mu^{2}\\
+(\alpha_{\mathrm{B}})    & \text{autograd} & \text{on}   & \{-1.0,\ldots,-0.1\}                              & a(\mathrm{cII})\approx 4.36\!\cdot\!10^{-7}\ \forall\mu^{2}\\
+(\alpha_{\mathrm{C}})    & \text{fd}       & \text{off}  & \{-1.0,\ldots,-0.1\}                              & a(\text{FULL})\lesssim 10^{-13}\ \forall\mu^{2}\\
+(\alpha_{\mathrm{D}})    & \text{autograd} & \text{off}  & \{-1.0,\ldots,-0.1\}                              & a(\text{FULL})\lesssim 10^{-13}\ \forall\mu^{2}\\
+\end{array}
+\end{equation}
+where $a(X) \equiv \lVert\mathcal{J}_{X} - \mathcal{J}_{X}^{\dagger}\rVert_{F}$ is the
+absolute anti-Hermitian Frobenius norm of block $X$. The total probe count is
+$4\,\mathrm{configs}\times 6\,\mu^{2}\mathrm{\text{-}points}\times (6\,\mathrm{blocks}
++ 1\,\mathrm{FULL}) = 168$ per-block evaluations; each is an
+$n_{\mathrm{probes}}=5$ Gaussian probe pass, well within the wall-clock
+budget established for Step (D1) ($\sim 30$ s per single-point six-block
+sweep on an $N=32$ BCC grid with PyTorch CPU backend).
+
+\paragraph{Acceptance condition (Corollary 2A.3 promotion).}
+Let $a_{\alpha_{\mathrm{B}}}(\mathrm{cII}; \mu^{2})$ denote the
+autograd-backed cII anti-Hermitian Frobenius norm at the $\mu^{2}$
+point in configuration $(\alpha_{\mathrm{B}})$, and similarly
+$a_{\alpha_{\mathrm{D}}}(\text{FULL}; \mu^{2})$ for the cII-off
+full-residual norm under autograd in $(\alpha_{\mathrm{D}})$. The
+following two conditions jointly constitute the Stage $\alpha$
+acceptance gate:
+\begin{equation}
+\label{eq:math63-2A3-stage-alpha-gate}
+\bigl|a_{\alpha_{\mathrm{A}}}(\mathrm{cII};\mu^{2})
+    - a_{\alpha_{\mathrm{B}}}(\mathrm{cII};\mu^{2})\bigr|
+    \;\le\;10^{-9}\quad\text{and}\quad
+a_{\alpha_{\mathrm{D}}}(\text{FULL};\mu^{2})
+    \;\le\;10^{-12},\qquad
+    \forall\,\mu^{2}\in\{-1.0,-0.8,-0.6,-0.4,-0.2,-0.1\}.
+\end{equation}
+If both conditions are satisfied simultaneously at every continuation
+point, Corollary~\ref{cor:math63-2A3-cII-sole-carrier} is promoted
+from \emph{empirically verified on one state under finite-difference}
+to \emph{empirically verified across the continuation window under two
+independent Jacobian backends and under structural ablation}. This
+promotion is a prerequisite for the §2D acceptance gate of the Newton-
+Krylov v2.5 solver to be tightened from the current heuristic
+threshold to an explicit operator-level symmetrisation contract on
+$\mathcal{J}_{\mathrm{cII}}$.
+
+\paragraph{Fallback scenarios.}
+Should Eq.~\eqref{eq:math63-2A3-stage-alpha-gate} fail, the following
+fallbacks apply in order of decreasing a priori likelihood:
+\begin{itemize}
+\item[(i)] $|a_{\alpha_{\mathrm{A}}} - a_{\alpha_{\mathrm{B}}}|
+      \gg 10^{-9}$ with $a_{\alpha_{\mathrm{B}}} \ll
+      a_{\alpha_{\mathrm{A}}}$: the Step (D1) signal is a central-FD
+      truncation artefact at $\varepsilon = 5\times 10^{-7}$; the
+      current implementation is retained with an explicit
+      $\varepsilon$-bound documented in §10.5, and the Class II block
+      is declared Hermitian at machine precision. This path is a
+      priori unlikely given the truncation bound
+      $\mathcal{O}(\varepsilon^{2}) \sim 10^{-13}$ lies six decades
+      below the signal, but is formally falsifiable by $(\alpha_{\mathrm{B}})$.
+\item[(ii)] $|a_{\alpha_{\mathrm{A}}} - a_{\alpha_{\mathrm{B}}}|
+      \le 10^{-9}$ but $a_{\alpha_{\mathrm{D}}}(\text{FULL};\mu^{2})
+      > 10^{-12}$: a block other than cII carries residual anti-
+      Hermitian mass that was numerically invisible on the $\mu^{2} =
+      -0.5$ thermal seed of Step (D1); Lemmas
+      \ref{lem:math63-2A3-linear-blocks} and
+      \ref{lem:math63-2A3-nl-wirtinger} require reexamination, with
+      priority on the nl-Wirtinger $B(\Psi)^{\mathrm{T}}$
+      symmetry assumption at the continuation points where the
+      leakage is largest.
+\item[(iii)] A $\mu^{2}$-dependent pattern in $a_{\alpha_{\mathrm{B}}}
+      (\mathrm{cII};\mu^{2})$ with a coherent scaling
+      $\propto(|\mu^{2}|)^{p}$: the signal is genuine but carries
+      additional structural information about the projected-divergence
+      channel's coupling to the Brazovskii mass parameter; follow-up
+      Math64 note documenting the scaling exponent $p$ and its
+      implication for the continuum limit $N \to \infty$.
+\end{itemize}
+
+The Stage $\alpha$ live report and its numerical outcomes are to be
+filed in \texttt{docs/math/TECT-Math64-cII-Stage-Alpha-Audit.tex.txt}
+upon execution, with the raw JSON artefacts retained under
+\texttt{results/stage\_alpha\_\{A,B,C,D\}\_\{fd,autograd\}\_\{on,off\}.json}.
+
+\subsubsection*{§2A.3 Stage $\alpha$ CLOSED: sole-carrier claim promoted to window-level under two backends and structural ablation (2026-04-22)}
+\label{sss:math63-2A3-stage-alpha-closed}
+
+The Stage $\alpha$ four-configuration sweep executed on the user local
+machine (R-2026-04-22-003) via
+\texttt{Tools/check\_jacobian\_blocks.py} v1.2.1 against
+\texttt{PDE/config\_template\_brazovskii.json} with $(N, n_{\text{probes}},
+\sigma, \text{seed}) = (32, 5, 10^{-2}, 42)$ and
+$\mu^{2} \in \{-1.0, -0.8, -0.6, -0.4, -0.2, -0.1\}$ returned the
+crystalline pattern predicted by hypothesis S1, with the additional
+feature that the central-FD and \texttt{torch.func.jvp} paths agree
+at ten-digit precision (bit-identical at the printed resolution):
+
+\begin{equation}
+\boxed{
+\begin{aligned}
+(\alpha_{\mathrm{A}},\ \text{fd},\ \mathrm{cII\ on}):\quad
+  & a_{\mathrm{cII}}(\mu^{2}) = a_{\text{FULL}}(\mu^{2}) = 4.3567\times 10^{-7},\\
+(\alpha_{\mathrm{B}},\ \text{autograd},\ \mathrm{cII\ on}):\quad
+  & a_{\mathrm{cII}}(\mu^{2}) = a_{\text{FULL}}(\mu^{2}) = 4.3567\times 10^{-7},\\
+(\alpha_{\mathrm{C}},\ \text{fd},\ \mathrm{cII\ off}):\quad
+  & a_{\text{FULL}^{*}}(\mu^{2}) = 1.4211\times 10^{-14},\\
+(\alpha_{\mathrm{D}},\ \text{autograd},\ \mathrm{cII\ off}):\quad
+  & a_{\text{FULL}^{*}}(\mu^{2}) = 1.4211\times 10^{-14}.
+\end{aligned}}
+\label{eq:math63-2A3-stage-alpha-result}
+\end{equation}
+
+\noindent at every one of the six $\mu^{2}$ points. The bra/fam/lock/
+shell/nl blocks remain at the Hermitian precision floor
+$\{1.07\times 10^{-14},\ 5.42\times 10^{-20},\ 4.34\times 10^{-19},\ 0,\
+1.06\times 10^{-21}\}$ identically across all four configurations, with
+no observable $\mu^{2}$-dependence (explicit verification of
+Lemmas~\ref{lem:math63-2A3-linear-blocks} and
+\ref{lem:math63-2A3-nl-wirtinger} across the continuation window).
+
+The acceptance-gate Eq.~\eqref{eq:math63-2A3-stage-alpha-gate}
+evaluates to
+\[
+\bigl|a_{\alpha_{\mathrm{A}}}(\mu^{2}) - a_{\alpha_{\mathrm{B}}}(\mu^{2})\bigr|
+  = 0
+  \ \le\ 10^{-9}
+  \quad \wedge\quad
+a_{\alpha_{\mathrm{D}}}(\text{FULL}^{*};\mu^{2})
+  = 1.421\times 10^{-14}
+  \ \le\ 10^{-12}
+  \qquad
+  \forall\mu^{2},
+\]
+with the second inequality cleared by two decades. The gate is
+satisfied with margin; none of the three fallback branches
+(FD artefact, non-cII leakage, $\mu^{2}$-dependent scaling) is
+triggered.
+
+\begin{theorem}[Stage $\alpha$ closure, sole-carrier at window level]
+\label{thm:math63-2A3-stage-alpha-closure}
+Let $\mathcal{W} = \{-1.0, -0.8, -0.6, -0.4, -0.2, -0.1\}$ be the
+$\mu^{2}$ continuation window and let
+$a_{X}(\mu^{2}) \equiv \lVert \mathcal{J}_{X}(\Psi_{\mu^{2}}) -
+\mathcal{J}_{X}(\Psi_{\mu^{2}})^{\dagger}\rVert_{F}$ be the absolute
+anti-Hermitian Frobenius norm of block $X$ evaluated on the thermal
+BCC seed at $\mu^{2}$ with the canonical seeding parameters. Then,
+using the Jacobian-vector backend $\mathcal{B} \in
+\{\text{central-FD at } \varepsilon = 5\times 10^{-7},\
+\texttt{torch.func.jvp}\}$:
+\begin{enumerate}
+\item[\textnormal{(I)}] $a_{X}(\mu^{2}) \le 10^{-13}$ for every
+    $X \in \{\mathrm{bra}, \mathrm{fam}, \mathrm{lock}, \mathrm{shell},
+    \mathrm{nl}\}$, every $\mu^{2} \in \mathcal{W}$, and both backends.
+\item[\textnormal{(II)}] $a_{\mathrm{cII}}(\mu^{2}) = 4.357\times 10^{-7}$
+    for every $\mu^{2} \in \mathcal{W}$ and both backends, with
+    backend-to-backend variation below the printed ten-digit
+    resolution.
+\item[\textnormal{(III)}] $a_{\text{FULL}}(\mu^{2})
+    = a_{\mathrm{cII}}(\mu^{2})$ to ten decimals under both backends,
+    i.e.\ every anti-Hermitian component of the total Jacobian flows
+    from $F_{\mathrm{cII}}$.
+\item[\textnormal{(IV)}] Ablating $F_{\mathrm{cII}}$ structurally
+    (zeroing $\{\alpha_{X}, \beta_{X}, c_{JJ}, c_{JK}\}$ in a
+    \texttt{params} clone) collapses $a_{\text{FULL}^{*}}(\mu^{2})$
+    to $1.421\times 10^{-14}$ at every $\mu^{2}$ and under both
+    backends.
+\end{enumerate}
+Therefore Corollary~\ref{cor:math63-2A3-cII-sole-carrier} (Sole
+Carrier) is promoted from "empirically verified on a single state
+under FD" to "empirically verified across the continuation window
+$\mathcal{W}$ under two independent Jacobian-vector backends and
+under structural ablation". Hypotheses $S_{2}$ (inter-block coupling)
+and $S_{3}$ (Nyquist-mode aliasing) are falsified on $\mathcal{W}$.
+\end{theorem}
+
+\begin{proof}[Remark on FD antisym-invariance]
+The ten-digit $\alpha_{\mathrm{A}} = \alpha_{\mathrm{B}}$ identity is
+not an accident but a structural feature of central finite differences
+applied to a Wirtinger-type $\mathbb{R}$-linear operator. The central-
+FD estimate of the Jacobian-vector product is
+\[
+\mathcal{J}_{\mathrm{cII}}^{\mathrm{FD}}(v)
+  = \frac{F_{\mathrm{cII}}(\Psi + \varepsilon v) -
+          F_{\mathrm{cII}}(\Psi - \varepsilon v)}{2\varepsilon}
+  = \mathcal{J}_{\mathrm{cII}}^{\mathrm{true}}(v)
+  + \tfrac{1}{6}\varepsilon^{2}\, D^{3}F_{\mathrm{cII}}[v,v,v]
+  + \mathcal{O}(\varepsilon^{4}).
+\]
+The cubic Taylor coefficient $D^{3}F_{\mathrm{cII}}[v,v,v]$ is totally
+symmetric in its three $v$-arguments by Clairaut's theorem applied to
+the Fréchet derivative of $F_{\mathrm{cII}}$, so it defines a
+\emph{symmetric} trilinear operator. When projected onto the
+real-self-adjoint criterion $\operatorname{Re}\langle u, \mathcal{J}v
+\rangle$, such a symmetric trilinear contribution enters only the
+Hermitian part of $\mathcal{J}_{\mathrm{cII}}^{\mathrm{FD}}$ and is
+invisible to the anti-Hermitian norm $\lVert \mathcal{J} -
+\mathcal{J}^{\dagger}\rVert_{F}$. Hence FD truncation at
+$\varepsilon = 5\times 10^{-7}$ is antisym-invariant, and the
+ten-digit match between $\alpha_{\mathrm{A}}$ and $\alpha_{\mathrm{B}}$
+is the expected signature of a genuine operator-structural defect
+rather than a numerical agreement by coincidence. $\square$
+\end{proof}
+
+\begin{corollary}[State-independence of the cII anti-Hermitian mass]
+\label{cor:math63-2A3-cII-state-independence}
+The absolute anti-Hermitian Frobenius norm
+$a_{\mathrm{cII}} = 4.357\times 10^{-7}$ is $\mu^{2}$-independent at
+machine precision across $\mathcal{W}$. At the linearisation point
+$\Psi_{\mu^{2}}^{\mathrm{th}}$ produced by
+\texttt{build\_seed\_bcc(mode="thermal",\,sigma=0.01,\,seed=42)}, the
+cII operator-structural defect does not depend on the Brazovskii
+mass parameter. The structural-vs-physical distinction between
+relative and absolute observables is critical: the relative ratio
+$a_{\mathrm{cII}}/\lVert\mathcal{J}_{\text{FULL}}\rVert_{F} =
+1.621\times 10^{-10}$ at thermal $\Psi$ lies safely below the
+§2A.1 threshold $10^{-8}$, so the full operator classifies SYM-PD
+at physical states. The $2.66\times 10^{-4}$ Stage-[4/4] signal on
+v2.5.5–v2.5.7 was an iterate-norm artefact of the Phase D
+PLACEHOLDER, not a physical property of the continuation
+trajectory.
+\end{corollary}
+
+The full audit record, including the per-$\mu^{2}$ seven-row tables
+for all four configurations, the Wirtinger decomposition of
+$\mathcal{J}_{\mathrm{cII}}$, and the downstream implications for
+§2D, is filed in \texttt{docs/math/TECT-Math64-cII-Stage-Alpha-Audit
+.tex.txt} (companion note to the present §2A.3). The §2D acceptance
+gate of v2.6 Phase D will be reformulated as an explicit absolute
+bound $a_{\mathrm{cII}}(\Psi) \le \tau_{\text{struct}}$ with
+$\tau_{\text{struct}} \in [10^{-6}, 10^{-5}]$ (tuning in Math64
+§3), in place of the relative ratio criterion that is polluted by
+iterate-norm fluctuations.
+
+\paragraph{CLI invocation note (tool v1.2.1, 2026-04-22).}
+Python's \texttt{argparse} refuses to accept a value that begins with
+\texttt{-} (e.g.\ \texttt{-1.0,-0.8,-0.6,-0.4,-0.2,-0.1}) as the
+argument of a string-typed option when given in the space-separated
+form, because it cannot disambiguate between an option-value that
+happens to look negative and an unknown optional flag. The published
+Stage $\alpha$ invocation
+\texttt{--mu2-list -1.0,-0.8,-0.6,-0.4,-0.2,-0.1} therefore triggered
+\texttt{error: argument --mu2-list: expected one argument} on the
+first user-machine attempt. Tool v1.2 $\to$ v1.2.1 adds the helper
+\texttt{\_glue\_negative\_list\_value(argv, option\_name)} which
+preprocesses \texttt{sys.argv[1:]} inside \texttt{main()} before
+\texttt{parser.parse\_args(\ldots)} runs, folding any occurrence of
+\texttt{--mu2-list <neg-csv>} into the equals-sign form
+\texttt{--mu2-list=<neg-csv>}. Both invocation forms are now accepted;
+already-equals-sign-formatted invocations and positive-numerical CSVs
+are passed through untouched. No change to the Math63 §2A.1 probe
+policy or §2A.3 Stage $\alpha$ acceptance condition
+(Eq.~\eqref{eq:math63-2A3-stage-alpha-gate}); self-test retains 5/5
+PASS at Hermitian precision floor, and a dedicated 6/6 glue-function
+unit test covers the full token-pattern grid.
+
+\begin{remark}[Scope]
+§2A.3 is a \emph{diagnostic framework}, not a physics claim. It
+introduces no new pillar, no new Lagrangian term, and no parameter
+change to the Math56-Addendum constants. Its sole output is a
+classification of which of the six additive residual blocks is
+responsible for \eqref{eq:math63-2A3-signal}, together with an
+explicit fallback plan (D1)--(D5). Task ledger: \#109 (approved
+2026-04-22), Step (D1) closed 2026-04-22 (S1 confirmed,
+Corollary~\ref{cor:math63-2A3-cII-sole-carrier}), Stage $\alpha$
+plan sealed 2026-04-22 (v1.5, tool v1.2 AST-parse clean + self-
+test 5/5 PASS), Stage $\alpha$ live-executed and CLOSED
+2026-04-22 (v1.6; tool v1.2.1;
+Theorem~\ref{thm:math63-2A3-stage-alpha-closure} and
+Corollary~\ref{cor:math63-2A3-cII-state-independence} added;
+$S_{2}$/$S_{3}$ falsified on $\mathcal{W}$). Steps (D2) and
+(D5) retained as confirmatory; (D3) subsumed by Stage $\alpha$;
+(D4) subsumed by cII-off ablation ($\alpha_{\mathrm{C,D}}$).
+Task \#104 (v2.6.0 Phase D wiring) unblocked conditional on the
+§2D absolute-bound gate reformulation being drafted.
+\end{remark}
+
+\subsubsection*{§2A.3 Post-closure verdict: full-operator SYM-PD classification and solver-routing refinement (2026-04-22)}
+\label{sss:math63-2A3-post-closure-verdict}
+
+Although Theorem~\ref{thm:math63-2A3-stage-alpha-closure} establishes
+the \emph{absolute} identity $a_{\mathrm{FULL}} = a_{\mathrm{cII}} =
+4.357\times 10^{-7}$ across $\mathcal{W}$, the §2A.1 probe classifier
+operates on the \emph{relative} anti-Hermitian ratio
+$\operatorname{antisym}/\lVert\mathcal{J}\rVert_{F}$. Direct extraction
+from the $\alpha_{\mathrm{B}}$ artefact at every
+$\mu^{2}\in\mathcal{W}$ returns
+\begin{equation}
+\boxed{
+\begin{aligned}
+\frac{\operatorname{antisym}}{\lVert\mathcal{J}\rVert_{F}}
+  (\mathrm{FULL},\ \mathrm{cII\ on}) &\approx 1.6209\times 10^{-10},\\
+\frac{\operatorname{antisym}}{\lVert\mathcal{J}\rVert_{F}}
+  (\mathrm{cII\ block}) &\approx 5.8371\times 10^{-3},\\
+\frac{\operatorname{antisym}}{\lVert\mathcal{J}\rVert_{F}}
+  (\mathrm{FULL}^{*},\ \mathrm{cII\ off}) &\approx 5.29\times 10^{-18}.
+\end{aligned}}
+\label{eq:math63-2A3-full-rel-ratio}
+\end{equation}
+The FULL relative ratio lies eight decades below the §2A.1
+classification threshold $\tau_{\mathrm{rel}} = 10^{-8}$ across the
+entire continuation window under both Jacobian-vector backends. In
+operational terms,
+\[
+\boxed{
+  \text{$\mathcal{J}_{\text{FULL}}$ classifies as SYM-PD at every
+    $\mu^{2}\in\mathcal{W}$ under the §2A.1 probe.}
+}
+\]
+The scale explanation is that
+$\lVert\mathcal{J}_{\text{FULL}}\rVert_{F} \approx 2.7\times 10^{+3}$
+at the thermal seed $\Psi_{\mu^{2}}^{\mathrm{th}}$; the cII block's
+absolute anti-Hermitian mass $4.357\times 10^{-7}$, while entirely
+responsible for the absolute signal, is too small to exceed the
+relative threshold at the full-operator level. The isolation
+identity of Theorem~\ref{thm:math63-2A3-stage-alpha-closure}(III) is
+physically real at the block level and operationally inert at the
+full-operator level under §2A.1.
+
+\begin{corollary}[Stage-$\alpha$ solver routing refinement]
+\label{cor:math63-2A3-solver-routing}
+Under the §2A.1 probe applied to $\mathcal{J}_{\text{FULL}}$ at the
+canonical thermal seed $\Psi_{\mu^{2}}^{\mathrm{th}}$ on
+$\mathcal{W}$, the adaptive inner-solver switch of §2B.Algorithm~1
+returns SPD at every $\mu^{2}$ and both backends. Hence the inner
+Krylov default promoted by Stage $\alpha$ is
+\[
+\boxed{
+  \text{default}\ =\ \mathrm{PCG},\qquad
+  \text{fallback}_{1}\ =\ \mathrm{MINRES},\qquad
+  \text{fallback}_{2}\ =\ \mathrm{FGMRES}.
+}
+\]
+FGMRES is demoted from "asymmetric primary" to "strict last resort";
+it is not reached on the Stage $\alpha$ continuation window at
+seed level.
+\end{corollary}
+
+\begin{remark}[Seed-level vs iterate-level scope]
+\label{rmk:math63-2A3-iterate-scope}
+Corollary~\ref{cor:math63-2A3-solver-routing} is a
+\emph{seed-level / Stage-$\alpha$} statement, not an iterate-level
+closure. Algorithm~\ref{alg:math63-2B-choose-inner-solver}
+re-runs the §2A.1 probe every fifth Newton iteration; any indefinite
+Rayleigh sign flip or violation of the SYM-PD classifier at an actual
+Newton iterate must re-route to MINRES from that iterate onward. The
+explicit verification at Newton iterations $k \in \{0, 3, 6\}$ after
+Task \#104 (v2.6.0 Phase D wiring) activates the real Newton-Krylov
+loop is elevated to a mandatory post-wiring confirmatory step; a
+persistent SYM-PD classification there closes the routing verdict at
+iterate level. FGMRES remains the architected fallback and requires
+no code removal.
+\end{remark}
+
+\begin{definition}[Decisive cII grad-vs-impl diagnostic test]
+\label{def:math63-2A3-cII-decisive-test}
+Let $E_{\mathrm{cII}}[\Psi]$ denote the scalar Class-II energy
+functional whose projected Euler-Lagrange variation was intended to
+yield $F_{\mathrm{cII}}$, and let $F_{\mathrm{cII}}^{\mathrm{impl}}$
+denote the assembled residual contribution of the current BCC
+backend \texttt{real\_backend\_pt\_bcc\_mixed\_v3._classII\_
+effective\_term\_t}. Define the autograd comparator
+\[
+F_{\mathrm{cII}}^{\mathrm{grad}}
+  := \nabla_{\!\Psi} E_{\mathrm{cII}}[\Psi]
+   = \operatorname{\texttt{autograd.grad}}\!\left(
+       E_{\mathrm{cII}}[\Psi],\, \Psi,\,
+       \text{create\_graph}{=}\text{False}\right).
+\]
+The decisive test evaluates the three observables
+\begin{equation}
+\Delta_{\mathrm{cII}}
+  := \lVert F_{\mathrm{cII}}^{\mathrm{impl}}
+     - F_{\mathrm{cII}}^{\mathrm{grad}}\rVert_{F},\qquad
+r^{\mathrm{impl}}_{\mathrm{cII}}
+  := \frac{\operatorname{antisym}}{\lVert\mathcal{J}\rVert_{F}}
+      \bigl(F_{\mathrm{cII}}^{\mathrm{impl}}\bigr),\qquad
+r^{\mathrm{grad}}_{\mathrm{cII}}
+  := \frac{\operatorname{antisym}}{\lVert\mathcal{J}\rVert_{F}}
+      \bigl(F_{\mathrm{cII}}^{\mathrm{grad}}\bigr)
+\label{eq:math63-2A3-decisive-observables}
+\end{equation}
+at the canonical thermal BCC seed and at every $\mu^{2}\in\mathcal{W}$.
+\end{definition}
+
+\begin{proposition}[cII-surgery gate]
+\label{thm:math63-2A3-cII-surgery-gate}
+The outcome of the decisive test
+(Definition~\ref{def:math63-2A3-cII-decisive-test}) partitions the
+Math64 resolution ladder $\{(X),(Y),(Z)\}$ as follows.
+\begin{itemize}
+\item[\textnormal{(Case 1, assembly bug)}] If
+    $\Delta_{\mathrm{cII}} > \varepsilon_{\mathrm{mach}}\cdot
+    \lVert F_{\mathrm{cII}}^{\mathrm{grad}}\rVert_{F}$ and
+    $r^{\mathrm{grad}}_{\mathrm{cII}} \le \tau_{\mathrm{rel}} = 10^{-8}$
+    while $r^{\mathrm{impl}}_{\mathrm{cII}} \approx 5.84\times 10^{-3}$,
+    then the anti-Hermitian mass is localised in the
+    \emph{implementation} of the projected-divergence assembly, not
+    in $E_{\mathrm{cII}}$ or $\Pi_{\mathrm{channel}}$. Resolution:
+    patch \texttt{\_classII\_effective\_term\_t} to match the
+    autograd reference; Math64 (X)/(Y) are unnecessary.
+\item[\textnormal{(Case 2, design defect)}] If both
+    $r^{\mathrm{grad}}_{\mathrm{cII}}$ and
+    $r^{\mathrm{impl}}_{\mathrm{cII}}$ exceed $\tau_{\mathrm{rel}}$
+    by comparable margins (say $r^{\mathrm{grad}}_{\mathrm{cII}}
+    \gtrsim 10^{-3}$), then the anti-Hermitian mass is inherent to
+    the \emph{design} of $E_{\mathrm{cII}}$ or $\Pi_{\mathrm{channel}}$.
+    Resolution: proceed with Math64 (Y) Euler-Lagrange rewrite as
+    the mandatory rigorous path; Math64 (X) in-solver symmetrisation
+    is a permissible numerical stopgap only if (Y) is deferred.
+\end{itemize}
+The cII-surgery branch cannot be selected without executing the
+decisive test; (X)/(Y)/(Z) are blocked until
+Eqs.~\eqref{eq:math63-2A3-decisive-observables} are reported.
+\end{proposition}
+
+\begin{remark}[Parallelism with Corollary~\ref{cor:math63-2A3-solver-routing}]
+The solver-routing verdict (PCG default) and the cII-surgery
+diagnostic (Definition~\ref{def:math63-2A3-cII-decisive-test}) are
+\emph{independent} workstreams and may proceed in parallel.
+Corollary~\ref{cor:math63-2A3-solver-routing} is operationally
+sufficient for Task \#104 (v2.6.0 Phase D wiring) at seed level;
+the cII operator-surgery decision (Math65) is a theory-consolidation
+task that can be completed after v2.6.0 is running. No solver code
+path is blocked on the outcome of the decisive test.
+\end{remark}
+
+\subsection{Subsection B: Adaptive Inner-Solver Switch}
+
+\begin{algorithm}
+  \caption{Choose Inner Krylov Solver (per Newton iteration)}
+  \label{alg:math63-2B-choose-inner-solver}
+  \begin{algorithmic}[1]
+    \State \textit{[Stage-$\alpha$ 2026-04-22 annotation: Corollary~\ref{cor:math63-2A3-solver-routing} establishes that the \texttt{SPD} branch fires at every $\mu^{2}\in\mathcal{W}$ under the canonical thermal seed, making \texttt{PCG} the default seed-level inner solver. The \texttt{asymmetric}/FGMRES branch remains architected but is not reached on the Stage-$\alpha$ window at seed level.]}
+    \State If Newton iteration $\equiv 0 \pmod{5}$, run symmetry probe (§A). Else use cached classification.
+    \If{cached classification == SPD}
+      \State Return $\texttt{PCG}$ with Jacobian-diagonal preconditioning.
+    \ElsIf{cached classification == symmetric-indefinite}
+      \State Return $\texttt{MINRES}$ with diagonal preconditioning.
+    \ElsIf{cached classification == asymmetric}
+      \State Return $\texttt{FGMRES}(m=50)$ with Brazovskii preconditioner.
+    \Else
+      \State Return $\texttt{FGMRES}(m=50)$ with Brazovskii preconditioner (fallback).
+    \EndIf
+  \end{algorithmic}
+\end{algorithm}
+
+\subsubsection{Solver Specifications}
+
+\textbf{PCG (Preconditioned CG)}
+\begin{itemize}
+  \item Algorithm: Hestenes-Stiefel, restart after $m_{\mathrm{PCG}}=N_x\times N_y\times N_z$ steps (automatic at dimension).
+  \item Preconditioner: $P=\mathrm{diag}(\partial^2 F/\partial \phi_i^2)$ (diagonal, cheap to compute and invert).
+  \item Tolerance: governed by $\eta_k$ (see §D).
+  \item Breakdown detection: if $\langle\mathbf{p},\mathcal{J}\mathbf{p}\rangle\le 0$ (indefinite direction), **abort CG, switch to FGMRES** and retry step.
+\end{itemize}
+
+\textbf{MINRES (Minimal Residual)}
+\begin{itemize}
+  \item Algorithm: Paige-Saunders, handles symmetric indefinite matrices.
+  \item Preconditioner: same diagonal $P$.
+  \item Restart: none (MINRES is non-restart but $O(N)$ memory; at N=32, feasible).
+  \item Advantage: guaranteed convergence for symmetric matrices, even with negative eigenvalues.
+  \item Disadvantage: $O(N)$ memory overhead vs. restarted GMRES.
+\end{itemize}
+
+\textbf{FGMRES (Flexible GMRES)}
+\begin{itemize}
+  \item Algorithm: GMRES with **variable preconditioner** per restart cycle.
+  \item Restart parameter: $m=50$.
+  \item Preconditioner: $P^{-1}$ Fourier-diagonal Brazovskii (§C).
+  \item Advantage: asymmetric-friendly; can mix preconditioner types mid-solve.
+  \item Standard fallback: if symmetry probe is uncertain or fails, default to FGMRES.
+\end{itemize}
+
+\subsection{Subsection C: Fourier-Diagonal Brazovskii Preconditioner}
+
+\subsubsection{Design and Derivation}
+
+The Brazovskii free energy has the Hessian (second functional derivative):
+$$\mathcal{J}(\mathbf{k})=\frac{\delta^2 F}{\delta \phi(\mathbf{k})\delta \phi^*(\mathbf{k})}\approx [(\mathbf{k}^2-q_0^2)^2+\mu^2]\mathbb{I}+O(\phi^2).$$
+
+In the linear regime (early Newton iterations where $\|\phi\|$ is small), we neglect the cubic term. The Fourier-space inverse is:
+$$P^{-1}(\mathbf{k})=\frac{1}{(\mathbf{k}^2-q_0^2)^2+m_{\mathrm{reg}}^2+\sigma}.$$
+
+Here:
+\begin{itemize}
+  \item $m_{\mathrm{reg}}^2=10^{-4}$ (regularization at shell to avoid division by zero).
+  \item $\sigma=\mu^2_{\mathrm{current}}$ (μ²-dependent shift to track the continuation parameter).
+\end{itemize}
+
+\textbf{Application} (per Krylov iteration):
+\begin{enumerate}
+  \item Compute $\hat{\mathbf{r}}=\text{FFT}(\mathbf{r})$ (Fourier transform of residual).
+  \item Apply $\hat{\mathbf{z}}(\mathbf{k})=P^{-1}(\mathbf{k})\cdot\hat{\mathbf{r}}(\mathbf{k})$ (pointwise multiplication).
+  \item Compute $\mathbf{z}=\text{IFFT}(\hat{\mathbf{z}})$ (inverse FFT).
+  \item Return $\mathbf{z}$ as the preconditioned residual.
+\end{enumerate}
+
+**Complexity**: O(N log N) per application (three FFT calls: forward, multiply, inverse). Dominant cost for v2.5 solver.
+
+\subsubsection{Verification of Linearity}
+
+Self-test (in \texttt{PDE/bz\_preconditioner.py} \texttt{if \_\_name\_\_ == \'\_\_main\_\_\':}):
+\begin{align}
+  P^{-1}(\alpha \mathbf{v}+\beta\mathbf{w}) &\stackrel{?}{=} \alpha P^{-1}(\mathbf{v})+\beta P^{-1}(\mathbf{w})
+\end{align}
+Spot-check over 10 random $(\alpha,\beta,\mathbf{v},\mathbf{w})$ tuples; verify to 1e-14 (double-precision limit).
+
+\subsubsection{Scaling Analysis}
+
+Verify O(N log N) empirically:
+\begin{itemize}
+  \item Time $P^{-1}\mathbf{v}$ for $N\in\{16,32,64\}$.
+  \item Plot wall-clock vs. $N\log N$. Slope should be within 5% of linear.
+  \item Record in diagnostic log.
+\end{itemize}
+
+\subsection{Subsection D: Staged Tolerance Schedule}
+
+The Newton tolerance target is fixed at $\mathrm{tol}=1e^{-8}$. However, the **inner Krylov tolerance** $\tau_k$ is relaxed early and tightened late:
+
+\begin{definition}[Staged Tolerance]
+\begin{align}
+  k\in[0,2] &\Rightarrow \tau_k=10^{-6}, \quad \text{(exploratory)} \\
+  k\in[3,5] &\Rightarrow \tau_k=10^{-8}, \quad \text{(branch-lock)}, \\
+  k\in[6,\infty) &\Rightarrow \tau_k=10^{-10}. \quad \text{(certification)}
+\end{align}
+\end{definition}
+
+The Eisenstat-Walker forcing $\eta_k$ is then:
+$$\eta_k=\min\left(\eta_{\max},\max\left(\eta_{\min},\frac{\|F_k\|}{\|F_{k-1}\|}\right)\right),$$
+where $\eta_{\min}=0.01$ and $\eta_{\max}=0.9$. Inner Krylov tolerance becomes $\tau_k^{\mathrm{EW}}=\eta_k \cdot \tau_k$.
+
+\textbf{Rationale}: Early iterations may not be near a solution; loose inner tolerance saves cost. Iterations 3-5 lock the branch (Jacobian stable); certification iterations 6+ demand high accuracy.
+
+\subsection{Subsection E: Stagnation Hard-Abort}
+
+\begin{definition}[Stagnation Trigger]
+If 3 **consecutive** Newton steps all result in $t_{\mathrm{Krylov}}=t_{\mathrm{max}}$ (GMRES/CG/MINRES inner iteration count hits the budget), set $G_{\mathrm{stall}}=\texttt{FALSE}$ and **terminate with diagnostic dump**.
+\end{definition}
+
+\textbf{Output on stagnation}:
+\begin{itemize}
+  \item Last 5 Newton iterates $\{\phi^{(k-4)},\ldots,\phi^{(k)}\}$ (saved to disk).
+  \item Jacobian spectrum sample (Lanczos on $\mathcal{J}$ at current $\phi$, 10 eigenvalues).
+  \item Residual Fourier profile $|\hat{F}(\mathbf{k})|$ (to identify dominant wavenumbers).
+  \item Newton iteration summary table (as in R-2026-04-21-002).
+  \item Recommendation for user: increase Newton budget, lower μ², or escalate to multigrid preconditioner.
+\end{itemize}
+
+\textbf{Rationale}: Prevents the v2.4 failure mode of spinning at ρ_lin≈0.6 indefinitely. Honest failure is better than false convergence.
+
+---
+
+\section{Module APIs and Implementation}
+
+This section describes the public interfaces for code modules created in Stage 2.
+
+\subsection{Module 1: \texttt{PDE/math56\_constants.py} — Single Source of Truth}
+
+\textbf{Purpose}: Consolidate Brazovskii/separatrix constants. Imported by all solvers, preconditioners, and tests.
+
+\textbf{Exports}:
+\begin{lstlisting}[language=Python]
+# Brazovskii parameters (fixed)
+LAMBDA = -0.43
+GAMMA = 1.62
+K6 = 2.5  # i.e., 5/2
+
+# Separatrix critical points
+PHI_PLUS = 0.2538
+PHI_MINUS = 0.0799
+ALPHA_SEP = 0.3150
+
+# Critical μ² thresholds (from v24_thresholds)
+R_C_GLOBAL = LAMBDA**2 / (10 * GAMMA)  # ≈ 0.01141
+R_C_META = 2 * LAMBDA**2 / (15 * GAMMA)  # ≈ 0.01521
+
+# Shell center
+Q0 = 1.0
+
+# Default seed amplitude
+PHI_0_DEFAULT = 0.266049
+
+# Functions
+def assert_consistency():
+    """Verify R_C values and φ_± satisfy saddle condition to 1e-4."""
+    pass
+
+def build_seed(N, mode='thermal'|'cold'|'minimum', sigma=...):
+    """Factory: return torch.tensor seed consistent across all scripts."""
+    pass
+\end{lstlisting}
+
+\textbf{Unit tests}:
+\begin{itemize}
+  \item Verify R_C_GLOBAL and R_C_META match analytical formula to 1e-10.
+  \item Verify φ_+ and φ_− are roots of ∂V/∂φ = 0 to 1e-6.
+  \item Verify Q0=1.0 matches first-shell BCC spacing (lattice units).
+\end{itemize}
+
+\subsection{Module 2: \texttt{PDE/bz\_preconditioner.py} — Fourier-Diagonal Brazovskii Preconditioner}
+
+\textbf{Public class}:
+\begin{lstlisting}[language=Python]
+class BrazovskiiPreconditioner:
+    def __init__(self, N, q0, sigma_fn, m_reg_sq=1e-4,
+                 device='cpu', dtype=torch.float64):
+        """
+        Args:
+            N: grid dimension (N^3 cube assumed)
+            q0: shell center (default 1.0)
+            sigma_fn: callable(mu2_current) -> float (μ²-dependent shift)
+            m_reg_sq: regularization at shell (default 1e-4)
+            device: 'cpu' or 'cuda'
+            dtype: torch.float32 or torch.float64
+        """
+        pass
+
+    def __call__(self, r):
+        """Apply P^{-1} to residual r (torch.Tensor, shape (N,N,N))."""
+        # FFT -> multiply -> IFFT
+        # Return P^{-1}(r) as torch.Tensor
+        pass
+
+    def update_sigma(self, mu2_current):
+        """Refresh σ = μ² for current continuation point."""
+        pass
+\end{lstlisting}
+
+\textbf{Self-test} (in \texttt{if \_\_name\_\_ == \'\_\_main\_\_\':}):
+\begin{itemize}
+  \item Linearity: verify $P^{-1}(\alpha\mathbf{v}+\beta\mathbf{w})=\alpha P^{-1}(\mathbf{v})+\beta P^{-1}(\mathbf{w})$ to 1e-14.
+  \item Timing: measure wall-clock for $N\in\{16,32,64\}$ and verify O(N log N).
+\end{itemize}
+
+\subsection{Module 3: \texttt{tools/check\_jacobian\_symmetry.py} — Jacobian Probe Tool}
+
+\textbf{Public function}:
+\begin{lstlisting}[language=Python]
+def probe_symmetry(residual_fn, x0, n_probes=5, eps=1e-6):
+    """
+    Classify Jacobian symmetry via finite-difference probes.
+
+    Args:
+        residual_fn: callable(φ) -> F (returns residual)
+        x0: current iterate φ (torch.Tensor or numpy)
+        n_probes: 3, 5, or 7 (default 5)
+        eps: FD step size (default 1e-6)
+
+    Returns: dict with keys {
+        'symmetric': bool (passes antisymmetry + PD test),
+        'indefinite': bool (passes antisymmetry but not PD),
+        'asymmetric': bool (fails antisymmetry),
+        'rayleigh_samples': list of ⟨u, Ju⟩ values,
+        'antisymmetry_norm': float (max|⟨u,Jv⟩ - ⟨Ju,v⟩| / ‖J‖),
+        'probe_labels': list of probe indices used,
+    }
+    """
+    pass
+\end{lstlisting}
+
+\textbf{CLI usage}:
+\begin{lstlisting}[language=bash]
+python tools/check_jacobian_symmetry.py \
+  --residual-fn "real_backend_pt_bcc_mixed_v3:residual_bcc" \
+  --x0 /path/to/phi_star.npy \
+  --config config.json \
+  --n-probes 5
+\end{lstlisting}
+
+\subsection{Module 4: \texttt{PDE/continuation\_mu2\_v25.py} — Main Adaptive Continuation}
+
+\textbf{Pseudocode structure}:
+\begin{algorithm}
+  \caption{v2.5 Continuation Main Loop}
+  \begin{algorithmic}[1]
+    \For{each point $\mu_k^2$ in schedule}
+      \State Load or initialize $\phi_0$ (seed).
+      \State $\phi_{\mathrm{current}} \gets \phi_0$.
+      \State $G_{\mathrm{stall}} \gets \texttt{TRUE}$.
+      \State $\mathrm{stag\_count} \gets 0$.
+      \For{Newton iteration $n = 0, 1, \ldots, N_{\max}$}
+        \If{$n \equiv 0 \pmod{5}$}
+          \State Probe Jacobian symmetry (Module 3).
+          \State Cache classification (SPD/indef/asymmetric).
+        \EndIf
+        \State Select Krylov solver: PCG/MINRES/FGMRES (based on cached class).
+        \State Solve $\mathcal{J}\delta\phi = F(\phi_{\mathrm{current}})$ via chosen Krylov method.
+        \If{Krylov solver hit $t_{\max}$ (budget exhausted)}
+          \State $\mathrm{stag\_count} \gets \mathrm{stag\_count} + 1$.
+        \Else
+          \State $\mathrm{stag\_count} \gets 0$.
+        \EndIf
+        \If{$\mathrm{stag\_count} \ge 3$}
+          \State Dump diagnostics (iterates, spectrum, residual profile).
+          \State $G_{\mathrm{stall}} \gets \texttt{FALSE}$; **ABORT**.
+        \EndIf
+        \State $\phi_{\mathrm{current}} \gets \phi_{\mathrm{current}} + \delta\phi$.
+        \If{$\|F(\phi_{\mathrm{current}})\| < \mathrm{tol}$}
+          \State **CONVERGED**; exit Newton loop.
+        \EndIf
+      \EndFor
+      \If{converged $\land G_{\mathrm{stall}}$}
+        \State Run Phase 2 (Lanczos spectral gap).
+        \State Run Phase 3 (energy comparison).
+        \State Log results; advance to next $\mu_k^2$.
+      \Else
+        \State Log failure; set gate $G_{\mathrm{stall}} \gets \texttt{FALSE}$.
+      \EndIf
+    \EndFor
+  \end{algorithmic}
+\end{algorithm}
+
+\textbf{CLI usage}:
+\begin{lstlisting}[language=bash]
+python PDE/continuation_mu2_v25.py \
+  --config config_mu2_target_5e3.json \
+  --N 32 \
+  --diagnostic \  # 6-point sweep: μ² ∈ {-1.0, -0.8, -0.6, -0.4, -0.2, -0.1}
+  --output runs/R-2026-04-22-001-newton-krylov-v25-diagnostic/
+\end{lstlisting}
+
+\textbf{Output}: JSON manifest with per-point Newton iteration count, inner tCG, wall-clock, convergence rates, Phase 2/3 results, gate decisions.
+
+---
+
+\section{Acceptance Criteria for v2.5 Diagnostic}
+
+\subsection{Success Threshold (single point μ²=−1.0)}
+
+The diagnostic **must** achieve all of the following at $\mu^2=-1.0$ (same point where v2.4 failed):
+
+\begin{center}
+\begin{tabular}{|l|c|c|}
+\hline
+\textbf{Metric} & \textbf{v2.4 (failure)} & \textbf{v2.5 (success target)} \\
+\hline
+Newton iterations & 37+ (stalled) & $\le 8$ \\
+Inner tCG (GMRES) & 15000 per step ≥5 & $\le 300$ max \\
+Final $\rho_{\mathrm{lin}}$ (quadratic phase) & 0.6 (linear) & $\le 0.05$ \\
+$\eta_{\mathrm{EW}}$ trajectory & saturates at 0.5 & decreases smoothly; ends $\le 0.1$ \\
+Wall-clock per point (CPU) & N/A (failed) & $\le 120$ s (Phase 0+Newton+Phase 2+3) \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Sweep Success (six points)}
+
+Run diagnostic sweep over $\mu^2 \in \{-1.0, -0.8, -0.6, -0.4, -0.2, -0.1\}$:
+\begin{itemize}
+  \item All 6 points **must converge** (no stagnation triggers).
+  \item All 6 points $\le 8$ Newton iterations (trending toward 3–5 as μ² increases).
+  \item All 6 points $\le 300$ inner tCG.
+  \item **One point fails** → v2.5 design is incomplete; escalate to multigrid (v2.6).
+\end{itemize}
+
+\subsection{Wall-Clock Budget}
+
+Diagnostic sweep must complete in $\le 10$ minutes wall-clock on a 4-core CPU (user's local machine). Calculation:
+$$\text{Budget} = 6 \text{ points} \times 8 \text{ max Newton} \times 15 \text{ s/Newton} \approx 720 \text{ s} = 12 \text{ min}.$$
+Margin: 10 min → 83% utilization (acceptable).
+
+---
+
+\section{Alternative Solvers: Why v2.5 Rejects Other Approaches}
+
+\subsection{Why not Fixed CG for All?}
+
+\textbf{Tempting idea}: "If the Jacobian can be made SPD via a diagonal scaling, always use CG."
+
+\textbf{Counter-evidence}:
+\begin{itemize}
+  \item Brazovskii Jacobian at $\mu^2=-1.0$ is **indefinite** (negative curvature in radial direction at shell).
+  \item Forcing CG onto indefinite system: algorithm breaks down or stalls worse than unpreconditioned GMRES.
+  \item v2.5 philosophy: **probe first, route second**; no blind dogma.
+\end{itemize}
+
+\subsection{Why not Multigrid (v2.6)?}
+
+\textbf{Mutigrid is powerful but out of scope for v2.5}:
+\begin{itemize}
+  \item Requires hierarchical grid structure (coarsen to N/2, N/4, etc.).
+  \item Coarse-grain Jacobian projection may not preserve Brazovskii spectrum (needs research).
+  \item Setup cost (weeks of R&D) vs. v2.5 quick-fix (fast).
+  \item Fallback: if v2.5 diagnostic fails on **any** of the 6 points, escalate to v2.6 multigrid.
+\end{itemize}
+
+\subsection{Why not Direct Solver (LU)?}
+
+\textbf{Feasible at N=32, not at N=64}:
+\begin{itemize}
+  \item Cost: O(N^3)=O(32^3) per Newton step ≈ 1 GB memory, 100+ s on 4-core CPU.
+  \item v2.5 targets fast continuation (5–10 s per point); LU breaks this.
+  \item Fallback: if v2.5 fails and user needs guaranteed convergence, LU available as $\mathrm{krylov}=\texttt{``lu"}$ flag.
+\end{itemize}
+
+---
+
+\section{Sandbox Execution Status}
+
+\paragraph{Sandbox Environment Blocker}
+
+The diagnostic run (Stage 3) **cannot execute in this sandbox** because:
+\begin{itemize}
+  \item PyTorch is not installed (installation blocked by OOM; see R-2026-04-21-001).
+  \item All v2.5 code depends on \texttt{torch} (tensors, FFT, autograd-based FD probes).
+  \item No NumPy-only fallback (FFT on 32³ grid is feasible but would require separate scipy.fftpack implementation, weeks of work).
+\end{itemize}
+
+\textbf{Decision}: Specification is **sealed** (this document). Diagnostic execution deferred to user's local machine via handoff script (\texttt{scripts/run\_v25\_diagnostic.ps1} or \texttt{.sh}, TBD in Stage 3).
+
+\textbf{Open question tag}: D-2026-04-21-001 (sandbox-PyTorch blocker scoped; not a theory issue, fully remediable by user-side execution).
+
+---
+
+\section{Decision Chain: Summary}
+
+\begin{itemize}
+  \item \textbf{CG-only strategy (rejected)}: Jacobian is indefinite at μ²<−0.01; CG breaks down. Probe-then-route is safer.
+  \item \textbf{Unpreconditioned GMRES (v2.4, failed)}: κ≈1000 locally; requires O(κ²) ≈ 1M inner iterations. Budget 15000 insufficient.
+  \item \textbf{Fourier-diagonal Brazovskii preconditioning (v2.5, chosen)}: Reduces κ_eff to ~10; O(N log N) cost; tailored to ill-conditioned shell. **Best first-order fix**.
+  \item \textbf{Multigrid (v2.6, future)}: Next-tier solver if v2.5 fails. Requires hierarchical grids and coarse-grain Jacobian research.
+\end{itemize}
+
+---
+
+\appendix
+\section{Appendix: Cross-References}
+
+\begin{itemize}
+  \item \textbf{Failure trigger}: \texttt{Docs/runs/R-2026-04-21-002-newton-krylov-v2p4-continuation-FAILURE.md}.
+  \item \textbf{v2.4 status quo}: \texttt{Docs/math/TECT-Math56-Addendum.tex.txt}.
+  \item \textbf{v2.3 production reference}: \texttt{Docs/math/TECT-Math52.tex.txt}, \texttt{TECT-Math53.tex.txt}.
+  \item \textbf{Brazovskii theory}: \texttt{Docs/math/TECT-Math01-Brazovskii.tex.txt}.
+  \item \textbf{v2.4 threshold constants}: \texttt{PDE/v24\_thresholds.py}.
+  \item \textbf{Newton-Krylov core}: \texttt{PDE/tect\_newton\_krylov.py}.
+  \item \textbf{Backend (Hessian computation)}: \texttt{PDE/real\_backend\_pt\_bcc\_mixed\_v3.py}.
+\end{itemize}
+
+\section{Appendix: Diagnostic Handoff Script}
+
+See \texttt{scripts/run\_v25\_diagnostic.ps1} (Windows) or \texttt{.sh} (Linux/Mac).
+
+User receives:
+\begin{itemize}
+  \item Sealed specification (this document).
+  \item Handoff script with embedded config + CLI.
+  \item Empty output directory \texttt{runs/R-2026-04-22-001-newton-krylov-v25-diagnostic/MANIFEST.md} (status: PENDING\_LOCAL\_EXECUTION).
+  \item Instructions to run script, populate results, and file back.
+\end{itemize}
+
+---
+
+\textbf{Document status}: SEALED specification, 2026-04-22. No further edits to §1–7 (Motivation through Appendix). Diagnostic results will append a new section §8 (Results) upon user execution.
+
+\end{document}

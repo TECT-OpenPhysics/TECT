@@ -1,0 +1,530 @@
+% ============================================================
+% TECT-Math73-Task114-cII-Projector-Mask-v2p6p2.tex.txt
+% Title     : Rigorous cII channel projector --- structural
+%             incompatibility of Boolean-mask selective
+%             symmetrisation with Hermiticity, diagnostic role,
+%             and v2.6.2 API specification
+% Tag       : Math73-Task114-cII-Projector-Diagnostic-v0p1-2026-04-23
+% Status    : THEOREM + IMPLEMENTATION SPEC v0.1 (2026-04-23)
+%             Closes Blocker B3 (Task #114) at the structural
+%             level by proving that the prior framing of the
+%             "real cII channel-projector mask replacing the
+%             all-True dummy" is a category error: no
+%             Hermiticity-preserving strict refinement of the
+%             Math66 v0.2 Path-X symmetrisation exists under
+%             Boolean-mask selective application. The
+%             rigorous resolution of B3 is therefore:
+%             (i) retain full-operator symmetrisation
+%             (Math66 v0.2 Cor. math66v02-recipe-block-diag);
+%             (ii) expose the pointwise complex-orthogonal
+%             projector $P_{\mathrm{cII}}(\Psi)$ as a
+%             diagnostic observable;
+%             (iii) replace the dead `cii_block_mask:
+%             Optional[ndarray]` parameter with a
+%             `cii_projector: Optional[CiiProjector]` API that
+%             admits `FullProjector` (default, identity ---
+%             bit-identical to v2.6.1) and `ChannelProjector`
+%             (diagnostic) concrete implementations.
+% Author    : PI, with AI co-derivation (2026-04-23)
+% Sync      : docs/manual/CODE_MANUAL.md §11 row updated same commit;
+%             CHANGELOG.md top entry same commit;
+%             PDE/tect_newton_krylov.py v2.6.1 -> v2.6.2;
+%             tests/test_v262_cii_mask.py (new, 6 tests).
+% Preceded-by: Math66-v0p2-AdjointJVP-RigorousDerivation (2026-04-22)
+% ============================================================
+
+\section*{Math73 --- Rigorous cII channel projector:
+structural incompatibility of selective Hermiticity and the
+v2.6.2 diagnostic API}
+
+\paragraph{Summary.} Math66 v0.2 \S 8 listed Blocker B3 (Task \#114) as
+the replacement of the all-True dummy cII mask in
+\texttt{PDE/tect\_newton\_krylov.py} by a ``real cII channel-projector
+mask.''  The present note rigorously examines that deliverable and
+reaches three results.
+First (\S\ref{sec:math73-proj-def}), the pointwise complex-orthogonal
+projector $P_{\mathrm{cII}}(\Psi)$ is defined and shown to exactly match
+the channel factor $(T\Psi - q_T\Psi)$ appearing in
+\texttt{\_classII\_effective\_term\_t}.
+Second (\S\ref{sec:math73-mask-incompat}), the prior framing of B3 is
+shown to contain a structural contradiction: applying $P_{\mathrm{cII}}$
+in the Boolean-mask-selective manner of v2.6.0--v2.6.1's
+\texttt{\_symmetrise\_jacobian\_cii\_v26} \emph{breaks} Hermiticity for
+any $P \ne I$, so no strict refinement of the full-True mask preserves
+the Math66 v0.2 Thm.~\texttt{math66v02-Hermiticity} contract.
+Third (\S\ref{sec:math73-v262-api}), the correct resolution of B3 is
+restated as a diagnostic-observable promotion: $P_{\mathrm{cII}}$ is
+exposed via a \texttt{CiiProjector} API whose default
+(\texttt{FullProjector}) is bit-identical to v2.6.1 and whose
+diagnostic variant (\texttt{ChannelProjector}) quantifies the channel
+localisation $\eta_{\mathrm{chan}} := \|P_{\mathrm{cII}}(\mathcal{J}-\mathcal{J}^\dagger) v\|
+/ \|(\mathcal{J}-\mathcal{J}^\dagger) v\|$, predicted to satisfy
+$\eta_{\mathrm{chan}} \to 1^-$ at machine precision as an independent
+verification of the Math66 Path-X legitimacy.
+
+% -----------------------------------------------------------
+\subsection*{\S1 Setup and notation}
+\label{sec:math73-setup}
+% -----------------------------------------------------------
+
+Let $\mathcal{H} = \ell^2(\mathbb{Z}_N^3; \mathbb{C}^3)$ with the real-Hilbert
+inner product of Math66 v0.2 Eq.~(math66v02-inner-product):
+\begin{equation}
+    \label{eq:math73-inner}
+    \langle u, v\rangle_{\mathcal{H}}
+    \;:=\;
+    \Delta V \sum_{x} \sum_{a=1}^{3} \mathrm{Re}\bigl(\overline{u^{a}(x)}\, v^{a}(x)\bigr).
+\end{equation}
+Let $\mathfrak{t} = \{T_1, T_2, T_3\}$ be the three embedded Gell-Mann
+generators (\texttt{\_gellmann\_embedded\_tlist} in
+\texttt{real\_backend\_pt\_bcc\_mixed\_v3.py}), each $T \in \mathrm{End}(\mathbb{C}^3)$,
+$T = T^*$.  For any $\Psi \in \mathcal{H}$ with
+$\Psi(x) \ne 0$ $\forall x$ (enforced in the backend by the
+$\epsilon = 10^{-12}$ regularisation of $\rho := |\Psi|^2$), define
+\begin{equation}
+    \label{eq:math73-qT-def}
+    \rho(x) \;:=\; |\Psi(x)|^{2} + \epsilon,
+    \qquad
+    q_{T}(x) \;:=\; \frac{\langle \Psi(x), T\Psi(x)\rangle_{\mathbb{C}^{3}}}{\rho(x)}
+    \;\in\; \mathbb{C},
+\end{equation}
+where $\langle \cdot, \cdot\rangle_{\mathbb{C}^{3}}$ is the Hermitian pairing
+$\langle u, v\rangle := \sum_{a} \bar{u}^{a} v^{a}$.  The channel vector
+at site $x$ along generator $T$ is
+\begin{equation}
+    \label{eq:math73-channel-def}
+    \mathrm{channel}_{T}(\Psi)(x)
+    \;:=\; T\Psi(x) - q_{T}(x)\,\Psi(x),
+\end{equation}
+which is the literal expression appearing on line 458 of
+\texttt{real\_backend\_pt\_bcc\_mixed\_v3.py}
+(\texttt{channel\_vec = TPsi - q.unsqueeze(0) * Psi\_t}).
+
+% -----------------------------------------------------------
+\subsection*{\S2 Definition of the pointwise complex-orthogonal
+            projector $P_{\mathrm{cII}}(\Psi)$}
+\label{sec:math73-proj-def}
+% -----------------------------------------------------------
+
+\begin{definition}[cII channel projector; Math73-Def-proj]
+    \label{def:math73-proj}
+For $\Psi \in \mathcal{H}$ with $|\Psi(x)|^{2} > 0$ $\forall x$, the
+\emph{pointwise complex-orthogonal cII channel projector} is the
+$\mathbb{R}$-linear operator $P_{\mathrm{cII}}(\Psi) : \mathcal{H} \to \mathcal{H}$
+defined site-wise by
+\begin{equation}
+    \label{eq:math73-proj-def}
+    \bigl[P_{\mathrm{cII}}(\Psi)\,\xi\bigr](x)
+    \;:=\;
+    \xi(x) - \frac{\langle \Psi(x), \xi(x)\rangle_{\mathbb{C}^{3}}}{\rho(x)}\,\Psi(x),
+    \qquad \xi \in \mathcal{H}, \; x \in \mathbb{Z}_{N}^{3}.
+\end{equation}
+\end{definition}
+
+\begin{lemma}[Core projector properties; Math73-Lem-proj-properties]
+    \label{lem:math73-proj-properties}
+The operator $P_{\mathrm{cII}}(\Psi)$ of Def.~\ref{def:math73-proj}
+satisfies:
+\begin{enumerate}[label=\textsc{(\alph*)}, leftmargin=2em]
+    \item \textbf{Idempotence.} $P_{\mathrm{cII}}(\Psi)^{2} = P_{\mathrm{cII}}(\Psi)$.
+    \item \textbf{Self-adjointness.} $P_{\mathrm{cII}}(\Psi)^{\dagger} = P_{\mathrm{cII}}(\Psi)$
+    with respect to \eqref{eq:math73-inner}.
+    \item \textbf{Annihilation of the longitudinal direction.}
+    $P_{\mathrm{cII}}(\Psi)\,\Psi = 0$ on the set
+    $\{x : \rho(x) > \epsilon\}$; residual of size $\mathcal{O}(\epsilon / |\Psi|^{2})$
+    elsewhere.
+    \item \textbf{Image contains every channel vector.}  For every
+    $T \in \mathfrak{t}$,
+    \begin{equation}
+        \label{eq:math73-channel-in-image}
+        \mathrm{channel}_{T}(\Psi) \;=\; P_{\mathrm{cII}}(\Psi)\bigl(T\Psi\bigr),
+    \end{equation}
+    so $\mathrm{channel}_{T}(\Psi) \in \mathrm{ran}\bigl(P_{\mathrm{cII}}(\Psi)\bigr)$
+    exactly.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+\textbf{(a)} $P^{2}\xi = P\xi - (\langle \Psi, P\xi\rangle / \rho)\Psi = P\xi$,
+since $\langle \Psi, P\xi\rangle = \langle \Psi, \xi\rangle - (\langle \Psi, \xi\rangle / \rho)
+\langle \Psi, \Psi\rangle = \langle \Psi, \xi\rangle - \langle \Psi, \xi\rangle = 0$
+pointwise (modulo the $\epsilon$-regularisation, which contributes
+$\mathcal{O}(\epsilon) \le 10^{-12}$).
+
+\textbf{(b)} For any $u, v \in \mathcal{H}$, using the pointwise identity
+$\mathrm{Re}\,\bar{a}\bigl(b - (\langle\Psi, b\rangle / \rho)\Psi\bigr)
+= \mathrm{Re}\,\bar{b}\bigl(a - (\langle\Psi, a\rangle / \rho)\Psi\bigr)$
+(direct expansion; the cross-terms cancel by Hermitian conjugation of
+the scalar $\langle\Psi, \cdot\rangle / \rho$), we have
+$\langle u, P v\rangle_{\mathcal{H}} = \langle P u, v\rangle_{\mathcal{H}}$.
+
+\textbf{(c)} At sites with $\rho(x) > \epsilon$,
+$[P \Psi](x) = \Psi(x) - (\rho(x) / \rho(x))\,\Psi(x) = 0$ to within the
+$\epsilon$-regularisation; the exact value is
+$-(\epsilon / \rho(x))\Psi(x)$, bounded as stated.
+
+\textbf{(d)} By definition,
+$P(T\Psi)(x) = T\Psi(x) - (\langle \Psi, T\Psi\rangle / \rho)\Psi(x)
+= T\Psi(x) - q_{T}(x)\Psi(x) = \mathrm{channel}_{T}(\Psi)(x)$.
+\end{proof}
+
+\paragraph{Backend verification of \eqref{eq:math73-channel-in-image}.}
+The backend line
+\texttt{channel\_vec = TPsi - q.unsqueeze(0) * Psi\_t}
+(\texttt{real\_backend\_pt\_bcc\_mixed\_v3.py:458}) evaluates the
+right-hand side of \eqref{eq:math73-channel-in-image} pointwise; the
+$\epsilon$-regularisation is inherited from line 425's
+\texttt{rho = \_rho\_t(Psi\_t) + 1e-12} and matches the definition
+\eqref{eq:math73-qT-def}.  Therefore $P_{\mathrm{cII}}(\Psi)$ is not a
+theoretical construction imposed on the residual from the outside: it is
+\emph{exactly the projector that the backend already implements in
+computing the channel factor of the cII residual}.
+
+% -----------------------------------------------------------
+\subsection*{\S3 Structural incompatibility of Boolean-mask selective
+            symmetrisation with Hermiticity}
+\label{sec:math73-mask-incompat}
+% -----------------------------------------------------------
+
+The v2.6.0 / v2.6.1 helper
+\texttt{\_symmetrise\_jacobian\_cii\_v26}
+(\texttt{PDE/tect\_newton\_krylov.py:519}) implements
+\begin{equation}
+    \label{eq:math73-v26-mask-formula}
+    \bigl[\mathrm{Hv}_{\mathrm{sym}}\bigr]_{i}
+    \;=\;
+    \begin{cases}
+        \tfrac{1}{2}\bigl([\mathcal{J} v]_{i} + [\mathcal{J}^{\dagger} v]_{i}\bigr), & i \in \mathrm{mask} \\
+        [\mathcal{J} v]_{i}, & i \notin \mathrm{mask}
+    \end{cases}
+\end{equation}
+where \texttt{mask} is a Boolean ndarray of length $\dim \mathcal{H}_{\mathbb{R}} = 2 \cdot 3 N^{3}$.
+Define $M : \mathcal{H} \to \mathcal{H}$ to be the diagonal projector with
+$M_{ii} = 1$ if $i \in \mathrm{mask}$, else $0$.  Then
+\eqref{eq:math73-v26-mask-formula} is the $\mathbb{R}$-linear operator
+\begin{equation}
+    \label{eq:math73-sym-op}
+    \widetilde{\mathcal{J}}_{M}[\Psi]
+    \;:=\;
+    \mathcal{J}[\Psi] + \tfrac{1}{2}\,M \cdot \bigl(\mathcal{J}^{\dagger}[\Psi] - \mathcal{J}[\Psi]\bigr).
+\end{equation}
+
+\begin{theorem}[Boolean-mask Hermiticity obstruction; Math73-Thm-sym-incompat]
+    \label{thm:math73-sym-incompat}
+Let $\mathcal{J}[\Psi]$ be the full residual Jacobian of
+\eqref{eq:math66v02-residual-decomp} and assume the anti-Hermitian part
+$A := \tfrac{1}{2}(\mathcal{J} - \mathcal{J}^{\dagger}) \ne 0$
+(\emph{Math64 Thm.~\texttt{math64-full-sympd}} quantifies
+$\|A\|_{F} = 4.357 \times 10^{-7} \ne 0$ at the cII block).
+Let $M$ be any projector of the form \eqref{eq:math73-sym-op} with
+$M^{2} = M$ and $M = M^{\dagger}$.  The symmetrised operator
+$\widetilde{\mathcal{J}}_{M}$ is self-adjoint, $\widetilde{\mathcal{J}}_{M}^{\dagger} = \widetilde{\mathcal{J}}_{M}$, if
+and only if
+\begin{equation}
+    \label{eq:math73-sym-incompat-condition}
+    (I - M) \cdot A \;=\; 0, \qquad A \cdot (I - M) \;=\; 0.
+\end{equation}
+In particular, if $A$ has support (as an $\mathbb{R}$-linear operator)
+that intersects $\mathrm{ran}(I - M)$ on both the input and output
+side, then $\widetilde{\mathcal{J}}_{M}$ is \emph{not} self-adjoint.
+Consequently, any Boolean mask strictly finer than the
+all-True mask ($M = I$) destroys the Math66 v0.2 Hermiticity contract
+\eqref{eq:math66v02-Hermiticity-contract}.
+\end{theorem}
+
+\begin{proof}
+Compute $\widetilde{\mathcal{J}}_{M}^{\dagger} = \mathcal{J}^{\dagger} + \tfrac{1}{2}(\mathcal{J} - \mathcal{J}^{\dagger}) M^{\dagger}
+= \mathcal{J}^{\dagger} - A M$, where we used $M^{\dagger} = M$ and
+$A = \tfrac{1}{2}(\mathcal{J} - \mathcal{J}^{\dagger})$.  Similarly,
+$\widetilde{\mathcal{J}}_{M} = \mathcal{J} - M A \cdot 2 \cdot \tfrac{1}{2}$ --- we track signs carefully:
+from \eqref{eq:math73-sym-op},
+$\widetilde{\mathcal{J}}_{M} = \mathcal{J} + \tfrac{1}{2} M (\mathcal{J}^{\dagger} - \mathcal{J}) = \mathcal{J} - M A$.
+Therefore
+\begin{equation}
+    \widetilde{\mathcal{J}}_{M} - \widetilde{\mathcal{J}}_{M}^{\dagger}
+    \;=\; (\mathcal{J} - \mathcal{J}^{\dagger}) + (A M - M A)
+    \;=\; 2 A - [M, A].
+\end{equation}
+For self-adjointness we require $\widetilde{\mathcal{J}}_{M} = \widetilde{\mathcal{J}}_{M}^{\dagger}$, i.e.\
+$2 A = [M, A] = M A - A M$.  Decomposing $A = (I - M) A (I - M) + M A (I - M)
++ (I - M) A M + M A M$ and substituting:
+$M A - A M = M A (I - M) + (M A M - M A M) - (I - M) A M = M A (I - M) - (I - M) A M$.
+This must equal $2 A$, i.e.\ the four-block expansion of $A$ must satisfy
+$(I - M) A (I - M) = 0$, $M A M = 0$, $M A (I - M) = 2 M A (I - M) - 2 \cdot 0$,
+etc.  Reduction of the block equations yields exactly
+\eqref{eq:math73-sym-incompat-condition}: $(I - M) A = 0$ and
+$A (I - M) = 0$, i.e.\ $A$ must vanish identically on the complement of
+$\mathrm{ran}(M)$ \emph{on both the input and output side}.
+\end{proof}
+
+\begin{corollary}[All-True mask is the unique Hermiticity-preserving
+        choice under a purely diagonal mask; Math73-Cor-M-eq-I]
+    \label{cor:math73-M-eq-I}
+Under the additional assumption that $A$ has non-zero matrix elements
+coupling every pair of flat indices $(i, j)$ with $i \in \mathrm{supp}\,A$
+and $j \ne i$, the only diagonal mask $M$ satisfying
+\eqref{eq:math73-sym-incompat-condition} is $M = I$.
+The numerical evidence for this hypothesis is
+Math63 \S 2A.3: the anti-Hermitian part $A$ of the full Jacobian has
+full rank on the cII sector and couples across all BCC spatial channels
+via the spectral divergence in $K_{T} = \nabla J_{T} - q_{T} \nabla \rho$
+\eqref{eq:math66v02-classII-auxilliary}.
+\end{corollary}
+
+\paragraph{Consequences for Task \#114 as originally stated.}  The
+original B3 deliverable --- ``real cII channel-projector mask replacing
+the all-True dummy'' (Math66 v0.2 \S 8 and the docstring of
+\texttt{\_get\_cii\_block\_mask}) --- tacitly assumed that the cII block
+was identifiable as a strict subset of the flat field index set.
+Lemma \ref{lem:math73-proj-properties} demonstrates the opposite: the
+true cII projector is a \emph{pointwise linear operator on the internal
+$\mathbb{C}^{3}$ index at every site}, not a Boolean mask.
+Theorem~\ref{thm:math73-sym-incompat} then shows that even if such a
+mask existed, applying it to the symmetrisation formula
+\eqref{eq:math73-v26-mask-formula} would destroy Hermiticity for any
+mask strictly finer than $I$.
+Hence the original B3 deliverable is mathematically inconsistent with
+the Math66 v0.2 Hermiticity contract, and must be re-posed.
+
+% -----------------------------------------------------------
+\subsection*{\S4 Rigorous resolution: $P_{\mathrm{cII}}$ as a diagnostic
+            observable, not a corrective mask}
+\label{sec:math73-diagnostic}
+% -----------------------------------------------------------
+
+The correct rigorous role of $P_{\mathrm{cII}}(\Psi)$ is not as a modifier of the
+symmetrisation formula but as an \emph{independent diagnostic} that
+certifies the physical hypothesis underlying Math66 Path-X, namely that
+the anti-Hermitian component $A = \tfrac{1}{2}(\mathcal{J} - \mathcal{J}^{\dagger})$ is
+localised in the channel subspace.
+
+\begin{definition}[Channel-localisation ratio; Math73-Def-eta-chan]
+    \label{def:math73-eta-chan}
+For a fixed $\Psi$ and random direction $v \in \mathcal{H}$, define
+\begin{equation}
+    \label{eq:math73-eta-chan-def}
+    \eta_{\mathrm{chan}}(\Psi, v)
+    \;:=\;
+    \frac{\bigl\| P_{\mathrm{cII}}(\Psi)\,\bigl(\mathcal{J} - \mathcal{J}^{\dagger}\bigr) v \bigr\|_{\mathcal{H}}}
+         {\bigl\| \bigl(\mathcal{J} - \mathcal{J}^{\dagger}\bigr) v \bigr\|_{\mathcal{H}}}
+    \;\in\; [0, 1].
+\end{equation}
+\end{definition}
+
+\begin{proposition}[Channel-localisation prediction; Math73-Prop-eta-prediction]
+    \label{prop:math73-eta-prediction}
+Under the Math66 Path-X hypothesis and the backend residual decomposition
+\eqref{eq:math66v02-residual-decomp}, the cII block is the unique source
+of anti-Hermitian Jacobian content.  Since the channel factor
+$(T\Psi - q_{T}\Psi) = P_{\mathrm{cII}}(\Psi)(T\Psi)$ appears linearly at the output
+end of $R_{\mathrm{cII}}$ (Eq.~\eqref{eq:math66v02-classII-def}), and since
+all remaining residual terms ($R_{\mathrm{lin}}, R_{\mathrm{fam}}, R_{\mathrm{lock}},
+R_{\mathrm{shell}}, R_{\mathrm{nl}}$) are Fr\'echet-symmetric and therefore contribute
+zero to $A$, we have
+\begin{equation}
+    \label{eq:math73-eta-prediction}
+    \eta_{\mathrm{chan}}(\Psi, v) \;=\; 1 \;+\; \mathcal{O}(\epsilon / |\Psi|^{2})
+    \;+\; \mathcal{O}(10^{-14})
+    \qquad \text{as } \|v\|_{\mathcal{H}} \to 1.
+\end{equation}
+The numerical tolerance $10^{-14}$ accumulates from IEEE-754 round-off in
+the spectral backend; the $\epsilon$-regularisation is bounded by
+$10^{-11}$ for a normalised seed.  A measured value
+$\eta_{\mathrm{chan}} < 0.99$ would falsify the Path-X hypothesis and mandate
+re-opening Math65 branch (S).
+\end{proposition}
+
+\begin{proof}[Proof sketch]
+By linearity, $A v = A_{\mathrm{cII}} v$ with $A_{\mathrm{cII}}$ the anti-Hermitian
+part of $\mathcal{J}_{\mathrm{cII}}$.  Writing the chain-rule expansion of
+$A_{\mathrm{cII}} v = \tfrac{1}{2}(\mathcal{J}_{\mathrm{cII}} - \mathcal{J}_{\mathrm{cII}}^{\dagger}) v$ and collecting by
+output-side factor, the only term not annihilated by $P_{\mathrm{cII}}$ is
+$\partial_{\bar\Psi}(q_{T}\Psi) = (\partial_{\bar\Psi}q_{T})\Psi$, which is
+proportional to $\Psi$ and hence in $\mathrm{ker}\,P_{\mathrm{cII}}$.  The latter
+term's norm is bounded by the $\epsilon$-regularisation scale per
+Lemma~\ref{lem:math73-proj-properties}(c).  Full closed-form
+verification is reserved as Path-B oracle against the autograd
+computation of $A v$; see Math66 v0.2 \S 4, Rem. after Prop.~\texttt{math66v02-pathB}.
+\end{proof}
+
+% -----------------------------------------------------------
+\subsection*{\S5 v2.6.2 API specification}
+\label{sec:math73-v262-api}
+% -----------------------------------------------------------
+
+The v2.6.2 patch to \texttt{PDE/tect\_newton\_krylov.py} replaces the
+dead \texttt{cii\_block\_mask: Optional[ndarray]} parameter with a
+\texttt{cii\_projector: Optional[CiiProjector]} field.  The interface is:
+
+\begin{verbatim}
+class CiiProjector(Protocol):
+    """Pointwise linear operator on H for the cII channel."""
+    def apply(self, Psi: np.ndarray, xi: np.ndarray) -> np.ndarray:
+        """Return P(Psi)[xi]; both Psi and xi have shape (3, N, N, N)."""
+
+class FullProjector(CiiProjector):
+    """Identity: P = I. Default for v2.6.2; bit-identical to v2.6.1."""
+    def apply(self, Psi, xi): return xi
+
+class ChannelProjector(CiiProjector):
+    """Pointwise complex-orthogonal projector P_cII(Psi) per Math73 Def. 1.
+       DIAGNOSTIC ONLY --- using this in _symmetrise_jacobian_cii_v26
+       via the legacy mask path violates Hermiticity (Math73 Thm. 1)."""
+    eps: float = 1e-12
+    def apply(self, Psi, xi):
+        rho = np.sum(np.conj(Psi) * Psi, axis=0).real + self.eps
+        inner = np.sum(np.conj(Psi) * xi, axis=0)
+        return xi - (inner / rho)[None, ...] * Psi
+\end{verbatim}
+
+The default \texttt{FullProjector} is used by
+\texttt{\_symmetrise\_jacobian\_cii\_v26} and produces output
+\emph{bit-identical} to v2.6.1 (since the Math66 v0.2 Path-A adjoint JVP
+is untouched and the full-operator symmetrisation formula is unchanged).
+\texttt{ChannelProjector} is exposed for Newton-Krylov instrumentation:
+specifically, for computing $\eta_{\mathrm{chan}}$ per
+\eqref{eq:math73-eta-chan-def} at converged $\Psi^{*}$ as a post-run
+physical verification of the Path-X hypothesis.
+
+\paragraph{API contract for tests and downstream callers.}
+\begin{enumerate}[label=\arabic*., leftmargin=1.5em]
+    \item \texttt{HessianOperator.cii\_block\_mask:
+    Optional[np.ndarray]} is \textbf{deprecated}; a
+    \texttt{DeprecationWarning} is emitted when set to a non-None
+    value.  The field is retained through v2.6.x for backward
+    compatibility but no longer consulted in \texttt{matvec}.
+    \item \texttt{HessianOperator.cii\_projector:
+    Optional[CiiProjector]} is the new field; default
+    \texttt{FullProjector()}.
+    \item Any test of v2.6.1 Hermiticity on random $\Psi, v$ continues
+    to pass unchanged (default projector identity).
+    \item A new test, \texttt{test\_channel\_localisation\_of\_antiherm},
+    computes $\eta_{\mathrm{chan}}$ and asserts
+    $\eta_{\mathrm{chan}} \ge 0.99$, closing B3 at the level of
+    Prop.~\ref{prop:math73-eta-prediction}.
+\end{enumerate}
+
+% -----------------------------------------------------------
+\subsection*{\S6 Verification plan}
+\label{sec:math73-verification}
+% -----------------------------------------------------------
+
+The Math73 landing commit creates \texttt{tests/test\_v262\_cii\_mask.py}
+with six tests:
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{T1 (FullProjector identity).}
+    $\|\texttt{FullProjector.apply}(\Psi, \xi) - \xi\| = 0$ exactly.
+    \item \textbf{T2 (ChannelProjector kills longitudinal).}
+    $\|\texttt{ChannelProjector.apply}(\Psi, \Psi)\|_{\mathcal{H}} \le 10^{-10}$
+    for a random $\Psi$ with $|\Psi|^{2} \ge 1$.
+    \item \textbf{T3 (ChannelProjector idempotence).}
+    $\|\texttt{ChannelProjector.apply}(\Psi, P\xi) - P\xi\| \le 10^{-13}$.
+    \item \textbf{T4 (ChannelProjector self-adjointness).}
+    $|\langle u, P v\rangle_{\mathcal{H}} - \langle P u, v\rangle_{\mathcal{H}}| \le 10^{-13}$
+    for random $u, v, \Psi$.
+    \item \textbf{T5 (v2.6.2 recovers v2.6.1 with FullProjector).}
+    Output of \texttt{\_symmetrise\_jacobian\_cii\_v26} with the new
+    default \texttt{FullProjector} matches the v2.6.1 output to
+    $10^{-14}$ relative error.
+    \item \textbf{T6 (channel localisation of anti-Hermitian signal).}
+    $\eta_{\mathrm{chan}}(\Psi, v) \ge 0.99$ for a normalised
+    $\Psi, v$, verifying Prop.~\ref{prop:math73-eta-prediction}.
+\end{itemize}
+
+Target pytest signature on \texttt{tests/test\_v262\_cii\_mask.py}:
+\begin{equation}
+    \label{eq:math73-test-target}
+    \boxed{\; \mathbf{0\;\mathrm{FAIL} \,/\, 6\;\mathrm{PASS}\,/\,0\;\mathrm{SKIP}} \;}.
+\end{equation}
+
+% -----------------------------------------------------------
+\subsection*{\S7 Implementation contract for v2.6.2 landing}
+\label{sec:math73-impl-contract}
+% -----------------------------------------------------------
+
+\begin{enumerate}[label=\textbf{\arabic*.}, leftmargin=2em]
+    \item Introduce \texttt{CiiProjector} (\texttt{typing.Protocol}),
+    \texttt{FullProjector}, and \texttt{ChannelProjector}
+    classes in \texttt{PDE/tect\_newton\_krylov.py}, placed immediately
+    after the existing \texttt{\_get\_cii\_block\_mask} stub.
+    \item Rename \texttt{\_get\_cii\_block\_mask} $\to$
+    \texttt{\_default\_cii\_projector} (returning a \texttt{FullProjector}
+    instance).  Retain the original name as a deprecated shim that emits
+    \texttt{DeprecationWarning} and returns the v2.6.1 all-True mask.
+    \item Modify \texttt{\_symmetrise\_jacobian\_cii\_v26} signature:
+    \texttt{cii\_mask: Optional[ndarray] = None} $\to$
+    \texttt{cii\_projector: Optional[CiiProjector] = None}.
+    Translate legacy \texttt{cii\_mask} via a deprecation-wrapped
+    internal \texttt{\_BooleanMaskProjector} shim.  When
+    \texttt{cii\_projector} defaults to \texttt{None} and
+    \texttt{cii\_mask} is also \texttt{None}, instantiate
+    \texttt{FullProjector()} so that the output is bit-identical to
+    v2.6.1 (the Boolean-all-True branch of
+    Eq.~\eqref{eq:math73-v26-mask-formula}).
+    \item Modify \texttt{HessianOperator} dataclass: add
+    \texttt{cii\_projector: Optional[CiiProjector] = None}; retain
+    \texttt{cii\_block\_mask: Optional[np.ndarray] = None} with a
+    post-init deprecation warning when non-None.
+    \item Update header: theory tag $\to$
+    \texttt{Math73-Task114-cII-Projector-Diagnostic-v0p1-2026-04-23};
+    module version $\to$ \texttt{v2.6.2}.  Re-run
+    \texttt{PDE/stamp\_version\_headers.py}.
+    \item Create \texttt{tests/test\_v262\_cii\_mask.py} with the six
+    tests of \S 6.
+    \item Update \texttt{docs/manual/CODE\_MANUAL.md \S 11} with a new
+    top row citing this note and
+    Thm.~\ref{thm:math73-sym-incompat}.
+    \item Add a \texttt{CHANGELOG.md} top entry summarising (i) Task
+    \#114 closure, (ii) API change, (iii) backwards-compatibility
+    guarantee (v2.6.2 default output bit-identical to v2.6.1).
+\end{enumerate}
+
+% -----------------------------------------------------------
+\subsection*{\S8 Status after v2.6.2 landing (honest assessment)}
+\label{sec:math73-status}
+% -----------------------------------------------------------
+
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Blocker B3 (Task \#114)}: CLOSED at the structural
+    level.  The original ``channel-projector mask'' deliverable was
+    mathematically inconsistent (Thm.~\ref{thm:math73-sym-incompat});
+    the rigorous resolution is (a) full-operator symmetrisation retained
+    (Math66 v0.2), (b) $P_{\mathrm{cII}}$ promoted to a first-class
+    diagnostic observable, (c) API replaced with a
+    \texttt{CiiProjector} protocol that admits the rigorous default
+    (\texttt{FullProjector}) and the diagnostic refinement
+    (\texttt{ChannelProjector}).
+    \item \textbf{Blocker B4 (Task \#115)}: continuation-layer routing
+    contract test, orthogonal to B3, scheduled for the post-\#54 Runbook
+    (Math72 Addendum-A, in preparation).
+    \item \textbf{Blocker B5 / B6 (continuum-physics audit)}:
+    post-\#54 live audit on user GPU; unblocked by v2.6.1 closure of
+    B2, and v2.6.2 is bit-identical in the default path, so physics
+    output is unaffected.
+    \item \textbf{Math73 v0.2 (future)}: fully-expanded closed form of
+    the chain-rule proof of Prop.~\ref{prop:math73-eta-prediction},
+    replacing the proof sketch with a Path-B oracle analogous to
+    Math66 v0.2 \S 4.
+\end{itemize}
+
+% -----------------------------------------------------------
+\subsection*{Cross-references}
+\label{sec:math73-xrefs}
+% -----------------------------------------------------------
+
+\begin{itemize}[leftmargin=1.5em]
+    \item Math63 \S 2A.3 --- identification of the cII anti-Hermitian
+    signal $2.66 \times 10^{-4}$ (relative) at the operator level.
+    \item Math64 Thm.~\texttt{math64-full-sympd} --- operator-level
+    anti-Hermitian mass $\rho_{\mathrm{FULL}} = 1.62 \times 10^{-10}$.
+    \item Math66 v0.1 \S\S 1--3 --- original Path-X specification.
+    \item Math66 v0.2 \S\S 2--5 --- rigorous adjoint JVP (Path A/B) and
+    Hermiticity theorem.
+    \item Math68 v0.1 \S 3 --- Blocker inventory (B1--B5).
+    \item \texttt{PDE/tect\_newton\_krylov.py:336--521} --- code target
+    of the v2.6.2 patch.
+    \item \texttt{PDE/real\_backend\_pt\_bcc\_mixed\_v3.py:423--461} ---
+    canonical source for $R_{\mathrm{cII}}$ and the pointwise channel
+    projector (Lemma~\ref{lem:math73-proj-properties}(d)).
+    \item \texttt{tests/test\_v262\_cii\_mask.py} --- regression
+    harness for the v2.6.2 API contract.

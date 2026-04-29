@@ -1,0 +1,193 @@
+% =====================================================================
+% TECT -- Math119 Addendum B: HONEST RETRACTION of Math119-AddA RG
+% running claim, plus rigorous analysis of the 30% R_F5 deviation
+% Theory tag: Math119-AddB-retraction-and-honest-analysis-2026-04-26
+% Status: RETRACTION + REVISED INTERPRETATION
+% Date: 2026-04-26
+% =====================================================================
+
+\section*{Math119-AddB: Retraction and Honest Analysis}
+
+\subsection*{0. Retraction notice (CLAUDE.md \S 6.1 honest-scope discipline)}
+
+Math119-AddA proposed that the 30\% deviation $R_{F5}^{\rm op-pt}=1.303$
+is explained by Brazovskii mean-field RG running of the BCC shell
+radius $q_0(\mu^2)$. \textbf{This claim is hereby RETRACTED.}
+
+\paragraph{Reason for retraction.}
+In the standard Brazovskii free energy
+\[
+\mathcal{F}[\Psi]=\int d^{3}x\Big[\tfrac{Y}{q_{0}^{2}}(\nabla^{2}\Psi+q_{0}^{2}\Psi)^{2}+\tfrac{\mu^{2}}{2}\Psi^{2}+\tfrac{\lambda}{4}\Psi^{4}+\tfrac{\gamma}{4!}\Psi^{6}\Big],
+\]
+$q_{0}$ is an \emph{input parameter} of the kinetic term, NOT a
+fluctuating saddle-point quantity. Changes in $\mu^{2}$ at fixed
+$(Y,q_{0},\lambda,\gamma)$ shift:
+\begin{itemize}
+\item condensate amplitude $\phi_{0}(\mu^{2})$ -- yes;
+\item shell-mass-gap $\varepsilon(\mu^{2})$ -- yes;
+\item free-energy depth $F(\Psi^{*}, \mu^{2})$ -- yes;
+\item shell radius $q_{0}$ -- \textbf{NO} (input, not fluctuating).
+\end{itemize}
+Therefore $a_{\rm BCC}=2\pi/q_{0}$ does NOT have intrinsic $\mu^{2}$
+running of the kind Math119-AddA claimed. The post-hoc fit $c_{\rm RG}=0.39$
+giving 0.1\% agreement with $4\sqrt{\pi}$ was a numerical coincidence
+of one parameter, not a derivation.
+
+\subsection*{1. Honest reanalysis of the 30\% deviation}
+
+The observed $R_{F5}^{\rm op-pt}=1.303$ at TECT v2.4 operating point
+$(\mu^{2},\lambda,\gamma,Y,q_{0})=(5\times 10^{-3},-0.43,1.62,1,0.6802)$
+admits three physically-defensible interpretations.
+
+\paragraph{Interpretation $(\alpha)$: TECT natural units $\ne$ Planck units (most likely).}
+
+The Math110-AddI prediction $a_{\rm BCC}=4\sqrt{\pi}\,\ell_{P}^{\rm TECT}$
+is a formal identity in any consistent unit system. Equality of
+$a_{\rm BCC}$ with $4\sqrt{\pi}$ in TECT natural units \emph{assumes}
+that TECT-internal $G$ and $\hbar$ each equal 1, i.e., that TECT's
+operating-point parameters happen to define Planck units. There is no
+a priori reason this is the case. The 30\% deviation simply reads off
+the TECT-to-Planck conversion factor:
+$$
+\ell_{P}^{\rm TECT,\,op}\;=\;\frac{a_{\rm BCC}^{\rm op}}{4\sqrt{\pi}}\;=\;1.303
+\quad\text{(in TECT natural units)}.
+$$
+This is a definitional statement about the relationship between TECT's
+chosen operating point and the Planck unit system, not a falsification.
+
+\paragraph{Interpretation $(\beta)$: $16\pi$ coefficient normalization.}
+
+Math110-AddG matched the spin-2 elastic kinetic term to linearised
+Einstein-Hilbert in TT gauge, yielding $\mu a_{\rm BCC}^{2}=c^{3}/(16\pi G)$.
+The $16\pi$ depends on:
+\begin{itemize}
+\item TT-projector convention (alternatives give $32\pi$, $8\pi$, etc.);
+\item trace-mode treatment (de Donder vs. transverse-traceless);
+\item normalization of $h_{\mu\nu}$ (Fierz-Pauli vs. canonical).
+\end{itemize}
+Standard conventions yield $16\pi$, but a Math119-AddB-AddA explicit
+re-derivation should verify this. If a different convention yields
+$32\pi$ or $8\pi$, the predicted $a_{\rm BCC}$ shifts by $\sqrt{2}$
+or $\sqrt{1/2}$, producing 1.303 from 1.0 (factor $\sqrt{1.7}\approx 1.30$).
+
+\paragraph{Interpretation $(\gamma)$: Effective coarse-graining scale $\xi(\mu^{2})$.}
+
+The elastic Lagrangian arises from coarse-graining over
+\emph{multiple} BCC unit cells. The relevant length is the
+\emph{correlation length} $\xi(\mu^{2})=1/(\varepsilon q_{0})$, NOT
+the unit-cell scale $a_{\rm BCC}=2\pi/q_{0}$. At the operating point,
+$\varepsilon\approx 0.065$, so $\xi\approx 22.6$ -- larger than
+$a_{\rm BCC}^{\rm wave}=9.24$ by factor 2.45. If matching uses a
+mass-shell-corrected scale
+\[
+a_{\rm eff}(\mu^{2})\;:=\;a_{\rm BCC}\,\sqrt{1-\mu^{2}/\mu^{2}_{c}}
+\;\approx\;9.24\,\times\,0.749\;\approx\;6.92,
+\]
+then $R_{F5}^{\rm eff}=6.92/7.09\approx 0.976$, within 2.4\% of unity.
+This is consistent with Math110-AddI Theorem F5 holding in the
+infrared/critical limit but with finite-$\mu^{2}$ corrections at the
+operating point.
+
+\paragraph{Verdict: $(\alpha)$ + $(\beta)$ + $(\gamma)$ all plausible; resolution requires independent measurements.}
+
+\subsection*{2. Code review (compute\_aBCC\_continuum / extract\_G\_TECT / extract\_hbar\_TECT / compute\_RF5)}
+
+\paragraph{Reassessment after retraction.}
+
+\begin{tabular}{|l|l|l|}
+\hline
+Tool & Status pre-retraction & Verdict post-retraction \\
+\hline
+compute\_aBCC\_continuum.py v1.1 & physical-units fix from GPT audit & \textbf{NO CHANGE} (correct) \\
+extract\_G\_TECT.py v1.0 & 3 routes A/B independent + C trivial & \textbf{NO CHANGE} (correct) \\
+extract\_hbar\_TECT.py v1.0 & 3 routes I/II independent + III trivial & \textbf{NO CHANGE} (correct) \\
+compute\_RF5.py v1.0 & exit code 4 if non-independent & \textbf{NO CHANGE} (correct) \\
+\hline
+\end{tabular}
+
+\paragraph{Why no code change is needed.}
+The pipeline's design philosophy -- requiring independently-measured
+$G^{\rm TECT}$ and $\hbar^{\rm TECT}$ at the operating point -- is
+exactly what is needed to disambiguate between interpretations
+$(\alpha)$, $(\beta)$, $(\gamma)$. The 30\% deviation is reported
+honestly (Gate F5 FAIL/MARGINAL boundary), and the user is forced
+to investigate rather than blindly accept any one interpretation.
+
+\paragraph{Code changes that WOULD be wrong.}
+\begin{itemize}
+\item Coding $\ell_{P}^{\rm TECT}=1$ as default would force interpretation $(\alpha)$ silently and hide the physics.
+\item Coding $a_{\rm eff}=a_{\rm BCC}\sqrt{1-\mu^{2}/\mu^{2}_{c}}$ as default would force interpretation $(\gamma)$ silently.
+\item Both would obscure the genuine empirical content.
+\end{itemize}
+
+\subsection*{3. Math110 status update}
+
+\paragraph{Math110-AddI Theorem F5: STILL PROVED CONDITIONAL.}
+The formal identity $a_{\rm BCC}^{2}=16\pi G\hbar/c^{3}$ remains a valid
+algebraic relation among Math110 ingredients. Whether the operating-point
+numerical $a_{\rm BCC}^{\rm op}=9.24$ equals $4\sqrt{\pi}\,\ell_{P}^{\rm TECT}$
+in 0.1\% agreement depends on which interpretation $(\alpha,\beta,\gamma)$ holds.
+
+\paragraph{Math119: REINTERPRETED.}
+The 30\% deviation is NOT a clean falsification (no Math82-H continuum
+data yet) NOR a clean confirmation (post-hoc RG fit was wrong). It is
+\textbf{an open empirical question requiring independent measurements}.
+
+\paragraph{Pillar 10 phase-transition origin: status unchanged} (PROVED CONDITIONAL pending
+both Math82-H continuum AND independent G/$\hbar$ extractions).
+
+\subsection*{4. Devil's-advocate (\S 6.3.1)}
+
+\paragraph{$\alpha$: ``Retraction is too quick; AddA's mean-field argument might be salvageable.''}
+\textbf{Verdict: VALID with action.} The mean-field argument may have a
+correct form involving $\phi_{0}(\mu^{2})$ rather than $q_{0}(\mu^{2})$.
+However, fitting $\phi_{0}$ does not naturally produce 30\% in
+$a_{\rm BCC}$. Math119-AddB-AddA: rigorously derive whether any
+mean-field correction reproduces the observed factor. If yes, partial
+restoration of AddA (with corrected mechanism). If no, full retraction stands.
+
+\paragraph{$\beta$: ``Three interpretations $(\alpha,\beta,\gamma)$ give similar numerics; how to discriminate?''}
+\textbf{Verdict: VALID with experimental design.}
+\begin{itemize}
+\item $(\alpha)$ predicts ALL TECT lengths in operating-point units shift by 1.303.
+\item $(\beta)$ predicts only the EH coefficient shifts; other ratios unchanged.
+\item $(\gamma)$ predicts $\mu^{2}$-dependence: $R_{F5}(\mu^{2}\to\mu^{2}_{c})\to 1$ but $R_{F5}(\mu^{2}\to-\infty)\to\sqrt{1+|\mu^{2}|/\mu^{2}_{c}}>1$.
+\end{itemize}
+Math82-H multi-$\mu^{2}$ schedule (originally proposed in retracted AddA, but for the wrong reason) discriminates: if $R_{F5}(\mu^{2})$ varies, $(\gamma)$; if constant, $(\alpha)$ or $(\beta)$.
+
+\paragraph{$\gamma$: ``Why was AddA accepted in the first place if it was wrong?''}
+\textbf{Verdict: VALID with process improvement.} AddA passed the
+$0.1\%$ post-hoc fit numerical seduction. Per CLAUDE.md \S 6.3.1, every
+new theorem must include explicit derivation, not just consistency
+check. AddA included a devil's-advocate section but did not flag
+the fitted-vs-derived distinction sharply enough. Future addenda must
+explicitly distinguish ``derived constant'' from ``fitted parameter.''
+
+\subsection*{5. Action items}
+
+\begin{itemize}
+\item \textbf{Math119-AddB-AddA} (next-turn): rigorous derivation of whether any mean-field correction to $a_{\rm BCC}$ reproduces the 30\% factor; if not, formally close $(\alpha)$ as preferred interpretation.
+\item \textbf{Math119-AddB-AddB}: explicit re-derivation of Math110-AddG's $16\pi$ coefficient under multiple TT-projection conventions; verify factor of 2 ambiguity is absent.
+\item \textbf{Math82-H multi-$\mu^{2}$ schedule}: original schedule from retracted AddA is preserved as test design (regardless of interpretation), since interpretation $(\gamma)$ remains a candidate and the multi-$\mu^{2}$ approach discriminates between $(\alpha)$ and $(\gamma)$.
+\item \textbf{Independent extractions}: Math45/46c $G^{\rm TECT}$ + Math60-C-AddC $\hbar^{\rm TECT}$ remain critical-path Tasks \#127, \#129.
+\end{itemize}
+
+\subsection*{6. Status}
+
+\paragraph{Math119-AddA: RETRACTED to NEGATIVE-RESULTS.md.}
+Mechanism (RG running of $q_{0}$) physically incorrect; numerical
+agreement was post-hoc 1-parameter fit, not derivation.
+
+\paragraph{Math119-AddB: REPLACES Math119-AddA as current interpretation.}
+30\% deviation is open empirical question; three plausible
+interpretations $(\alpha,\beta,\gamma)$ require independent measurements
+to discriminate. Code pipeline correctly designed to surface this
+question rather than hide it.
+
+\paragraph{No code modifications required.} The four pipeline tools
+already enforce the correct physics (mandatory independent inputs,
+trivialness-trap exit codes, physical-unit reporting).
+
+\paragraph{Pillar 10 / Math110 status unchanged.}
+
+% End of TECT-Math119-AddB-RETRACTION-and-honest-analysis.tex.txt

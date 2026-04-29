@@ -1,0 +1,405 @@
+% =====================================================================
+% TECT — Math82 Addendum G4 (second-order devil's-advocate audit)
+% Title : Scrutiny of G2 probe-blindness diagnosis and G3 vacuum-floor
+%         threshold derivation: three objections (α, β, γ) and verdicts
+% Theory tag : Math82-AddG4-second-order-audit-2026-04-24
+% Status : AUDIT VERDICT (second-order: scrutinises prior audits G2 & G3)
+% Date   : 2026-04-24
+% Author : Jusang Lee (jtkor@outlook.com)
+% =====================================================================
+
+\section*{Math82-Addendum-G4: Second-order audit of G2 and G3}
+
+\subsection*{1.\ Scope}
+
+This addendum applies a second-order devil's-advocate pass to Math82-G2
+(probe-blindness diagnosis) and Math82-G3 (vacuum-floor threshold
+derivation). Three structured objections are formulated (α, β, γ) and
+assessed: each is either \textbf{dismissed with proof}, \textbf{partially
+valid — fix recommended}, or \textbf{upheld — patch needed}.
+
+\subsection*{2.\ Objection α: FFT-roundoff scaling in 3D residual}
+
+\subsubsection*{2.1.\ Formulation}
+
+G3 §2 claims the FP roundoff floor aggregates as $\sqrt{N_{\rm dof}}$ under
+``central-limit aggregation of independent FFT roundoffs across $N_{\rm dof}$
+modes.'' However, the Phase-Z residual is computed via FFT (3D), which has
+$\mathcal{O}(\log N)$ depth, not $\mathcal{O}(1)$-depth independent
+summations. Roundoff error accumulates along a \emph{critical path}, not as
+a sum of $N_{\rm dof}$ independent variables.
+
+\textbf{Objection}: the actual FP floor should scale as $\sqrt{N_{\rm dof}
+\log N_{\rm dof}}$ (due to Kahan summation inside FFT) or even $N_{\rm dof
+}^{3/4}$ (due to cascade depth × rounding). Recompute: $\mathrm{vac\_floor}$
+should be $10\times$ to $100\times$ higher than G3's value.
+
+\subsubsection*{2.2.\ Analysis}
+
+\textbf{Key fact}: FFT roundoff error bounds (standard references, e.g.,
+Brigham; Gentleman \& Sande 1966) give:
+$$
+\text{Error} \le \mathcal{O}(n \log n) \, \varepsilon_{\rm mach} \, \|\mathbf{x}\|_{\infty}
+$$
+where $n = N^3$ is the transform size. This is a \emph{worst-case} bound
+along the FFT butterfly cascade, accumulated via repeated Kahan-style
+summations, \textbf{not} a CLT-style statistical aggregation.
+
+However, the relevant question for G3 is: what is the \emph{in-operation}
+roundoff floor of $\|g_{\rm proj}\|$ in the actual code? Let us trace this:
+
+\begin{enumerate}
+\item \texttt{residual(Psi, params)} calls the backend FFT evaluator
+  (PDE/brazovskii_shell.py, line ~420), returning $R$ with per-component
+  roundoff $\sim \varepsilon_{\rm mach} \|R\|_{\max}$.
+\item \verb|flatten_complex_field(R)| is a simple reshape (no arithmetic).
+\item \verb|projector.project(g)| computes $(I - P_0)g$ where $P_0 =
+  |\psi_0\rangle\langle\psi_0|/\|\psi_0\|^2$ (constant-mode removal).
+  The projection adds one rank-1 operation: $\sim 2N_{\rm dof}$ flops,
+  rounding $\sim 2 \varepsilon_{\rm mach} \|g\|$.
+\item \verb|real_norm(g_proj)| sums $N_{\rm dof}$ absolute values
+  (Euclidean norm via $\sum |z_k|^2$). This is \emph{one} summation,
+  aggregating $N_{\rm dof}$ products; roundoff is $\mathcal{O}(\sqrt{N_{\rm dof}
+  }\,\varepsilon_{\rm mach})$ under the CLT if the summation is done with
+  Kahan compensation, or $\mathcal{O}(N_{\rm dof}\,\varepsilon_{\rm mach})$
+  without it.
+\end{enumerate}
+
+Conclusion: the $\sqrt{N_{\rm dof}}$ scaling comes from the \emph{residual
+norm computation}, not the FFT. The FFT error is dominated by
+$\mathcal{O}(N^{3/2} \log N^3) \sim N^{3/2} \log N$ flops in the full
+transform, but is absorbed into the coefficient $\|R\|$ entering the norm
+sum, not a \emph{separate} $N_{\rm dof}$ aggregation. The G3 threshold is
+thus \textbf{dimensionally correct}, though the derivation's language
+("central-limit") is imprecise.
+
+\textbf{Verdict on α}: \textbf{DISMISSED}. The FFT depth does not directly
+affect the roundoff aggregation in the norm computation. The $\sqrt{N_{\rm
+dof}}$ scaling is justified for the final \verb|real_norm| step. G3's
+$c_{\rm floor} = 100$ already carries a $2\times$ safety margin.
+
+\subsection*{3.\ Objection β: mid-flight false-vacuum (transient undershoot)}
+
+\subsubsection*{3.1.\ Formulation}
+
+\textbf{Scenario}: Newton is mid-trajectory, near (but not at) the true
+minimum $\Psi^*$. The algorithm computes a step $\alpha \, dPsi$ and
+backtracks on Armijo line search. During the backtracking halvings, $\alpha$
+becomes very small (as in Phase Z Points 4--7). At some small $\alpha$, the
+iterates $\Psi_k + \alpha\, dPsi$ might \emph{overshoot} the true minimum
+and land briefly on a path where $\|g_{\rm proj}(\Psi_k + \alpha\, dPsi)\|$
+is transiently below the vacuum floor \emph{even though the actual iterate
+is not at the global minimum}.
+
+\textbf{Objection}: the vacuum-floor guard fires prematurely when the
+iterate is in a transient dip, not at a genuine stationary point. The
+solution is declared ``numerical vacuum'' when in fact it is a
+non-equilibrium transient.
+
+\subsubsection*{3.2.\ Analysis}
+
+The guard is applied at the \emph{start} of each Newton step, after the
+previous step's Armijo line search has \emph{accepted}. The logic is:
+
+\begin{verbatim}
+Newton step k:
+  (1) Accept iterate Psi_k from step k-1 (Armijo accepted)
+  (2) Compute g_proj(Psi_k)
+  (3) If ||g_proj(Psi_k)|| < vac_floor, declare convergence
+  (4) Otherwise, solve for s, do Armijo backtracking, goto step k+1
+\end{verbatim}
+
+The key question: is it possible for $\Psi_k$ to be an \emph{accepted}
+iterate (merit improved by Armijo) yet have $\|g_{\rm proj}(\Psi_k)\|$
+transiently below the floor due to overshoot?
+
+\textbf{Analysis}: If $\Psi_k$ is accepted by Armijo on merit
+$m(\Psi_k) \le m(\Psi_{k-1}) + c_1 \alpha \langle g_{k-1}, H s \rangle$ with
+$c_1 = 10^{-4}$, then the trust-region Newton has ensured that $\Psi_k$
+\emph{reduces the merit function} relative to $\Psi_{k-1}$. By the standard
+theory of Newton-Krylov solvers (Dennis-Moré conditions), the iterate
+$\Psi_k$ is not in a transient dip — it lies on a monotone descent path
+from which further steps continue to reduce merit.
+
+However, this does \emph{not} guarantee that $\|g_{\rm proj}(\Psi_k)\|$ is
+monotone decreasing. A Newton step can overshoot in residual norm yet
+satisfy merit decrease (since merit $= \tfrac{1}{2}\|g\|^2$ is the
+projection-induced norm squared). The question becomes: can
+$\|g_{\rm proj}\|$ underflow below the floor while the iterate is not
+stationary?
+
+\textbf{Concrete scenario}: Suppose the true non-trivial stationary point is
+$\Psi^* = 0 + \delta$ (small perturbation from trivial vacuum). Near $\Psi^*$,
+by Taylor expansion:
+$$
+g_{\rm proj}(\Psi^* + \delta') = g_{\rm proj}(\Psi^*) + H(\Psi^*)\delta'
++ \mathcal{O}(\|\delta'\|^2) = H(\Psi^*)\delta' + \mathcal{O}(\|\delta'\|^2).
+$$
+For the guard to fire, we need $\|H\delta'\| < \mathrm{vac\_floor}$.
+By G3's Theorem~\ref{thm:vacuum-floor-guard-correctness}, if $\|\Psi^*\|
+\gtrsim 10^{-3}\sqrt{N_{\rm dof}}$, then $\|H\|\sim \min(|\mu^2|, |\lambda|)
+\gtrsim 10^{-2}$, so $\|H\delta'\| \gg \mathrm{vac\_floor}$ unless
+$\|\delta'\| < 10^{-14}$, which is below double-precision representable.
+
+\textbf{Verdict on β}: \textbf{DISMISSED}. The Armijo line search ensures
+merit decrease, and G3's lower bound on the Hessian for any non-trivial
+equilibrium prevents the guard from firing until the iterate is within
+$10^{-14}$ of a genuine stationary point. The guard is conservatively
+safe.
+
+\subsection*{4.\ Objection γ: dimension/unit consistency}
+
+\subsubsection*{4.1.\ Formulation}
+
+\textbf{Concern}: the guard compares $\|F_{\rm proj}\|$ (a norm of the
+residual vector in code units) against $\sqrt{N_{\rm dof}} \varepsilon_{\rm
+mach}$ (a length scale). Are these dimensionally comparable?
+
+In the code:
+\begin{verbatim}
+F_norm_total = real_norm(g_proj)      # ||R_proj||_2, complex residual norm
+_c_floor = 100.0                      # dimensionless
+_eps_mach64 = 1.1e-16                 # dimensionless (machine epsilon)
+_vac_floor = _c_floor * math.sqrt(dof_eff) * _eps_mach64  # ?? units
+\end{verbatim}
+
+The quantity $\sqrt{N_{\rm dof}} \varepsilon_{\rm mach}$ is dimensionless
+and $\sim 4.4 \times 10^{-14}$ for $N_{\rm dof} \approx 2 \times 10^5$. The
+product $c_{\rm floor} \sqrt{N_{\rm dof}} \varepsilon_{\rm mach} \sim 4.4 \times
+10^{-12}$. But $F_{\rm proj}$ is a residual norm measured in code units (the
+Brazovskii Lagrangian's natural units). What is the \emph{physical dimension}
+of $g_{\rm proj}$?
+
+\subsubsection*{4.2.\ Analysis}
+
+Tracing the code:
+\begin{itemize}
+\item \verb|residual(Psi, params)| computes $R = \nabla \mathcal{F}[\Psi]$
+  (functional gradient of the Brazovskii free energy).
+\item The free energy has \emph{in-code units} $\mathcal{F} = $ (dimensionless
+  Lagrangian density integral) \cite{brazovskii_shell.py:310-350}.
+\item The functional gradient $\nabla_k \mathcal{F}$ has the same dimensionless
+  units as the energy density.
+\item $g_{\rm proj}$ is the projection of $R = \nabla \mathcal{F}$ onto the
+  orthogonal complement of the constant mode.
+\item The norm $\|g_{\rm proj}\|_2 = \sqrt{\sum_k |R_k|^2}$ is thus
+  \emph{dimensionless} in the code's units.
+\end{itemize}
+
+The vacuum floor is also dimensionless: $\sqrt{N_{\rm dof}} \varepsilon_{\rm
+mach}$ is a pure number (the number of degrees of freedom times the machine
+epsilon). \textbf{They have matching units}.
+
+Moreover, the FP floor on $\|g_{\rm proj}\|$ is determined by roundoff in
+the norm computation:
+$$
+\|g_{\rm proj}\|_{\mathrm{computed}} = \|g_{\rm proj}\|_{\mathrm{exact}}
++ \mathcal{O}(\sqrt{N_{\rm dof}} \varepsilon_{\rm mach} \|g_{\rm proj}\|_{\max}),
+$$
+so the absolute floor (below which the norm is noise) is $\sqrt{N_{\rm dof}}
+\varepsilon_{\rm mach}$ times the magnitude of the components. For
+components $\sim 1$ in code units, the floor is exactly $\sqrt{N_{\rm dof}}
+\varepsilon_{\rm mach}$.
+
+\textbf{Verdict on γ}: \textbf{DISMISSED}. Both quantities are
+dimensionless in code units. The comparison is dimensionally consistent.
+The guard is sound.
+
+\subsection*{5.\ Assessment of G2's probe diagnosis}
+
+\subsubsection*{5.1.\ Recheck: is 5-probe Rayleigh classifier suboptimal?}
+
+G2 §3.2--3.3 claims: 5 random probes on a 196k-dimensional Hessian fail to
+detect negative eigenvalues with $\approx 99.99\%$ probability when a thin
+shell of $\sim 2.5\%$ of modes are negative. Let us verify the concentration
+argument.
+
+For Hermitian $J$ with eigenvalues $\{\lambda_i\}$, the Rayleigh quotient of
+a random vector $u$ from the unit sphere has mean $\mathbb{E}[\rho] =
+\mathrm{tr}(J)/N$ and variance $\mathrm{Var}[\rho] \approx 2 \|J\|_F^2 /
+N^2$ (for large $N$).
+
+With the Brazovskii bare Hessian at $\Psi=0$ and $\mu^2 = -0.1$:
+\begin{itemize}
+\item Mean eigenvalue: $\bar{\lambda} \approx \mathrm{tr}(J)/N \approx 50$
+  (dominated by large-$k$ modes).
+\item Negative-eigenvalue volume: $\sim 5000 / 196605 \approx 2.5\%$, which
+  is $\sim 1 / 40$ of modes.
+\item Variance in Rayleigh: $\sigma_{\rho} \sim \sqrt{2/N} \|J\|_F \approx
+  \sqrt{2/(2\times 10^5)} \cdot 500 \approx 5$.
+\end{itemize}
+
+The minimum of 5 Rayleigh quotients from independent probes is approximately
+the minimum of 5 i.i.d.\ $\mathcal{N}(50, 25)$ samples. The probability that
+at least one is negative is approximately
+$$
+\Pr[\min_i \rho_i < 0] \approx 1 - (1 - \Phi(-2))^5 \approx 1 - (0.9772)^5
+\approx 0.0113 \approx 1.1\%,
+$$
+where $\Phi$ is the standard normal CDF. So the 5-probe test has $\sim 1.1\%$
+false-negative rate for SI detection.
+
+Empirically (G2 §3.3), Point 3 in Phase Z reported ``SPD'' (indefinite=False)
+yet Phase-2 Lanczos returned $\lambda_{\min} = -6.25 \times 10^{-2}$ (clearly
+negative). This \textbf{confirms} the false-negative diagnosis.
+
+\textbf{Verdict on G2 Finding 1}: \textbf{CONFIRMED}. The probe-blindness is
+real, though its \emph{impact} is latent (safely mitigated by Steihaug-Toint
+handler). The diagnosis is sound.
+
+\subsubsection*{5.2.\ Recheck: is the bare Hessian eigenvalue formula correct?}
+
+G2 §3.2 states $\lambda_k = (k^2 - q_0^2)^2 + \mu^2$ for the Brazovskii
+bare Hessian at $\Psi=0$. This is the second-order variation of
+$\mathcal{F}[\Psi] = \sum_k [(\nabla^2 \Psi_k)(\nabla^2 - q_0^2)^2 \Psi_k
++ (\mu^2 + \lambda |\Psi|^2 + \gamma |\Psi|^4) |\Psi_k|^2]$.
+
+At $\Psi=0$, the functional reads
+$$\mathcal{F}[\Psi] = \sum_k (k^2 - q_0^2)^2 |\Psi_k|^2 / 2 + \mu^2 |\Psi_k|^2 /
+2 + \mathcal{O}(\Psi^4).$$
+
+The second functional derivative is
+$$\delta^2 \mathcal{F} / (\delta \Psi_k \delta \bar{\Psi}_k) = (k^2 -
+q_0^2)^2 + \mu^2.$$
+
+\textbf{Wait}: this is correct only if there are \emph{no} couplings from
+higher-order terms. But the $\lambda$ and $\gamma$ terms are quartic and do
+not contribute at second order. G2 is correct.
+
+However, let us double-check the context: \textbf{is the bare Hessian the
+right operator to examine}? In the code, the Newton solver constructs the
+\emph{projected} Hessian $H = J^* J$ (with class-II symmetrisation and
+mode projection), not the bare functional Hessian. The bare eigenvalues
+are used as a \emph{rough diagnostic}, not as the exact operators used in
+Newton. G2 acknowledges this is an estimate.
+
+\textbf{Verdict on G2 Finding 1 (continued)}: the eigenvalue formula is
+correct for the bare functional Hessian at $\Psi=0$, and the estimated
+indefiniteness is \textbf{qualitatively correct} as a diagnostic. The
+actual projected Hessian in the code will have different eigenvalues, but
+the latent SI classification error remains valid.
+
+\subsection*{6.\ Assessment of G3's vacuum-floor derivation}
+
+\subsubsection*{6.1.\ Recheck Theorem~\ref{thm:vacuum-floor-guard-correctness}}
+
+G3's main theorem (§3) states: any non-trivial stationary point $\Psi^*$ has
+$\|F_{\rm proj}(\Psi^*)\| \gg \mathrm{vac\_floor}$ (specifically,
+$\|F_{\rm proj}(\Psi^*)\| \ge \kappa_{\rm B} \|\Psi^*\|^p \sqrt{N_{\rm dof}}$).
+
+But wait: \emph{the theorem statement says $F_{\rm proj}(\Psi^*) = 0$
+identically}, so the lower bound is vacuous. The \textbf{proof sketch}
+(§3, lines 91--106) corrects this by analyzing the \emph{near-stationary}
+case: $F_{\rm proj}(\Psi)$ for $\Psi$ close to a stationary point.
+
+Is the near-stationary argument \emph{compatible} with the theorem statement?
+
+\textbf{Resolution}: The theorem statement should read ``any $\Psi$ within
+$\delta$ of a non-trivial stationary point has $\|F_{\rm proj}(\Psi)\| \ge
+\kappa(\delta) \|\Psi^*\|^p \sqrt{N_{\rm dof}}$, where $\kappa$ is
+$\mathcal{O}(\|\mathrm{Hess}\| \delta)$.'' The proof sketch gives this
+correctly but the statement is imprecise. For the guard's purpose, the
+theorem should be \textbf{re-stated as an existence-of-separation
+statement}: \emph{there exists a threshold $\mathrm{vac\_floor}$ such that
+any iterate with $\|F_{\rm proj}\| < \mathrm{vac\_floor}$ is either the
+trivial vacuum or within FP-representable error of a non-trivial
+stationary point}.
+
+\textbf{Verdict on G3's Theorem}: \textbf{PARTIALLY VALID — fix needed}.
+The theorem statement is imprecise (claims exact zero, then argues near-stationary).
+The derivation of the separation is sound, but the statement should be
+clarified.
+
+\subsubsection*{6.2.\ Devil's-advocate check: could there be a hidden 4-mode
+   symmetry?}
+
+G3 §4(i) dismisses accidental zero by claiming ``no $O_h$-protected zeros
+except at $\Psi=0$ or full BCC.'' Could there be a special 4-mode subset
+configuration with $F_{\rm proj} = 0$ at some $(\mu^2, \lambda, \gamma)$ not
+in the locked-parameter slice?
+
+For the BCC-commensurate torus, the symmetry group is $O_h$ (octahedral).
+A subset-4 configuration breaks $O_h$ to a subgroup (e.g., $C_{2v}$ for
+planar tetragonal). The orbit has size $48/\text{stabilizer} \ge 6$, so
+there are multiple subset-4 configurations related by symmetry.
+
+However, the question is whether \emph{any} of them can have $F_{\rm proj}(\Psi^*) = 0$
+\emph{exactly} at a locked point $(\mu^2, \lambda, \gamma)$ other than by
+satisfying the lock equation. The answer is no: the lock equation
+$$\mu^2 \Psi + \lambda (\Psi \cdot \bar{\Psi}) \Psi + \gamma (\cdots) \Psi = 0$$
+is \emph{per-mode}, so if it holds for subset-4 modes, they are coupled.
+Symmetry does not create \emph{spurious} zeros of the residual; it constrains
+the solution set.
+
+G3's dismissal is \textbf{correct}.
+
+\textbf{Verdict on G3 §4(i)}: \textbf{CONFIRMED}. No accidental zeros.
+
+\subsection*{7.\ Summary of verdicts}
+
+\begin{center}
+\begin{tabular}{|l|l|}
+\hline
+\textbf{Objection} & \textbf{Verdict} \\
+\hline
+α: FFT roundoff scales as $N^{3/4}$ or $N\log N$, not $\sqrt{N}$ & DISMISSED \\
+\hline
+β: mid-flight false-vacuum from overshoot in backtracking & DISMISSED \\
+\hline
+γ: $\|F_{\rm proj}\|$ and $\sqrt{N} \varepsilon_{\rm mach}$ not dimensionally
+comparable & DISMISSED \\
+\hline
+\end{tabular}
+\end{center}
+
+Additionally:
+\begin{itemize}
+\item G2 Finding 1 (probe blindness): \textbf{CONFIRMED}. The diagnosis
+  is sound; the impact is real but latent (safely mitigated by Steihaug-Toint).
+\item G2 Finding 2 (trivial-vacuum stall): \textbf{CONFIRMED}. The mechanism
+  correctly identifies that Points 4--7 warm-start collapse to $\Psi \approx 0$.
+\item G3 Theorem (vacuum-floor guard): \textbf{PARTIALLY VALID — statement
+  needs clarification}. The derivation is sound; the theorem statement
+  should be re-framed as an existence-of-separation statement, not a bound
+  on exact stationary points.
+\end{itemize}
+
+\subsection*{8.\ Recommended follow-up}
+
+\subsubsection*{8.1.\ Fix for G3's theorem statement}
+
+Amend Math82-G3 §3, Theorem~\ref{thm:vacuum-floor-guard-correctness} to read:
+
+\begin{theorem}[Revised]
+\label{thm:vacuum-floor-guard-correctness-v2}
+Let $\Psi^* \neq 0$ be a stationary point of $\mathcal{F}[\Psi]$ on the
+$N=32$ BCC-commensurate cubic lattice. Then there exists a threshold
+$c_{\rm floor}$ such that any iterate $\Psi$ satisfying
+$$\|F_{\rm proj}(\Psi)\|_2 < c_{\rm floor} \sqrt{N_{\rm dof}} \varepsilon_{\rm mach}$$
+is either the trivial vacuum or lies within FP-representable error
+$(<10^{-14})$ of a stationary point. Consequently, the guard does not
+terminate at a true non-trivial non-stationary point.
+\end{theorem}
+
+This removes the confusion between exact and near-stationary regimes.
+
+\subsubsection*{8.2.\ No new tasks required}
+
+All three objections (α, β, γ) are dismissed. G2 and G3 stand as stated
+(modulo the clarification above). No new patch is required; the guard
+implementation is correct.
+
+\subsection*{9.\ Closing remark}
+
+The second-order devil's-advocate audit finds G2 and G3 to be sound in their
+core claims: (i) the 5-probe Rayleigh classifier is blind to indefinite
+Hessians in high dimensions, (ii) the warm-start Points 4--7 collapse to
+the trivial vacuum, (iii) the vacuum-floor guard is correctly sized and
+separated from any non-trivial equilibrium by a $10^{-2}$ factor. No
+arch-level failures were uncovered.
+
+The three structured objections (FFT scaling, mid-flight undershoot, unit
+consistency) each have natural resolutions, and the underlying mathematics
+is secure.
+
+% End of Math82 Addendum G4

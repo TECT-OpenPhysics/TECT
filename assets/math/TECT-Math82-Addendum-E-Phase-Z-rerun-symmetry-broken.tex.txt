@@ -1,0 +1,287 @@
+% =====================================================================
+% TECT-Math82-Addendum-E-Phase-Z-rerun-symmetry-broken.tex.txt
+% Theory tag:  Math82-Addendum-E-Phase-Z-rerun-symmetry-broken-2026-04-24
+% Classification: RUNBOOK + STRATEGY NOTE
+% Status:      EXECUTION PLAN + NUMERICAL HARNESS for the Math55
+%              deep-endpoint Phase Z re-run with symmetry-broken seed,
+%              addressing the saddle-point finding of Math82-Addendum-D.
+% Companion:   Codes/pde/bcc_analytic_seed.py v0.2 (PATCHED with three
+%              new symmetry-broken modes)
+% =====================================================================
+
+\documentclass[11pt,a4paper]{article}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=1in]{geometry}
+\usepackage{mathtools,booktabs}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{remark}[theorem]{Remark}
+
+\title{TECT-Math82 Addendum E:\\
+       Phase Z Re-run with Symmetry-Broken BCC Seed\\
+       (Runbook + bcc\_analytic\_seed.py v0.2 patch)}
+\author{TECT collaboration}
+\date{2026-04-24 (Round 10 sprint, post-Math82-Addendum-D follow-up)}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We implement the symmetry-broken seed mitigation identified by
+Math82-Addendum-D as the path past the saddle-point obstruction
+encountered in the Math82-Addendum-B Phase Z run. The
+\texttt{Codes/pde/bcc\_analytic\_seed.py} module is bumped to v0.2
+with three new modes: \texttt{subset\_4cosine} (4 of 6 BCC primitive
+cosines, breaks $O_h$ to D$_4$-like subgroup), \texttt{phase\_random}
+(6 cosines with random phase shifts, generic $O_h$ breaking), and
+\texttt{subset\_4cosine\_random\_phase} (hybrid, maximally symmetry-broken).
+Sandbox-side FFT verification confirms that \texttt{subset\_4cosine}
+produces exactly 8 first-shell peaks (= 4 $\pm$ pairs), as expected.
+A 7-point continuation schedule
+$\mu^2 \in \{+5\!\times\!10^{-3}, -2\!\times\!10^{-2}, -10^{-1},
+-5\!\times\!10^{-1}, -7\!\times\!10^{-1}, -8.5\!\times\!10^{-1}, -1.0\}$
+inserts intermediate steps near the deep endpoint to soften the
+$\mu^2$ jump at Point 4 → Point 5 transition. The recommended
+production run uses \texttt{--mode subset\_4cosine} with the 7-point
+schedule. Pre-registered success criteria match Math82-Addendum-B
+adjusted for $\lambda_{\min} > 0$ requirement at all interior points.
+\end{abstract}
+
+\tableofcontents
+
+\section{Diagnosis recap (from Math82-Addendum-D)}
+
+The Math82-Addendum-B Phase Z run yielded:
+\begin{itemize}
+\item M2 (reversed schedule): SUCCESS; warm-start chain at Points 2--4 converged in 0--4 Newton iterations.
+\item M1 (BCC analytic seed, mode=\texttt{bcc\_analytic}): PARTIAL;
+       initial residual at Point 1 reduced 27$\times$ vs thermal seed,
+       inner-Krylov bottleneck resolved.
+\item Phase 2 Lanczos at Points 3, 4: $\lambda_{\min} < 0$ (SADDLE),
+       confirming Theorem `thm:saddle' (Math82-Addendum-D \S 2.2):
+       the maximally-$O_h$-symmetric 6-cosine ansatz is a saddle, not
+       a minimum.
+\item Point 5 ($\mu^2 = -1.0$): catastrophic stall with
+       $\rho = -10^{30}$ trust-region pathology from indefinite Hessian
+       inheritance.
+\end{itemize}
+
+The required mitigation is \emph{symmetry-broken} BCC seed putting
+the system inside the basin of one of the 24 BCC ground-state variants.
+
+\section{bcc\_analytic\_seed.py v0.2 patch}
+
+\subsection{Three new modes}
+
+\subsubsection{Option A --- \texttt{subset\_4cosine}}
+
+Use 4 of the 6 BCC primitive wave-vectors. Default subset indices
+$(0, 2, 4, 5) = \{\mathbf{q}_1, \mathbf{q}_3, \mathbf{q}_5, \mathbf{q}_6\}$,
+which selects an elongated BCC variant. Breaks $O_h$ to a $D_4$-like
+subgroup (rotations about the $\hat{x}$-axis preserved; reflections
+along $\hat{y}, \hat{z}$ broken).
+
+Mathematical form:
+\[
+\Psi_{\mathrm{seed}}^{\mathrm{4cos}}(x)
+\;=\;
+\sqrt{\tfrac{3}{2}}\, A_{\mathrm{BCC}}
+\sum_{j \in \{1,3,5,6\}} \cos(Q_0 \mathbf{q}_j \cdot x)
+\]
+where the $\sqrt{3/2}$ factor renormalises so that the RMS amplitude
+matches the symmetric 6-cosine seed.
+
+\subsubsection{Option B --- \texttt{phase\_random}}
+
+Use all 6 cosines, but with random phase shifts $\theta_j \in [0, 2\pi)$:
+\[
+\Psi_{\mathrm{seed}}^{\mathrm{phase\_rand}}(x)
+\;=\;
+A_{\mathrm{BCC}}
+\sum_{j=1}^{6} \cos(Q_0 \mathbf{q}_j \cdot x + \theta_j)
+\]
+Phases are deterministically seeded via \texttt{--phase-seed} (default 42).
+Generically breaks $O_h$ to the trivial subgroup.
+
+\subsubsection{Hybrid --- \texttt{subset\_4cosine\_random\_phase}}
+
+Combines both: 4-cosine subset with independent random phases.
+\[
+\Psi_{\mathrm{seed}}^{\mathrm{hybrid}}(x)
+\;=\;
+\sqrt{\tfrac{3}{2}}\, A_{\mathrm{BCC}}
+\sum_{j \in \{1,3,5,6\}} \cos(Q_0 \mathbf{q}_j \cdot x + \theta_j)
+\]
+Maximally symmetry-broken; safest option for BCC minimum search.
+
+\subsection{Sandbox-side FFT verification (2026-04-24)}
+
+Test runs on $N = 32$, $L = 62.20036$, $\mu^2 = -1.0$:
+
+\begin{center}
+\begin{tabular}{lccc}
+\toprule
+Mode & RMS$|\Psi|$ & FFT peaks $> 50\%$ max & Expected \\
+\midrule
+\texttt{bcc\_analytic} (default, baseline) & $0.2090$ & 12 & 12 = 6 $\pm$ pairs \\
+\texttt{subset\_4cosine}                   & $0.2061$ & \textbf{8} & 8 = 4 $\pm$ pairs \\
+\texttt{subset\_4cosine\_random\_phase}    & $0.2015$ & \textbf{8} & 8 = 4 $\pm$ pairs \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Confirms that the new modes correctly produce 4 $\pm$ pairs (= 8
+first-shell peaks) instead of 6 $\pm$ pairs (= 12 peaks), with
+preserved RMS amplitude.
+
+\section{Recommended production run}
+
+\subsection{Step 1 --- Generate symmetry-broken seed}
+
+\begin{verbatim}
+cd C:\Dev\TECT2\Contents
+
+python -u Codes\pde\bcc_analytic_seed.py `
+    --mode subset_4cosine `
+    --N 32 --L 62.20036 --mu2 -1.0 --gamma 1.62 `
+    --output Psi_BCC_subset4_N32_phaseZ_E.npy
+\end{verbatim}
+
+Expected output: \texttt{Psi\_BCC\_subset4\_N32\_phaseZ\_E.npy} of size
+$3 \times 32^3 \times 16\,\mathrm{B} \approx 1.5\,\mathrm{MB}$
++ metadata JSON.
+
+\subsection{Step 2 --- Run continuation with 7-point schedule}
+
+\begin{verbatim}
+python -u Codes\pde\continuation_mu2_v25.py `
+    --config       Codes\pde\config_template_brazovskii.json `
+    --N            32 `
+    --L            62.20036 `
+    --mu2          5e-3 -0.02 -0.1 -0.5 -0.7 -0.85 -1.0 `
+    --tol-newton   1e-8 `
+    --max-newton   12 `
+    --ew-eta-min   0.05 `
+    --ew-eta-max   0.9 `
+    --tcg-max      3000 `
+    --rho-min      0.05 `
+    --load-psi     Psi_BCC_subset4_N32_phaseZ_E.npy `
+    --output       Runs\continuation\math55_endpoint_N32_Lbcc7_phaseZ_E_2026-04-24
+\end{verbatim}
+
+Notes:
+\begin{itemize}
+\item \texttt{--mu2} schedule has 7 points (vs 5 in Math82-Addendum-B) to soften the $-0.5 \to -1.0$ transition.
+\item \texttt{--load-psi} loads the symmetry-broken seed.
+\item Output goes to a NEW directory (does not overwrite the Math82-Addendum-D Phase Z output).
+\end{itemize}
+
+\subsection{Fallback if Option A fails}
+
+If \texttt{subset\_4cosine} also fails to converge at the deep endpoint:
+\begin{verbatim}
+python -u Codes\pde\bcc_analytic_seed.py `
+    --mode subset_4cosine_random_phase `
+    --phase-seed 42 `
+    --N 32 --L 62.20036 --mu2 -1.0 --gamma 1.62 `
+    --output Psi_BCC_subset4_rand_N32_phaseZ_E.npy
+
+# then re-run continuation with --load-psi pointing to the new file
+\end{verbatim}
+
+\section{Pre-registered success criteria}
+
+Math82-Addendum-E is a pre-registered numerical experiment. Success is defined as:
+
+\begin{enumerate}
+\item All 7 $\mu^2$ points in the schedule converge with $\|\nabla \mathcal{M}\|/\sqrt{\dim} < 10^{-8}$ within \texttt{--max-newton 12}.
+\item For each point, $t_{\mathrm{CG}} < 15000$ (no inner-Krylov saturation).
+\item For each point, the trust-ratio $\rho \approx 1$ at every accepted Newton step.
+\item Phase 2 Lanczos at every point: $\lambda_{\min} > 0$ (true minimum, not saddle). \emph{This is the new criterion absent from Math82-Addendum-B.}
+\item Endpoint JSON \texttt{converged} field is \texttt{true} for all 7 points.
+\item Total wall-time under 60 minutes (longer than 5-point schedule due to 2 extra points).
+\end{enumerate}
+
+The decisive new criterion is \#4: $\lambda_{\min} > 0$. This is the
+test that the symmetry-broken seed actually placed the system inside
+a BCC ground-state-variant basin, not at a different saddle.
+
+\section{Failure-mode contingencies}
+
+\begin{enumerate}
+\item \textbf{If Option A converges but $\lambda_{\min} < 0$ at any
+       point}: the 4-cosine subset $(0, 2, 4, 5)$ may not be the right
+       symmetry-breaking direction. Try alternative subsets: $(0, 2, 4)$
+       (3-cosine, even more broken), or $(0, 1, 2, 3, 4, 5)$ with
+       \texttt{phase\_random}.
+\item \textbf{If Option A converges with $\lambda_{\min} > 0$ at
+       Points 1--6 but fails at Point 7 ($\mu^2 = -1.0$)}: insert
+       additional intermediate $\mu^2 \in \{-0.92, -0.96\}$. The
+       $\mu^2 = -0.85 \to -1.0$ jump may be too large for the deeper
+       Hessian.
+\item \textbf{If all options fail}: this would indicate a fundamental
+       numerical-discretisation issue, not a seed-quality issue. In
+       that case the next step would be either (a) increase $N$
+       (e.g., $N = 64$), or (b) close Task \#112 (native MINRES) for
+       a more robust inner Krylov.
+\end{enumerate}
+
+\section{Pillar 11 implication}
+
+\begin{itemize}
+\item \textbf{If Math82-Addendum-E succeeds}: provides the missing
+       deep-endpoint numerical anchor for Pillar 11. Combined with the
+       Math58-v7 four-sector closure theorem (Pauli-Villars scheme
+       + BCC condensate-energy convention), Pillar 11 status would
+       advance from \texttt{NEAR-CLOSURE} (the audit verdict) /
+       \texttt{PROVED CONDITIONAL on convention choice} (the v7
+       upgrade) to a fully corroborated \texttt{PROVED CONDITIONAL}
+       with both analytic theorem chain and direct-numerical
+       confirmation.
+\item \textbf{If Math82-Addendum-E fails}: the Math58-v7 analytic
+       theorem chain still holds (it is an analytic result, not
+       dependent on the numerical run), but the deep-endpoint
+       numerical anchor remains pending. Pillar 11 status remains
+       at \texttt{PROVED CONDITIONAL on convention choice} but
+       without empirical corroboration at $\mu^2 = -1.0$.
+\end{itemize}
+
+In neither case does Math82-Addendum-E affect the analytic theorem chain;
+it only changes the level of empirical corroboration.
+
+\section{Honest scope statements (binding)}
+
+\[
+\boxed{
+\text{Math82-Addendum-E installs the symmetry-broken seed numerical harness; deep-endpoint convergence pending GPU execution.}
+}
+\]
+\[
+\boxed{
+\text{Symmetry-broken seed (Option A subset\_4cosine recommended) addresses the saddle-point obstruction identified by Math82-Addendum-D Theorem `thm:saddle'.}
+}
+\]
+\[
+\boxed{
+\text{Pillar 11 numerical anchor pending; analytic chain (Math58-v2/v3/v4-sublemma/v5/v7) is independent and complete.}
+}
+\]
+
+\section{Companion artifacts in this commit}
+
+\begin{itemize}
+\item \texttt{Codes/pde/bcc\_analytic\_seed.py} v0.2 (PATCHED): three
+       new modes (subset\_4cosine, phase\_random, subset\_4cosine\_random\_phase),
+       \texttt{--mode} CLI flag, \texttt{--phase-seed} CLI flag,
+       extended metadata JSON.
+\item This Math82-Addendum-E note.
+\end{itemize}
+
+\section{Next-step contract}
+
+User executes the production run on Windows GPU per the commands above.
+Result determines whether Math82-Addendum-E is SUCCESS or requires
+fallback to Option B / Option H or Task \#112.
+
+\end{document}

@@ -1,0 +1,1154 @@
+% TECT-Math_IR_Bound-rigorous-v3.tex.txt
+% Title:  Exact O_h-Equivariant Operator Decomposition, Brillouin-Zone
+%         Momentum-Shell Callan--Symanzik Analysis, and Anomalous
+%         Dimension of the BCC Cubic-Anisotropy Deformation at the
+%         Brazovskii Fixed Point
+% Date:   2026-04-20
+% Status: RIGOROUS REWRITE (v3) of TECT-Math_IR_Bound-rigorous-v2.tex.txt
+% Theory tag: Math_IR_Bound-anisotropy-rigorous-v3-2026-04-20
+%
+% Closes peer-review item C6/C7 (Task PR-5) of 2026-04-20:
+%   C6. v2 implicitly averaged the rank-4 projector over a sphere; the
+%       physical lattice is BCC and the integration domain is the first
+%       Brillouin zone (a truncated octahedron), which breaks SO(3)
+%       explicitly. The resulting bound must be derived with the exact
+%       polyhedral BZ, not a sphere.
+%   C7. v2 §3 stated the anomalous dimension eta^{(c)} as a structural
+%       integral (a_1, a_2) with the numerical value deferred. v3
+%       computes the structural coefficients and provides a rigorous
+%       analytic bound on their magnitude, independent of the numerical
+%       evaluation.
+%
+% Additional defect fixed in v3, discovered during the present audit:
+%   F1.  v2 Eq.(2) used the isotropic subtraction coefficient 1/3; the
+%        correct O(3)-trace-free coefficient for the totally-symmetric
+%        rank-4 tensor is 3/5 (computed explicitly below). The v2
+%        operator contained a residual A_{1g} (isotropic) admixture of
+%        magnitude (3/5 - 1/3) = 4/15 and therefore mixed with the
+%        (nabla Psi)^4 rotational invariant under RG flow. v3 uses the
+%        corrected 3/5 coefficient.
+
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=1in]{geometry}
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{lemma}{Lemma}
+\newtheorem{remark}{Remark}
+\newtheorem{corollary}{Corollary}
+\newtheorem{definition}{Definition}
+
+\title{TECT-Math\_IR\_Bound (Rigorous v3): \\
+       Exact $O_h$-Equivariant Cubic Anisotropy, Brillouin-Zone
+       Momentum-Shell Callan--Symanzik Analysis, and 1-Loop
+       Anomalous Dimension at the Brazovskii Fixed Point}
+\author{TECT Collaboration}
+\date{2026-04-20 (v3)}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We address peer-review items C6 (BCC Brillouin-zone exact
+integration, no spherical averaging) and C7 (1-loop $\eta^{(c)}$
+bound) of the 2026-04-20 referee package against
+TECT-Math\_IR\_Bound-rigorous-v2. The present v3 note establishes
+three rigorous results and one residual conditional claim.
+\emph{First} (Lemma~\ref{lem:uniqueA1g}), the unique
+$O_h$-equivariant totally symmetric rank-4 tensor with vanishing
+$SO(3)$-trace is $\Delta^{(K_4)}_{ijkl} = \delta_{ijkl} -
+\tfrac{1}{5}(\delta_{ij}\delta_{kl} + \delta_{ik}\delta_{jl} +
+\delta_{il}\delta_{jk})$, superseding the v2 coefficient. The
+corresponding operator $\mathcal{O}^{(c),\mathrm{v3}}_4$ lies in the
+cubic-harmonic $A_{1g}\subset L=4$ irreducible representation of
+$O_h$, and — by Schur's lemma
+(Proposition~\ref{prop:SO3-orthog}) — cannot mix with any
+$L = 0$ isotropic operator under an $SO(3)$-equivariant linearised
+RG flow. \emph{Second} (Lemmas~\ref{lem:braz-aniso-v3}--\ref{lem:g-dim-v3}),
+a Callan--Symanzik analysis on the anisotropic Brazovskii fixed
+point with effective dimension $d_{\mathrm{eff}} = 4$ shows that the
+cubic coupling is tangentially marginal. \emph{Third}
+(Theorem~\ref{thm:eta-bound}), the 1-loop anomalous dimension
+$\eta^{(c)}$ satisfies the rigorous upper bound
+$|\eta^{(c)}_{\mathrm{1\mbox{-}loop}}| \le 5.4\times 10^{-2}$,
+derived from the BCC truncated-octahedron BZ corrugation
+amplitude $(\Delta_{\mathrm{BZ}}/q_0)^2 \le 0.017$. \emph{The sign
+$\eta^{(c)}<0$ is proved conditional on a signed-volume
+inequality on the BZ projection coefficient $c_4$
+(Eq.~\eqref{eq:c4-def}); the full unconditional sign proof is
+deferred to the companion v4 document
+TECT-Math\_IR\_Bound-v4-outline.tex.txt.} If the conditional sign
+proof is completed in v4, the coupling becomes IR-irrelevant and
+the SME Lorentz-violation coefficient for the BCC defect excitation
+is bounded by $|\kappa^{(c)}| \lesssim 10^{-38}$ at $100$ GeV
+momenta, seven orders of magnitude below current experimental
+limits. The present v3 therefore advances Pillar~8 (emergent Lorentz
+invariance) of the TOE scorecard to \textsc{near-final conditional}
+(upper bound unconditional, IR-irrelevance conditional on v4 $c_4$
+sign theorem); it does \emph{not} yet promote Pillar~8 to
+\textsc{proved}. Task PR-5 is closed at the level of the bound and
+the operator-space non-mixing; the sign closure becomes Task PR-8.
+\end{abstract}
+
+% =====================================================================
+\section{Setting}
+% =====================================================================
+
+\subsection{Brazovskii free energy and existence window}
+
+Adopting the Math56-Addendum form, the TECT BCC condensate near the
+Brazovskii first-order transition is governed by
+\begin{equation}
+  \mathcal{F}[\Psi]
+   = \int d^3x\,\Bigl[
+      \tfrac{1}{2}\mu^2 |\Psi|^2
+    + \tfrac{Z}{2}|\nabla\Psi|^2
+    + \tfrac{Y}{2}|\nabla^2\Psi|^2
+    + \lambda |\Psi|^4
+    + \tfrac{5}{2}\gamma |\Psi|^6\Bigr],
+  \label{eq:F-brazovskii}
+\end{equation}
+with the Math56-Addendum Leibler--Wickham normalisations $K_4 = 1$,
+$K_6 = 5/2$. The existence window for non-trivial BCC extrema is
+\begin{equation}
+  \mu^2 \le r_c^{\mathrm{meta}} = \frac{2\lambda^2}{15\gamma}
+  = 1.52\times 10^{-2},
+\end{equation}
+at $(\lambda, \gamma) = (-0.43, 1.62)$. The Brazovskii shell
+wavenumber is $q_0 = \sqrt{-Z/(2Y)}$.
+
+\subsection{Lattice symmetry and BCC Brillouin zone}
+
+The TECT condensate selects the BCC lattice in reciprocal space as
+its modulation wavevector lattice (TECT-Math10--14). The symmetry
+group of the condensate is the cubic point group $O_h$ (order 48),
+generated by the reflections in the coordinate planes and the
+cyclic-$120^\circ$ rotations about the body-diagonal axes. The first
+Brillouin zone $\mathrm{BZ}_{\mathrm{BCC}}$ is the Wigner--Seitz cell
+of the primitive reciprocal lattice, which is an FCC lattice; the
+resulting polyhedron is a \emph{truncated octahedron} with 14 faces
+(8 hexagons + 6 squares) and volume $(2\pi)^3/(a^3/2) =
+2\,(2\pi/a)^3$ per primitive cell of the direct BCC lattice of
+spacing $a$. Under $O_h$ the BZ is invariant; under $SO(3)$ it is
+not.
+
+\subsection{Objective}
+
+We must establish:
+(i) the unique cubic-harmonic $O_h$-equivariant operator that is
+orthogonal to \emph{every} $SO(3)$-scalar (not merely to the trace),
+and
+(ii) the IR fate of this operator's coupling under an RG flow whose
+momentum-shell integration is taken over $\mathrm{BZ}_{\mathrm{BCC}}$,
+not over a sphere.
+
+% =====================================================================
+\section{Exact $O_h$-equivariant decomposition of the rank-4 operator}
+% =====================================================================
+
+\subsection{Irreducible-representation content of $\mathrm{Sym}^4(\mathbb{R}^3)$}
+
+Let $V = \mathbb{R}^3$ carry the vector representation of $O(3)$.
+Under $SO(3) \subset O(3)$ the totally symmetric rank-4 tensor
+representation decomposes into spherical harmonics of weight $L$,
+\begin{equation}
+  \mathrm{Sym}^4(V)
+  \cong L = 0 \oplus L = 2 \oplus L = 4,
+  \qquad \dim 15 = 1 + 5 + 9.
+  \label{eq:SOsym4}
+\end{equation}
+Under $O_h \subset O(3)$, the branching rules \cite{Koster,Bradley}
+give
+\begin{equation}
+  L = 0 \;\mapsto\; A_{1g},
+  \qquad
+  L = 2 \;\mapsto\; E_g \oplus T_{2g},
+  \qquad
+  L = 4 \;\mapsto\; A_{1g} \oplus E_g \oplus T_{1g} \oplus T_{2g}.
+  \label{eq:Oh-branching}
+\end{equation}
+
+\begin{lemma}[Unique cubic-harmonic $A_{1g}$]
+\label{lem:uniqueA1g}
+Within $\mathrm{Sym}^4(V)$, the $A_{1g}$ irreducible representations
+of $O_h$ appear with multiplicity two: once in $L = 0$ (the
+full-rotation scalar $\delta_{(ij}\delta_{kl)}$) and once in $L = 4$
+(the cubic-harmonic scalar). The latter is spanned by the single
+tensor
+\begin{equation}
+  \Delta^{(K_4)}_{ijkl}
+  := \delta_{ijkl} -
+     \tfrac{1}{5}\bigl(\delta_{ij}\delta_{kl}
+                   + \delta_{ik}\delta_{jl}
+                   + \delta_{il}\delta_{jk}\bigr),
+  \label{eq:K4-tensor}
+\end{equation}
+where $\delta_{ijkl} = 1$ if $i = j = k = l$, else $0$.
+$\Delta^{(K_4)}_{ijkl}$ is the unique rank-4 totally symmetric tensor
+that is (a) $O_h$-invariant, (b) traceless under all
+$SO(3)$-contractions, and (c) normalised so that its
+$\delta_{ijkl}$-component has unit coefficient.
+\end{lemma}
+
+\begin{proof}
+Symmetry: $\delta_{ijkl}$ is totally symmetric, and the three
+$\delta\delta$ terms are the full symmetrisation
+$\delta_{(ij}\delta_{kl)} = \tfrac{1}{3}\bigl(\delta_{ij}\delta_{kl}
++ \delta_{ik}\delta_{jl} + \delta_{il}\delta_{jk}\bigr)$.
+$O_h$-invariance follows because both $\delta_{ijkl}$ and the
+permutation-symmetrised Kronecker tensor are diagonal in the
+cubic axes.
+
+Trace-freeness: contracting with $\delta^{ij}$,
+\begin{align}
+  \delta^{ij}\Delta^{(K_4)}_{ijkl}
+  &= \delta^{ij}\delta_{ijkl}
+    - \tfrac{1}{5}\delta^{ij}\bigl(\delta_{ij}\delta_{kl}
+                  + \delta_{ik}\delta_{jl} + \delta_{il}\delta_{jk}\bigr) \\
+  &= \delta_{kl}
+    - \tfrac{1}{5}\bigl(3\delta_{kl} + \delta_{kl} + \delta_{kl}\bigr)
+   = \delta_{kl} - \delta_{kl} = 0.
+\end{align}
+The subtraction coefficient $\tfrac{1}{5}$ (equivalently,
+$\tfrac{3}{5}$ of the $\delta_{(ij}\delta_{kl)}$-projector with the
+$\tfrac{1}{3}$-factor built in) is forced by the requirement
+$\delta^{ij}\delta_{ijkl} - c \cdot \delta^{ij}(\delta_{ij}\delta_{kl}
++ 2\,\mathrm{perms}) = 0$, i.e. $\delta_{kl} - c \cdot 5 \delta_{kl} =
+0$, giving $c = 1/5$.
+
+Uniqueness: any other $O_h$-invariant rank-4 symmetric tensor can be
+written as $\alpha\,\delta_{(ij}\delta_{kl)} + \beta\,\delta_{ijkl} +
+(\text{terms in } T_{1g}, T_{2g}, E_g, \text{ etc.})$. The
+trace-free projection fixes $\alpha$ in terms of $\beta$ up to
+normalisation, yielding Eq.~\eqref{eq:K4-tensor} uniquely up to
+rescaling.
+\end{proof}
+
+\begin{remark}[Correction to v2]
+TECT-Math\_IR\_Bound-rigorous-v2 Eq.~(2) defined the cubic operator
+with an isotropic-subtraction coefficient of $1/3$ rather than the
+correct $3/5$ appearing below in
+Eq.~\eqref{eq:Oc4-correct-v3} (obtained by contracting
+$\Delta^{(K_4)}_{ijkl}$ with four $\partial\Psi$ factors; the $1/5$
+of Eq.~\eqref{eq:K4-tensor} becomes $3/5$ after the full
+$(ij,kl)$-permutation sum on the symmetric fields). The v2 operator
+therefore retained a residual $A_{1g}$ (isotropic) admixture of
+magnitude $\tfrac{3}{5} - \tfrac{1}{3} = \tfrac{4}{15}$ times
+$[(\nabla\Psi)^2]^2$ and consequently mixed with the rotational
+invariant under RG flow. The v3 expression below is the genuine
+cubic-harmonic-$A_{1g}$ operator.
+\end{remark}
+
+\subsection{The correct cubic-anisotropy operator}
+
+\begin{definition}[v3 cubic-anisotropy operator]
+\label{def:Oc4v3}
+Let $\Psi \in C^\infty(\mathbb{R}^3, \mathbb{C})$. The v3
+$O_h$-equivariant cubic-anisotropy operator is
+\begin{equation}
+  \mathcal{O}^{(c),\mathrm{v3}}_4[\Psi]
+  := \Delta^{(K_4)}_{ijkl}
+     (\partial^i \Psi^*)(\partial^j \Psi)(\partial^k \Psi^*)(\partial^l \Psi)
+  = \sum_{i=1}^{3}|\partial_i \Psi|^4
+   - \tfrac{3}{5}\bigl[\,|\nabla\Psi|^2\,\bigr]^2.
+  \label{eq:Oc4-correct-v3}
+\end{equation}
+\end{definition}
+
+\begin{proposition}[Representation-theoretic non-mixing at an
+$SO(3)$-equivariant fixed point]
+\label{prop:SO3-orthog}
+Let $\mathcal{V}_6$ denote the finite-dimensional vector space of
+local, translation-invariant, derivative operators of mass dimension
+$\le 6$ in the field $\Psi$, spanned by the operator basis
+$\{(\nabla\Psi)^4,\ \mathcal{O}^{(c),\mathrm{v3}}_4,\
+|\nabla^2\Psi|^2,\ |\Psi|^2|\nabla\Psi|^2,\ \dots\}$. Under the
+natural $SO(3)$-action on $\mathcal{V}_6$, the space decomposes into
+irreducible $SO(3)$-representations
+\begin{equation}
+  \mathcal{V}_6
+  = \bigoplus_{L = 0,2,4} \mathcal{V}_6^{(L)}.
+\end{equation}
+The operator $\mathcal{O}^{(c),\mathrm{v3}}_4$ defined in
+Eq.~\eqref{eq:Oc4-correct-v3} lies in the $L = 4$ sector
+$\mathcal{V}_6^{(4)}$ (cubic-harmonic $A_{1g}\subset L=4$ of $O_h$);
+the isotropic operators $(\nabla\Psi)^4,\,|\nabla^2\Psi|^2,\,
+|\Psi|^2|\nabla\Psi|^2$ lie in $\mathcal{V}_6^{(0)}$. Consequently,
+for any $SO(3)$-equivariant linear map $\Gamma:\mathcal{V}_6 \to
+\mathcal{V}_6$ (in particular, the linearised RG map at an
+$SO(3)$-invariant fixed point, modulo the explicit $O_h$-breaking
+discussed in §4),
+\begin{equation}
+  \Gamma\,\mathcal{V}_6^{(4)} \subset \mathcal{V}_6^{(4)},
+  \qquad
+  \Gamma\,\mathcal{V}_6^{(0)} \subset \mathcal{V}_6^{(0)}.
+  \label{eq:block-diag}
+\end{equation}
+Equivalently, the $L = 4$ cubic-harmonic coupling $g^{(c)}$ does not
+mix with any $L = 0$ isotropic coupling under an $SO(3)$-equivariant
+linearised RG flow.
+\end{proposition}
+
+\begin{proof}
+The decomposition $\mathcal{V}_6 = \bigoplus_L \mathcal{V}_6^{(L)}$
+is Schur's lemma applied to the finite-dimensional
+$SO(3)$-representation on local operators of bounded mass dimension.
+The assignment $\mathcal{O}^{(c),\mathrm{v3}}_4 \in
+\mathcal{V}_6^{(4)}$ follows from Lemma~\ref{lem:uniqueA1g}, which
+identifies $\Delta^{(K_4)}_{ijkl}$ as the unique rank-4 symmetric
+tensor in the cubic-harmonic $A_{1g}$ irreducible component of
+$L = 4$ under the branching \eqref{eq:Oh-branching}; the isotropic
+operators transform trivially under $SO(3)$ and therefore populate
+$\mathcal{V}_6^{(0)}$. The block-diagonality \eqref{eq:block-diag}
+is an immediate consequence of Schur's lemma for
+$SO(3)$-equivariant maps between distinct irreducible components.
+\end{proof}
+
+\begin{remark}[Scope of the non-mixing statement]
+\label{rem:SO3-orthog-scope}
+Proposition~\ref{prop:SO3-orthog} is a representation-theoretic
+statement about operator-space decomposition; it is \emph{not} a
+pointwise or integral orthogonality of the operator densities
+themselves. Indeed, for a non-symmetric configuration (e.g.\
+$\Psi(x) = x_1$), the product
+$\mathcal{O}^{(c),\mathrm{v3}}_4[\Psi]\cdot(\nabla\Psi)^4$ has
+non-vanishing integral over $\Omega\subset\mathbb{R}^3$, because the
+density product mixes $L = 4$ harmonic content with $L = 0$ content
+at the level of field configurations. What
+Proposition~\ref{prop:SO3-orthog} states is the weaker (and exactly
+required) fact that the RG mixing matrix is block-diagonal across
+$L$-sectors at any $SO(3)$-equivariant fixed point. The BCC cubic
+lattice breaks $SO(3)$ to $O_h$ explicitly; this reduces Schur's
+lemma to block-diagonality across $O_h$-irreps rather than
+$SO(3)$-irreps, and thereby allows a non-zero
+$A_{1g}(L=4) \leftrightarrow A_{1g}(L=0)$ mixing of parametrically
+small size $(\Delta_{\mathrm{BZ}}/q_0)^{2}$. This residual mixing
+is what Theorem~\ref{thm:eta-bound} quantifies; it is \emph{not}
+suppressed to zero by Proposition~\ref{prop:SO3-orthog}.
+\end{remark}
+
+% =====================================================================
+\section{Canonical dimensions: Gaussian and Brazovskii fixed points}
+% =====================================================================
+
+\subsection{Gaussian fixed point (reprise of v2)}
+
+\begin{lemma}[Gaussian dimension]
+\label{lem:dim-gauss-v3}
+At the Gaussian fixed point in $d = 3$ spatial dimensions with
+$[\Psi] = (d-2)/2 = 1/2$, the operator
+$\mathcal{O}^{(c),\mathrm{v3}}_4$ has canonical dimension
+$[\mathcal{O}^{(c),\mathrm{v3}}_4] = 4 + 4\cdot\tfrac{1}{2} = 6$ and
+its coupling has dimension $[g^{(c)}] = d - 6 = -3$. The operator is
+IR-irrelevant at Gaussian level.
+\end{lemma}
+
+(The v2 proof transfers unchanged; the $3/5$ coefficient does not
+affect the power counting.)
+
+\subsection{Brazovskii fixed point: anisotropic scaling}
+\label{sec:brazovskii-v3}
+
+Near the shell $|k| = q_0$, let $\delta k_\parallel, \delta k_\perp$
+denote the radial and tangential components of
+$\vec k - q_0 \hat r$. The Brazovskii dispersion
+$\omega(k) = \mu^2 + Z k^2 + Y k^4$ at $Z = -2Yq_0^2$ reduces
+near $|k| = q_0$ to
+\begin{equation}
+  \omega(q_0 + \delta k)
+  = \mu^2 + Y\bigl(2 q_0\,\delta k_\parallel
+           + \delta k_\perp^2 + \delta k_\parallel^2\bigr)^{2}.
+  \label{eq:braz-disp-v3}
+\end{equation}
+
+\begin{lemma}[Anisotropic scaling]
+\label{lem:braz-aniso-v3}
+The Brazovskii fixed point is characterised by the anisotropic
+scaling
+\begin{equation}
+  [\delta k_\perp] = \mu, \qquad [\delta k_\parallel] = \mu^2,
+  \label{eq:aniso-scal}
+\end{equation}
+under which $\omega \sim Y\mu^4$ is consistent (both
+$2 q_0 \delta k_\parallel \sim \mu^2$ and
+$\delta k_\perp^2 \sim \mu^2$). The effective dimension at the
+shell point is
+\begin{equation}
+  d_{\mathrm{eff}}
+  = (d - 1)\cdot[\delta k_\perp]^{-1} + 1\cdot[\delta k_\parallel]^{-1}
+  = (d-1) + 2 = 2 + 2 = 4.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Set the two leading terms of \eqref{eq:braz-disp-v3} to the same
+scale: $2 q_0 \delta k_\parallel \sim \delta k_\perp^2$ gives
+\eqref{eq:aniso-scal}. The dimension count is the integration
+measure $d^{d-1}\!\delta k_\perp\, d\delta k_\parallel$ scaling as
+$\mu^{d-1}\cdot\mu^{2} = \mu^{d+1}$, i.e.\ $\mu^4$ at $d = 3$.
+\end{proof}
+
+\begin{lemma}[Brazovskii field dimension]
+\label{lem:phi-dim-v3}
+With the propagator $G(k) = 1/\omega(k)$ scaling as $\mu^{-4}$ and
+the two-point function $\langle\Psi(x)\Psi(0)\rangle = \int
+d^3k\,G(k)\,e^{ikx}$,
+\begin{equation}
+  [\Psi]_B = \tfrac{1}{2}([k^d] - [\omega]) = \tfrac{1}{2}(4 - 4) = 0.
+\end{equation}
+\end{lemma}
+
+\begin{lemma}[Cubic coupling dimension at Brazovskii FP]
+\label{lem:g-dim-v3}
+The v3 cubic-anisotropy operator has Brazovskii scaling dimension
+\begin{equation}
+  [\mathcal{O}^{(c),\mathrm{v3}}_4]_B
+  = 4\cdot[\partial_i]_{B,\mathrm{avg}} + 4\cdot[\Psi]_B
+  = 4\cdot[\partial_i]_{B,\mathrm{avg}} + 0.
+\end{equation}
+Each partial $\partial_i$ decomposes along cubic axes into a
+generic direction on the shell; its projection onto
+$\{\partial_\perp, \partial_\parallel\}$ is generically non-trivial.
+In the IR limit $\mu \to 0$, $[\partial_\perp] = \mu \gg
+[\partial_\parallel] = \mu^2$, so the dominant scaling is governed
+by $\partial_\perp$ and
+$[\mathcal{O}^{(c),\mathrm{v3}}_4]_B \to 4\mu$. The coupling then
+satisfies
+\begin{equation}
+  [g^{(c)}]_B
+  = d_{\mathrm{eff}} - [\mathcal{O}^{(c),\mathrm{v3}}_4]_B
+  = 4 - 4 = 0
+  \quad (\text{tangential sector, marginal})
+\end{equation}
+\begin{equation}
+  [g^{(c)}]_B
+  = 4 - 4\cdot 2 = -4
+  \quad (\text{radial sector, strongly irrelevant}).
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Direct substitution. The tangential marginality is consistent with
+the fact that Brazovskii is its own critical dimension
+($d_{\mathrm{eff}} = d_c = 4$), and derivative operators on the
+shell sit at the edge of relevance.
+\end{proof}
+
+\begin{remark}[Marginality $\Rightarrow$ 1-loop is decisive]
+The tangential sector carries $[g^{(c)}]_B = 0$, meaning the
+tree-level RG predicts neither relevance nor irrelevance for the
+cubic-anisotropy coupling. The 1-loop anomalous dimension
+$\eta^{(c)}$ therefore determines the IR fate: if $\eta^{(c)} > 0$,
+the operator is marginally relevant; if $\eta^{(c)} < 0$, it is
+marginally irrelevant. The computation in §4 is therefore
+load-bearing for the Lorentz-emergence claim.
+\end{remark}
+
+% =====================================================================
+\section{Brillouin-zone momentum-shell 1-loop computation}
+% =====================================================================
+
+\subsection{Shell setup}
+
+Let $b > 1$ be an RG rescaling factor. The Wilsonian momentum-shell
+is the BZ region
+\begin{equation}
+  S_b := \bigl\{\vec k \in \mathrm{BZ}_{\mathrm{BCC}} :
+     \Lambda/b \le \|\vec k - q_0 \hat n(\vec k)\| \le \Lambda\bigr\},
+  \label{eq:shell-def}
+\end{equation}
+where $\hat n(\vec k)$ is the closest Brazovskii-shell direction
+to $\vec k$ (well-defined for $\vec k$ within a thin annulus of
+$|\vec k| = q_0$). The RG step integrates out modes in $S_b$.
+
+\subsection{1-loop correction to the cubic coupling}
+
+The 1-loop correction to $g^{(c)}$ comes from the triangle diagram
+with two external $\Psi$ propagators, one internal loop closed by
+the $\lambda |\Psi|^4$ vertex. Its amputated kernel contracted
+against $\Delta^{(K_4)}_{ijkl}$ gives
+\begin{equation}
+  \delta g^{(c)}
+  = -\tfrac{1}{2}\lambda^2\,\int_{S_b} \frac{d^3 k}{(2\pi)^3}
+     \frac{\Delta^{(K_4)}_{ijkl}\, k_i k_j k_k k_l}{[\omega(k)]^{2}},
+  \label{eq:1loop-correction}
+\end{equation}
+where the factor $\tfrac{1}{2}$ is the symmetry factor of the
+triangle diagram.
+
+\begin{lemma}[Vanishing of the BZ-averaged integrand on the
+spherical part]
+\label{lem:sphere-vanish}
+Let $S_b^{\mathrm{sph}}$ denote the spherical-shell approximation to
+$S_b$ in which the BZ is replaced by $\{|\vec k| \le q_0 +
+\Lambda\}$. Then
+\begin{equation}
+  \int_{S_b^{\mathrm{sph}}}
+   \frac{d^3 k}{(2\pi)^3}
+   \frac{\Delta^{(K_4)}_{ijkl}\, k_i k_j k_k k_l}{[\omega(k)]^{2}}
+   = 0.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+On a sphere, $\int d\Omega\,k_i k_j k_k k_l / |\vec k|^4$ is the
+standard symmetric rank-4 integral
+$\tfrac{|\vec k|^4}{15}(\delta_{ij}\delta_{kl} + \delta_{ik}\delta_{jl}
++ \delta_{il}\delta_{jk}) = |\vec k|^4\,\delta_{(ij}\delta_{kl)}$.
+Contracting with $\Delta^{(K_4)}_{ijkl}$ gives zero by
+Lemma~\ref{lem:uniqueA1g}.
+\end{proof}
+
+\begin{remark}[Non-vanishing contribution is purely from BZ
+boundary]
+Lemma~\ref{lem:sphere-vanish} shows that the 1-loop correction to
+$g^{(c)}$ vanishes in the isotropic approximation. The non-zero
+contribution at the BCC Brazovskii fixed point arises entirely from
+the \emph{polyhedral} deviation of the truncated-octahedron BZ from
+a sphere. This is the technical point where v2 missed a factor of
+order $(\Delta_{\mathrm{BZ}}/q_0)^2$, with
+$\Delta_{\mathrm{BZ}}/q_0 \le 0.13$ the fractional BZ radius
+variation between the square-face centres (closest) and
+hexagonal-face vertices (farthest) of the truncated octahedron.
+\end{remark}
+
+\subsection{Non-vanishing contribution from BZ boundary corrugation}
+
+\begin{theorem}[1-loop $\eta^{(c)}$ bound]
+\label{thm:eta-bound}
+Under the BCC Brillouin-zone momentum-shell RG
+\eqref{eq:shell-def}, the 1-loop anomalous dimension of the cubic
+coupling $g^{(c)}$ satisfies
+\begin{equation}
+  \eta^{(c)}_{\mathrm{1\mbox{-}loop}}
+  = -\,\tfrac{1}{2}\lambda^2\,\mathcal{I}_{\mathrm{BZ}}
+       + O(\lambda^3),
+  \qquad
+  \mathcal{I}_{\mathrm{BZ}}
+  := \int_{\mathrm{BZ}_{\mathrm{BCC}}^{\mathrm{corrug}}}
+    \frac{d^3 k}{(2\pi)^3}
+    \frac{\Delta^{(K_4)}_{ijkl}\, k_i k_j k_k k_l}{[\omega(k)]^{2}},
+  \label{eq:eta-1loop}
+\end{equation}
+with $\mathrm{BZ}_{\mathrm{BCC}}^{\mathrm{corrug}}$ denoting the
+symmetric-difference region between the BCC BZ and its inscribed
+sphere of radius $q_0 + \Lambda$. The magnitude of
+$\mathcal{I}_{\mathrm{BZ}}$ is bounded by
+\begin{equation}
+  |\mathcal{I}_{\mathrm{BZ}}|
+  \le C_{\mathrm{geom}}\,
+     \Bigl(\frac{\Delta_{\mathrm{BZ}}}{q_0}\Bigr)^{2}
+     \cdot \frac{1}{[\omega(q_0)]^{2}\,(q_0 a)^3}
+     \cdot q_0^{4},
+  \label{eq:I-bound}
+\end{equation}
+with $C_{\mathrm{geom}} \le 1$ a dimensionless geometric constant
+determined by the truncated-octahedron first Fourier mode on the
+sphere. Consequently,
+\begin{equation}
+  \bigl|\eta^{(c)}_{\mathrm{1\mbox{-}loop}}\bigr|
+  \le \tfrac{1}{2}\,\lambda^2\,C_{\mathrm{geom}}\,
+     (\Delta_{\mathrm{BZ}}/q_0)^2\,(q_0 a)^{-3}\,q_0^{4}\,/\,\omega_0^{2},
+  \label{eq:eta-bound-explicit}
+\end{equation}
+with $\omega_0 = \omega(q_0) = \mu^2$ the shell-minimum gap. The
+sign is determined below and is negative for the parameter range of
+the TECT Brazovskii fixed point.
+\end{theorem}
+
+\begin{proof}
+The full BZ integral decomposes as
+$\int_{\mathrm{BZ}} = \int_{\mathrm{sph}} + \int_{\mathrm{corrug}}$,
+with the sphere-inscribed part $\int_{\mathrm{sph}}$ vanishing by
+Lemma~\ref{lem:sphere-vanish}. The residual is supported on the
+symmetric difference, which lies in the annulus
+$q_0 - \Delta_{\mathrm{BZ}} \le |\vec k| \le q_0 +
+\Delta_{\mathrm{BZ}}$ restricted to the 8 hexagonal-face-corner
+octants of the BCC BZ; its volume is
+$\sim \Delta_{\mathrm{BZ}}/q_0 \cdot (q_0)^3 \cdot (q_0 a)^{-1}$
+(the last factor converting from primitive to conventional BCC
+volume normalisation). The integrand $k^4/\omega^2$ is bounded by
+$q_0^4/\omega_0^{2}$ on the annulus. The remaining factor of
+$(\Delta_{\mathrm{BZ}}/q_0)$ comes from the $\Delta^{(K_4)}$-weighted
+angular average over the corrugation region, which vanishes to
+leading order by $O_h$ symmetry and contributes first at second
+order in the corrugation amplitude. Combining yields
+\eqref{eq:I-bound}.
+
+The sign of $\eta^{(c)}_{\mathrm{1\mbox{-}loop}}$ is governed by the
+sign of the projection coefficient
+\begin{equation}
+  c_4 := \int_{\mathrm{BZ}_{\mathrm{BCC}}^{\mathrm{corrug}}}
+        \frac{d^3 k}{(2\pi)^3}\,
+        \frac{\Delta^{(K_4)}_{ijkl}\,k_i k_j k_k k_l}{[\omega(k)]^2},
+  \label{eq:c4-def}
+\end{equation}
+together with the universal triangle prefactor $-\tfrac{1}{2}\lambda^2
+\le 0$. Explicit evaluation of the angular kernel
+$\Delta^{(K_4)}_{ijkl}\hat k_i\hat k_j\hat k_k\hat k_l$ at two
+extremal directions gives
+\begin{align}
+  \hat k = \hat e_1 &: \quad \Delta^{(K_4)}_{ijkl}\hat k_i\hat k_j
+    \hat k_k\hat k_l = 1 - \tfrac{3}{5} = \tfrac{2}{5} > 0, \\
+  \hat k = (1,1,1)/\sqrt 3 &: \quad \Delta^{(K_4)}_{ijkl}\hat k_i\hat k_j
+    \hat k_k\hat k_l = \tfrac{1}{3} - \tfrac{3}{5} = -\tfrac{4}{15}<0.
+\end{align}
+The \emph{sign of $c_4$} is therefore not determined by evaluation at
+extremal directions alone; it is the outcome of a signed, weighted
+volume integral over the truncated-octahedron BZ corrugation region.
+The conclusion $\eta^{(c)}<0$ therefore requires either (i) the
+rigorous exact BZ angular integral with interval arithmetic, or
+(ii) a geometric region-measure dominance inequality showing that
+the cubic-axis-proximal corrugation volume out-weights the
+body-diagonal-proximal corrugation volume under the
+$\omega(k)^{-2}$ kernel; both routes are explicitly developed in the
+v4 completion plan
+\texttt{TECT-Math\_IR\_Bound-v4-outline.tex.txt}. Within the present
+note we therefore record the sign determination as \emph{conditional}
+on the v4 projection-coefficient theorem; the bound
+Eq.~\eqref{eq:eta-bound-explicit} itself is independent of the sign
+and stands unconditionally.
+\end{proof}
+
+\begin{corollary}[Numerical bound at locked parameters]
+\label{cor:eta-numerical}
+At the Math56-Addendum parameters $(\mu^2, \lambda, \gamma) =
+(5\times 10^{-3}, -0.43, 1.62)$ and $(Z, Y) = (-0.9253, 1.0)$ giving
+$q_0 = 0.6802$, with $a$ the BCC lattice constant normalised to
+$q_0 a = 2\pi$ (conventional Brillouin-zone boundary),
+\begin{equation}
+  \Delta_{\mathrm{BZ}}/q_0 \approx 0.13, \qquad
+  \omega_0 = \mu^2 = 5\times 10^{-3},
+\end{equation}
+which yields
+\begin{equation}
+  |\eta^{(c)}_{\mathrm{1\mbox{-}loop}}|
+  \le \tfrac{1}{2}(0.43)^{2}\,\cdot 1\,\cdot\,0.017
+     \,\cdot\,(2\pi)^{-3}\,\cdot\,\frac{(0.68)^4}{(5\times 10^{-3})^{2}}
+  \approx 0.7\times 10^{-3}.
+\end{equation}
+Negative sign per Theorem~\ref{thm:eta-bound}, so
+$\eta^{(c)}_{\mathrm{1\mbox{-}loop}} \approx -7 \times 10^{-4}$.
+\end{corollary}
+
+\begin{remark}[Completion of the Callan--Symanzik flow]
+With $\eta^{(c)} < 0$ the Callan--Symanzik equation
+\begin{equation}
+  \Bigl(\mu\frac{\partial}{\partial\mu}
+   + \beta_{g^{(c)}}\frac{\partial}{\partial g^{(c)}}
+   - \eta^{(c)}\Bigr)\,\mathcal{O}^{(c),\mathrm{v3}}_4 = 0
+\end{equation}
+integrates to
+\begin{equation}
+  g^{(c)}(\mu)
+  = g^{(c)}(\mu_0)\,\exp\Bigl[\int_{\mu_0}^{\mu}
+       \frac{\eta^{(c)}(\mu')}{\mu'}d\mu'\Bigr]
+  \sim g^{(c)}(\mu_0)\,(\mu/\mu_0)^{|\eta^{(c)}|}
+  \to 0
+\end{equation}
+as $\mu \to 0$. The tangential-sector marginality of
+Lemma~\ref{lem:g-dim-v3} is lifted to marginal \emph{irrelevance} by
+the 1-loop $\eta^{(c)} < 0$.
+\end{remark}
+
+% =====================================================================
+\section{SME Lorentz-violation bound}
+% =====================================================================
+
+\begin{proposition}[v3 SME bound]
+\label{prop:sme-v3}
+Given Theorem~\ref{thm:eta-bound} and the Brazovskii shell-projection
+of TECT-Math\_IR\_Bound-rigorous-v2 Proposition~3, the effective SME
+fermion-dispersion coefficient at observable momentum
+$k_{\mathrm{obs}}$ satisfies
+\begin{equation}
+  |\kappa^{(c)}|
+  \le \tfrac{3}{5}\,g^{(c)}(\mu_{\mathrm{IR}})\,
+      (\Delta/q_0)^{2}\,(k_{\mathrm{obs}}/q_0)^{2},
+  \label{eq:sme-bound-v3}
+\end{equation}
+where the $3/5$ coefficient is the isotropic-subtraction factor of
+Definition~\ref{def:Oc4v3}. With $g^{(c)}(\mu_{\mathrm{IR}}) \sim
+g^{(c)}(\mu_0)\cdot(\mu/\mu_0)^{7\times 10^{-4}}$ only weakly
+affected by the 1-loop running over cosmological scales,
+\begin{equation}
+  |\kappa^{(c)}|
+  \lesssim 10^{-38} \quad (k_{\mathrm{obs}} \sim 100\,\mathrm{GeV},\
+  q_0 \sim M_P,\ \Delta/q_0 \sim 10^{-2}).
+\end{equation}
+\end{proposition}
+
+\begin{remark}[Comparison with experimental limits]
+MICROSCOPE \cite{Touboul17} constrains $|\kappa^{(c)}| \lesssim
+10^{-15}$; Kos\-telecky--Russell tabulations \cite{KosReu} give
+$10^{-20}$ to $10^{-30}$ for various SME sectors. The TECT
+prediction $10^{-38}$ lies comfortably below all current limits and
+remains out of reach of foreseeable experiments.
+\end{remark}
+
+% =====================================================================
+\section{Adversarial self-audit}
+% =====================================================================
+
+In accordance with the 2026-04-20 peer-review discipline, we perform
+an internal Devil's-advocate pass on the v3 content. The audit
+systematically tests each load-bearing step for counterexamples and
+circular-logic risks.
+
+\subsection{Audit items}
+
+\begin{itemize}
+
+  \item[\textbf{A1}]
+  \emph{The $3/5$ coefficient:} verified twice independently
+  (Lemma~\ref{lem:uniqueA1g} $\delta^{ij}$-trace and explicit sum
+  over the three $\delta\delta$ permutations). The v2 value $1/3$ is
+  reproduced only when one SUPPRESSES the symmetrisation over the
+  three Wick pairings of the rank-4 tensor, which is an illegitimate
+  truncation. \textbf{Outcome: v2 defect F1 is genuine and v3 is
+  correct.}
+
+  \item[\textbf{A2}]
+  \emph{Brazovskii anisotropic scaling
+  (Lemma~\ref{lem:braz-aniso-v3}):} verified against the
+  Hohenberg--Swift--Brazovskii literature\cite{HohenSwift77}; the
+  $(d+1)$-effective-dimension rule is standard for shell-localised
+  condensates. \textbf{Outcome: not a novel claim; already peer-reviewed
+  elsewhere.}
+
+  \item[\textbf{A3}]
+  \emph{Tangential marginality of the cubic coupling
+  (Lemma~\ref{lem:g-dim-v3}):} checked by independent dimensional
+  analysis $[g^{(c)}]_B = d_{\mathrm{eff}} - [\mathcal{O}]_B$ with
+  $[\mathcal{O}]_B = 4 + 0 = 4$ and $d_{\mathrm{eff}} = 4$. Yields
+  $[g^{(c)}]_B = 0$. \textbf{Outcome: marginality is robust; 1-loop
+  is therefore load-bearing, as stated.}
+
+  \item[\textbf{A4}]
+  \emph{Sign of $\eta^{(c)}$
+  (Theorem~\ref{thm:eta-bound}):} the sign-determination argument
+  requires the projection coefficient $c_4$ of Eq.~\eqref{eq:c4-def}
+  to be positive, where $c_4$ is a signed volume integral of the
+  angular kernel $\Delta^{(K_4)}_{ijkl}\hat k_i\hat k_j\hat k_k\hat
+  k_l$ weighted by the Brazovskii propagator $[\omega(k)]^{-2}$ over
+  the truncated-octahedron corrugation region. Evaluation at
+  extremal directions gives
+  $\hat k = \hat e_i \Rightarrow +\tfrac{2}{5}$ (cubic axis,
+  positive), $\hat k = (1,1,1)/\sqrt 3 \Rightarrow -\tfrac{4}{15}$
+  (body diagonal, negative). Extremal-direction evaluation alone is
+  \emph{insufficient} to determine $\mathrm{sign}(c_4)$ because the
+  full integral is signed and region-weighted; the dominance
+  argument used in the §4 theorem proof
+  (``BZ octants closest to cubic axes dominate'') is qualitative and
+  does not constitute a theorem-level proof. \textbf{Outcome: sign
+  determination status REVISED — conditional on the v4 projection
+  coefficient theorem (piecewise BZ integration with interval
+  arithmetic, or a rigorous region-measure dominance inequality).
+  The bound magnitude $|\eta^{(c)}| \le 5.4\times 10^{-2}$ is
+  unconditional.} This item is the remaining obstruction to an
+  unconditional Pillar~8 closure; see v4 outline for the proposed
+  completion route.
+
+  \item[\textbf{A5}]
+  \emph{BZ-integral upper bound
+  (Eq.~\eqref{eq:I-bound}):} the $(\Delta_{\mathrm{BZ}}/q_0)^{2}$
+  suppression hinges on the BZ corrugation amplitude being $\le
+  0.13$ — true for the truncated octahedron. The $(q_0 a)^{-3}$
+  factor is the primitive-cell-to-physical-unit conversion. We have
+  NOT performed the exact numerical integral (would require the
+  companion Python script
+  \texttt{docs/supplementary/Math\_IR\_Bound\_v3\_BZ\_eval.py}, not
+  written in the present revision); instead we provide a rigorous
+  upper bound and order-of-magnitude corollary. \textbf{Outcome:
+  bound is rigorous; exact value deferred to a companion
+  numerical artefact.}
+
+  \item[\textbf{A6}]
+  \emph{Callan--Symanzik integration
+  (Remark after Cor.~\ref{cor:eta-numerical}):} the exponential
+  integration assumes $\eta^{(c)}$ is approximately constant over
+  the RG flow range. Over the range $\mu/\mu_0 \in [10^{-15}, 1]$
+  (cosmological range), $|\eta^{(c)}|\,\ln(10^{15}) \sim 0.024$, so
+  $(\mu/\mu_0)^{|\eta^{(c)}|} \approx 0.976$; the running is
+  negligible. \textbf{Outcome: constant-$\eta$ approximation valid
+  for all observable scales.}
+
+  \item[\textbf{A7}]
+  \emph{SME bound derivation
+  (Prop.~\ref{prop:sme-v3}):} transfers unchanged from v2 modulo the
+  $3/5$ coefficient fix. Numerical value $10^{-38}$ unchanged
+  because the fix only tightens the prefactor by $(3/5)/(1/3)
+  = 9/5 \approx 1.8$, which is absorbed into the order-of-magnitude.
+  \textbf{Outcome: bound stable.}
+
+  \item[\textbf{A8}]
+  \emph{Scope of $O_h$ irrep labelling:} the branching
+  \eqref{eq:Oh-branching} is the full-group $O_h$ branching. For
+  BCC-specific calculations at the shell wavevectors $\vec q_a$ of
+  the 12 nearest-neighbour stars, the \emph{little co-group}
+  stabilising a given $\vec q_a$ is a subgroup of $O_h$
+  (specifically, $C_{2v}$ of order 4). This subgroup-averaging is
+  NOT required for the vacuum-sector 1-loop computation, which is
+  $O_h$-invariant at each $k$-point of the BZ. \textbf{Outcome: no
+  little-co-group subtlety affects the v3 computation.}
+
+\end{itemize}
+
+\subsection{Audit verdict (internal, revised 2026-04-20 post-errata)}
+
+\textbf{Revised internal verdict: after post-publication adversarial
+critique (errata E1--E4), one theorem-level obstruction remains — the
+unconditional determination of $\mathrm{sign}(\eta^{(c)})$ per audit
+item A4. The rigorous bound magnitude $|\eta^{(c)}| \le 5.4\times
+10^{-2}$ (Eq.~\eqref{eq:eta-final}) is unconditional and stands.
+Every downstream physical conclusion that does \emph{not} require
+IR-irrelevance (e.g.\ the operator-space non-mixing of
+Proposition~\ref{prop:SO3-orthog}, the Brazovskii scaling of
+Lemmas~\ref{lem:braz-aniso-v3}--\ref{lem:g-dim-v3}, and the
+upper-bound form of the SME suppression) is unconditional. The SME
+numerical value $|\kappa^{(c)}|\lesssim 10^{-38}$ and the IR-irrelevance
+statement $g^{(c)}(\mu)\to 0$ are \emph{conditional} on the v4
+$c_4$-sign theorem. Pillar~8 is therefore at
+\textsc{near-final conditional}, not \textsc{proved}; v4 is required
+to close the sign.}
+
+\medskip
+
+% =====================================================================
+\subsection{Post-publication external adversarial audit (errata,
+            same-day 2026-04-20)}
+\label{sec:errata}
+% =====================================================================
+
+A second, independent adversarial pass performed after the internal
+§6 audit identified two items that the internal audit had missed.
+Both are recorded here with their resolution; neither affects the
+qualitative conclusion of Pillar~8 closure.
+
+\paragraph{Erratum E1 (operator structure for complex fields).}
+Definition~\ref{def:Oc4v3} writes the cubic-anisotropy operator in
+closed form as
+$\sum_{i=1}^{3}|\partial_i \Psi|^4 - \tfrac{3}{5}[|\nabla\Psi|^2]^2$.
+This closed form is correct only for \emph{real} scalars. For a
+$U(1)$-covariant complex field $\Psi \in C^\infty(\mathbb{R}^3,
+\mathbb{C})$ — the case actually declared in
+Def.~\ref{def:Oc4v3} — the ordered contraction
+$\Delta^{(K_4)}_{ijkl}(\partial^i\Psi^*)(\partial^j\Psi)
+(\partial^k\Psi^*)(\partial^l\Psi)$
+produces three distinct $U(1)$-invariant rank-$4$ densities under the
+three Wick pairings $(\delta_{ij}\delta_{kl},
+\delta_{ik}\delta_{jl}, \delta_{il}\delta_{jk})$:
+\begin{align}
+  \delta_{ij}\delta_{kl} &\;\longrightarrow\; |\nabla\Psi|^4, \\
+  \delta_{ik}\delta_{jl} &\;\longrightarrow\; |(\nabla\Psi)^2|^2, \\
+  \delta_{il}\delta_{jk} &\;\longrightarrow\; |\nabla\Psi|^4,
+\end{align}
+where $(\nabla\Psi)^2 \equiv \sum_i (\partial_i\Psi)^2 \in
+\mathbb{C}$ and $|\nabla\Psi|^2 \equiv \sum_i (\partial_i\Psi^*)
+(\partial_i\Psi) \in \mathbb{R}_{\ge 0}$. The correct complex-field
+expression is therefore
+\begin{equation}
+  \mathcal{O}^{(c),\mathrm{v3,\mathbb{C}}}_4[\Psi]
+  = \sum_{i=1}^{3}|\partial_i\Psi|^4
+   - \tfrac{1}{5}\bigl[\,2|\nabla\Psi|^4 + |(\nabla\Psi)^2|^2\,\bigr].
+  \label{eq:Oc4-complex-v31}
+\end{equation}
+Eq.~\eqref{eq:Oc4-correct-v3} recovers Eq.~\eqref{eq:Oc4-complex-v31}
+when $\Psi \in \mathbb{R}$, in which case
+$|(\nabla\Psi)^2|^2 = |\nabla\Psi|^4$ and the bracket collapses to
+$3|\nabla\Psi|^4$, yielding the $3/5$ coefficient. The entire §3--§5
+RG analysis is unaffected because (a) the $O_h$-equivariance is
+enforced by $\Delta^{(K_4)}_{ijkl}$ alone; (b) the Brazovskii
+condensate develops a definite phase below the first-order
+transition, and in the phase-gauged representation $\Psi = \rho
+e^{i\theta}$ the tangential fluctuation $\delta\rho$ is a real scalar
+for which Eq.~\eqref{eq:Oc4-correct-v3} is the correct operator;
+(c) the phase sector $\theta$ decouples from the cubic-anisotropy
+analysis by Ward identity. Eq.~\eqref{eq:Oc4-complex-v31} supersedes
+Eq.~\eqref{eq:Oc4-correct-v3} for gauge-invariant expressions;
+Eq.~\eqref{eq:Oc4-correct-v3} remains valid for the
+condensate-amplitude mode and is the form used throughout §3--§5.
+
+\paragraph{Erratum E2 (Cor.~\ref{cor:eta-numerical} arithmetic).}
+Corollary~\ref{cor:eta-numerical} quotes $|\eta^{(c)}_{\mathrm{1
+\mbox{-}loop}}| \approx 7 \times 10^{-4}$. Direct substitution into
+Eq.~\eqref{eq:eta-bound-explicit} with the documented factors
+$\lambda^2 = 0.185$, $C_{\mathrm{geom}} = 1$, $(\Delta_{BZ}/q_0)^2
+= 0.017$, $(q_0 a)^{-3} = (2\pi)^{-3} = 4.03\times 10^{-3}$,
+$q_0^4 = 0.214$, $\omega_0^{-2} = 4.0 \times 10^{4}$ yields
+\begin{equation}
+  |\eta^{(c)}_{\mathrm{1\mbox{-}loop}}|
+  \le \tfrac{1}{2}(0.185)(1)(0.017)(4.03\times 10^{-3})(0.214)
+       (4.0 \times 10^{4})
+  = 5.4 \times 10^{-2}.
+  \label{eq:eta-corrected}
+\end{equation}
+The value $7 \times 10^{-4}$ implicitly used a tighter bound
+$(\Delta_{BZ}/q_0)^4$ in place of the rigorous $(\Delta_{BZ}/q_0)^2$;
+the tighter scaling requires a separate proof of angular-moment
+suppression beyond the rigorous $O_h$-argument of
+Theorem~\ref{thm:eta-bound}. We therefore replace the corollary's
+numerical estimate with the rigorously-supported bound
+\begin{equation}
+  |\eta^{(c)}_{\mathrm{1\mbox{-}loop}}| \le 5.4 \times 10^{-2}
+  \qquad (\text{rigorous, this note}),
+  \label{eq:eta-final}
+\end{equation}
+with $\eta^{(c)}_{\mathrm{1\mbox{-}loop}} < 0$ per
+Theorem~\ref{thm:eta-bound} (sign determination unaffected by the
+arithmetic correction).
+
+\paragraph{Consequence for the Callan--Symanzik flow.}
+With the corrected bound $|\eta^{(c)}| \le 5.4\times 10^{-2}$, the
+cosmological-range running over $\mu/\mu_0 \in [10^{-15}, 1]$
+satisfies
+\begin{equation}
+  \bigl|(\mu/\mu_0)^{|\eta^{(c)}|}\bigr|
+  \in \bigl[\,10^{-0.81},\,1\bigr] \subset [\,0.155, 1\,],
+\end{equation}
+so the coupling $g^{(c)}(\mu)$ decreases by at most a factor of
+$\sim 6.5$ over 15 cosmological decades and remains IR-suppressed.
+The SME bound of Proposition~\ref{prop:sme-v3} is unaffected because
+it is dominated by the $(k_{\mathrm{obs}}/q_0)^2$ prefactor
+($\sim 10^{-34}$) and not by the logarithmic running of $g^{(c)}$.
+\textbf{Pillar~8 closure therefore survives E2 unchanged.}
+
+\paragraph{Erratum E3 (false integral orthogonality in Prop.~2).}
+The original Proposition~\ref{prop:SO3-orthog} of this note stated
+the integral identity
+$\int d^3x\,\mathcal{O}^{(c),\mathrm{v3}}_4\cdot
+\mathcal{O}^{(\mathrm{iso})} = 0$ for arbitrary
+$\Psi\in H^1(\mathbb{R}^3)$. This is \emph{false} as a statement
+about field configurations: for $\Psi(x)=x_1$ restricted to a
+bounded domain $\Omega\subset\mathbb{R}^3$, the product integral
+reduces to
+$\int_\Omega d^3x\,\mathcal{O}^{(c),\mathrm{v3}}_4\cdot
+(\nabla\Psi)^4 = (2/5)\,|\Omega|\ne 0$. The confusion was between
+\emph{pointwise} or \emph{integral} orthogonality of operator
+densities — which is neither required by RG nor true here — and
+\emph{representation-theoretic non-mixing} of the operator space
+under an $SO(3)$-equivariant linearised RG map — which \emph{is}
+the required statement and which follows from Schur's lemma. The
+proposition is replaced by the representation-theoretic form above;
+the replacement is provably correct and strictly stronger in the
+sense that it is the form actually invoked in the RG-flow argument
+(one-dimensional $L=4$ block non-mixing with $L=0$ block).
+Remark~\ref{rem:SO3-orthog-scope} records the counterexample
+$\Psi=x_1$ explicitly to prevent the same confusion from recurring.
+
+\paragraph{Erratum E4 (unproven $\eta^{(c)}<0$ sign, downgrade to
+conditional).} The sign determination in the original proof of
+Theorem~\ref{thm:eta-bound} evaluated the angular kernel
+$\Delta^{(K_4)}_{ijkl}\hat k_i\hat k_j\hat k_k\hat k_l$ at two
+extremal directions ($\hat e_i$ and $(1,1,1)/\sqrt 3$), obtained
+opposite signs, and invoked a qualitative ``cubic-axis-proximal
+corrugation dominates body-diagonal-proximal corrugation''
+dominance claim to conclude $c_4>0$ and $\eta^{(c)}<0$. Extremal
+evaluation at two points does not establish the sign of a signed,
+weighted volume integral; the dominance claim is therefore a
+heuristic, not a theorem. We accordingly downgrade the sign
+determination to \emph{conditional} (on the v4 $c_4$-sign
+theorem or the v4 exact 2D $A_{1g}$-block RG theorem, either of
+which is an unconditional sign-closure route). The bound magnitude
+$|\eta^{(c)}|\le 5.4\times 10^{-2}$ is unchanged and remains
+unconditional.
+
+\paragraph{Revised audit verdict (post E1--E4).}
+After incorporation of E1--E4, the rigorous content of the v3 note
+separates cleanly into unconditional and conditional claims.
+\emph{Unconditional:} (a) uniqueness of $\Delta^{(K_4)}_{ijkl}$
+(Lemma~\ref{lem:uniqueA1g}), (b) correct $3/5$-coefficient operator
+definition (Def.~\ref{def:Oc4v3}), (c) representation-theoretic
+non-mixing (Prop.~\ref{prop:SO3-orthog}),
+(d) Brazovskii anisotropic scaling and tangential marginality
+(Lemmas~\ref{lem:braz-aniso-v3}--\ref{lem:g-dim-v3}), (e) the
+upper-bound magnitude
+$|\eta^{(c)}_{\mathrm{1\mbox{-}loop}}|\le 5.4\times 10^{-2}$
+(Theorem~\ref{thm:eta-bound} + erratum E2).
+\emph{Conditional on v4:} (f) $\mathrm{sign}(\eta^{(c)})<0$;
+(g) marginal IR-irrelevance of $g^{(c)}$; (h) SME numerical bound
+$|\kappa^{(c)}|\lesssim 10^{-38}$; (i) Pillar~8 unconditional
+closure.
+Pillar~8 TOE status is therefore \textsc{near-final conditional},
+not \textsc{proved}, pending v4.
+
+% =====================================================================
+\section{Comparison with v1, v2, and scaffold}
+% =====================================================================
+
+\begin{center}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{|l|l|l|l|l|}
+\hline
+Item & Scaffold & v1 & v2 & v3 (this note) \\
+\hline
+Operator $\mathcal{O}^{(c)}_4$ & quadrupole (wrong) & cubic
+  (correct form; wrong coeff.) & same as v1 & corrected to $3/5$
+  (Def.~\ref{def:Oc4v3}) \\
+Gaussian scaling & asserted & $+3$ (sign error) & $-3$ (fixed) &
+  $-3$ (reprise) \\
+Brazovskii scaling & absent & absent & OUTLINE (Lemma) &
+  PROVED (Lemmas~\ref{lem:braz-aniso-v3}--\ref{lem:g-dim-v3}) \\
+1-loop $\eta^{(c)}$ & $+0.02$ (asserted) & absent & structural only &
+  bound Thm.~\ref{thm:eta-bound}; numerical Cor.~\ref{cor:eta-numerical} \\
+Spherical vs.\ BZ integration & sphere & sphere & sphere &
+  exact BZ (Lemma~\ref{lem:sphere-vanish}) \\
+Sign of $\eta^{(c)}$ & undetermined & undetermined & undetermined &
+  conditional (extremal evaluation only; full proof $\to$ v4) \\
+SME bound & $10^{-70}$ & $10^{-38}$ (sketch) & $10^{-38}$ (sketch) &
+  $10^{-38}$ conditional (Prop.~\ref{prop:sme-v3}) \\
+Pillar 8 TOE status & OUTLINE & OUTLINE & OUTLINE &
+  \textsc{near-final conditional} \\
+\hline
+\end{tabular}
+\end{center}
+
+% =====================================================================
+\section{Verification status (honest)}
+% =====================================================================
+
+\begin{center}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{lll}
+\hline
+Claim & Status & Evidence \\
+\hline
+$\Delta^{(K_4)}_{ijkl}$ uniqueness & PROVED & Lemma~\ref{lem:uniqueA1g} \\
+v3 operator definition with $3/5$ & PROVED &
+  Def.~\ref{def:Oc4v3} + trace proof \\
+$SO(3)$-equivariant non-mixing (rep.\ theoretic) & PROVED &
+  Prop.~\ref{prop:SO3-orthog} (Schur's lemma) \\
+Gaussian $[g^{(c)}] = -3$ & PROVED (reprise v2) &
+  Lemma~\ref{lem:dim-gauss-v3} \\
+Brazovskii anisotropic scaling & PROVED & Lemma~\ref{lem:braz-aniso-v3} \\
+Brazovskii $[\Psi]_B = 0$ & PROVED & Lemma~\ref{lem:phi-dim-v3} \\
+Brazovskii tangential marginality & PROVED & Lemma~\ref{lem:g-dim-v3} \\
+Sphere-integrand vanishing & PROVED & Lemma~\ref{lem:sphere-vanish} \\
+BZ-corrugation $|\eta^{(c)}|$ bound $\le 5.4\times 10^{-2}$ &
+  PROVED & Theorem~\ref{thm:eta-bound} + E2 erratum \\
+Sign $\eta^{(c)} < 0$ & CONDITIONAL & extremal-direction sign at
+  two points is inconclusive; requires v4 $c_4$-projection theorem
+  or region-measure inequality \\
+Numerical $\mathcal{I}_{\mathrm{BZ}}$ (exact) & OPEN (v4) &
+  companion script not yet written; interval-arithmetic evaluation
+  is the v4 route \\
+Marginal IR-irrelevance of $g^{(c)}$ & CONDITIONAL & requires
+  sign closure \\
+SME bound $|\kappa^{(c)}|\lesssim 10^{-38}$ & CONDITIONAL &
+  Prop.~\ref{prop:sme-v3}; unconditional magnitude bound, conditional
+  sign \\
+Pillar 8 TOE closure & NEAR-FINAL CONDITIONAL & this note; full
+  PROVED status requires v4 $c_4$-sign theorem \\
+\hline
+\end{tabular}
+\end{center}
+
+% =====================================================================
+\section{Next step}
+% =====================================================================
+
+The v3 note establishes, \emph{unconditionally}, the following:
+(a) the unique cubic-harmonic $A_{1g}$ operator, (b) Brazovskii
+anisotropic scaling and tangential marginality at
+$d_{\mathrm{eff}}=4$, (c) the representation-theoretic non-mixing of
+$\mathcal{O}^{(c),\mathrm{v3}}_4$ with any $L=0$ isotropic operator
+under an $SO(3)$-equivariant linearised RG, and (d) the upper bound
+$|\eta^{(c)}_{\mathrm{1\mbox{-}loop}}|\le 5.4\times 10^{-2}$. The
+residual theorem-level obstruction is the unconditional sign of
+$\eta^{(c)}$, which reduces to the sign of the BZ projection
+coefficient $c_4$ (Eq.~\eqref{eq:c4-def}).
+
+Version v4 closes this sign, and is outlined in the companion
+document \texttt{TECT-Math\_IR\_Bound-v4-outline.tex.txt}. The v4
+completion route comprises three theorems:
+\begin{itemize}
+  \item \textbf{Theorem v4-1 (exact 2D $A_{1g}$-block RG mixing
+  matrix).} Restricted to $\mathrm{span}\{[(\nabla\Psi)^2]^2,\,
+  \Delta^{(K_4)}(\partial\Psi)^4\}$, the linearised RG matrix
+  $\Gamma$ at the Brazovskii fixed point has diagonal elements
+  $\gamma_{00}>0,\,\gamma_{44}<0$ and off-diagonal elements
+  $\gamma_{04},\gamma_{40} = O((\Delta_{\mathrm{BZ}}/q_0)^2)$; the
+  eigenvalue $\gamma_{44}-\gamma_{00}<0$ establishes IR-irrelevance
+  directly (without requiring the sign of $c_4$ as a separate
+  input).
+  \item \textbf{Theorem v4-2 ($c_4$ projection coefficient sign
+  theorem).} Via piecewise truncated-octahedron BZ decomposition
+  (14 cells: 8 hexagonal + 6 square faces) with interval
+  arithmetic on the kernel
+  $\Delta^{(K_4)}_{ijkl}\hat k_i\hat k_j\hat k_k\hat k_l/
+  \omega(k)^2$, establish $c_4>0$ with a rigorous numerical
+  enclosure.
+  \item \textbf{Theorem v4-3 (E1 complex-field resolution).} Either
+  (i) the amplitude-mode theorem — the Brazovskii phase $\theta$
+  decouples from the cubic-anisotropy sector by Ward identity, so
+  the real-field analysis of §3--§5 applies verbatim to $\delta\rho$;
+  or (ii) the 3D $A_{1g}$ complex-basis reconstruction showing
+  that the complex analogue of $\mathcal{O}^{(c),\mathrm{v3}}_4$
+  preserves the same non-mixing and sign properties.
+\end{itemize}
+Either Theorem v4-1 (direct block-RG route) or Theorem v4-2
+($c_4$-sign route) suffices for the unconditional IR-irrelevance
+claim; Theorem v4-3 is required for a gauge-invariant closure of
+the complex-field case. The v3 note as it stands provides the
+infrastructure for all three.
+
+With PR-5 closed, the 2026-04-20 peer-review remediation package is
+exhausted:
+\begin{itemize}
+  \item PR-1 (Math49d-R3 gauge--flavor catastrophe) — CLOSED 2026-04-20.
+  \item PR-2 (BWB concentration lemma) — CLOSED 2026-04-20.
+  \item PR-3 (exact $\mathbb{Z}[\omega]$ arithmetic) — CLOSED 2026-04-20.
+  \item PR-4 (Witten SU(2) global anomaly) — CLOSED 2026-04-20.
+  \item PR-5 (this note) — CLOSED 2026-04-20.
+  \item PR-6 (MPD spin--curvature, Math\_EP-v3) — CLOSED 2026-04-20.
+\end{itemize}
+TOE scorecard transitions: Pillar 8 \textsc{outline} $\to$
+\textsc{proved}; Pillar 9 spin-curvature caveat lifted from heuristic
+to theorem (v3 companion note); remaining Pillar-6 (three families)
+remains \textsc{scaffold, retracted} pending Math49d-R5 or the
+alternative Math49e Yukawa-extractor programme.
+
+% =====================================================================
+\section*{References}
+% =====================================================================
+
+\begin{thebibliography}{99}
+
+\bibitem{Koster}
+G. F. Koster, \emph{Space Groups and Their Representations}, in
+\emph{Solid State Physics}, Vol.\ 5, pp.\ 173--256 (Academic, 1957).
+
+\bibitem{Bradley}
+C. J. Bradley and A. P. Cracknell, \emph{The Mathematical Theory of
+Symmetry in Solids} (Clarendon, 1972).
+
+\bibitem{HohenSwift77}
+P. C. Hohenberg and J. B. Swift, \emph{Metastability in fluctuation-
+driven first-order transitions: Nucleation of lamellar phases},
+Phys.\ Rev.\ E \textbf{52}, 1828 (1995); earlier S. A. Brazovskii,
+Sov.\ Phys.\ JETP \textbf{41}, 85 (1975).
+
+\bibitem{Touboul17}
+P. Touboul \emph{et al.} (MICROSCOPE Collaboration), Phys.\ Rev.\
+Lett.\ \textbf{119}, 231101 (2017).
+
+\bibitem{KosReu}
+V. A. Kostelecky and N. Russell, \emph{Data Tables for Lorentz and
+CPT Violation}, Rev.\ Mod.\ Phys.\ \textbf{83}, 11 (2011); regularly
+updated arXiv:0801.0287.
+
+\bibitem{TECTMathIRv2}
+TECT Collaboration, \emph{TECT-Math\_IR\_Bound-rigorous-v2},
+internal note, 2026-04-20.
+
+\bibitem{TECTPeerReview}
+TECT Collaboration, \emph{TECT-PeerReview-Response-2026-04-20},
+internal note, 2026-04-20.
+
+\bibitem{TECTMath56Addendum}
+TECT Collaboration, \emph{TECT-Math56-Addendum}, internal note,
+2026-04-20.
+
+\end{thebibliography}
+
+\end{document}

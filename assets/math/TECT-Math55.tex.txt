@@ -1,0 +1,189 @@
+% TECT-Math55.tex.txt
+% Title:  Trivial-Vacuum Collapse and the Continuation Method for BCC Branch Tracking
+% Date:   2026-04-20
+% Status: ESTABLISHED (diagnosis) + TOOL IMPLEMENTED (continuation_mu2.py v1.0)
+%
+% Feeds:  Math37-AddA (Brazovskii lock), Math38 (first-order regime),
+%         Math52 (merit-function trust-region), Math53 (Eisenstat-Walker)
+% Theory tag: continuation-method-v1.0-2026-04-20
+%
+% Purpose: Document the trivial-vacuum collapse phenomenon observed in
+%   Newton-Krylov v2.3 mu^2 sweeps and derive the instability criterion
+%   r < 0 that motivates the continuation method.
+%
+% Verification status:
+%   - Trivial-vacuum collapse: CONFIRMED numerically (N=16, 13 points)
+%   - Instability criterion r<0: DERIVED analytically (standard result)
+%   - Continuation method: IMPLEMENTED, AWAITING FIRST RUN
+
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=1in]{geometry}
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{lemma}{Lemma}
+\newtheorem{remark}{Remark}
+
+\title{TECT-Math55: Trivial-Vacuum Collapse and the \\ Continuation Method for BCC Branch Tracking}
+\author{TECT Collaboration}
+\date{2026-04-20}
+
+\begin{document}
+\maketitle
+
+\section{Introduction}
+
+The Newton-Krylov trust-region solver (v2.3, Math52--53) is designed to
+find stationary points $\Psi^*$ of the projected residual
+$R_{\mathrm{proj}}(\Psi) = 0$.  However, systematic $\mu^2$ sweeps at
+$N=16$ revealed that the solver converges to the trivial vacuum
+$\Psi^* \approx 0$ at \emph{every} $\mu^2$ value tested, regardless of
+the initial BCC ansatz amplitude.  This note diagnoses the root cause and
+presents the continuation method as the standard remedy.
+
+\section{The Trivial-Vacuum Collapse}
+
+\subsection{Numerical Evidence}
+
+A sweep of 13 $\mu^2$ values in $[-0.10, 0.30]$ at $N=16$, $L=16$
+produced the following universal pattern at every point:
+\begin{enumerate}
+  \item Phase 1 converges ($\|R_{\mathrm{proj}}\| < \mathrm{tol}$) within 8--15 Newton steps.
+  \item The converged solution satisfies $\mathrm{RMS}(|\Psi^*|) < 10^{-6}$.
+  \item Phase 2 reports $m^{*2} \approx r = \mu^2 + Y q_0^4$, which is the
+    trivial-vacuum Hessian eigenvalue, not the physical spectral gap of
+    the BCC condensate.
+  \item Phase 3 reports $\Delta F = F(\Psi^*) - F(0) \approx +10^{-8}$
+    (numerical noise around zero, never negative).
+  \item As $\mu^2$ decreases, $\Delta F$ \emph{increases} --- the opposite
+    of the expected trend for a first-order Brazovskii transition.
+\end{enumerate}
+
+\subsection{Root Cause}
+
+The trivial vacuum $\Psi = 0$ is an \emph{exact} stationary point of the
+Euler-Lagrange equation:
+\begin{equation}
+  R(\Psi) = r\Psi + Z\nabla^2\Psi + Y\nabla^4\Psi
+             + \lambda|\Psi|^2\Psi + \gamma|\Psi|^4\Psi = 0
+  \quad\Longrightarrow\quad R(0) = 0 \quad \text{identically.}
+\end{equation}
+Since the merit function $m(\Psi) = \tfrac{1}{2}\|R_{\mathrm{proj}}(\Psi)\|^2$
+satisfies $m(0) = 0$ (the global minimum of $m$), the trust-region algorithm
+correctly identifies $\Psi = 0$ as a local minimiser of the merit landscape
+whenever the Newton iterates can reach it.
+
+The BCC ansatz amplitude $\phi_0 = \sqrt{-4\lambda/(15\gamma)} \approx 0.266$
+is small enough that the trust-region steps allow the field to relax toward
+zero, especially when the initial trust radius is comparable to $\|\Psi_0\|$.
+
+\section{Instability Criterion and the Continuation Method}
+
+\subsection{Hessian of the Trivial Vacuum}
+
+At $\Psi = 0$, the Hessian (Fr\'echet derivative of $R$) acting on a
+perturbation $v$ reduces to the linear operator:
+\begin{equation}
+  H_0\, v = r\, v + Z\nabla^2 v + Y\nabla^4 v.
+\end{equation}
+In Fourier space, this is diagonal:
+\begin{equation}
+  \hat{H}_0(k) = r + Z k^2 + Y k^4 = \omega(k),
+\end{equation}
+where $\omega(k)$ is the Brazovskii dispersion with shell minimum at $k = q_0$:
+\begin{equation}
+  \omega(q_0) = r + Z q_0^2 + Y q_0^4 = \mu^2.
+\end{equation}
+
+The trivial vacuum is a \emph{local minimum} of the free energy if and only if
+$H_0 > 0$, i.e., $\omega(k) > 0$ for all $k$.  The most dangerous mode is
+$k = q_0$, so:
+\begin{equation}
+  \boxed{\Psi = 0 \text{ is stable} \iff \mu^2 > 0 \iff r > -Yq_0^4 = -q_0^4.}
+\end{equation}
+Conversely:
+\begin{equation}
+  \boxed{r < 0 \implies \Psi = 0 \text{ is an unstable saddle point.}}
+\end{equation}
+
+\subsection{The Continuation Strategy}
+
+When $r < 0$, the shell modes $k \approx q_0$ have $\omega(k) < 0$, so
+$\Psi = 0$ is a saddle point of $F[\Psi]$.  The Newton solver, starting
+from any nonzero ansatz, cannot converge to $\Psi = 0$ because it is not
+a local minimum of the merit function in this regime.  The solver
+\emph{must} find a nontrivial branch.
+
+The continuation method exploits this:
+\begin{enumerate}
+  \item \textbf{Seed step.}  Choose $\mu^2_0 \ll 0$ such that
+    $r_0 = \mu^2_0 + Yq_0^4 < 0$.  With $Y = 1.0$ and $q_0 = 0.6802$,
+    $Yq_0^4 = 0.2140$, so $\mu^2_0 = -1.0$ gives $r_0 = -0.786$.
+    Run Newton-Krylov with the analytic BCC ansatz as initial condition.
+    The solver converges to a nontrivial BCC solution $\Psi^*(\mu^2_0)$.
+  \item \textbf{March.}  Set $\mu^2_{i+1} = \mu^2_i + \Delta\mu^2$.
+    Use $\Psi^*(\mu^2_i)$ as the initial condition for the solve at
+    $\mu^2_{i+1}$.  For $\Delta\mu^2$ sufficiently small, the nontrivial
+    solution deforms continuously (implicit function theorem), and Newton
+    converges in few steps.
+  \item \textbf{Detect Phase~3 flip.}  At each $\mu^2_i$, compute
+    $\Delta F_i = F[\Psi^*_i] - F[0]$.  The critical point $\mu^2_{\mathrm{crit}}$
+    is where $\Delta F$ changes sign from negative (favorable) to positive
+    (unfavorable).  Linear interpolation gives:
+    \begin{equation}
+      \mu^2_{\mathrm{crit}} \approx \mu^2_i
+        + \Delta\mu^2 \cdot \frac{-\Delta F_i}{\Delta F_{i+1} - \Delta F_i}.
+    \end{equation}
+\end{enumerate}
+
+\subsection{Implementation}
+
+\texttt{continuation\_mu2.py} v1.0 implements this strategy as an
+in-process driver (no subprocess overhead).  Key design choices:
+\begin{itemize}
+  \item Direct import of \texttt{newton\_solve}, \texttt{build\_bcc\_ansatz},
+    \texttt{compute\_energy\_difference}, \texttt{lanczos\_hessian},
+    \texttt{analyze\_projected\_spectrum} from \texttt{tect\_newton\_krylov.py}.
+  \item $\Psi^*$ carried in memory between steps (no disk I/O per step).
+  \item Kinetic coefficients recomputed per step:
+    $r = \mu^2 + Yq_0^4$, $Z = -2Yq_0^2$.
+  \item Trivial-solution detection: $\mathrm{RMS}(|\Psi^*|) < 10^{-6}$
+    triggers fallback to previous $\Psi^*$ as seed.
+  \item Early termination: 3 consecutive trivial solutions indicate
+    the BCC branch has been lost.
+\end{itemize}
+
+\section{Expected Outcome}
+
+For the Brazovskii regime with $(\lambda, \gamma) = (-0.43, +1.62)$:
+\begin{itemize}
+  \item At $\mu^2 \ll 0$: strong BCC condensate, $\Delta F \ll 0$ (highly favorable).
+  \item As $\mu^2$ increases: condensate amplitude decreases, $|\Delta F|$
+    shrinks, eventually crosses zero at $\mu^2_{\mathrm{crit}}$.
+  \item For $\mu^2 > \mu^2_{\mathrm{crit}}$: BCC branch persists (metastable)
+    but $\Delta F > 0$ (unfavorable vs.\ vacuum).
+  \item At some $\mu^2_{\max}$: BCC branch ceases to exist (turning point
+    of the first-order transition), and the solver falls to $\Psi = 0$.
+\end{itemize}
+
+The value $\mu^2_{\mathrm{crit}}$ is the target for Phase~3 of the TECT
+proof protocol.  Once located at $N = 16$, it must be confirmed at
+$N = 32, 64, 128$ for the continuum-limit extrapolation (Phase~4).
+
+\section{Verification Status}
+
+\begin{center}
+\begin{tabular}{lll}
+\hline
+Claim & Status & Evidence \\
+\hline
+Trivial-vacuum collapse & CONFIRMED & N=16 sweep, 13 points \\
+Instability criterion $r < 0$ & DERIVED & Standard (Eq.~5--6) \\
+Continuation method & IMPLEMENTED & \texttt{continuation\_mu2.py} v1.0 \\
+$\mu^2_{\mathrm{crit}}$ located & PENDING & Awaiting first continuation run \\
+Continuum-limit consistency & NOT STARTED & Requires N=32,64,128 \\
+\hline
+\end{tabular}
+\end{center}
+
+\end{document}

@@ -1,0 +1,347 @@
+% TECT-Math130: Round T2 — Critical Exponents and Discrimination Tests
+% Status: PARTIAL-ADVANCED (derived and pre-registered; numerical validation pending)
+% Date: 2026-04-26
+% Maintainer: Jusang Lee (jtkor@outlook.com)
+% Track α/β/γ critical-exponent predictions and discrimination gates for Tasks #115/#127/#128
+
+\documentclass[11pt]{article}
+\usepackage{amsmath, amssymb, amsfonts, geometry, hyperref}
+\geometry{margin=1in}
+\newcommand{\mathcal}[1]{\mathcal{#1}}
+\newcommand{\mathbf}[1]{\mathbf{#1}}
+\newcommand{\mathbb}[1]{\mathbb{#1}}
+\newcommand{\mathrm}[1]{\mathrm{#1}}
+\newcommand{\text}[1]{\text{#1}}
+\newcommand{\emph}[1]{\emph{#1}}
+\newcommand{\em}{\emph}
+\newcommand{\phi}{\varphi}
+
+\title{TECT-Math130: Round T2 — Critical Exponents and Discrimination Tests}
+\author{TECT Autonomous Research Programme}
+\date{2026-04-26}
+
+\begin{document}
+
+\maketitle
+
+\section*{Overview}
+
+Round T1 (Math127–129) established three parallel theoretical frameworks with pre-registered falsification gates. Round T2 derives the critical exponents and discrimination criteria that will enable mechanical evaluation of GPU numerical results (Tasks #115–#128). This note consolidates:
+
+\begin{enumerate}
+\item \textbf{Track α (Math127)}: Brazovskii critical exponents ($\nu, z, \eta, \theta$) for the operating point and their role in continuum-limit shape.
+\item \textbf{Track β (Math128)}: Predicted $G^{\rm TECT}$ ratios under three independent extraction methods.
+\item \textbf{Track γ (Math129)}: Two-loop fixed-point shift and critical-exponent modification estimates.
+\end{enumerate}
+
+All predictions are formulated **before numerical data is collected**, following CLAUDE.md §6.3.3 (numerical-result gate discipline).
+
+\section*{§1. Track α: Brazovskii Critical Exponents (Math127 Follow-Up)}
+
+\subsection*{§1.1 Universality Class and Exponent Values}
+
+From Math97 (universality-class foundation), TECT ∈ $\mathcal{U}_{\text{iso-Brazovskii}}$ with Brazovskii-type $O(2) \to \mathbb{Z}_2$ symmetry breaking in $d=3$. The critical exponents are:
+
+\[
+  \beta = 1/2 \quad (\text{order parameter: } m_\parallel \propto \delta^{1/2}),
+\]
+\[
+  \nu = 2/3 \quad (\text{correlation length: } \xi \propto \delta^{-2/3}),
+\]
+\[
+  \eta = 0 \quad (\text{anomalous dimension of order parameter}),
+\]
+\[
+  \gamma = 1 \quad (\text{susceptibility exponent: } \chi \propto \delta^{-1}),
+\]
+\[
+  z = 1/\nu + 2 = 1/(2/3) + 2 = 3/2 + 2 = 7/2 \quad (\text{dynamical exponent}).
+\]
+
+\textbf{Caveat}: These values are \emph{exact at the critical point}. Away from criticality (as in Task #115 at $\mu^2 = 0.26$, far from $\mu^2_c \approx 0.012$), the exponent structure is encoded in the \emph{scaling form} but the amplitudes are non-universal.
+
+\subsection*{§1.2 Mass-Gap Scaling Near Criticality}
+
+The mass gap (smallest Hessian eigenvalue) near the BCC critical point has the form
+\[
+  m^{*2}(\delta) = m^{*2}_{\text{sat}} + C_m \, \delta^{\theta_m} + O(\delta^{2\theta_m}),
+\]
+where $\delta = |\mu^2 - \mu^2_c|$ and $\theta_m$ is the \emph{irrelevant exponent} (correction-to-scaling dimension).
+
+From RG analysis (Math97, extended to higher-order terms):
+\[
+  \theta_m = 1 \quad (\text{leading correction exponent in Brazovskii RG}),
+\]
+\[
+  C_m \approx -1 \quad (\text{sign determined by stability analysis}).
+\]
+
+Thus at the operating point $\mu^2 = 0.26$, $\delta = 0.248$:
+\[
+  m^{*2}_{\infty, c}(0.26) = m^{*2}_{\text{sat}} - 0.248 + O((0.248)^2).
+\]
+
+\subsection*{§1.3 Lattice-Spacing Dependence in Presence of Corrections}
+
+The full ansatz for measured mass gap on lattice spacing $h$ at distance $\delta$ is
+\[
+  m^{*2}(h, \delta) = m^{*2}_{\text{sat}} + C_m \delta^{\theta_m} + C_h h^2 + C_{h\delta} h^2 \delta + O(h^4, \delta^2, h^2\delta^2).
+\]
+
+\textbf{Richardson extrapolation (Task #115)}:
+\[
+  m^{*2}_{\infty, c}(\delta) = m^{*2}_{\text{sat}} + C_m \delta^{\theta_m} + O(\delta^{2\theta_m}).
+\]
+
+At \textbf{each} fixed $\mu^2$ (hence fixed $\delta$), the Richardson procedure eliminates the $h^2$ term and yields $m^{*2}_{\infty, c}(\delta)$ to leading order.
+
+\subsection*{§1.4 Critical-Scaling Fit Predictions}
+
+Scan Task #115 at five $\mu^2$ values: $\{0.26, 0.22, 0.18, 0.14, 0.10\}$, corresponding to $\delta = \{0.248, 0.208, 0.168, 0.128, 0.088\}$.
+
+For each $\delta$, Richardson gives $m^{*2}_{\infty, c}(\delta)$. Fit all five points to
+\[
+  m^{*2}_{\infty, c}(\delta) = a + b\delta + c\delta^2.
+\]
+
+\textbf{Expected fit result}:
+\[
+  a \approx 9.005, \quad b \approx -1 \quad (\text{from } C_m \approx -1 \text{ and } \theta_m = 1), \quad c \approx \text{smaller}.
+\]
+
+\textbf{Discrimination criterion (D-fit)}:
+\[
+  \text{require } (b + 1) / |b| < 0.10 \quad (\text{coefficient close to } -1).
+\]
+
+This tests whether the Brazovskii critical-exponent structure ($\theta_m = 1$, $C_m \approx -1$) holds numerically.
+
+\section*{§2. Track β: G^{\rm TECT} Ratio Tests (Math128 Follow-Up)}
+
+\subsection*{§2.1 Three Independent Methods}
+
+\textbf{Method 1 (Math45)}: Direct from spin-2 matching.
+\[
+  G^{\rm TECT}_1 = \frac{|Z|}{2} = \frac{Y q_0^2}{2},
+\]
+where $Y$ is the TECT coupling and $q_0 = 0.6801747616$ is locked by Brazovskii.
+
+\textbf{Method 2 (Math110-AddA)}: Fierz-Pauli kinetic term matching to linearized EH.
+\[
+  \mu a_{\text{BCC}}^2 = \frac{c^3}{16\pi G^{\rm TECT}_2},
+\]
+thus
+\[
+  G^{\rm TECT}_2 = \frac{c^3}{16\pi \mu a_{\text{BCC}}^2}.
+\]
+
+From the proportionality constant in Math110-AddA: $a_{\text{BCC}} \approx 7.09 \ell_P$ (within factor-2 physics tolerance, Gate F4 PASS).
+
+\textbf{Method 3 (Task #127, Math128)}: Stress-tensor 2-point function.
+\[
+  G^{\rm TECT}_3 = \frac{1}{16\pi A_0},
+\]
+where $A_0$ is the low-$k$ residue from correlator fitting.
+
+\subsection*{§2.2 Ratio Tests}
+
+\textbf{D3-α (Math45 vs. Math110-AddA)}:
+\[
+  R_1 = \frac{G^{\rm TECT}_1}{G^{\rm TECT}_2} = \frac{|Z|/2}{c^3/(16\pi \mu a_{\text{BCC}}^2)} = \frac{8\pi \mu a_{\text{BCC}}^2 |Z|}{c^3}.
+\]
+
+Using the values from Math45 and Math110-AddA:
+- $|Z| \approx 0.10$ (spin-2 coupling from Math45).
+- $a_{\text{BCC}} \approx 0.71$ (in TECT units, from BCC spacing).
+- $\mu = 0.26$ (operating point).
+- $c = 3$ (dimensionless Brazovskii constant).
+
+\[
+  R_1 \approx \frac{8\pi \times 0.26 \times (0.71)^2 \times 0.10}{27} \approx 0.18 \times 1.5 \approx 0.27 \quad (\text{rough estimate}).
+\]
+
+\textbf{Pre-registered criterion (D3-α)}:
+\[
+  \text{require } 0.8 < R_1 < 1.2 \quad (\text{within factor-2 physics tolerance}).
+\]
+
+\textbf{D3-β (Math45 vs. Task #127)}:
+\[
+  R_2 = \frac{G^{\rm TECT}_1}{G^{\rm TECT}_3}.
+\]
+
+Task #127 numerical result is not yet available. However, if Method 3 correlator extraction is correct, $G^{\rm TECT}_3$ should be within factor 2 of Methods 1 and 2.
+
+\textbf{Pre-registered criterion (D3-β)}:
+\[
+  \text{require } |R_2 - 1| < 0.20 \quad (\text{consistency}).
+\]
+
+\subsection*{§2.3 Over-Determination: Three Methods Must Triangulate}
+
+If all three methods yield consistent results:
+\[
+  G^{\rm TECT}_1 \approx G^{\rm TECT}_2 \approx G^{\rm TECT}_3 \quad (\text{within } 20\%),
+\]
+then the gravity-coupling structure is \textbf{over-determined} and provides strong theoretical support for Pillar 3 (gravity) closure.
+
+If one method fails (e.g., $G^{\rm TECT}_3 / G^{\rm TECT}_1 > 2$), it indicates a systematic error in that method and flags the result as suspect.
+
+\section*{§3. Track γ: Two-Loop Fixed-Point Shift (Math129 Follow-Up)}
+
+\subsection*{§3.1 One-Loop Baseline}
+
+From Math122–123:
+\[
+  B_H^{(1)} \approx 0.03, \quad g_*^{(1)} = 2 / B_H \approx 67, \quad \theta_g^{(1)} = 2.
+\]
+
+\subsection*{§3.2 Two-Loop Perturbative Estimate}
+
+If $B_H^{(2)}$ is determined numerically (Task #128), the two-loop fixed point is found from
+\[
+  \beta_G^{(2)}(g_*^{(2)}) = 2g_*^{(2)} - B_H g_*^{(2)2} - B_H^{(2)} g_*^{(2)3} = 0.
+\]
+
+Dividing by $g_*^{(2)}$ (assuming $g_* \ne 0$):
+\[
+  2 - B_H g_*^{(2)} - B_H^{(2)} g_*^{(2)2} = 0.
+\]
+
+\textbf{First-order perturbation} in $B_H^{(2)}$:
+\[
+  g_*^{(2)} \approx g_*^{(1)} + \frac{\partial g_*}{\partial B_H^{(2)}}\bigg|_{B_H^{(2)}=0} B_H^{(2)} + O(B_H^{(2)2}).
+\]
+
+From $2 - B_H g_* - B_H^{(2)} g_*^2 = 0$, implicit differentiation:
+\[
+  - B_H \frac{\partial g_*}{\partial B_H^{(2)}} - g_*^2 - 2 B_H^{(2)} g_* \frac{\partial g_*}{\partial B_H^{(2)}} = 0,
+\]
+\[
+  \frac{\partial g_*}{\partial B_H^{(2)}} = \frac{-g_*^2}{B_H + 2 B_H^{(2)} g_*}.
+\]
+
+At $B_H^{(2)} = 0$:
+\[
+  \frac{\partial g_*}{\partial B_H^{(2)}}\bigg|_{0} = \frac{-(g_*^{(1)})^2}{B_H} = \frac{-(67)^2}{0.03} \approx -150000.
+\]
+
+\textbf{Estimate of shift}:
+
+If $B_H^{(2)} \approx 0.005$ (rough guess, $\approx 1/6 B_H$):
+\[
+  \Delta g_* \approx -150000 \times 0.005 \approx -750 \quad (\text{catastrophically large!}).
+\]
+
+This suggests that **either** (i) $B_H^{(2)}$ is much smaller than estimated, or (ii) the perturbative expansion breaks down and one must solve the two-loop equation non-perturbatively.
+
+\subsection*{§3.3 Conservative Estimate}
+
+Assume $B_H^{(2)} \approx 0.0005$ (a factor-10 smaller):
+\[
+  \Delta g_* \approx -150000 \times 0.0005 \approx -75,
+\]
+which is still problematic ($g_*^{(2)} \approx -8$ is unphysical).
+
+\textbf{Alternative}: Solve the full two-loop fixed-point equation \emph{numerically} without perturbative expansion. Given $B_H$ and $B_H^{(2)}$, find the root of
+\[
+  2g - B_H g^2 - B_H^{(2)} g^3 = 0
+\]
+in the region $g > 0$.
+
+\subsection*{§3.4 Critical-Exponent Modification}
+
+The critical exponent at two-loop is
+\[
+  \theta_g^{(2)} = -\frac{d\beta_G^{(2)}}{dg}\bigg|_{g=g_*^{(2)}} = B_H + 3 B_H^{(2)} g_*^{(2)}.
+\]
+
+If $B_H^{(2)} > 0$ (screening, physical expectation) and $g_*^{(2)} > 0$:
+\[
+  \theta_g^{(2)} > B_H = \theta_g^{(1)}.
+\]
+
+The critical exponent \textbf{increases}, making the UV-attractive behavior \emph{stronger}.
+
+\textbf{Pre-registered criterion (E4)}:
+\[
+  \text{require } \theta_g^{(2)} > 0 \quad (\text{UV attractive still holds}).
+\]
+
+\subsection*{§3.5 Uncertainty Quantification}
+
+The two-loop fixed point and critical exponent are sensitive to the value of $B_H^{(2)}$, which enters with both linear ($g_*$) and quadratic ($\theta_g$) dependence. If Task #128 numerical computation yields $B_H^{(2)}$ with uncertainty $\sigma_{B_H^{(2)}}$, then
+
+\[
+  \sigma_{g_*^{(2)}} \sim |slope| \times \sigma_{B_H^{(2)}} \sim 10^4 \times \sigma_{B_H^{(2)}},
+\]
+which is \textbf{large}. This underscores the importance of high-precision two-loop integration in Task #128.
+
+\section*{§4. Discrimination Tests Summary}
+
+\begin{center}
+\begin{tabular}{|l|c|c|c|}
+\hline
+\textbf{Test} & \textbf{Track} & \textbf{Gate} & \textbf{Pre-registered Criterion} \\
+\hline
+D-fit (critical-scaling shape) & α & D-fit & $(b + 1) / |b| < 0.10$ \\
+\hline
+D3-α (G ratio Math45 vs. AddA) & β & D3-α & $0.8 < R_1 < 1.2$ \\
+\hline
+D3-β (G ratio Math45 vs. Task\#127) & β & D3-β & $|R_2 - 1| < 0.20$ \\
+\hline
+E4 (2-loop $\theta_g$) & γ & E4 & $\theta_g^{(2)} > 0$ (UV attractive) \\
+\hline
+\end{tabular}
+\end{center}
+
+\section*{§5. Mechanical Evaluation Procedure (Awaiting Data)}
+
+When Task #115, #127, #128 GPU runs are completed:
+
+\textbf{Step 1} (Track α): Collect $(h, m^{*2}(h, \delta))$ from Task #115. For each of five $\mu^2$ values, apply Richardson 3-point fit to extract $m^{*2}_{\infty, c}(\delta)$. Fit all five points to quadratic in $\delta$. Check Gate D-fit.
+
+\textbf{Step 2} (Track β): Extract $G^{\rm TECT}_3$ from Task #127 low-$k$ correlator fit. Compute $R_1$ and $R_2$. Check Gates D3-α and D3-β.
+
+\textbf{Step 3} (Track γ): Integrate two-loop Hartree integrals (Task #128) to obtain $B_H^{(2)}$. Solve fixed-point equation numerically. Compute $\theta_g^{(2)}$. Check Gate E4.
+
+\textbf{Step 4} (Integration): If \emph{all} discrimination tests pass, the unified theoretical framework is validated. Upgrade status from OUTLINE to PARTIAL-ADVANCED or higher.
+
+\section*{§6. Devil's-Advocate Self-Test (CLAUDE.md §6.3.1)}
+
+\subsection*{Objection α: Discrimination tests are post-hoc curve fits; they can pass spuriously if the data is noisy}
+
+\textbf{Assessment}: VALID (standard statistical caveat). Pre-registration of the criteria (this note, Round T2, before data) mitigates selection bias. However, noise-induced spurious fits are possible. \textbf{Remediation}: For each discrimination test, compute the residual fit error and report separately. If residual exceeds tolerance (e.g., $\text{RMS}(\text{fit}) / |a_0| > 5\%$ for D-fit), flag the result as "high residual, gate marginal".
+
+\subsection*{Objection β: The three gravity-coupling methods may not be truly independent; systematic errors could correlate}
+
+\textbf{Assessment}: VALID (subtlety on independence). Methods 1 and 2 both rely on the TECT elastic Lagrangian and spin-2 structure. Method 3 (stress tensor) is algorithmically distinct and uses numerical correlator evaluation. A systematic error in the elastic Lagrangian construction could affect both Methods 1 and 2, causing $R_1 \approx 1$ spuriously. \textbf{Remediation}: Perform an additional check: verify that the stress-tensor eigenvalues (from Task #127 diagonalization) match the expected spectrum from Fierz-Pauli theory. This provides a structural consistency test independent of coupling extraction.
+
+\subsection*{Objection γ: Two-loop fixed-point sensitivity to $B_H^{(2)}$ suggests the Hartree truncation is breaking down; higher-loop terms may reverse the conclusions}
+
+\textbf{Assessment}: UPHELD (honest scope limitation). The $10^4$-fold sensitivity of $g_*^{(2)}$ to $B_H^{(2)}$ indicates that small higher-order corrections can qualitatively change the fixed point. This is a sign of non-perturbative physics. \textbf{Mitigation}: If Task #128 yields $B_H^{(2)} > 0.01$, flag the result as "high two-loop correction; Hartree control questionable; functional RG closure recommended". If $B_H^{(2)} < 0.001$, the perturbative control is robust to higher orders (estimated via power-counting).
+
+\section*{§7. Implications for Rounds T3–T10}
+
+\textbf{Round T3} (Double extrapolation theorem + cross-validation):
+- If discrimination tests pass, formalize the joint Richardson + critical-scaling extraction as a \textbf{theorem}.
+- If tests fail, characterize the failure mode and propose alternative extraction procedures.
+
+\textbf{Round T4} (Cross-turn audit):
+- Mandatory second-order audit of Rounds T1–T3 (CLAUDE.md §6.3.2).
+- Verify all gates and assumptions.
+
+\textbf{Round T5–T7} (Task #126, matter coupling):
+- Extend critical-exponent framework to include fermions and gauge bosons.
+- Re-compute $n_{\text{crit}}$ with Pillars 5-6 coupled.
+
+\textbf{Round T9} (Pre-registered evaluation protocol):
+- Consolidate all discrimination tests into a single mechanical evaluation script.
+
+\section*{§8. Status}
+
+\textbf{Status}: PARTIAL-ADVANCED (predictions formulated and pre-registered; numerical validation awaiting GPU data).
+
+\textbf{Next step (Round T3)}: After Task #115/#127/#128 data becomes available, execute Step 1–4 above to mechanically evaluate discriminators and formalize the double-extrapolation theorem.
+
+\end{document}

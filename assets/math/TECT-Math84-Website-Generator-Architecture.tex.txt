@@ -1,0 +1,298 @@
+% =====================================================================
+% TECT-Math84-Website-Generator-Architecture.tex.txt
+% Theory tag:  Math84-Website-Generator-Architecture-2026-04-24
+% Classification: PROCESS / TOOLING NOTE (no theorem content)
+% Status:      v0.2 architecture documented. The generator is in
+%              production use; this note is the design rationale and
+%              maintenance guide.
+% Companion:   Codes/tools/generate_website.py (v0.2)
+%              Website/data/_narrative/ (user-editable narrative)
+% =====================================================================
+
+\documentclass[11pt,a4paper]{article}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=1in]{geometry}
+\usepackage{mathtools,booktabs}
+\usepackage{hyperref}
+
+\title{TECT-Math84: Website Generator Architecture (v0.2)\\
+       Auto-extracted Data + User-Editable Narrative Composition}
+\author{TECT collaboration}
+\date{2026-04-24 (Round 10 sprint, tooling deliverable)}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We document the v0.2 architecture of \texttt{Codes/tools/generate\_website.py},
+a tool that auto-generates the website data files
+\texttt{Website/data/*.js} from the canonical theory records in
+\texttt{Docs/} and \texttt{CHANGELOG.md}, composed with user-editable
+narrative prose in \texttt{Website/data/\_narrative/*.md}. The
+architecture addresses two problems with the previous hand-edited
+\texttt{*.js} workflow: (i) \emph{drift} between hand-edited prose and
+auto-changing data led to incomplete or stale entries; (ii) \emph{loss
+of narrative} would result if we replaced the hand-written prose with
+auto-data alone. v0.2's separation of pure data (auto-extracted from
+\texttt{Docs/}) and pure narrative (loaded from \texttt{\_narrative/},
+edited by the user) plus the composition map in \texttt{NARRATIVE\_MAP}
+resolves both problems.
+\end{abstract}
+
+\tableofcontents
+
+\section{Motivation}
+
+\subsection{Pre-v0.2 problems}
+
+Before this commit, \texttt{Website/data/*.js} files were hand-edited.
+Each Math note creation, CHANGELOG entry, or pillar-status change
+required manually appending to multiple \texttt{*.js} files. This was:
+
+\begin{itemize}
+\item \textbf{Error-prone}: easy to forget a file, easy to insert
+       inconsistent text across files.
+\item \textbf{Incomplete}: when many additions occurred in a session,
+       some inevitably went un-mirrored.
+\item \textbf{Stale}: the website data drifted from the canonical
+       \texttt{Docs/}.
+\end{itemize}
+
+\subsection{User feedback}
+
+User feedback 2026-04-24:
+\textit{``현재 웹사이트 업데이트가 .js라고 하지만 실질적으로 정적페이지와
+다름없고, 매번 에디팅하는 것과 마찬가지여서 누락이 심각하다. 우리 이론
+기록파일을 직접참고해서 페이지로 바로 만들 수 있는 페이지 업데이트 생성
+자동화 스크립트를 만들어서 일괄 업데이트, 생성하게 만들어 주면 좋을것
+같은데 어때?''}
+
+Follow-up 2026-04-24:
+\textit{``narrative content는 따로 쪼개서 참조 파일로 만들어서 편집
+가능하게 하고, 자동화 시 첨부토록 구조화 필요. 추가하고 내용 편집하고
+이런 부분도 스스로 관리 가능토록 만들것.''}
+
+These two requirements --- (a) auto-generation from canonical sources,
+(b) editable narrative split out and composed back in --- define the
+v0.2 architecture below.
+
+\section{Architecture}
+
+\subsection{Two-layer model}
+
+Each generated \texttt{Website/data/*.js} file is composed of two layers:
+
+\begin{enumerate}
+\item \textbf{Auto-data layer}: extracted from canonical sources by
+       parsers in \texttt{generate\_website.py}.
+       Sources:
+       \begin{itemize}
+       \item \texttt{Docs/math/TECT-Math*.tex.txt} \(\to\) Math notes list.
+       \item \texttt{CHANGELOG.md} \(\to\) timeline + history.
+       \item \texttt{Docs/status/TOE-FACT-SHEET.md} \(\to\) pillar scorecard.
+       \item \texttt{Docs/status/OPEN-QUESTIONS.md} \(\to\) active Q list.
+       \item \texttt{Docs/status/NEGATIVE-RESULTS.md} \(\to\) F/R/D ledger.
+       \end{itemize}
+\item \textbf{Narrative layer}: user-editable prose in
+       \texttt{Website/data/\_narrative/*.md} files.
+       Examples:
+       \begin{itemize}
+       \item \texttt{index\_about.md} \(\to\) ``What is TECT?'' card on the index page.
+       \item \texttt{theory\_axiom.md} \(\to\) ``Axiom A0'' card on the theory page.
+       \item \texttt{theory\_honest\_positioning.md} \(\to\) bottom card on theory page.
+       \item \texttt{results\_assessment.md} \(\to\) top card on results page.
+       \item \texttt{records\_intro.md} \(\to\) intro on records page.
+       \end{itemize}
+\end{enumerate}
+
+The composition is governed by the \texttt{NARRATIVE\_MAP} constant in
+\texttt{generate\_website.py}, which specifies for each output \texttt{.js}
+which narrative \texttt{.md} files compose where.
+
+\subsection{Markdown-to-HTML conversion}
+
+The generator includes a minimal markdown-to-HTML converter
+(\texttt{md\_to\_html()}) that supports:
+
+\begin{itemize}
+\item Paragraphs, headings (\texttt{\#\#}, \texttt{\#\#\#}).
+\item Bullet/numbered lists.
+\item Pipe-syntax (GFM) tables.
+\item Inline code, \textbf{bold}, \textit{italic}, links.
+\item Inline math \texttt{\$x\$} and display math \texttt{\$\$x\$\$}
+       passed through verbatim for MathJax to render.
+\item HTML pass-through for advanced cases.
+\end{itemize}
+
+This is sufficient for narrative blocks of the size used in TECT
+(roughly one screen of prose per card). For more complex content,
+the user can write HTML directly in the \texttt{.md} file.
+
+\subsection{Idempotency and \texttt{--check}}
+
+The generator is idempotent: re-running with no source changes
+produces no diff. The \texttt{--check} flag enables a dry-run that
+reports what would change without writing files.
+
+\subsection{Per-target flags}
+
+Six target-specific flags allow incremental regeneration:
+
+\begin{verbatim}
+--all          # generate everything (default if no flag specified)
+--math-notes   # only Website/data/math-notes.js
+--timeline     # only Website/data/timeline.json
+--history      # only Website/data/history.js
+--theory       # only Website/data/theory.js
+--index        # only Website/data/index.js
+--records      # only Website/data/records.js
+\end{verbatim}
+
+\section{Workflow}
+
+\subsection{Adding a new Math note}
+
+1. Create the new \texttt{Docs/math/TECT-Math<NN>-*.tex.txt} per the
+\texttt{CLAUDE.md} \S 4 chat-archival rule.
+
+2. Run \texttt{python -u Codes/tools/generate\_website.py --math-notes}.
+
+3. The new note is now in \texttt{Website/data/math-notes.js}.
+
+\subsection{Editing narrative prose}
+
+1. Edit any \texttt{.md} file in \texttt{Website/data/\_narrative/}.
+
+2. Run \texttt{python -u Codes/tools/generate\_website.py --all}.
+
+3. The corresponding \texttt{.js} files are regenerated with the
+new narrative.
+
+\subsection{Adding a new narrative section}
+
+1. Create the new \texttt{.md} file in \texttt{Website/data/\_narrative/}.
+
+2. Add an entry to \texttt{NARRATIVE\_MAP} in
+\texttt{generate\_website.py} pointing the new file at the target
+\texttt{.js} and slot.
+
+3. Run \texttt{--all}; the renderer for the target page picks up the
+new card automatically.
+
+\subsection{Adding a CHANGELOG entry}
+
+1. Append to \texttt{CHANGELOG.md} in Keep-a-Changelog format
+(\texttt{\#\# [tag] --- YYYY-MM-DD}).
+
+2. Run \texttt{--all}; \texttt{history.js} and \texttt{timeline.json}
+are regenerated.
+
+\subsection{Updating pillar status}
+
+1. Edit the relevant pillar row in \texttt{Docs/status/TOE-FACT-SHEET.md}.
+
+2. Run \texttt{--all}; \texttt{theory.js} scorecard and \texttt{index.js}
+KPI counts are regenerated.
+
+\section{Status-bucket counting (subtle)}
+
+The KPI count in \texttt{index.js} uses mutually-exclusive buckets so
+that the per-status counts always sum to exactly 11. The bucketing
+priority (in \texttt{status\_bucket()}) is:
+
+\begin{enumerate}
+\item Contains ``OPEN'' or ``NOT ADDRESSED'' \(\to\) \texttt{open}.
+\item Contains ``PARTIAL'' \(\to\) \texttt{partial}.
+\item Contains ``NEAR'' \(\to\) \texttt{near}.
+\item Contains ``CONDITIONAL'' or ``CAVEAT'' \(\to\) \texttt{cond}.
+\item Contains ``CLOSED'' and ``LOOP'' \(\to\) \texttt{loop}.
+\item Contains ``PROVED'' (after the above filters) \(\to\) \texttt{proved}.
+\item Otherwise \(\to\) \texttt{other}.
+\end{enumerate}
+
+This handles the case where a status string can match multiple keywords
+(e.g., ``PROVED with caveat'' matches both ``PROVED'' and ``CAVEAT'';
+the bucket goes to \texttt{cond}, not \texttt{proved}). The
+\texttt{(must = 11)} sum-check row in \texttt{index.js} surfaces any
+double-counting bug immediately.
+
+\section{Implementation status (v0.2)}
+
+\subsection{Implemented}
+
+\begin{itemize}
+\item Parsers for all 5 canonical sources (Math notes, CHANGELOG,
+       OPEN-QUESTIONS, NEGATIVE-RESULTS, TOE-FACT-SHEET).
+\item Markdown-to-HTML converter (paragraphs, headings, lists,
+       tables, inline formatting, math pass-through).
+\item Narrative composition for \texttt{index.js} (subtitle + 2 cards)
+       and \texttt{theory.js} (subtitle + 4 cards).
+\item Status-bucket counting with mutual exclusion.
+\item \texttt{--check} dry-run mode.
+\item Per-target flags.
+\item Idempotency.
+\end{itemize}
+
+\subsection{Deferred to v0.3}
+
+\begin{itemize}
+\item Narrative composition for \texttt{history.js} (currently
+       subtitle-only).
+\item Narrative composition for \texttt{results.js} and \texttt{records.js}
+       (NARRATIVE\_MAP entries exist but renderers not yet updated to
+       consume them).
+\item More sophisticated markdown features (e.g., admonitions,
+       footnotes, definition lists).
+\item Schema validation of generated JS (catch syntax errors before
+       browser load).
+\item Watch mode (\texttt{--watch} that re-runs on file change).
+\end{itemize}
+
+\section{File inventory (after v0.2 commit)}
+
+\begin{itemize}
+\item \texttt{Codes/tools/generate\_website.py} (v0.2, $\sim 800$ lines).
+\item \texttt{Website/data/\_narrative/README.md} (architecture description).
+\item \texttt{Website/data/\_narrative/index\_subtitle.md}
+\item \texttt{Website/data/\_narrative/index\_about.md}
+\item \texttt{Website/data/\_narrative/index\_how\_to\_read.md}
+\item \texttt{Website/data/\_narrative/theory\_subtitle.md}
+\item \texttt{Website/data/\_narrative/theory\_axiom.md}
+\item \texttt{Website/data/\_narrative/theory\_regime.md}
+\item \texttt{Website/data/\_narrative/theory\_locked\_params.md}
+\item \texttt{Website/data/\_narrative/theory\_honest\_positioning.md}
+\item \texttt{Website/data/\_narrative/history\_subtitle.md}
+\item \texttt{Website/data/\_narrative/results\_assessment.md}
+\item \texttt{Website/data/\_narrative/records\_intro.md}
+\end{itemize}
+
+Generated outputs (regenerated by running the tool):
+
+\begin{itemize}
+\item \texttt{Website/data/math-notes.js} (170 entries auto-extracted)
+\item \texttt{Website/data/timeline.json} (top 30 CHANGELOG entries)
+\item \texttt{Website/data/history.js} (timeline + 30 entries)
+\item \texttt{Website/data/theory.js} (4 narrative cards + scorecard)
+\item \texttt{Website/data/index.js} (2 narrative cards + KPI)
+\item \texttt{Website/data/records.js} (53 OPEN-Q + 25 F/R/D)
+\end{itemize}
+
+\section{Honest scope statements (binding)}
+
+\[
+\boxed{
+\text{Math84 v0.2: data-narrative separation architecture; manual editing of \texttt{*.js} files is now deprecated.}
+}
+\]
+\[
+\boxed{
+\text{Workflow: edit canonical \texttt{Docs/} or \texttt{\_narrative/}, then re-run \texttt{generate\_website.py --all}.}
+}
+\]
+\[
+\boxed{
+\text{No theory or pillar status changes from this commit; tooling deliverable only.}
+}
+\]
+
+\end{document}

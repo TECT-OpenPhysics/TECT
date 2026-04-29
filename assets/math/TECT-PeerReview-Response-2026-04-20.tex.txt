@@ -1,0 +1,321 @@
+% =====================================================================
+%  TECT -- Formal response to external peer review (GPT, 2026-04-20)
+%  Six v2 manuscripts audited; six remediation items opened.
+%
+%  Tag:      PeerReview-2026-04-20-Response-v1
+%  Author:   TECT collaboration (jtkor@outlook.com)
+%  Status:   This is a review-response note, not a theorem note.
+%            Lives in Docs/math/ alongside the source notes it references.
+%  Format:   PRL-style acknowledgement / analysis / remediation per item.
+% =====================================================================
+
+\documentclass[prl,reprint,amsmath,amssymb,floatfix]{revtex4-2}
+\usepackage{amsthm,bm}
+\usepackage{hyperref}
+
+\newtheorem{prop}{Proposition}
+\newtheorem{lem}{Lemma}
+\newtheorem{thm}{Theorem}
+\theoremstyle{remark}
+\newtheorem*{rem}{Remark}
+
+\begin{document}
+
+\title{Response to external peer review of six TECT rigorous-v2 manuscripts}
+\author{TECT Collaboration}
+\date{2026-04-20}
+
+\begin{abstract}
+We acknowledge and analyse an external peer-review package (designated
+\texttt{GPT-2026-04-20}) lodged against six rigorous-v2 manuscripts of
+the Topological Energy Condensate Theory (TECT): \texttt{Math49},
+\texttt{Math49b}, \texttt{Math49c}, \texttt{Math49d-R3},
+\texttt{Math\_EP}, \texttt{Math\_IR\_Bound}. One item is upheld as a
+\emph{categorical falsification} of the physical identification in
+\texttt{Math49d-R3-rigorous-v2} (the gauge--flavor mixing catastrophe);
+two items are accepted as rigorous-technique upgrades required before
+the respective proofs can be promoted; one item (circular logic in
+\texttt{Math49c-v2}) was independently diagnosed in the TECT internal
+Devil's-Advocate pass and has already been replaced in the tree by
+\texttt{Math49c-rigorous-v3}; the remaining items are accepted as
+expository precision requirements. Each item is addressed below with the
+smallest rigorous remediation that the TECT collaboration judges
+sufficient, and is cross-linked to the task ledger.
+\end{abstract}
+
+\maketitle
+
+% ---------------------------------------------------------------------
+\section{Overview of the referee package}
+% ---------------------------------------------------------------------
+
+The referee package consists of two sub-reports. The first addresses
+\texttt{Math49d-R3-rigorous-v2} alone, with five numbered objections.
+The second re-reads all six manuscripts and singles out one fatal flaw
+per manuscript. We adopt the referee's enumeration throughout.
+
+Table~\ref{tab:disposition} records the TECT disposition of each item.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{@{}llll@{}}
+\hline
+Tag & Target file & Claim & Disposition \\ \hline
+C1 & Math49d-R3 & numerical recognition & \textsc{Upheld} (requires exact ring) \\
+C2 & Math49d-R3 & missing BWB concentration & \textsc{Upheld} (lemma added) \\
+C3 & Math49d-R3 & title overclaims & \textsc{Upheld} (downgraded) \\
+C4 & Math49d-R3 & broken \verb|\eqref| & \textsc{Upheld} (edit) \\
+C5 & Math49d-R3 & bundle not forced & \textsc{Partially upheld} \\
+C6 & Math\_IR\_Bound & dimension averaging & \textsc{Upheld} \\
+C7 & Math\_IR\_Bound & $\eta^{(c)}$ deferred & \textsc{Upheld} \\
+C8 & Math\_EP & MPD spin--curvature & \textsc{Upheld} \\
+C9 & Math49 & --- & \textsc{No action} (self-falsification accepted) \\
+C10 & Math49b & Witten global anomaly & \textsc{Upheld} \\
+C11 & Math49c-v2 & circular FR argument & \textsc{Upheld}; v3 in tree \\
+C12 & Math49d-R3 & gauge--flavor catastrophe & \textbf{\textsc{Upheld (fatal)}} \\ \hline
+\end{tabular}
+\caption{Dispositions of the GPT-2026-04-20 peer-review package.}
+\label{tab:disposition}
+\end{table}
+
+% ---------------------------------------------------------------------
+\section{Item C12 --- gauge--flavor mixing catastrophe (fatal)}
+% ---------------------------------------------------------------------
+
+\subsection*{Referee claim}
+Under the GUT decomposition
+$V_5 = V_\alpha \oplus V_\beta$ with
+$V_\alpha = (\mathbf{3},\mathbf{1})_{-1/3}$ and
+$V_\beta = (\mathbf{1},\mathbf{2})_{+1/2}$,
+the $\mathbb{Z}_6$-invariant isotype of $\mathrm{Sym}^2 V_5$ is
+precisely $\mathrm{Sym}^2 V_\beta = \mathrm{Sym}^2(\text{doublet}) =
+(\mathbf{1},\mathbf{3})_{+1}$. Identifying three chiral
+Standard-Model generations with the three vectors of this isotype would
+force the generations to carry distinct $SU(2)_W$ quantum numbers,
+violating the commutation of flavour with the gauge group.
+
+\subsection*{Independent audit}
+We reproduced the referee's decomposition by an independent symbolic
+computation (\texttt{Docs/supplementary/Math49d\_gauge\_flavor\_audit.py},
+archived 2026-04-20). The output is exact and unambiguous:
+\begin{equation}
+\mathrm{Sym}^2 V_5
+=
+\underbrace{(\mathbf{6},\mathbf{1})_{-2/3}}_{\zeta\text{-char } \omega^{2}}
+\,\oplus\,
+\underbrace{(\mathbf{3},\mathbf{2})_{+1/6}}_{\zeta\text{-char } -\omega}
+\,\oplus\,
+\underbrace{(\mathbf{1},\mathbf{3})_{+1}}_{\zeta\text{-char } 1}.
+\label{eq:sym2_decomp}
+\end{equation}
+Only the last isotype is $\mathbb{Z}_6$-invariant; its SM quantum
+numbers are those of a Georgi--Machacek triplet $\chi$, not of a
+chiral family.
+
+\subsection*{Verdict}
+The referee is correct. The physical interpretation of
+$\chi^{\mathbb{Z}_6}(\mathrm{Gr}(2,5), \mathrm{Sym}^2 Q) = 3$ as a
+family count is \emph{falsified}. The cohomological assertion survives
+(subject to C2); its physical content shifts from "three families" to
+"one weak triplet of hypercharge $+1$".
+
+\subsection*{Consequences}
+\begin{enumerate}
+\item \texttt{Math49d-R3-rigorous-v2} is retracted at the level of
+      physical identification. Retraction entry
+      \texttt{F-2026-04-20-03} has been appended to
+      \texttt{Docs/status/NEGATIVE-RESULTS.md}.
+\item Pillar 6 reverts to \texttt{SCAFFOLD} status on
+      \texttt{TOE-FACT-SHEET.md}. Any public-facing banner reading
+      "three generations proved" must be withdrawn.
+\item \texttt{Math49d-R3-rigorous-v3} is opened (Task PR-1); it must
+      identify a \emph{different} bundle $E \to \mathrm{Gr}(2,5)$
+      whose $\mathbb{Z}_6$-invariant isotype is an
+      $SU(2)_W$-singlet, e.g.~arising from Dirac zero modes on a
+      BCC disclination lattice in the sense of Atiyah--Singer rather
+      than from $\mathrm{Sym}^2 Q$.
+\item The $(\mathbf{1},\mathbf{3})_{+1}$ scalar multiplet is logged
+      as an independent \emph{prediction} of the TECT IR spectrum, not
+      as a family index. It will appear on the open-questions list as
+      \texttt{Q-2026-04-20-Q-GM-TRIPLET}, with a doubly-charged scalar
+      near the BCC gap as its phenomenological signature.
+\end{enumerate}
+
+% ---------------------------------------------------------------------
+\section{Items C1--C5 --- further Math49d-R3 remediations}
+% ---------------------------------------------------------------------
+
+These items are accepted as upgrades required to salvage the
+cohomological assertion even after the physical identification has
+been withdrawn.
+
+\subsection*{C1 --- Numerical recognition must become exact
+arithmetic in $\mathbb{Z}[\omega]$}
+\texttt{Math49d-R3-rigorous-v2} computes the six traces
+$\chi_{\zeta^{k}}$ in \texttt{mpmath} at \texttt{dps}=200, then
+recognises them as elements of $\mathbb{Z}[\omega]$.
+This is high-precision numerical evidence, not symbolic proof. The v3
+remediation will replace the \texttt{mpmath} engine by SymPy
+\texttt{Poly} arithmetic over $\mathbb{Q}(\omega, \varepsilon)$ with
+exact factorisation of the Lefschetz fixed-point denominators, so that
+the six traces become elements of $\mathbb{Z}[\omega]$ by construction
+rather than by recognition. Task PR-3.
+
+\subsection*{C2 --- Cohomology concentration lemma (BWB)}
+The step
+$\chi^{\mathbb{Z}_6}=3 \Longrightarrow \dim H^0(\cdot)^{\mathbb{Z}_6}=3$
+requires
+\begin{lem}\label{lem:bwb}
+$H^q(\mathrm{Gr}(2,5), \mathrm{Sym}^2 Q) = 0$ for all $q>0$, and
+$H^0(\mathrm{Gr}(2,5), \mathrm{Sym}^2 Q) \cong \mathrm{Sym}^2 V_5$ as
+$SU(5)$-modules.
+\end{lem}
+\begin{proof}[Proof sketch]
+$\mathrm{Sym}^2 Q$ has non-decreasing weight
+$(a_1,a_2)=(2,0)$ under the tautological splitting, which lies in the
+dominant chamber, so Borel--Weil--Bott gives higher cohomology zero and
+$H^0 = V_{(2,0,0,0,0)} = \mathrm{Sym}^2 V_5$. The full proof is deferred
+to Math49d-R3-rigorous-v3 \S2.4.
+\end{proof}
+Once Lemma~\ref{lem:bwb} is in place, the $\mathbb{Z}_6$ average yields
+a genuine dimension count, not a virtual one. Task PR-2.
+
+\subsection*{C3 --- Title and status}
+The v2 title
+\emph{"$\mathbb{Z}_6$-equivariant Lefschetz closure of R3: three
+generations from the geometric count"} is replaced in v3 by
+\emph{"A $\mathbb{Z}_6$-equivariant count on $\mathrm{Gr}(2,5)$:
+structural properties of the geometric candidate for R3"}, with an
+explicit \emph{Status: cohomological candidate; physical
+identification withdrawn} banner on page~1. Task PR-1.
+
+\subsection*{C4 --- Broken \texttt{eqref\{eq:zeta\_def\}}}
+The v2 \texttt{.tex} sources declare \texttt{eq:zeta\_def} inside an
+un-numbered \texttt{align*} environment; the reference therefore
+resolves to \texttt{??}. The v3 build replaces \texttt{align*} by
+\texttt{equation} on the $\zeta$ definition. Trivial editorial fix.
+
+\subsection*{C5 --- Non-uniqueness of the bundle choice}
+The referee correctly notes that $\mathrm{Sym}^2 Q$,
+$\mathrm{Sym}^2 S \otimes \mathcal{O}(2)$, and
+$\mathrm{Sym}^2 S \otimes \mathcal{O}(3)$ each yield a
+$\mathbb{Z}_6$-invariant three-dimensional sub-space but with distinct
+physical content, and that "most natural" is an aesthetic rather than
+a rigorous selector. We accept the objection; the v3 note will treat
+the choice of bundle as a \emph{hypothesis} to be fixed physically
+(e.g.~by an additional equivariant constraint derived from the BCC
+lattice centre), not as an automatic consequence of the geometry.
+
+% ---------------------------------------------------------------------
+\section{Items C6--C7 --- Math\_IR\_Bound-v2}
+% ---------------------------------------------------------------------
+
+\subsection*{C6 --- directional-dimension averaging}
+Lemma~2 of \texttt{Math\_IR\_Bound-rigorous-v2} writes
+\[
+\langle[\partial_i]\rangle = \tfrac{1}{3}\,(2\mu + \mu^2),
+\]
+which is not an RG identity. A rigorous bound requires decomposing the
+cubic operator $O_h$ into irreducible $O_h$-tensor pieces,
+\[
+O_h = O_h^{(\perp\perp\perp)} \oplus O_h^{(\perp\perp\parallel)}
+      \oplus O_h^{(\perp\parallel\parallel)}
+      \oplus O_h^{(\parallel\parallel\parallel)},
+\]
+computing each scaling dimension under the anisotropic
+Brazovskii power counting
+$[\partial_\perp]=\mu$, $[\partial_\parallel]=\mu^2$,
+and taking the \emph{minimum} as the bound on relevance. Task PR-5.
+
+\subsection*{C7 --- missing numerical $\eta^{(c)}$}
+The 1-loop anomalous dimension was posed but deferred. The v3
+remediation adds an explicit momentum-shell integration with the
+BCC Brillouin-zone cutoff and reports $\eta^{(c)}$ numerically at the
+Brazovskii fixed point. Task PR-5.
+
+% ---------------------------------------------------------------------
+\section{Item C8 --- Math\_EP-v2 MPD coupling}
+% ---------------------------------------------------------------------
+
+The spin-$1/2$ Dirac zero mode in general relativity obeys the
+Mathisson--Papapetrou--Dixon equations,
+\begin{equation}
+\frac{D p^\mu}{D\tau}
+=
+-\tfrac{1}{2} R^{\mu}{}_{\nu\rho\sigma}\, u^{\nu}\, S^{\rho\sigma},
+\quad
+\frac{D S^{\mu\nu}}{D\tau}
+=
+p^{\mu} u^{\nu} - p^{\nu} u^{\mu}.
+\label{eq:mpd}
+\end{equation}
+The v2 WEP theorem (mass-to-mass universality) does not control the
+spin--curvature term in Eq.~(\ref{eq:mpd}). A correct WEP statement for
+a spin-$1/2$ probe requires an upper bound on
+$|S^{\rho\sigma} R^\mu{}_{\nu\rho\sigma}|$ relative to the leading
+geodesic $\Gamma\,p\,u$. With the Compton wavelength
+$\hbar / (m c)$ as the natural scale of $S$, the MPD correction is
+suppressed by $(\hbar / m c)\cdot(c/R_{\rm curv}) \sim \hbar c /
+(m c^2 R_{\rm curv})$; for macroscopic test bodies this is
+$\sim 10^{-42}$ in geophysical fields. The v3 note will convert this
+scaling estimate into a quantitative bound. Task PR-6.
+
+% ---------------------------------------------------------------------
+\section{Item C10 --- Math49b-v2 Witten global anomaly}
+% ---------------------------------------------------------------------
+
+For each Standard-Model generation the number of left-handed $SU(2)_W$
+doublets is
+\[
+n_L = \underbrace{3}_{Q_L, \text{ 3 colours}} + \underbrace{1}_{L_L} = 4,
+\]
+which is even; with three generations, the total is $12$, also even.
+Witten's global anomaly is therefore trivial. The one-line lemma is
+added as Proposition~0 of Math49b-v3. Task PR-4.
+
+% ---------------------------------------------------------------------
+\section{Item C11 --- Math49c-v2 circular logic}
+% ---------------------------------------------------------------------
+
+The referee's critique coincides with the TECT internal DA pass
+(DA-2026-04-20, item N\_DA-SS-1): the v2 Finkelstein--Rubinstein
+invocation assumes spin-$1/2$ input rather than deriving it. The
+replacement \texttt{TECT-Math49c-rigorous-v3.tex.txt} is already in
+tree (Theory tag \texttt{Math49c-PairBundle-v3-2026-04-20}); it
+derives the $2\pi$ sign from the mod-2 spectral flow of an $O$-equivariant
+line bundle on the BCC first-shell pair bundle, with no a priori
+spin-$1/2$ input. One numerical cross-check (O1) remains open
+(\texttt{Math49c-v3-sim}).
+
+% ---------------------------------------------------------------------
+\section{Disposition summary}
+% ---------------------------------------------------------------------
+
+\begin{itemize}
+\item \textbf{Pillar 6} (three families): reverted to SCAFFOLD;
+      physical identification retracted.
+\item \textbf{Pillar 7} (spin-statistics): v3 pair-bundle derivation
+      supersedes the circular v2 argument; O1 numerical cross-check
+      outstanding.
+\item \textbf{Pillar 8} (dynamical equivalence principle): v2 retained
+      for spin-$0$; v3 required for spin-$1/2$ with MPD suppression.
+\item \textbf{Pillar 9} (Lorentz invariance, anisotropy bound):
+      v2 demoted to heuristic; v3 pending.
+\item \textbf{Pillar 10} (gauge anomaly cancellation): v3 is a
+      one-line extension of v2 adding Witten's global anomaly.
+\end{itemize}
+
+% ---------------------------------------------------------------------
+\section*{Changelog}
+% ---------------------------------------------------------------------
+
+\begin{itemize}
+\item 2026-04-20 (this note): issued.
+\item 2026-04-20: \texttt{NEGATIVE-RESULTS.md} items
+      \texttt{F-2026-04-20-03}, \texttt{F-2026-04-20-04},
+      \texttt{R-2026-04-20-01} appended.
+\item 2026-04-20: tasks \texttt{PR-1 \ldots PR-6} opened against
+      the six remediation channels.
+\end{itemize}
+
+\end{document}

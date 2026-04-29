@@ -1,0 +1,370 @@
+%% ======================================================================
+%%  TECT-Math74-v2p6p3-Continuation-Driver-Live-Wire.tex.txt
+%%
+%%  Theory tag  : Math74-v2p6p3-Continuation-Driver-Live-Wire-2026-04-23
+%%  Status      : rigorous (engineering-grade); closes the driver-layer
+%%                half of Task #54's blocker.
+%%  Supersedes  : the v2.5.7 "structural skeleton pending local execution"
+%%                provision of PDE/continuation_mu2_v25.py.
+%%  Cites       : Math66 v0.2 Prop. math66v02-pathA  (adjoint-JVP contract)
+%%                Math69 §6 R1                       (driver-side closure)
+%%                Math73 Thm. math73-sym-incompat    (FullProjector default)
+%%                Math72 Addendum-A                  (Post-54 endpoint JSON)
+%%                Math63 §2A-§2D                     (Krylov routing schedule)
+%%  Task link   : #120 (this patch), #104 (solver-core, orthogonal),
+%%                #54 (GPU run, now unblocked on the driver side),
+%%                #115 (routing-layer pytest contract, follow-up).
+%% ======================================================================
+
+\section{Math74 --- v2.6.3 Continuation-Driver Live-Wire: retirement of the
+v2.5.7 skeleton and establishment of the $\mu^2$-endpoint JSON contract}
+\label{sec:math74}
+
+\subsection{Context and motivation}
+\label{sec:math74-context}
+
+The TECT Newton--Krylov solver core \texttt{PDE/tect\_newton\_krylov.py}
+landed the Math66~v0.2 Path-A adjoint-JVP repair at v2.6.1
+(Task~\#113 closed) and the Math73 \texttt{FullProjector}-based cII API
+redesign at v2.6.2 (Task~\#114 closed). Independently, the continuation
+driver \texttt{PDE/continuation\_mu2\_v25.py} had been held since
+2026-04-22 at v2.5.7 under the explicit header provision
+\begin{quote}
+\emph{``Newton-Krylov v2.5 adaptive continuation solver. Sealed specification
+(this implementation is a structural skeleton pending local execution).''}
+\end{quote}
+A comparative peer-review against the now-live solver core exposed that
+the driver's internal control flow was not merely stale documentation
+but structurally inconsistent with the live solver's API.  This note
+documents (i)~the precise nature of the defect, (ii)~its rigorous
+resolution in v2.6.3, and (iii)~the verification plan closing the
+driver-side half of Task~\#54.
+
+\subsection{Defect: the outer-Newton-loop / NaN-residual anti-pattern}
+\label{sec:math74-defect}
+
+\begin{proposition}[v2.5.7 driver non-convergence obstruction]
+\label{prop:math74-v257-obstruction}
+Let $\mathrm{rop}_{2.5.7}$ denote the \texttt{run\_one\_point\_v25}
+routine of \texttt{PDE/continuation\_mu2\_v25.py} at version tag v2.5.7,
+as landed 2026-04-22. For every choice of input
+$(\Psi_0, \mathrm{params}, \mathrm{tol}_{\mathrm{newton}}, \mathrm{max}_{\mathrm{newton}})$
+satisfying the documented preconditions, the returned
+\texttt{ContinuationPoint.converged} field is identically \texttt{False},
+regardless of the true convergence state of the underlying solver
+\texttt{tect\_newton\_krylov.newton\_solve}.
+\end{proposition}
+
+\begin{proof}
+The body of $\mathrm{rop}_{2.5.7}$ contained an outer loop
+\[
+  \text{for } k = 0, 1, \dots, \mathrm{max}_{\mathrm{newton}}{-}1,
+\]
+whose body invoked \texttt{newton\_solve} with
+\texttt{max\_newton=50} and stored the return triple
+$(\Psi_{\mathrm{newton}}, H_k, \_ )$ where $H_k$ is the
+\texttt{newton\_history} list-of-\texttt{dict}.
+\emph{Crucially}, \texttt{newton\_solve} itself performs the complete
+trust-region Newton iteration internally
+(cf.~\texttt{tect\_newton\_krylov.py} lines 1209--1395), so for $k \ge 1$
+the solver re-enters at an already-converged state and returns after a
+single iteration.  Thus the outer loop wastes $\mathrm{max}_{\mathrm{newton}}-1$
+redundant solver invocations.
+
+\emph{The lethal defect is not this inefficiency.}  After each
+\texttt{newton\_solve} return, the driver appended a
+\texttt{NewtonStep} record populated as
+\begin{align*}
+  \texttt{residual\_norm} &= \texttt{float("nan")}, \\
+  \texttt{step\_norm}     &= \texttt{float("nan")}, \\
+  \texttt{convergence\_ratio} &= \texttt{None}.
+\end{align*}
+Immediately below, the convergence test
+\begin{equation}
+  \texttt{if newton\_iter > 0 and newton\_step.residual\_norm < tol\_newton:}
+\label{eq:m74-broken-test}
+\end{equation}
+evaluates
+$\mathrm{NaN} < \mathrm{tol}_{\mathrm{newton}}$ under IEEE~754, which is
+by specification \texttt{False} for every finite $\mathrm{tol}_{\mathrm{newton}}$
+(IEEE~754-2019 \S5.11 ``all comparisons involving a NaN return the
+unordered predicate'').  The assignment
+$\texttt{result.converged} = \texttt{True}$ on the true branch of
+\eqref{eq:m74-broken-test} is therefore unreachable.
+Since no other code path writes to \texttt{result.converged}, the field
+remains \texttt{False} at the \texttt{return} statement for every input.
+\end{proof}
+
+The Phase~2 / Phase~3 blocks of $\mathrm{rop}_{2.5.7}$ were gated by
+\texttt{if result.converged and g\_stall:}, and therefore by
+Prop.~\ref{prop:math74-v257-obstruction} were unreachable as well.
+The bodies were placeholder prints
+\texttt{"[Phase 2/3 skipped in sandbox placeholder]"}, which accurately
+reflected the dynamic state but concealed that the gating condition
+itself was permanently false.
+
+\subsection{Rigorous resolution: v2.6.3 control-flow redesign}
+\label{sec:math74-resolution}
+
+The v2.6.3 patch replaces $\mathrm{rop}_{2.5.7}$ by a single-solver-call
+structure which we denote $\mathrm{rop}_{2.6.3}$:
+
+\begin{enumerate}
+\item[\textbf{(A)}] \emph{Phase A / B (once per $\mu^2$ point).}
+Invoke \texttt{probe\_jacobian\_cached}$(\Psi_0, \mathrm{params},
+\mathrm{iteration}=0, \mathrm{cache})$ and select the inner Krylov
+solver from $\{\texttt{pcg}, \texttt{minres}, \texttt{fgmres}\}$ via
+\texttt{select\_krylov\_solver}. The per-iteration re-probe schedule of
+v2.5.7 (every 5 Newton steps) is retired as obsolete: the Krylov
+routing is an outer-driver decision for the duration of this $\mu^2$
+point, whereas the per-step Newton numerics is delegated entirely to
+\texttt{newton\_solve}.
+
+\item[\textbf{(D)}] \emph{Phase D --- single trust-region Newton solve.}
+\begin{equation}
+  (\Psi^\ast,\ H,\ \Pi_0)
+  \;\leftarrow\;
+  \texttt{newton\_solve}(\Psi_0,\ \mathrm{params};\
+    \mathrm{max}_{\mathrm{newton}},\ \mathrm{tol}_{\mathrm{newton}},\
+    \mathrm{krylov\_method},\ \texttt{use\_symmetrised\_cII=True})
+\label{eq:m74-phaseD}
+\end{equation}
+where $\Pi_0$ is the \texttt{ZeroModeProjector} and $H$ is the
+\texttt{newton\_history} list of per-step dictionaries.  By Math66~v0.2
+Prop.~\ref{prop:math66v02-pathA} the adjoint-JVP construction is
+graph-connected; by Math73 Thm.~\ref{thm:math73-sym-incompat} with the
+v2.6.2 \texttt{FullProjector} default, the symmetrised Jacobian
+$\tfrac12(\mathcal J + \mathcal J^\dagger)$ satisfies
+$\|\tilde J v - \tilde J^\dagger v\|_{\mathcal H} / \|\tilde J v\|_{\mathcal H}
+\le 10^{-13}$.
+
+\item[\textbf{(C)}] \emph{Convergence propagation.}
+The returned \texttt{newton\_history} is iterated to rebuild the
+\texttt{NewtonStep} log with real values:
+\begin{align*}
+  \texttt{residual\_norm} &= H[k][\text{``grad\_norm''}], \\
+  \texttt{step\_norm}     &= H[k][\text{``line\_search\_alpha''}], \\
+  \texttt{krylov\_iterations} &= H[k][\text{``tCG\_iterations''}], \\
+  \texttt{wall\_time\_s}  &= H[k][\text{``time\_s''}].
+\end{align*}
+The \texttt{ContinuationPoint.converged} field is then set by
+\begin{equation}
+  \texttt{result.converged}
+  \;:=\;
+  \mathrm{isfinite}\bigl(H[-1][\text{``grad\_norm''}]\bigr)
+  \ \wedge\
+  \bigl(H[-1][\text{``grad\_norm''}] < \mathrm{tol}_{\mathrm{newton}}\bigr),
+\label{eq:m74-conv-criterion}
+\end{equation}
+bit-identically matching the internal criterion of \texttt{newton\_solve}
+at \texttt{tect\_newton\_krylov.py:1231}.
+
+\item[\textbf{(2)}] \emph{Phase 2 --- projected Hessian spectrum.}
+If \texttt{result.converged}, invoke
+\texttt{lanczos\_hessian}$(\Psi^\ast,\mathrm{params},\ \mathrm{projector}=\Pi_0,\ n_{\mathrm{eigs}}=20)$,
+feed the eigenvalue array into \texttt{analyze\_projected\_spectrum},
+and store $m^{\ast 2} := \mathrm{Phase2Result}.m_{\mathrm{star\_sq}}$
+into the continuation-point record.
+
+\item[\textbf{(3)}] \emph{Phase 3 --- energetic favorability.}
+If \texttt{result.converged}, invoke
+\texttt{compute\_energy\_difference}$(\Psi^\ast,\ \mathrm{params})$ and
+store $(F_{\mathrm{condensate}},\ F_{\mathrm{vacuum}},\ \Delta F,
+\ \texttt{favorable\_vs\_vacuum})$ into the record.
+
+\item[\textbf{(R)}] \emph{RMS amplitude.}
+\begin{equation}
+  \texttt{rms\_amplitude}
+  \;:=\;
+  \sqrt{\frac{1}{3 N_x N_y N_z}
+        \sum_{a=1}^{3}\sum_{x,y,z} \bigl|\Psi^\ast_a(x,y,z)\bigr|^{2}}.
+\label{eq:m74-rms}
+\end{equation}
+\end{enumerate}
+
+\subsection{Endpoint JSON contract}
+\label{sec:math74-endpoint}
+
+Per Math72 Addendum-A Post-54 Runbook requirement (physics-fields
+non-null assertion), v2.6.3 emits at the final $\mu^2$ point of the
+schedule --- iff that point satisfies \eqref{eq:m74-conv-criterion} --- a
+JSON artifact
+\texttt{continuation\_mu2\_v25\_endpoint.json} with schema:
+\begin{center}
+\begin{tabular}{ll}
+\toprule
+Field & Type / source \\
+\midrule
+\texttt{schema\_version}     & \texttt{"continuation\_mu2\_v25\_endpoint/1.0"} \\
+\texttt{theory\_tag}         & \texttt{Math74-...-2026-04-23} \\
+\texttt{driver\_version}     & \texttt{"v2.6.3"} \\
+\texttt{solver\_core\_version} & \texttt{"v2.6.2"} \\
+\texttt{mu2}, \texttt{r}     & \texttt{float} (Math63 Eq.~kinetic) \\
+\texttt{N}, \texttt{L}       & \texttt{int}, \texttt{float} \\
+\texttt{converged}           & \texttt{bool}, Eq.~\eqref{eq:m74-conv-criterion} \\
+\texttt{m\_star\_sq}         & \texttt{float}, Phase~2 \\
+\texttt{delta\_F}            & \texttt{float}, Phase~3 \\
+\texttt{F\_condensate}, \texttt{F\_vacuum} & \texttt{float}, Phase~3 \\
+\texttt{rms\_amplitude}      & \texttt{float}, Eq.~\eqref{eq:m74-rms} \\
+\texttt{favorable\_vs\_vacuum} & \texttt{bool}, Phase~3 \\
+\texttt{wall\_time\_s}       & \texttt{float} \\
+\texttt{n\_newton\_steps}    & \texttt{int}, $\mathrm{len}(H)$ \\
+\texttt{final\_grad\_norm}   & \texttt{float}, $H[-1][\text{``grad\_norm''}]$ \\
+\texttt{timestamp}           & \texttt{str}, ISO-8601 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The emission is gated on \texttt{last\_point.converged} to enforce the
+Math72 Addendum-A non-null invariant: the JSON artifact exists iff the
+physics fields carry finite, solver-backed values.  Non-convergent
+sweeps leave only the MANIFEST, preserving the audit trail without
+publishing spurious endpoint records.
+
+\subsection{Exit-code contract preservation}
+\label{sec:math74-exit-codes}
+
+The v2.5.3 handoff-script exit code contract is preserved bit-identically:
+\begin{align*}
+  0  &\;:\; \text{PASS (every scheduled point satisfies Eq.~\eqref{eq:m74-conv-criterion})}, \\
+  10 &\;:\; \text{SKELETON\_ONLY (every scheduled point non-convergent, no exception raised)}, \\
+  2  &\;:\; \text{FAIL (at least one point errored OR UNKNOWN status)}.
+\end{align*}
+The semantic of $10$ narrows: in v2.5.7 it meant ``no real
+\texttt{newton\_solve} was invoked'', whereas in v2.6.3 it means
+``\texttt{newton\_solve} was invoked at every scheduled $\mu^2$ but
+none converged below $\mathrm{tol}_{\mathrm{newton}}$ --- either the
+torch/solver stack is unavailable or the physics is genuinely
+non-convergent on this schedule''. \texttt{run\_v25\_diagnostic.ps1}
+and downstream tooling require no change.
+
+A new intermediate status \texttt{PARTIAL} is introduced for schedules
+that return $0 < n_{\mathrm{converged}} < n_{\mathrm{schedule}}$ with
+no exception; this maps to exit code $2$ so the handoff script treats
+a partial sweep as FAIL, preserving fail-closed semantics.
+
+\subsection{Verification plan}
+\label{sec:math74-verification}
+
+\paragraph{V1 (syntactic + refactor-contract invariants).}
+V1a (syntax): \texttt{python -c "import ast;
+ast.parse(open('PDE/continuation\_mu2\_v25.py').read())"}
+returns without exception.
+V1b (refactor contract): the following seven ast-level / string-level
+invariants, collectively encoding the Prop.~\ref{prop:math74-v257-obstruction}
+resolution and the Math72 Addendum-A endpoint-JSON mandate, must all hold:
+\begin{enumerate}
+\item[$\mathbf{I_1}$.] no outer \texttt{for newton\_iter in range(...)} loop
+inside \texttt{run\_one\_point\_v25} (the v2.5.7 hard-coded \texttt{NaN} source);
+\item[$\mathbf{I_2}$.] exactly one \texttt{newton\_solve(...)} call inside
+\texttt{run\_one\_point\_v25} (single-invocation control flow);
+\item[$\mathbf{I_3}$.] zero \texttt{NewtonStep(residual\_norm=float("nan"),\ldots)}
+assignments anywhere in the module (the v2.5.7 convergence-blocking hard-code);
+\item[$\mathbf{I_4}$.] the literal \texttt{"continuation\_mu2\_v25\_endpoint.json"}
+is present (endpoint emission site);
+\item[$\mathbf{I_5}$.] the literal \texttt{"continuation\_mu2\_v25\_endpoint/1.0"}
+is present (schema-version pin);
+\item[$\mathbf{I_6}$.] the retired banner string
+\texttt{"no real Newton-Krylov solve was performed"} appears \emph{only}
+inside the module header comment block (line $\le 230$, i.e.\ within the
+v2.6.3 and historical v2.5.3 CHANGELOG records); no occurrence survives
+in live-code strings past line $230$;
+\item[$\mathbf{I_7}$.] the phrase \texttt{"specification skeleton"} is
+absent from the entire module --- the v2.6.3 \texttt{\_\_main\_\_}
+torch-unavailable branch names the actual condition ("PyTorch / solver
+core not importable") rather than the retired skeleton-era label.
+\end{enumerate}
+\textbf{Status: passed 2026-04-23} --- V1a passes at 1146 lines /
+7 function defs (\texttt{run\_one\_point\_v25}@L646, \texttt{main}@L850,
+\texttt{SYNTAX OK}); V1b returns $\mathbf{I_1=\text{False}}$,
+$\mathbf{I_2=1}$, $\mathbf{I_3=0}$, $\mathbf{I_4=\text{True}}$,
+$\mathbf{I_5=\text{True}}$, $\mathbf{I_6}$: retired-banner hits
+$\{58\}$ (all inside the header CHANGELOG), no leak past line~$230$;
+$\mathbf{I_7=\text{False}}$ (no occurrence of "specification skeleton")
+--- \texttt{OVERALL: PASS}.
+
+\paragraph{V2 (import).} On a torch-enabled host:
+\texttt{python -c "import PDE.continuation\_mu2\_v25 as m;
+print(m.run\_one\_point\_v25.\_\_doc\_\_[:80])"}.
+\textbf{Status: pending user-side confirmation.}
+
+\paragraph{V3 (end-to-end live).} On a torch+GPU host:
+\begin{verbatim}
+python3 PDE/continuation_mu2_v25.py \
+    --config PDE/config_template_brazovskii.json \
+    --N 32 --L 16 --diagnostic --output continuation_v263_smoke
+\end{verbatim}
+Expected artifacts: \texttt{MANIFEST.md} with a converged row in the
+per-point table, and iff the final $\mu^2=-0.1$ point converged,
+\texttt{continuation\_mu2\_v25\_endpoint.json} with all physics fields
+finite (non-null, non-NaN). \textbf{Status: pending GPU queue (Task~\#54).}
+
+\paragraph{V4 (endpoint contract smoke).}
+\texttt{python3 -c "import json; d =
+json.load(open('continuation\_v263\_smoke/continuation\_mu2\_v25\_endpoint.json'));
+assert d['converged']; assert all(isinstance(d[k], float) and
+float('nan') != d[k] for k in ('m\_star\_sq','delta\_F','F\_condensate','F\_vacuum','rms\_amplitude'))"}.
+\textbf{Status: pending V3.}
+
+\paragraph{V5 (regression vs.\ audit path).}  With \texttt{--N 64}
+and a $\mu^2$ schedule ending at the Math55 continuation target
+($\mu^2_\mathrm{target} = 5 \times 10^{-3}$, Task~\#54), the
+v2.6.3 endpoint value $m^{\ast 2}$ must agree with the
+\texttt{n64\_continuum\_audit.py} converged result to within the
+Math55 accepted tolerance. \textbf{Status: pending Task~\#54 GPU run.}
+
+\subsection{Residual risks and booked items}
+\label{sec:math74-residual}
+
+\begin{itemize}
+\item[\textbf{R1.}]  The per-Newton-step \texttt{eta\_ew} field of
+\texttt{NewtonStep} is not exposed by the current \texttt{newton\_solve}
+\texttt{NewtonStepRecord}; v2.6.3 stores a placeholder value $0.5$.
+Booked as a follow-up for Task~\#115 routing-layer pytest (minor).
+
+\item[\textbf{R2.}]  The Math63 \S2D acceptance gate
+(Newton $\le 8$, $t_{\mathrm{CG}} \le 300$, $\rho_{\mathrm{lin}} \le 0.05$
+at $\mu^2 = -1.0$) is not yet asserted programmatically in v2.6.3; the
+per-point table surfaces the counts, but a \texttt{pass\_math63\_2d}
+boolean is not emitted. Booked as a follow-up.
+
+\item[\textbf{R3.}]  The endpoint JSON schema is pinned at version
+\texttt{1.0}; any downstream consumer (Task~\#55 $\sigma_V$ extraction,
+Task~\#56 $\kappa$ derivation, Task~\#77 Math58-v2 re-baseline) must
+read via the \texttt{schema\_version} field and refuse on mismatch.
+
+\item[\textbf{R4.}]  Phase~2 uses the default
+\texttt{HessianOperator(use\_symmetrised\_cII=False)} per
+\texttt{tect\_newton\_krylov.py:1444--1445}; this is acceptable because
+Phase~2 only audits the spectrum and does not drive Newton iterations.
+No action needed.
+\end{itemize}
+
+\subsection{Honest status}
+\label{sec:math74-status}
+
+\begin{itemize}
+\item V1 passed (V1a syntax + V1b 7-invariant refactor contract
+$I_1$--$I_7$, ast-level).
+\item See \textbf{Math74 Addendum-A} (\texttt{docs/math/TECT-Math74-%
+Addendum-A-Post-Upload-Status-Update.tex.txt}, filed 2026-04-23) for
+the post-upload status update: B2 is code-level resolved, B3 is
+code-level landed, and Task~\#54 is reclassified from
+``driver-layer blocker + execution-layer blocker'' to
+``code-unblocked, awaiting live endpoint verification''.
+\item V2--V5 require torch + GPU and are deferred to the user-side run.
+\item This note is \textbf{rigorous} on the control-flow /
+mathematical-contract level (Prop.~\ref{prop:math74-v257-obstruction} and
+Eq.~\eqref{eq:m74-conv-criterion}) but is \textbf{engineering-grade}, not
+physics-grade, until V3--V5 land actual converged $m^{\ast 2}, \Delta F$
+numbers on the Math55 endpoint.
+\item Task~\#54's \emph{driver-layer} blocker (Math72 wording:
+``Phase D is still a placeholder because real solver is not
+integrated'') is closed.  Task~\#54's \emph{execution-layer} blocker
+(actual GPU run producing the endpoint JSON) remains open and is the
+next user-side action.
+\end{itemize}
+
+%% ======================================================================
+%%  End of TECT-Math74-v2p6p3-Continuation-Driver-Live-Wire.tex.txt
+%% ======================================================================

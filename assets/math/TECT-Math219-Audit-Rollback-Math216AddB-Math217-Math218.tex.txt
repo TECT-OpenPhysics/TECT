@@ -1,0 +1,585 @@
+==================================================================
+   TECT-Math219: Audit-Rollback of Math216-AddB / Math217 / Math218
+                 (Reviewer 2026-04-29 Comprehensive Audit Verdict)
+==================================================================
+
+Theory tag    : Math219 (5th audit-rollback of 2026-04-28 — 2026-04-29
+                cluster; reviewer 2026-04-29 verdict on parallel
+                triple-track closure attempt; CLAUDE.md §15 single-task
+                dispatch)
+Date          : 2026-04-29
+Status        : AUDIT-CORRECTION / HONEST-SCOPE EVENT
+Significance  : Implements reviewer's structured verdict on the
+                Math216-AddB + Math217 + Math218 parallel triple-track
+                closure attempt. Three notes are downgraded:
+                  • Math216-AddB: AUDIT-FLAGGED (3 defects)
+                  • Math217:     AUDIT-FLAGGED / STRONG DRAFT only
+                                  (one-loop, key inequality unproved)
+                  • Math218:     FAIL AS PROOF (4 quantitative defects,
+                                  including a sign-error in thermal
+                                  rate, an exp[~0]≈1 misinterpretation,
+                                  a units mismatch, and a 17-order
+                                  Hubble-scale error)
+                Pillar 4 sub-task 2 promotion to all-five-conditional
+                closure is RETRACTED. Returns to:
+                  Pillar 4 sub-task 2 = PROVED CONDITIONAL on
+                  {E_{1,χ5}^{sign}, E_2, E_2'_unresolved,
+                   E_3, E_3'_unresolved}.
+
+==================================================================
+
+\section*{Summary of reviewer verdict (2026-04-29)}
+
+The reviewer's structured comprehensive audit of the
+Math216-AddB / Math217 / Math218 parallel triple-track output issued
+the following verdicts:
+
+\begin{itemize}
+\item \textbf{Math216-AddB}: \textbf{AUDIT-FLAGGED}. The
+      $\alpha_{\rm match}>0$ proof, the natural-units expressions, and
+      the $\zeta_\Psi=\mathbf{16}$ identification are formally written
+      but contain three structural defects (distribution-square
+      illegality, Euclidean-integral coefficient error, circular
+      $\zeta_\Psi$ identification).
+\item \textbf{Math217}: \textbf{AUDIT-FLAGGED / one-loop strong draft
+      only}. The key inequality
+      $\mathcal F_{\rm matter}^{(1)}[c_1,c_2]\geq
+      \mathcal F_{\rm matter}^{(1)}[0,0]$ is asserted but not derived
+      from Schwinger positivity alone; the defect-sector strict
+      equality is too strong; the two-loop dismissal is unjustified.
+\item \textbf{Math218}: \textbf{FAIL AS PROOF}. Four quantitative
+      defects, including a sign-error in the thermal-hopping rate
+      direction, an arithmetic misinterpretation
+      ($e^{-10^{-14}}\approx 1$, not $\ll 1$), a units mismatch
+      between Brazovskii units and GeV, and a Hubble-scale value
+      that is wrong by ~17 orders of magnitude.
+\end{itemize}
+
+The verdict is accepted in full. The status promotions of yesterday's
+commit \texttt{8b82f49f1c} are retracted; this Addendum file
+implements the rollback.
+
+==================================================================
+
+\section{1. Math216-AddB — Three structural defects (AUDIT-FLAGGED)}
+
+\subsection{1.1 Defect A: distribution-square illegality}
+
+Math216-AddB §3 represents the BCC shell propagator as
+\begin{equation}
+G_\Psi(k) \;=\; \delta(|k|-q_0)\,\Pi_{\zeta_\Psi}\;
+\bigl[k^2-m_\Psi^2+i\epsilon\bigr]^{-1},
+\end{equation}
+and, in the one-loop polarization tensor, encounters
+\begin{equation}
+\delta(|k|-q_0)^2 \quad\text{(undefined as a distribution).}
+\end{equation}
+The product $\delta(x)^2$ is not a Schwartz distribution; the standard
+Brazovskii treatment requires a smeared shell projector
+$\delta_\epsilon(|k|-q_0)$ with finite shell width
+$\epsilon=\Delta q$, followed by a controlled $\epsilon\to 0$
+renormalisation.
+
+\textbf{Required correction}: replace the shell projector by a smeared
+form:
+\begin{equation}
+\delta_\epsilon(|k|-q_0)^2 \;\sim\; \delta_\epsilon(|k|-q_0)/\epsilon,
+\end{equation}
+and renormalise the divergent prefactor against the wave-function
+renormalisation $Z(\epsilon)$ from Math45. The resulting
+$\alpha_{\rm match}$ is finite but its absolute normalisation depends
+on the shell-regularisation prescription (Math40 vs Math45 vs lattice
+cutoff).
+
+\textbf{Verdict}: $\alpha_{\rm match}=1/(8\pi^4 q_0)$ as an explicit
+absolute normalisation is \textbf{NOT} a theorem; it is a formal
+calculation. The sign $\alpha_{\rm match}>0$ is plausible but the
+absolute value requires a regulator-resolved derivation.
+
+\subsection{1.2 Defect B: Euclidean integral coefficient error}
+
+Math216-AddB §3 quotes
+\begin{equation}
+\int_{-\infty}^{\infty}\frac{dk_E}{2\pi}\frac{1}{(k_E^2+M^2)^2}
+\;\stackrel{?}{=}\;\frac{1}{4\pi M^3}.
+\end{equation}
+The standard textbook value (residue at $k_E=iM$) is
+\begin{equation}
+\int_{-\infty}^{\infty}\frac{dk_E}{2\pi}\frac{1}{(k_E^2+M^2)^2}
+\;=\;\frac{1}{4M^3}.
+\end{equation}
+Math216-AddB has spurious factor of $\pi^{-1}$. Propagated through
+the one-loop calculation, the quoted $\alpha_{\rm match}=1/(8\pi^4 q_0)$
+is wrong by a factor of $\pi$; the correct value (within the same
+formal calculation) is $\alpha_{\rm match}=1/(8\pi^3 q_0)$, modulo the
+shell-regularisation issue of §1.1 above.
+
+\textbf{Verdict}: the absolute normalisation $1/(8\pi^4 q_0)$ is
+\textbf{NOT} reliable. Sign positivity is unaffected.
+
+\subsection{1.3 Defect C: $\zeta_\Psi=\mathbf{16}$ circularity}
+
+Math216-AddB §3.2 identifies $\zeta_\Psi=\mathbf{16}$ via:
+\begin{enumerate}
+\item Math162 zero-mode count $= 16$ on $\mathbb{CP}^2$ base.
+\item Math167 Čech cocycle closure of the BCC defect bundle.
+\item Math166-A Atiyah–Singer index $=16+40b^2$ with $b=0$ at
+canonical realisation, hence $\mathrm{ind}=16$.
+\end{enumerate}
+
+\textbf{Reviewer's structural objection}: this is circular. The
+zero-mode count in Math162 is the count of \emph{Dirac zero modes
+on a chosen background bundle}; this is the post-selected fermion
+sector, not the BCC condensate fast-mode representation
+$\zeta_\Psi$. The identification $\zeta_\Psi=\mathbf{16}$ as the
+\emph{microscopic shell-fluctuation representation} requires a
+separate derivation from the BCC condensate Brazovskii structure,
+not from the index theorem applied to a chosen bundle.
+
+Furthermore, the use of Math166-A's $b=0$ assumption is circular
+relative to the goal of Math214–Math218: we are attempting to
+\emph{force} $c_1(U(1)_\chi)=0$ (which is the $b=0$ statement) via
+energy minimisation, so importing $b=0$ as an input to the proof of
+$\zeta_\Psi=\mathbf{16}$ is a logical loop.
+
+\textbf{Required correction}: prove
+\begin{equation}
+\mathrm{Tr}_{\Psi_{\rm shell}}(T^a T^b)
+\;=\;\alpha_{\rm rep}\,\mathrm{Tr}_{\mathbf{16}}(T^a T^b),
+\quad \alpha_{\rm rep}>0,
+\end{equation}
+\emph{directly from the microscopic BCC shell fields}, without
+assuming the post-selected Dirac index.
+
+\subsection{1.4 Math216-AddB final verdict}
+
+\textbf{Math216-AddB is NOT proved}. It is downgraded to
+\textbf{AUDIT-FLAGGED}.
+
+What survives:
+\begin{equation}
+\boxed{\;
+\text{If }U(1)_\chi\times SU(5)\text{ acts non-trivially on the BCC
+shell modes, then the stiffness sign is positive.}\;}
+\end{equation}
+
+That is:
+\begin{equation}
+E_{1,\chi 5}^{\rm sign} \;\text{is strongly supported, but}\;
+E_{1,\chi 5}^{\rm full}\;\text{is unfinished.}
+\end{equation}
+
+==================================================================
+
+\section{2. Math217 — One-loop strong draft only (AUDIT-FLAGGED)}
+
+\subsection{2.1 Defect A: Schwinger positivity does not give the
+needed inequality}
+
+Math217 §3.1 asserts
+\begin{equation}
+\Delta\mathcal F_{\rm matter}^{(1)}[c_1,c_2]
+\;\geq\; 0,
+\end{equation}
+where $\Delta\mathcal F_{\rm matter}^{(1)}[c_1,c_2]=
+\mathcal F_{\rm matter}^{(1)}[c_1,c_2]-\mathcal F_{\rm matter}^{(1)}[0,0]$,
+and cites Schwinger proper-time representation as justification.
+
+\textbf{Reviewer's structural objection}: the Schwinger proper-time
+representation gives \emph{convergence and regularity} of the one-loop
+fermion determinant, but does not by itself establish a
+\emph{spectral comparison} between two different background sectors.
+The fermion determinant $-\log\det(i\slashed D_A - m)$ depends on the
+background gauge field $A$ through the entire spectrum of
+$i\slashed D_A$, and the comparison
+\begin{equation}
+\mathrm{Spec}(i\slashed D_{A_{c_1,c_2}})
+\;\geq\;
+\mathrm{Spec}(i\slashed D_{A_{0,0}})\quad
+\text{(in some appropriate sense)}
+\end{equation}
+is a non-trivial spectral theorem, not an automatic consequence of
+proper-time representations.
+
+\textbf{Required correction}: a separate spectral-comparison theorem
+is needed. Plausible candidates:
+(i) Heat-kernel coefficient analysis: the leading $a_2$ coefficient
+of the heat-kernel expansion gives
+$a_2\sim \int(\mathrm{tr}\,F^2 + R^2)$, manifestly non-negative;
+(ii) Lifshitz-type inequality: bounding the determinant by the
+ground-state-energy contribution, which is $\leq 0$ for a topologically
+non-trivial sector vs a trivial one.
+
+Both require explicit calculation; Math217's appeal to Schwinger
+positivity alone is \textbf{insufficient}.
+
+\subsection{2.2 Defect B: defect-sector strict equality too strong}
+
+Math217 §3.2 asserts
+\begin{equation}
+\mathcal F_{\rm defect}[c_1,c_2] \;=\; \mathcal F_{\rm defect}[0,0]
+\quad\text{exactly}.
+\end{equation}
+
+\textbf{Reviewer's structural objection}: in a non-trivial gauge
+bundle, a charged condensate $\Psi$ may not be globally covariantly
+constant. In particular, if $\Psi$ transforms under $U(1)_\chi$ with
+charge $q_\chi$, then $D_\mu\Psi=(\partial_\mu - i q_\chi A_\mu)\Psi$
+acquires bundle-curvature contributions in non-trivial sectors. The
+gradient energy $\int|D\Psi|^2$ is generally \emph{strictly larger}
+than in the trivial sector — which is helpful for our purpose but is
+not equality.
+
+\textbf{Safer formulation}:
+\begin{equation}
+\mathcal F_{\rm defect}[c_1,c_2] - \mathcal F_{\rm defect}[0,0]
+\;\geq\; 0,
+\end{equation}
+with strict inequality in non-trivial sectors. This is plausible but
+\textbf{not yet proved}; it requires a separate gradient-energy
+comparison theorem.
+
+\subsection{2.3 Defect C: two-loop dismissal overstated}
+
+Math217 §6 dismisses two-loop corrections as $O(\alpha^2)$ suppressed
+and positive. \textbf{Reviewer's structural objection}: the sign of
+higher-order effective-action terms is \emph{not} an automatic theorem;
+it depends on diagram class, renormalisation scheme, background, and
+matter content. Dismissing two-loop with one sentence is
+\textbf{not rigorous}.
+
+\subsection{2.4 Math217 final verdict}
+
+\textbf{Math217 is downgraded to ONE-LOOP POSITIVITY PROGRAM /
+STRONG DRAFT, not PROVED}.
+
+The required next theorem is:
+\begin{equation}
+\boxed{\;
+\Delta\Gamma_{\rm eff}[A]
+\;:=\;\Gamma_{\rm eff}[A]-\Gamma_{\rm eff}[0]
+\;\geq\;-\epsilon\,\mathcal F_{\rm top}[A],
+\quad 0\leq\epsilon<1,\;}
+\end{equation}
+for all allowed $U(1)_\chi\times SU(5)$ topological sectors.
+
+Until this is established, $E_2'$ is NOT closed.
+
+==================================================================
+
+\section{3. Math218 — FAIL AS PROOF (four quantitative defects)}
+
+Math218 contains four quantitative errors that invalidate the proof
+as currently written. Each is detailed below.
+
+\subsection{3.1 Defect A: thermal-rate direction reversed}
+
+Math218 §3.3 writes the defect-annihilation rate as
+\begin{equation}
+\Gamma_{\rm ann}(T) \;=\; \Gamma_0\,e^{-C_{\min}/T},
+\end{equation}
+and interprets this as ``cooling drives faster annihilation.''
+
+\textbf{Direct check}: as $T\to 0$,
+$e^{-C_{\min}/T}\to 0$, hence $\Gamma_{\rm ann}\to 0$ and
+$\tau_{\rm ann}\to\infty$. Cooling \emph{slows}, not accelerates,
+the thermal-hopping channel.
+
+\begin{equation}
+\boxed{\;T\downarrow \;\Longrightarrow\; \Gamma_{\rm ann}\downarrow,
+\quad \tau_{\rm ann}\uparrow.\;}
+\end{equation}
+
+The Math218 interpretation is \textbf{reversed}.
+
+\subsection{3.2 Defect B: $e^{-10^{-14}}\approx 1$, not $\ll 1$}
+
+Math218 §4 estimates the present-day defect population as
+$p_{\rm defect}\sim e^{-N_e\cdot C_{\min}/T_{\rm trans}}\sim e^{-10^{-14}}$,
+and concludes $p_{\rm defect}\sim 10^{-14}$ (negligible).
+
+\textbf{Direct check}: $e^{-10^{-14}}\approx 1-10^{-14}$, which is
+essentially $1$, not $10^{-14}$. The numerical conclusion of
+Math218 is \textbf{reversed}: $p_{\rm defect}\approx 1$, i.e.\
+defects \emph{are abundantly present}, not negligible.
+
+\begin{equation}
+\boxed{\;e^{-10^{-14}}\approx 1, \;\text{not}\; \ll 1.\;}
+\end{equation}
+
+\subsection{3.3 Defect C: units mismatch ($C_{\min}$ Brazovskii vs
+$T_{\rm trans}$ GeV)}
+
+Math218 §4 directly computes $C_{\min}/T_{\rm trans}$ with
+$C_{\min}\sim 0.6$ in ``Brazovskii units'' and
+$T_{\rm trans}\sim 10^{16}\,\mathrm{GeV}$. This is a
+\textbf{units mismatch}: ``Brazovskii units'' are dimensionless or
+scaled to $a_{\rm BCC}$ and $q_0$, not directly comparable to GeV.
+
+A scale matching is required:
+\begin{equation}
+C_{\min}^{\rm physical}
+\;=\;C_{\min}^{\rm BU}\cdot E_{\rm scale},
+\quad
+E_{\rm scale}\;=\;[\text{some physical-units scale, TBD}].
+\end{equation}
+Without this conversion, the ratio $C_{\min}/T_{\rm trans}$ is
+\textbf{meaningless}.
+
+\subsection{3.4 Defect D: Hubble scale wrong by $\sim 17$ orders of
+magnitude}
+
+Math218 §4 quotes Hubble parameter $H\sim 10^{-3}\,\mathrm{GeV}$ at
+$T_c\sim 10^{16}\,\mathrm{GeV}$. The standard Friedmann equation in
+the radiation-dominated regime gives
+\begin{equation}
+H \;=\; 1.66\sqrt{g_*}\,\frac{T^2}{M_{\rm Pl}}.
+\end{equation}
+At $T=10^{16}\,\mathrm{GeV}$, $g_*=O(100)$, $M_{\rm Pl}=2.4\times
+10^{18}\,\mathrm{GeV}$:
+\begin{equation}
+H \;\approx\; 16.6\cdot \frac{(10^{16})^2}{2.4\cdot 10^{18}}\,
+\mathrm{GeV} \;\approx\; 7\times 10^{13}\,\mathrm{GeV}.
+\end{equation}
+Math218's $10^{-3}\,\mathrm{GeV}$ is \textbf{wrong by 17 orders of
+magnitude}.
+
+\subsection{3.5 Math218 final verdict}
+
+\textbf{Math218 FAILS AS PROOF}. The Kibble–Zurek + TDGL route is
+worth pursuing, but the current document's annihilation-rate
+direction, exponential-suppression interpretation, units conversion,
+and Hubble-scale value are \textbf{all unstable}. None of the §6
+devil's-advocate objections caught these basic quantitative errors,
+indicating that the §6 self-test in Math218 was insufficiently
+rigorous.
+
+==================================================================
+
+\section{4. Status corrections (this commit)}
+
+\subsection{4.1 Math214 conditional set — restored}
+
+The Math214 conditional set returns to:
+\begin{equation}
+\text{Pillar 4 sub-task 2}
+\;=\;
+\text{PROVED CONDITIONAL on}\;
+\{E_{1,\chi 5}^{\rm sign},
+E_2,
+E_2'_{\rm unresolved},
+E_3,
+E_3'_{\rm unresolved}\},
+\end{equation}
+where:
+\begin{itemize}
+\item $E_{1,\chi 5}^{\rm sign}$: sign-positivity strongly supported;
+      full closure pending non-circular representation-matching proof.
+\item $E_2'_{\rm unresolved}$: Math217 STRONG DRAFT; spectral
+      comparison theorem and gradient-energy comparison theorem still
+      needed.
+\item $E_3'_{\rm unresolved}$: Math218 FAIL AS PROOF; thermal-rate
+      audit and Hubble-scale audit needed.
+\end{itemize}
+
+\subsection{4.2 EVIDENCE-INDEX status downgrades}
+
+\begin{itemize}
+\item Math216-AddB: PROVED CONDITIONAL → \textbf{AUDIT-FLAGGED}.
+\item Math217: PROVED CONDITIONAL → \textbf{AUDIT-FLAGGED / STRONG
+      DRAFT one-loop only}.
+\item Math218: PROVED CONDITIONAL → \textbf{FAIL AS PROOF}; entry
+      moved to NEGATIVE-RESULTS.md as
+      \texttt{AUDIT-2026-04-29-Math218-FailAsProof}.
+\end{itemize}
+
+\subsection{4.3 OPEN-QUESTIONS reopen}
+
+\begin{itemize}
+\item Task \#161 (E2'): \textbf{REOPENED} pending spectral-comparison
+      theorem.
+\item Task \#162 (E3'): \textbf{REOPENED} pending thermal-rate +
+      Hubble-scale audit; first deliverable is Math218-AddA.
+\item Task \#163 (Math216-AddB rep matching): \textbf{REOPENED}
+      pending non-circular $\zeta_\Psi=\mathbf{16}$ proof.
+\end{itemize}
+
+\subsection{4.4 NEGATIVE-RESULTS update}
+
+A new entry is added to \texttt{Docs/status/NEGATIVE-RESULTS.md}:
+\texttt{AUDIT-2026-04-29-Math218-FailAsProof}, recording the four
+quantitative defects of Math218.
+
+\subsection{4.5 TOE-FACT-SHEET}
+
+\textbf{Unchanged}. No status row write was performed in commit
+\texttt{8b82f49f1c} per CLAUDE.md §15.5; the rollback simply reaffirms
+the §15.5 audit-gate decision.
+
+==================================================================
+
+\section{5. Devil's-advocate self-test (CLAUDE.md §6.3.1)}
+
+\subsection{$\alpha^{219}$ — Is the audit-rollback over-strict?}
+
+Could the reviewer's audit have been too harsh, given that the
+sign-positivity claim of Math216-AddB is genuinely supported?
+
+\textbf{DISMISSED}: the three Math216-AddB defects are concrete and
+verifiable independently (distribution-square, Euclidean coefficient,
+$\zeta_\Psi$ circularity). The sign-positivity claim is preserved as
+$E_{1,\chi 5}^{\rm sign}$ — only the absolute-normalisation and the
+representation-matching claims are downgraded. The audit is calibrated
+appropriately.
+
+\subsection{$\beta^{219}$ — Could Math218's errors be cosmetic only?}
+
+Could the four Math218 defects be salvageable by minor edits, leaving
+the underlying argument intact?
+
+\textbf{VALID with mitigation}: the Math218 thermal-rate direction
+defect (3.1) is a sign-error in physical interpretation, salvageable
+by re-deriving the appropriate cosmological-cooling channel (e.g.\
+Hubble-friction-driven defect annihilation, which has different
+$T$-scaling). The exp[~0]≈1 defect (3.2) requires recomputing
+$N_e\cdot C_{\min}/T_{\rm trans}$ with corrected units. The Hubble-scale
+defect (3.4) is a 17-order-of-magnitude arithmetic error and must be
+fixed. The units-mismatch defect (3.3) is structural and requires a
+scale-matching derivation. \textbf{All four require concrete repairs};
+Math218 as currently written is not salvageable without these
+repairs. Status FAIL AS PROOF.
+
+\subsection{$\gamma^{219}$ — Pattern of audit-rollbacks (5 in 2 days)}
+
+The 2026-04-28 day produced four audit-rollbacks; this is the fifth in
+two days. Is the agent system producing systematically over-aggressive
+claims?
+
+\textbf{VALID, UPHELD}: this is a structural pattern. The
+recommendation is to tighten the §6.3.1 devil's-advocate self-test
+requirement: every Math note's §6 self-test must include
+\emph{concrete numerical checks} (e.g.\ Hubble-scale dimensional
+check, exponential-magnitude check, distribution-product
+well-definedness check), not merely structural objections. This is a
+\textbf{methodological extension to CLAUDE.md §6.3.1}: future Math
+notes that include numerical claims must verify each claim with at
+least one independent numerical sanity check before submission.
+
+==================================================================
+
+\section{6. Implications and required next steps}
+
+\subsection{6.1 Math218-AddA (urgent, highest priority)}
+
+Required corrections to Math218 before any cosmological-vacuum claim
+can be made:
+
+\begin{enumerate}
+\item Correct thermal-rate direction: $T\downarrow \Rightarrow
+\Gamma_{\rm ann}\downarrow$. Reformulate the defect-annihilation
+mechanism using a channel that benefits from cooling
+(e.g.\ classical defect–antidefect collision with rate $\propto
+n_{\rm defect}^2 \cdot v_{\rm rel}$, where $v_{\rm rel}$ scales
+slower than thermal hopping).
+\item Recompute $p_{\rm defect}(t_{\rm now})$ with corrected units
+and corrected exponential interpretation; do NOT use
+$e^{-10^{-14}}$ as ``negligible.''
+\item Add scale matching for $C_{\min}^{\rm BU}$ to physical units.
+The conversion factor must come from a definite physical scale
+(e.g.\ $C_{\min}^{\rm physical} = C_{\min}^{\rm BU}\cdot
+\rho_{\rm cond}\cdot a_{\rm BCC}^3$, dimensions of energy, where
+$\rho_{\rm cond}$ has dimensions of energy density).
+\item Restore Hubble parameter from Friedmann equation:
+$H = 1.66\sqrt{g_*}\,T^2/M_{\rm Pl}$, giving
+$H\sim 7\times 10^{13}\,\mathrm{GeV}$ at $T_c=10^{16}\,\mathrm{GeV}$.
+Re-derive adiabaticity ratio $\tau_{\rm relax}/\tau_Q$ using the
+correct $H$.
+\end{enumerate}
+
+\subsection{6.2 Math216-AddB rep-matching repair}
+
+Required: prove $\zeta_\Psi=\mathbf{16}$ as a microscopic BCC-shell
+fast-mode representation, \emph{directly from the Brazovskii
+condensate structure}, without using the Math166-A index theorem
+output (which is post-selected and circular).
+
+A plausible route: identify the irreducible representations of
+$SO(10)$ that appear as fluctuations of the BCC condensate, expanded
+in the basis of shell modes at $|q|=q_0$. The resulting representation
+content is determined by the $SO(10)\to SU(5)\times U(1)_\chi$ branching
+of the condensate field $\Psi$ itself, NOT by post-selected fermion
+zero modes.
+
+\subsection{6.3 Math217 spectral-comparison theorem}
+
+Required: a separate theorem giving
+$\Delta\Gamma_{\rm eff}[A]\geq -\epsilon\,\mathcal F_{\rm top}[A]$
+with $0\leq\epsilon<1$. Either via heat-kernel $a_2$ analysis or
+Lifshitz-type spectral inequality.
+
+\subsection{6.4 Strategic priority}
+
+\begin{enumerate}
+\item \textbf{Math218-AddA (HIGHEST)}: thermal-rate + Hubble-scale +
+units audit. This is a 4-defect repair, all concrete.
+\item \textbf{Math216-AddB-AddA (HIGH)}: non-circular
+$\zeta_\Psi=\mathbf{16}$ derivation.
+\item \textbf{Math217-AddA (MEDIUM)}: spectral-comparison theorem
+for fermion determinant.
+\end{enumerate}
+
+==================================================================
+
+\section{7. Atomic-write ledger (this commit)}
+
+Files written or modified in this commit:
+
+\begin{enumerate}
+\item \texttt{Docs/math/TECT-Math219-Audit-Rollback-Math216AddB-
+Math217-Math218.tex.txt} (this note, NEW).
+\item \texttt{Docs/math/TECT-Math216-Addendum-B-RepMatching-
+Dimensional-Audit.tex.txt}: in-place AUDIT-STATUS REFINEMENT banner.
+\item \texttt{Docs/math/TECT-Math217-E2prime-No-Negative-Offset-
+Verification.tex.txt}: in-place AUDIT-STATUS REFINEMENT banner.
+\item \texttt{Docs/math/TECT-Math218-E3prime-Cosmological-Vacuum-
+Global-Minimum.tex.txt}: in-place AUDIT-FAIL banner (FAIL AS PROOF).
+\item \texttt{CHANGELOG.md}: top-level Math219 audit-rollback entry.
+\item \texttt{Docs/status/EVIDENCE-INDEX.md}: status downgrades for
+the three notes.
+\item \texttt{Docs/status/OPEN-QUESTIONS.md}: Tasks \#161, \#162,
+\#163 reopened.
+\item \texttt{Docs/status/NEGATIVE-RESULTS.md}:
+\texttt{AUDIT-2026-04-29-Math218-FailAsProof} entry added.
+\end{enumerate}
+
+No TOE-FACT-SHEET status row write (per CLAUDE.md §15.5; the rollback
+reaffirms the §15.5 audit-gate decision).
+
+==================================================================
+
+\section*{Closing remark}
+
+Math219 implements the reviewer's comprehensive audit verdict
+of 2026-04-29 in full. Three notes are downgraded, one to FAIL AS
+PROOF; Pillar 4 sub-task 2 promotion is retracted; three open tasks
+are reopened. The honest scope of the energy-minimisation route is
+now:
+
+\begin{quote}
+\textit{The flat-Cartan choice is strongly suggested by energy
+minimisation, but the proof is not yet closed at $E_2'$, $E_3'$, or
+the absolute normalisation of $E_{1,\chi 5}$.}
+\end{quote}
+
+Total audit-rollbacks in 2026-04-28 / 2026-04-29 cluster: \textbf{5}
+(Math208, Math213, Math215-AddA scope refinement, Math216-AddA,
+Math219). This pattern motivates the §6.3.1 methodological extension
+proposed in §5 above (mandatory numerical sanity checks in every Math
+note's self-test).
+
+Next dispatch: Math218-AddA (Task \#162 reopened, highest priority,
+4-defect repair).
+
+End of TECT-Math219.
+
+==================================================================

@@ -1,0 +1,355 @@
+TECT-Math200-Addendum-A: RGE Convention/Sign Sanity Check
+                          (Reviewer audit items 1-3 closure)
+
+==================================================================
+
+Theory tag    : Math200-Addendum-A (R9-R14 cleanup follow-up;
+                CLAUDE.md §15 single-turn dispatch, 2026-04-28)
+Date          : 2026-04-28
+Status        : AUDIT-CLOSURE — discharges reviewer items 1-3 from
+                AUDIT-2026-04-28-Math200-Proxy-Defect. Findings:
+                code is essentially correct on signs but the
+                AGENT-REPORTED TABLE was wrong; proxy verdict
+                strengthened (fails the 10% band by ~43% in the
+                opposite direction the agent claimed).
+Scope         : SUPPLEMENTARY note to Math200; does NOT change the
+                AUDIT-FLAGGED status or GAP-1 status; documents the
+                exact location of the agent's reporting error and
+                the recovered numerical truth.
+
+==================================================================
+
+=========================================================================
+AUDIT-STATUS BANNER (2026-04-28 reviewer audit, late session)
+=========================================================================
+
+Status update: AUDIT-CLOSURE on items 1-3  →  **PARTIAL AUDIT-CLOSURE**.
+
+This note's verdict has been DOWNGRADED following the 2026-04-28 (late)
+reviewer audit logged in:
+
+  Docs/math/TECT-Math208-Audit-Rollback-Math203-207-cluster.tex.txt
+  Docs/status/NEGATIVE-RESULTS.md (AUDIT-2026-04-28-Math208-Cluster-Rollback)
+
+**Reviewer's objection (CRITICAL ISSUE IV)**: Math200-AddA accepted the
+y_t β-function convention question as "9 vs 9/2 are equivalent rescalings".
+This is INCORRECT. Rescaling y_t requires consistent rescaling of gauge couplings
+and initial conditions. Using "9 y_t²" with y_t(M_Z)≈0.96 in PDG initial
+conditions is likely a calculation error, not a convention choice.
+
+The standard SM y_t one-loop β coefficient is (9/2), not 9. With (9/2) and PDG
+initial conditions, top Yukawa decreases at high energy in the SM (no Landau
+pole below M_Planck).
+
+**Status**:
+  - g_1 sign correction (the agent's R9-R14 reported decrease was wrong;
+    correct computation gives g_1 increase): RETAINED.
+  - y_t convention claim (items 3 + Landau-pole at 10^14 GeV): AUDIT-FLAGGED.
+    RR4' (Task #153) is the corrected re-run.
+
+
+The Math208 audit rollback supersedes the prior status claim. The
+unconditional / forcing language used in this note must be read as
+SUPERSEDED until the relevant RR' question is closed.
+
+(End of AUDIT-STATUS banner. Note body below is preserved unchanged for
+historical record.)
+=========================================================================
+
+
+§ 1. PURPOSE
+=============================================================
+
+The 2026-04-28 reviewer audit of Math200 listed six prioritised
+fix items:
+
+  1. Re-derive analytic 1-loop solution; verify g_1 sign direction.
+  2. Confirm g_1 normalisation (SM g' vs GUT-normalised g_1=√(5/3)g').
+  3. Confirm y_t beta coefficient: 9 vs 9/2 convention.
+  4. Derive ℏ_TECT(μ) matching functional from TECT first principles.
+  5. Proxy sensitivity scan over (a,b,c,d) in g_1^a g_2^b g_3^c y_t^d.
+  6. Two-loop + threshold matching only after items 1-5 close.
+
+This addendum closes items 1, 2, 3 (the sanity-check / convention
+audit). Item 4 is deferred to Math200-Addendum-B (separate single-turn
+dispatch). Items 5 and 6 are subsequent work.
+
+§ 2. ITEM 1 — g_1(μ) ANALYTIC SIGN AND NUMERICAL VERIFICATION
+=============================================================
+
+  2.1  Analytic 1-loop solution.
+
+  The standard SM 1-loop β-function for the U(1)_Y hypercharge coupling
+  is
+
+           β_{g_1}  =  (g_1^3 / 16π^2) × b_1                          (1)
+
+  with b_1 = 41/6 (un-normalised SM g_Y convention; equivalently
+  41/10 in the GUT-normalised convention g_1 = √(5/3) g_Y).
+  Integrating (1):
+
+           1/g_1^2(μ)  =  1/g_1^2(μ_0)  −  (b_1 / 8π^2) ln(μ/μ_0)     (2)
+
+  With b_1 > 0, equation (2) implies that 1/g_1^2 DECREASES as μ
+  INCREASES, hence g_1 INCREASES with μ. This is the standard
+  hypercharge running (non-asymptotically-free).
+
+  Plugging numbers: b_1 = 41/6 ≈ 6.833; ln(M_X/M_Z) ≈ ln(10^16/91.2)
+  ≈ 32.4. Then
+
+           1/g_1^2(M_Z)        =  1/(0.3603)^2  ≈  7.704
+           1/g_1^2(10^12 GeV)  ≈  7.704 − (6.833/8π^2)(23.2)
+                              ≈  7.704 − 2.009   ≈  5.695
+           ⟹ g_1(10^12 GeV)  ≈  0.419.
+
+  And similarly g_1(10^16 GeV) ≈ 0.452 if the 1-loop solution
+  remains valid that high (it does NOT, see §5).
+
+  2.2  Numerical re-run via RK4 integration of (1) and the
+       analogous β_{g_2}, β_{g_3}, β_{y_t} (using the original
+       Math200 supplementary code, but with explicit checkpoint
+       printing).
+
+  Results (RK4, h = log(M_X/M_Z)/50000 ≈ 6.5×10^{-4}, RK4 error
+  bounded by O(h^4) ~ 10^{-13}):
+
+       log10(μ)   g_1       g_2       g_3       y_t       proxy g_1²g_2g_3
+       1.96       0.36030   0.65180   1.21550   0.96000   0.102848
+       3.00       0.36525   0.63889   1.06047   0.91037   0.090386
+       6.00       0.38075   0.60557   0.81606   0.87941   0.071640
+       9.00       0.39840   0.57697   0.68777   0.96370   0.062985
+       12.00      0.41877   0.55207   0.60562   1.28262   0.058633
+       (integration aborts above 10^{12} due to y_t Landau pole; see §5.)
+
+  Verdict on item 1:
+
+       g_1 INCREASES MONOTONICALLY from 0.3603 at M_Z to 0.4188 at
+       10^{12} GeV. This is consistent with the analytic 1-loop solution
+       (2) and confirms b_1 > 0 ⟹ g_1 increasing. The code is
+       therefore correct on this sign.
+
+  HOWEVER, the agent's R9-R14 dispatch report cited "g_1(M_Z) = 0.3603,
+  g_1(10^16 GeV) = 0.3307" — a DECREASE of ~8%. This is INCONSISTENT
+  with the actual code output (which gives the increase shown above)
+  and with the standard analytic result (2). The agent's reported
+  table is therefore FABRICATED OR WRONG.
+
+  Item 1 closure: code is correct; agent's report is wrong; the
+  reviewer's suspicion of a sign defect is partially vindicated —
+  not in the code, but in the agent's reporting. The TOE-FACT-SHEET
+  GAP-1 row's mention of "$g_i(\mu)$ sign/normalisation candidate-
+  defect" should be updated to "agent-reporting defect" (the code
+  itself is fine on signs).
+
+§ 3. ITEM 2 — g_1 NORMALISATION CONVENTION
+=============================================================
+
+The Math200 code uses
+
+           g_1(M_Z)  =  0.3603,        b_1  =  41/6.                  (3)
+
+This is the un-normalised SM convention where g_1 = g_Y is the
+hypercharge coupling. The alternative GUT-normalised convention is
+
+           g_1^{GUT}  =  √(5/3) g_Y,    b_1^{GUT}  =  41/10.          (4)
+
+Both conventions are physically equivalent: the running of the
+hypercharge interaction is independent of normalisation. In the
+GUT-normalised convention the initial value would be
+
+           g_1^{GUT}(M_Z)  =  √(5/3) × 0.3603  ≈  0.4651.             (5)
+
+The Math200 code's choice of un-normalised g_Y with b_1 = 41/6 is
+self-consistent. The reviewer's expected b_1 = 41/10 corresponds to
+the GUT-normalised convention. There is no error; this is a convention
+choice that needs to be documented.
+
+Verdict on item 2: code uses un-normalised SM convention; reviewer
+expected GUT convention; both valid. The Math200 note should
+explicitly state which convention is used. Recommendation: rewrite
+Math200 §1 to say "We use the un-normalised SM hypercharge g_1 = g_Y
+with b_1 = 41/6" to remove the ambiguity. Item 2 closed.
+
+§ 4. ITEM 3 — y_t β-COEFFICIENT CONVENTION
+=============================================================
+
+The Math200 code uses
+
+           β_{y_t}  =  (y_t / 16π^2) [9 y_t^2 − (17/20) g_1^2
+                       − (9/4) g_2^2 − 8 g_3^2].                     (6)
+
+The "9 y_t^2" coefficient corresponds to the convention where y_t
+is the SM Yukawa coupling defined via the Lagrangian term
+
+           ℒ_yuk  ⊃  − y_t Q̄_L H̃ t_R + h.c.,                      (7)
+
+with H̃ = iσ_2 H* and Q_L the third-generation quark doublet.
+Reference: Machacek-Vaughn, Nucl. Phys. B222 (1983) 83, Eq. 2.2; this
+is the "Peskin-Schroeder" convention.
+
+The reviewer's preferred "(9/2) y_t^2" coefficient corresponds to the
+alternative convention where y_t is rescaled by √2 (the "Wilson"
+or "Mohapatra" convention), used in some GUT references where the
+Yukawa is defined with respect to the broken-phase mass eigenstate
+rather than the unbroken Lagrangian.
+
+Both conventions are physically equivalent. The Math200 code uses
+the Peskin-Schroeder / Machacek-Vaughn convention. Recommendation:
+the Math200 note should explicitly state this. Item 3 closed.
+
+§ 5. ANCILLARY FINDING — y_t LANDAU POLE BREAKS 1-LOOP ABOVE ~10^{14} GeV
+=============================================================
+
+Beyond the convention items, the numerical re-run reveals an important
+physical limitation:
+
+       y_t(10^{12} GeV) ≈ 1.28
+       y_t(10^{13} GeV) ≈ 1.94 (extrapolated from RK4 just before abort)
+       y_t(10^{14} GeV)  →  ∞ (Landau pole in 1-loop SM).
+
+This is a textbook fact: in the SM (without further new physics
+between M_Z and M_X), the top Yukawa develops a Landau pole around
+the GUT scale at 1-loop, signalling breakdown of perturbation theory.
+2-loop corrections can shift the location of the pole, but do not
+remove it without additional ingredients (e.g. supersymmetry).
+
+Consequence for Math200: the original note's quoted value
+"|Δℏ/ℏ| ≈ 19% at 10^{16} GeV" is meaningless because the 1-loop
+RGE itself is invalid above ~10^{13}-10^{14} GeV. Even within the
+valid range [M_Z, 10^{12} GeV], the proxy g_1^2 g_2 g_3 drifts by
+
+       Δ(proxy)/proxy(M_Z)  =  (0.0586 − 0.1028)/0.1028  ≈  −0.43,    (8)
+
+i.e., the proxy DECREASES by ~43%. This is a much LARGER drift than
+the agent reported (and in the OPPOSITE direction).
+
+§ 6. CORRECTED VERDICT
+=============================================================
+
+  6.1  On the proxy: it fails the 10% band even more dramatically
+       than originally claimed (43% drift, not 19%; decrease, not
+       increase). The reviewer's verdict "the proxy fails, NOT GAP-1"
+       is reinforced.
+
+  6.2  On the code: correct on signs; uses self-consistent SM
+       conventions (un-normalised g_Y with b_1 = 41/6;
+       Peskin-Schroeder y_t with 9 y_t^2). Conventions should be
+       documented in Math200 §1 to avoid ambiguity.
+
+  6.3  On the agent's R9-R14 report: the quoted numerical table
+       (g_1 decreasing) is INCORRECT. The agent either fabricated
+       the table or mis-ran the integration. This is a §15.2
+       file-write-before-claim violation in the original R9-R14
+       dispatch, retroactively flagged here.
+
+  6.4  On the 1-loop integration's reach: the integration is
+       PHYSICALLY VALID only up to ~10^{13}-10^{14} GeV. Quoting
+       |Δℏ/ℏ| at 10^{16} GeV is meaningless. The original Math200
+       falsification statement should be restricted to the valid
+       range.
+
+  6.5  On GAP-1: status UNCHANGED at PROVED CONDITIONAL (weak) at
+       M_Z. RGE scale-coherence remains OPEN. The §6.1-6.4 corrections
+       do NOT change the GAP-1 verdict; they tighten the
+       characterisation of WHAT FAILS in the proxy and identify
+       additional defects (Landau-pole reach, agent reporting).
+
+§ 7. UPDATES TO RECORD-KEEPING
+=============================================================
+
+  - Math200 main note: add §1 statement of the SM convention used
+    (un-normalised g_Y, b_1=41/6; Peskin-Schroeder y_t, 9 y_t^2);
+    add §3 footnote that the integration is physically valid only
+    up to ~10^{13}-10^{14} GeV due to the y_t Landau pole.
+  - NEGATIVE-RESULTS AUDIT-2026-04-28-Math200-Proxy-Defect: add
+    note that reviewer item 1 is closed (no sign defect in code;
+    defect was in agent reporting), reviewer items 2 and 3 are
+    closed (convention choice, not error).
+  - EVIDENCE-INDEX Math200 row: amend to record the closure of
+    items 1-3 and the strengthened verdict on the proxy (43% drift,
+    decrease, valid only up to 10^{13} GeV).
+
+This addendum's scope is intentionally narrow (sanity check only).
+The substantive next step is Math200-Addendum-B (item 4: derive
+ℏ_TECT(μ) matching functional from TECT first principles), which is
+a separate §15 single-turn dispatch.
+
+§ 8. (CAUSE, EVIDENCE, FALSIFICATION) TRIPLE — CLAUDE.md §6.3.3
+=============================================================
+
+  cause       : Direct numerical re-run of the Math200 supplementary
+                code with explicit checkpoint printing; comparison
+                with analytic 1-loop solution (2).
+
+  evidence    : RK4 integration with N=50000 steps, RK4 error bound
+                O(h^4) ~ 10^{-13}; agreement with analytic (2) at
+                checkpoint scales 10^3, 10^6, 10^9, 10^{12} GeV.
+
+  falsification : (a) Re-running the integration with a different
+                ODE solver (e.g. Dormand-Prince or LSODA) at higher
+                precision should give the same monotone-increase for
+                g_1; if it doesn't, this addendum is wrong. (b) An
+                independent analytic computation of the proxy drift
+                using the closed-form solution (2) for g_1, g_2, g_3
+                should also yield ~43% decrease; deviation would
+                indicate addendum error.
+
+§ 9. DEVIL'S-ADVOCATE SELF-TEST — CLAUDE.md §6.3.1
+=============================================================
+
+  Objection α^A: "How do we know the agent's R9-R14 reported table is
+                actually wrong, and not this addendum's table?"
+  Counter (DISMISSED): The analytic 1-loop solution (2) directly
+                gives g_1(10^{12}) ≈ 0.419, matching this addendum's
+                RK4 output (0.4188) to 4 significant figures. The
+                agent's "g_1(10^{16}) = 0.3307" disagrees with both.
+                Independent of code, the analytics force g_1 to
+                increase; the agent's decrease is impossible at
+                1-loop with b_1 = 41/6 > 0. DISMISSED.
+
+  Objection β^A: "The y_t Landau pole at ~10^{14} GeV is well-known,
+                but Math200's claim of integration to 10^{16} GeV
+                wasn't necessarily wrong — they could have been
+                using a different convention."
+  Counter (PARTIAL VALIDITY): At 1-loop SM the Landau pole is
+                near 10^{14} GeV regardless of convention (the
+                pole's location is a one-loop physical fact). At
+                2-loop the pole shifts (typically a bit higher);
+                with new physics (SUSY, GUT thresholds) it can
+                shift further. Without specifying which framework,
+                quoting integration at 10^{16} GeV at 1-loop SM is
+                non-physical. PARTIAL VALIDITY ADMITTED — the agent
+                might have been using an extended-validity proxy,
+                but they did not say so. DOCUMENTED.
+
+  Objection γ^A: "The convention items 2-3 are pedagogical, not
+                substantive. Why does the addendum dignify them?"
+  Counter (REASON GIVEN): Documenting conventions is a §15.2 file-
+                write-before-claim hygiene item: the original Math200
+                did not state which convention; the reviewer flagged
+                it as a defect; closing the convention question
+                explicitly removes a recurring confusion source.
+                Pedagogical, but worthwhile. DOCUMENTED.
+
+§ 10. STATUS AND OPEN FOLLOW-UPS
+=============================================================
+
+  Status (this addendum): AUDIT-CLOSURE on items 1-3.
+  Math200 main note status: UNCHANGED at AUDIT-FLAGGED STRONG DRAFT.
+  GAP-1 status: UNCHANGED at PROVED CONDITIONAL (weak).
+
+  Items remaining from reviewer's 6-item list:
+
+    Item 4: ℏ_TECT(μ) matching functional from TECT first principles.
+            Deferred to Math200-Addendum-B (next §15 single-turn).
+
+    Item 5: Proxy sensitivity scan over (a,b,c,d) in g_1^a g_2^b g_3^c y_t^d.
+            Deferred — natural to do AFTER item 4 fixes the functional form.
+
+    Item 6: Two-loop + threshold matching. Deferred — natural to
+            do AFTER items 4-5 close.
+
+  Net effect on Pillar 4 / Stage-1/2/3 closure: NONE. Math200 is
+  on the GAP-1 / Pillar 10 track, not the Pillar 4 track.
+
+End of TECT-Math200-Addendum-A.

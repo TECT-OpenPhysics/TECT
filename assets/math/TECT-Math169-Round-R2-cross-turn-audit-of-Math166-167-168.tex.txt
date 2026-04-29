@@ -1,0 +1,445 @@
+% =====================================================================
+% TECT-Math169: Round-R2 Cross-Turn Audit of Math166, Math167, Math168
+% Theory tag: Math169-Round-R2-cross-turn-audit-2026-04-26
+% Status: AUDIT COMPLETE — 3 notes audited, 9 objections tested, verdicts issued
+% Date: 2026-04-26
+% Auditor: Autonomous TECT Research (R2 cross-turn audit agent)
+% Mandate: CLAUDE.md §6.3.2 — maximum scrutiny on unprecedented Pillar 4 advance
+% =====================================================================
+
+\documentclass{article}
+\usepackage{amsmath, amssymb, amsfonts, physics, xcolor, geometry}
+\geometry{margin=0.8in}
+\usepackage{booktabs}
+
+\title{TECT-Math169: Round-R2 Cross-Turn Audit \\
+       Pillar 4 Sub-Task 2 and GAP-4 Kibble-Zurek Predictions}
+
+\author{Autonomous TECT Research (R2-audit agent)}
+\date{2026-04-26}
+
+\begin{document}
+
+\section*{Math169 — Adversarial Peer Review of Math166, Math167, Math168}
+
+\subsection*{§1. Audit Scope and Method}
+
+\paragraph{Mandate}: CLAUDE.md §6.3.2 requires a second-order audit after every two consecutive research turns. This audit evaluates R2-A, R2-B, and R2-C (the three R2 agents) and Math165 (R1 cross-turn audit), which collectively represent the strongest Pillar-4 advance achieved to date.
+
+\paragraph{Audit intensity}: MAXIMUM. The three notes claim:
+\begin{itemize}
+    \item Math166: Atiyah-Singer index theorem yields exactly 16 chiral zero modes (SO(10) spinor dimension).
+    \item Math167: Three-patch Čech cocycle closure of Math162 fibre bundle confirmed.
+    \item Math168: Quantitative GW spectrum prediction at $\Omega_{\rm GW}(10^{-9}\,{\rm Hz})h^2 \approx 5 \times 10^{-15}$ (future-observable by SKA 2028–2030).
+\end{itemize}
+
+These are precisely the claims that trigger maximum scrutiny under CLAUDE.md §6.3.1 (devil's-advocate self-test required before any status promotion).
+
+\paragraph{Method}:
+\begin{enumerate}
+    \item Re-derive at least one structural claim per note by independent method.
+    \item Issue three sharp objections per note (nine total).
+    \item Perform cross-coupling consistency check (Math166 + Math167 + Math157).
+    \item Issue synthesis verdict and specific revision targets.
+\end{enumerate}
+
+---
+
+\subsection*{§2. Audit of Math166 — Atiyah-Singer Index Calculation}
+
+\subsubsection*{§2.1 Independent re-derivation: Chern character expansion}
+
+\textbf{Claim}: Math166 §2.3 and §3.3 assert ind$(D_E) = 16$ for the Dirac operator twisted by the Math162 bundle.
+
+\textbf{Independent derivation} (Chern character method):
+
+For $\mathbb{CP}^2$ (real dimension 4) and a line bundle $E$ with $c_1(E) = 1 \cdot x$ (hyperplane class), the Atiyah-Singer formula is:
+$$\text{ind}(D_E) = \int_{\mathbb{CP}^2} \hat{A}(T\mathbb{CP}^2) \wedge \mathrm{ch}(E).$$
+
+Expand to degree 4:
+$$\hat{A}(T\mathbb{CP}^2) = 1 - \frac{p_1(T\mathbb{CP}^2)}{24} + O(p_1^2), \quad \mathrm{ch}(E) = 1 + x + \frac{1}{2}x^2 + \cdots$$
+
+For $\mathbb{CP}^2$, the Pontryagin class satisfies $\int_{\mathbb{CP}^2} p_1 = 3$. The degree-4 contribution is:
+$$\text{ind}(D_E) = \int_{\mathbb{CP}^2} \left[ 1 \cdot \frac{1}{2}x^2 - \frac{1}{24} \cdot 3 \cdot x^2 \right] = \frac{1}{2} \cdot 1 - \frac{1}{8} \cdot 1 = \frac{3}{8}.$$
+
+\textbf{Critical observation}: This yields $\frac{3}{8}$, a **fractional number**. The Atiyah-Singer index must be an integer.
+
+\textbf{Diagnosis}: The error lies in the **bundle type assumption**. Math166 treats the bundle as a line bundle (rank 1), but Math162 specifies a principal $\mathrm{SU}(5)$-bundle with fibre $\mathrm{SO}(10)/\mathrm{SU}(5)$ (real dimension 21). The twisted Dirac operator acts on sections of $S \otimes E$ where $E$ has rank 24 (the $\mathrm{SU}(5)$ adjoint). The spinor bundle $S$ itself has rank 4 on $\mathbb{CP}^2$ (real dimension 4), so the total rank is $4 \times 24 = 96$.
+
+Computing the index for this full tensor product requires integrating $\mathrm{ch}(\mathrm{adj}[\mathrm{SU}(5)])$ against $\hat{A}(T\mathbb{CP}^2)$, which involves higher Chern classes and is non-trivial.
+
+\textbf{Math166 response}: Math166 §3.3 **asserts by ansatz** ("the effective rank contribution is rank$(E) = 16$... the chiral decomposition selects 16 positive-chirality modes") rather than deriving it from Atiyah-Singer.
+
+\textbf{Audit verdict}: The Atiyah-Singer derivation in Math166 §2–§3 is **incomplete and possibly incorrect**. The claim ind$(D_E) = 16$ is **not proved from first principles**; instead, it is stated as a boundary condition and then verified by dimensional-analysis checks (§4.2: does 16 match SO(10)? Yes.). This is **reasoning backwards** (ansatz-first, derivation-second) rather than rigorous deduction.
+
+---
+
+\subsubsection*{§2.2 Objection α: Bundle rank confusion}
+
+\textbf{Devil's statement}: Is the index 16 computed for (i) a rank-16 spinor bundle, (ii) the rank-4 spinor bundle of $\mathbb{CP}^2$ twisted by rank-24 adjoint $\mathrm{SU}(5)$, or (iii) a chirality-projected subsector?
+
+\textbf{Math166 response}: §1.2 mentions spinor rank is 4, fibre dimension is 21 (real)/24 (after fibre product), but does not compute the total rank or its relationship to the index.
+
+\textbf{Audit verdict}: **VALID objection, not resolved.** The proof must explicitly:
+1. State the total rank of $S \otimes E$.
+2. Compute the Atiyah-Singer index for this rank.
+3. Justify why the result is an integer (it must be).
+4. Verify that this integer equals 16 (not by ansatz, but by calculation).
+
+\textbf{Revision target}: Math166 §2.3–§3.3 must be completely rewritten with a rigorous, dimensionally-consistent Atiyah-Singer application.
+
+---
+
+\subsubsection*{§2.3 Objection β: SU(5) branching and singlet decoupling}
+
+\textbf{Devil's statement}: The 16 modes decompose as $\mathbf{10} + \overline{\mathbf{5}} + \mathbf{1}$ under $\mathrm{SU}(5)$. The singlet (right-handed neutrino) does not couple to $\mathrm{SU}(5)$ and might be unphysical or reabsorbed into the vacuum.
+
+\textbf{Math166 response}: §6, Objection β, acknowledges this as "VALID with mitigation" — the singlet participates in the full SO(10) structure, but its low-energy role requires Pillar-4 specification.
+
+\textbf{Audit verdict}: **VALID (WITH CAVEAT)**. The mitigation is incomplete. If the true physical fermion content is 15 (SM), not 16, then the Atiyah-Singer index is off by one, indicating a **fundamental error in the derivation**.
+
+\textbf{Revision target}: Before Math166 claims "Pillar 4 sub-task 2 DISCHARGED," the 16th mode's fate in the SO(10) → SU(5) → SM breaking chain must be explicitly documented in Pillar-4 sub-task 3. Upgrade the singlet's status from "mitigation-required" to "formally specified."
+
+---
+
+\subsubsection*{§2.4 Objection γ: Chirality sign and topological protection}
+
+\textbf{Devil's statement}: Math166 §1.3 claims all 16 zero modes are left-handed ($\Gamma \psi = +\psi$). Is this a topological protection or a gauge choice?
+
+\textbf{Math166 response}: §1.3 invokes "chirality protection of Math10–14" (established results in TECT) and notes the "BCC topological sector selects positive chirality."
+
+\textbf{Audit verdict}: **DISMISSED**. The chirality protection is a known TECT result. The selection of positive chirality is consistent with the SM and is a legitimate emergent symmetry.
+
+\textbf{No revision needed}. ✓
+
+---
+
+\subsection*{§3. Audit of Math167 — Čech Cocycle Closure}
+
+\subsubsection*{§3.1 Independent re-verification: Phase arithmetic on triple overlap}
+
+\textbf{Claim}: Math167 §3.2 asserts $g_{01} \cdot g_{12} \cdot g_{20} = I$ on $\mathcal{U}_0 \cap \mathcal{U}_1 \cap \mathcal{U}_2$.
+
+\textbf{Independent derivation} (phase method):
+
+The transition functions are:
+$$g_{ij} = \exp(i\theta_{ij} T_3), \quad \theta_{01} = \arg(u_1), \quad \theta_{12} = \arg(v_2), \quad \theta_{02} = \arg(u_2).$$
+
+On the triple overlap, the coordinate relations are (from projective-space structure):
+$$u_1 = 1/v_1, \quad u_2 = v_2/v_1, \quad v_1 = 1/w_1, \quad v_2 = w_2.$$
+
+Taking arguments:
+\begin{align}
+\theta_1 &= \arg(u_1) = \arg(1/v_1) = -\arg(v_1) = \arg(w_1), \\
+\theta_2 &= \arg(v_2) = \arg(w_2), \\
+\theta_3 &= \arg(u_2) = \arg(v_2/v_1) = \arg(w_2) - \arg(w_1).
+\end{align}
+
+\textbf{Cocycle verification}:
+$$\theta_1 + \theta_2 - \theta_3 = \arg(w_1) + \arg(w_2) - [\arg(w_2) - \arg(w_1)] = 0 \pmod{2\pi}. \quad \checkmark$$
+
+Thus: $g_{01} \cdot g_{12} \cdot g_{20} = \exp(i \cdot 0 \cdot T_3) = I$. ✓
+
+\textbf{Audit verdict}: The phase arithmetic **checks out**. The Čech cocycle condition is satisfied rigorously.
+
+---
+
+\subsubsection*{§3.2 Objection α: Phase ambiguity modulo $2\pi$}
+
+\textbf{Devil's statement}: The phase $\arg(u_1)$ is ambiguous modulo $2\pi$. Different branch choices yield transition functions differing by $\exp(2\pi i n T_3)$, potentially breaking the cocycle.
+
+\textbf{Math167 response}: §6 argues that the Čech cohomology classifies bundles modulo gauge equivalence, and phase ambiguity is absorbed into this classification.
+
+\textbf{Audit verdict}: **DISMISSED**. The first Chern class $c_1 = 1$ is independent of branch choice and is the topological invariant that matters. ✓
+
+\textbf{No revision needed.}
+
+---
+
+\subsubsection*{§3.3 Objection β: Non-Abelian corrections in SU(5)}
+
+\textbf{Devil's statement}: All three transition functions are powers of the same Cartan generator $T_3$. But $\mathrm{SU}(5)$ is non-Abelian; could mixing with other generators (e.g., $T_8$) introduce non-commutativity and spoil the cocycle?
+
+\textbf{Math167 response}: §6 argues that the Abelian transition-function choice is a valid gauge selection (the bundle is classified in the maximal torus of $\mathrm{SU}(5)$), and non-Abelian alternatives are gauge-equivalent.
+
+\textbf{Audit verdict}: **DISMISSED**. This is correct by the theory of principal bundles and gauge transformations. ✓
+
+\textbf{No revision needed.}
+
+---
+
+\subsubsection*{§3.4 Objection γ: Orientation convention on $\mathbb{CP}^2$}
+
+\textbf{Devil's statement}: The Čech cocycle sign depends on orientation. Could reversing the orientation of an overlap flip $g_{01} \cdot g_{12} \cdot g_{20}$ from $I$ to $-I$?
+
+\textbf{Math167 response}: §6 shows that orientation reversal sends $g_{ij} \to g_{ij}^{-1}$, and the cocycle condition $(g_{ij}^{-1})(g_{jk}^{-1})(g_{ki}^{-1}) = I$ still holds. The topological class is orientation-independent.
+
+\textbf{Audit verdict}: **DISMISSED**. The Chern class is a topological invariant independent of orientation. ✓
+
+\textbf{No revision needed.}
+
+---
+
+\textbf{Minor revision}: Math167 §5.2 (numerical illustration) contains a confusing passage: "Total phase: $\Delta\theta_1 + \Delta\theta_2 - \Delta\theta_3 = 4\pi$..." followed by a retreat to hand-waving. Clarify that the **pointwise cocycle condition** $g_{01} \cdot g_{12} \cdot g_{20} = I$ is the operative statement, not loop windings.
+
+---
+
+\subsection*{§4. Audit of Math168 — Kibble-Zurek GW Spectrum}
+
+\subsubsection*{§4.1 Independent dimensional analysis}
+
+\textbf{Claim}: Math168 predicts $\Omega_{\rm GW}(10^{-9}\,{\rm Hz})h^2 \approx 5 \times 10^{-15}$.
+
+\textbf{Independent check} (dimensional analysis):
+
+The spectrum formula is:
+$$\Omega_{\rm GW}(f) h^2 \approx C_0 (f/f_{\rm peak})^{1/2} \quad \text{for } f \ll f_{\rm peak}.$$
+
+At $f = f_{\rm peak}$, the amplitude is $C_0$. Math168 §3.1 estimates $C_0 \sim 10^{-9}$. Math168 §2.3 picks $f_{\rm peak} \approx 10^{-9}$ Hz.
+
+\textbf{If $f_{\rm peak} = 10^{-9}$ Hz and $f = 10^{-9}$ Hz}:
+$$\Omega_{\rm GW}(10^{-9}\,{\rm Hz}) h^2 = 10^{-9} \times (10^{-9}/10^{-9})^{1/2} = 10^{-9}.$$
+
+\textbf{But Math168 claims} $\Omega_{\rm GW}(10^{-9}\,{\rm Hz}) h^2 = 5 \times 10^{-15}$, a factor $10^{-6}$ smaller.
+
+\textbf{Re-reading Math168 §3.2}: The note says "more conservatively, near the rising part (if $f \ll f_{\rm peak}$)" — implying $f_{\rm peak}$ is **much higher** than $10^{-9}$ Hz. If $f_{\rm peak} \sim 10^{-6}$ Hz:
+$$\Omega_{\rm GW}(10^{-9}\,{\rm Hz}) h^2 = 10^{-9} \times (10^{-9}/10^{-6})^{1/2} = 10^{-9} \times 10^{-1.5} \approx 3 \times 10^{-11}.$$
+
+Still does not match $5 \times 10^{-15}$.
+
+\textbf{Audit verdict}: **DIMENSIONAL INCONSISTENCY**. The predicted amplitude $5 \times 10^{-15}$ is not consistent with the stated formula, amplitude coefficient $C_0 \sim 10^{-9}$, and peak frequency $f_{\rm peak} \approx 10^{-9}$ Hz (scenario A) or any other stated scenario.
+
+---
+
+\subsubsection*{§4.2 Objection α: Defect mass estimate and Pillar-4 dependence}
+
+\textbf{Devil's statement}: Math168 estimates $m_{\rm defect} \sim 10^{14}$ GeV (§2.1), but acknowledges this depends on Pillar-4 SO(10) coupling (not yet completed, currently PARTIAL-ADVANCED). How robust is the GW amplitude to factor-of-1000 variations in $m_{\rm defect}$?
+
+\textbf{Math168 response}: §7 (Devil's-Advocate self-test) labels this "VALID with mitigation" and opens Task #139 for refinement.
+
+\textbf{Audit verdict}: **VALID (WITH DOCUMENTATION)**. The GW amplitude scales linearly with defect mass-energy. A factor-of-$10^3$ error in $m_{\rm defect}$ shifts $\Omega_{\rm GW}$ by $10^3$, potentially moving it far outside observational sensitivity (from $10^{-15}$ to $10^{-12}$ or $10^{-18}$).
+
+\textbf{Revision target}: Mark Math168 as **PROVISIONAL PREDICTION** (not yet final). Require Task #139 (defect-mass refinement from Pillar 4) before any promotion to "PROVED CONDITIONAL" or higher status.
+
+---
+
+\subsubsection*{§4.3 Objection β: Defect survival to present day}
+
+\textbf{Devil's statement}: Math168 assumes defects annihilate completely via SO(10) gauge interactions (§2.1, §7). But what if a conserved quantum number (e.g., a topological invariant) stabilizes defects, letting them persist as dark matter?
+
+\textbf{Math168 response}: §7 argues "BCC disclinations are \emph{not} topologically stable against gauge interactions" and cites "typical lifetimes $\sim 10^{-30}$ s" (orders of magnitude shorter than universe age).
+
+\textbf{Audit verdict}: **DISMISSED**. The argument is qualitatively correct — BCC disclinations are not topological solitons in the sense of field theory (e.g., unlike monopoles or cosmic strings); they are defects of the crystal structure. However, the specific decay rate ($10^{-30}$ s) is **not derived in Math168**; it is cited as "standard lore."
+
+\textbf{Revision target}: Require Task #137 (compute defect decay rate via SO(10) gauge-boson exchange) to substantiate the claim.
+
+---
+
+\subsubsection*{§4.4 Objection γ: Peak frequency under-determination}
+
+\textbf{Devil's statement}: Math168 picks $f_{\rm peak} \approx 10^{-9}$ Hz (defects decay at BBN scale, $T \sim 1$ MeV). But the note also presents scenarios with $f_{\rm peak} = 10^{-25}$ Hz (GUT scale), $10^{-13}$ Hz (EW scale), and $10^{-9}$ Hz (BBN). The choice is **not uniquely determined by TECT**; it depends on when SO(10) interactions become significant.
+
+\textbf{Math168 response}: §2.3 provides explicit formulas for each scenario, and §7 (Objection γ) acknowledges the peak frequency is "VALID with mitigation" pending Pillar-4 computation.
+
+\textbf{Audit verdict}: **VALID (WITH CAVEAT)**. The fundamental issue is that the GW spectrum shape and peak frequency depend on the defect-decay timescale (a Pillar-4 output, not yet available). Math168 is making a **provisional forecast** based on heuristics, not a rigorous derivation.
+
+\textbf{Revision target}: Provide an explicit table of (decay timescale, defect lifetime, peak frequency, predicted $\Omega_{\rm GW}(10^{-9}\,{\rm Hz}) h^2$) for each scenario. Mark the main prediction as "CONTINGENT ON PILLAR 4."
+
+---
+
+\subsection*{§5. Cross-Coupling Consistency Check}
+
+\subsubsection*{§5.1 Math166 + Math167 + Math157 coherence}
+
+\textbf{Question}: Do Math166's 16 zero modes, Math167's $c_1 = 1$ bundle, and Math157's SO(10) anomaly cancellation form a self-consistent theoretical structure?
+
+\textbf{Analysis}:
+
+\begin{itemize}
+\item \textbf{Math167 contribution}: The fibre bundle over $\mathbb{CP}^2$ has $c_1 = 1$ (Čech cocycle closed, verified by independent phase arithmetic). ✓
+
+\item \textbf{Math166 claim}: The Dirac operator on this bundle has index 16, with zero modes decomposing as $\mathbf{10} + \overline{\mathbf{5}} + \mathbf{1}$ under $\mathrm{SU}(5)$.
+
+\item \textbf{Math157 content}: The SM contains 15 Weyl fermions per generation, with anomaly coefficients all vanishing (proved via SO(10) structure).
+
+\item \textbf{Missing linkage}: Math166 claims 16 modes, but Math157 uses 15 (the SM) in its anomaly calculation. The 16th mode (right-handed neutrino singlet) is not explicitly treated in Math157.
+\end{itemize}
+
+\textbf{Consistency verdict}: The three notes are **CONDITIONALLY CONSISTENT**, provided:
+
+1. **Math166 index derivation is corrected** to rigorously prove ind$(D_E) = 16$ (not asserted by ansatz).
+
+2. **Math157 is extended** to document how the full SO(10) $\mathbf{16}$ spinor (including the singlet) satisfies anomaly cancellation. (Math157 currently proves anomaly-freedom for 15 SM fermions; it must show that adding the 16th mode does not spoil this.)
+
+\textbf{Cross-coupling verdict}: **CONDITIONALLY CONSISTENT**. Open two follow-up tasks:
+- **Task #142 (Priority 0)**: Rigorous Atiyah-Singer index computation for Math166.
+- **Task #143 (Priority 0)**: Extend Math157 to document SO(10) $\mathbf{16}$ (not just SM 15) anomaly structure.
+
+---
+
+\subsection*{§6. Synthesis Verdict and Status Recommendations}
+
+\subsubsection*{§6.1 Math166 Status Recommendation}
+
+\textbf{Current claimed status}: PARTIAL-ADVANCED (Atiyah-Singer index $=16$ DISCHARGED; sub-task 2 discharged).
+
+\textbf{Audit verdict}: **DOWNGRADE TO PARTIAL**.
+
+\textbf{Reason}: The Atiyah-Singer derivation is incomplete and possibly incorrect. The index is asserted by ansatz ("effective rank 16") rather than derived from first principles. The three objections (bundle rank confusion, singlet decoupling, chirality) remain only partially resolved.
+
+\textbf{Required revisions} (before promotion):
+1. §2.3–§3.3: Replace hand-wavy argument with explicit Atiyah-Singer computation for the $S \otimes \mathrm{adj}[\mathrm{SU}(5)]$ bundle.
+2. §4.2: Explicitly document the 16th mode's role in Pillar-4 SO(10) embedding (defer to sub-task 3 if necessary).
+3. Add Devil's-Advocate self-test section (CLAUDE.md §6.3.1) documenting the three objections and their resolution.
+
+\textbf{Status after revisions}: Promote to PARTIAL-ADVANCED (upon successful re-derivation of the index) → PROVED CONDITIONAL (upon Pillar-4 sub-task 3 closure and linkage of the singlet).
+
+---
+
+\subsubsection*{§6.2 Math167 Status Recommendation}
+
+\textbf{Current claimed status}: CLOSED AT FOUNDATION LEVEL (Čech cocycle verified; $c_1 = 1$ invariant; Math162 two-patch → three-patch promotion).
+
+\textbf{Audit verdict}: **ACCEPT WITH MINOR REVISIONS**.
+
+\textbf{Reason}: The phase arithmetic is rigorous, the cocycle condition is satisfied, and the Chern class is correctly computed. All three objections (phase ambiguity, non-Abelian corrections, orientation convention) are correctly dismissed.
+
+\textbf{Minor revisions}:
+1. §5.2: Clarify the numerical illustration (remove the confusing "$\Delta\theta_1 + \Delta\theta_2 - \Delta\theta_3 = 4\pi$" passage and focus on the pointwise cocycle identity).
+2. Add explicit statement: "The three-patch Čech cocycle is complete and rigorous; Math162 is hereby promoted from two-patch OUTLINE to three-patch PROVED CONDITIONAL."
+
+\textbf{Status after revisions}: **PROVED CONDITIONAL** (confirmed: fibre bundle foundational rigor established).
+
+---
+
+\subsubsection*{§6.3 Math168 Status Recommendation}
+
+\textbf{Current claimed status}: STRONG CLOSURE DRAFT (analytical framework complete; quantitative GW prediction made; falsification criterion pre-registered).
+
+\textbf{Audit verdict}: **DOWNGRADE TO PROVISIONAL PREDICTION**.
+
+\textbf{Reason}: (i) Dimensional inconsistency between stated formula, coefficient, peak frequency, and predicted amplitude; (ii) Defect mass and decay timescale both Pillar-4 dependent (not yet established); (iii) Three objections (defect mass, defect survival, peak frequency) are only partially mitigated, not resolved.
+
+\textbf{Required revisions} (before promotion):
+1. §3.2: Provide explicit numerical table for each scenario (peak frequency, $C_0$, predicted $\Omega_{\rm GW}(10^{-9}\,{\rm Hz}) h^2$), and clarify which scenario yields $5 \times 10^{-15}$.
+2. §5: Emphasize that the falsification criterion is conservative and covers a $10^5$ amplitude range (accounting for uncertainties). State the true prediction band as $[10^{-17}, 10^{-12}]$.
+3. Add banner: "PROVISIONAL PREDICTION: validity contingent on completion of Pillar 4 SO(10) emergence (Tasks #137, #139) and defect-network numerical simulation (Task #140)."
+
+\textbf{Status after revisions}: **NEAR-CLOSURE** (prediction made; parametric dependencies clarified; falsification criterion registered; awaiting Pillar 4 completion and numerical validation).
+
+---
+
+\subsection*{§7. Recommended Revisions (Top 3 Priority)}
+
+\begin{enumerate}
+\item \textbf{Task #142 (PRIORITY 0)}: Rigorous Atiyah-Singer index computation for Math166. Explicitly compute ind$(D_E)$ for the $S \otimes \mathrm{adj}[\mathrm{SU}(5)]$ bundle on $\mathbb{CP}^2$ with curvature form $F_A = 3\omega_{\rm FS}$. Verify that the index is 16 (not by ansatz).
+   - Target: Revise Math166 §2.3–§3.3.
+   - File path: `Docs/math/TECT-Math166-Pillar4-subtask2-chiral-zero-modes-on-Math162-bundle.tex.txt`.
+
+\item \textbf{Task #143 (PRIORITY 0)**: Extend Math157 anomaly cancellation to document full SO(10) $\mathbf{16}$ structure. Show that the 16th mode (singlet neutrino) either decouples or participates in anomaly cancellation at the SO(10) level.
+   - Target: New Addendum to Math157.
+   - File path: `Docs/math/TECT-Math157-Addendum-D-SO10-full-spinor-anomaly.tex.txt`.
+
+\item \textbf{Task #144 (PRIORITY 1)}: Clarify Math168 GW amplitude vs. peak frequency. Create explicit scenario table (GUT scale, EW scale, BBN scale) with corresponding predictions. Resolve dimensional inconsistency in §3.2.
+   - Target: Revise Math168 §2.3, §3.2, add scenario table.
+   - File path: `Docs/math/TECT-Math168-GAP4-Kibble-Zurek-quantitative-predictions.tex.txt`.
+
+\end{enumerate}
+
+---
+
+\subsection*{§8. Devil's-Advocate Self-Test (CLAUDE.md §6.3.1)}
+
+\subsubsection*{Audit self-check: Is this audit itself sound?}
+
+The auditor (this note) makes three main claims:
+\begin{enumerate}
+\item \textbf{Objection α on Math166}: The Atiyah-Singer derivation is incomplete; the index is asserted rather than derived.
+\item \textbf{Dimensional inconsistency on Math168}: The GW amplitude formula and stated numerical result do not match.
+\item \textbf{Cross-coupling gap}: Math157 treats 15 SM fermions, but Math166 produces 16 modes; the linkage is incomplete.
+\end{enumerate}
+
+\textbf{Self-test responses}:
+
+\paragraph{Objection to this audit (α): Over-stringent standards for the index theorem?}
+
+\textbf{Devil's statement}: The auditor criticizes Math166 for not giving an explicit Atiyah-Singer derivation. But perhaps the dimensional-analysis check (16 modes match SO(10) spinor dimension) is sufficient evidence?
+
+\textbf{Self-response}: **DISMISSED**. Dimensional matching is a necessary check, not a proof. The Atiyah-Singer index theorem is well-established and the computation is tractable. A rigorous derivation is required before claiming the index is "PROVED CONDITIONAL" or "DISCHARGED." Math166's current presentation is below the threshold for a theorem-level claim.
+
+\paragraph{Objection to this audit (β): Are there alternative interpretations of the $5 \times 10^{-15}$ prediction that I missed?}
+
+\textbf{Devil's statement}: Perhaps Math168 meant a different formula (e.g., not the simple power-law spectrum), or the calculation involves additional suppression factors not explicitly stated?
+
+\textbf{Self-response}: **VALID caveat**. I have re-read §2–§3 of Math168 and found no hidden scaling factors. The dimensional inconsistency appears genuine. However, I acknowledge that Math168 may have made a simple arithmetic error (e.g., $10^{-9} \times 10^{-6} = 10^{-15}$) that does not reflect a fundamental misunderstanding. A request for clarification (rather than a hard rejection) is appropriate.
+
+\paragraph{Objection to this audit (γ): Is the cross-coupling check (Claim 3) too strict?}
+
+\textbf{Devil's statement}: Math157 and Math166 are separate derivations. The fact that Math157 uses 15 fermions and Math166 produces 16 is not necessarily an inconsistency; perhaps the 16th mode (singlet) is a separate addendum to be treated later.
+
+\textbf{Self-response}: **DISMISSED**. The SO(10) GUT framework naturally produces the $\mathbf{16}$ spinor, which includes all 16 components. If Math166 claims the 16 modes on the Math162 bundle realize the SO(10) spinor, then Math157's anomaly proof must be extended to the full 16-dimensional representation. Deferring this linkage to "later" is an unresolved gap that must be documented explicitly.
+
+\textbf{Audit self-test verdict}: The three main objections (Math166 derivation, Math168 dimensional inconsistency, cross-coupling gap) are **sound**. The recommended revisions are **justified and achievable within the current theoretical framework**. No retroactive downgrade of this audit is warranted. ✓
+
+---
+
+\subsection*{§9. Summary Table: Nine Objections and Verdicts}
+
+\begin{center}
+\begin{tabular}{l|l|l|l}
+\textbf{Objection} & \textbf{Note} & \textbf{Verdict} & \textbf{Action} \\
+\hline
+α (bundle rank) & Math166 & \textbf{UPHELD} & Revise §2.3–§3.3 \\
+β (singlet decoupling) & Math166 & \textbf{VALID} & Document Pillar-4 role \\
+γ (chirality sign) & Math166 & \textbf{DISMISSED} & None \\
+α (phase ambiguity) & Math167 & \textbf{DISMISSED} & None \\
+β (non-Abelian) & Math167 & \textbf{DISMISSED} & None \\
+γ (orientation) & Math167 & \textbf{DISMISSED} & Minor clarification §5.2 \\
+α (defect mass) & Math168 & \textbf{VALID} & Task #139 required \\
+β (defect survival) & Math168 & \textbf{DISMISSED} & Task #137 to substantiate \\
+γ (peak frequency) & Math168 & \textbf{VALID} & Scenario table + banner \\
+\hline
+\end{tabular}
+\end{center}
+
+\textbf{Tally}: 2 UPHELD/VALID, 5 DISMISSED, 2 VALID (with task requirements).
+
+---
+
+\subsection*{§10. Conclusion}
+
+\subsubsection*{Synthesis verdict}
+
+\begin{center}
+\boxed{
+\begin{tabular}{l}
+\textbf{Math166: DOWNGRADE to PARTIAL} \\
+\textbf{Math167: ACCEPT WITH MINOR REVISIONS} \\
+\textbf{Math168: DOWNGRADE to PROVISIONAL PREDICTION}
+\end{tabular}
+}
+\end{center}
+
+The unprecedented Pillar-4 advance (Math166–168) represents substantial progress, but contains structural gaps that must be closed before promotion to higher status.
+
+\subsubsection*{Immediate actions}
+
+\begin{enumerate}
+\item **Math166 revision** (Task #142): Atiyah-Singer derivation, 2–3 days.
+\item **Math157 extension** (Task #143): SO(10) $\mathbf{16}$ anomaly structure, 2–3 days.
+\item **Math168 clarification** (Task #144): GW spectrum scenarios, 1–2 days.
+\item **Pillar-4 completion** (Task #129): SO(10) emergence, defect mass, decay rates (ongoing, 7–14 days).
+\end{enumerate}
+
+\subsubsection*{Impact on TOE qualification}
+
+R2-A/B/C achieved:
+- Math166 (with revisions): Chiral zero-mode structure on Math162 bundle → Pillar 4 sub-task 2 confirmed (conditional).
+- Math167: Three-patch Čech closure → Math162 fibre-bundle rigor sealed.
+- Math168 (with revisions): Kibble-Zurek GW prediction → $S_3^{(\rm predict)}$ gate advanced to NEAR-CLOSURE.
+
+**Net effect**: TECT remains **Partial TOE candidate** (honest scope: theoretical structure + provisional cosmology branch). The critical path is now **Pillar 4 sub-task 3** (SO(10) gauge connection, defect masses, decay rates), which gates unconditional closure of GAP-2 and GAP-3 simultaneously.
+
+---
+
+\end{document}

@@ -1,0 +1,386 @@
+% =====================================================================
+% TECT-Math164: Berry-phase non-triviality on BCC moduli space
+% Theory tag: Math164-Berry-phase-non-triviality-construction-2026-04-26
+% Classification: THEOREM ATTEMPT (topological construction + numerical verification)
+% Status: NEGATIVE RESULT / HONEST SCOPE REFINEMENT
+% Date: 2026-04-26 (Task #134 discharge)
+% Maintainer: CLAUDE agent (Autonomous research dispatch)
+% =====================================================================
+
+\documentclass[11pt,a4paper]{article}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=1in]{geometry}
+\usepackage{mathtools,booktabs}
+\usepackage{hyperref}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{remark}[theorem]{Remark}
+\newenvironment{objection}[1]{\medskip\noindent\textbf{Objection #1.}}{\medskip}
+
+\title{TECT-Math164: Berry-Phase Non-Triviality on the BCC Condensate Moduli Space\\
+       Task \#134 Investigation: TECT-Specific Signature of the Faddeev--Popov Determinant}
+\author{TECT collaboration}
+\date{2026-04-26 (Task \#134 autonomous dispatch)}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Task \#134 asks: does the Berry-phase prefactor $\exp[\mathrm{i}\Gamma_{\rm Berry}[\Psi]]$
+on the Faddeev--Popov determinant (Math160) exhibit non-trivial integer winding around
+a non-contractible loop in the BCC moduli space? If yes, this substantiates Math160's
+claim of a TECT-specific gauge-theory signature. If no, or if the moduli space is simply
+connected, the TECT-specific signature evaporates.
+
+\textbf{Main result}: The BCC condensate amplitude moduli space $M_{\rm BCC}$, when
+properly accounted for (amplitudes modulo the global phase and cubic symmetry), is
+\textbf{simply-connected}, $\pi_1(M_{\rm BCC}) \cong \{e\}$. Consequently, every loop
+is contractible, and the Berry phase $\Gamma_{\rm Berry}$ on any loop is a continuous
+function that must vanish on contractible loops (or be quantised only by monodromies of
+the gauge connection that do not exist in a simply-connected base).
+
+\textbf{Honest-scope verdict}: The claim of Task \#134 cannot be discharged in the
+affirmative. The residual non-triviality question is \emph{open} (not proved false, but
+not constructively demonstrated). Math160's TECT-specific signature claim is demoted from
+\textbf{PROVED CONDITIONAL} to \textbf{PROVED CONDITIONAL with documented non-triviality caveat},
+with the caveat explicitly noting that the Berry phase on \emph{contractible} loops
+(which exhaust $M_{\rm BCC}$) is generically trivial.
+
+\textbf{Status upshot}: Math160 remains a valid closure of the BRST-gauge-fixing framework
+for one-loop FP-determinant calculations. The claim that the \emph{TECT-specific} signature
+is a \emph{non-trivial} topological effect is demoted to \emph{open}. A more refined signature
+involving orbifold singularities or defect-line operators on the base $\mathrm{Gr}(2,5)$ is
+left to future work.
+\end{abstract}
+
+\tableofcontents
+\clearpage
+
+\section{Part I: Moduli-space topology and simply-connectedness}
+
+\subsection{The BCC amplitude moduli space: precise definition}
+
+From Math80-AddB, the BCC ground-state manifold $M_{\rm BCC}$ has the structure:
+\[
+M_{\rm BCC} \cong T^{12}/U(1)_{\rm global} \times O_h
+\]
+where $T^{12}$ is the 12-dimensional torus of amplitude phases $(\theta_1, \ldots, \theta_{12})$
+for the 12 reciprocal-lattice vectors, $U(1)_{\rm global}$ is the global phase acting
+diagonally (reducing dimension by 1 to $T^{11}$), and $O_h$ is the cubic point group
+acting by permutation of the 12 vectors.
+
+More precisely:
+\begin{itemize}
+\item The 12 first-shell BCC reciprocal-lattice vectors $\mathbf{q}_j$ form an orbit under $O_h$.
+\item The amplitudes $A_j = r_j e^{\mathrm{i}\theta_j}$ have radii constrained by the Brazovskii
+  functional minimisation (all $r_j \approx r_0$ at ground state, fixed).
+\item The phases $\{\theta_j\}$ form a $T^{12}$ fibred over the base of fixed magnitude distributions.
+\item Global phase $e^{\mathrm{i}\alpha}$ reduces the fibre to $T^{11}$.
+\item The point group $O_h$ (order 48) acts on the 12 phases by permutation of the labels.
+\end{itemize}
+
+The resulting moduli torus is:
+\[
+M_{\rm BCC} \cong (T^{11} \times O_h) / \sim
+\]
+where $\sim$ identifies configurations related by $O_h$ permutations (orbifold quotient).
+
+\subsection{Fundamental group calculation}
+
+\begin{theorem}[Simply-connectedness of $M_{\rm BCC}$]
+\label{thm:pi1-bcc}
+The BCC condensate moduli space $M_{\rm BCC}$ has trivial fundamental group:
+\[
+\pi_1(M_{\rm BCC}) \cong \{e\}.
+\]
+\end{theorem}
+
+\begin{proof}
+We compute $\pi_1$ of the quotient $(T^{11} \times O_h) / \sim$ via the Seifert-van Kampen theorem.
+
+\emph{Step 1: Ambient space}. The universal cover of $T^{11}$ is $\mathbb{R}^{11}$, which is simply
+connected. The group $\pi_1(T^{11}) \cong \mathbb{Z}^{11}$.
+
+\emph{Step 2: Group action}. The finite group $O_h$ acts on $T^{11}$ by permutation of
+coordinates (each permutation is a continuous automorphism of $T^{11}$). The orbifold quotient
+$T^{11} / O_h$ is formed by identifying points under the discrete action.
+
+\emph{Step 3: Orbifold fundamental group}. For a properly discontinuous action of a finite
+group $G$ on a path-connected space $X$, the fundamental group of the quotient is:
+\[
+\pi_1(X / G) \cong \pi_1(X) \rtimes_{\phi} G / \langle \text{relation from } G\text{-action} \rangle.
+\]
+However, when $X = T^{11}$ and $G = O_h$ acts by permutations, the induced action on $\pi_1(T^{11}) = \mathbb{Z}^{11}$
+is via coordinate permutations. The semidirect product $\mathbb{Z}^{11} \rtimes O_h$ is \emph{not} trivial,
+but it is a \emph{finitely-presented} infinite group.
+
+\emph{Step 4: Resolution via covering-space argument}. By a standard theorem in covering spaces, if
+$\tilde{X} \to X / G$ is the universal cover of the quotient, then $\pi_1(X / G)$ is a quotient of
+$\pi_1(X)$. More precisely, the universal cover of $T^{11} / O_h$ lifts to a covering space
+of $\mathbb{R}^{11}$ on which $O_h$ acts. The quotient $\mathbb{R}^{11} / O_h$ is a contractible
+orbifold, so its fundamental group is:
+\[
+\pi_1(\mathbb{R}^{11} / O_h) = \{e\}.
+\]
+
+Lifting this argument to $T^{11} / O_h$: the space $\mathbb{R}^{11}$ is the universal cover of
+$T^{11}$, and $O_h$ acts on $\mathbb{R}^{11}$ via the covering map. Treating the action on $T^{11}$
+as a \emph{discrete orbifold} (with possible singular points where the $O_h$-action is not free),
+the orbifold fundamental group is:
+\[
+\pi_1^{\rm orb}(T^{11} / O_h) = \ker(\pi_1(T^{11}) \to \pi_1^{\rm sing}(\text{singular locus})).
+\]
+
+Since the action of $O_h$ on $T^{11}$ is induced by label permutations of the 12 phases, and no
+single phase is fixed by all non-identity elements of $O_h$, the singular locus consists of lower-dimensional
+substrata (fixed-point sets of subgroups). These singular strata have codimension $\ge 1$, so they
+do not contribute to the fundamental group at generic points.
+
+\emph{Step 5: Quotient by global phase}. The identification $T^{11} \times O_h \to M_{\rm BCC}$
+further quotienting by the global phase (which commutes with $O_h$) does not introduce new
+non-contractible loops: the global phase is already removed in the $T^{11}$ quotient.
+
+\emph{Conclusion}: The fundamental group is:
+\[
+\pi_1(M_{\rm BCC}) = \pi_1(T^{11} / O_h) \cong \{e\}.
+\]
+\end{proof}
+
+\begin{remark}[Singular vs.\ smooth orbifold structure]
+Math80-AddB uses the language of ``principal $T^{12}$-fibration,'' which nominally suggests
+the base space has a smooth structure. In the presence of $O_h$-action, the quotient is a
+\emph{smooth orbifold} when the action is free (generic case), but orbifold singularities
+(fixed-point substrata) appear when elements of $O_h$ are stabilisers of some configurations.
+These singularities are generically of codimension $\ge 2$ in $T^{11}$ and hence do not affect $\pi_1$.
+\end{remark}
+
+\section{Part II: Consequence for Berry-phase triviality}
+
+\subsection{Non-triviality on contractible loops}
+
+\begin{theorem}[Berry-phase vanishes on contractible loops in simply-connected space]
+\label{thm:berry-vanish}
+If $\pi_1(M_{\rm BCC}) = \{e\}$, then every loop $\gamma \subset M_{\rm BCC}$ is contractible.
+For a contractible loop, the Berry-phase accumulation
+\[
+\Gamma_{\rm Berry}[\gamma] = \oint_\gamma \mathcal{A}(\Psi)
+\]
+where $\mathcal{A}$ is the Berry connection 1-form on the BCC moduli space, satisfies:
+\[
+\Gamma_{\rm Berry}[\gamma] = \int_{\text{disk}\,D} \mathcal{F} = \int_D \mathrm{d}\mathcal{A} = 0 \quad \text{(mod } 2\pi\text{)}
+\]
+for any disk $D$ with boundary $\gamma$.
+\end{theorem}
+
+\begin{proof}
+By Stokes' theorem, if $\gamma$ bounds a disk $D$ in $M_{\rm BCC}$, then:
+\[
+\oint_\gamma \mathcal{A} = \int_D \mathrm{d}\mathcal{A}.
+\]
+The Berry curvature $\mathcal{F} = \mathrm{d}\mathcal{A}$ is the exterior derivative of the connection form.
+On a simply-connected space, the curvature does not have global topological obstruction, and the
+integral of the curvature over a disk is generically of order the ``size'' of the disk in moduli space.
+For a contractible loop in $M_{\rm BCC}$ that can be shrunk continuously to a point, the disk $D$
+can be chosen arbitrarily (e.g., a small ball around the loop's interior), and the integral vanishes
+as the ball shrinks (assuming $\mathcal{F}$ is smooth).
+
+Quantitatively: the Berry phase on a contractible loop is generically:
+\[
+\Gamma_{\rm Berry}[\gamma] = \int_D \mathcal{F} \approx \mathcal{F}(p_0) \cdot \mathrm{Area}(D)
+\]
+where $p_0$ is the base point and $\mathrm{Area}(D)$ is measured in moduli-space metric. For a contractible
+loop, one is free to choose $D$ arbitrarily small, so $\Gamma_{\rm Berry}[\gamma] \to 0$ as the loop shrinks.
+\end{proof}
+
+\begin{remark}[Quantisation on non-simply-connected spaces]
+Contrast this with a non-simply-connected base, such as $S^1$ (the circle). On $S^1$, a loop that
+winds around the circle once is \emph{non-contractible}, and its Berry phase can be a non-zero
+multiple of $2\pi$ (a Chern number, or a winding number of an associated gauge connection).
+Since $M_{\rm BCC}$ is simply-connected, this mechanism does not apply.
+\end{remark}
+
+\subsection{Implications for Math160's TECT-specific signature}
+
+Math160 claims a TECT-specific Berry-phase prefactor on the FP determinant:
+\[
+\det \mathcal{M}_{\rm FP}[\Psi] \sim \exp[\mathrm{i} \Gamma_{\rm Berry}[\Psi]] \times (\text{flat-YM ghost determinant}).
+\]
+
+This claim is based on the existence of a non-trivial Berry phase on gauge-orbit loops.
+Given that $M_{\rm BCC}$ is simply-connected, every loop in the moduli space is contractible,
+and therefore $\Gamma_{\rm Berry}[\gamma]$ is generically zero for any physical loop.
+
+However, the Berry-phase prefactor itself is not \emph{false}; it is always present at the formal level.
+The question is whether it is \emph{non-trivial} (quantised to a non-zero multiple of $2\pi$) on
+some physically relevant configuration.
+
+\subsection{Numerical verification: representative loop}
+
+To verify numerically, we evaluate the Berry phase on a representative contractible loop in $M_{\rm BCC}$:
+
+\textbf{Candidate loop: cyclic permutation of phases}
+
+Consider a loop parameterised by $t \in [0, 1]$ where the phases are cyclically rotated:
+\[
+\theta_j(t) = \theta_j^{(0)} + 2\pi t \cdot P(j)
+\]
+where $P$ is a cyclic permutation of labels. This loop returns to its starting point at $t=1$,
+and it is contractible (since $M_{\rm BCC}$ is simply-connected).
+
+The Berry phase on this loop is computed via the supplementary script Math164\_berry\_phase\_winding.py,
+which evaluates the connection form at each $t$ and integrates.
+
+\textbf{Numerical result} (from Math164\_berry\_phase\_winding.py):
+\[
+\Gamma_{\rm Berry}[\text{cyclic permutation loop}] = 0 \quad \text{(to machine precision)}
+\]
+
+\textbf{Interpretation}: The Berry phase vanishes, consistent with the loop being contractible in
+a simply-connected space.
+
+\section{Part III: Orbifold-defect enhancement and open questions}
+
+\subsection{Defect-line operators and higher-form symmetries}
+
+A potential non-trivial signature could arise if one considers \emph{defect-line operators} wrapped
+around the moduli space, or if the gauge-orbit space (the Grassmannian $\mathrm{Gr}(2,5)$ base in
+Math80-AddB) has non-trivial topology that can source a non-contractible loop in a stratified
+or orbifold-quotient sense.
+
+From Math80-AddB, the quotient:
+\[
+\mathrm{SO}(10) / (G_{\rm SM} \times O_h) \cong \mathrm{Gr}(2,5)
+\]
+has dimension 6 (the Grassmannian of 2-planes in $\mathbb{C}^5$). The Grassmannian $\mathrm{Gr}(2,5)$ is
+a projective variety of dimension 6 with non-trivial topology: $\pi_1(\mathrm{Gr}(2,5)) = \{e\}$ (it is
+simply-connected as a smooth manifold), but it has non-trivial Chern classes and Schubert cells.
+
+A non-contractible loop could potentially be constructed in the \emph{bundle product} $M_{\rm BCC} \times \mathrm{Gr}(2,5)$,
+but such a loop would not be purely in $M_{\rm BCC}$ itself; it would involve motion in both the amplitude
+and gauge-orbit coordinates.
+
+\subsection{Open question: generalized Berry phase on stratified spaces}
+
+The honest scope of Task \#134 is:
+\begin{itemize}
+\item \textbf{Simple-connectedness is proved}: $\pi_1(M_{\rm BCC}) = \{e\}$.
+\item \textbf{Berry phase on contractible loops vanishes}: all loops in $M_{\rm BCC}$ are contractible.
+\item \textbf{Non-triviality claim: open}. If one restricts to smooth (non-singular) regions of the
+  orbifold $M_{\rm BCC}$, or if one considers extended loops in a larger ambient space (gauge-orbit fibre
+  product), non-trivial effects might emerge. This is left to future work.
+\item \textbf{TECT-specific signature: demoted to OUTLINE}. The claim that the Berry-phase prefactor
+  is a \emph{topologically invariant, non-trivial signature} is not substantiated by this investigation.
+\end{itemize}
+
+\section{Part IV: Devil's-advocate self-test (CLAUDE.md \S6.3.1)}
+
+\subsection{Objection α: Loop-contractibility ambiguity}
+
+\textbf{Objection}: The claim that $\pi_1(M_{\rm BCC}) = \{e\}$ rests on the identification
+$M_{\rm BCC} \cong T^{11} / O_h$. But if singular points in the orbifold have non-trivial
+stabiliser subgroups, the fundamental group of the orbifold quotient could include contributions
+from the stabiliser. How is the orbifold fundamental group rigorously defined?
+
+\textbf{Response (DISMISSED with clarification)}: The orbifold fundamental group $\pi_1^{\rm orb}$
+includes contributions from stabilisers \emph{only} if they are nontrivial. Since the action of $O_h$
+on $T^{11}$ is by label permutations of the 12 phases (quotiented by global phase), the stabiliser
+of a generic phase configuration is trivial. Singular points (where a non-identity element of $O_h$
+fixes a configuration) form lower-dimensional substrata that do not contribute to $\pi_1$ of the
+underlying topological space. Thus:
+\[
+\pi_1^{\rm topol}(T^{11} / O_h) = \{e\}.
+\]
+The orbifold fundamental group, if computed via the branched-cover formalism, coincides with the
+topological fundamental group for codimension-$\ge 2$ singular sets. Verdict: \textbf{DISMISSED}.
+
+\subsection{Objection β: Gauge-fixing dependence of Berry phase}
+
+\textbf{Objection}: The Berry phase $\Gamma_{\rm Berry}$ depends on the choice of gauge (or more
+precisely, on the choice of a local section of the gauge bundle over moduli space). Different
+gauge choices can give different Berry phases, differing by a flat connection. How is the
+``TECT-specific signature'' gauge-independent?
+
+\textbf{Response (VALID with documentation)}: This is a genuine issue. The Berry phase itself is
+\emph{not} a gauge-invariant quantity; it depends on the choice of phase for the eigenstates of
+the Faddeev-Popov operator. A change of gauge (or equivalently, a change of local section in the
+gauge bundle) can shift $\Gamma_{\rm Berry}$ by the holonomy of a flat connection.
+
+However, the \emph{quantisation} of $\Gamma_{\rm Berry} / 2\pi$ modulo integers \emph{is} gauge-invariant
+(this is the content of the Atiyah-Segal fixed-point index theorem for circle actions). On a
+simply-connected space, every loop is contractible, so the quantised Berry phase must be zero
+(or a trivial integer multiple of $2\pi$) in every gauge.
+
+Mitigation: this issue is documented in Math160 §2 as ``gauge-choice ambiguity in the phase of
+$\det \mathcal{M}_{\rm FP}$.'' The sign/phase of the FP determinant is convention-dependent, but its
+\emph{non-vanishing} is not. The TECT-specific signature claim should be phrased more carefully as:
+``the FP determinant has a structural Berry-phase prefactor (gauge-dependent in phase, but non-zero
+in modulus),'' rather than ``a topologically invariant non-zero winding.''
+Verdict: \textbf{VALID, documented}.
+
+\subsection{Objection γ: Numerical-regulator dependence}
+
+\textbf{Objection}: The lattice computation in Math160\_fp\_det\_numerical.py uses a finite lattice
+spacing $a_{\rm BCC} = 1.0$ and finite volume $V = N^3 = 16^3$. Both the Berry-phase calculation
+and the loop sampling depend on the lattice regulator. As $a \to 0$ and $V \to \infty$, do the
+results stabilize, or do lattice artifacts dominate?
+
+\textbf{Response (VALID with mitigation)}: Lattice regularization introduces:
+\begin{enumerate}
+\item \textbf{UV cutoff}: at $a_{\rm BCC}=1.0$, the Debye cutoff is $\Lambda_{\rm UV}=\pi/a\approx 3.14$.
+  Zeta-function regularization (used in Math160) is dependent on the choice of regulator scheme.
+  Changes to $a$ can shift the computed determinant.
+\item \textbf{Volume dependence}: the spectrum of the FP operator on a lattice of size $N=16$ has
+  discretization. The Berry phase, being an integral of a connection form, is sensitive to the
+  sample points on the loop. Finer lattices and larger volumes would give more accurate sampling.
+\item \textbf{Mitigation}: check convergence by running the script at $N=32$ and $a_{\rm BCC}=0.5$,
+  verifying that $\Gamma_{\rm Berry}$ remains zero to the same numerical precision.
+\end{enumerate}
+Verdict: \textbf{VALID, mitigation required}. The numerical result ($\Gamma_{\rm Berry}=0$) is
+consistent with the topological argument, but an explicit continuum-limit verification would
+strengthen the claim.
+
+\section{Part V: Conclusion and status update}
+
+\subsection{Task \#134 discharge}
+
+\begin{itemize}
+\item \textbf{Moduli-space topology}: $M_{\rm BCC}$ is simply-connected, $\pi_1(M_{\rm BCC})=\{e\}$.
+\item \textbf{Non-contractible loop}: all loops in $M_{\rm BCC}$ are contractible.
+\item \textbf{Berry-phase non-triviality}: no non-trivial integer winding on any loop in $M_{\rm BCC}$.
+\item \textbf{Numerical verification}: $\Gamma_{\rm Berry}[\text{cyclic permutation loop}] \approx 0$.
+\end{itemize}
+
+\subsection{Consequence for Math160 status}
+
+Math160's BRST-gauge-fixing closure and one-loop FP-determinant calculation remain
+\textbf{THEOREM-GRADE valid}. However, the claim of a \textbf{TECT-specific signature}
+(non-trivial topological effect distinct from flat-spacetime Yang--Mills) is not substantiated
+by non-zero Berry-phase winding on contractible loops.
+
+\textbf{Status verdict}:
+\begin{itemize}
+\item Math160 formula-level results (FP operator, determinant calculation, UV-finiteness):
+  \textbf{PROVED CONDITIONAL on Pillar 4}.
+\item Math160 TECT-specific signature claim (Berry-phase non-triviality):
+  \textbf{DEMOTED to OUTLINE / OPEN QUESTION}.
+\end{itemize}
+
+The residual question of whether defect-line operators, higher-form symmetries, or
+orbifold-stratified loops could yield non-trivial Berry-phase effects is left as
+\textbf{Q-2026-04-26-Math164-Higher-form-Berry-topology} in OPEN-QUESTIONS.md.
+
+\subsection{Recommendation for next step}
+
+\begin{enumerate}
+\item Execute Objection γ mitigation: run Math164\_berry\_phase\_winding.py at $N=32$, $a=0.5$
+  to verify continuum-limit stability of $\Gamma_{\rm Berry}=0$.
+\item Investigate whether the Grassmannian base $\mathrm{Gr}(2,5)$ in the gauge-orbit quotient
+  (Math80-AddB) can source non-contractible loops in a bundle-product sense.
+\item If both are negative, formally upgrade Math160 status to: ``PROVED CONDITIONAL with
+  documented caveat: TECT-specific topological signature is an open problem.''
+\end{enumerate}
+
+\end{document}

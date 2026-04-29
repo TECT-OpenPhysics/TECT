@@ -1,0 +1,250 @@
+% =====================================================================
+% TECT-Math82-Addendum-A-Phase-D-results-propagation.tex.txt
+% Theory tag:  Math82-Addendum-A-Phase-D-results-propagation-2026-04-24
+% Classification: PROCESS NOTE (no theorem content)
+% Status:      EXECUTION PLAN + LOG for Phase D of the 2026-04-24 repo
+%              cleanup, completing the results/ retirement and the
+%              Phase-C leftover untracked/empty directory removal.
+% Companion:   Codes/scripts/repo_cleanup_phase3_d.ps1
+% =====================================================================
+
+\documentclass[11pt,a4paper]{article}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=1in]{geometry}
+\usepackage{mathtools,booktabs,longtable}
+\usepackage{hyperref}
+
+\title{TECT-Math82 Addendum A: Phase D --- \texttt{results/} Propagation to \texttt{Runs/} + Phase-C Leftover Cleanup}
+\author{TECT collaboration}
+\date{2026-04-24}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+This addendum executes Phase D of the 2026-04-24 repository cleanup,
+following the Phase A + B + C commit \texttt{1a9e5170}. Eleven tracked
+files in \texttt{results/} are moved to the canonical
+\texttt{Runs/audit/} subtree; two untracked / empty placeholder
+subfolders (\texttt{results/math55\_endpoint\_*}) are removed; the
+now-empty \texttt{results/} top-level folder is removed. In addition,
+four Phase-C leftover directories (\texttt{tools/}, \texttt{tests/},
+\texttt{scripts/}, \texttt{runs/}) that contained only untracked
+content (Python bytecode \texttt{\_\_pycache\_\_/}) or empty
+subdirectories are removed via \texttt{Remove-Item}. After this commit,
+the only remaining deprecated top-level path is \texttt{PDE/}, which
+hosts live Task \#54 execution and is retained until Phase E + F
+(post-Task-\#54 closure).
+\end{abstract}
+
+\section{Pre-Phase-D state audit (2026-04-24)}
+
+\subsection{\texttt{results/} contents (11 tracked files)}
+
+Filesystem inventory of \texttt{results/}:
+
+\begin{verbatim}
+results/dirac_casimir_verification.png
+results/math64_decisive_cII_test.json
+results/math64_decisive_cII_test_A.json
+results/math64_decisive_cII_test_B.json
+results/n64_audit_2026-04-22.json
+results/stage_alpha_archive_sha256.txt
+results/stage_alpha_A_fd_on.json
+results/stage_alpha_B_autograd_on.json
+results/stage_alpha_C_fd_off.json
+results/stage_alpha_D_autograd_off.json
+results/step1_block_probe.json
+results/math55_endpoint_N32_L16_2026-04-23/   (empty)
+results/math55_endpoint_N32_Lbcc7_2026-04-23/ (empty)
+\end{verbatim}
+
+The two empty subfolders held runtime outputs (\texttt{.npy} seeds,
+endpoint JSON, \texttt{.log}) that are gitignored per
+\texttt{.gitignore} rules \texttt{*.npy} and \texttt{runs/*/*.log}.
+They are not removable via \texttt{git rm} (no tracked content) and
+must be cleaned via \texttt{Remove-Item}.
+
+\subsection{\texttt{Runs/audit/} target state (currently absent)}
+
+\texttt{Runs/audit/} does not exist in the filesystem after the Phase-C
+\texttt{git rm -r runs/} operation. \texttt{Runs/} sub-tree currently has:
+
+\begin{verbatim}
+Runs/
+├── continuation/
+│   ├── continuation_v263_smoke/   (empty)
+│   └── math55_endpoint_N32_L16_2026-04-23/  (empty)
+├── legacy/
+│   ├── R-2026-04-23-001-task54-mu2target-5e-3/  (empty)
+│   └── R-2026-04-23-002-task54-coarse-smoke/    (empty)
+└── logs/
+    ├── Math49d_R5_wave2_run.log
+    ├── Math57_v2_cubic_anisotropy_interval.log
+    ├── Math_IR_Bound_v4_BZ_interval-N256-2026-04-20-fresh.log
+    └── Math_IR_Bound_v4_BZ_interval-N256-2026-04-20.log
+\end{verbatim}
+
+Phase D creates \texttt{Runs/audit/} and populates it with the 11
+tracked files from \texttt{results/}.
+
+\subsection{Phase-C leftover dirs (untracked / empty)}
+
+\begin{verbatim}
+tools/
+└── __pycache__/   (Python bytecode, gitignored)
+
+tests/
+└── __pycache__/   (Python bytecode, gitignored)
+
+scripts/   (empty after Phase C tracked-file removal)
+
+runs/
+├── continuation/
+├── legacy/
+└── logs/         (all empty subfolders after Phase C tracked-file removal)
+\end{verbatim}
+
+These are \texttt{Remove-Item} targets, not \texttt{git rm} targets,
+because their remaining content is either gitignored or empty.
+
+\section{Phase D execution plan}
+
+\subsection{D.1 --- Create \texttt{Runs/audit/}}
+
+\texttt{New-Item -ItemType Directory -Force -Path 'Runs/audit'}.
+
+\subsection{D.2 --- \texttt{git mv} 11 files from \texttt{results/} to \texttt{Runs/audit/}}
+
+\begin{longtable}{p{0.45\textwidth}p{0.50\textwidth}}
+\toprule
+Source & Target \\
+\midrule
+\texttt{results/dirac\_casimir\_verification.png}
+   & \texttt{Runs/audit/dirac\_casimir\_verification.png} \\
+\texttt{results/math64\_decisive\_cII\_test.json}
+   & \texttt{Runs/audit/math64\_decisive\_cII\_test.json} \\
+\texttt{results/math64\_decisive\_cII\_test\_A.json}
+   & \texttt{Runs/audit/math64\_decisive\_cII\_test\_A.json} \\
+\texttt{results/math64\_decisive\_cII\_test\_B.json}
+   & \texttt{Runs/audit/math64\_decisive\_cII\_test\_B.json} \\
+\texttt{results/n64\_audit\_2026-04-22.json}
+   & \texttt{Runs/audit/n64\_audit\_2026-04-22.json} \\
+\texttt{results/stage\_alpha\_archive\_sha256.txt}
+   & \texttt{Runs/audit/stage\_alpha\_archive\_sha256.txt} \\
+\texttt{results/stage\_alpha\_A\_fd\_on.json}
+   & \texttt{Runs/audit/stage\_alpha\_A\_fd\_on.json} \\
+\texttt{results/stage\_alpha\_B\_autograd\_on.json}
+   & \texttt{Runs/audit/stage\_alpha\_B\_autograd\_on.json} \\
+\texttt{results/stage\_alpha\_C\_fd\_off.json}
+   & \texttt{Runs/audit/stage\_alpha\_C\_fd\_off.json} \\
+\texttt{results/stage\_alpha\_D\_autograd\_off.json}
+   & \texttt{Runs/audit/stage\_alpha\_D\_autograd\_off.json} \\
+\texttt{results/step1\_block\_probe.json}
+   & \texttt{Runs/audit/step1\_block\_probe.json} \\
+\bottomrule
+\end{longtable}
+
+\subsection{D.3 --- \texttt{Remove-Item} empty placeholder subfolders}
+
+\begin{itemize}
+\item \texttt{results/math55\_endpoint\_N32\_L16\_2026-04-23/} (empty in tree)
+\item \texttt{results/math55\_endpoint\_N32\_Lbcc7\_2026-04-23/} (empty in tree)
+\end{itemize}
+
+\subsection{D.4 --- Remove now-empty \texttt{results/}}
+
+After D.2 + D.3, \texttt{results/} is empty and is removed via
+\texttt{Remove-Item -Recurse -Force results}.
+
+\subsection{D.5 --- Phase-C leftover cleanup}
+
+\begin{itemize}
+\item \texttt{tools/} --- only \texttt{\_\_pycache\_\_/} remained (gitignored).
+\item \texttt{tests/} --- only \texttt{\_\_pycache\_\_/} remained (gitignored).
+\item \texttt{scripts/} --- empty after Phase C.
+\item \texttt{runs/} --- only empty subfolders remained after Phase C.
+\end{itemize}
+
+All four removed via \texttt{Remove-Item -Recurse -Force}.
+
+\section{Post-Phase-D state}
+
+\subsection{Repo-root listing expected after Phase D}
+
+\begin{verbatim}
+Contents/
+├── .git/
+├── .gitignore
+├── .pytest_cache/
+├── Backup/
+├── CHANGELOG.md
+├── CLAUDE.md
+├── Codes/
+├── Docs/
+├── NAVIGATION.md
+├── PDE/                  (deprecated-but-live; Phase E-F pending)
+├── Runs/                 (canonical; now contains audit/)
+├── Website/
+└── tect-research.plugin
+\end{verbatim}
+
+This is one step closer to the canonical layout in
+\texttt{REPO\_LAYOUT.md \S 1}: only \texttt{PDE/} remains as a
+deprecated-but-live entry, and it carries Task \#54 active execution
+state.
+
+\subsection{\texttt{Runs/} sub-tree after Phase D}
+
+\begin{verbatim}
+Runs/
+├── audit/             (NEW: 11 files from results/)
+│   ├── dirac_casimir_verification.png
+│   ├── math64_decisive_cII_test.json
+│   ├── math64_decisive_cII_test_A.json
+│   ├── math64_decisive_cII_test_B.json
+│   ├── n64_audit_2026-04-22.json
+│   ├── stage_alpha_archive_sha256.txt
+│   ├── stage_alpha_A_fd_on.json
+│   ├── stage_alpha_B_autograd_on.json
+│   ├── stage_alpha_C_fd_off.json
+│   ├── stage_alpha_D_autograd_off.json
+│   └── step1_block_probe.json
+├── continuation/
+│   ├── continuation_v263_smoke/   (still empty)
+│   └── math55_endpoint_N32_L16_2026-04-23/   (still empty)
+├── legacy/
+│   ├── R-2026-04-23-001-task54-mu2target-5e-3/   (still empty)
+│   └── R-2026-04-23-002-task54-coarse-smoke/     (still empty)
+└── logs/  (4 .log files, unchanged)
+\end{verbatim}
+
+The empty placeholder subfolders under \texttt{Runs/continuation/} and
+\texttt{Runs/legacy/} carry expected execution-output paths that will
+be populated when the corresponding runs complete. They are retained
+as path placeholders.
+
+\section{What this addendum does NOT do}
+
+\begin{itemize}
+\item It does NOT touch \texttt{PDE/} (Phase E + F, post-Task-\#54).
+\item It does NOT change any pillar status, theorem content, or
+       numerical result.
+\item It does NOT modify \texttt{Backup/} (write-once / read-only per
+       \texttt{REPO\_LAYOUT.md \S 2.4}).
+\end{itemize}
+
+\section{Honest scope statement}
+
+\[
+\boxed{
+\text{This commit completes Phase D of the 2026-04-24 repo cleanup.}
+}
+\]
+\[
+\boxed{
+\text{Only \texttt{PDE/} remains as the deprecated-but-live path; its retirement is Phase E + F.}
+}
+\]
+
+\end{document}

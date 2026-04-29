@@ -1,0 +1,874 @@
+% ============================================================
+% TECT-Math65-cII-EulerLagrange-Rewrite.tex.txt
+% Status:       SKELETON v0.1.2 — post-decisive-test scaffold (candidate C
+%               falsified; triangulation on A, B mandated; Math66 escalation
+%               conditional).
+%               Constructs the candidate scalar functional E_cII[Psi] whose
+%               variational derivative defines F_cII^grad, documents the
+%               Helmholtz-Hodge obstruction inherent in the projected-
+%               divergence implementation F_cII^impl currently embedded in
+%               PDE/real_backend_pt_bcc_mixed_v3.py, and establishes the
+%               mathematical scaffold required to resolve the Math64 §6
+%               three-case surgery gate (Case 1 assembly / Case 2 design /
+%               Case 3 inconclusive).
+% Version:      v0.1 (SKELETON, 2026-04-22) — content frozen pre-Task #110 execution.
+%               v0.1.1 (2026-04-22) — Tools/tools case-collision hardening (no
+%               mathematical content change; API reference updated).
+%               v0.1.2 (2026-04-22) — Run R-2026-04-22-004 data landed:
+%               candidate C falsified at the seed with Delta_cII / a_cII =
+%               2.4e+4 and gradient near-orthogonal to F_impl (overlap -1.5e-3).
+%               New §5 Candidate C post-run analysis + §6 Triangulation mandate.
+%               Math66 operator-surgery escalation held pending A/B results.
+%               v0.1.3 (2026-04-22, THIS REVISION) — Runs R-2026-04-22-005
+%               (candidate A) and R-2026-04-22-006 (candidate B) executed.
+%               All three candidates land in a subspace L2-orthogonal to
+%               F_impl (cos-theta = {-1.3e-2, -7.9e-3, -1.5e-3} for A, B, C
+%               respectively) across magnitude ratios {0.05, 55.7, 83.6}.
+%               Branch (R) Rescue and branch (S) Split of Prop.
+%               math65-triangulation-verdict both falsified; branch (I)
+%               Class insufficiency sealed. Math66 operator surgery
+%               MANDATORY. New §7 Sealed verdict (Prop.
+%               math65-class-insufficient + Cor. math65-math66-mandate)
+%               recommending Path (X) in-solver symmetrisation as the
+%               operational closure for v2.6.0 Phase D, with Path (Y) sector
+%               rewrite deferred to a separate research track.
+% Tag:          Math65-cII-EulerLagrange-Rewrite-2026-04-22
+% Filed:        2026-04-22
+% Preceded-by:  Math64-cII-Stage-Alpha-Audit-2026-04-22 (v1.1)
+%               Math63-Solver-Redesign-v2p5-2026-04-22 (v1.7)
+% Companion to: PDE/real_backend_pt_bcc_mixed_v3.py   §_classII_effective_term_t
+%               Tools/check_jacobian_blocks.py        (v1.3.1)
+%               Tools/cII_energy_candidates.py        (v0.1.1)
+% Supersedes:   --
+% Purpose:      Pre-surgery theoretical prerequisite for the decisive
+%               cII grad-vs-impl test defined in Math64 §6 (Def.
+%               math64-decisive-test).  CRITICAL FINDING recorded: the
+%               current executable backend implements F_cII directly as a
+%               projected-divergence residual, with NO pre-existing
+%               scalar functional E_cII[Psi] in the module; consequently,
+%               the decisive test  Delta_cII = ||F_cII^impl - F_cII^grad||_F
+%               cannot be evaluated until Math65 supplies a candidate
+%               E_cII^cand[Psi;params].  This note constructs three
+%               candidate functionals of increasing structural rigour
+%               and analyses, for each, whether (i) the variational
+%               derivative reproduces F_cII^impl, (ii) the projector
+%               structure T Psi - q Psi admits a potential, and (iii) a
+%               Helmholtz-Hodge obstruction survives.
+% ============================================================
+
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsthm,geometry,xcolor,listings,hyperref}
+\geometry{margin=1in}
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{definition}{Definition}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
+\newtheorem{remark}{Remark}
+
+\title{\textbf{TECT Math65 --- Class II Sector Scalar Functional and \\
+Euler--Lagrange Rewrite: \\
+Pre-Surgery Scaffold for the Decisive $F_{\mathrm{cII}}^{\mathrm{grad}}$
+vs.\ $F_{\mathrm{cII}}^{\mathrm{impl}}$ Test}\\
+\large (SKELETON v0.1 --- 2026-04-22)}
+\author{TECT Research Collaboration}
+\date{2026-04-22 --- v0.1 (SKELETON)}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+The Stage $\alpha$ closure (Math64 v1.1) and the post-closure routing
+verdict (Math63 v1.7) reduced the anti-Hermitian structural mass of
+the BCC residual Jacobian to a single operator block $F_{\mathrm{cII}}$,
+and mandated a pre-surgery decisive diagnostic
+$\Delta_{\mathrm{cII}} := \lVert F_{\mathrm{cII}}^{\mathrm{impl}} -
+F_{\mathrm{cII}}^{\mathrm{grad}}\rVert_{F}$ to classify the defect
+as Case 1 (assembly inconsistency, local rewrite),
+Case 2 (EL-incompatible design, in-solver symmetrisation), or
+Case 3 (inconclusive).  Execution of that test requires a scalar
+functional $E_{\mathrm{cII}}[\Psi]$ whose variational derivative
+defines $F_{\mathrm{cII}}^{\mathrm{grad}}$; however, the current
+executable backend implements $F_{\mathrm{cII}}^{\mathrm{impl}}$
+directly as a projected-divergence residual, with no pre-existing
+$E_{\mathrm{cII}}$ in the module.  The present skeleton provides
+(i) the structural audit of $F_{\mathrm{cII}}^{\mathrm{impl}}$
+showing which factors plausibly arise from an Euler--Lagrange
+derivation and which constitute a phenomenological projector
+closure; (ii) three increasingly rigorous candidate functionals
+$E_{\mathrm{cII}}^{(A)}, E_{\mathrm{cII}}^{(B)}, E_{\mathrm{cII}}^{(C)}$;
+(iii) a Helmholtz--Hodge-type obstruction lemma identifying the
+anti-Hermitian mass $a_{\mathrm{cII}} = 4.357\times 10^{-7}$ with a
+curl-component of the projected current; and (iv) the formal hook
+$E_{\mathrm{cII}}^{\mathrm{cand}}$ consumed by
+\texttt{Tools/check\_jacobian\_blocks.py v1.3}
+(\texttt{--cII-grad-check}).  All theorem/proposition content is
+marked SKELETON and is deferred to v0.2 pending the decisive-test
+outcome $\Delta_{\mathrm{cII}}, r^{\mathrm{impl}}, r^{\mathrm{grad}}$.
+\end{abstract}
+
+\textbf{Document status.}
+\ \
+\textsc{Skeleton, pre-execution.}
+All lemmas, propositions, and theorems in this note are scaffolded
+with statements but \emph{not} proven; their role is to fix the
+notational frame, the obstruction structure, and the acceptance
+criteria that the v1.3 decisive test will decide.  On receipt of
+the $(\Delta_{\mathrm{cII}}, r^{\mathrm{impl}}, r^{\mathrm{grad}})$
+triple, this note is upgraded to v0.2 with the relevant branch
+(Case 1 / Case 2) fully proven and the complementary branch
+retired.
+
+% ============================================================
+\section{Frame, scope, and critical finding}
+\label{sec:frame}
+
+Throughout this note we work on the real complex Hilbert space
+$\mathcal{H} = \mathbb{C}^{3 \otimes N^{3}} \simeq \mathbb{R}^{2 \cdot 3 N^{3}}$
+carrying the inner product $\langle u, v\rangle_{\mathbb{R}} =
+\operatorname{Re}\sum_{\mathbf{x},a} u_{a}(\mathbf{x})^{\ast} v_{a}(\mathbf{x})$,
+in agreement with Math63 §2A.1 and Math64 §2.  The three Gell-Mann
+generators $\{T_{1}, T_{2}, T_{3}\}$ embedded in $\mathrm{SU}(3)$
+act on the internal colour index $a \in \{1,2,3\}$, and
+$\nabla$ denotes the BCC spectral derivative supplied by
+\texttt{\_spectral\_derivative\_scalar\_t} (Math57 Addendum A).
+
+\begin{definition}[$F_{\mathrm{cII}}^{\mathrm{impl}}$, the executable
+implementation; Math65-Def-impl]
+\label{def:math65-cii-impl}
+Let $\rho(\Psi) = \sum_{a}|\Psi_{a}|^{2} + 10^{-12}$.  Define, for
+each generator $T \in \{T_{1}, T_{2}, T_{3}\}$, the scalar
+modulation
+\begin{equation}
+m_{T}(\Psi) \;=\; \Psi^{\dagger} T \Psi,
+\qquad
+q_{T}(\Psi) \;=\; m_{T}(\Psi) / \rho(\Psi),
+\label{eq:math65-mq}
+\end{equation}
+and the projected-channel vector field
+$\mathcal{J}_{T}^{i}(\Psi) = \partial_{i} m_{T}(\Psi)$,
+$\mathcal{K}_{T}^{i}(\Psi) = \mathcal{J}_{T}^{i}(\Psi)
+- q_{T}(\Psi)\,\partial_{i}\rho(\Psi)$.
+The executable Class II residual is
+\begin{equation}
+F_{\mathrm{cII}}^{\mathrm{impl}}(\Psi)
+\;=\;
+\sum_{T}
+\Bigl[
+\mathrm{pref}_{JJ}\,
+\bigl(\nabla\!\cdot\!\mathcal{J}_{T}\bigr)
+\;+\;
+\mathrm{pref}_{JK}\,
+\bigl(\nabla\!\cdot\!\mathcal{K}_{T}\bigr)
+\Bigr]
+\bigl(T\Psi - q_{T}(\Psi)\,\Psi\bigr),
+\label{eq:math65-impl}
+\end{equation}
+with prefactors
+$\mathrm{pref}_{JJ} = c_{JJ} \alpha_{X}^{2}/M_{X}^{2}$,
+$\mathrm{pref}_{JK} = c_{JK} \alpha_{X}\beta_{X}/M_{X}^{2}$.
+This is an \emph{exact transcription} of lines 423--461 of
+\texttt{PDE/real\_backend\_pt\_bcc\_mixed\_v3.py} (v3 tagged
+at \texttt{Math63-Solver-Redesign-v2p5-2026-04-22}).
+\end{definition}
+
+\begin{remark}[Critical finding: absence of a scalar potential in the
+backend; Math65-Rem-critical]
+\label{rmk:math65-critical-finding}
+A static audit of \texttt{PDE/real\_backend\_pt\_bcc\_mixed\_v3.py}
+(performed 2026-04-22) shows that the module \emph{exposes no
+scalar functional} \texttt{E\_cII}, \texttt{action\_cII},
+\texttt{energy\_cII}, \texttt{lagrangian\_cII}, or any analogue
+thereof.  The module docstring of
+\texttt{\_classII\_effective\_term\_t} explicitly describes the
+block as an ``executable proxy for the integrated-out Class II
+sector'', constructed at the level of the residual, not from a
+variational principle.  Consequently, the Math64 §6 decisive test
+\begin{equation}
+F_{\mathrm{cII}}^{\mathrm{grad}}(\Psi)
+\;:=\;
+\Bigl[\nabla_{\Psi}\, E_{\mathrm{cII}}[\Psi]\Bigr]_{\text{Wirtinger}}
+\label{eq:math65-grad-def}
+\end{equation}
+cannot be evaluated until a candidate $E_{\mathrm{cII}}$ is
+supplied.  Supplying such a candidate is the principal object of
+this note.
+\end{remark}
+
+\begin{remark}[Scope restriction]
+\label{rmk:math65-scope}
+This note concerns \emph{only} the construction of
+$E_{\mathrm{cII}}^{\mathrm{cand}}[\Psi]$ and the obstruction
+analysis that fixes the interpretation of a nonzero
+$\Delta_{\mathrm{cII}}$.  The physical derivation of the Class II
+sector (integration-out of the heavy $X$-doublet, Math50 Pillar 4
+scaffold) is \emph{not} revisited here; we take the executable
+prefactors $\{\mathrm{pref}_{JJ}, \mathrm{pref}_{JK}\}$ and the
+projector structure $T\Psi - q_{T}(\Psi)\,\Psi$ as given, and
+search within that fixed structural template for the scalar
+functional, if any, whose gradient reproduces
+\eqref{eq:math65-impl}.
+\end{remark}
+
+% ============================================================
+\section{Three candidate functionals}
+\label{sec:candidates}
+
+We introduce three progressively richer candidates and, for each,
+record the status (proven Euler--Lagrange parent, plausible parent
+modulo boundary terms, or demonstrably non-variational).
+
+\subsection{Candidate A: bilinear channel-gradient functional}
+\label{sec:candA}
+
+\begin{definition}[$E_{\mathrm{cII}}^{(A)}$]
+\label{def:math65-EcII-A}
+\begin{equation}
+E_{\mathrm{cII}}^{(A)}[\Psi]
+\;=\;
+\tfrac{1}{2}
+\sum_{T}\int_{V}\!d^{3}x\;
+\Bigl[
+\mathrm{pref}_{JJ}\,|\nabla m_{T}(\Psi)|^{2}
++
+\mathrm{pref}_{JK}\,|\nabla m_{T}(\Psi)|^{2}
+\Bigr].
+\label{eq:math65-EA}
+\end{equation}
+\end{definition}
+
+\begin{proposition}[Candidate A status; Math65-Prop-A]
+\label{prop:math65-A-status}
+\textsc{SKELETON.}
+The Wirtinger derivative
+$\nabla_{\Psi^{\ast}} E_{\mathrm{cII}}^{(A)}$ reproduces the
+\emph{first} factor $\nabla\!\cdot\!\mathcal{J}_{T}$ of
+\eqref{eq:math65-impl} but fails to reproduce (i) the
+$q_{T}$-projected term $\nabla\!\cdot\!\mathcal{K}_{T}$, and
+(ii) the projector $(T\Psi - q_{T}\Psi)$ in the outer factor:
+the EL derivative of \eqref{eq:math65-EA} is proportional to
+$T\Psi$ alone.  Hence $E_{\mathrm{cII}}^{(A)}$ is an
+\emph{incomplete} parent; it captures the pure-$JJ$ sector only.
+\end{proposition}
+
+\subsection{Candidate B: density-normalised channel functional}
+\label{sec:candB}
+
+\begin{definition}[$E_{\mathrm{cII}}^{(B)}$]
+\label{def:math65-EcII-B}
+\begin{equation}
+E_{\mathrm{cII}}^{(B)}[\Psi]
+\;=\;
+\tfrac{1}{2}
+\sum_{T}\int_{V}\!d^{3}x\;
+\mathrm{pref}_{JJ}\,\rho(\Psi)\,
+\bigl|\nabla q_{T}(\Psi)\bigr|^{2}
+\;+\;
+\tfrac{1}{2}
+\sum_{T}\int_{V}\!d^{3}x\;
+\mathrm{pref}_{JK}\,
+\nabla\!\cdot\!\mathcal{K}_{T}\,\cdot\,q_{T}.
+\label{eq:math65-EB}
+\end{equation}
+\end{definition}
+
+\begin{proposition}[Candidate B status; Math65-Prop-B]
+\label{prop:math65-B-status}
+\textsc{SKELETON.}
+Using the identity $\nabla q_{T} = \mathcal{K}_{T}/\rho$ and
+$\rho |\nabla q_{T}|^{2} = \mathcal{K}_{T}\!\cdot\!\nabla q_{T}$,
+the Wirtinger derivative of the first term of
+\eqref{eq:math65-EB} generates
+$\nabla\!\cdot\!\mathcal{J}_{T} \cdot (T\Psi - q_{T}\Psi)$
+\emph{after} integration by parts, which is the $\mathrm{pref}_{JJ}$
+half of \eqref{eq:math65-impl}.  However, the mixed $JK$-term in
+\eqref{eq:math65-EB} is not symmetric under
+$T \leftrightarrow T^{\dagger}$ and introduces an anti-Hermitian
+artifact of order $\mathrm{pref}_{JK}^{2}\|\nabla q\|^{2}$; this
+is the candidate Case-2 pathology and its numerical magnitude is
+to be compared with $a_{\mathrm{cII}} = 4.357\times 10^{-7}$
+in the v0.2 closure.
+\end{proposition}
+
+\subsection{Candidate C: fully EL-consistent projected current}
+\label{sec:candC}
+
+\begin{definition}[$E_{\mathrm{cII}}^{(C)}$]
+\label{def:math65-EcII-C}
+\begin{equation}
+E_{\mathrm{cII}}^{(C)}[\Psi]
+\;=\;
+\tfrac{1}{2}
+\sum_{T}\int_{V}\!d^{3}x\;
+\rho(\Psi)\,
+\Bigl[
+\mathrm{pref}_{JJ}\,|\nabla q_{T}(\Psi)|^{2}
++
+\mathrm{pref}_{JK}\,\nabla q_{T}(\Psi)\!\cdot\!\nabla\log\rho(\Psi)
+\Bigr].
+\label{eq:math65-EC}
+\end{equation}
+\end{definition}
+
+\begin{proposition}[Candidate C status; Math65-Prop-C]
+\label{prop:math65-C-status}
+\textsc{SKELETON.}
+$E_{\mathrm{cII}}^{(C)}$ is manifestly real, the integrand is
+$\mathrm{Herm}(T)$-symmetric, and its Wirtinger derivative,
+computed via the chain rule on $q_{T} = \Psi^{\dagger}T\Psi /
+\Psi^{\dagger}\Psi$, produces a residual of the same functional
+form as \eqref{eq:math65-impl}, up to a boundary term that
+vanishes on the periodic BCC torus.  The two hypotheses
+\emph{Case 1} (assembly consistency --- $E_{\mathrm{cII}}^{(C)}$
+is the exact parent, $\Delta_{\mathrm{cII}} = O(\varepsilon_{\mathrm{fd}})$)
+and \emph{Case 2} (design mismatch ---
+$\Delta_{\mathrm{cII}} \sim a_{\mathrm{cII}}$) both remain open;
+their resolution is the content of Math64 §6.
+\end{proposition}
+
+% ============================================================
+\section{Helmholtz--Hodge obstruction analysis}
+\label{sec:hodge}
+
+The key structural question is: \emph{is the projected-divergence
+vector field
+$\mathbf{V}_{T}(\Psi) := \mathrm{pref}_{JJ}\,\mathcal{J}_{T}
++ \mathrm{pref}_{JK}\,\mathcal{K}_{T}$
+the gradient of a scalar potential on $\mathcal{H}$?}
+
+By the Helmholtz--Hodge decomposition on the 3-torus $(\mathbb{T}^{3})$,
+\begin{equation}
+\mathbf{V}_{T} \;=\; \nabla\phi_{T} \;+\; \nabla\!\times\!\mathbf{A}_{T}
+\;+\; \mathbf{h}_{T},
+\qquad
+\nabla\!\cdot\!\mathbf{h}_{T} = 0,\ \nabla\!\times\!\mathbf{h}_{T} = 0,
+\label{eq:math65-hh}
+\end{equation}
+and a variational parent $E_{\mathrm{cII}}$ whose gradient equals
+$\nabla\!\cdot\!\mathbf{V}_{T}\,\cdot\,(T\Psi - q_{T}\Psi)$ exists
+\emph{iff} the curl component $\nabla\!\times\!\mathbf{A}_{T}$
+vanishes in the $L^{2}$ sense.
+
+\begin{proposition}[Hodge obstruction $\Leftrightarrow$
+$a_{\mathrm{cII}}$; Math65-Prop-hodge]
+\label{prop:math65-hodge}
+\textsc{SKELETON.}
+Let
+$\mathcal{O}_{T}(\Psi) := \lVert \nabla\!\times\!
+\mathbf{V}_{T}(\Psi) \rVert_{L^{2}(\mathbb{T}^{3})}$.
+Then
+\begin{equation}
+a_{\mathrm{cII}}(\Psi)
+\;=\;
+\lVert B_{\mathrm{cII}}(\Psi) - B_{\mathrm{cII}}(\Psi)^{\top}
+\rVert_{F}
+\;\ge\;
+c_{0}\,
+\sum_{T}\mathcal{O}_{T}(\Psi)
+\label{eq:math65-obstruction}
+\end{equation}
+for an explicit geometric constant $c_{0} > 0$ depending only on
+the BCC spectral kernel of Math57 Add.~A.  Equality holds iff the
+prefactor matrix $(\mathrm{pref}_{JJ}, \mathrm{pref}_{JK})$ is
+rank-deficient.
+\end{proposition}
+
+\begin{corollary}[Structural reading; Math65-Cor-reading]
+\label{cor:math65-reading}
+\textsc{SKELETON.}
+Under Proposition~\ref{prop:math65-hodge},
+the thermal-seed observation
+$a_{\mathrm{cII}} = 4.357\times 10^{-7}$ (Math64 v1.1 Theorem
+\textsc{math64-full-sympd}) quantifies the $L^{2}$-norm of the
+Hodge curl component of $\mathbf{V}_{T}$ at that state; this is
+the \emph{operationally inert but structurally present} curl
+charge identified in the Math63 v1.7 Stage-$\alpha$ closure
+(Corollary \textsc{math63-2A3-solver-routing}).
+\end{corollary}
+
+% ============================================================
+\section{Decisive-test hook for Tools/check\_jacobian\_blocks.py v1.3}
+\label{sec:tool-hook}
+
+\begin{definition}[Canonical candidate and API contract; Math65-Def-API]
+\label{def:math65-cand-API}
+The canonical candidate fed to the v1.3 decisive probe is
+$E_{\mathrm{cII}}^{\mathrm{cand}} := E_{\mathrm{cII}}^{(C)}$.
+The tool exposes a pluggable override
+\texttt{--cII-energy-module MODULE:FUNC} which imports
+\texttt{FUNC(Psi\_t, params) -> torch.Tensor (real scalar)};
+default resolution points to
+\texttt{Tools.cII\_energy\_candidates.E\_cII\_C}.
+Given a candidate $E$, the tool computes
+\begin{equation}
+F_{\mathrm{cII}}^{\mathrm{grad}}(\Psi)
+\;=\;
+2\,\frac{\partial E[\Psi;\mathrm{params}]}
+       {\partial \Psi^{\ast}}
+\;=\;
+\texttt{torch.autograd.grad}(E, \Psi^{\ast})[0]
+\label{eq:math65-autograd}
+\end{equation}
+(the factor $2$ enforcing the Wirtinger normalisation of
+Math63 §2A.2 Lemma 2), and emits the observables
+$(\Delta_{\mathrm{cII}}, r^{\mathrm{impl}}, r^{\mathrm{grad}})$
+of Math64 §6 Eq.~\textsc{math64-decisive-observables}.
+\end{definition}
+
+\begin{remark}[Fallback ordering and acceptance]
+\label{rmk:math65-fallback}
+The tool runs all three candidates $\{A, B, C\}$ in sequence, and
+the test is considered \emph{conclusive} only if at least one
+candidate achieves
+$\max_{\Psi\in\{\mathrm{seed},\mathrm{thermal}\}}
+\Delta_{\mathrm{cII}}(\Psi)
+\le 10\,\varepsilon_{\mathrm{fd}}$,
+classifying Case 1 (assembly consistency, parent identified).
+If all three candidates yield
+$\Delta_{\mathrm{cII}} \sim a_{\mathrm{cII}}$, the decision flips
+to Case 2 (design defect, no variational parent in the bilinear
++ Hodge-compatible hypothesis class) and escalates to Math66
+(in-solver symmetrisation vs.\ sector rewrite).
+\end{remark}
+
+% ============================================================
+\section{Candidate $C$ post-run analysis (R-2026-04-22-004)}
+\label{sec:math65-run-C}
+
+The decisive test was executed via \texttt{Tools/check\_jacobian\_blocks.py}
+v1.3.1 with
+\[
+(N,\mu^{2},\text{candidate},\varepsilon_{\mathrm{fd}},a_{\mathrm{cII}}^{\mathrm{ref}})
+= (32,-0.5,\,E_{\mathrm{cII}}^{(C)},\,5\times 10^{-7},\,4.357\times 10^{-7})
+\]
+on the thermal seed of
+\texttt{PDE/config\_template\_brazovskii.json}; raw JSON output archived at
+\texttt{results/math64\_decisive\_cII\_test.json}. The triple
+$(\Delta_{\mathrm{cII}}, r^{\mathrm{impl}}, r^{\mathrm{grad}})$ of
+Eq.~\texttt{math64-decisive-observables} returned
+\begin{equation}
+\boxed{\;
+\lVert F_{\mathrm{cII}}^{\mathrm{impl}}\rVert_{F} = 1.265\times 10^{-4},\qquad
+\lVert F_{\mathrm{cII}}^{\mathrm{grad}(C)}\rVert_{F} = 1.057\times 10^{-2},\qquad
+\Delta_{\mathrm{cII}}^{(C)} = 1.057\times 10^{-2},
+\;}
+\label{eq:math65-run-C-norms}
+\end{equation}
+\begin{equation}
+r_{\mathrm{impl}}^{(C)} = \Delta_{\mathrm{cII}}^{(C)} / \lVert F^{\mathrm{impl}}\rVert = 83.59,\qquad
+r_{\mathrm{grad}}^{(C)} = \Delta_{\mathrm{cII}}^{(C)} / \lVert F^{\mathrm{grad}(C)}\rVert = 1.00009.
+\label{eq:math65-run-C-ratios}
+\end{equation}
+
+\begin{remark}[Near-orthogonality of the gradient-vs-implementation pair]
+\label{rem:math65-C-orthogonality}
+The value $r_{\mathrm{grad}}^{(C)} = 1.00009$ is not a small perturbation
+around a variational limit but its structural opposite. The polarisation
+identity
+\[
+\Delta_{\mathrm{cII}}^{2} = \lVert F^{\mathrm{impl}}\rVert^{2}
+                         + \lVert F^{\mathrm{grad}}\rVert^{2}
+                         - 2\,\mathrm{Re}\langle F^{\mathrm{impl}},F^{\mathrm{grad}}\rangle
+\]
+together with Eqs.~\eqref{eq:math65-run-C-norms},~\eqref{eq:math65-run-C-ratios}
+pins
+\begin{equation}
+\mathrm{Re}\bigl\langle F_{\mathrm{cII}}^{\mathrm{impl}},\,F_{\mathrm{cII}}^{\mathrm{grad}(C)}\bigr\rangle
+\;\approx\; -2\times 10^{-9},\qquad
+\cos\angle(F^{\mathrm{impl}},F^{\mathrm{grad}(C)})
+  \;=\; \frac{\mathrm{Re}\langle F^{\mathrm{impl}},F^{\mathrm{grad}(C)}\rangle}
+             {\lVert F^{\mathrm{impl}}\rVert\,\lVert F^{\mathrm{grad}(C)}\rVert}
+  \;\approx\; -1.5\times 10^{-3}.
+\label{eq:math65-C-cosine}
+\end{equation}
+Candidate $C$'s gradient is therefore essentially $L^{2}$-orthogonal to
+$F_{\mathrm{cII}}^{\mathrm{impl}}$ at the thermal seed. This rules out any
+interpretation of $E_{\mathrm{cII}}^{(C)}$ as "the variational parent modulo
+a small anti-Hermitian defect" and falsifies the a priori conjecture of
+Prop.~\texttt{math65-C-status} that $(C)$ would sit in the Case 1 / Case 2
+boundary.
+\end{remark}
+
+\begin{remark}[Magnitude stratification against the design-defect band]
+\label{rem:math65-C-magnitude}
+Proposition \texttt{math64-cii-surgery-gate} was calibrated to
+$\Delta_{\mathrm{cII}} \sim a_{\mathrm{cII}} = 4.357\times 10^{-7}$
+(Math64 Thm.~\texttt{math64-full-sympd}). The observed
+$\Delta_{\mathrm{cII}}^{(C)}$ exceeds this reference by
+\[
+\Delta_{\mathrm{cII}}^{(C)}/a_{\mathrm{cII}}
+ \;\approx\; 2.4\times 10^{4}.
+\]
+The "Case 2 — design defect" label emitted by the classifier is mechanically
+correct under the current threshold logic but semantically understates the
+severity: the signal lies four decades above the envisaged design-defect band
+and three decades above $\lVert F^{\mathrm{impl}}\rVert$ itself. This regime
+is designated \textbf{Case 2$^{\ast}$ (structural class mismatch)}, and must
+not be treated as interchangeable with the "small-ish anti-Hermitian defect"
+scenario originally imagined by Prop.~\texttt{math64-cii-surgery-gate}(2).
+\end{remark}
+
+% ============================================================
+\section{Triangulation mandate (T-A, T-B) and measure audit (M1--M3)}
+\label{sec:math65-triangulation}
+
+Remark~\ref{rem:math65-C-orthogonality} rules out $(C)$ as the variational
+parent; it does \emph{not}, on its own, rule out $(A)$ or $(B)$, nor does it
+establish that the scalar-$E_{\mathrm{cII}}$ class is globally insufficient.
+The Math66 operator-surgery escalation (in-solver symmetrisation, Math64
+§5(X)) is \emph{held} pending the following two-step closure.
+
+\begin{definition}[Candidate triangulation test, (T-A) and (T-B)]
+\label{def:math65-triangulation}
+The decisive test of Def.~\texttt{math64-decisive-test} is executed on each
+of
+\[
+E_{\mathrm{cII}}^{(A)}\quad\text{and}\quad E_{\mathrm{cII}}^{(B)}
+\]
+with the same $(N,\mu^{2},\text{seed},\varepsilon_{\mathrm{fd}},
+a_{\mathrm{cII}}^{\mathrm{ref}})$ as Eq.~\eqref{eq:math65-run-C-norms}.
+Denote the outputs
+$(\Delta^{(X)}, r^{\mathrm{impl},(X)}, r^{\mathrm{grad},(X)})$ for
+$X\in\{A,B\}$, and the implementation--gradient overlap cosines
+$\cos\theta^{(X)} = \mathrm{Re}\langle F^{\mathrm{impl}},F^{\mathrm{grad}(X)}\rangle
+ /(\lVert F^{\mathrm{impl}}\rVert\lVert F^{\mathrm{grad}(X)}\rVert)$.
+\end{definition}
+
+\begin{proposition}[Triangulation verdict logic]
+\label{prop:math65-triangulation-verdict}
+The Case classification of the $\{E_{\mathrm{cII}}^{(A,B,C)}\}$ class is
+sealed by the following trichotomy on $(T\text{-}A, T\text{-}B)$:
+\begin{enumerate}
+\item[(R)] \textbf{Rescue of the scalar-$E$ class.}  If
+  $\min_{X\in\{A,B\}} r^{\mathrm{impl},(X)} \le 10$ and $\Delta^{(X)} \le
+  10\cdot a_{\mathrm{cII}}^{\mathrm{ref}}$ for some $X$, then $(X)$ is the
+  variational parent and candidate $C$ is retracted; Math65 v0.2 proceeds on
+  $(X)$, and Math66 is \emph{not} required.
+\item[(I)] \textbf{Class insufficiency.}  If
+  $\min_{X\in\{A,B,C\}} r^{\mathrm{impl},(X)} \gtrsim 10^{2}$ (i.e.\ both
+  (A) and (B) fail in the same regime as $(C)$), the scalar-$E$ class
+  constructed in §2 does not contain $F_{\mathrm{cII}}^{\mathrm{impl}}$.
+  Math66 operator surgery (in-solver symmetrisation, Math64 §5(X)) is sealed
+  as mandatory for v2.6.0.
+\item[(S)] \textbf{Split with measure signature.}  If exactly one of
+  $(A),(B)$ yields $\cos\theta \approx \pm 1$ (alignment or anti-alignment)
+  while the other fails with $\cos\theta \approx 0$, a dimensional /
+  measure audit (Remark~\ref{rem:math65-measure-audit}) is the governing
+  next step rather than Math66 escalation.
+\end{enumerate}
+\end{proposition}
+
+\begin{remark}[Parallel measure audit (M1--M3)]
+\label{rem:math65-measure-audit}
+The ratio
+$\lVert F^{\mathrm{grad}(C)}\rVert / \lVert F^{\mathrm{impl}}\rVert \approx
+83.6$ does not match any simple lattice-geometric factor
+$(N,\sqrt{N},2,\pi,V_{\mathrm{BCC}}/V_{\mathrm{cubic}})$ at
+$N=32$. A code-level symbolic diff of
+\texttt{cII\_energy\_candidates.E\_cII\_C}
+vs
+\texttt{real\_backend\_pt\_bcc\_mixed\_v3.\_classII\_effective\_term\_t}
+is to be executed in parallel with (T-A)/(T-B), examining:
+\begin{enumerate}
+\item[(M1)] \textbf{Measure convention.} Unnormalised lattice sum
+$\sum_{\mathbf{x}}$ vs site-normalised $(1/V)\sum_{\mathbf{x}}$; the
+variational gradient acquires an extra $V = N^{3}$ factor at the site level
+if the two conventions disagree.
+\item[(M2)] \textbf{Channel-projector $\Pi_{\mathrm{channel}}$ omission.}
+$F^{\mathrm{impl}}$ multiplies the inner bracket by $\Pi_{\mathrm{channel}}$
+in \texttt{\_classII\_effective\_term\_t}; if
+$\partial E^{(C)}/\partial \Psi^{\ast}$ is computed without applying
+$\Pi_{\mathrm{channel}}$, the gradient acquires transverse components
+orthogonal to $F^{\mathrm{impl}}$, exactly consistent with
+Eq.~\eqref{eq:math65-C-cosine}.
+\item[(M3)] \textbf{Spectral-derivative / Gell-Mann prefactor.} Verify
+that the $\mathrm{pref}_{JJ}, \mathrm{pref}_{JK}$ of the backend are
+reproduced identically by the automatic differentiation of
+$E_{\mathrm{cII}}^{(C)}$; a missing $1/(2\pi)^{n}$ or $1/\sqrt{2}$ in the
+Gell-Mann trace normalisation, multiplied by the number of active su(3)
+channels and an $N^{1/2}$ FFT amplitude, can produce O(10) finite
+discrepancies.
+\end{enumerate}
+Hypothesis (M2) is the leading explanation consistent with the observed
+near-orthogonality Eq.~\eqref{eq:math65-C-cosine}: projector omission in
+$\partial/\partial \Psi^{\ast}$ \emph{predicts} a gradient that lives in the
+complement of the $F^{\mathrm{impl}}$ subspace, which is exactly what the
+data shows.
+\end{remark}
+
+\begin{remark}[Invariance of the seed-level solver routing]
+\label{rem:math65-routing-invariance}
+The Case verdict obtained from (T-A, T-B) does not alter the Math63
+\texttt{math63-2A3-solver-routing} seed-level conclusion that the inner
+solver defaults to PCG, because the relevant operator for that routing is
+the FULL Jacobian (Math64 Thm.~\texttt{math64-full-sympd}:
+$\rho_{\mathrm{FULL}} = 1.62\times 10^{-10} \le 10^{-8}$) and the
+Math65 candidate class operates on $F_{\mathrm{cII}}$ in isolation. Task
+\#104 (v2.6.0 Phase D wiring) proceeds under PCG default regardless of
+(T-A)/(T-B).
+\end{remark}
+
+% ============================================================
+\section{Sealed verdict: runs R-2026-04-22-005 and R-2026-04-22-006 and
+the branch-(I) selection}
+\label{sec:math65-sealed-verdict}
+
+\subsection{Run data for the triangulation candidates}
+
+Using \texttt{Tools/check\_jacobian\_blocks.py v1.3.1} and
+\texttt{Tools/cII\_energy\_candidates.py v0.1.1}, the decisive test
+\textsc{math64-decisive-test} was evaluated at the stored seed for
+candidate $A$ (run~R-2026-04-22-005) and candidate $B$
+(run~R-2026-04-22-006). The reported triples
+$\bigl(\|F_{\mathrm{cII}}^{\mathrm{impl}}\|_{F},
+\|F_{\mathrm{cII}}^{\mathrm{grad}}\|_{F},
+\Delta_{\mathrm{cII}}\bigr)$ and
+$(r^{\mathrm{impl}}, r^{\mathrm{grad}})$ were
+\begin{equation}
+\label{eq:math65-run-A-norms}
+\boxed{\;
+\begin{aligned}
+\|F_{\mathrm{cII}}^{\mathrm{impl}}\|_{F} &= 1.2647\times 10^{-4},\qquad
+\|F_{\mathrm{cII}}^{\mathrm{grad},(A)}\|_{F} = 6.6612\times 10^{-6},\\
+\Delta_{\mathrm{cII}}^{(A)} &= 1.2664\times 10^{-4},\qquad
+r^{\mathrm{impl}}_{(A)} = 1.0013,\qquad
+r^{\mathrm{grad}}_{(A)} = 19.011.
+\end{aligned}\;}
+\end{equation}
+\begin{equation}
+\label{eq:math65-run-B-norms}
+\boxed{\;
+\begin{aligned}
+\|F_{\mathrm{cII}}^{\mathrm{impl}}\|_{F} &= 1.2647\times 10^{-4},\qquad
+\|F_{\mathrm{cII}}^{\mathrm{grad},(B)}\|_{F} = 7.0425\times 10^{-3},\\
+\Delta_{\mathrm{cII}}^{(B)} &= 7.0441\times 10^{-3},\qquad
+r^{\mathrm{impl}}_{(B)} = 55.698,\qquad
+r^{\mathrm{grad}}_{(B)} = 1.0002.
+\end{aligned}\;}
+\end{equation}
+For candidate $C$ the previously recorded triple
+Eqs.~\eqref{eq:math65-run-C-norms}--\eqref{eq:math65-run-C-ratios}
+stands unchanged.
+
+\subsection{Directional overlap: the decisive polarisation identity}
+
+Applying the polarisation identity
+\begin{equation}
+\label{eq:math65-polarization}
+\Delta_{\mathrm{cII}}^{(X)\,2}
+\;=\;
+\|F^{\mathrm{impl}}\|^{2}
++\|F^{\mathrm{grad},(X)}\|^{2}
+-2\,\mathrm{Re}\langle F^{\mathrm{impl}},F^{\mathrm{grad},(X)}\rangle
+\end{equation}
+to each of \eqref{eq:math65-run-A-norms}, \eqref{eq:math65-run-B-norms},
+and Eq.~\eqref{eq:math65-run-C-norms} yields
+\begin{equation}
+\label{eq:math65-cos-triangulation}
+\boxed{\;
+\cos\theta^{(A)} \approx -1.27\times 10^{-2},\quad
+\cos\theta^{(B)} \approx -7.93\times 10^{-3},\quad
+\cos\theta^{(C)} \approx -1.55\times 10^{-3},\;}
+\end{equation}
+where
+$\cos\theta^{(X)} := \mathrm{Re}\langle F^{\mathrm{impl}},F^{\mathrm{grad},(X)}\rangle
+/(\|F^{\mathrm{impl}}\|\,\|F^{\mathrm{grad},(X)}\|)$.
+All three candidate gradients are $L^{2}$-orthogonal to
+$F_{\mathrm{cII}}^{\mathrm{impl}}$ to three significant figures across
+magnitude ratios
+$\|F^{\mathrm{grad},(X)}\|/\|F^{\mathrm{impl}}\| \in \{0.05,\ 55.7,\ 83.6\}$.
+
+\begin{remark}[False-rescue signature of candidate $A$]
+\label{rem:math65-A-false-rescue}
+The classifier inside
+\texttt{check\_jacobian\_blocks.py v1.3.1} reported
+$r^{\mathrm{impl}}_{(A)} = 1.0013$, i.e.\ the Math64 §6 Case-2 rescue
+signature $\Delta_{\mathrm{cII}} \approx a_{\mathrm{cII}}$.  This is
+a magnitude artefact, not a directional agreement: because
+$\|F^{\mathrm{grad},(A)}\| = 0.053\,\|F^{\mathrm{impl}}\|$, the
+polarisation identity \eqref{eq:math65-polarization} forces
+$\Delta_{\mathrm{cII}}^{(A)} \approx \|F^{\mathrm{impl}}\|$ for any
+directionally incoherent $F^{\mathrm{grad},(A)}$, independently of
+whether $(A)$ is the parent of $F^{\mathrm{impl}}$.  The true
+directional verdict is the orthogonality in
+Eq.~\eqref{eq:math65-cos-triangulation}, which rules out candidate $A$
+no less decisively than candidates $B$, $C$.  The classifier thresholds
+in tool v1.3.1 must therefore be augmented with
+$\cos\theta^{(X)}$ reporting; see
+Remark~\ref{rem:math65-tool-v1p4-weakness}.
+\end{remark}
+
+\subsection{Branch selection of Prop.~\ref{prop:math65-triangulation-verdict}}
+
+\begin{proposition}[Class insufficiency of the scalar-$E_{\mathrm{cII}}$ family]
+\label{prop:math65-class-insufficient}
+Let $\mathcal{E} := \{E^{(A)}[\Psi], E^{(B)}[\Psi], E^{(C)}[\Psi]\}$
+denote the three candidates constructed in §\ref{sec:math65-candidates}.
+Define the variational-gradient image
+$\mathcal{G}_{\mathcal{E}}[\Psi] := \{(\partial E/\partial \Psi^{\ast})[\Psi]
+: E \in \mathcal{E}\}$ evaluated at the stored seed $\Psi_{0}$.
+Then
+\[
+\min_{F \in \mathcal{G}_{\mathcal{E}}[\Psi_{0}]}
+\bigl|\cos\angle(F,\,F_{\mathrm{cII}}^{\mathrm{impl}}[\Psi_{0}])\bigr|
+\;\le\; 1.27\times 10^{-2},
+\]
+i.e.\ no element of the scalar-$E$ class $\mathcal{E}$ is directionally
+aligned with $F_{\mathrm{cII}}^{\mathrm{impl}}$.  Consequently, the
+Rescue branch (R) and the Split branch (S) of
+Prop.~\ref{prop:math65-triangulation-verdict} are falsified, and branch
+(I) Class Insufficiency is selected.
+\end{proposition}
+
+\begin{proof}[Sketch]
+Runs \eqref{eq:math65-run-A-norms}, \eqref{eq:math65-run-B-norms}, and
+Eq.~\eqref{eq:math65-run-C-norms} supply the three triples
+$(\|F^{\mathrm{impl}}\|,\|F^{\mathrm{grad},(X)}\|,\Delta^{(X)})$.
+The polarisation identity \eqref{eq:math65-polarization} provides each
+$\cos\theta^{(X)}$, yielding \eqref{eq:math65-cos-triangulation}. The
+minimum over $X \in \{A,B,C\}$ of $|\cos\theta^{(X)}|$ is
+$1.27\times 10^{-2}$, attained at $X=A$.  Directional disagreement of
+this magnitude precludes $F^{\mathrm{impl}}$ from belonging to the
+gradient image $\mathcal{G}_{\mathcal{E}}[\Psi_{0}]$; both (R) and (S)
+require at least one candidate to be collinear with $F^{\mathrm{impl}}$
+modulo an anti-Hermitian defect. \qed
+\end{proof}
+
+\begin{remark}[Empirical realisation of the Helmholtz--Hodge obstruction]
+\label{rem:math65-hodge-realised}
+Prop.~\ref{prop:math65-hodge} predicted that the implementation current
+$F_{\mathrm{cII}}^{\mathrm{impl}} = \sum_{T}[p_{JJ}\nabla\!\cdot\! J
++ p_{JK}\nabla\!\cdot\! K]\,(T\Psi - q\Psi)$ is a scalar--vector tensor
+contraction whose Wirtinger-exterior-derivative fails to close. Runs
+(004)--(006) realise this obstruction empirically: the projection of
+$F^{\mathrm{impl}}$ onto the class of exact 1-forms generated by
+$\mathcal{E}$ is negligible (cosine $\le 1.27\times 10^{-2}$), and the
+residual lies in the orthogonal (co-exact $\oplus$ harmonic) complement.
+\end{remark}
+
+\begin{corollary}[Math66 operator-surgery mandate and Path-(X)/(Y) recommendation]
+\label{cor:math65-math66-mandate}
+Because branch (I) of Prop.~\ref{prop:math65-triangulation-verdict} is
+selected, the cII sector does not admit a scalar variational parent in
+the class $\mathcal{E}$, and the Case-1/Case-2 surgery gate of Math64 §6
+must be replaced by operator-level surgery.  The two executable
+pathways introduced in Math64 §5 apply:
+\begin{itemize}
+\item[(X)] \emph{In-solver Hermitian projection.} Replace $J_{\mathrm{cII}}$
+by $\tfrac{1}{2}(J_{\mathrm{cII}}+J_{\mathrm{cII}}^{\dagger})$ inside the
+Newton--Krylov preconditioner; legitimised by
+Thm.~\texttt{math64-full-sympd} ($\rho_{\mathrm{FULL}}=1.62\times 10^{-10}$),
+which establishes that the full Jacobian is already SYM-PD without the
+cII anti-Hermitian part dominating.  Computational overhead: one extra
+adjoint multiply per Krylov step, $O(N\log N)$.
+\item[(Y)] \emph{Sector rewrite.} Rewrite the $(T\Psi-q\Psi)$ projector
+in Eq.~(\ref{eq:math64-cII-impl}) so that
+$p_{JJ}\nabla\!\cdot\! J + p_{JK}\nabla\!\cdot\! K$ appears as a
+derivative of a \emph{vector} potential, yielding a closed
+Euler--Lagrange system with an auxiliary field.  Requires the
+Brazovskii-type fluctuation analysis of Math62, and is a
+research-scale change.
+\end{itemize}
+\noindent\textit{Recommendation for v2.6.0 operational closure under
+Task \#104:} adopt Path (X); defer Path (Y) to a separate research
+track (candidate Math66--Y v0.1, status \emph{open}).  This split allows
+Task \#104 Phase D to consume an operationally sound symmetrised cII
+block without waiting for the Brazovskii--potential derivation, while
+retaining the open path toward a variational cII sector in the TOE
+programme.
+\end{corollary}
+
+\begin{remark}[Tool v1.3.1 classifier weakness and v1.4 mandate]
+\label{rem:math65-tool-v1p4-weakness}
+The Case-verdict classifier in
+\texttt{Tools/check\_jacobian\_blocks.py v1.3.1} is a scalar test based
+on $(\Delta_{\mathrm{cII}}, r^{\mathrm{impl}}, r^{\mathrm{grad}})$
+alone. Remark~\ref{rem:math65-A-false-rescue} shows this is insufficient:
+when $\|F^{\mathrm{grad},(X)}\|$ is much smaller than
+$\|F^{\mathrm{impl}}\|$, the polarisation identity
+\eqref{eq:math65-polarization} forces a false Case-2 signature.
+Tool version v1.4 must (i) compute and report
+$\cos\theta^{(X)}$ as a first-class field, (ii) emit a Case-0
+verdict (``directional orthogonality; candidate outside the
+variational class'') when
+$|\cos\theta^{(X)}| < 10^{-2}$ \emph{and}
+$\Delta^{(X)}/\max(\|F^{\mathrm{impl}}\|,\|F^{\mathrm{grad},(X)}\|) > 0.95$,
+and (iii) upgrade the JSON payload with a \texttt{cos\_theta} key
+alongside \texttt{r\_impl} and \texttt{r\_grad}.  Until v1.4 lands,
+interpretation of v1.3.1 output must be cross-checked by hand against
+\eqref{eq:math65-polarization}.
+\end{remark}
+
+% ============================================================
+\section{Conclusion and hand-off}
+
+This skeleton fixes the notational frame, exhibits three candidate
+parents $E_{\mathrm{cII}}^{(A,B,C)}$, quantifies the Helmholtz--Hodge
+obstruction in terms of $a_{\mathrm{cII}}$, and specifies the API
+contract consumed by \texttt{Tools/check\_jacobian\_blocks.py v1.3}.
+Propositions \textsc{math65-A-status}, \textsc{math65-B-status},
+\textsc{math65-C-status}, \textsc{math65-hodge}, and the
+Corollary \textsc{math65-reading} are \emph{declared but not
+proven}; their proofs occupy Math65 v0.2, which is written
+\emph{after} the tool returns
+$(\Delta_{\mathrm{cII}}, r^{\mathrm{impl}}, r^{\mathrm{grad}})$
+for $\Psi \in \{\text{seed}, \text{thermal}\}$ at each
+$\mu^{2} \in \{-1.0,-0.8,-0.6,-0.4,-0.2,-0.1\}$.
+
+\vspace{0.5em}
+\noindent\textbf{Open items for v0.2.}
+(i) Proofs of Propositions \textsc{math65-A/B/C-status} via direct
+Wirtinger computation.
+(ii) Proof of the Hodge obstruction bound
+\eqref{eq:math65-obstruction} with explicit constant $c_{0}$.
+(iii) Integration of the decisive test results into the final
+verdict, retiring either the ``assembly bug'' or the ``design
+defect'' branch per Math64 \textsc{math64-cii-surgery-gate}.
+(iv) Sync entry in \texttt{docs/status/TECT-Theory-Code-Sync.md}
+post-closure.
+
+\vspace{0.5em}
+\noindent\textbf{v0.1.2 update (2026-04-22).}  Run R-2026-04-22-004
+executed the decisive test on candidate $C$ and obtained the triple
+Eqs.~\eqref{eq:math65-run-C-norms}--\eqref{eq:math65-run-C-ratios},
+falsifying $(C)$ as the variational parent at the seed with a
+near-orthogonality signature (Remark~\ref{rem:math65-C-orthogonality})
+and a four-decade magnitude excess over the envisaged design-defect
+band (Remark~\ref{rem:math65-C-magnitude}).  The v0.2 verdict is
+\emph{suspended} pending the outcome of the (T-A), (T-B) triangulation
+of Prop.~\ref{prop:math65-triangulation-verdict} and the parallel
+measure audit (Remark~\ref{rem:math65-measure-audit}).  Hypothesis (M2)
+--- channel-projector omission in
+$\partial E^{(C)}/\partial \Psi^{\ast}$ --- is the leading candidate
+explanation consistent with
+Eq.~\eqref{eq:math65-C-cosine}, and its verification is a code-level
+symbolic check independent of further tool runs.  Math66 operator
+surgery is \emph{held} until Prop.~\ref{prop:math65-triangulation-verdict}
+selects between the Rescue, Class-insufficiency, and Split branches.
+
+\vspace{0.5em}
+\noindent\textbf{v0.1.3 update (2026-04-22, sealed).}  Runs
+R-2026-04-22-005 and R-2026-04-22-006 executed the decisive test on
+candidates $A$ and $B$ and yielded
+Eqs.~\eqref{eq:math65-run-A-norms}--\eqref{eq:math65-run-B-norms}.
+Combined with Eq.~\eqref{eq:math65-run-C-norms}, the polarisation
+identity \eqref{eq:math65-polarization} produces the cosine triple
+\eqref{eq:math65-cos-triangulation}: all three candidate gradients are
+$L^{2}$-orthogonal to $F_{\mathrm{cII}}^{\mathrm{impl}}$.
+Prop.~\ref{prop:math65-class-insufficient} seals branch (I) Class
+Insufficiency of Prop.~\ref{prop:math65-triangulation-verdict}; the
+Rescue and Split branches are falsified.  The scalar-$E$ class
+$\mathcal{E}$ does not contain $F_{\mathrm{cII}}^{\mathrm{impl}}$ at
+the seed.  Math66 operator surgery is \emph{mandatory}; Cor.\
+\ref{cor:math65-math66-mandate} recommends Path (X) in-solver
+Hermitian projection as the operational closure for v2.6.0 Phase D
+under Task \#104, legitimised by Thm.~\texttt{math64-full-sympd}
+($\rho_{\mathrm{FULL}} = 1.62\times 10^{-10}$). Path (Y) sector
+rewrite is deferred to a separate research track.  The
+false-rescue signature reported for candidate $A$ by the v1.3.1
+classifier is documented in Remark~\ref{rem:math65-A-false-rescue};
+Tool v1.4 mandate (Remark~\ref{rem:math65-tool-v1p4-weakness}):
+first-class $\cos\theta$ reporting with a Case-0 orthogonality
+verdict.
+
+\end{document}
