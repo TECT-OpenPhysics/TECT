@@ -125,6 +125,16 @@ work. This is a §4 acceptance-gate item.
 - **Substantive layer (English LaTeX, paste-ready)**: theorems, derivations, code, paper drafts.
 - **Always close with**: (i) what this result means; (ii) what the next mainline step should be; (iii) which pillar / Math60-A..E this advances.
 
+### 5.1 Output-language policy (binding from 2026-04-29)
+
+Every persisted artefact in the repository — Math notes, code, code comments / docstrings, policy documents, post-mortems, CHANGELOG entries, generated `Website/data/*.js`, narrative `Website/data/_narrative/*.md`, page wrappers `Website/*.html` — MUST be written in **English only**. Korean is reserved for the conversational layer; it MUST NOT appear in any tracked file.
+
+- Website tier (`Website/data/*.js`, `Website/data/_narrative/*.md`, `Website/*.html`) is enforced as a **hard error** by `Codes/tools/verify_website.py check_korean_text` (binding via §6.3.7).
+- Docs / Codes / CHANGELOG tier is enforced as a **warning** by the same check; the operator translates and re-runs.
+- Read-only historical archives (`Website/assets/math/TECT-Math*-KOREAN-SUMMARY.txt`) are exempt; new content overwriting them MUST be English.
+
+Full schema and rationale: `Docs/policy/OUTPUT_LANGUAGE_POLICY.md`.
+
 ---
 
 ## 6. Audit discipline (post-2026-04-24)
@@ -248,6 +258,35 @@ The helper is **defensive**: every persistence call is `try/except`-wrapped; the
 **Cluster lesson**: The 53.9 h `math82H_phase2_mu2_-0.7_N32_v266d` run demonstrated the cost of a missing reproducibility trace — the full Newton-Krylov 25-step time-series existed only in operator stdout and required retroactive transcription. Driver v2.6.7 + record_run.py v1.0 prevent this for all future runs.
 
 **Cross-references**: `Codes/pde/record_run.py` (helper), `Codes/pde/RESULT_TEMPLATE.md` (RESULT.md standard), `Docs/policy/NUMERICAL_RUN_RECORDING.md` (full policy).
+
+### 6.3.7 Pre-commit completeness verification (NEW, 2026-04-29 user policy)
+
+**Trigger**: 2026-04-29 — Results page rendered empty due to JS-string escape bug; user discovered the failure, not pre-commit verification. Reference incident: `Docs/postmortem/2026-04-29-results-empty-and-notes-broken.md`.
+
+**Binding rule**: Every commit that touches `Website/` (any file under `Website/data/`, `Website/assets/`, `Website/*.html`) OR `Codes/tools/generate_website.py` OR `Codes/tools/verify_website.py` MUST run
+
+```bash
+python -u Codes/tools/verify_website.py
+```
+
+and reach **exit code 0** before `git commit`. Warnings do not block commit but should be addressed promptly.
+
+**Defect classes checked** (will grow as new failures are observed; see `Docs/policy/POSTMORTEM_RECURRENCE_POLICY.md` §3):
+
+- JS-string escape bugs (`(?<!\\)href="` inside `window.TECT_<NAME>` data files)
+- Full JS parse via `node --check` (when node available)
+- Broken download links (`href="assets/X"` resolves to existing file)
+- Missing HTML wrappers (every `Website/data/<page>.js` has `Website/<page>.html`)
+- Stale `Website/assets/manifest.json` (declared count ≠ actual file count)
+- Stale auto-generated pages (declared source-count ≠ actual canonical source count)
+- Empty `TECT_<NAME>.blocks: []` (silent-fail rendering symptom)
+
+**Failure mode**: a commit that ships with `verify_website.py` failing is automatically AUDIT-FLAGGED on first review and must be reverted or fixed in the next commit. The verifier helper is **defensive-by-default** (reports issues, never modifies files except `--regen-manifest`).
+
+**Post-mortem requirement**: when a user reports a website defect that escaped pre-commit verification, the immediate next commit MUST include (i) a post-mortem note at `Docs/postmortem/YYYY-MM-DD-<descriptor>.md`, (ii) a new check in `verify_website.py` that catches the same defect class, (iii) the fix itself. All three in one atomic commit.
+
+**Cross-references**: `Codes/tools/verify_website.py` (helper), `Docs/policy/POSTMORTEM_RECURRENCE_POLICY.md` (full policy + workflow), `Docs/policy/WEBSITE_AUTO_SYNC.md` (per-page sync table).
+
 ### 6.4 3-part traceability chain
 
 Every change records (cause, evidence/failure log, decision chain) with

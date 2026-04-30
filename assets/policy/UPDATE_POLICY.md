@@ -598,6 +598,98 @@ Violations of §11 are tracked as `D-` (dead-end / discipline)
 entries in `NEGATIVE-RESULTS.md` — the pattern "AI silently edited
 paper prose" is itself a recorded mistake to avoid.
 
+### 11.5 Papers catalogue admission rule (binding from 2026-04-28)
+
+The `Website/data/papers.js` index — which serves as the public
+"Papers (complete proof catalogue)" page — is governed by a
+strict ADMISSION RULE that complements the manual-authorship rule
+above:
+
+**Admission criteria.** A research item (Math note, derivation,
+result, claim) may be listed in `papers.js` if AND ONLY IF it has
+cleared **all three** of:
+
+  (i)   its CLAUDE.md §6.3 devil's-advocate self-test;
+  (ii)  any reviewer audit dispatched against it (with VALID/UPHELD
+        objections resolved or with status downgraded to honest scope);
+  (iii) any cross-turn §6.3.2 second-order audit affecting it.
+
+**Forbidden inclusions.** The following content classes MUST NOT
+appear in `papers.js`:
+
+  - In-progress proofs / OUTLINE-status notes whose §6.3 self-test
+    has not been performed.
+  - AUDIT-FLAGGED notes (any note carrying an `AUDIT-STATUS BANNER`).
+  - FALSIFIED claims (notes whose central theorem has been disproved).
+  - Conjectural research programmes (status `CONJECTURAL` or
+    `PARTIAL` with significant residual hypothesis weight).
+  - Status downgrades pending in NEGATIVE-RESULTS.md.
+
+**Promotion / retraction discipline.** When a research item
+PROMOTES from in-progress / audit-flagged → fully verified, it is
+admitted to the catalogue in the SAME atomic-write commit that
+records the promotion (per §3 atomic-write rule + §15 chat-archival).
+Conversely, if a previously-admitted item is RETRACTED by a later
+audit, it is REMOVED from the catalogue and migrated to
+`NEGATIVE-RESULTS.md` in the same commit. The catalogue therefore
+presents a SNAPSHOT of currently-validated TECT research, with full
+audit traceability via `EVIDENCE-INDEX.md` and `NEGATIVE-RESULTS.md`.
+
+**Scope of the rule.** Applies to:
+  - `Website/data/papers.js` — the seventeen pillar-grade papers,
+    auxiliary entries, top-impact verified-proof table, and
+    chronological catalogue cards.
+  - Any future Papers-page derivatives.
+
+Does NOT apply to:
+  - `Docs/status/EVIDENCE-INDEX.md` — that is a navigation index of
+    ALL claims (verified, conditional, retracted alike) with explicit
+    status flags.
+  - `Docs/status/NEGATIVE-RESULTS.md` — that is the dedicated home of
+    retracted / audit-flagged content.
+  - `Docs/status/OPEN-QUESTIONS.md` — active work tracking.
+  - Math notes themselves (each carries its own status banner and is
+    preserved as a permanent historical record).
+
+**Honest-scope companion (§6.1) requirement.** When a status
+downgrade fires, the PROMOTION audit-trail in `EVIDENCE-INDEX.md`
+must record the demotion in the same commit as the `papers.js`
+removal; the demotion-side entry in `NEGATIVE-RESULTS.md` must
+include explicit (cause, evidence/failure log, decision chain) per
+§9. This guarantees that no claim ever silently disappears from
+the public Papers catalogue.
+
+**Examples of correct application** (post-Math209, 2026-04-28):
+
+  - The Math202-205 cluster ATTEMPTED to establish flat-Cartan
+    forcing for Pillar 4 sub-task 2. Math208 audit-flagged Math203/
+    204/205. Math209 confirmed Math203 c_1=0 conclusion FALSIFIED.
+    Result: these notes are NOT listed in `papers.js`; they are
+    instead recorded in `NEGATIVE-RESULTS.md` (R-2026-04-28-Math209-
+    Math203-c1-Forcing-Falsified). The Pillar 4 paper (Paper 4) in
+    `papers.js` cites the post-R8 baseline (Math162+Math167 +
+    Math191/192 canonical realisation), NOT the Math202-205 cluster.
+
+  - Math200 main note + Math200-AddA y_t portion + Math200-AddB ℏ_B
+    portion are AUDIT-FLAGGED. Result: NOT listed in `papers.js`
+    catalogue. Math200-AddA's g_1 sign correction (the verified part)
+    + Math200-AddB's proxy-paradigm-void main conclusion (the verified
+    part) ARE listed. Mixed-status notes are split at the paragraph
+    level, with audit-flagged parts excluded.
+
+  - Math202 v1.1 cleared the reviewer's three minor revisions.
+    Result: LISTED in `papers.js` Top-impact verified proofs (#10).
+
+### 11.6 Enforcement of §11.5
+
+Violations of §11.5 (e.g., listing an audit-flagged note in
+`papers.js` without resolving its conditional, or failing to remove
+a retracted note) are tracked as `D-` (dead-end / discipline)
+entries in `NEGATIVE-RESULTS.md`. The 2026-04-28 reviewer audit's
+identification of the over-optimistic Math202-207 inclusion in the
+roadmap is the canonical exemplar of the failure mode this rule
+prevents.
+
 ---
 
 ## 12. Automation tooling
@@ -862,17 +954,4 @@ until the retroactive archival is committed.
 At the end of each substantive session, the AI must verify:
 
 1. Every `\boxed{}` displayed in chat is on disk.
-2. Every theorem/lemma displayed is on disk.
-3. Every numerical extraction result is in a `Codes/supplementary/`
-   script and a Math-note interpretation.
-4. Every audit verdict has a NEGATIVE-RESULTS entry.
-
-If any item fails verification, the AI emits a one-line acknowledgement
-and creates the missing archive in a follow-up commit before the
-session can be considered complete.
-
-### 15.8 Incident reference
-
-The 2026-04-24 user feedback "이 내용을 내가 편집하고 있지 않으니 직접
-문서화해서 관리해주도록 해줘" is the canonical incident motivating §15.
-The chat-only convergence diagnostic for the deep-endpoin
+2. Every

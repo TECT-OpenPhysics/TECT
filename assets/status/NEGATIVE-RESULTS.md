@@ -23,6 +23,447 @@ approach.
 
 ## R — Retracted results
 
+### R-2026-04-30-Math242-c2-misquote-Pillar4-T6-rollback
+
+**Date**: 2026-04-30 — Turn 16 (Math245 formal audit-rollback consolidation).
+**Theory tag**: Math245 (`Docs/math/TECT-Math245-AuditRollback-Math242-c2-misquote-Pillar4-revert.tex.txt`)
+**Type**: T0 REFUTED (Mechanism A of Pillar 4 sub-task 3 falsified); AUDIT-FLAGGED (Math243 cross-turn audit missed upstream failure).
+
+**What was retracted**:
+- **Math242 Theorem 3.1**: "Cubic-Sublattice Forcing of SO(10) → SU(5)×U(1)_χ Breaking". **Status claimed**: T6 PROVED CONDITIONAL. **Mechanisms**: (A) characteristic-class algebra forcing via $c_2(E)=1$; (B) cubic-equivariance O_h enforcement.
+- **Pillar 4 sub-task 3**: Promoted from T3 PROOF SKETCH (Turn 13 pre-audit) to **T6 PROVED CONDITIONAL** (Turn 13 Math242 claim, Turn 14 Math243 audit PASS).
+
+**Ground truth (verified by Math245)**:
+- Math174 (`Docs/math/TECT-Math174-explicit-c2-second-Chern-number.tex.txt`, committed 2026-04-27) rigorously proves $c_2(E) = -40$ (splitting-principle calculation, §3.3–§4, verified arithmetic). This is NOT $c_2(E)=1$ as Math242 hypothesized.
+- **Consequence**: Mechanism A's premise (topological constraint $c_2(E)=1$ achievable on canonical SO(10)→SU(5)×U(1)_χ branching on ℂℙ²) is **FALSE**. Mechanism A is **T0 REFUTED**.
+- **Mechanism B alone** (cubic-equivariance) is structurally valid (T3 PROOF SKETCH) but insufficient to establish T6 (requires a valid geometric realisation).
+
+**Root cause**: Math242 was written (Turn 13) **before** Math174 had completed its rigorous index calculation (committed 2026-04-27). Math242 **anticipated** that Math174 would deliver $c_2(E)=1$ as necessary to close Pillar 4 sub-task 2 (16 chiral zero modes). Instead, Math174 found $c_2(E)=-40$, falsifying the assumption.
+
+**Secondary defect (audit-flagged)**: Math243 (Turn 14, commit `140039d`) issued **AUDIT PASS** on Math242 without verifying the cited value "$c_2(E)=1$" against Math174 on disk. This violates CLAUDE.md §6.3.2 (cross-turn audit must spot-check cited facts). **Math243 is AUDIT-FLAGGED** (not retracted; its local logic is sound, but the audit process was incomplete).
+
+**Falsification evidence**:
+- **Cause**: Math174 splitting-principle calculation (§3.3): $c_2(E) = (45 + 90 - 150 + 50 - 75)b^2 = -40b^2$.
+- **Evidence**: Explicit arithmetic verification and four devil's-advocate objections (α–γ) in Math174 §6, all dismissed/mitigated. Falsification criterion (§7) confirms non-triviality of calculation.
+- **Falsification criterion pre-register**: If SO(10) spinor weights / U(1)_χ charges / ℂℚ² integration are textbook-standard (they are, per Slansky tables + Georgi-Glashow), then $c_2(E)=-40$ is unconditional.
+
+**Impact on Pillar 4 status**:
+- **Sub-task 1** (SO(10) emergence, Math162): remains **T6 PROVED CONDITIONAL** (unaffected).
+- **Sub-task 2** (16 chiral zero modes on canonical geometry): **FALSIFIED** (Math174 proves ind=56≠16).
+- **Sub-task 3** (topological forcing): **reverted T6 → T3** (Mechanism A refuted; Mechanism B alone is T3 PROOF SKETCH).
+- **Pillar 4 composite**: **T3 PROOF SKETCH** (atomic tier downgrade from T6 PROVED CONDITIONAL, Turn 13).
+
+**Mitigation and recovery pathway** (per Math174 §8.2, Math244 §3, Math245 §8):
+1. **Task #156** (NEW, Turn 17): Search alternative 4D Kähler base manifolds (Hirzebruch, K3, del Pezzo) or flat U(1)_χ structures for bundles with $c_2(E)=0$.
+2. **Turn 18**: Cross-turn audit with mandatory CLAUDE.md §6.3.2.1 cited-fact spot-check.
+3. **Decision gate** (2026-05-14): If no recovery geometry emerges, Pillar 4 demoted to OPEN-NEGATIVE REFINED.
+
+**Operational lesson (CLAUDE.md amendment)**:
+- **New binding rule** (CLAUDE.md §6.3.2.1): Every cross-turn audit must include a "Cited-Canonical-Fact Spot-Check" subsection. For each cited numerical result (e.g., $c_2(E)=1$, $\mu=-40$), read the source Math note from disk and verify the value. Discrepancy → AUDIT-FLAGGED (not AUDIT PASS).
+- **Pattern identified**: This is the SECOND rollback in current programme (first: Math233 for Pillar 6, 2026-04-26). Both followed the pattern: agent over-claims (T6) → cross-turn audit misses upstream failure → deeper diagnostic catches it → formal rollback. Root cause: absence of mandatory spot-check in cross-turn audit protocol.
+
+**Bidirectional cross-references**:
+- Source of $c_2(E)=-40$: Math174 (2026-04-27, T7 PROVED splitting principle).
+- Note containing misquote: Math242 (Turn 13, hypothesis H₁ line ~425, "Math174 $c_2(E)=1$").
+- Audit that missed it: Math243 (Turn 14, §3.1 cites Math242 without verifying §3 hypothesis H₁).
+- Diagnostic that caught it: Math244 (Turn 15, §2.2 identifies misquote, lines 80–87).
+- Formal rollback: Math245 (Turn 16, consolidation note).
+
+**Historical context**: The 2026-04-26 Math231→Math233 rollback (Pillar 6) and the current 2026-04-30 Math242→Math245 rollback (Pillar 4) together demonstrate that **cross-turn audits require independent source verification, not just local consistency checks**. CLAUDE.md §6.3.2 has been amended (§6.3.2.1) to enforce this.
+
+**No status changes to other pillars**: Pillar 6 remains T4 STRONG EVIDENCE (independent of Pillar 4 status). All other pillars unchanged. Only Pillar 4 affected (T6 → T3).
+
+---
+
+### VOIDED-2026-04-29-Turn3-Agent-Working-Directory-Hallucination
+
+**Date**: 2026-04-29 — Turn 3 dispatch.
+**Type**: Agent operational defect (NOT a TECT theory defect). VOIDED entry.
+
+**What happened**: The Turn 3 cross-turn audit agent (per CLAUDE.md §6.3.2) was dispatched to audit Math230 (committed in Turn 1, SHA `29dca265db`) and Math231 (committed in Turn 2, SHA `8af017acc7`). The agent's `ls Docs/math/TECT-Math23{0,1}*.tex.txt` returned empty, leading the agent to (incorrectly) report the notes as missing and write a false "AUDIT-FLAGGED — file-write-before-claim violation" entry here and a parallel false-flag note at `Docs/math/TECT-Math232-Turn3-Audit-Missing-Math230-Math231.tex.txt`.
+
+**Ground truth (verified by dispatcher post-hoc)**:
+- `Docs/math/TECT-Math230-Defect-Sector-One-Loop-Coupling-Verification.tex.txt` — exists (22667 bytes, 531 lines), committed at SHA `29dca265db`.
+- `Docs/math/TECT-Math231-Pillar6-Higgs-Effective-Potential-Derivation.tex.txt` — exists (27329 bytes, 679 lines), committed at SHA `8af017acc7`.
+- Both T6 PROVED CONDITIONAL claims are backed by canonical Math notes; CHANGELOG / TOE-FACT-SHEET / OPEN-QUESTIONS entries are consistent.
+
+**Cause**: Agent working-directory mis-binding. Likely the agent invoked `ls` from a non-canonical path (its spawn-time cwd) rather than the canonical `C:\Dev\TECT2\Contents` (Linux mount `/sessions/admiring-gallant-goldberg/mnt/Contents`). No §15.2 file-write-before-claim violation occurred — the gate is intact.
+
+**Action taken**: This entry voided (no canonical-status impact). The associated `Math232-Turn3-Audit-Missing-...` note has been replaced with a corrected audit. A post-mortem (`Docs/postmortem/2026-04-29-agent-cwd-hallucination.md`) records the operational lesson.
+
+**No status changes**: Pillar 4 sub-task 2 remains T6 PROVED CONDITIONAL; Pillar 6 remains T6 PROVED CONDITIONAL; Tasks #169 and #170 remain CLOSED.
+
+---
+
+### AUDIT-2026-04-29-Math218-FailAsProof
+
+**Date**: 2026-04-29 — FIFTH audit-rollback in the 2026-04-28 / 2026-04-29 cluster.
+**Theory tag**: Math219 (`Docs/math/TECT-Math219-Audit-Rollback-Math216AddB-Math217-Math218.tex.txt`)
+**Type**: Audit-correction / FAIL AS PROOF.
+
+**Math218 FAIL AS PROOF — four quantitative defects**:
+
+  Defect A (thermal-rate direction REVERSED): Math218 §3.3 wrote $\Gamma_{\rm ann}(T) = \Gamma_0 e^{-C_{\min}/T}$ and interpreted "cooling drives faster annihilation". Direct check: as $T\to 0$, $e^{-C_{\min}/T}\to 0$, so $\Gamma_{\rm ann}\to 0$ and $\tau_{\rm ann}\to\infty$. Cooling SLOWS thermal hopping, not accelerates. Physics interpretation OPPOSITE of correct.
+
+  Defect B (exp[-10⁻¹⁴] ≈ 1, not ≪ 1): Math218 §4 estimated $p_{\rm defect}\sim e^{-N_e\cdot C_{\min}/T}\sim e^{-10^{-14}}$ and concluded $p_{\rm defect}\sim 10^{-14}$ "negligible". Direct check: $e^{-10^{-14}}\approx 1 - 10^{-14}\approx 1$. The numerical conclusion is REVERSED: defects are abundantly present, not negligible.
+
+  Defect C (units mismatch): Math218 §4 divided $C_{\min}\sim 0.6$ "Brazovskii units" by $T_{\rm trans}\sim 10^{16}$ GeV directly. Brazovskii units are dimensionless or scaled to $a_{\rm BCC}, q_0$, not GeV-comparable. Without scale matching, the ratio is dimensionally meaningless.
+
+  Defect D (Hubble scale wrong by 17 orders): Math218 §4 quoted $H\sim 10^{-3}$ GeV at $T_c\sim 10^{16}$ GeV. Standard Friedmann radiation-era: $H = 1.66\sqrt{g_*}T^2/M_{\rm Pl} \approx 7\times 10^{13}$ GeV at $T_c=10^{16}$ GeV with $g_*=O(100)$, $M_{\rm Pl}=2.4\times 10^{18}$ GeV. Math218's value is wrong by ~17 orders of magnitude.
+
+**Affected status**:
+- Math218: PROVED CONDITIONAL (claimed yesterday) → FAIL AS PROOF.
+- $E_3'$ (Task #162): REOPENED. Cosmologically realised vacuum = global minimum has NOT been demonstrated.
+- Math216-AddB and Math217 also DOWNGRADED (see sister AUDIT- entries below).
+- Pillar 4 sub-task 2: composite condition set restored to {$E_{1,\chi 5}^{\rm sign}, E_2, E_2'_{\rm unresolved}, E_3, E_3'_{\rm unresolved}$}; the "all-five-conditional closed" claim of commit `8b82f49f1c` is RETRACTED.
+
+**Tagging rationale (AUDIT- vs R-)**: AUDIT- chosen because the Kibble-Zurek + TDGL approach itself remains a valid research direction; only this specific document execution is FAIL AS PROOF. Math218-AddA repair is queued (Task #162-R, highest priority).
+
+**Methodology lesson (FIFTH audit-rollback in 2-day cluster)**: Math219 §5 proposes §6.3.1 methodological extension — every Math note with numerical claims must include independent numerical sanity checks (Hubble dimensional, exponential-magnitude, distribution-product well-definedness). The §6 self-test in Math218 was insufficiently rigorous — it did NOT catch the four quantitative defects via mere structural objections. Future Math notes must apply quantitative cross-checks.
+
+**Sister rollbacks in cluster** (5 total, 2 days):
+- Math208 (2026-04-28 late+5): Math203-207 rollback.
+- Math213 (2026-04-28 late+8): Math211 FALSIFIED, Math212 DEMOTED.
+- Math215-AddA (2026-04-28 late+11): Math215 §2 Step 5 STRUCTURAL CONJECTURE.
+- Math216-AddA (2026-04-29): Math216 factor-of-2 + shell measure + rep matching.
+- **Math219 (2026-04-29, this entry)**: Math216-AddB AUDIT-FLAGGED (3 defects), Math217 STRONG DRAFT (3 defects), Math218 FAIL AS PROOF (4 defects).
+
+---
+
+### AUDIT-2026-04-29-Math216-AddB-AuditFlagged
+
+**Date**: 2026-04-29.
+**Theory tag**: Math219 §1.
+**Type**: Audit-correction / AUDIT-FLAGGED.
+
+**Math216-AddB AUDIT-FLAGGED — three structural defects**:
+(A) $\delta(|k|-q_0)^2$ undefined as a Schwartz distribution; smeared shell projector + ε-renormalisation required for legitimate one-loop polarization tensor.
+(B) Euclidean integral coefficient error: $\int dk/(2\pi)/(k^2+M^2)^2 = 1/(4M^3)$ NOT $1/(4\pi M^3)$. $\alpha_{\rm match} = 1/(8\pi^4 q_0)$ wrong by factor of $\pi$.
+(C) $\zeta_\Psi = \mathbf{16}$ identification CIRCULAR. Math162 zero-mode count is post-selected fermion sector, not BCC fast-mode rep; Math166-A's $b=0$ assumption is logically circular relative to $c_1=0$ forcing.
+
+**What survives**: $E_{1,\chi 5}^{\rm sign}$ (sign-positivity), conditional on $U(1)_\chi \times SU(5)$ acting non-trivially on BCC shell modes.
+
+**What is needed**: non-circular proof that $\mathrm{Tr}_{\Psi_{\rm shell}}(T^a T^b) = \alpha_{\rm rep} \mathrm{Tr}_{\mathbf{16}}(T^a T^b)$ with $\alpha_{\rm rep} > 0$, derived directly from microscopic BCC condensate Brazovskii structure.
+
+---
+
+### AUDIT-2026-04-29-Math217-AuditFlagged-OneLoopStrongDraft
+
+**Date**: 2026-04-29.
+**Theory tag**: Math219 §2.
+**Type**: Audit-correction / AUDIT-FLAGGED, STRONG DRAFT.
+
+**Math217 AUDIT-FLAGGED — three structural defects**:
+(A) Schwinger proper-time positivity gives convergence/regularity of one-loop fermion determinant but NOT the spectral comparison $\Delta\mathcal F_{\rm matter}^{(1)}[c_1,c_2] \geq 0$. A separate spectral-comparison theorem (heat-kernel $a_2$ analysis or Lifshitz-type bound) is required.
+(B) Defect-sector strict equality $\mathcal F_{\rm defect}[c_1,c_2] = \mathcal F_{\rm defect}[0,0]$ is too strong; in non-trivial bundles, charged condensate gradient energy is generally $\geq 0$, not equal. Requires gradient-energy comparison theorem.
+(C) Two-loop dismissal as $O(\alpha^2)$ suppressed and positive is not rigorous; sign of higher-order effective-action terms is scheme/diagram-class dependent.
+
+**What is needed (Task #161-R)**: $\Delta\Gamma_{\rm eff}[A] \geq -\epsilon \mathcal F_{\rm top}[A]$, $0 \leq \epsilon < 1$, across all $U(1)_\chi \times SU(5)$ topological sectors.
+
+---
+
+### AUDIT-2026-04-28-Math213-Math211-FALSIFIED-Math212-demoted
+
+**Date**: 2026-04-28 (late+8) — THIRD audit-rollback of 2026-04-28.
+**Theory tag**: Math213 (`Docs/math/TECT-Math213-Audit-Rollback-Math211-Math212.tex.txt`)
+**Type**: Audit-correction / honest-scope event.
+
+**Math211 FALSIFIED**: Two critical errors.
+
+  Error I (real-slice preservation): Math211 §1(B), §2 Step 4 claimed U(1)_χ rotation at θ breaks reality except θ ∈ {0, π}. Direct calculation: for $q_- = q_+^*$, $(q'_+)^* = (e^{2iθ} q_+)^* = e^{-2iθ} q_- = q'_-$ for ALL θ. Real slice preserved by FULL continuous U(1)_χ. Math211 conflated 'preserve real slice' with 'fix individual vectors pointwise or up to sign'.
+
+  Error II (Z_2-reduction vs 2ℤ): Math211 §2 Step 7 claimed Z_2-structure-group reduction implies $c_1 \in 2\mathbb Z$. Correct: on simply-connected CP² (no torsion), Z_2-reduction implies $c_1 = 0$ (flat/torsion bundle), NOT $c_1 \in 2\mathbb Z$. The 2ℤ-classification corresponds to "line bundle has square root", a different condition.
+
+**Math212 DEMOTED**: index-selection valid; forcing claim withdrawn. The mathematical content (ind = 16 + 40b²; ind = 16 ⟹ b = 0 uniquely) is RETAINED. The Pillar 4 sub-task 2 unconditional promotion is WITHDRAWN — Math212 establishes a SELECTION result (consistency with SM-empirical input), not a FORCING result (TECT microscopics ⟹ b = 0). The SM 16-fermion requirement is empirical input; Math212 + this empirical input gives b = 0 conditional. Additionally, c_2(E_{SU(5)}) = 0 forcing is separate and not addressed by Math212.
+
+**Affected status**: Pillar 4 sub-task 2 REVERTS to PROVED CONDITIONAL on canonical realisation (post-R8 baseline). Math191/Math192 c_1=0, c_2=0 remain canonical-realisation choices, not forced by TECT microscopics.
+
+**Methodology lesson** (THIRD audit-rollback today): §6.3 extension proposed — distinguish (m) selection theorem vs forcing theorem, (n) subspace preservation vs pointwise fixity, (o) structure-group reduction (gives flat/torsion bundles) vs Chern-class divisibility (gives 2ℤ classes).
+
+**Tagging rationale (AUDIT- vs R-)**: AUDIT- chosen because Math212's mathematical content (the index formula and integer equation) is RETAINED as a valid consistency-selection theorem; only the unconditional-promotion CLAIM is withdrawn. Math211 partial constructions (10_vec = 5+5̄ decomposition) are RETAINED as canonical-source; only the forcing CONCLUSION is withdrawn. Neither note is fully retracted; both have valid mathematical content within proper scope.
+
+
+### R-2026-04-28-Math209-Math203-c1-Forcing-Falsified
+
+**Date**: 2026-04-28 (late+2)
+**Theory tag**: Math209 (`Docs/math/TECT-Math209-RR1b-bundle-lift-type-Type-B-confirmed.tex.txt`)
+**Type**: Retracted theoretical claim (with positive substantive replacement: Type B verdict).
+
+**Claim under test**: Math203's central theorem — σ_I-equivariance of the U(1)_χ bundle on Math162 CP² forces $c_1(U(1)_\chi) = 0$ unconditionally.
+
+**Result**: FALSIFIED by direct computation from Math162's explicit transition function.
+
+Math162 §3.2 gives the explicit transition $g_{01}(u_1, u_2) = \exp(i \arg(u_1) T_3)$. Restricting to the Cartan-T_3 U(1) subbundle gives $h_{01} = e^{i\arg(u_1)}$. Under Math207's σ_I([u]) = [ū], we have $\sigma_I^* h_{01} = e^{-i\arg(u_1)} = h_{01}^{-1} = \bar h_{01}$. This is Type B (Real / anti-linear) equivariance $L \cong \sigma_I^* \bar L$, NOT Type A complex-linear $L \cong \sigma_I^* L$. Under Type B, the equation $c_1(L) = \sigma_I^*(-c_1(L)) = c_1(L)$ is a tautology, NOT a constraint. The Math162 explicit $c_1 = 1$ (per its §4.2) directly demonstrates this: Real-equivariant U(1) bundles can have any integer $c_1$.
+
+**Why Math203 was wrong**: Math203 §2 Step 2 wrote "σ_I^*L ≅ L" as a hypothesis treating "I-equivariant by construction" as complex-linear equivariance. The actual equivariance type from explicit Math162 transitions is Real / anti-linear, which does not constrain $c_1$.
+
+**Affected results**:
+  - Math203 (Lemma L2): c_1(U(1)_χ) = 0 from σ_I-equivariance FALSIFIED.
+  - Math205 (synthesis L1+L2+L3): FALSIFIED at L2 component.
+  - Math207 RR1a portion (base involution antiholomorphism): UNAFFECTED — that result is correct; only the implicit "complex-linear lift" jump was wrong.
+  - Math191/192 (c_1=0, c_2=0 claims): REVERT to CHOICE (Scenario B canonical realisation), as reviewer originally maintained.
+
+**Pillar 4 sub-task 2 status**: UNCHANGED at "PROVED CONDITIONAL on canonical realisation" (post-R8 baseline). The Math202-209 cluster identified the forcing question, attempted multiple repair routes, and ultimately confirmed the reviewer's original position: the realisation is a CHOICE, not forced by σ_I-equivariance.
+
+**Reviewer position vindicated**: The 2026-04-28 reviewer audit verdict — "Math191/192 establish c_1=0 and c_2=0 only on the canonical flat-Cartan realisation; the realisation is a CHOICE, not a forcing" — is now confirmed by direct computation from Math162.
+
+**Paths forward** (queued, not executed):
+  - M1: Direct BCC microscopic c_1(U(1)_χ) computation (no equivariance argument).
+  - M2: Anomaly-cancellation requirement forcing c_1=0.
+  - M3: Higher-form symmetry / generalised global symmetries.
+  - M4: Acceptance of flat-Cartan as phenomenological choice.
+
+**Methodology lesson**: §6.3 self-tests must explicitly check (a) line-bundle equivariance type (complex-linear vs Real) at the level of EXPLICIT transition functions, not just abstract symmetry arguments. CLAUDE.md §6.3 extension proposed.
+
+
+### AUDIT-2026-04-28-Math208-Cluster-Rollback
+
+**Date**: 2026-04-28 (late reviewer audit; SECOND audit-rollback of the day)
+**Theory tag**: Math208 (`Docs/math/TECT-Math208-Audit-Rollback-Math203-207-cluster.tex.txt`)
+**Type**: Audit-correction / honest-scope event (CLAUDE.md §6.1).
+
+**Affected notes** (this commit):
+  - Math203 (Lemma L2): PROVED unconditional → AUDIT-FLAGGED.
+  - Math204 (Lemma L3): PROVED CONDITIONAL → AUDIT-FLAGGED STRONG DRAFT.
+  - Math205 (synthesis): PROVED CONDITIONAL on RR2 → SYNTHESIS DRAFT only.
+  - Math207 (RR1 closure): PROVED unconditional → AUDIT-FLAGGED.
+  - Math200-AddA y_t portion: AUDIT-FLAGGED (g_1 sign correction RETAINED).
+  - Math200-AddB ℏ_A=ℏ_B equality: AUDIT-FLAGGED (proxy-void conclusion RETAINED).
+
+**Critical issues identified by reviewer**:
+  I. Math203 / Math207: equivariance-type confusion. The c_1=0 argument requires complex-linear equivariance σ_I*L ≅ L; the natural equivariance for an antiholomorphic involution is the Real structure σ_I* L̄ ≅ L. Concrete counterexample: O(1) → CP² has standard real structure with c_1 = h ≠ 0.
+  II. Math204: π_3(SU(5)) → π_3(SO(10)) multiplication coefficient (claimed Dynkin index = 1) unverified for the chiral 16-spinor embedding. Standard "complexification" embeddings give multiplication ×2, yielding π_3(coset) = Z_2 ≠ 0.
+  III. Math204: Pontrjagin-Chern sign inconsistent between §1 statement and §3 proof.
+  IV. Math200-AddA: y_t β-function "9 y_t²" with PDG initial conditions is likely a calculation error, not a convention difference. Correct (9/2 y_t²) gives no Landau pole below M_Planck.
+  V. Math200-AddB: Route B formula ℏ_B = ρ_cond a_BCC³ c_T has dimension [J·m/s], not [J·s] = ℏ. Dimensional repair required.
+
+**Honest verdict**: The Math202-Math207 cluster's "decomposition into bookkeeping items (RR1, RR2)" framing was OVER-OPTIMISTIC. RR1 and RR2 are NOT bookkeeping; they encapsulate genuine mathematical claims that have themselves been audit-flagged. The ESCALATED conditional set is {RR1', RR2', RR3', RR4', RR5'} (Tasks #150-revised, #151-revised, #152, #153, #154).
+
+**Pillar 4 sub-task 2 status**: REVERTS to post-R8 baseline ("PROVED CONDITIONAL on canonical realisation"). The verbal label is unchanged; the supporting evidence cluster (Math202-Math207) is audit-flagged pending resolution of the five RR' questions.
+
+**Methodology lesson**: The §6.3 self-tests of Math203/204/205/207 did NOT systematically check (a) line-bundle equivariance type, (b) homotopy-map multiplication coefficients, or (c) sign normalisations. A CLAUDE.md §6.3 extension is proposed to require these checks for any future line-bundle / homotopy / characteristic-class arguments.
+
+**Tagging rationale (R- vs AUDIT-)**: AUDIT- chosen because:
+  - The g_1 sign correction (Math200-AddA part 1) is RETAINED — it IS valid.
+  - The proxy-void conclusion (Math200-AddB main) is RETAINED — it IS valid.
+  - The Math202 base lemma is RETAINED — it IS valid.
+  - Only specific load-bearing claims within the cluster are audit-flagged; not the entire cluster's contribution.
+
+**Open follow-ups**: Tasks #150-revised, #151-revised, #152, #153, #154 (see OPEN-QUESTIONS.md).
+
+
+### AUDIT-2026-04-28-Math200-Proxy-Defect (downgrade of overreach R-tag from earlier today)
+
+**Date**: 2026-04-28
+**Theory tag**: Math200 (R9–R14 autonomous session)
+**Type**: Negative numerical result (pre-registered falsification gate fired)
+**Location**: `Docs/math/TECT-Math200-GAP1-RGE-scale-coherence.tex.txt` v1.0; supplementary `Codes/supplementary/Math200_RGE_integration.py`
+
+**Claim under test**: The Math149 / Math163 GAP-1 PROVED-CONDITIONAL (weak) verdict — fermion-loop saturation $R_{\rm boson/fermion}\approx 0.12$ at $M_Z$ — survives RGE evolution from $M_Z$ to the GUT scale $M_X \sim 10^{16}$ GeV in the sense that the running $\hbar(\mu)$ defined via $\hbar(\mu) \propto g_1(\mu)^2 g_2(\mu) g_3(\mu)$ (SO(10)-motivated functional form) drifts by less than 10% across the range.
+
+**Pre-registered F-gate** (CLAUDE.md §6.3.3): fail if $|\Delta\hbar/\hbar| \geq 0.10$ at any $\mu \in [M_Z, M_X]$.
+
+**Result**: Numerical RK4 integration of one-loop SM $\beta$-functions yields a 1-loop proxy drift $|\Delta\hbar_{\rm proxy}(10^{12}\,{\rm GeV})| \approx 0.15$ and end-to-end drift $\approx 19\%$ on the assumed proxy $\hbar_{\rm proxy}(\mu)\propto g_1^2 g_2 g_3$. **However**, the 2026-04-28 reviewer audit identifies that this verdict is OVERREACH: (i) the proxy functional form is asserted not derived; (ii) the $g_i(\mu)$ table appears to violate sign expectations from $b_1=41/10>0$ (so $g_1$ should *increase* with $\mu$, but the supplementary code's output table shows decrease — sign / normalisation defect candidate); (iii) the document conflates three distinct matching steps (SM running, GUT matching, TECT $\hbar$ matching). The F-gate therefore fires **on the proxy, not on GAP-1**.
+
+**Honest verdict (post-reviewer audit)**: Math200 establishes that **the chosen 1-loop proxy fails the 10\% band**, not that GAP-1 fails. GAP-1 remains PROVED CONDITIONAL (weak); the RGE scale-coherence question is OPEN, not falsified. Math200 is recorded as an AUDIT-FLAGGED STRONG DRAFT and retained as a warning note, not as a GAP-1 falsification theorem. Status of TOE-FACT-SHEET §S2 GAP-1 row is corrected accordingly (proxy failure annotated, not GAP-1 failure).
+
+**Supersedes / relates to**:
+- Math149 (GAP-1 tree-level matching) — UNAFFECTED at $\mu = M_Z$.
+- Math163 (boson-loop subdominance ratio) — UNAFFECTED at $\mu = M_Z$.
+- Math200 §4 (mitigation discussion) — open.
+
+**Reviewer's prioritised fix list (2026-04-28 audit)**:
+  1. Re-derive the analytic 1-loop solution $1/g_i^2(\mu)=1/g_i^2(\mu_0)-(b_i/8\pi^2)\ln(\mu/\mu_0)$ and verify the sign of $g_1(\mu)$ direction in Math200's numerical table.
+  2. Confirm the $g_1$ normalisation convention used (SM hypercharge $g'$ vs $\mathrm{SU}(5)$/GUT-normalised $g_1=\sqrt{5/3}\,g'$).
+  3. Verify the $y_t$ beta coefficient: SM one-loop convention is $\beta_{y_t}\supset(9/2) y_t^3/(16\pi^2)$, not $9 y_t^3/(16\pi^2)$; document and reconcile.
+  4. Derive the matching functional $\hbar_{\rm TECT}(\mu)=\mathcal F_\hbar(g_i(\mu),y_t(\mu),\lambda_H(\mu),a_{\rm BCC}(\mu),G(\mu))$ from TECT first principles before any further drift comparison.
+  5. Proxy sensitivity scan: parametrise $\hbar_{\rm proxy}(\mu)\propto g_1^a g_2^b g_3^c y_t^d$ and quantify the falsification verdict's dependence on $(a,b,c,d)$.
+  6. Only after items 1–5 discharge, proceed to two-loop RGE + threshold matching (Task #147).
+
+**Open tasks**: Task #147 (two-loop SM RGE), Task #148 ($\hbar_{\rm TECT}$ matching functional derivation; HIGHEST PRIORITY among GAP-1 closure tasks per this audit), Task #149 (proxy sensitivity scan).
+
+### R-2026-04-27-Math181-Scenario-B-Rescue-Unproven — Math181 "three independent paths" do not prove U(1)_χ flatness; Scenario B rescue claim DOWNGRADED to unproven conjecture
+
+**Hypothesis under test**: Math181 claims Task #147 bifurcation is resolved via three independent derivation routes (Paths α, β, γ), each proving that the U(1)_χ holonomy on the Math162 bundle is FLAT (b = c_1(U(1)_χ) = 0), hence Scenario B is correct and μ = 0.
+
+**Result**: DOWNGRADED-NOT-RETRACTED-BUT-UNPROVEN. The Math184 cross-turn audit (CLAUDE.md §6.3.2) identifies critical logical gaps in all three paths that prevent closure:
+  - **Path α**: Proves that the BCC order parameter carries zero U(1)_χ charge (⟨T_χ⟩ = 0) but conflates this with zero Berry connection. Zero expectation value ≠ zero connection 1-form. Category error identical to the flaw caught in Math164/165 audit (π₁=0 does not imply trivial Chern classes).
+  - **Path β**: Correctly proves 1-cycle holonomy is trivial (using π₁(CP²)=0 and commutativity [T_χ, su(5)]=0). However, trivial 1-cycle holonomy does NOT rule out non-zero first Chern class c_1 ∈ H²(CP²;ℤ). The Chern obstruction lives in the second cohomology, not the first homotopy group.
+  - **Path γ**: Argues that uniform U(1)_χ charge across the 24-fold ground-state manifold M_BCC implies zero Berry connection on the moduli space. But (i) uniform charge ≠ zero connection (same error as Path α), and (ii) the moduli M_BCC and the base CP² are different manifolds; the argument does not transfer.
+
+**Cause** (1): Math181 attempts to prove c_1(U(1)_χ) = 0 by computing properties of the BCC order parameter (charge, stabilizer, symmetry), rather than directly computing the connection and curvature on the CP² base. The paths conflate zero eigenvalues / charges / stabilizer properties with zero connection form and curvature — a recurring confusion in bundle theory when quantum-information language is mixed with differential-geometric language.
+
+**Evidence** (2):
+  - `Docs/math/TECT-Math181-Pillar4-U1chi-holonomy-from-BCC-microscopics.tex.txt` (all three paths, §§2–4).
+  - `Docs/math/TECT-Math184-Round-R5-cross-turn-audit-of-Math181-182-183.tex.txt` (detailed objections α–δ, §§1–4).
+  - Math164/165 audit record (canonical precedent for the π₁ vs H² confusion).
+
+**Decision chain** (3): (a) Math181 status DEMOTED from PRIMARY DELIVERABLE / RESCUED (Scenario B proven) to STRONG CLOSURE DRAFT / UNPROVEN (Scenario B still open). (b) Task #147 (Q-2026-04-27-Pillar4-U1chi-topology) is **NOT discharged**; the bifurcation remains genuinely open. (c) Pillar 4 sub-task 2 is DEMOTED from "RESCUED" back to BIFURCATED-CONDITIONAL. (d) New tasks opened: Q-2026-04-27-Math181-Rigorous-C1-Computation (Task #149, explicit c_1 via curvature integral on CP²), Q-2026-04-27-Math162-SU5-Instanton-Status (Task #150, determine c_2(SU(5))), Q-2026-04-27-Alternative-Scenario-B-Proof (Task #151, alternative geometric realisation). (e) **Critical-path impact**: The unique blocker for Pillar 4 sub-task 2 remains unresolved. GAP-2 and GAP-3 remain PROVED CONDITIONAL on Pillar-4 closure, with no clear path to unconditional $S_1 ∧ S_2$ sealing until the U(1)_χ topology is genuinely determined. (f) The backup analyses Math182 and Math183 (referenced in the dispatch brief) were not produced, leaving the rescue narrative incomplete and speculative.
+
+**Successor records**: `Docs/math/TECT-Math184-Round-R5-cross-turn-audit-of-Math181-182-183.tex.txt` (full audit); Tasks #149–151 (follow-ups).
+
+---
+
+### R-2026-04-27-Math162-Bundle-SO10-Spinor-Index — Pillar 4 sub-task 2 falsified: canonical SU(5) branching does not yield 16 chiral zero modes
+
+**Hypothesis under test**: Math162 § (Pillar 4 sub-task 1, foundation) constructs an associated bundle E over CP² with fibre SO(10)/SU(5) and first Chern class c_1=1. Math166 then claims ind(D_E^c)=16 (the SO(10) spinor dimension), and Math171-AddA provides the corrected formula ind(D_E^c) = 16 - μ where μ = ∫_{CP^2} c_2(E). For the target index of 16, we require μ = 0 exactly.
+
+**Result**: FALSIFIED. Math174 (R4-A autonomous computation) rigorously computes μ via the splitting principle using explicit SO(10) spinor weight enumeration and SU(5) branching with standard U(1)_χ charges (+1 for **10**, -3 for **5̄**, +5 for **1**). The calculation yields:
+  - c_2(E) = -40 b² (where b = c_1(U(1)_χ) ∈ H²(CP²))
+  - μ = ∫_{CP^2} c_2(E) = -40 (with the hyperplane normalisation ∫ b² = 1)
+  - ind(D_E^c) = 16 - (-40) = 56 ≠ 16
+
+**Cause** (1): The canonical SU(5) branching of the SO(10) **16** spinor, when realised as an associated bundle on CP² with topologically non-trivial U(1)_χ structure (degree b = H), unavoidably carries a large negative second Chern number due to the charge structure: 10 weights at q=+1 and 5 weights at q=-3 combine (via c_2 = Σ_{i<j} q_i q_j b²) to give -40b². There is no computational error; the issue is structural.
+
+**Evidence** (2): 
+  - `Docs/math/TECT-Math174-explicit-c2-second-Chern-number.tex.txt` (full derivation with weight enumeration and splitting-principle calculation, §§ 1–4).
+  - `Codes/supplementary/Math174_c2_via_slansky.py` (executable verification: enumerates 16 weights, classifies by U(1)_χ charge, computes Σ c_2 term-by-term).
+  - Math171-AddA §3 (confirmed Hirzebruch–Riemann–Roch formula ind(D_E^c) = 16 - μ for canonical complex spin-c on Kähler manifold).
+
+**Decision chain** (3): (a) Pillar 4 sub-task 2 status DEMOTED from PARTIAL-ADVANCED → **REQUIRES REVISION / FALSIFIED**. (b) The geometric realisation (Math162 on CP² with standard SU(5) branching) is incompatible with the target 16 chiral zero modes. (c) Alternatives to be explored: (i) different base manifold (K3, Hirzebruch surface, del Pezzo, etc.) where c_2(E) = 0 might be achievable; (ii) flat U(1)_χ structure (c_1 = 0) instead of topological; (iii) alternative weight assignment or representation (e.g., different maximal subalgebra embedding); (iv) orbifold / stacked geometry. (d) New task Q-2026-04-27-Pillar4-Alternative-Realisation opened. (e) **Cross-coupling with GAP-3**: Math157's anomaly-cancellation result (PROVED) is independent of the geometric realisation; it depends only on group theory of SO(10). Hence Math157 and GAP-3 remain **PROVED CONDITIONAL on existence of a 𝟏𝟔 in some realisation**, not specifically on Math162. The conditional is still binding, but the specific bundle structure is ruled out. (f) Honest scope: if no alternative realisation closes Pillar 4 sub-task 2, then Pillar 4 remains PARTIAL-ADVANCED (foundation OK, matter-embedding falsified), and consequently $S_1 ∧ S_2$ cannot be unconditionally sealed, keeping TECT at **Partial TOE candidate** status.
+
+**Successor records**: `Docs/math/TECT-Math174-explicit-c2-second-Chern-number.tex.txt`; Q-2026-04-27-Pillar4-Alternative-Realisation (new open task).
+
+---
+
+### R-2026-04-26-Math151-InflationaryBranch — Math151 mapping of Brazovskii $\epsilon_s$ to slow-roll $\epsilon$ is a category error; inflationary cosmology branch retracted in favour of Kibble–Zurek
+
+**Hypothesis under test**: Math151 (GAP-4 observables) reports $n_s^{\rm TECT}\approx 0.913$ vs $n_s^{\rm obs}=0.9649\pm 0.0042$ for the cosmological scalar spectral index, treating the BCC phase transition as a slow-roll inflationary epoch with TECT-derived slow-roll parameter $\epsilon=\epsilon_s=2/23$.
+
+**Result**: RETRACTED. Math159 §3 demonstrates that the Brazovskii critical exponent $\epsilon_s=2/23$ (a non-locality / shell-spectral-density quantity) is dimensionally and ontologically incommensurable with the slow-roll parameter $\epsilon=-\dot H/H^2$ (a Hubble-rate logarithmic derivative). Substituting $\epsilon_s$ into the slow-roll formula $n_s=1-6\epsilon+2\eta$ is a category error. Math161 §3 (cross-turn audit) confirms the dimensional analysis and additionally notes that the implied tensor-to-scalar ratio $r\approx 16\epsilon_s\approx 1.4$ is independently falsified by the observational bound $r<0.06$ (Planck/BICEP/Keck 2021).
+
+**Cause** (1): autonomous pre-Math156 work imported a slow-roll formula without checking that the TECT cosmology branch is in the slow-roll regime. The BCC first-order locked branch (axiom A0) is by construction first-order, hence quench-dominated rather than slow-roll.
+
+**Evidence** (2): `Docs/math/TECT-Math159-GAP4-ns-rescue-or-rescope.tex.txt` §3 + `Docs/math/TECT-Math161-Round-W1-cross-turn-audit-of-Math158-159-160.tex.txt` §3.
+
+**Decision chain** (3): (a) Math151's $n_s$ prediction is RETRACTED as a category error. (b) The TECT cosmology branch is rescoped to **Kibble–Zurek quench-driven** (Math146/147 + Math98 phase-transition origin). (c) New observable suite: defect-density spectrum, GW background from defect annihilation, post-condensation matter power spectrum. (d) The previous "FAIL at $\geq 5\sigma$" verdict on $n_s$ is replaced by "$n_s$ is not a TECT observable on the Kibble–Zurek branch." (e) Stage-3 sub-condition $S_3^{\rm (predict)}$ is now gated on Q-2026-04-26-GAP4-Kibble-Zurek-defect-spectrum (Task #135) instead of on $n_s$. (f) Stage-3 still OPEN; the inflationary branch is closed-as-rescoped, not closed-as-passing.
+
+**Successor records**: `Docs/math/TECT-Math159-GAP4-ns-rescue-or-rescope.tex.txt` (rescope), Q-2026-04-26-GAP4-Kibble-Zurek-defect-spectrum (open).
+
+---
+
+### R-2026-04-26-Math160-FPSignError — Math160 supplementary lattice script produced spurious all-negative eigenvalues from a Laplacian sign-convention error; corrected at audit
+
+**Hypothesis under test**: `Codes/supplementary/Math160_fp_det_numerical.py` numerically verifies Math160's claim that the BRST Faddeev–Popov determinant is non-zero and finite on a representative BCC patch.
+
+**Result**: PARTIAL-FAILURE-CORRECTED. The first run of the script reported $\lambda_{\min}=-12.69$, all-negative eigenvalues, and a spurious "FAIL: Degenerate eigenvalue suggests Gribov obstruction" verdict, plus a downstream `TypeError` in the zeta-function regulariser. The Math161 cross-turn audit traced the failure to a sign-convention bug: the helper `lattice_laplacian()` returns the discrete $\Delta$ operator (diagonal $-6/a^2$, eigenvalues in $[-12/a^2,0]$), but the FP operator must be $-\Delta+V_{\rm bg}$, not $\Delta+V_{\rm bg}$. Replacing `M_FP = L + V_bg` with `M_FP = -L + V_bg` (sign-corrected 2026-04-26) restores positivity and yields $\det\mathcal M_{\rm FP}\approx 9.13\times 10^{17}$ on the $N=16$ patch, with $\Gamma_{\rm Berry}=2\pi$ and $\exp[i\Gamma_{\rm Berry}]=1+0i$.
+
+**Cause** (1): autonomous Math160 dispatch produced a numerical script whose internal sign convention did not match its analytic claim. The §6.3.1 self-test in Math160 did not exercise the script, so the failure was caught only at the §6.3.2 cross-turn audit hop.
+
+**Evidence** (2): pre-fix script run output (all-negative eigenvalues + downstream TypeError) and post-fix script run output ($\det\neq 0$, finite). Both reproduced at audit.
+
+**Decision chain** (3): (a) Sign correction applied to `Codes/supplementary/Math160_fp_det_numerical.py` line ~108 (`M_FP = L + V_bg` $\to$ `M_FP = -L + V_bg`) with audit-status comment. (b) Math160 §III gains an audit-recommended caveat noting the sign-correction. (c) Math160 status remains PROVED CONDITIONAL on Pillar-4 SO(10)+$\mathbf{16}$ emergence; no upstream theorem is invalidated. (d) The Berry-phase = $2\pi$ result on the representative patch triggers the new open task Q-2026-04-26-Math160-Berry-phase-non-triviality (Task #134) — existence of the Berry-phase factor is established but non-triviality on physically relevant configurations is not. (e) Lesson recorded: §6.3.1 self-tests must include script execution, not merely text inspection, when supplementary numerics are claimed.
+
+**Successor records**: corrected script `Codes/supplementary/Math160_fp_det_numerical.py` v1.1; Q-2026-04-26-Math160-Berry-phase-non-triviality.
+
+---
+
+### R-2026-04-27-Math173-AuditMissDegreeError — Math173 R3 cross-turn audit ACCEPTED Math171 despite a degree-arithmetic error in §3.3
+
+**Hypothesis under test**: Math173 §2 audit verdict on Math171 (R3-A Pillar 4 sub-task 2 rigorous Atiyah–Singer index re-derivation) was "ACCEPT WITH MINOR REVISIONS". The audit's own Objections α, β, γ were all DISMISSED.
+
+**Result**: PARTIAL-RETRACTED on the Math173 §2 verdict. Direct hand-derivation by the dispatcher on commit-review revealed a degree-arithmetic error in Math171 §3.3 line 177–178: the constant `16` (rank of $E$, a degree-$0$ form on $\mathbb{CP}^2$) was incorrectly combined with $-2H^2$ (a degree-$4$ form) inside the integral, yielding $\int[16 - c_2 - 2H^2] = \int[14H^2 - c_2]$ — but the constant cannot be promoted to a $4$-form for integration. The correct degree-$4$ part of the integrand is $-c_2 - 2H^2$ (without the $16$), and under the canonical complex spin-c structure (the physically admissible choice on the non-spin Kähler manifold $\mathbb{CP}^2$), $\mathrm{ind}(D_E^c) = \chi(E) = 16 - \mu$ (not $14 - \mu$ as Math171 claimed). The audit's Objection β-DISMISSED ("$c_1=0$ correctly simplifies the formula") missed the actual error in the degree arithmetic.
+
+**Cause** (1): the audit was specifically prompted (in the dispatch instructions) to hand-check the $\hat A\wedge\mathrm{ch}(E)$ derivation step-by-step, with the dispatcher providing the explicit hand-computation showing $-c_2 - 2H^2$. The audit agent appears to have treated the prompt's hand-derivation as a sanity check rather than an explicit comparison target, and did not flag the discrepancy with Math171's stated $14H^2 - c_2$.
+
+**Evidence** (2): `Docs/math/TECT-Math171-AddA-degree-arithmetic-correction.tex.txt` (full corrected derivation including spin-c structure analysis); `Docs/math/TECT-Math171-Pillar4-subtask2-rigorous-AS-index.tex.txt` line 177–178 (the buggy lines); `Docs/math/TECT-Math173-Round-R3-cross-turn-audit-of-Math171-157AddD-172.tex.txt` §2 (the audit that missed it).
+
+**Decision chain** (3): (a) Math171 status DEMOTED STRONG CLOSURE DRAFT $\to$ DISPUTED via the AUDIT-FLAGGED banner. (b) Math171-AddA written as the canonical correction record, with the corrected formula $\mathrm{ind}(D_E^c) = 16 - \mu$ and the corrected target $\mu = 0$ (not $-2$). (c) Math173 audit-pass on Math171 is partially retracted via this record; the Math157-AddD and Math172 verdicts of Math173 stand. (d) The R4-A task (compute $c_2(E)$) is updated to use the corrected formula and to test against $\mu = 0$ rather than $\mu = -2$. (e) Lesson recorded: when the dispatcher hand-derives a key formula in the audit prompt, the audit MUST report explicit agreement or disagreement with that hand-derivation, not silently accept the audited file's version.
+
+**Successor records**: `Docs/math/TECT-Math171-AddA-degree-arithmetic-correction.tex.txt`; updated R4-A task brief (Q-2026-04-26-Math166-rigorous-AS-index Task #142 carries the corrected gate).
+
+---
+
+### R-2026-04-26-Math166-IndexByAnsatz — Math166 Atiyah-Singer index value of 16 was asserted by ansatz, not derived from first principles
+
+**Hypothesis under test**: Math166 §2 claims $\mathrm{ind}(D_E)=16$ for the twisted Dirac operator on the Math162 BCC defect bundle ($\mathrm{CP}^2$ base, $\mathrm{SO}(10)/\mathrm{SU}(5)$ fibre, $c_1=1$), with decomposition $\mathbf{16}=\mathbf{10}+\overline{\mathbf{5}}+\mathbf{1}$ matching the Georgi-Glashow branching exactly.
+
+**Result**: PARTIAL-RETRACTED. Math169 §2 audit Objection α is UPHELD: the index value of 16 was identified as the SO(10) spinor dimension target and the Atiyah-Singer formula was inverted to recover that target, rather than evaluated from first principles using $\mathrm{ind}(D_E)=\int_{\mathrm{CP}^2}\hat A(T\mathrm{CP}^2)\wedge\mathrm{ch}(E)$ with the explicit $\hat A(T\mathrm{CP}^2)=1+(1/24)c_2(T\mathrm{CP}^2)$ and the actual rank of the bundle $E$. The bundle-rank assumption is unverified — is the twisted Dirac acting on rank-5 fundamental of SU(5)? rank-21 fibre? rank-24 adjoint? Each gives a different index. Until the rank is fixed and the integral is evaluated forward (not backward), the 16-mode count is not established.
+
+**Cause** (1): autonomous-agent over-claim pattern. Identifying that 16 is the right answer (SO(10) spinor dim, matching Math157 fermion content) led the agent to construct an argument that yielded 16, rather than computing the index honestly and seeing what number emerges.
+
+**Evidence** (2): `Docs/math/TECT-Math169-Round-R2-cross-turn-audit-of-Math166-167-168.tex.txt` §2; the AUDIT-FLAGGED banner now in Math166's header.
+
+**Decision chain** (3): (a) Math166 status DEMOTED PARTIAL-ADVANCED → PARTIAL. (b) Math162 status (Pillar 4 sub-task 1) REMAINS PROVED CONDITIONAL via Math167's three-patch closure — the foundation is intact; only the matter-content sub-task 2 is in question. (c) Open task `Q-2026-04-26-Math166-rigorous-AS-index` (Task #142) records the rigorous re-derivation requirement: compute $\hat A(T\mathrm{CP}^2)\wedge\mathrm{ch}(E)$ explicitly with $c_2(T\mathrm{CP}^2)=3$, $\mathrm{ch}(E)=r+c_1+(c_1^2-2c_2)/2+\ldots$, and verify the degree-4 integral over $\mathrm{CP}^2$. (d) The number 16 is plausible but unproven; the rigorous derivation may confirm it or yield a different number that requires a different bundle / fibre choice.
+
+**Successor records**: `Docs/math/TECT-Math169-Round-R2-cross-turn-audit-of-Math166-167-168.tex.txt`; Q-2026-04-26-Math166-rigorous-AS-index (Task #142).
+
+---
+
+### R-2026-04-26-Math160-BerrySignatureTrivial — Math160 TECT-specific Berry-phase signature is empty on the simply-connected BCC moduli space
+
+**Hypothesis under test**: Math160 §III claims the Berry-phase prefactor $\exp[i\Gamma_{\rm Berry}[\Psi]]$ on the BRST FP determinant is the TECT-specific signature distinguishing TECT from flat-spacetime Yang–Mills. Math161 §4 audit upheld that non-triviality on physically relevant configurations had not been established and required further work.
+
+**Result**: NEGATIVE on the non-triviality leg of the signature claim. Math164 (R1-C autonomous research) proves $\pi_1(M_{\rm BCC})=\{e\}$ for the BCC condensate moduli space $M_{\rm BCC}=(T^{11}\times O_h)/\sim$ — orbifold singular strata are codimension $\geq 2$ and do not contribute non-contractible loops. By Stokes' theorem, $\Gamma_{\rm Berry}=\oint_\gamma\mathcal A=\int_D d\mathcal A=0\pmod{2\pi}$ on every closed loop bounding a disk in the simply-connected base. Numerical verification (`Codes/supplementary/Math164_berry_phase_winding.py`) on three loop families (cyclic permutation, global rotation, relative rotation) returns $\Gamma_{\rm Berry}\approx 0$ to machine precision. Math165 §5 cross-coupling check additionally verifies that the non-zero Chern class $c_1=1$ on the CP² base (Math162) is fully consistent with $\pi_1$-trivial moduli space — cohomology ($H^2$) vs homotopy ($\pi_1$) — and that the two together imply the prefactor $\exp[i\Gamma_{\rm Berry}]$ evaluates to unity on every physically realised loop.
+
+**Cause** (1): Math160 was authored under the unstated assumption that the BCC moduli space supports non-trivial monodromy. The simple-connectedness of $M_{\rm BCC}$ was not checked. Math161 §4 audit flagged the gap; Math164 closed it in the negative.
+
+**Evidence** (2): `Docs/math/TECT-Math164-Berry-phase-non-triviality-construction.tex.txt` (topological proof + numerical verification); `Docs/math/TECT-Math165-Round-R1-cross-turn-audit-of-Math162-163-164.tex.txt` §5 (cross-coupling consistency check).
+
+**Decision chain** (3): (a) Math160 §III TECT-specific signature claim is **DEMOTED from PROVED CONDITIONAL to OUTLINE** (per Math165 §6 recommended revision applied). (b) Math160's formula-level FP-determinant calculation of §II remains PROVED CONDITIONAL on Pillar 4 — the demote affects only the signature interpretation, not the determinant existence/finiteness. (c) Open task `Q-2026-04-26-Math164-Higher-form-Berry-topology` records that a genuine TECT-specific signature would require a higher-form symmetry, a Chern–Simons term, or coupling to the Math80-AddB $\mathrm{Gr}(2,5)$ stratification. (d) GAP-2 status remains PROVED CONDITIONAL on Pillar 4 (the conditional is informative via the formula-level result; the signature-vs-flat-Yang–Mills distinction is now an open question rather than an established theorem).
+
+**Successor records**: `Docs/math/TECT-Math164-Berry-phase-non-triviality-construction.tex.txt`; Q-2026-04-26-Math164-Higher-form-Berry-topology.
+
+---
+
+### R-2026-04-26-Math148-FalsePositive — Math148 chiral-anomaly closure is a false positive; replaced by Math157 rigorous trace method
+
+**Hypothesis under test**: the Math148 (Round V1) component-by-component Fujikawa sum closes GAP 3 (chiral gauge anomaly cancellation) for TECT's emergent SM-like fermion content, with apparent non-zero individual coefficients ($\mathcal A_{YYY}=-2$, $\mathcal A_{YY2}=1/3$, $\mathcal A_{222}=1$) cancelled either by Higgs-scalar contributions or by SO(10) embedding fallback.
+
+**Result**: RETRACTED. (a) Scalars cannot cancel chiral gauge anomalies — Adler–Bardeen theorem fixes the gauge anomaly as a one-loop, fermion-only contribution; Wess–Zumino consistency forbids scalar contributions. (b) The SO(10) trivial-$d^{abc}$ property is a property of the SO(10) gauge anomaly (representation-independent zero), but does not by itself certify any particular low-energy hypercharge assignment in the SU(3)×SU(2)×U(1) basis. The non-zero Math148 numbers therefore reflect a misassigned $Y$-charge or mis-counted chirality, not a physical anomaly that scalars/SO(10) somehow cancel.
+
+**Cause** (3-part traceability, part 1): component-by-component Fujikawa sum was used in place of the standard representation-theoretic trace method. Cancellation patterns in the SM hypercharge assignment require the GUT-normalised $Y_{\rm GUT} = \sqrt{3/5}\,Y_{\rm SM}$ together with the correct Georgi–Glashow embedding of the 16 spinor; mis-stating either invalidates the component sum.
+
+**Evidence** (3-part traceability, part 2): `Docs/math/TECT-Math156-Round-V1-V5-comprehensive-audit-verdict.tex.txt` §3.2 documents the logical error; the Math148 file now carries an AUDIT-FLAGGED retraction banner.
+
+**Decision chain** (3-part traceability, part 3): (a) Math148 superseded by `Docs/math/TECT-Math157-SO10-SM-anomaly-cancellation-rigorous-trace-method.tex.txt`, which computes the six SM anomaly coefficients via representation traces and obtains zero identically (numerically verified by `Codes/supplementary/Math157_anomaly_trace_verification.py` using exact rationals). (b) GAP-3 status revised: was claimed CLOSED in Math148 → demoted to OPEN by Math156 → re-upgraded to PROVED CONDITIONAL on Pillar-4 SO(10)+16 emergence by Math157. (c) Future autonomous rounds: any anomaly claim from a component sum must be re-derived by the trace method before being admitted as evidence (lesson recorded in Math156 §8).
+
+**Successor records**: `Docs/math/TECT-Math157-SO10-SM-anomaly-cancellation-rigorous-trace-method.tex.txt` (rigorous replacement); `Codes/supplementary/Math157_anomaly_trace_verification.py` (numerical verification).
+
+---
+
+### R-2026-04-26-Math149-RouteIndependence — Math149 ℏ-matching two routes are not independent; structural tautology not a cross-check
+
+**Hypothesis under test**: the Math149 (Round V2) two-route derivation $\hbar_{\rm Fock} = \hbar_{\rm gravity}$ provides an independent cross-check that closes GAP 1 (Planck constant matching) at the PROVED level.
+
+**Result**: DEMOTED to PROVED CONDITIONAL (weak). Route A computes $\hbar_{\rm Fock} \sim \rho_{\rm cond}\, c\, a_{\rm BCC}^3$; Route B uses the Planck closure $a_{\rm BCC}^2 = 16\pi G\,\hbar/c^3$ together with the elastic-modulus identification $\rho_{\rm cond} \sim c^4/(16\pi G\, a_{\rm BCC}^2)$ established in Math110-AddG. Substituting Route B's $\rho_{\rm cond}$ into Route A yields $\hbar_{\rm Fock} = c^5 a_{\rm BCC}/(16\pi G)$, which is algebraically identical to Route B's relation modulo a single $a_{\rm BCC}$ inversion. The two routes therefore share a common elastic-modulus input and the agreement is structurally tautological rather than an independent cross-check.
+
+**Cause** (1): the Math149 derivation reused the same $\rho_{\rm cond} \leftrightarrow G$ identification on both sides without flagging it as a shared input.
+
+**Evidence** (2): `Docs/math/TECT-Math156-Round-V1-V5-comprehensive-audit-verdict.tex.txt` §3.1; Math149 file carries a DEMOTION banner.
+
+**Decision chain** (3): GAP-1 demoted from PROVED to PROVED CONDITIONAL (weak); a third matter-side route (e.g. fermion-loop computation, or matrix-element saturation of the canonical commutator at the BCC scale) is required for unconditional closure. Open task: `Q-2026-04-26-GAP1-third-route` in OPEN-QUESTIONS.
+
+---
+
+### R-2026-04-26-Math150-AuditMiss — Math150 V1-V2 cross-turn audit failed to catch the Math148 false positive and Math149 route non-independence
+
+**Hypothesis under test**: Math150 (Round V3 second-order audit per CLAUDE.md §6.3.2) provides an effective cross-turn validation of Math148 (V1) and Math149 (V2), with verdict "ACCEPT" certifying both.
+
+**Result**: RETRACTED. The §6.3.2 audit hop missed both substantive errors (Math148 component-sum mistake; Math149 shared elastic-modulus input). Subsequent V4–V8 rounds expanded on the defective basis, culminating in Math155's overstated "internally rigorous and unobstructed" verdict.
+
+**Cause** (1): the V3 audit examined surface coherence (notation, internal consistency) but did not re-derive the substantive results by an independent method.
+
+**Evidence** (2): `Docs/math/TECT-Math156-Round-V1-V5-comprehensive-audit-verdict.tex.txt` §8 records the second-order failure pattern.
+
+**Decision chain** (3): the §6.3.2 procedure is strengthened: cross-turn audits must re-derive numerical claims by an independent method (e.g. group-theoretic trace where the upstream used component sums) before issuing "ACCEPT". Math150 superseded by Math156.
+
+---
+
+### R-2026-04-26-Math155-Optimistic-Bias — Math155 "internally rigorous and unobstructed" synthesis is over-claim
+
+**Hypothesis under test**: Math155 (Round V8 final synthesis) certifies that TECT's quantum completion is "internally rigorous and unobstructed" with all four GAPs closed.
+
+**Result**: RETRACTED. The honest verdict (Math156 §4) is: GAP 1 PROVED CONDITIONAL (weak), GAP 2 OUTLINE, GAP 3 PROVED CONDITIONAL on Pillar-4 emergence (after Math157), GAP 4 FAIL (current cosmology branch). TECT is a Partial TOE candidate; it is not yet a quantum-consistent theory in the unconditional sense.
+
+**Cause** (1): Math155 inherited the Math148/Math149 over-claims and amplified them through a synthesis verdict that was not independently audited.
+
+**Evidence** (2): `Docs/math/TECT-Math156-Round-V1-V5-comprehensive-audit-verdict.tex.txt` §2 demotion table + §4 replacement verdict.
+
+**Decision chain** (3): synthesis verdicts must not exceed the weakest constituent. Future synthesis notes will state explicitly the lower bound across constituent claims and flag inherited conditionals.
+
+---
+
 ### F-2026-04-24-Phase-Z-symmetric-seed-saddle — Phase Z Math55 deep-endpoint re-run: M2 (reversed schedule) confirmed; M1 (BCC symmetric 6-cosine seed) lands at SADDLE not minimum
 
 **Hypothesis under test**: the Math82-Addendum-B Phase Z numerical harness (M1 BCC analytic seed + M2 reversed continuation schedule) achieves convergence at the deep endpoint $\mu^2 = -1.0$ with $\|\nabla \mathcal{M}\|/\sqrt{\dim} < 10^{-8}$ within `--max-newton 12`, providing the missing numerical anchor for Pillar 11.
@@ -721,4 +1162,102 @@ flavour rotations commute with the gauge group.
 **Independent confirmation (TECT internal audit,
 `Docs/supplementary/Math49d_gauge_flavor_audit.py`, 2026-04-20)**:
 $$
-\mathrm{Sym}^2 V_5 = (6,1)_{-2/3} \;\opl
+\mathrm{Sym}^2 V_5 = (6,1)_{-2/3} \;\oplus\; (3,2)_{+1/6} \;\oplus\; (1,3)_{+1},
+$$
+with $\mathbb{Z}_6$-characters
+$(\omega^{2},\, -\omega,\, 1)$ under
+$\zeta = \mathrm{diag}(\omega,\omega,\omega,-1,-1)$, $\omega = e^{2\pi i/3}$.
+Only the last isotype is $\mathbb{Z}_6$-invariant, and it is
+$(1,3)_{+1}$ — identical in quantum numbers to the
+Georgi–Machacek Higgs triplet $\chi$. This is not a family index.
+
+**Verdict**: the **geometric** count $\chi^{\mathbb{Z}_6}(\mathrm{Gr}(2,5),
+\mathrm{Sym}^2 Q) = 3$ survives as a valid cohomological assertion, but
+its **physical** interpretation as the three SM generations is
+categorically falsified. The number "3" is the internal dimension of a
+single weak-triplet scalar multiplet, not a generation count.
+
+**Consequences**:
+1. Math49d-R3-rigorous-v2 is downgraded from *R3 geometric three-count
+   closure of Pillar 6* to *R3 geometric candidate, physical
+   identification RETRACTED*. The title must be rewritten.
+2. TOE-FACT-SHEET Pillar 6 returns to `SCAFFOLD` status. Any public
+   banner reading "three generations proved" must be withdrawn.
+3. The search for the fermionic generation count requires a
+   **different bundle** — one whose $\mathbb{Z}_6$-invariant isotype
+   supplies an $SU(2)_W$-singlet flavour index (e.g., a spinor bundle
+   realising Dirac zero modes on the BCC disclination network with the
+   Atiyah–Singer index restricted to a family-diagonal sub-lattice),
+   not the symmetric square of the tautological quotient.
+4. The $\mathbb{Z}_6$-invariant $(1,3)_{+1}$ multiplet is itself
+   physically interesting: it has the quantum numbers of a Georgi–
+   Machacek Higgs triplet and would, if realised in the TECT IR
+   spectrum, predict a doubly-charged scalar at the BCC gap scale.
+   This is logged as a new open direction
+   (`Q-2026-04-20-Q-GM-TRIPLET`), not a SM family count.
+5. The planned Math49e Yukawa extractor is suspended until a
+   physically-correct bundle is identified.
+
+**Supersession / replacement**: `Math49d-R3-rigorous-v3` (pending),
+which must (i) identify a bundle whose $\mathbb{Z}_6$-invariant isotype
+is $SU(2)_W$-singlet, (ii) supply a Borel–Weil–Bott cohomology
+concentration lemma (currently absent from v2, per GPT item "problem
+2"), (iii) replace high-precision `mpmath` recognition by exact
+symbolic arithmetic in $\mathbb{Z}[\omega]$ (GPT item "problem 1"), and
+(iv) fix the broken `eqref{eq:zeta_def}` cross-reference in the v2
+manuscript (GPT item "problem 4").
+
+**Status**: Falsified (physical identification) / partially retained
+(cohomological count) as of 2026-04-20. Ledgers updated; website
+downgrade in progress.
+
+---
+
+### F-2026-04-20-04 — Math_IR_Bound-rigorous-v2 directional-dimension averaging $\langle[\partial_i]\rangle = (2\mu + \mu^2)/3$ is a soft hand-wave, not a rigorous RG bound
+
+**Hypothesis under test**: the Brazovskii-locked effective action for
+the emergent Lorentz sector admits a uniform bound
+$\Delta_{\mathrm{op}} \geq d_{\mathrm{eff}}=4$ under scale composition
+by averaging the transverse and longitudinal scaling dimensions of the
+cubic operator $O_h$.
+
+**Critique (GPT peer review, 2026-04-20)**: tensor-operator scaling
+dimensions are not averages. Proper RG analysis must decompose $O_h$
+into irreducible $O_h$-cubic sectors (perpendicular, parallel, mixed),
+compute the dimension of each separately, and take the **minimum**
+(most IR-relevant), not the mean, to bound relevance. The
+averaging identity $\langle[\partial_i]\rangle = (2\mu + \mu^2)/3$ is
+not a theorem.
+
+**Verdict**: Lemma 2 of Math_IR_Bound-rigorous-v2 is demoted to a
+heuristic estimate. The claim "$\Delta \geq 4$" is not yet proved under
+the stated derivation.
+
+**Replacement**: `Math_IR_Bound-rigorous-v3` (Task #34, #39), which
+must perform the full $O_h$-cubic decomposition and also supply the
+quantitative 1-loop anomalous dimension $\eta^{(c)}$ that v2 deferred.
+
+---
+
+### R-2026-04-20-01 — Math49c-rigorous-v2 spin-statistics argument retracted as circular (v3 replacement already in tree)
+
+**Hypothesis under test**: Theorem 2 of Math49c-rigorous-v2 derives
+fermion statistics of BCC disclinations by invoking the fact that
+"the Dirac zero mode has spin $1/2$, so under $2\pi$ rotation it
+acquires a sign, hence by Finkelstein–Rubinstein the configuration is
+fermionic".
+
+**Critique (GPT peer review, 2026-04-20)**: assuming the zero mode is
+"spin-$1/2$" is assuming the conclusion. TOE-grade derivation must
+start from the bosonic TECT order parameter $\Psi$ and derive the
+$2\pi$ sign from its topology alone.
+
+**Verdict**: the v2 theorem as written is tautological and is
+retracted.
+
+**Replacement**: `TECT-Math49c-rigorous-v3.tex.txt` (already in tree,
+2026-04-20), which routes the derivation through the first-shell BCC
+pair bundle $\mathcal{O} \to \Pi$ and a mod-2 spectral-flow index,
+avoiding any fermionic input. The v3 manuscript carries its own DA log
+`N_DA1…N_DA4`. One open numerical item (O1) remains: a PDE-lattice
+mod-2 spectral-flow cross-check, scheduled as `Math49c-v3-sim`.

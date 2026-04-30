@@ -326,4 +326,53 @@ The 2026-04-24 5-turn session left 19 stray files at root. They were:
 
 The seeds were relocated to `Runs/seeds/`. The commit helpers were superseded by `Codes/scripts/sandbox_commit.sh` (committed `6529bea`, 2026-04-24). All 15 stray scripts/messages are removed by `cleanup_root.ps1 -Apply`.
 | Run driver / sandbox-side helper | `Codes/scripts/<name>.{sh,ps1,bat,py}` | **YES** |
-| Pytest test | `Codes/tests/test_<module>.py` | **YES*
+| Pytest test | `Codes/tests/test_<module>.py` | **YES** |
+| Numerical seed file (`.npy`, `.npz`) | `Runs/seeds/<name>.npy` (and matching `<name>.npy.meta.json`) | **YES** |
+| Run output directory | `Runs/{audit,continuation,logs}/<run_id>/` | **YES** |
+| MANIFEST.md / per-run README | inside the run output directory | **YES** |
+| Chat-archived session decisions | `Docs/math/TECT-Math<NN>-Session-<date>-decisions.tex.txt` | **YES** |
+| Commit message (long) | inline argument to `Codes/scripts/sandbox_commit.sh` OR `/tmp/<id>.txt` (sandbox-only) | **YES** |
+| Commit helper script | **never create new** — always use the canonical `Codes/scripts/sandbox_commit.sh` | **YES** |
+| Plugin file | `<plugin-name>.plugin` at repo root (Cowork convention) | exception |
+
+### 6.2 Forbidden-in-root patterns (auto-cleaned by `Codes/scripts/cleanup_root.ps1`)
+
+The following file-name patterns indicate a violation of §6.1 and are removed by the cleanup utility AND refused by the `sandbox_commit.sh` pre-commit guard (exit 8):
+
+```
+*commit*.sh             *commit*.py             *commit*.bat
+direct_*.sh             do_commit*.sh           run_commit*.sh
+run_*_commit.sh         temp_commit_*.sh        temp_*_commit.sh
+*_commit_msg.txt        *_commit_*.txt          COMMIT_MANIFEST_*.txt
+COMMIT_*.txt            .commit_message_temp.txt    .*_commit_trigger
+.*_commit_msg
+Psi_BCC_*.npy           Psi_BCC_*.npy.meta.json    *.npy   *.npz
+*.tex.txt               (Math notes — must live in Docs/math/)
+```
+
+The `*commit*.{sh,py,bat}` glob is intentionally broad — it catches every plausible commit-helper variant. The canonical commit script `Codes/scripts/sandbox_commit.sh` is exempt because it lives under `Codes/scripts/`, not at root.
+
+### 6.3 Why this matters
+
+Repository-root pollution caused two concrete failures during the 2026-04-24 5-turn autonomous session:
+
+1. **Stale lock cascade**: stray commit-helper scripts at root invoked `git commit` directly, leaving phantom `.git/index.lock` and `.git/HEAD.lock` files that blocked subsequent `git add` / `git commit` for the rest of the session (cf. `Codes/scripts/sandbox_commit.sh` header).
+2. **Asset-copy contamination**: `--copy-assets` does not (and should not) copy from the repo root, so any code module mistakenly placed there is silently absent from `Website/assets/code/` and from the public download inventory in `Website/data/code.js`.
+
+### 6.4 Defense-in-depth
+
+Three layers enforce this discipline going forward:
+
+1. **Pre-creation discipline** (CLAUDE.md §13): every Math note, code module, and script created by an autonomous agent must carry a comment header citing its canonical destination per §6.1.
+2. **Post-creation cleanup** (`Codes/scripts/cleanup_root.ps1`): user-runnable PowerShell utility that detects and removes / relocates stray files matching §6.2 patterns. Dry-run by default; pass `-Apply` to execute.
+3. **Pre-commit guard** (`Codes/scripts/sandbox_commit.sh`): refuses to add files matching §6.2 patterns; prints the canonical destination and aborts with exit 8.
+
+### 6.5 Migration of existing strays
+
+The 2026-04-24 5-turn session left ~20 stray files at root, removed by `cleanup_root.ps1 -Apply`:
+
+- 12 stray commit-helper scripts: `commit_Turn4.sh`, `commit_math81.sh`, `commit_q6d.{sh,py}`, `direct_commit.sh`, `do_commit{,_math60c}.sh`, `run_commit.sh`, `run_q6d_commit.sh`, `temp_commit_math75_q2.sh`, `temp_q6d_commit.sh`
+- 4 orphan commit-message texts: `q6d_commit_msg.txt`, `COMMIT_MANIFEST_Math60C.txt`, `.commit_message_temp.txt`, `.q6d_commit_trigger`
+- 4 numerical seed files: `Psi_BCC_N32_phaseZ.npy{,.meta.json}`, `Psi_BCC_subset4_N32_phaseZ_E.npy{,.meta.json}`
+
+The seeds were relocated to `Runs/seeds/`. The commit helpers were superseded by `Codes/scripts/sandbox_commit.sh` (committed `6529bea`, 2026-04-24).

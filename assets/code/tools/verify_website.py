@@ -33,6 +33,7 @@ import argparse
 import json
 import os
 import re
+import shutil
 import subprocess
 import sys
 from pathlib import Path
@@ -67,16 +68,28 @@ def check_js_syntax(path: Path) -> None:
                 f"found {len(bad)} unescaped `href=\"` patterns "
                 f"(probable JS string-termination bug; see CLAUDE.md §6.3.7 lesson on results.js 2026-04-29)"
             )
-    # Also: try node if available
-    if subprocess.run(["which", "node"], capture_output=True).returncode == 0:
-        result = subprocess.run(
-            ["node", "--check", str(path)],
-            capture_output=True, text=True, timeout=15,
-        )
-        if result.returncode != 0:
+    # Also: try node if available. shutil.which() is cross-platform
+    # (POSIX `which` does not exist on Windows; Windows uses `where`).
+    # 2026-04-29 fix: previously `subprocess.run(["which", "node"], ...)`
+    # raised FileNotFoundError on Windows because `which` is not on PATH.
+    node_exe = shutil.which("node")
+    if node_exe:
+        try:
+            result = subprocess.run(
+                [node_exe, "--check", str(path)],
+                capture_output=True, text=True, timeout=15,
+            )
+            if result.returncode != 0:
+                first_err = (result.stderr.strip().splitlines() or ["?"])[0]
+                errors.append(
+                    f"[js-syntax-node] {path.relative_to(ROOT)}: "
+                    f"node --check failed: {first_err}"
+                )
+        except (OSError, subprocess.TimeoutExpired) as exc:
+            # Defensive: do not abort the whole verifier on a node oddity.
             errors.append(
                 f"[js-syntax-node] {path.relative_to(ROOT)}: "
-                f"node --check failed: {result.stderr.strip().splitlines()[0] if result.stderr.strip() else '?'}"
+                f"node --check could not run: {exc}"
             )
 
 

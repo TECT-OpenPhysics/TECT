@@ -925,6 +925,43 @@ content; they are single-file, dependency-free Python 3 scripts.
   remains SCAFFOLD (the geometric $\chi^{\mathbb{Z}_6}$ layer from
   Math49d-R3 arithmetic is unchanged and PROVED).
 
+### Math82_I_coldstart_analysis.py  (v1.0)  [ACTIVE]
+- **Purpose**: Aggregate and analyze 35-run multi-replica cold-start Newton experiment (5 replicas × 7 μ² values, subset-4-cosine ansatz); evaluate falsification criteria F1–F4 per Math82-AddI-AddA §2–§5.
+- **Inputs**: MANIFEST.md files from `Runs/continuation/math82i_coldstart_mu2_<mu2>_r<r>_<date>/` directories. Each MANIFEST contains: μ² value, convergence flag, n_Newton, ||Ψ*||/√N, λ_min, ΔF.
+- **Outputs**:
+  - CSV summary: per-μ² aggregates (n_runs, n_converged, n_non_trivial, mean/std/min/max m*², λ_min, ΔF, ||Ψ*||/√N, n_Newton, KS-uniformity p-value, classification).
+  - JSON classification report: per-μ² class (NON_TRIVIAL_BRANCH_EXISTS / VACUUM_COLLAPSE / MIXED_BIMODAL / NEWTON_FAILURE), falsification verdict, audit trail.
+- **CLI**:
+  ```bash
+  python -u Codes/supplementary/Math82_I_coldstart_analysis.py \
+    --runs-base-dir "Runs/continuation" \
+    --output-csv "Math82_I_analysis_summary.csv" \
+    --output-json "Math82_I_classification.json" \
+    --verbose
+  ```
+- **Dependencies**: NumPy, Pandas, SciPy (ks_2samp for Kolmogorov-Smirnov uniformity test); Python 3.7+.
+- **Math note**: `Docs/math/TECT-Math82-Addendum-I-Addendum-A-analysis-framework.tex.txt` (§1–§7).
+- **Pre-registered gates (CLAUDE.md §6.3.3)**:
+  - **F1 (primary falsification)**: If ANY μ² ∈ {-0.5, -0.7, -0.85, -1.0} classifies NON_TRIVIAL_BRANCH_EXISTS → Math82-G Regime III claim FALSIFIED.
+  - **F2 (termination confirmation)**: If all 7 points are VACUUM_COLLAPSE or MIXED_BIMODAL → branch termination confirmed.
+  - **F3 (anchor reproducibility)**: Point 1 (μ² = 5e-3) must yield m*² ∈ [4.0e-2, 4.5e-2] vs. Math82-F analytic 4.247e-2.
+  - **F4 (Hessian positivity)**: Every non-trivial solution requires λ_min > 0 (within Lanczos ±1%).
+- **Status**: COMPLETE (awaiting 35-run execution). Runtime: ~10 seconds (I/O limited). Pillar 1 impact: F1 falsification requires continuation re-baselining to negative-μ² non-trivial branch.
+
+### Math167_cocycle_check.py  (v1.0)  [DIAGNOSTIC]
+- **Purpose**: Verify the Čech cocycle condition $g_{01} \cdot g_{12} \cdot g_{20} = I$ on the triple overlap $\mathcal{U}_0 \cap \mathcal{U}_1 \cap \mathcal{U}_2$ of $\mathbb{CP}^2$ for the BCC defect bundle.
+- **Inputs**: None (all parameters hard-coded: samples random points in the triple overlap).
+- **Outputs**:
+  - Console: cocycle product norm at each sample point, phase relationships verification table.
+  - Summary: maximum error $\|\|g_{01} \cdot g_{12} \cdot g_{20} - I\|\|_F$ (should be $< 10^{-10}$).
+- **CLI**:
+  ```bash
+  python3 Codes/supplementary/Math167_cocycle_check.py
+  ```
+- **Dependencies**: NumPy, SciPy (for matrix exponentials via `expm`).
+- **Math note**: `Docs/math/TECT-Math167-Math162-3-patch-cover-Cech-closure.tex.txt` (§3.2–3.3).
+- **Status**: Supplementary diagnostic. Tests the closure of the three-patch Čech cocycle; confirms fibre-bundle structure is well-defined. Non-blocking for theory publication (purely numerical verification).
+
 ---
 
 ## 6. Falsification / sweeps
@@ -971,6 +1008,239 @@ content; they are single-file, dependency-free Python 3 scripts.
   ```
 - **Dependencies**: `tect_solver_pt_v3.py`, backend.
 - **Math note**: Math39-Reorg. Verifies shell-selection principle.
+
+---
+
+## 5f. Pillar 11 numerical-verification supplementary scripts
+
+### Math58_v7_lambda_cancellation_audit.py  (v1.0)  [ACTIVE — verification framework]
+- **Purpose**: Task #118 numerical verification of four-sector cosmological-constant
+  cancellation (monopole, vortex, BCC condensate, Dirac) at the Brazovskii operating
+  point. Evaluates each sector's contribution to Λ_cosmo analytically and confirms
+  the pre-registered criterion: |Λ_total| < 10⁻³ × max_i |Λ_i|.
+- **Inputs**: none (all Brazovskii operating-point parameters hard-coded:
+  μ² = 5×10⁻³, λ = -0.43, γ = 1.62, q₀ = 0.6801747616).
+- **Outputs**:
+  - Console: sector-by-sector evaluation table (monopole, vortex, BCC, Dirac),
+    total Λ_total, cancellation gate (PASS/FAIL), devil's-advocate self-test
+    verdicts (α/β/γ with DISMISSED/VALID verdicts).
+  - Status: EXECUTABLE; awaits Pillar 1 BCC-solution convergence for full
+    sector-extraction deployment.
+- **CLI**:
+  ```bash
+  python3 Codes/supplementary/Math58_v7_lambda_cancellation_audit.py
+  ```
+- **Dependencies**: NumPy only (no external BLAS, no Torch, no scipy required).
+  Deterministic, no stochastic components.
+- **Math note**: `Docs/math/TECT-Math58-v7-Addendum-B-Q5-numerical-verification.tex.txt`
+  (Pillar 11 Addendum-B, Turn 8 Track B, Task #118, 2026-04-24).
+- **Upgrade pathway**: if cancellation criterion passes, Pillar 11 advances
+  PROVED CONDITIONAL → fully PROVED (all conditions satisfied + numerical verification).
+  If criterion fails, sector-by-sector audit identifies defective sector for
+  re-derivation.
+- **Pre-registered falsification criteria (CLAUDE.md §6.3.3)**:
+  - **F1 (PV mass robustness)**: Recompute Λ_Dirac with 3 independent PV
+    regulator mass-ratio sets; variance must be zero (within machine precision).
+  - **F2 (lattice dependence)**: All sector formulas are continuum/algebraic-level;
+    no lattice-discretisation dependence expected.
+  - **F3 (non-circularity)**: Four sectors derive independently; numerical
+    breakdown of cancellation would immediately implicate a specific sector.
+- **Runtime**: < 1 second single-threaded.
+
+---
+
+## 5g. Multi-scale RG-extractor for Pillar 4 Q2 (supplementary)
+
+### Math36_RG_extractor.py  (v1.0)  [ACTIVE — Pillar 4 Q2 implementation]
+
+- **Purpose**: Five-step numerical pipeline to extract running gauge couplings
+  $(g_c(\Lambda), g_E(\Lambda), g_O(\Lambda))$ from a BCC ground-state field as
+  a function of renormalisation scale $\Lambda$. Reduces Pillar 4 Q2 (gauge-group
+  emergence via RG flow) from theoretical proof to numerical execution.
+  
+- **Theory**: Math36 overlap-insertion dictionary + Math88 §6 Q2 reduction-to-extractor
+  strategic re-framing. Executes five formal steps:
+  1. Spectral filter at scale $\Lambda$ (FFT momentum cutoff).
+  2. Raw moments $W_0, W_2, M_2, G_4$ computed on filtered field.
+  3. Directional decomposition: project $G_4$ onto BCC first-shell orbits
+     (cube, edge, octahedron) to extract $g_c, g_E, g_O$.
+  4. Flow reconstruction: assemble trajectory $(g_c, g_E, g_O)(\Lambda)$ over
+     multiple scales.
+  5. Fixed-point detection: verify convergence in IR window $[\Lambda_{\rm IR}, 2\Lambda_{\rm IR}]$
+     with $\epsilon_{\rm FP} = 5\%$ tolerance; check three pre-registered
+     falsification gates (F1 fixed-point existence, F2 SM coupling ratios,
+     F3 monotonicity).
+
+- **Inputs**:
+  - `psi_real` (NumPy 3D array): BCC ground-state field from Math82-H.
+  - `config` (ExtractionConfig dataclass): Lambda scales, window size, q_0.
+  - `lattice_spacing` (float): BCC lattice spacing (default 1.0).
+
+- **Outputs**:
+  - Structured dict with keys:
+    - `flow`: list of dicts, one per scale, with keys
+      `lambda, W0, W2, M2, G4, meff2, g_c, g_E, g_O`.
+    - `fixed_point`: dict with keys
+      `fixed_point_exists (bool), g_c_fp, g_E_fp, g_O_fp (floats),
+       variance_c/E/O, ir_window, falsification_F1/F2/F3_pass (bool),
+       coupling_ratios`.
+    - `config`: config dict (archived for reproducibility).
+    - `summary`: human-readable text summary.
+
+- **CLI** (test harness):
+  ```bash
+  python3 Codes/supplementary/Math36_RG_extractor.py
+  ```
+  Generates synthetic BCC-like field (3D cosine modes), runs full pipeline,
+  prints summary and falsification verdict, saves `Math36_extractor_result.json`.
+
+- **API** (production usage):
+  ```python
+  import numpy as np
+  from Codes.supplementary.Math36_RG_extractor import RGExtractorPipeline, ExtractionConfig
+  
+  # Load BCC ground-state field (e.g., from Math82-H run)
+  psi_bcc = np.load("path/to/Psi_star.npy")
+  
+  # Configure scales (example: UV=10, IR=1, 15 intermediate points)
+  config = ExtractionConfig(lambda_uv=10.0, lambda_ir=1.0, n_scales=15, q0=2*np.pi)
+  
+  # Execute pipeline
+  pipeline = RGExtractorPipeline(config)
+  result = pipeline.execute(psi_bcc, lattice_spacing=1.0)
+  
+  # Check results
+  print(result['summary'])
+  if result['fixed_point']['fixed_point_exists']:
+      print(f"Gauge emergence verified: (g_c, g_E, g_O) = " +
+            f"({result['fixed_point']['g_c_fp']:.4e}, " +
+            f"{result['fixed_point']['g_E_fp']:.4e}, " +
+            f"{result['fixed_point']['g_O_fp']:.4e})")
+  ```
+
+- **Dependencies**: NumPy only. FFT via `numpy.fft.fftn/ifftn`.
+  No external BLAS, PyTorch, SciPy, or backend modules required.
+
+- **Classes / key functions**:
+  - `ExtractionConfig`: dataclass for pipeline configuration (lambda_uv, lambda_ir,
+    n_scales, epsilon_fp, fp_window_factor, q0, c_mono).
+  - `SpectralFilter.filter_field()`: Step 1 — momentum-space cutoff.
+  - `RawMoments.compute_moments()`: Step 2 — moment computation.
+  - `DirectionalDecomposition.decompose()`: Step 3 — orbit decomposition.
+  - `FlowReconstruction.reconstruct_flow()`: Step 4 — multi-scale assembly.
+  - `FixedPointCheck.detect_fixed_point()`: Step 5 — fixed-point + falsification gates.
+  - `RGExtractorPipeline.execute()`: orchestrate all five steps; return full result.
+
+- **Math note**: `Docs/math/TECT-Math36-Addendum-A-multi-scale-RG-extractor.tex.txt`
+  (Pillar 4 Q2 theoretical closure; v1.0, 2026-04-24).
+
+- **Status**: PROVED REDUCIBLE (theoretical foundation complete; numerical execution
+  pending on BCC ground-state from Math82-H).
+
+- **Pre-registered falsification criteria (CLAUDE.md §6.3.3)**:
+  - **F1 (fixed-point existence)**: Variance in IR window < 5% of max coupling.
+  - **F2 (SM coupling ratios)**: Extracted ratios $g_c:g_E:g_O$ satisfy
+    $2.5 \le g_c/g_E \le 4.5$ and $2.0 \le g_E/g_O \le 6.0$.
+  - **F3 (monotonicity)**: RG flow has $< 2$ sign changes in slope
+    $d g_\alpha / d\log\Lambda$ over entire trajectory.
+
+- **Closure conditions** (Pillar 4 Q2 promotion pathway):
+  - **Cond-Q2-Path**: Pipeline executes without error on Math82-H BCC ground state.
+  - **Cond-Q2-Data**: All F1, F2, F3 gates pass; stable fixed point emerges.
+  - **Cond-Q2-Interpretation**: Fixed-point couplings map to SM structure via
+    Math36 dictionary inverse: $\alpha_3:\alpha_2:\alpha_1 \propto g_c^*:g_E^*:g_O^*$.
+
+- **Upgrade**: Upon satisfaction of Cond-Q2-Path/Data/Interpretation,
+  Pillar 4 Q2 advances from OUTLINE → PROVED REDUCIBLE (this module) →
+  PROVED CONDITIONAL (numerical execution).
+
+- **Runtime**: O(n_scales × N³) where N is the BCC lattice size.
+  For N=128, n_scales=15: ~1–2 minutes single-threaded on modern CPU.
+
+### Math82_I_branch_clustering.py  (v1.0)  [ACTIVE — Math36-B Step 1 post-processor]
+
+- **Purpose**: Post-processor for Math82-I-proper multi-replica cold-start output.
+  Implements Math36-Addendum-B §2 Step 1 (branch clustering) via hierarchical 
+  agglomerative clustering with single-linkage distance metric. Groups converged 
+  replicas across 56 runs (8 replicas × 7 μ² values) into physically-distinct branches.
+  Produces a JSON index file for downstream per-branch RG-extraction via Math36_RG_extractor.py.
+
+- **Theory**: Math36-Addendum-B multi-branch extension + Math82-Addendum-I-Addendum-A 
+  statistical framework. Input: ensemble {Ψ*,(k)}_{k=1}^K converged replicas per μ² value.
+  Output: branch index set I with cluster assignments, representatives, and sensitivity analysis.
+
+- **Inputs**: 
+  - Directory structure: `Runs/continuation/math82i_proper_mu2_<value>_r<replica>/`
+    containing MANIFEST.md (convergence status) and psi_final_*.npy (converged wavefunction).
+  - All 56 run directories automatically discovered via glob pattern.
+
+- **Outputs**:
+  - JSON index file: `Runs/audit/math82i_branch_clustering_<date>.json` with structure:
+    - `mu2_results`: per-μ² clustering (n_branches, branches list with representatives, sensitivity_curve).
+    - `summary`: aggregate statistics (total_replicas, total_converged, total_branches_found).
+
+- **Distance metric**: Hamming-like relative L₂-difference per Math36-AddB §2 Step 1:
+  $$d^{(k,k')} = \|\Psi^{*,(k)} - \Psi^{*,(k')}\|_2 / (0.5(\|\Psi^{*,(k)}\|_2 + \|\Psi^{*,(k')}\|_2))$$
+  Range: $d \in [0, 2]$ (normalization-insensitive).
+
+- **Algorithm**: 
+  1. Filter non-converged replicas (Step 0).
+  2. Compute all-pairs distance matrix (K² evaluations per μ²).
+  3. Hierarchical agglomerative clustering, single-linkage, threshold δ_Hamming = 0.1.
+  4. Extract cluster assignments and representatives.
+  5. Sensitivity test: vary δ ∈ [0.05, 0.2], report |I|(δ) to flag threshold instability.
+
+- **CLI** (standard execution):
+  ```bash
+  python3 Codes/supplementary/Math82_I_branch_clustering.py \
+    --run-dir Runs/continuation \
+    --threshold 0.1 \
+    --output Runs/audit/math82i_branch_clustering_$(date +%Y%m%d_%H%M%S).json \
+    --verbose
+  ```
+
+- **Dependencies**: NumPy only (no external BLAS, PyTorch, SciPy). Pure CPU clustering.
+
+- **Classes / key functions**:
+  - `BranchClusterer`: main class orchestrating all steps.
+  - `hamming_like_distance()`: relative-L₂-difference metric.
+  - `pairwise_distances()`: full K×K distance matrix construction.
+  - `single_linkage_clustering()`: hierarchical clustering algorithm.
+  - `cluster_per_mu2()`: clustering for a single μ² value (Steps 0–1).
+  - `process_run_directory()`: discover and process all 56 run directories.
+
+- **Pre-registered gates (CLAUDE.md §6.3.3)**:
+  - **Gate 1 (completion time)**: T_cluster < 30 seconds for 56 runs (PASS/FAIL).
+  - **Gate 2 (sensitivity stability)**: |I|(δ) varies by ≤ ±1 branch over [0.05, 0.2] window (PASS/FAIL).
+  - **Gate 3 (convergence rate)**: ≥ 75% of replicas converge per μ² (PASS/FAIL).
+
+- **Devil's-advocate self-test (CLAUDE.md §6.3, mandatory)**:
+  - **α (seed sensitivity)**: Hoeffding bound guarantees 90% basin coverage for K=8 replicas, p≥0.25.
+    Verdict: DISMISSED.
+  - **β (gauge equivalence)**: Unquotiented distance metric treats gauge-equivalent branches as distinct.
+    Verdict: VALID with documented caveat (Math36-AddC follow-up for quotient implementation).
+  - **γ (chaining artifacts)**: Single-linkage may produce spurious merges; sensitivity test (Gate 2) detects.
+    Verdict: VALID, flagged by sensitivity threshold.
+
+- **Math note**: `Docs/math/TECT-Math36-Addendum-B-AddA-clustering-implementation.tex.txt`
+  (Clustering algorithm spec + gates + devil's-advocate audit, 2026-04-24).
+
+- **Closure conditions** (Math36-B Step 1 completion):
+  - **Cond-Exec**: Math82-I-proper executes cleanly (56 runs), outputs discoverable.
+  - **Cond-Gates**: All three numerical gates (1–3) PASS.
+  - **Cond-Output**: JSON index produced with ≥ 1 branch per μ² (non-trivial clustering).
+
+- **Integration pathway**:
+  1. Math82-I-proper runs (user's local environment, ~hours).
+  2. Math82_I_branch_clustering.py post-processes in < 30 seconds.
+  3. JSON index consumed by Math36_RG_extractor.py (multi-branch extension, Math92 Track B).
+  4. Per-branch RG-extraction: Steps 2–6 of Math36-B §2.
+  5. Q2 fixed-point detection per branch (Math36-B §2 Step 6).
+
+- **Status**: IMPLEMENTATION COMPLETE (pre-test). Awaiting Math82-I-proper execution.
+
+- **Runtime**: O(K² × 7) ≈ O(64 × 7) = O(448) distance evaluations total;
+  ~1–5 seconds for 56 runs on modern CPU.
 
 ---
 
@@ -1322,4 +1592,6 @@ content; they are single-file, dependency-free Python 3 scripts.
 | 2026-04-22 | **continuation_mu2_v25.py v2.5.0 → v2.5.1 + run_v25_diagnostic.ps1 CLI fix**. First full-path local run of the v2.5 diagnostic reached Stage [3/4] with all self-tests green but aborted at Stage [4/4] with (i) `WARNING: check_jacobian_symmetry not found` — Math63 §2A probe routing silently bypassed, solver degrading to plain FGMRES — and (ii) `argparse: error: unrecognized arguments: --mu2_list ...`. Root cause (i): v2.5.0 `sys.path` bootstrap only prepended the PDE/ directory, whereas `tools/` is a sibling package. Root cause (ii): the 6-point schedule is already hardcoded by `--diagnostic`; the caller was passing a non-existent `--mu2_list` CSV. Fix (i): widen the bootstrap to insert both `PDE/` and the repository root, and qualify the import as `from tools.check_jacobian_symmetry import probe_symmetry`; enrich the except-branch message. Fix (ii): drop `--mu2_list` from `scripts/run_v25_diagnostic.ps1` with an inline NOTE preventing regression. No change to Math63 specification or solver numerics — purely plumbing restoration so the probe-driven {PCG, MINRES, FGMRES} routing is no longer silently bypassed. §10.4 updated. |
 | 2026-04-22 | **Newton-Krylov v2.5 solver redesign sealed**: Added §10 (Continuation & Adaptive Solvers). Four new modules + one continuation driver, all imported by `continuation_mu2_v25.py`. Math63 specification sealed in response to R-2026-04-21-002 failure (v2.4 GMRES stagnation at μ²=-1.0, ρ_lin≈0.6). Key innovations: (1) Jacobian symmetry probe → {PCG, MINRES, FGMRES} routing; (2) Fourier-diagonal Brazovskii preconditioner (κ_eff ≈10); (3) staged tolerance schedule; (4) stagnation hard-abort. Diagnostic execution pending user local machine (PyTorch unavailable in sandbox). |
 | 2026-04-20 | Added `Docs/status/v2p4-patch-plan.md` v1.0 — concrete diffs for the v2.4 Newton-Krylov patch, parametrised by $\mu^{2}_{\text{target}}$. Lists module-level constants, a `v24_separatrix_thresholds()` helper that raises if $\mu^{2}_{\text{target}} > r_{c}^{\text{meta}}$, and Phase-0 / Class-II / Phase-2.5 hooks. **No code has been committed**; patch is gated on resolution of [X5] ($\phi_{0}$-convention audit) and user selection of $\mu^{2}_{\text{target}}\in\{3\times 10^{-3},\,5\times 10^{-3},\,8\times 10^{-3}\}$. Rollback plan specified. |
+| 2026-04-24 | **NEW: `Codes/supplementary/Math75_Q2_RG_integration.py` v1.0 [ACTIVE]** — RG-flow integrator for TECT Pillar 4 Q2 closure (Wetterich functional RG). Implements 1-loop β-functions for three SM gauge couplings ($\alpha_1, \alpha_2, \alpha_3$) plus discrete-gauge coupling ($\lambda_g$), including full TECT BCC-defect corrections derived from SO(10) symmetry (Math75-Q2-Addendum-A-RGE-completion, §3). Solves coupled ODE system from UV ($\Lambda_{\rm BCC}\sim 1.5$ GeV, $t_{\rm UV}\approx 46$) to IR ($M_Z = 91.2$ GeV, $t_{\rm IR}\approx 40$) using RK45 adaptive stepping with tight tolerances (atol=1e-12, rtol=1e-10). Inputs: parameters (q0, a_BCC, n_d, C_i) hardcoded; optional `--config` JSON overlay for sensitivity studies. Outputs: machine-readable JSON (`Math75_Q2_RG_integration_report.json`) with IR couplings, deviations from PDG 2024, and status classification (PROVED_CONDITIONAL / PARTIAL_ADVANCED / FALSIFIED per §2 pre-registered thresholds). Pre-registered falsification gate: $|\Delta\alpha_i| > 5\%$ falsifies; success gate: $|\Delta\alpha_i| < 0.5\%$ advances Pillar 4 to PROVED CONDITIONAL. **Theory**: TECT-Math75-Q2-RG-flow-derivation (symbolic setup), TECT-Math75-Q2-Addendum-A-numerical-RG-strategy (protocol), TECT-Math75-Q2-Addendum-A-RGE-completion (this entry's companion, full specifications + devil's-advocate audit §6.3). **Dependencies**: numpy, scipy.integrate.solve_ivp, json, pathlib (all standard). **CLI**: `python -u Codes/supplementary/Math75_Q2_RG_integration.py --integrate --report`. No CLI config needed for baseline run; to modify C_i or n_d, edit hardcoded constants at lines 45–48. **Maturity**: ACTIVE, proof-grade (all inputs pre-registered in Math75-Q2-AddA §3, all outputs archived per CLAUDE.md §4, devil's-advocate self-audit completed §6.3.1). **Status**: CODE SKELETON → EXECUTABLE (code rewrite 2026-04-24 Turn 6 Track B, by CLAUDE); ready for user execution. |
 | 2026-04-20 | **Task #54A code wiring committed**. `PDE/tect_newton_krylov.py` v2.3 → v2.4.0: new private `_run_v24_phase0_gate(Psi_star, params, verbose)` inserted in `run_proof_pipeline` after the Phase 1 downstream-block check, before Phase 2. Gate imports from `v24_thresholds.py` v2.4.0: `BrazovskiiParams`, `brazovskii_critical_mu2`, `v24_separatrix_thresholds`, `v24_phase0_gate`, `v24_class2_guard`, `V24_G0_CUSHION`, `V24_RHO_STAR_FACTOR`. Six branching paths: (A) non-finite params → skipped; (B) invalid Brazovskii ($\lambda\ge 0$ or $\gamma\le 0$) → skipped; (C) $\mu^{2}\ge r_{c}^{\mathrm{meta}}$ → skipped (outside Math56-Addendum Theorem 1 existence window); (D) Class-II floor breach $\langle\lvert\Psi\rvert^{2}\rangle<\rho_{*}$ → `RuntimeError` propagates up; (E) $V=\langle\lvert\Psi\rvert^{2}\rangle/\phi_{+}^{2}\ge G_{0}^{\mathrm{op}}$ → pass; (F) $V<G_{0}^{\mathrm{op}}$ → fail (`downstream_blocked=True`). New CLI flag `--disable-v24-gate` (debug only). `phase_failed()` recognises v2.4 gate FAIL. Output JSON gains `phase0_gate_v24`. Param-key priority: `quartic_lambda`/`sextic_gamma` over `lambda`/`gamma`. **Newton-Krylov dynamics unchanged**. New regression file `tests/test_v24_gate_integration.py` (8 tests, all pass in 0.003 s). `stamp_version_headers.py` now registers the solver at v2.4.0 with `THEORY_TAG="Math56-Addendum-v2p4-2026-04-20"`; stamper was re-run across all 31 active `PDE/*.py` files. `docs/status/v2p4-task54-runbook.md` added with exact CLI invocations for #54B (`continuation_mu2.py --N 32/64`) and #54C (`hess_jump_audit.py`), accept/reject decision tree, and a quick-reference numerics table. |
+| 2026-04-29 | **NEW: `Codes/scripts/publish.ps1` (Operator publish-pipeline wrapper)**. PowerShell 5.1+ entry point that runs the full TECT publication pipeline (`verify_website.py` → `github_sync_curate.py` → `github_sync_push.py {commit, push, meta} --apply`) in a single command. **Inputs**: `-Token <PAT>` (inline) OR `-CredentialName tect-github` (Windows Credential Manager via `Get-StoredCredential`). **Flags**: `-SkipMeta` (skip About/Topics/Releases sync); `-SkipReleases` (sync About+Topics but skip auto-tag); `-DryRun` (echo each step without executing). **Pre-flight**: verifies `Github\.git` exists AND `git -C Github rev-parse --show-toplevel` resolves to the expected `Github/` path (defense-in-depth duplicate of the in-script `_assert_isolated_repo()` guard added 2026-04-29 commit `69d7317`). **Token hygiene**: `$env:GITHUB_TOKEN` is set ONLY between the `try` entry and the `finally` cleanup; both `Remove-Item Env:\GITHUB_TOKEN` and `$Token = $null` execute on success, error, AND Ctrl-C. **Exit codes**: 0 OK; 10/20/30/40/50 per-step failure (verify/curate/commit/push/meta); 90 precondition; 99 generic. **Companion docs**: `Docs/policy/GITHUB_FIRST_PUSH_RUNBOOK.md` for the underlying pipeline; `Codes/tools/github_sync_push.py` and `Codes/tools/github_sync_curate.py` for the Layer-1/2 internals. **Operator workflow**: after a `[Theory] MathNN:` commit on the canonical TECT2 repo, single command `.\Codes\scripts\publish.ps1 -Token <PAT>` (or `-CredentialName tect-github`) propagates to GitHub mirror + tect.kr (via cron pull) + GitHub Releases + repo About/Topics. **Maturity**: ACTIVE; production. |
