@@ -1,37 +1,16 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 # === TECT VERSION HEADER BEGIN ===
-# Theory tag    : Math82-I-r3-tcg-max-wiring-fix-2026-04-26
+# Theory tag    : Math56-Addendum-v2p4-2026-04-20
 # Regime        : Brazovskii (lambda<0, gamma>0 sizeable)
-# Module version: v2.6.6
+# Module version: v2.4.0
 # Sync doc      : /Contents/docs/status/TECT-Theory-Code-Sync.md
-# Last synced   : 2026-04-26
-# v2.6.6 fix    : gmres_trust_region_solve now converts the cumulative-iter
-#                 cap (max_iter from the caller) into SciPy gmres's
-#                 restart-cycle maxiter via maxiter // restart. Pre-v2.6.6
-#                 the SciPy maxiter was set to the cumulative cap directly,
-#                 so the effective inner iter cap was max_iter * restart,
-#                 e.g. core default 300 * 50 = 15000 cumulative iter (visible
-#                 in the v2.6.4 deep-regime logs as the saturation tCG=15000
-#                 in the 22-hour mu2 = -0.7 run). Pairs with the
-#                 continuation_mu2_v25.py v2.6.6 wiring fix that propagates
-#                 CLI --tcg-max to tcg_max_iter.
+# Last synced   : 2026-04-20
 # Notes         : Code is version-locked to the above theory tag.
-#                 v2.6.2 — Math73 Thm. math73-sym-incompat landed:
-#                 `cii_block_mask: Optional[ndarray]` retired in favour
-#                 of a `cii_projector: Optional[CiiProjector]` API;
-#                 default `FullProjector()` reproduces v2.6.1 output
-#                 bit-identically; new `ChannelProjector` exposes the
-#                 pointwise complex-orthogonal projector P_cII(Psi) as
-#                 a DIAGNOSTIC observable for channel-localisation of
-#                 the anti-Hermitian Jacobian signal (eta_chan).
-#                 B3 (Task #114) closed at the structural level.
-#                 v2.6.1 — Math66 v0.2 Prop. math66v02-pathA landed:
-#                 graph-connected adjoint JVP via torch-native residual
-#                 composition (B2 structural unblock, Task #113).
-#                 v2.6.0 — Path-X cII symmetrisation wiring (B2 disconnect).
-#                 Re-run PDE/stamp_version_headers.py after any tag bump
-#                 or version-table edit.
+#                 The module-version field tracks the file's own API
+#                 generation (filename = <module>_v<N>.py); the theory
+#                 tag is global. Re-run PDE/stamp_version_headers.py
+#                 after any tag bump or version-table edit.
 # === TECT VERSION HEADER END ===
 r"""
 tect_newton_krylov.py  —  Trust-region Newton-Krylov solver (v2.6)

@@ -1,29 +1,15 @@
 #!/usr/bin/env python3
 # === TECT VERSION HEADER BEGIN ===
-# Theory tag    : Math82-I-r3-tcg-max-wiring-fix-2026-04-26
+# Theory tag    : Math56-Addendum-v2p4-2026-04-20
 # Regime        : Brazovskii (lambda<0, gamma>0 sizeable)
-# Module version: v2.6.6
+# Module version: unregistered
 # Sync doc      : /Contents/docs/status/TECT-Theory-Code-Sync.md
-# Last synced   : 2026-04-26
-# v2.6.6 fix    : CLI option --tcg-max is now propagated through run_one_point_v25
-#                 to tect_newton_krylov.newton_solve (and downstream
-#                 truncated_cg_solve / gmres_trust_region_solve max_iter). Prior
-#                 versions (v2.6.4–v2.6.5) only fed --tcg-max into the post-run
-#                 acceptance gate (tol_gate.tCG_max), leaving the inner Krylov
-#                 cap at the core default. Symptom: deep-regime points (e.g.
-#                 mu2 = -0.7) entered linear convergence with EW eta saturating
-#                 near 0.68 because the inner solver could not satisfy the
-#                 tighter tolerance within the silent default cap. Diagnosed
-#                 from the 22-hour Math82-H phase2 run that stopped at
-#                 ||grad||/sqrt(dof) = 8.34e-7 after 19 Newton steps.
-# Notes         : Newton-Krylov adaptive continuation driver. Live v2.6.x-aware
-#                 wrapper around tect_newton_krylov.newton_solve (v2.6.2, Math66 v0.2 Path-A +
-#                 Math73 cII projector API). The v2.5.7 "structural skeleton pending local
-#                 execution" provision is retired as of 2026-04-23: run_one_point_v25 now
-#                 performs a single real Newton solve per mu2 point, propagates convergence
-#                 from newton_history[-1]["grad_norm"] < tol_newton, and wires Phase 2
-#                 (lanczos_hessian + analyze_projected_spectrum) and Phase 3
-#                 (compute_energy_difference) into the continuation-point record.
+# Last synced   : 2026-04-20
+# Notes         : Code is version-locked to the above theory tag.
+#                 The module-version field tracks the file's own API
+#                 generation (filename = <module>_v<N>.py); the theory
+#                 tag is global. Re-run PDE/stamp_version_headers.py
+#                 after any tag bump or version-table edit.
 # === TECT VERSION HEADER END ===
 #
 # --- v2.6.3 CHANGELOG (2026-04-23) --------------------------------------------
@@ -580,6 +566,17 @@ class NewtonStep:
     accepted: bool = True                          # step accepted by trust region?
     model_pred_reduction: float = float("nan")    # predicted merit drop
     actual_reduction: float = float("nan")        # realised merit drop
+    # v2.6.7d (2026-05-01) — fields needed for full reproducibility of the
+    # Newton trajectory in newton_history.json, per the Phase-2-closure
+    # code review. Previously the v2.6.7 serializer attempted to read
+    # these via getattr(...) but the dataclass did not expose them, which
+    # caused the entire newton_history.json serializer block to silently
+    # fall through to NaN (or to AttributeError in the related
+    # `args.krylov_method` lookup, which fired the 'Namespace' object
+    # has no attribute 'krylov_method' message in operator output).
+    F: float = float("nan")                        # NewtonStepRecord.F  (free energy)
+    merit: float = float("nan")                    # NewtonStepRecord.merit  (½||R_proj||²)
+    trust_radius: float = float("nan")             # NewtonStepRecord.trust_radius (Δ)
 
 
 @dataclass
@@ -905,6 +902,7 @@ def run_one_point_v25(
     checkpoint_path: Optional[Path] = None,
     checkpoint_every: int = 1,
     krylov_method_override: str = "auto",
+    trust_radius_max: Optional[float] = None,   # v2.6.7d (Math294-AddA Priority 3)
     verbose: bool = True,
 ) -> Tuple[ContinuationPoint, np.ndarray]:
     """
@@ -1001,16 +999,80 @@ def run_one_point_v25(
     phase_d_ok = False
     interrupted = False
 
-    # ── v2.6.6 (2026-04-26) per-step checkpoint hook ──
+    # ── v2.6.7c (2026-05-01) best-F tracker, per Math294-AddA ──
+    # The 2026-05-01 striped-seed N=16 A_0=0.5 run revealed a
+    # trust-region overshoot pathology: Newton entered the broken-phase
+    # basin (F: +184.7 → -171.7 at step 3) but was ejected and converged
+    # to the trivial vacuum from above (final F = +9.66e-8). The deepest
+    # basin iterate (the real physical asset) was lost because only the
+    # final Newton state was persisted to Psi_final.npy and only the
+    # most-recent step to Psi_checkpoint.npy. We fix this by maintaining
+    # a parallel "best-F" tracker that overwrites Psi_best_F.npy
+    # whenever the current Newton step achieves a new minimum F. Together
+    # with the regular per-step checkpoint, this guarantees the deepest
+    # broken-phase iterate is recoverable for Math292 acceptance check
+    # and Math293 classification regardless of subsequent trajectory.
+    _best_F_state: Dict[str, float] = {"value": float("inf"), "step": -1}
+
+    # ── v2.6.6 (2026-04-26) per-step checkpoint hook + v2.6.7c best-F ──
     # If the caller supplied `checkpoint_path`, build a callback that
     # persists Psi to that path after every `checkpoint_every` Newton
     # steps. This makes Ctrl-C (or any other process termination)
     # recoverable: the most recent committed Newton state is on disk,
     # ready to be loaded with --load-psi for warm-start.
+    # Additionally, on every step we evaluate whether F dropped below
+    # the running best and, if so, persist Psi to a parallel
+    # Psi_best_F.npy file with metadata in Psi_best_F.json.
     def _checkpoint_callback(psi_curr: np.ndarray, step: int,
                              step_record: Dict[str, Any]) -> None:
         if checkpoint_path is None:
             return
+
+        # ── v2.6.7c best-F branch (always evaluated, independent of
+        #    checkpoint_every cadence) ──
+        try:
+            _F_curr = float(step_record.get("F", float("nan")))
+            if math.isfinite(_F_curr) and _F_curr < _best_F_state["value"]:
+                _best_F_state["value"] = _F_curr
+                _best_F_state["step"] = int(step)
+                best_path = checkpoint_path.parent / "Psi_best_F.npy"
+                best_meta = checkpoint_path.parent / "Psi_best_F.json"
+                # Atomic write: tmp file then rename.
+                tmp_best = best_path.parent / (
+                    best_path.stem + ".tmp" + best_path.suffix
+                )
+                np.save(tmp_best, psi_curr)
+                tmp_best.replace(best_path)
+                _meta = {
+                    "best_F": _F_curr,
+                    "best_F_step": int(step),
+                    "grad_norm": float(step_record.get("grad_norm", float("nan"))),
+                    "merit": float(step_record.get("merit", float("nan"))),
+                    "trust_radius": float(step_record.get("trust_radius", float("nan"))),
+                    "rho": float(step_record.get("rho", float("nan"))),
+                    "shape": list(psi_curr.shape),
+                    "dtype": str(psi_curr.dtype),
+                    "schema": "Math294-AddA-v1",
+                }
+                best_meta.write_text(
+                    json.dumps(_meta, indent=2), encoding="utf-8"
+                )
+                if verbose:
+                    print(
+                        f"      [best-F] step {step}: new minimum "
+                        f"F = {_F_curr:+.6e}; Psi saved to "
+                        f"{best_path.name}"
+                    )
+        except Exception as _e_bestF:
+            # best-F is a non-critical diagnostic; do not abort the
+            # solver if it fails. Log silently per the v25 driver
+            # convention for callback exceptions.
+            if verbose:
+                print(
+                    f"      [best-F] step {step}: tracker failed "
+                    f"(non-fatal): {type(_e_bestF).__name__}: {_e_bestF}"
+                )
+
         if step % max(1, checkpoint_every) != 0:
             return
         # Atomic write: save to *.tmp.npy first, then rename, so a Ctrl-C
@@ -1043,9 +1105,11 @@ def run_one_point_v25(
             )
 
     try:
-        Psi_star, newton_history, projector = newton_solve(
-            Psi0,
-            params,
+        # v2.6.7d (Math294-AddA Priority 3): build kwargs dict so that
+        # trust_radius_max is forwarded only when the operator opts in.
+        # Without --trust-region-max, default behaviour is unchanged
+        # (solver core sets trust_radius_max = max(1, 10*Δ_init)).
+        _solver_kwargs: Dict[str, Any] = dict(
             max_newton=max_newton,
             tol_newton=tol_newton,
             krylov_method=krylov_method,
@@ -1059,6 +1123,16 @@ def run_one_point_v25(
                                          # 22-hour Math82-H r3 diagnosis.
             checkpoint_callback=_checkpoint_callback if checkpoint_path is not None else None,
             verbose=verbose,
+        )
+        if trust_radius_max is not None and math.isfinite(trust_radius_max):
+            _solver_kwargs["trust_radius_max"] = float(trust_radius_max)
+            if verbose:
+                print(
+                    f"  v2.6.7d: trust_radius_max cap = "
+                    f"{trust_radius_max:.3e} (Math294-AddA overshoot guard)"
+                )
+        Psi_star, newton_history, projector = newton_solve(
+            Psi0, params, **_solver_kwargs,
         )
         phase_d_ok = True
     # v2.6.6: KeyboardInterrupt catch -- on Ctrl-C, persist whatever Psi
@@ -1117,6 +1191,15 @@ def run_one_point_v25(
         accepted = bool(h.get("accepted", True))
         pred_red   = float(h.get("model_pred_reduction", float("nan")))
         actual_red = float(h.get("actual_reduction", float("nan")))
+        # v2.6.7d (2026-05-01) — populate F / merit / trust_radius fields
+        # introduced in the v2.6.7d NewtonStep schema extension so that
+        # the newton_history.json serializer can emit the full Newton
+        # time-series. NewtonStepRecord (in tect_newton_krylov.py)
+        # already carries these as native fields; the previous v2.6.7
+        # NewtonStep schema dropped them.
+        F_step = float(h.get("F", float("nan")))
+        merit_step = float(h.get("merit", float("nan")))
+        trust_step = float(h.get("trust_radius", float("nan")))
         result.newton_steps.append(NewtonStep(
             iteration=int(h.get("step", -1)),
             residual_norm=float(h.get("grad_norm", float("nan"))),
@@ -1136,6 +1219,10 @@ def run_one_point_v25(
             accepted=accepted,
             model_pred_reduction=pred_red,
             actual_reduction=actual_red,
+            # v2.6.7d (2026-05-01) full-trajectory fields:
+            F=F_step,
+            merit=merit_step,
+            trust_radius=trust_step,
         ))
 
     # Convergence criterion — mirrors tect_newton_krylov.newton_solve:1231.
@@ -1361,6 +1448,39 @@ def main():
         help="Suppress per-step output",
     )
     parser.add_argument(
+        "--trust-region-max",
+        dest="trust_region_max",
+        type=float,
+        default=float("inf"),
+        help="v2.6.7d (Math294-AddA Priority 3): cap on the trust-region "
+             "radius Δ during Newton iteration. Default +inf preserves "
+             "the original trust_radius_max = max(1, 10·Δ_init) heuristic. "
+             "Set explicitly (e.g. 8.0) when running on coarse lattices "
+             "where the broken-phase basin diameter is sub-trust-region "
+             "and trust-region expansion has been observed to eject the "
+             "iterate from the basin (Math290 → Math294-AddA overshoot "
+             "scenario at N=16, μ²=-0.7 with A_0=0.5 striped seed). "
+             "Recommended: 8.0 on N=16, scale ~ basin diameter on finer "
+             "lattices.",
+    )
+    parser.add_argument(
+        "--phase-half-guard",
+        dest="phase_half_guard",
+        action="store_true",
+        help="v2.6.7d (Math294-AddA Priority 4): enable mid-Newton "
+             "free-energy monotonicity guard. When set, the solver "
+             "wrapper inspects newton_history after the run and "
+             "reports any accepted step where F[Ψ^{(t+1)}] > F[Ψ^{(t)}] "
+             "by more than 50% of the previous |F| (a basin-escape "
+             "diagnostic). The guard does not currently abort the "
+             "Newton loop (full mid-loop intervention requires the "
+             "tect_newton_krylov.py core extension flagged in "
+             "Q-2026-05-15-Math294-AddA-PhaseHalfGuard, scheduled for "
+             "next patch cycle). The current implementation is a "
+             "post-run audit emitter that flags the basin-escape "
+             "trajectory in stdout and in newton_history.json.",
+    )
+    parser.add_argument(
         "--krylov-method",
         dest="krylov_method_override",
         type=str,
@@ -1513,6 +1633,11 @@ def main():
                 checkpoint_path=_ckpt_path if _ckpt_every > 0 else None,
                 checkpoint_every=_ckpt_every if _ckpt_every > 0 else 1,
                 krylov_method_override=args.krylov_method_override,  # v2.6.6d
+                trust_radius_max=(   # v2.6.7d (Math294-AddA Priority 3)
+                    float(args.trust_region_max)
+                    if math.isfinite(float(args.trust_region_max))
+                    else None
+                ),
                 verbose=not args.quiet,
             )
             results.append(point_result)
@@ -1642,8 +1767,8 @@ def main():
     manifest_path = os.path.join(outdir, "MANIFEST.md")
     with open(manifest_path, "w", encoding="utf-8") as f:
         f.write("# v2.6.4 Continuation Results\n\n")
-        f.write(f"**Driver**         : PDE/continuation_mu2_v25.py (v2.6.6)\n")
-        f.write(f"**Theory tag**     : Math74-AddB-v2p6p4-gate-semantic-fix-2026-04-23\n")
+        f.write(f"**Driver**         : Codes/pde/continuation_mu2_v25.py (v2.6.7d)\n")
+        f.write(f"**Theory tag**     : Math294-AddA-best-F-tracker-trust-cap-phase-half-guard-2026-05-01\n")
         f.write(f"**Status**         : {overall_status}\n")
         f.write(f"**Points total**   : {len(mu2_schedule)}\n")
         f.write(f"**Converged**      : {n_converged}\n")
@@ -1732,9 +1857,9 @@ def main():
                 rho_trust_min_final = float("nan")
                 n_accepted = 0
             endpoint_payload = {
-                "schema_version": "continuation_mu2_v25_endpoint/1.1",
-                "theory_tag": "Math82-I-r3-tcg-max-wiring-fix-2026-04-26",
-                "driver_version": "v2.6.6",
+                "schema_version": "continuation_mu2_v25_endpoint/1.2",
+                "theory_tag": "Math294-AddA-best-F-tracker-2026-05-01",
+                "driver_version": "v2.6.7d",
                 "solver_core_version": "v2.6.6",
                 "mu2": float(last_point.mu2),
                 "r": float(last_point.r),
@@ -1768,16 +1893,32 @@ def main():
             with open(endpoint_path, "w", encoding="utf-8") as f:
                 json.dump(endpoint_payload, f, indent=2, ensure_ascii=False)
 
-    # v2.6.7 NEW (2026-04-29): persist per-Newton-step history to disk
-    # so the (grad_norm, merit, F, rho_trust, eta, tCG, alpha, Delta)
+    # v2.6.7 NEW (2026-04-29; v2.6.7d field-name fix 2026-05-01):
+    # persist per-Newton-step history to disk so the
+    # (grad_norm, merit, F, rho_trust, eta_ew, tCG, alpha, Delta)
     # time-series survives terminal-log loss. Required for
     # publication-grade reproducibility per CLAUDE.md §10 + INDEX.md §1.
+    #
+    # v2.6.7d (2026-05-01) — fixed four serializer field-name defects
+    # identified in the Phase-2-closure code review:
+    #   (i)   args.krylov_method  → args.krylov_method_override
+    #         (argparse `dest=` convention; previous attribute name was
+    #         non-existent, raising AttributeError captured by the
+    #         broad try/except → silent history-loss).
+    #   (ii)  getattr(s, "f_value", ...) → getattr(s, "F", ...)
+    #         (NewtonStep has no f_value; v2.6.7d added F as field).
+    #   (iii) getattr(s, "eta", ...) → getattr(s, "eta_ew", ...)
+    #         (NewtonStep field name is eta_ew, not eta).
+    #   (iv)  getattr(s, "step_alpha", ...) → s.line_search_alpha
+    #         (canonical field).
+    #   (v)   p.stagnation → p.stagnation_detected (canonical name).
+    #   (vi)  getattr(p, "wall_time", ...) → p.wall_time_s (canonical).
     history_path = os.path.join(outdir, "newton_history.json")
     try:
         history_payload = {
             "driver": "continuation_mu2_v25.py",
-            "driver_version": "v2.6.7",
-            "theory_tag": "Math74-AddB-v2p6p4-gate-semantic-fix-2026-04-23",
+            "driver_version": "v2.6.7d",
+            "theory_tag": "Math294-AddA-best-F-tracker-2026-05-01",
             "overall_status": overall_status,
             "n_points": len(mu2_schedule),
             "n_converged": int(n_converged),
@@ -1789,7 +1930,17 @@ def main():
             "ew_eta_min": float(args.ew_eta_min),
             "ew_eta_max": float(args.ew_eta_max),
             "rho_min": float(args.rho_min),
-            "krylov_method": str(args.krylov_method),
+            # v2.6.7d fix (i): canonical argparse dest is
+            # `krylov_method_override`, not `krylov_method`.
+            "krylov_method": str(getattr(
+                args, "krylov_method_override", "auto"
+            )),
+            "trust_region_max": float(getattr(
+                args, "trust_region_max", float("inf")
+            )),
+            "phase_half_guard": bool(getattr(
+                args, "phase_half_guard", False
+            )),
             "N": int(args.N),
             "L": float(args.L),
             "load_psi": str(args.load_psi) if args.load_psi else None,
@@ -1802,22 +1953,31 @@ def main():
                 steps_serialised.append({
                     "step": int(s_idx),
                     "grad_norm": float(getattr(s, "residual_norm", float("nan"))),
+                    # v2.6.7d fix (ii): NewtonStep.merit/F/trust_radius
+                    # are now native fields (added in the v2.6.7d
+                    # schema extension). Read directly.
                     "merit": float(getattr(s, "merit", float("nan"))),
-                    "F_value": float(getattr(s, "f_value", float("nan"))),
+                    "F_value": float(getattr(s, "F", float("nan"))),
                     "rho_trust": float(getattr(s, "rho_trust", float("nan"))),
-                    "eta_forcing": float(getattr(s, "eta", float("nan"))),
+                    # v2.6.7d fix (iii): canonical field name eta_ew.
+                    "eta_forcing": float(getattr(s, "eta_ew", float("nan"))),
                     "krylov_iterations": int(getattr(s, "krylov_iterations", 0)),
-                    "step_alpha": float(getattr(s, "step_alpha", float("nan"))),
+                    # v2.6.7d fix (iv): canonical field name line_search_alpha.
+                    "step_alpha": float(getattr(s, "line_search_alpha", float("nan"))),
                     "trust_radius": float(getattr(s, "trust_radius", float("nan"))),
                     "accepted": bool(getattr(s, "accepted", True)),
+                    "model_pred_reduction": float(getattr(s, "model_pred_reduction", float("nan"))),
+                    "actual_reduction": float(getattr(s, "actual_reduction", float("nan"))),
                 })
             history_payload["points"].append({
                 "index": int(i),
                 "mu2": float(p.mu2),
                 "converged": bool(p.converged),
-                "stagnation": bool(p.stagnation),
+                # v2.6.7d fix (v): canonical field stagnation_detected.
+                "stagnation": bool(getattr(p, "stagnation_detected", False)),
                 "stagnation_reason": str(p.stagnation_reason or ""),
-                "wall_time_s": float(getattr(p, "wall_time", float("nan"))),
+                # v2.6.7d fix (vi): canonical field wall_time_s.
+                "wall_time_s": float(getattr(p, "wall_time_s", float("nan"))),
                 "n_newton_steps": len(p.newton_steps or []),
                 "newton_steps": steps_serialised,
             })
@@ -1827,9 +1987,89 @@ def main():
     except Exception as exc:
         # Defensive: never let history persistence break the existing
         # exit-code contract. Manifest + Psi_final.npy are the canonical
-        # fallback per Math74-AddB.
-        print(f"[v2.6.7] Newton history persistence failed (non-fatal): "
+        # fallback per Math74-AddB. v2.6.7d narrowed the prior
+        # silent-fall-through pattern by fixing the six attribute-name
+        # defects, so this branch should fire only on genuine I/O errors.
+        print(f"[v2.6.7d] Newton history persistence failed (non-fatal): "
               f"{type(exc).__name__}: {exc}")
+
+    # v2.6.7d (Math294-AddA Priority 4): Phase-2.5 free-energy
+    # monotonicity guard, post-run audit emitter. When --phase-half-guard
+    # is enabled, scan the Newton trajectory of every point for any
+    # accepted step where F[Ψ^{(t+1)}] > F[Ψ^{(t)}] by more than 50%
+    # of |F[Ψ^{(t)}]|; this is the basin-escape diagnostic identified in
+    # Math294-AddA. Mid-loop intervention requires a tect_newton_krylov.py
+    # core extension (Q-2026-05-15-Math294-AddA-PhaseHalfGuard); the
+    # current emitter is a post-run audit only.
+    try:
+        if bool(getattr(args, "phase_half_guard", False)):
+            for i_pt, p in enumerate(results, 1):
+                if not p.newton_steps:
+                    continue
+                F_seq = [float(getattr(s, "F", float("nan")))
+                         for s in p.newton_steps if s.accepted]
+                # Flag: (a) significant rise (>50% of |F_prev|), OR
+                #       (b) sign flip from negative to positive (basin → vacuum)
+                # both are basin-escape signatures per Math294-AddA. The OR
+                # rule is calibrated against the 2026-05-01 A_0=0.5 trajectory
+                # in which step 3→4 (F: -171.7 → -97.6) is a 43% rise (just
+                # below the 50% threshold) but step 4→5 (-97.6 → -7.0) is
+                # 92% and step 5→6 (-7.0 → +0.635) is a sign flip; one of
+                # the three guards always fires before the iterate exits the
+                # basin entirely.
+                escape_events = []
+                for k in range(1, len(F_seq)):
+                    F_prev = F_seq[k-1]
+                    F_curr = F_seq[k]
+                    if not (math.isfinite(F_prev) and math.isfinite(F_curr)):
+                        continue
+                    rise_significant = (
+                        F_curr > F_prev and (F_curr - F_prev) > 0.5 * abs(F_prev)
+                    )
+                    sign_flip = (F_prev < 0.0 and F_curr >= 0.0)
+                    if rise_significant or sign_flip:
+                        escape_events.append({
+                            "step_index_in_accepted": k,
+                            "F_prev": F_prev,
+                            "F_curr": F_curr,
+                            "rise_fraction": (F_curr - F_prev) / max(abs(F_prev), 1e-30),
+                            "trigger": (
+                                "sign_flip" if sign_flip else "rise_50pct"
+                            ),
+                        })
+                if escape_events:
+                    print(
+                        f"[v2.6.7d phase-half-guard] Point {i_pt} "
+                        f"(μ²={p.mu2:+.3e}): {len(escape_events)} basin-"
+                        f"escape event(s) detected (F rose by >50% between "
+                        f"accepted Newton steps). Math294-AddA basin-"
+                        f"overshoot signature."
+                    )
+                    for ev in escape_events:
+                        print(
+                            f"    step {ev['step_index_in_accepted']} "
+                            f"[{ev['trigger']}]: "
+                            f"F: {ev['F_prev']:+.3e} -> {ev['F_curr']:+.3e} "
+                            f"(rise {ev['rise_fraction']*100:.1f}%)"
+                        )
+                    print(
+                        f"    -> diagnostic: re-run with smaller "
+                        f"--trust-region-max (current = "
+                        f"{getattr(args, 'trust_region_max', float('inf')):.3e}); "
+                        f"recommended Δ_max = 0.5 × initial Δ at first "
+                        f"detected escape."
+                    )
+                else:
+                    print(
+                        f"[v2.6.7d phase-half-guard] Point {i_pt} "
+                        f"(μ²={p.mu2:+.3e}): no basin-escape events detected "
+                        f"(monotone or controlled descent across "
+                        f"{sum(1 for s in p.newton_steps if s.accepted)} "
+                        f"accepted Newton steps)."
+                    )
+    except Exception as _exc_guard:
+        print(f"[v2.6.7d phase-half-guard] post-run audit failed "
+              f"(non-fatal): {type(_exc_guard).__name__}: {_exc_guard}")
 
     print(f"\nResults manifest: {manifest_path}")
     if endpoint_path is not None:

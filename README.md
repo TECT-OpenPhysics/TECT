@@ -3,7 +3,7 @@
 
 # TECT -- Topological Energy Condensate Theory
 
-_Last curated: 2026-04-30 (UTC) -- auto-generated mirror of the canonical research repository._
+_Last curated: 2026-05-01 (UTC) -- auto-generated mirror of the canonical research repository._
 
 ---
 

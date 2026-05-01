@@ -79,9 +79,17 @@ ASSET_COPY_PLAN = [
     (CODES_DIR / "tests",      "code/tests"),          # pytest suite
     (CODES_DIR / "scripts",    "code/scripts"),        # PowerShell / bash
     (CODES_DIR / "supplementary", "code/supplementary"), # verification scripts
-    (RUNS_DIR / "audit",       "runs/audit"),          # JSON audit snapshots
-    (RUNS_DIR / "continuation", "runs/continuation"),  # endpoint JSONs
-    (RUNS_DIR / "logs",        "runs/logs"),           # long-running logs
+    # 2026-05-01 fix: results.js generator (paginate_results, line 1140 etc.)
+    # emits href="assets/runs/<run_id>/..." with NO class prefix; the
+    # existence check at line 1146 also probes Website/assets/runs/<run_id>/.
+    # Therefore copy_assets must FLATTEN one level: copy Runs/<class>/<run_id>/*
+    # directly into Website/assets/runs/<run_id>/*. Pre-2026-05-01 the dest
+    # subdir included the class ("runs/continuation"), which produced the
+    # 14 broken-link errors observed in the inaugural snapshot run at
+    # 2026-05-01T18:32 (snapshot-log: [PARTIAL]).
+    (RUNS_DIR / "audit",       "runs"),                # JSON audit snapshots (flatten one level)
+    (RUNS_DIR / "continuation", "runs"),               # endpoint JSONs       (flatten one level)
+    (RUNS_DIR / "logs",        "runs"),                # long-running logs    (flatten one level)
     (DOCS_STATUS,              "status"),              # status ledgers
     (REPO_ROOT / "CHANGELOG.md", "CHANGELOG.md"),       # single file (top-level)
     (REPO_ROOT / "CLAUDE.md",  "CLAUDE.md"),           # single file
@@ -879,10 +887,18 @@ def _file_should_copy(p):
 def copy_assets(check=False):
     """Copy canonical Docs/ and Codes/ files into Website/assets/ for
     standalone publish + download links. Returns asset manifest dict.
+
+    Manifest schema is `tect-asset-manifest-v1` (canonical, expected by
+    verify_website.py check_manifest_freshness()). Pre-2026-05-01 the
+    schema lacked the `count` field which caused verify to read
+    declared=-1 and flag manifest-stale on every snapshot run; the fix
+    adds the canonical fields (`schema`, `count`, `total_bytes`) so the
+    manifest is verify-clean from step 2 of the snapshot pipeline.
     """
     print("\n--- Copying assets to Website/assets/ ---")
     manifest = {
         "generated": datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S UTC"),
+        "schema": "tect-asset-manifest-v1",
         "description": "Asset inventory: copies of canonical Docs/ and Codes/ files for standalone Website publish. Each entry: src path (relative to repo root) -> dest path (relative to Website/assets/).",
         "files": [],
     }
@@ -932,8 +948,30 @@ def copy_assets(check=False):
             n_copied += 1
     print(f"  Files copied : {n_copied}")
     print(f"  Files skipped: {n_skipped}")
+    # 2026-05-01 fix: canonical schema requires `count` (matches the
+    # verify_website.py --regen-manifest output schema). Without this,
+    # check_manifest_freshness() reads declared=-1 (default) and flags
+    # manifest-stale on every snapshot run.
+    # Note: `count` is the number of files actually present in
+    # Website/assets/ (excluding manifest.json itself), per the
+    # verify_website.py rglob convention. We compute it from a fresh
+    # walk of WEB_ASSETS rather than from len(manifest["files"]) so that
+    # any pre-existing files (e.g., legacy assets/ contents not in
+    # ASSET_COPY_PLAN) are also counted, matching the verifier's
+    # rglob semantics exactly.
     if not check:
         WEB_ASSETS.mkdir(parents=True, exist_ok=True)
+        # Compute the canonical `count` field with the same convention as
+        # verify_website.py check_manifest_freshness() (rglob, exclude
+        # manifest.json).
+        manifest["count"] = sum(
+            1 for p in WEB_ASSETS.rglob("*")
+            if p.is_file() and p.name != "manifest.json"
+        )
+        manifest["total_bytes"] = sum(
+            p.stat().st_size for p in WEB_ASSETS.rglob("*")
+            if p.is_file() and p.name != "manifest.json"
+        )
         with open(WEB_ASSETS / "manifest.json", "w", encoding="utf-8") as f:
             json.dump(manifest, f, indent=2, ensure_ascii=False)
         print(f"  Manifest written: Website/assets/manifest.json ({len(manifest['files'])} entries)")
@@ -1018,6 +1056,12 @@ def render_results_js(top_changelog) -> str:
                     "status": "unknown", "mu2_schedule": "", "wall_time_s": None,
                     "driver": "", "theory_tag": "", "n_converged": None, "n_total": None,
                     "cli_command": "",
+                    # 2026-05-01 fix: track MANIFEST.md existence so the
+                    # download-link generator (line 1148) can suppress the
+                    # link for runs that were persisted without one
+                    # (e.g., crashed runs, pre-MANIFEST-discipline legacy
+                    # runs from 2026-04-30T16:49–17:01 cluster).
+                    "has_manifest_md": manifest.exists(),
                     "has_result_md": result_md.exists(),
                     "has_diagnostics_json": diag.exists(),
                     "mtime": run_dir.stat().st_mtime,
@@ -1137,7 +1181,13 @@ def render_results_js(top_changelog) -> str:
         # In a Python string literal the backslash is itself escaped → '\\\"'
         # produces literal `\"` in the rendered JS source, which JS reads as `"`.
         dl = []
-        dl.append('<a href=\\\"assets/runs/' + rid_safe + '/MANIFEST.md\\\" download><code>MANIFEST.md</code></a>')
+        # 2026-05-01 fix: gate MANIFEST.md link on r["has_manifest_md"]
+        # (added to run_info dict above). Pre-fix the link was emitted
+        # unconditionally and verify_website.py flagged 4 broken-link
+        # errors for legacy runs without a MANIFEST.md file
+        # (math236_20260430_164956Z, _165551Z, _170121Z, _172601Z).
+        if r.get("has_manifest_md", True):
+            dl.append('<a href=\\\"assets/runs/' + rid_safe + '/MANIFEST.md\\\" download><code>MANIFEST.md</code></a>')
         if r["has_result_md"]:
             dl.append('<a href=\\\"assets/runs/' + rid_safe + '/RESULT.md\\\" download><code>RESULT.md</code></a>')
         if r["has_diagnostics_json"]:

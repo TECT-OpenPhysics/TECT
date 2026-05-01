@@ -1,4 +1,16 @@
 #!/usr/bin/env python3
+# === TECT VERSION HEADER BEGIN ===
+# Theory tag    : Math56-Addendum-v2p4-2026-04-20
+# Regime        : Brazovskii (lambda<0, gamma>0 sizeable)
+# Module version: unregistered
+# Sync doc      : /Contents/docs/status/TECT-Theory-Code-Sync.md
+# Last synced   : 2026-04-20
+# Notes         : Code is version-locked to the above theory tag.
+#                 The module-version field tracks the file's own API
+#                 generation (filename = <module>_v<N>.py); the theory
+#                 tag is global. Re-run PDE/stamp_version_headers.py
+#                 after any tag bump or version-table edit.
+# === TECT VERSION HEADER END ===
 # =====================================================================
 # bz_eta_integrator.py
 # Theory tag: Math_IR_Bound-v4-BZ-integrator-2026-04-21

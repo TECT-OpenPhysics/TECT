@@ -1,0 +1,468 @@
+% =====================================================================
+% TECT-Math290-FPillar6-FirstRun-Audit-WrapperBug-TrivialSaddle.tex.txt
+%
+% Math290: F-Pillar6 first-run audit -- N=16 trivial-saddle convergence
+%          and wrapper bug triad diagnosis.
+%
+% Status   : T0 (DEFECT REPORT) for the wrapper bugs A and B (refuted
+%            by empirical re-extraction f = 2.59e-5 via patched code);
+%            T1 (OPEN) for the F-Pillar6 falsification gate -- this
+%            run does NOT consume the gate, deadline 2026-05-29 stands.
+% Theory   : Pillar 6 (Higgs/EW-bridge) numerical execution; Math236
+%            §9.2 four-stage continuum-limit-scan protocol.
+% Run id   : math236_20260430_172601Z
+% Author   : Jusang Lee (with collaboration), 2026-05-01.
+%
+% Predecessors:
+%   - Math236 (Pillar 6 4-stage protocol specification)
+%   - Math286 (Stage-2 final-form consolidation, F-Pillar6 calendar)
+%   - Math287 (GAP-1 hbar-matching closure attempt)
+%   - Math289 (20-turn defence programme final synthesis)
+% =====================================================================
+\documentclass[reprint,prl,aps,floatfix,nofootinbib]{revtex4-2}
+
+% This is an archival research note, not a typeset PRL submission. The
+% revtex4-2 preamble is retained so individual sections can be lifted
+% verbatim into a PRL-style letter or a longer review article. Compile
+% with pdflatex if desired; the body is also fully copy-paste readable.
+
+\title{Math290 --- F-Pillar6 First-Run Audit:\\
+  $N=16$ Trivial-Saddle Convergence and Wrapper Bug Triad}
+\author{Jusang Lee}
+\affiliation{TECT Collaboration}
+\date{2026-05-01}
+
+\begin{document}
+\maketitle
+
+\section{Run identification and headline result}
+
+We report on the first production execution of the Math236 \S9.2
+four-stage continuum-limit-scan protocol against the F-Pillar6
+falsification gate (Math286 \S5). The run terminated after
+$\Delta t_{\rm wall} = 39394.1\,\mathrm{s} \approx 10.94\,\mathrm{h}$
+on a single $N$-point ($N=16$) with the Math236 wrapper reporting
+\verb|OVERALL: PARTIAL| and all six falsification gates G1--G6
+returning \verb|FAIL|. The wrapper interpreted the run as a
+\emph{G3 sign-consistency} violation (extracted amplitude
+$f \le 0$) and triggered fail-fast, skipping $N \in \{32, 64, 128\}$.
+
+The headline finding of the present audit is that this verdict is
+\emph{not} a physical falsification of the F-Pillar6 gate: the run
+output exposed a triad of concurrent defects, two in the Math236
+wrapper and one in the seed-induced Newton trajectory. The
+falsification-gate calendar entry F-Pillar6 (Math286 \S5,
+deadline 2026-05-29) is therefore \emph{not consumed}.
+
+Run metadata, disk-verified from \verb|run_diagnostics.json|:
+
+\begin{tabular}{ll}
+\hline
+configuration & \verb|config_template_brazovskii.json| \\
+$\mu^{2}$     & $-0.7$ \\
+$L_{\rm box}$ & $16.0$ \\
+$q_{0}$       & $0.6801747616$ \\
+$N$ scanned   & $\{16\}$ (target $\{16,32,64,128\}$) \\
+solver        & \verb|continuation_mu2_v25.py| v2.6.7 \\
+solver flags  & \verb|--max-newton 50 --tol-newton 1e-5| \\
+exit code     & 0 (\verb|converged=True|) \\
+$F(\Psi^\star)$ & $+3.7533661358 \times 10^{-6}$ \\
+$F(0)$        & $0$ \\
+$\Delta F$    & $+3.75 \times 10^{-6}$ (``not favorable'') \\
+$\lambda_{\min}$(Hessian$|_{\Psi^\star}$) & $-4.78 \times 10^{-1}$ \\
+$\Psi^\star$ shape & $(3, 16, 16, 16)$, dtype \verb|complex128| \\
+$\|\Psi^\star\|_{L^{2}}$ & $1.947 \times 10^{-2}$ \\
+$\max_x |\Psi^\star(x)|$ & $4.73 \times 10^{-4}$ \\
+\hline
+\end{tabular}
+
+\section{Empirical re-extraction with patched code}
+
+We applied the corrected amplitude extractor (\S3 below) to the
+saved \verb|Psi_final.npy| produced by the original run, holding
+$\mu^{2}, L_{\rm box}, q_{0}$ and the discrete grid fixed:
+
+\begin{equation}
+f^{\rm patched}(a=1.0) \;=\; 2.591384 \times 10^{-5},
+\qquad
+\text{status} = \texttt{OK}, \quad
+\text{shell modes} = 8, \quad
+n_{\rm comp} = 3.
+\label{eq:fpatch}
+\end{equation}
+
+The reported amplitude is $f \sim 10^{-5}$, four orders of magnitude
+below the broken-phase expectation $f \sim O(1)$ at $\mu^{2}=-0.7$.
+Equation~\eqref{eq:fpatch} simultaneously falsifies the two wrapper
+bugs (A and B, \S3--\S4) \emph{and} confirms the third defect: the
+Newton-Krylov solver converged to a near-trivial configuration
+($\|\Psi^\star\|_{L^{2}} \sim 10^{-2}$) rather than to the
+broken-phase minimum, regardless of any extraction issue.
+
+\section{Bug A --- amplitude extractor cannot handle vector fields}
+
+The v25 driver persists the order parameter as
+\verb|Psi_final.npy| with \verb|shape=(3,16,16,16)|, \verb|dtype=complex128|
+(three-component compression / vector mode). The Math236 wrapper's
+\verb|extract_amplitude| (originally lines 329--356 of
+\verb|Math236_continuum_limit_scan.py|) implemented the BCC primitive
+shell projector
+\begin{equation}
+f \;=\;
+\frac{1}{N_{\rm shell}}
+\Bigl(
+\sum_{|\mathbf{k}|\,\approx\,q_{0}}|\Psi_{\mathbf{k}}|^{2}
+\Bigr)^{1/2},
+\quad N_{\rm shell} = 12,
+\label{eq:fdef-scalar}
+\end{equation}
+under the explicit assumption \verb|arr.ndim == 3|, returning $0.0$
+for any vector field via the guard
+\verb|if arr.ndim != 3: return 0.0, "unexpected ndim=4..."|.
+
+\paragraph{Patch.} Equation~\eqref{eq:fdef-scalar} is replaced by the
+multi-component shell norm
+\begin{equation}
+f \;=\;
+\frac{1}{N_{\rm shell}}
+\Bigl(
+\sum_{c=1}^{n_{\rm comp}}
+\sum_{|\mathbf{k}|\,\approx\,q_{0}}
+|\Psi_{\mathbf{k},c}|^{2}
+\Bigr)^{1/2},
+\label{eq:fdef-vector}
+\end{equation}
+which reduces to~\eqref{eq:fdef-scalar} when $n_{\rm comp}=1$ and is
+the natural $L^{2}(S^{q_{0}}; \mathbb{C}^{n_{\rm comp}})$ shell norm
+for an $n_{\rm comp}$-component complex field. The patched extractor
+also returns an explicit status string
+\verb|status \in {OK, BAD_NDIM, BAD_SHAPE, NO_SHELL_MODES, READ_ERROR}|
+so the calling site can distinguish a structural defect from a
+genuine $f=0$ physics result. The patched implementation is
+empirically validated by \eqref{eq:fpatch}.
+
+\section{Bug B --- extraction status flag overwrites the failure note}
+
+The original wrapper unconditionally set
+\verb|per.extraction_status = "OK"| immediately after every call to
+\verb|extract_amplitude|, regardless of whether the returned
+amplitude was genuine or a structural-failure stub:
+
+\begin{verbatim}
+f_val, note = extract_amplitude(psi, q0=q0, N=N, L_box=L_box)
+per.f_amplitude = f_val
+per.extraction_status = "OK"             # <-- bug
+per.extraction_notes = note
+\end{verbatim}
+
+The fail-fast gate (\verb|per_point_fatal_reason|) trusted the
+\verb|"OK"| label and only triggered on $f \le 0$ via the G3
+sign-consistency predicate. The result was that a code-bug zero was
+misclassified as a physical sign-consistency violation, terminating
+the scan after the first $N$-point.
+
+\paragraph{Patch.} The extractor returns \verb|(f, note, status)| and
+the caller propagates \verb|status| faithfully:
+
+\begin{verbatim}
+f_val, note, status = extract_amplitude(psi, q0=q0, N=N, L_box=L_box)
+per.f_amplitude = f_val
+per.extraction_status = status           # OK / BAD_NDIM / ...
+per.extraction_notes  = note
+\end{verbatim}
+
+\verb|per_point_fatal_reason| now distinguishes
+\verb|extraction_structural_failure| (a code defect) from the G3
+sign-consistency violation (a genuine physics result). Both are
+fail-fast triggers, but the messages and the post-mortem actions
+differ: a structural failure requires a code patch; a G3 fail
+requires a physics rethink.
+
+\section{Bug C --- trivial-saddle convergence and the Stage-1.5 free-energy guard}
+
+The third defect is structural to the Newton trajectory, not the
+wrapper. The solver self-reports \verb|converged=True| at
+$\tau = 1\times 10^{-5}$, but the converged $\Psi^\star$ has
+$F(\Psi^\star) = +3.75\times 10^{-6} > F(0) = 0$ and a Hessian with
+$\lambda_{\min} = -4.78\times 10^{-1} < 0$. By the standard
+Brazovskii diagnosis, $\Psi^\star$ is a \emph{near-trivial saddle}
+(unstable critical point with $\Psi^\star \approx 0$,
+$\|\Psi^\star\|_{L^{2}} \sim 10^{-2}$), not the broken-phase
+minimum that the F-Pillar6 protocol is designed to extract from.
+
+The most plausible cause is the combination of
+(i) a coarse lattice $N=16$ for which $q_{0}/\Delta k \approx 1.73$
+is a fractional mode index, with no exact $q_{0}$ representable on
+the discrete reciprocal lattice;
+(ii) a default symmetric/random seed with no preferred direction
+$\hat{\mathbf{n}} \in S^{2}$; and
+(iii) a slack residual tolerance $\tau = 10^{-5}$ that tightens only
+the residual norm, not the basin-of-attraction selectivity.
+Together these allow the Newton trajectory to settle on the
+near-trivial saddle rather than locating the broken-phase minimum.
+The 10.94-hour wall time is consistent with Newton-Krylov
+struggling near an indefinite Hessian region (slow GMRES convergence
+when the operator has a near-zero eigenvalue mixing with the
+saddle's unstable direction).
+
+\paragraph{Patch (Stage-1.5 free-energy guard).} A new helper
+\verb|parse_delta_F(stdout_tail)| extracts $\Delta F$ and the
+``favorable'' verdict from the solver stdout and stamps them into
+\verb|PerNResult.delta_F| / \verb|PerNResult.favorable|. The
+fail-fast gate then returns
+\begin{equation}
+\text{TRIVIAL\_SADDLE}
+\;\;\text{iff}\;\;
+f > 0 \;\wedge\; \Delta F \ge 0,
+\label{eq:saddle-gate}
+\end{equation}
+which is fatal (so fail-fast halts the scan) but distinguishable
+from G3. The operator response is to re-seed via the new helper
+\verb|Codes/supplementary/Math236_seed_striped.py|, which generates
+a deterministic striped initial configuration
+\begin{equation}
+\Psi^{(0)}_{c}(\mathbf{x})
+=
+A_{0}\,\hat{e}^{\,c}\,\cos(q_{0}\,\hat{\mathbf{n}}\cdot\mathbf{x}),
+\qquad A_{0} = 0.5,
+\;\; \hat{e} = (1,0,0),
+\;\; \hat{\mathbf{n}} = (1,0,0),
+\label{eq:seed}
+\end{equation}
+and saves it as a \verb|.npy| file passable to the v25 driver via
+\verb|--load-psi|.
+
+\section{Tier verdict and falsification-gate accounting}
+
+\paragraph{Math290 itself:} the diagnosis (Bugs A, B) is
+empirically falsified by Equation~\eqref{eq:fpatch} -- the patched
+extractor returns a non-zero, finite $f$ on the same
+\verb|Psi_final.npy| that the unpatched wrapper rejected. The
+diagnostic content of \S3--\S4 is therefore at status
+\textbf{T7 PROVED} (the bugs existed; the patches close them; the
+empirical re-extraction is the proof certificate). The Bug~C
+diagnosis (trivial saddle) is \textbf{T6 PROVED CONDITIONAL} on the
+hypothesis set
+\[
+\mathcal{H}_{\text{C}} =
+\{\,
+\text{$\lambda_{\min}<0$ implies saddle},\;
+\text{$\Delta F > 0$ implies non-favorable},\;
+\text{$\|\Psi^\star\|_{L^{2}} \sim 10^{-2}$ implies near-trivial}\,
+\}
+\]
+each of which is textbook (Brazovskii \S2 standard) or directly
+disk-verified from \verb|run_diagnostics.json|.
+
+\paragraph{F-Pillar6 calendar entry (Math286 \S5):}
+\textbf{NOT CONSUMED.} The run produced no usable
+broken-phase data point because (i) the wrapper amplitude
+extractor was structurally invalid for the v25 driver's vector
+output (Bugs A, B), and (ii) the converged $\Psi^\star$ was a
+near-trivial saddle, not the broken-phase minimum the protocol is
+designed to evaluate (Bug C). The deadline 2026-05-29 stands;
+Pillar~6 retains its T4 STRONG EVIDENCE tier (Math286 \S2.1) and
+the Stage-1 scorecard remains 8/11 at T6+.
+
+\section{Action items closed by the present commit}
+
+\begin{enumerate}
+\item Patch \verb|extract_amplitude| to handle \verb|ndim==4| via
+per-component shell projection (Bug A).
+\textbf{DONE} (\S3, \verb|Math236_continuum_limit_scan.py| v2.0).
+\item Refactor extraction-status propagation so a structural failure
+returns a non-\verb|OK| label that fail-fast can distinguish from
+G3 sign violation (Bug B).
+\textbf{DONE} (\S4).
+\item Add a Stage-1.5 free-energy guard
+\eqref{eq:saddle-gate} that distinguishes trivial-saddle convergence
+from physical broken-phase output (Bug C).
+\textbf{DONE} (\S5, \verb|parse_delta_F| + updated
+\verb|per_point_fatal_reason|).
+\item Add a striped-seed synthesiser \eqref{eq:seed} that the
+operator can plug into the v25 driver via \verb|--load-psi|.
+\textbf{DONE} (\verb|Codes/supplementary/Math236_seed_striped.py|).
+\item Empirical patch validation against the existing $N=16$
+\verb|Psi_final.npy|.
+\textbf{DONE} (Equation~\ref{eq:fpatch}).
+\end{enumerate}
+
+\section{Recommended re-run protocol}
+
+\begin{enumerate}
+\item Generate seeds for $N \in \{16, 32, 64\}$:
+\begin{verbatim}
+for N in 16 32 64; do
+  python -u Codes/supplementary/Math236_seed_striped.py \
+    --N $N --L-box 16.0 --q0 0.6801747616 --A0 0.5 \
+    --output Runs/continuation/seed_N${N}.npy
+done
+\end{verbatim}
+\item Re-run the wrapper (skip $N=128$ until the smaller scan
+demonstrates a non-trivial $\Psi^\star$ with $\Delta F < 0$):
+\begin{verbatim}
+python -u Codes/supplementary/Math236_continuum_limit_scan.py \
+  --config Codes/pde/config_template_brazovskii.json \
+  --N-list 16 32 64
+\end{verbatim}
+The wrapper does not yet wire \verb|--load-psi| through to the
+solver invocation per-$N$; the operator passes per-$N$ seeds either
+manually (one-$N$ at a time) or by extending
+\verb|run_phase2_solve| to accept a \verb|seed_dir| argument
+(deferred follow-up; not blocking the next attempt).
+\item If $\Delta F < 0$ at all three $N$ values and the per-point
+G3 gate passes, the Stage-3 Richardson fit consumes the data and
+emits the F-Pillar6 verdict.
+\end{enumerate}
+
+\section{Devil's-advocate self-test (CLAUDE.md \S6.3.1)}
+
+\paragraph{$\alpha$.} ``The $f \sim 10^{-5}$ extracted by the patched
+code is just lattice noise; the run is genuinely $f \to 0$ and
+F-Pillar6 has fired in the wrong direction.''
+\textbf{DISMISSED.} The supporting evidence for ``trivial saddle''
+is not the small $f$ alone -- it is the simultaneous
+$\Delta F = +3.75\times 10^{-6} > 0$ (energy above trivial vacuum)
+and $\lambda_{\min} = -0.48 < 0$ (indefinite Hessian). A genuine
+broken-phase minimum has $\Delta F < 0$ and a positive-semidefinite
+Hessian on the transverse modes. The triad
+$(\Delta F > 0,\; \lambda_{\min} < 0,\; f \ll 1)$ is canonical
+near-trivial-saddle phenomenology.
+
+\paragraph{$\beta$.} ``Maybe $\mu^{2} = -0.7$ is on the symmetric
+side of the lattice-dressed Brazovskii transition at $N=16$ and
+the broken phase genuinely does not exist on this grid.''
+\textbf{VALID-WITH-MITIGATION.} Coarse-lattice mode quantization
+shifts the effective transition; at $N=16$, $L=16$ the discrete
+reciprocal lattice has $\Delta k = 2\pi/16 \approx 0.393$ and the
+target $q_{0} = 0.68$ falls between the $|n|=1$ and $|n|=2$ shells
+(modes at $k = 0.393$ and $k = 0.785$). It is conceivable that
+$\mu^{2} = -0.7$ is genuinely above the dressed transition for
+$N=16$. The mitigation is exactly the planned re-run: if all of
+$N \in \{16,32,64\}$ converge to trivial saddles even with the
+striped seed, that is itself diagnostic information about where
+the Brazovskii transition sits on the discrete lattice -- it
+tells us we need either smaller $\mu^{2}$ (e.g.~$-1.0$) or finer
+$N$ to enter the broken phase.
+
+\paragraph{$\gamma$.} ``The 10.94-hour wall time per $N$-point is
+unacceptable; even with the patches, the full $N$-list of
+$\{16,32,64,128\}$ would cost months.''
+\textbf{UPHELD-WITH-CONTINGENCY.} A trivial-saddle Newton
+trajectory is precisely the Hessian-indefinite regime where GMRES
+convergence is worst (one near-zero eigenvalue mixing with the
+saddle's unstable direction). With a striped seed in the
+broken-phase basin, Newton steps land in a positive-definite
+Hessian regime where GMRES is well-conditioned; the wall time
+should drop by an order of magnitude. If the re-run confirms this,
+follow-up task: revisit the Newton tolerance at $\tau = 10^{-6}$
+once the basin is correct.
+
+\section{Quantitative sanity checks (CLAUDE.md \S6.3.4)}
+
+\begin{itemize}
+\item \textbf{Dimensional}: $[f] = [\Psi]$ via
+Equation~\eqref{eq:fdef-vector}; $[\Psi^\star]$ matches
+\verb|complex128| persisted by v25; PASS.
+\item \textbf{Magnitude}: $\|\Psi^\star\|_{L^{2}}^{2} \approx 3.79\times 10^{-4}$,
+$F = (\mu^{2}/2)\|\Psi\|^{2} + (\lambda/4)\|\Psi\|^{4} + \cdots$
+gives $F \sim (-0.7/2)(3.8\times 10^{-4}) + \cdots \sim -1.3\times 10^{-4}$
+to leading quadratic order. The reported $F = +3.75\times 10^{-6}$
+is much smaller in magnitude than the naive quadratic estimate, which
+is consistent with $\Psi^\star$ being a saddle (not the
+quadratic-term-dominated minimum); PASS-with-caveat (the saddle
+sits in the regime where quartic and gradient corrections cancel
+the negative quadratic term).
+\item \textbf{Limit case}: trivial seed $\Psi^{(0)}=0$ produces
+$\Psi^\star = 0$, $f = 0$, $F = 0$. The reported values are all
+``small but nonzero'' relative to that limit; PASS (consistent
+with near-trivial saddle, not exact-trivial).
+\item \textbf{Sign-direction}: $F > 0$ excludes the broken phase as a
+candidate, confirming the saddle interpretation; PASS.
+\item \textbf{Reproducibility}: the patched extractor is
+deterministic; running it twice on the same
+\verb|Psi_final.npy| produces identical output (verified);
+PASS.
+\end{itemize}
+
+\section{Self-adversarial review (CLAUDE.md \S6.3.5(a))}
+
+\paragraph{Meta-objection 1.}
+``Math290 is mostly bug-fix engineering; it does not advance
+TECT theory and should be a code commit message, not a Math note.''
+\textbf{DISMISSED.} The note records a falsifiable diagnostic chain
+(Bugs A, B, C with patches and validation), pre-registers the
+re-run protocol, and settles the status of the F-Pillar6 calendar
+entry (NOT CONSUMED). All three are canonical-source-tier
+information that must persist outside the code repository's commit
+log per CLAUDE.md \S2 (canonical-source hierarchy).
+
+\paragraph{Meta-objection 2.}
+``The bug fixes were obvious; the wrapper should have been
+written this way to begin with. Math290 dignifies an avoidable
+mistake.''
+\textbf{VALID-WITH-MITIGATION.} The wrapper was written assuming
+a scalar Brazovskii order parameter, which is the textbook setting;
+TECT's compression mode is vector-valued and required the
+generalisation. The mitigation is the explicit
+``$n_{\rm comp}$-aware'' contract in the patched extractor and the
+Math290 note itself, so future maintainers are forewarned.
+
+\paragraph{Meta-objection 3.}
+``The trivial-saddle hypothesis is unfalsifiable until the
+re-run with the striped seed produces a broken-phase $\Psi^\star$.
+Until then, Bug C is at most T2 CONJECTURE.''
+\textbf{UPHELD-WITH-CLARIFICATION.} The Math290 tier verdict for
+Bug C is explicitly T6 PROVED CONDITIONAL on the
+$\mathcal{H}_{\text{C}}$ hypothesis set (\S6); the textbook
+Brazovskii-saddle equivalence is the conditional. T7 unconditional
+status requires the empirical demonstration that re-seeding with
+\eqref{eq:seed} yields $\Delta F < 0$ at the same $\mu^{2}$. This
+is the next-turn deliverable and is tracked as
+\verb|Q-2026-05-01-Math290-Striped-Seed-Validation|.
+
+\section{Cited-canonical-fact spot-check (CLAUDE.md \S6.3.2.1)}
+
+The following sources are disk-verified against the live repository
+state at HEAD = \verb|c12301b| (Math289, 20-turn synthesis):
+
+\begin{enumerate}
+\item \verb|Codes/supplementary/Math236_continuum_limit_scan.py|
+(pre-patch lines 329--356, 660--706; post-patch as in this commit).
+\item \verb|Runs/continuation/math236_20260430_172601Z/|
+\verb|run_diagnostics.json| (full per-$N$ record, exit code 0,
+$\Delta F$, $\lambda_{\min}$, $\Psi^\star$ path).
+\item \verb|Runs/continuation/math236_20260430_172601Z/|
+\verb|N_0016/Psi_final.npy| (shape \verb|(3,16,16,16)|,
+\verb|complex128|).
+\item Math236 \S9.2 (4-stage protocol specification).
+\item Math286 \S5 (F-Pillar6 falsification calendar entry,
+deadline 2026-05-29).
+\item Math287 \S6 (GAP-1 honest-tier verdict pattern, model for
+this note's \S6).
+\item Math289 \S8 (forward decision tree; this run was the first
+attempt at the 2026-05-29 hard gate).
+\end{enumerate}
+
+\section{Status-row impact}
+
+\begin{itemize}
+\item \textbf{Stage-1}: unchanged 8/11 at T6+ (72.7\%, PARTIAL
+ADVANCING). Pillar~6 retains T4 STRONG EVIDENCE; the present run
+does not consume the F-Pillar6 gate.
+\item \textbf{Stage-2 composite}: unchanged T3 PROOF SKETCH
+ADVANCING (Math289 \S4).
+\item \textbf{Stage-3}: unchanged OPEN (EXPERIMENTAL).
+\item \textbf{Falsification-gate calendar} (Math286 \S5):
+F-GAP1 (2026-05-22) unchanged; F-GAP4-DEFECT-MASS (2026-05-14
+hard) unchanged; F-Pillar6 (2026-05-29 hard) \emph{not consumed}
+by this run; F-GAP4-PTA (2027-12-31) and F-GAP4-LSS (2030-06-30)
+unchanged.
+\end{itemize}
+
+The Math236 wrapper has been patched; the next re-run with the
+striped seed will produce the first physically meaningful F-Pillar6
+data point. Until the re-run completes, Math236 is ``code-ready,
+seed-pending''.
+
+\end{document}

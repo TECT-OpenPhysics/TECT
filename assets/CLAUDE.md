@@ -511,13 +511,82 @@ Pre-registered falsification gates (§6.3.3) that fire MUST be tagged as:
 
 The choice between R- and AUDIT- requires explicit reasoning in the
 NEGATIVE-RESULTS entry.
+
+---
+
+## 16. Snapshot discipline (binding from 2026-05-01)
+
+The four mirror trees of the TECT repository (`Docs/`+`Codes/` canonical, `Website/data/`, `Website/assets/`, `Github/`) drift unless an explicit synchronisation operation is invoked. The binding policy is `Docs/policy/SNAPSHOT_POLICY.md` (2026-05-01). The orchestrator script is `Codes/scripts/snapshot.ps1`. The append-only audit log is `Docs/status/snapshot-log.md`.
+
+### 16.1 Trigger phrases (operator → AI)
+
+When the operator emits one of the following phrases in the Korean conversational layer, the AI collaborator MUST recognise it as a snapshot request and execute the §5 orchestrator pipeline; the AI MUST NOT silently fall through to per-file edits.
+
+**Full snapshot (canonical + Website + GitHub)**:
+- "스냅샷 진행해" / "스냅샷 진행" / "스냅샷"
+- "현재 상태 스냅샷"
+- "전체 업데이트" (when followed by no specific target)
+- "publish snapshot" / "publish snapshot now"
+
+**Local-only snapshot (skip GitHub network calls)**:
+- "로컬 스냅샷"
+- "스냅샷 (로컬만)" / "스냅샷 로컬만"
+- "local snapshot"
+
+**Dry-run preview**:
+- "스냅샷 dry-run" / "스냅샷 미리보기"
+- "snapshot dry-run"
+
+### 16.2 AI behaviour upon trigger
+
+1. Confirm the exact `-Message` to be used. Operator may supply explicit message; otherwise propose one based on session changes (one-line summary of Math notes added, code modules touched, status row deltas).
+2. Issue the corresponding PowerShell invocation as a code block:
+   ```powershell
+   .\Codes\scripts\snapshot.ps1 -Message "<one-line summary>"
+   ```
+   For local-only: append `-SkipGitHub`. For dry-run: append `-DryRun`.
+3. Await the snapshot script output before declaring the session complete.
+4. On non-zero exit code, help the operator diagnose and fix the failed step before re-running. The exit-code contract is in `SNAPSHOT_POLICY.md` §5.
+5. On success, emit the `[SNAPSHOT-OK] ...` closing summary per `SNAPSHOT_POLICY.md` §7 and (if requested) return to mainline work.
+
+### 16.3 When the AI MUST proactively suggest a snapshot
+
+Even without an explicit trigger phrase, the AI SHOULD propose a snapshot at the end of any session that:
+- Produced one or more new Math notes (`Docs/math/TECT-Math<NN>-*.tex.txt`).
+- Modified files under `Codes/pde/`, `Codes/tools/`, `Codes/scripts/`, or `Codes/supplementary/`.
+- Modified `CHANGELOG.md`, `Docs/status/TOE-FACT-SHEET.md`, or `Docs/status/EVIDENCE-INDEX.md`.
+
+The proposal format:
+```
+세션 변경사항이 있으니 스냅샷을 권장합니다. 다음 명령으로 진행:
+
+    .\Codes\scripts\snapshot.ps1 -Message "<제안 메시지>"
+
+(GitHub publish 생략하려면 -SkipGitHub 추가)
+```
+
+### 16.4 Snapshot debt
+
+A session that produced canonical changes but did not execute a snapshot is in **snapshot debt**. The next session's SRP-v1 prelude must include a snapshot-debt check (read the head entry of `Docs/status/snapshot-log.md`; compare to head entry of `CHANGELOG.md`; if CHANGELOG is ahead, snapshot debt exists). Snapshot debt MUST be retired before any external claim about the public mirror.
+
+### 16.5 No-snapshot exemptions
+
+The following session classes do NOT incur snapshot debt:
+- Pure conversational Q&A with no `Write` / `Edit` tool calls.
+- Sessions that only edit `Docs/status/snapshot-log.md` itself (snapshot script run).
+- Sessions that only modify `Runs/<run_id>/` output (numerical-result-only commit, no Math note or code change). These should be committed via direct `sandbox_commit.sh` without a full snapshot pipeline.
+
+---
+
 ## 14. References
 
 - `Docs/policy/UPDATE_POLICY.md` — full mechanical rulebook (§14 SRP-v1, §15 chat-archival)
 - `Docs/policy/REPO_LAYOUT.md` — directory canonical structure
 - `Docs/policy/GIT_TAG_POLICY.md` — git tag discipline
+- `Docs/policy/SNAPSHOT_POLICY.md` — 8-step snapshot orchestrator policy (2026-05-01, this §16)
 - `Docs/status/INDEX.md` — entry-point ledger map
 - `Docs/status/TOE-FACT-SHEET.md` — Stage-1/2/3 scorecard
+- `Docs/status/snapshot-log.md` — append-only snapshot audit log
 - `Docs/manual/CODE_MANUAL.md` — operator-level code reference
 
 ---

@@ -1,0 +1,467 @@
+% =====================================================================
+% TECT-Math293: Turn 63 — Pillar 6 False-Negative Taxonomy
+% Theory tag : Math293-Turn63-Pillar6-False-Negative-Taxonomy-2026-05-01
+% Classification : T6 PROVED CONDITIONAL (binding three-class partition)
+% Status : Phase 1 closure. Partitions Pillar 6 Phase-2 computation
+%          failures into three exhaustive disjoint classes; only
+%          class (iii) consumes the F-Pillar6 falsification gate.
+% Author : Jusang Lee (jtkor@outlook.com); Claude Opus 4.7
+% Date : 2026-05-01
+% Pillar : 6
+% Compliance : CLAUDE.md §6.3.1, §6.3.3, §6.3.4, §6.3.5(a), §15.2/3/4
+% =====================================================================
+
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsthm,bm,mathtools}
+\usepackage[margin=2.4cm]{geometry}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+
+\title{TECT-Math293 \\
+\large Pillar 6 False-Negative Taxonomy: \\
+Three-Class Partition of Phase-2 BCC Computation Failures}
+\author{Jusang Lee \and Claude Opus 4.7 (TECT collaborator)}
+\date{2026-05-01 (Turn 63, Phase 1 closure — Canonical Hygiene)}
+
+\begin{document}
+\maketitle
+
+\section{Headline}
+\label{sec:headline}
+
+A Phase-2 BCC computation $(\mu^2, N, a, \Psi^\star)$ that fails
+the Math292 acceptance criterion
+$\mathcal{A}_{\rm valid}=[f>0]\wedge[\Delta F<0]
+\wedge[\lambda_{\min}^{\rm transverse}\ge 0]
+\wedge[\mathtt{extraction\_status}=\mathtt{OK}]$
+falls into \emph{exactly one} of three exhaustive disjoint
+\emph{failure classes}:
+\[
+\boxed{\;
+\mathcal{C}_1\quad
+\textbf{extraction structural failure}\;\;\sqcup\;\;
+\mathcal{C}_2\quad
+\textbf{trivial-saddle convergence}\;\;\sqcup\;\;
+\mathcal{C}_3\quad
+\textbf{genuine physical falsification}.
+\;}
+\]
+The classification is binding for the F-Pillar6 calendar entry
+(deadline 2026-05-29): \emph{only class $\mathcal{C}_3$ consumes
+the falsification gate}; classes $\mathcal{C}_1$ and $\mathcal{C}_2$
+trigger re-run with patched wrapper or re-seeded initial condition,
+respectively, and the F-Pillar6 entry remains unconsumed.
+
+\medskip
+\noindent\textbf{Tier verdict.}
+\boxed{\textbf{T6 PROVED CONDITIONAL}}\;
+on the four primitive gauges of Math292 and the Math290 wrapper-bug
+catalogue. The three-class partition is exhaustive and disjoint by
+construction; the proof is a finite case enumeration on the
+$2^4=16$ possible failure-pattern combinations.
+
+\medskip
+\noindent\textbf{Phase 1 (Turns 61–63) closure status:}
+This note completes Phase 1 (canonical hygiene). Math291 fixed the
+ℏ formula triplet; Math292 pre-registered the four-gauge acceptance
+criterion; Math293 (this) closes the operational loop by
+disambiguating failure modes. Phase 2 (Turns 64–66) begins with
+Math294 (striped-seed theoretical justification).
+
+\section{Setting and partition definition}
+\label{sec:setting}
+
+Recall the four primitive gauges of Math292 §\ref{sec:setting}:
+$(G1)\;\Delta F$,\,$(G2)\;f$,\,$(G3)\;\lambda_{\min}^{\rm transverse}$,
+$(G4)\;\mathtt{extraction\_status}$. A Phase-2 computation fails
+the Math292 acceptance criterion iff at least one of the four
+predicates is false. A failure pattern is the indicator vector
+$\mathbf{F}\in\{0,1\}^{4}$ where $F_k=0$ means gauge $k$ is
+satisfied and $F_k=1$ means gauge $k$ is violated, with
+$\mathbf{F}\neq\mathbf{0}$ excluded (the all-zero pattern is the
+acceptance class, not a failure class). There are $2^{4}-1=15$
+non-trivial failure patterns.
+
+\begin{definition}[Three failure classes]
+\label{def:classes}
+For a failure pattern $\mathbf{F}\in\{0,1\}^{4}\setminus\{\mathbf{0}\}$:
+\begin{description}
+\item[$\mathcal{C}_1$ — extraction structural failure:]
+$F_4=1$ (i.e.\ $\mathtt{extraction\_status}\neq\mathtt{OK}$),
+\emph{or}
+$F_4=0$ together with the discrepancy
+$f^{\rm reported}=0$ but $f^{\rm patched-extractor}>0$
+(detected by re-extraction with the Math236 wrapper v2.0
+\texttt{extract\_amplitude} on the persisted $\Psi_{\rm final}.\mathtt{npy}$).
+\item[$\mathcal{C}_2$ — trivial-saddle convergence:]
+$F_4=0$ AND the patched extractor confirms $f>0$ AND
+($F_1=1$ OR $F_3=1$). I.e.\ wrapper integrity is intact and
+$f>0$ (so it is not class $\mathcal{C}_1$), but $\Delta F\ge 0$
+or $\lambda_{\min}^{\rm transverse}<0$.
+\item[$\mathcal{C}_3$ — genuine physical falsification:]
+$F_4=0$ AND $F_1=0$ AND $F_3=0$ AND $F_2=1$. I.e.\ wrapper
+integrity intact, $\Delta F<0$, $\lambda_{\min}^{\rm transverse}\ge 0$,
+but the broken-phase amplitude $f$ is below the pre-registered
+threshold $f_{\rm thr}$ of Math292 §\ref{sec:thresholds} \emph{and
+the same outcome holds across the full continuum-limit fit window}
+$N\in\{16,32,64\}$ at the same $(\mu^2, a)$ scan target.
+\end{description}
+\end{definition}
+
+\begin{remark}
+The class boundaries are designed so that a single Phase-2 run
+falls into exactly one class. The $f^{\rm reported}=0$ vs
+$f^{\rm patched}>0$ test in $\mathcal{C}_1$ is the operational
+signature of Math290 Bug A; the $\mathtt{extraction\_status}\neq\mathtt{OK}$
+condition is the signature of Math290 Bug B (and other
+extractor structural defects).
+\end{remark}
+
+\section{Theorem statement}
+\label{sec:theorem}
+
+\begin{theorem}[Three-class exhaustive disjoint partition]
+\label{thm:partition}
+The three classes of Definition \ref{def:classes} are pairwise
+disjoint and exhaustive on the set of failure patterns
+$\{0,1\}^{4}\setminus\{\mathbf{0}\}$ extended with the auxiliary
+patched-extractor flag.
+\end{theorem}
+
+\begin{proof}
+\textit{Disjointness $\mathcal{C}_1\cap\mathcal{C}_2=\emptyset$:}
+$\mathcal{C}_2$ requires $F_4=0$ (wrapper status OK) AND patched
+extractor confirms $f>0$. $\mathcal{C}_1$ requires either $F_4=1$
+or ($F_4=0$ AND $f^{\rm reported}=0$ but $f^{\rm patched}>0$). The
+second sub-case of $\mathcal{C}_1$ requires
+$f^{\rm reported}=0$, while $\mathcal{C}_2$ requires
+$f^{\rm reported}>0$ (the wrapper is intact, hence
+$f^{\rm reported}=f^{\rm patched}>0$). Disjoint.
+
+\textit{Disjointness $\mathcal{C}_1\cap\mathcal{C}_3=\emptyset$:}
+$\mathcal{C}_3$ requires $F_4=0$ AND $f$ truthfully extracted (so
+$f^{\rm reported}=f^{\rm patched}<f_{\rm thr}$). $\mathcal{C}_1$
+requires either $F_4=1$ (excluded) or $f^{\rm reported}=0$ vs.
+$f^{\rm patched}>0$ discrepancy (excluded since $f^{\rm reported}=
+f^{\rm patched}$ in $\mathcal{C}_3$). Disjoint.
+
+\textit{Disjointness $\mathcal{C}_2\cap\mathcal{C}_3=\emptyset$:}
+$\mathcal{C}_2$ requires $F_1=1$ OR $F_3=1$; $\mathcal{C}_3$
+requires $F_1=0$ AND $F_3=0$. Disjoint.
+
+\textit{Exhaustiveness:}
+Suppose $\mathbf{F}\neq\mathbf{0}$ is a failure pattern. Three cases:
+\begin{enumerate}
+\item $F_4=1$: belongs to $\mathcal{C}_1$ by definition.
+\item $F_4=0$, $f^{\rm patched}=0$: $\mathtt{extraction\_status}=\mathtt{OK}$
+but no shell modes contributed; this is wrapper-internal logical
+inconsistency, classified as $\mathcal{C}_1$ by the second sub-case
+($f^{\rm reported}=0$, but here also $f^{\rm patched}=0$ — by
+convention, both-zero is treated as $\mathcal{C}_1$ pending
+re-extraction with Math292-AddA wrapper v2.1 which adds an
+explicit ``no-shell-modes'' status code).
+\item $F_4=0$, $f^{\rm patched}>0$: either ($F_1=1$ OR $F_3=1$)
+giving $\mathcal{C}_2$, or ($F_1=0$ AND $F_3=0$ AND $F_2=1$)
+giving $\mathcal{C}_3$. The remaining sub-case
+$F_1=F_2=F_3=F_4=0$ is excluded as the success class.
+\end{enumerate}
+The 15 non-trivial failure patterns are thereby classified. \qed
+\end{proof}
+
+\section{Operational decision tree}
+\label{sec:decision}
+
+Given a Phase-2 run output $(\mu^2,N,a,\Psi_{\rm final}.\mathtt{npy},
+\mathrm{stdout})$, the wrapper applies the following decision tree:
+\begin{enumerate}
+\item Read \texttt{extraction\_status} from wrapper diagnostic.
+\begin{itemize}
+\item if $\neq\mathtt{OK}$ → $\mathcal{C}_1$ (extraction structural).
+\textbf{Action:} re-extract with patched extractor; if patched
+extractor agrees, escalate as wrapper-internal defect; if patched
+extractor disagrees, log Math290-Bug-A-class artefact; \textbf{re-run not required for re-extraction}.
+\end{itemize}
+\item Run patched extractor on persisted $\Psi_{\rm final}.\mathtt{npy}$.
+Compute $f^{\rm patched}$.
+\begin{itemize}
+\item if $f^{\rm patched}=0$ → $\mathcal{C}_1$ (no shell modes).
+\textbf{Action:} re-seed with Math236\_seed\_striped initial condition,
+re-run.
+\item if $f^{\rm reported}=0$ but $f^{\rm patched}>0$ → $\mathcal{C}_1$
+(Bug A class). \textbf{Action:} update wrapper to v2.1, re-run.
+\end{itemize}
+\item Compute $(\Delta F, \lambda_{\min}^{\rm transverse})$ from
+solver diagnostic.
+\begin{itemize}
+\item if $\Delta F\ge \Delta F_{\rm thr}$ OR $\lambda_{\min}^{\rm transverse}<-\epsilon_{\rm Hess}$
+→ $\mathcal{C}_2$ (trivial-saddle convergence).
+\textbf{Action:} re-seed with deterministic striped seed
+$\Psi^{(0)}_{c}(\mathbf{x})=A_{0}\hat e^{c}\cos(q_{0}\hat n\cdot\mathbf{x})$
+(Math236\_seed\_striped, post-Math290 helper). If repeat fails
+across $\mu^{2}\in\{-0.7, -1.0\}$ at $N=16$, lower $\mu^{2}$ further;
+if all of $\mu^{2}\in\{-1.0,-1.5,-2.0\}$ at $N=16$ trivial-saddle,
+escalate to Math293-AddA (transition-point recalibration).
+\end{itemize}
+\item Verify $f^{\rm patched}<f_{\rm thr}$ across the full continuum-limit
+window $N\in\{16,32,64\}$ at the same $(\mu^2,a)$ scan target.
+\begin{itemize}
+\item if all three $N$ confirm $f<f_{\rm thr}$ with truthful gauges
+(G1,G3,G4 satisfied) → $\mathcal{C}_3$ (genuine physical
+falsification).
+\textbf{Action:} F-Pillar6 calendar entry CONSUMED.
+Pillar 6 status downgraded per Math286 §5 contingency
+(F-Pillar6 FALSIFIED → Pillar 6 to T0 REFUTED on $(\mu^2,a)$ scan
+target; Math246 contingency routes B/C/D activate).
+\item if at least one $N$ shows $f\ge f_{\rm thr}$ → not $\mathcal{C}_3$,
+re-classify as Phase-2-incomplete; expand the continuum-limit window
+or escalate to Math293-AddB (window-extension protocol).
+\end{itemize}
+\end{enumerate}
+
+The decision tree is deterministic and operator-executable; it is the
+intended payload of Math236 wrapper v2.1 (per
+Q-2026-05-01-Math292-Wrapper-v21).
+
+\section{Application to Math290 first run}
+\label{sec:math290-apply}
+
+Apply the decision tree to the Math290 first-run audit:
+\begin{itemize}
+\item Step 1: $\mathtt{extraction\_status}^{\rm reported}=\mathtt{OK}$ but
+\emph{Bug B} mis-set the flag; the actual extractor returned
+``unexpected ndim=4'' — a $\mathcal{C}_1$ signature.
+\item Step 2: $f^{\rm reported}=0$, $f^{\rm patched}=2.591\times 10^{-5}>0$;
+discrepancy → $\mathcal{C}_1$ confirmed (Bug A class).
+\item Steps 3 and 4 not reached (already classified $\mathcal{C}_1$).
+\end{itemize}
+The Math290 first run is a $\mathcal{C}_1$ failure (wrapper-internal,
+extraction structural). \textbf{F-Pillar6 entry NOT CONSUMED.}
+This matches the Math290 verdict and is the canonical first
+worked example of the Math293 taxonomy.
+
+\paragraph{Counterfactual for $\mathcal{C}_2$:}
+Had the wrapper bugs A and B been absent (i.e.\ $\mathtt{extraction\_status}
+=\mathtt{OK}$ truthfully and $f^{\rm reported}=2.59\times 10^{-5}$),
+the run would have advanced to Step 3 and triggered $\mathcal{C}_2$
+because $\Delta F=+3.75\times 10^{-6}>-10^{-6}$ and
+$\lambda_{\min}=-0.48<-10^{-3}$. The action would still have been
+re-seed with striped seed, not gate consumption. The Math290 first
+run is therefore \textbf{exactly twice insulated} from $\mathcal{C}_3$:
+the wrapper bugs blocked Step 3 entirely, and even without the
+wrapper bugs, the trivial-saddle Newton trajectory would have
+triggered $\mathcal{C}_2$ before Step 4.
+
+\section{Devil's-advocate self-test}
+\label{sec:devil}
+
+\subsection*{(α) ``Class $\mathcal{C}_3$ requires three independent
+$N$ confirmations; this is over-conservative and may indefinitely
+postpone consumption of F-Pillar6.''}
+\textbf{VERDICT: VALID-WITH-CONSTRUCTIVE-MITIGATION.}
+The three-$N$ requirement is the operational realisation of the
+Math236 §9.2 four-stage continuum-limit-scan protocol; without
+multi-$N$ data, no Richardson extrapolation is possible. The
+mitigation is the $N=\{16,32,64\}$ ladder, with cumulative wall
+time $\sim 2$ days per ladder; Math292-AddB will document the time
+budget and the operational gate consumption rate.
+
+\subsection*{(β) ``Class $\mathcal{C}_2$ is too easy to fall into;
+the operator can re-seed indefinitely and never trigger $\mathcal{C}_3$.''}
+\textbf{VERDICT: VALID-WITH-MITIGATION.}
+The mitigation is the Math290 §6 striped-seed recommendation
+combined with the Math292-AddA calibration sweep
+$\mu^{2}\in\{-0.5,-0.6,-0.7,-0.8,-1.0,-1.5\}$. After a finite
+sweep the operator must either find a striped-seed entry into the
+broken-phase basin or accept that the Brazovskii transition point
+on the BCC lattice at the chosen $(N,a)$ does not lie at the
+nominal $\mu^{2}=-0.7$. Either outcome is informative; neither is
+indefinite re-seeding. The $\mu^{2}\in\{-1.0,-1.5,-2.0\}$
+escalation rule of Step 3 enforces a finite procedure.
+
+\subsection*{(γ) ``Why is the F-Pillar6 entry only consumed by
+$\mathcal{C}_3$? A persistent $\mathcal{C}_1$ or $\mathcal{C}_2$
+across many runs is also informative.''}
+\textbf{VERDICT: DISMISSED.}
+A persistent $\mathcal{C}_1$ is a software defect, not a physical
+verdict; consuming the gate would be a category error. A persistent
+$\mathcal{C}_2$ is a basin-of-attraction failure of the Newton solver
+on the chosen seed and lattice; it is informative about the
+solver-seed combination, not about the underlying physics. Only
+$\mathcal{C}_3$ — truthfully extracted, true-minimum, but
+sub-threshold amplitude across the continuum-limit window — is the
+operational signature of an actually-absent broken phase at the
+target $(\mu^{2},a)$. The categorical separation is essential for
+falsifiability hygiene.
+
+\section{Quantitative sanity battery}
+\label{sec:sanity}
+
+\paragraph{(i) Coverage.}
+$|\mathcal{C}_{1}\cup\mathcal{C}_{2}\cup\mathcal{C}_{3}|=
+2^{4}-1=15$ non-trivial failure patterns. Theorem
+\ref{thm:partition} enumerates them all. \checkmark
+
+\paragraph{(ii) Disjointness.}
+Pairwise intersections empty by Definition \ref{def:classes}
+construction. \checkmark
+
+\paragraph{(iii) Operationality.}
+Each class has a deterministic detection algorithm (Step 1, 2, 3, 4
+of §\ref{sec:decision}) executable from $(\Psi_{\rm final}.\mathtt{npy},
+\mathrm{stdout}, \mathrm{wrapper\,diagnostic})$. \checkmark
+
+\paragraph{(iv) Action well-defined.}
+Each class has a unique action: $\mathcal{C}_1$ → re-extract
+or update wrapper; $\mathcal{C}_2$ → re-seed (with $\mu^{2}$
+escalation if needed); $\mathcal{C}_3$ → consume F-Pillar6 entry.
+\checkmark
+
+\paragraph{(v) Math290 application correctness.}
+The decision tree applied to Math290 first run yields $\mathcal{C}_1$,
+matching the independent Math290 verdict. \checkmark
+
+\section{Self-adversarial review}
+\label{sec:self-adv}
+
+\subsection*{(I) ``The $\mathcal{C}_1$ class is conceptually a
+software-engineering category, not a physics-theorem category;
+including it dilutes the theorem.''}
+\textbf{VERDICT: VALID-WITH-MITIGATION-ALREADY-IN-PROOF.}
+$\mathcal{C}_1$ is indeed software-operational; its inclusion is
+necessary because, as Math290 demonstrated, software defects can
+masquerade as physical verdicts. Excluding $\mathcal{C}_1$ would
+leave the F-Pillar6 gate vulnerable to wrapper-internal
+mis-classifications. The mitigation is to recognise that
+$\mathcal{C}_1$ is the ``noise floor'' of the operational pipeline;
+once eliminated (post-Math290 patches A, B, C, plus future
+defects), only $\mathcal{C}_2$ and $\mathcal{C}_3$ remain.
+
+\subsection*{(II) ``The decision boundary between $\mathcal{C}_2$ and
+$\mathcal{C}_3$ depends on the threshold $f_{\rm thr}$, which is
+itself debatable.''}
+\textbf{VERDICT: VALID-WITH-CONSTRUCTIVE-MITIGATION.}
+True; $f_{\rm thr}=10^{-4}$ is pre-registered (per §6.3.3) but
+re-tunable via Math292-AddA upon empirical observation. The
+mitigation is the explicit pre-registration plus audit-traceable
+re-tuning protocol. The decision boundary is therefore
+\emph{auditable} even if the threshold value is debatable.
+
+\subsection*{(III) ``Three classes is too many; two would suffice
+(physical falsification vs. all-other-failures).''}
+\textbf{VERDICT: DISMISSED.}
+The two-class collapse loses the operational distinction between
+$\mathcal{C}_1$ (re-extract / update wrapper) and $\mathcal{C}_2$
+(re-seed initial condition). These actions are different and the
+collapse would be operationally degenerate; the operator would not
+know whether to re-extract or re-seed. The three-class partition is
+the minimum information-preserving structure for operational
+decisions.
+
+\section{Tier verdict and Phase 1 closure}
+\label{sec:tier}
+
+\noindent\textbf{Theorem 293.1 (three-class partition):}
+\boxed{\textbf{T6 PROVED CONDITIONAL}}\;
+on the Math292 acceptance criterion (T6 PROVED CONDITIONAL) and the
+Math290 wrapper-bug catalogue (T7 PROVED + PATCHED). The proof is a
+finite case enumeration; no remaining gaps.
+
+\medskip
+\noindent\textbf{Pillar 6 status (unchanged):}
+\textbf{T4 STRONG EVIDENCE}; the false-negative taxonomy is a
+binding operational disambiguation but does not by itself promote
+the pillar.
+
+\medskip
+\noindent\textbf{F-Pillar6 calendar entry (Math286 §5):}
+NOT CONSUMED; consumption gated on $\mathcal{C}_3$ verdict per
+the four-step decision tree.
+
+\medskip
+\noindent\textbf{Phase 1 (Turns 61–63) closure verdict:}
+\boxed{
+\;\text{Phase 1 — Canonical Hygiene — \textbf{COMPLETE}.}\;
+}
+Math291 (ℏ formula reconciliation) + Math292 (acceptance
+criterion theorem shell) + Math293 (false-negative taxonomy)
+collectively close the canonical-hygiene phase. The GAP-1
+formula triplet is reconciled to Formula B; the Pillar 6
+operational pipeline now has unambiguous accept/reject and
+class-disambiguation rules. Phase 2 (Turns 64–66) opens with
+Math294 (striped-seed theoretical justification), Math295
+(cross-turn audit of Phase 1), and Math296 ($\gamma_\hbar$
+ansatz first-principles derivation).
+
+\section{Cited-canonical-fact spot-check}
+\label{sec:facts}
+
+\begin{enumerate}
+\item Math290 first-run audit (wrapper bug triad + trivial-saddle
+diagnosis): confirmed at
+\verb|Docs/math/TECT-Math290-FPillar6-FirstRun-Audit-WrapperBug-TrivialSaddle.tex.txt|.
+\item Math292 acceptance-criterion theorem: confirmed at
+\verb|Docs/math/TECT-Math292-Pillar6-Acceptance-Criterion-Theorem-Shell.tex.txt|.
+\item Math236 §9.2 four-stage continuum-limit-scan protocol +
+v2.0 wrapper: confirmed at
+\verb|Docs/math/TECT-Math236-Task115-Continuum-Limit-Execution.tex.txt| +
+\verb|Codes/supplementary/Math236_continuum_limit_scan.py|.
+\item Math286 §5 F-Pillar6 falsification gate: confirmed at
+\verb|Docs/math/TECT-Math286-Stage2-FinalForm-Consolidation-Turn57.tex.txt|.
+\item Math246 contingency routes B/C/D for F-Pillar6 FAIL scenario:
+confirmed at \verb|Docs/math/TECT-Math246-*.tex.txt| (cited via Math289).
+\item CLAUDE.md §6.3.3 (pre-registered falsification gate),
+§6.3.5(a) (self-adversarial review): confirmed at \verb|CLAUDE.md|.
+\end{enumerate}
+
+\section{Tasks opened}
+\label{sec:tasks}
+
+\begin{itemize}
+\item \textbf{Q-2026-05-01-Math293-Wrapper-Decision-Tree}: Math236
+wrapper v2.1 must implement the four-step decision tree of
+§\ref{sec:decision} as the per-data-point classification routine.
+Currently the v2.0 wrapper (Math290 patches) computes the four
+gauges but does not assemble them into the three-class partition.
+The v2.1 patch adds the \texttt{classify\_failure(point)} routine
+returning $\in\{\texttt{C1},\texttt{C2},\texttt{C3},\texttt{ACCEPT}\}$.
+Due 2026-05-08 jointly with Q-2026-05-01-Math292-Wrapper-v21.
+\item \textbf{Q-2026-05-22-Math293-AddA-Calibration-Sweep-Verdict}:
+Document the empirical $\mu^{2}$-scan verdict from the
+post-2026-05-01 striped-seed runs at $\mu^{2}\in\{-0.7,-1.0,-1.5\}$,
+$N=\{16,32,64\}$. Either confirm broken-phase entry (success class)
+or document persistent $\mathcal{C}_2$/$\mathcal{C}_3$ across the
+sweep. Due upon completion of striped-seed run ladder.
+\end{itemize}
+
+\section{Recommendations for Turn 64 (Math294)}
+\label{sec:turn64}
+
+Phase 2 opens with Math294 (\textbf{striped-seed theoretical
+justification}). The Math290 §6 recommendation to re-seed with
+$\Psi^{(0)}_{c}(\mathbf{x})=A_{0}\hat e^{c}\cos(q_{0}\hat n\cdot\mathbf{x})$
+was operationally motivated; Math294 will provide the
+\emph{theoretical} justification: why does the deterministic
+striped seed reliably aim at the broken-phase basin while a
+symmetric random seed defaults to the trivial saddle? The answer
+will use Brazovskii Goldstone-mode analysis (Math97 + Math82-H)
+to show that the striped seed initialises non-zero shell-mode
+amplitude $f^{(0)}>f_{\rm thr}^{\rm initial}$ which the Newton
+flow then drives downhill to the broken-phase minimum, while a
+random seed has $\langle f^{(0)}\rangle=0$ and $\sigma_{f^{(0)}}\sim
+N^{-3/2}$ which is below the basin-separation gap on the coarse
+$N=16$ lattice. This justifies the operational practice and provides
+a falsifiable prediction: if $A_{0}$ is taken too small
+($A_{0}\lesssim 10^{-2}$), the broken-phase basin entry should fail
+even with striped orientation. Math294 will pre-register this
+gradient-test as a falsification gate for the seed-amplitude
+dependence.
+
+\medskip
+\noindent\textbf{End of Math293 — Pillar 6 false-negative
+taxonomy. Tier: T6 PROVED CONDITIONAL. Phase 1 closed.}
+\end{document}

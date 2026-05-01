@@ -19,6 +19,7 @@ TECT operates under a small set of explicit, binding policies documented in the 
 | `REPO_LAYOUT.md` | TECT Repository Layout Policy |
 | `RESULT_TEMPLATE.md` | Per-run RESULT.md template |
 | `RETRO_MANIFEST_NOTE.md` | WITHDRAWN |
+| `SNAPSHOT_POLICY.md` | SNAPSHOT_POLICY.md — TECT Repository Snapshot Discipline |
 | `STATUS_NOMENCLATURE.md` | TECT Status Nomenclature — Standard 8-Tier Schema |
 | `TECT-Pillar1-Traceability-Chain.md` | TECT Pillar 1 Traceability Chain: BCC Ground-State Uniqueness |
 | `UPDATE_POLICY.md` | TECT Update Policy |

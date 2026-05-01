@@ -1,12 +1,15 @@
 #!/usr/bin/env python3
 # === TECT VERSION HEADER BEGIN ===
-# Theory tag    : Math63-Solver-Redesign-v2p5-2026-04-22
+# Theory tag    : Math56-Addendum-v2p4-2026-04-20
 # Regime        : Brazovskii (lambda<0, gamma>0 sizeable)
-# Module version: v1.2
-# Sync doc      : /Contents/Docs/status/TECT-Theory-Code-Sync.md
-# Last synced   : 2026-04-22
-# Notes         : Fourier-diagonal Brazovskii preconditioner for ill-conditioned
-#                 FGMRES inner solves. Applies O(N log N) via FFT.
+# Module version: unregistered
+# Sync doc      : /Contents/docs/status/TECT-Theory-Code-Sync.md
+# Last synced   : 2026-04-20
+# Notes         : Code is version-locked to the above theory tag.
+#                 The module-version field tracks the file's own API
+#                 generation (filename = <module>_v<N>.py); the theory
+#                 tag is global. Re-run PDE/stamp_version_headers.py
+#                 after any tag bump or version-table edit.
 # === TECT VERSION HEADER END ===
 """
 Fourier-Diagonal Brazovskii Preconditioner

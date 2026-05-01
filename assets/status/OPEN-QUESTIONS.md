@@ -55,6 +55,59 @@ archived with the replacement's tag, and the replacement gains an
 
 ## Active
 
+#### Q-2026-05-01-Math288-Proposition-4-3-1-Rigorous-Proof — Rigorous Hodge-theoretic derivation of Proposition 4.3.1 (Bogomolov-type eigenvalue bound for bundle Laplacian) — **OPENED 2026-05-01 TURN 59 (Math288 §7 objection α mitigation)**
+
+**[OPENED 2026-05-01 TURN 59 — Math288 §4.3 / §7 objection α / §11 open-task register]** **Context**: Math288 (Turn 59) derives a new Bogomolov-type inequality (Proposition 4.3.1) relating bundle Chern class $c_2(E)$ to covariant Laplacian spectrum on Kähler surfaces. The proposition is **stated heuristically** (standard form in physics literature) but requires rigorous Hodge-theoretic justification in analytic terms. Objection α (§7) identifies this as VALID-WITH-MITIGATION: the bound is used in Task #156 numerical dispatch to predict defect-mass magnitude, and will be validated a posteriori by comparing numerical eigenvalue against the Bogomolov inequality. This task opens the rigorous derivation as a follow-up.
+
+**Statement**: Prove rigorously that for a holomorphic vector bundle $E$ on a Kähler surface $(X, \omega)$ with $c_1(E) = 0$, the covariant Laplacian spectrum satisfies
+$$\lambda_{\min}(\Box_E = D_A^* D_A) \geq C_{\rm geo} \cdot \frac{c_2(E)}{\mathrm{vol}(X)} \cdot \min_{x \in X} |\det F_{A^*}(x)|,$$
+where $C_{\rm geo}$ is a universal constant (to be determined, expected $O(1)$ in natural units) depending only on the metric and rank of $E$. Derive $C_{\rm geo}$ explicitly for (i) product bundles $E = \bigoplus_i \mathcal{O}(d_i)$, (ii) general polystable bundles.
+
+**Why open**: Proposition 4.3.1 is a bridge between algebraic Chern classes and differential-geometric Laplacian spectrum — a non-trivial result that deserves canonical proof. The heuristic form was sufficient for Task #156 numerical setup (magnitude prediction), but full rigor requires Hodge-theory justification. Once numerical Task #156 output is available, the bound can be verified a posteriori, which will then motivate or confirm the proof strategy.
+
+**Falsification criterion (pre-registered)**: If numerical Task #156 eigenvalue extraction yields $\lambda_{\min}(\Box_E)$ that violates the Bogomolov bound by >50% (i.e., bound predicts $10^{25}$ GeV² but numerics find $10^{24}$ GeV²), the heuristic form requires revision or the bound constant $C_{\rm geo}$ is larger than anticipated. In such case, Proposition 4.3.1 is REFUTED in its stated form (T0) and a corrected version must be derived.
+
+**Owner**: TECT Collaboration. Primary owner: Mathematical physics / differential-geometry specialist. Secondary validation: numerical output from Task #156 (2026-05-14 verdict).
+
+**Timeline**: Proof development should begin post-Task #156 numerical output (after 2026-05-14 F-GAP4-DEFECT-MASS verdict). Estimated closure 2026-06-15 (allowing 1–2 weeks for proof development + peer review). **Review by**: 2026-06-15 (hard, post-Task #156).
+
+**Caveat**: This task is contingent on Task #156 producing a converged numerical solution (Scenario A/B). If Task #156 defers or fails (Scenario C), the proof can still proceed but loses immediate numerical validation. In that case, the deadline extends to 2026-07-15.
+
+**Current status** (post-Math288): T1 OPEN → T6 or T7 (upon rigorous proof + numerical post-hoc validation).
+
+---
+
+#### Q-2026-05-14-Task156-Falsification-Gate-Fire — Execute F-GAP4-DEFECT-MASS numerical test (Pillar 4 sub-task 2 closure gate) — **OPENED 2026-05-01 TURN 59 (Math288 §5 critical-path dependencies)**
+
+**[OPENED 2026-05-01 TURN 59 — Math288 §5 scenario dispatch]** **Context**: Math288 (Turn 59) identifies Task #156 numerical dispatch as the critical blocker for Pillar 4 atomic-tier promotion and Stage-2 composite-tier promotion. The falsification gate F-GAP4-DEFECT-MASS (pre-registered Math286) has a **hard deadline 2026-05-14** and a **pre-registered criterion**: does the numerical defect mass $\mu_{\rm defect}$ land within the window $(10^{13}, 10^{17})$ GeV?
+
+**Statement**: Execute Task #156 (Newton-Krylov HYM solver on $\Sigma_0 = \mathbb{P}^1 \times \mathbb{P}^1$, eigenvalue extraction) and apply the F-GAP4-DEFECT-MASS gate: **OUTCOME 1 (PASS)**: $\mu_{\rm defect} \in (10^{13}, 10^{17})$ GeV → Pillar 4 atomic tier T4 → T6 PROVED CONDITIONAL (via Math270 topological cert + defect-mass confirmation), Stage-2 composite tier T3 → T6 PROVED CONDITIONAL (cascade per Math286 §3). **OUTCOME 2 (FAIL)**: $\mu_{\rm defect} \notin (10^{13}, 10^{17})$ GeV → Math270 Theorem 270.2 FALSIFIED on Σ₀, activate Math246 contingency routes B/C/D, hard deadline 2026-05-21 for route escalation. **OUTCOME 3 (DEFER)**: Task #156 numerics incomplete by 2026-05-14 23:59 UTC → extend schedule to 2026-05-29 (aligned with Pillar 6 deadline), Pillar 4 remains T4, Stage-2 remains T3, contingencies activate in parallel.
+
+**Why critical**: Pillar 4 sub-task 2 is the **unique critical blocker** for Stage-2 composite promotion from T3 → T6. If Task #156 fails or defers significantly, the entire TOE programme enters contingency mode (Pillar 4 recovery routes A–D, extended timeline 2026-05-29 to 2026-06-30+). This gate is binding per Math286 §5 cascade-risk register (60% favorable / 25% partial / 15% deferred).
+
+**Falsification criterion** (hardened, pre-registered Math286 + Math288):
+- **PASS**: $10^{13} \leq \mu_{\rm defect} \leq 10^{17}$ GeV.
+- **FAIL**: $\mu_{\rm defect} < 10^{13}$ GeV OR $\mu_{\rm defect} > 10^{17}$ GeV.
+- **DEFER**: Solver convergence <10⁻⁶ relative precision, or numerical run incomplete, or hardware/software failure.
+
+**Owner**: TECT Collaboration. Primary executor: Autonomous TECT numerical-dispatch agent (Turn 59 subsequent task). Secondary validator: Mathematical physics specialist (auditing converged solution).
+
+**Timeline** (hard):
+- **2026-05-02 to 2026-05-13**: Task #156 numerical dispatch, solver execution (11 days, wall-clock).
+- **2026-05-14 23:59 UTC**: Hard gate deadline. F-GAP4-DEFECT-MASS verdict (PASS/FAIL/DEFER) must be declared.
+- **2026-05-15 to 2026-05-21**: Post-verdict consolidation (Math289 Turn 60, contingency escalation if needed).
+
+**Review by**: 2026-05-14 (HARD, non-extensible deadline). No deferral possible beyond this date without triggering Scenario C (extended timeline).
+
+**Current status** (post-Math288 Turn 59): T2 CONJECTURE (falsification criterion pre-registered, awaiting numerical execution).
+
+**Decision tree post-verdict** (per Math286 §5):
+- **Scenario A (PASS, 60% prob)**: Math289 consolidates Stage-2 T3 → T6, coordinates Pillar 6 closure (Task #115, due 2026-05-29) for Stage-1 finalization.
+- **Scenario B (FAIL, 25% prob)**: Math289 activates Math246 routes B/C/D, establishes extended research timeline (Turns 60–70+, gate 2026-06-30).
+- **Scenario C (DEFER, 15% prob)**: Math289 reschedules Task #156 to 2026-05-29 window, activates contingencies (routes B/C/D) in parallel, re-gates at 2026-05-29 or later.
+
+---
+
 #### Q-2026-04-30-Math260-Route-A-H6-Tier-Qualification — Verify H6 (ℏ matching functional) tier qualification for Route A composite T6 claim (Tasks #156a.3b, #147/#148 RGE closure) — **PARTIALLY DISCHARGED 2026-04-30 TURN 31 (Math260 H5 closure), H6 deferred 2026-05-14**
 
 **[PARTIALLY DISCHARGED 2026-04-30 TURN 31 — Math260 Turn 31 delivery]** **Context**: Math258 audit (Turn 29, CLAUDE.md §6.3.2 + §6.3.5(b) BINDING) identified H5 and H6 as T4 STRONG EVIDENCE, blocking Route A T6 promotion. **Math260 Turn 31 closure**: H5 (BRST Faddeev-Popov determinant) **ADVANCED FROM T4 → T6 PROVED CONDITIONAL** via rigorous constant-bound theorem qualification (Theorems 260.1–260.4). All cited-facts spot-checked (CLAUDE.md §6.3.2.1 binding), devil's-advocate + self-adversarial review complete per §6.3.5(a)(b) binding. **Residual**: H6 (ℏ matching functional) remains T4 STRONG EVIDENCE, gated on Task #156a.3b (RGE matching) + Tasks #147/#148 (2-loop RGE computation).
@@ -182,6 +235,24 @@ archived with the replacement's tag, and the replacement gains an
 **UPDATE 2026-04-30 TURN 32 (Math261 H6 ℏ matching closure)**: H-GAP-3.2 (Planck constant matching on $\Sigma_0$) advanced from T4 STRONG EVIDENCE to **T6 PROVED CONDITIONAL** via rigorous base-manifold-independence theorem (Theorem 261.1: BCC microscopic parameters $\{\kappa_\chi, \kappa_5, \eta, \Lambda_{\rm UV}, a_{\rm BCC}\}$ are base-independent; logical consequence of separation-of-scales: 3D lattice physics ↔ 2D moduli space) and constant-bound qualification (Theorem 261.2: perfect equality $\hbar^{(\Sigma_0)} = \hbar^{(\mathbb{CP}^2)} = c^5 a_{\rm BCC}/(16\pi G)$ with $C_\hbar = c^5/(16\pi G)$ analytically derived). All cited-facts spot-checked (Math254, Math110-AddI, Math115, Math250 verified from disk). Devil's-advocate + self-adversarial review complete (three objections: α DISMISSED, β VALID-WITH-DEPENDENCY-TRACKING, γ VALID-WITH-SCOPE-CLARIFICATION; three meta-objections all addressed). Route A hypothesis set $\mathcal{H}_A$ now **6/7 at T6 PROVED CONDITIONAL + 1/7 at T3 PROOF SKETCH** (H2 O$_h$ embedding numerical closure deferred, estimated 3–4 days Turn 34). H-GAP-3 composite status: **T6 PROVED CONDITIONAL on explicit hypothesis set** (all three sub-gates GAP-3.1/3.2/3.3 now T6+). Pillar 4 sub-task 2 recovery Route A eligible for **automatic T4→T6 upgrade upon H2 numerical closure by 2026-05-14 critical gate** (no new conceptual work required).
 
 **Falsification criterion (pre-registered, CLAUDE.md §6.3.3)**: If H-GAP-1.b yields cross-factor instability or non-uniqueness (unlikely given H-GAP-1.a closure), Route A is falsified (T0). If H-GAP-3 quantum gates (Tasks #156a.3a/3b) reveal contradiction or $\hbar$ mismatch that cannot be resolved, Route A remains T4 STRONG EVIDENCE (not promoted). If **either H-GAP-1.a or H-GAP-2.2 closure is overturned** (audit-flagged defect found), Route A reverts to T3 and the affected H-GAP re-opens. **Owner**: TECT Collaboration. **Timeline**: H-GAP-1.b preliminary 2026-05-06 (Task #156a.1.b); H-GAP-3 Tasks #156a.3a/3b due 2026-05-06 (consolidated deadline). **Turn 28 execution**: Numerical Tasks #156a.1.b/3a/3b. **Turn 29 audit**: Cross-turn audit on Turn 28 results (CLAUDE.md §6.3.2 binding). **Turn 30**: 10-turn synthesis + final consolidation (CLAUDE.md §6.3.5(c) mandatory). **Review by**: 2026-05-14 (hard deadline; failure to close Route A H-GAPs gates T6 upgrade; decision point for Routes B/C/D escalation or OPEN-NEGATIVE demotion).
+
+---
+
+#### Q-2026-05-01-Math270-Sigma0-Moduli-Closure — Secondary audit of simultaneous moduli closure on $\Sigma_0$ (Task #156(g), 20-turn defence programme cross-base coherence mitigation) — **OPENED 2026-05-01 TURN 41 (Math270)**
+
+**[OPENED 2026-05-01 TURN 41 — Math270 defence programme, Attack #1 mitigation]** **Context**: Math270 defends Pillar 4 atomic-tier T6 PROVED CONDITIONAL against the highest-risk reviewer attack (cross-base coherence). Theorem 270.2 claims all three Pillar 4 sub-tasks coexist coherently on $\Sigma_0 = \mathbb{P}^1 \times \mathbb{P}^1$. Realization requires verifying non-emptiness of the moduli space $\mathcal{M}_{\Sigma_0} = \{E \to \Sigma_0 : \text{SO(10) bundle, } c_1(E)=1, c_2(E)=0\}$ and checking that constraints from sub-tasks 2 (gauge emergence) and 3 (breaking pattern) are compatible.
+
+**Statement (Task #156(g))**: Prove non-emptiness of $\mathcal{M}_{\Sigma_0}$ (either rigorously or via explicit ansätze from Math246 Routes A–D). Verify that gauge-emergence (Math264) and breaking-pattern (Math266) conditions are generically satisfied within this moduli space.
+
+**Why open**: Math270 Theorem 270.2 is existential. Realization (constructive proof or explicit family) is secondary but crucial. Math246 provides four ansätze but none yet explicitly verified as producing valid SO(10) bundle with required structure group + representation-theoretic properties.
+
+**Falsification criterion (pre-registered)**: 
+- (a) If all four Routes A–D fail to produce coherent bundle ($c_1=1$, $c_2=0$) by 2026-05-14, Theorem 270.2 is FALSIFIED. **Consequence**: Pillar 4 atomic tier downgrades T6 → T5 CLOSED@ALTERNATE-BASE-CLOSURE.
+- (b) If routes yield $c_2(E) \neq 0$ on $\Sigma_0$ (fail to recover from Math174), routes are FALSIFIED; if all four fail, Pillar 4 sub-task 2 → OPEN-NEGATIVE REFINED.
+
+**Owner**: TECT Collaboration, Task **#156(g)** (secondary audit). **Timeline**: Target 2026-05-20 (non-blocking, post-gate window). **Method**: Deformation theory (moduli dimension), toric construction, splitting sequences (Math246).
+
+**Review by**: 2026-05-20 (non-blocking) or escalate to Turn 42 cross-turn audit if feedback warrants.
 
 ---
 
@@ -1940,22 +2011,27 @@ The case $m = 1$ must be PROVED, not cited. For the standard "complexification" 
 **Date opened**: 2026-04-28 (late+6)
 **Theory tag**: Math211 §8.
 
-**Question**: Within the BCC-microscopic-allowed class $c_1(U(1)_\chi) \in 2\mathbb Z$ (Math211 result), is there an AUXILIARY CONSTRAINT (beyond BCC microscopic reality alone) that forces the choice $c_1 = 0$ over $c_1 \in \{\pm 2, \pm 4, \ldots\}$?
+**Question**: Within the BCC-microscopic-allowed class $
 
-Candidate routes:
-  - Math157 anomaly cancellation (Task #155): does SM anomaly cancellation prefer $c_1 = 0$?
-  - Math171-AddA index theorem (Task #156): does $\mathrm{ind}(D_E^c) = 16$ require $c_1 = 0$ specifically?
-  - Stability / energy minimisation: does the BCC condensate free energy prefer the trivial extension?
+### Q-2026-05-01-Math290-Striped-Seed-Validation (NEW HIGH PRIORITY) — empirical validation of Bug C trivial-saddle diagnosis
 
-**Approach**: Compute the index $\mathrm{ind}(D_E^c)$ as a function of $c_1 \in 2\mathbb Z$; check anomaly coefficients for each $c_1$ representative; compute Brazovskii free energy for each extension.
+**Date opened**: 2026-05-01 (Math290 §6, §11 meta-objection 3 UPHELD-WITH-CLARIFICATION).
+**Theory tag**: Math290 §5 (Bug C, trivial-saddle convergence) + §8 (re-run protocol).
+**Deadline**: 2026-05-08 (1 week; non-blocking; before F-Pillar6 hard gate 2026-05-29).
 
-**If affirmative**: Pillar 4 sub-task 2 → PROVED unconditional.
-**If negative**: M4 (acceptance of canonical choice as phenomenological) is the operationally honest path; Pillar 4 sub-task 2 stays at canonical-realisation conditional with explicit "phenomenological-input" tag.
+**Question**: Does re-seeding the v25 Newton-Krylov solver with the deterministic striped initial configuration $\Psi^{(0)}_c(\mathbf{x}) = A_0\hat{e}^c \cos(q_0\hat{\mathbf n}\cdot\mathbf{x})$ (synthesized by `Codes/supplementary/Math236_seed_striped.py`) at $\mu^2 = -0.7$, $N \in \{16, 32, 64\}$ produce a broken-phase $\Psi^\star$ with $\Delta F < 0$, $\lambda_{\min}(\mathrm{Hess}|_{\Psi^\star}) > 0$, and $f \sim O(1)$?
 
-**Estimated effort**: 1-3 single-turn dispatches.
+**Approach**:
+1. Generate per-N seeds: `for N in 16 32 64; do python -u Codes/supplementary/Math236_seed_striped.py --N $N --L-box 16.0 --q0 0.6801747616 --A0 0.5 --output Runs/continuation/seed_N${N}.npy; done`
+2. Pass each seed to v25 manually via `--load-psi <seed>` (the wrapper does not yet wire `--load-psi` per-N; that is a deferred follow-up).
+3. Verify per-N: $\Delta F < 0$, $\lambda_{\min} > 0$ (positive-definite Hessian), $f \geq O(0.1)$.
+4. If all three N pass → Stage-3 Richardson fit emits F-Pillar6 verdict; if any N fails with the striped seed → Bug C diagnosis is incomplete and a deeper investigation is needed (lattice-dressed Brazovskii transition shift; $\mu^2 = -0.7$ may be above the dressed transition at coarse N).
 
-### Q-2026-04-28-Math215-curvature-stiffness-derivation (Task #159, NEW HIGH PRIORITY)
+**Closure path**:
+- If validation PASS → Bug C hypothesis confirmed empirically; promote Math290 §5 from T6 CONDITIONAL to T7 PROVED; Math236 wrapper proven production-ready; F-Pillar6 hard gate 2026-05-29 advances on canonical track.
+- If validation FAIL (striped seed also lands at trivial saddle) → genuine lattice-physics question: re-test with $\mu^2 = -1.0$ or $\mu^2 = -1.5$ to bracket the dressed Brazovskii transition; this is itself a physical result, not a defect.
 
-*
-- **Math251** (2026-04-30): Cross-turn audit Math248+250 (CLAUDE.md §6.3.2 + §6.3.2.1 BINDING) — AUDIT PASS, Route A T4 STRONG EVIDENCE confirmed (Turn 22 of new 10)
-- **Math252** (2026-04-30): H-GAP-2.2 closure attempt — explicit O_h embedding into Spin(10), 16|_O_h = 2T_1 ⊕ 2T_2 ⊕ 2A_2 ⊕ 2A_1 dimensionally verified, code verification deferred (T3 PROOF SKETCH, Turn 23 of new 10)
+**Estimated effort**: 1-3 single-N runs (each $\lesssim 1$ h with broken-phase basin and well-conditioned Hessian; vs. 10.94 h for the trivial-saddle run).
+
+**Owner**: TECT collaboration (operator).
+**Status**: T1 OPEN.

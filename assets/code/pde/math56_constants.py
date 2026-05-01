@@ -1,28 +1,15 @@
 #!/usr/bin/env python3
 # === TECT VERSION HEADER BEGIN ===
-# Theory tag    : Math63-Solver-Redesign-v2p5-2026-04-22
-# Regime        : Brazovskii (lambda<0, gamma>0 sizeable) + BCC 3-channel backend
-# Module version: v1.1
-# Sync doc      : /Contents/Docs/status/TECT-Theory-Code-Sync.md
-# Last synced   : 2026-04-22
-# Notes         : Single source of truth for Brazovskii and separatrix constants.
-#                 Imported by continuation_mu2_v25.py, bz_preconditioner.py,
-#                 and all diagnostic tools. Do NOT hard-code these values elsewhere.
-# Changelog (v1.0 -> v1.1, 2026-04-22):
-#   Trigger : v2.5.4 `continuation_mu2_v25.py` honest-reporting surfaced
-#             `Probe failed: Psi must have shape (3, Nx, Ny, Nz); using default`
-#             at every fifth Newton step of every point. Root cause: the
-#             existing `build_seed()` returns scalar-Brazovskii shape
-#             (N,N,N) float64, but active backend `real_backend_pt_bcc_mixed_v3`
-#             demands BCC 3-channel shape (3,N,N,N) complex128.
-#   Evidence: (A) `real_backend_pt_bcc_mixed_v3.py:95` `_shape3()` enforces
-#             `Psi.ndim == 4 and Psi.shape[0] == 3`. (B) `build_seed` returns
-#             `np.zeros((N,N,N))` / `sigma * rng.standard_normal((N,N,N))` at
-#             lines 308/312/319 — shape mismatch is unambiguous.
-#   Decision: Add new `build_seed_bcc(N, sigma, complex=True, seed=42)` factory
-#             returning (3,N,N,N) complex128 with independent thermal noise
-#             in each of the three BCC family channels. Preserve legacy
-#             scalar `build_seed()` unchanged for downstream callers.
+# Theory tag    : Math56-Addendum-v2p4-2026-04-20
+# Regime        : Brazovskii (lambda<0, gamma>0 sizeable)
+# Module version: unregistered
+# Sync doc      : /Contents/docs/status/TECT-Theory-Code-Sync.md
+# Last synced   : 2026-04-20
+# Notes         : Code is version-locked to the above theory tag.
+#                 The module-version field tracks the file's own API
+#                 generation (filename = <module>_v<N>.py); the theory
+#                 tag is global. Re-run PDE/stamp_version_headers.py
+#                 after any tag bump or version-table edit.
 # === TECT VERSION HEADER END ===
 """
 TECT Brazovskii Constants Module

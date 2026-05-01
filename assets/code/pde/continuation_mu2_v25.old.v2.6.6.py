@@ -1,29 +1,15 @@
 #!/usr/bin/env python3
 # === TECT VERSION HEADER BEGIN ===
-# Theory tag    : Math82-I-r3-tcg-max-wiring-fix-2026-04-26
+# Theory tag    : Math56-Addendum-v2p4-2026-04-20
 # Regime        : Brazovskii (lambda<0, gamma>0 sizeable)
-# Module version: v2.6.6
+# Module version: unregistered
 # Sync doc      : /Contents/docs/status/TECT-Theory-Code-Sync.md
-# Last synced   : 2026-04-26
-# v2.6.6 fix    : CLI option --tcg-max is now propagated through run_one_point_v25
-#                 to tect_newton_krylov.newton_solve (and downstream
-#                 truncated_cg_solve / gmres_trust_region_solve max_iter). Prior
-#                 versions (v2.6.4–v2.6.5) only fed --tcg-max into the post-run
-#                 acceptance gate (tol_gate.tCG_max), leaving the inner Krylov
-#                 cap at the core default. Symptom: deep-regime points (e.g.
-#                 mu2 = -0.7) entered linear convergence with EW eta saturating
-#                 near 0.68 because the inner solver could not satisfy the
-#                 tighter tolerance within the silent default cap. Diagnosed
-#                 from the 22-hour Math82-H phase2 run that stopped at
-#                 ||grad||/sqrt(dof) = 8.34e-7 after 19 Newton steps.
-# Notes         : Newton-Krylov adaptive continuation driver. Live v2.6.x-aware
-#                 wrapper around tect_newton_krylov.newton_solve (v2.6.2, Math66 v0.2 Path-A +
-#                 Math73 cII projector API). The v2.5.7 "structural skeleton pending local
-#                 execution" provision is retired as of 2026-04-23: run_one_point_v25 now
-#                 performs a single real Newton solve per mu2 point, propagates convergence
-#                 from newton_history[-1]["grad_norm"] < tol_newton, and wires Phase 2
-#                 (lanczos_hessian + analyze_projected_spectrum) and Phase 3
-#                 (compute_energy_difference) into the continuation-point record.
+# Last synced   : 2026-04-20
+# Notes         : Code is version-locked to the above theory tag.
+#                 The module-version field tracks the file's own API
+#                 generation (filename = <module>_v<N>.py); the theory
+#                 tag is global. Re-run PDE/stamp_version_headers.py
+#                 after any tag bump or version-table edit.
 # === TECT VERSION HEADER END ===
 #
 # --- v2.6.3 CHANGELOG (2026-04-23) --------------------------------------------
