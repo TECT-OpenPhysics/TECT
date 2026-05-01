@@ -11,6 +11,34 @@ _Last curated: 2026-05-01 (UTC) -- auto-generated mirror of the canonical resear
 
 A research programme deriving the Standard Model, general relativity, and the quantum structure of nature as low-energy limits of a single topologically-locked BCC condensate — currently graded against a three-stage TOE qualification rubric ($S_1 \wedge S_2 \wedge S_3$).
 
+## What is TECT?
+
+TECT is a research programme that derives the Standard Model (SM) gauge structure, general relativity (GR), and the quantum constants of nature ($\hbar$, $\Lambda$) as **low-energy consequences of a single primordial three-dimensional body-centred-cubic (BCC) topological condensate** of an O(n) order parameter. The condensate is governed by Brazovskii-type free-energy dynamics; the BCC ground state breaks rotational symmetry to the cubic point group $O_h$ but preserves CP and translation. Pillar-by-pillar emergence theorems (Pillars 1–11) show that mass, kinematic Lorentz invariance, gravity, gauge structure, fermion content, Higgs mechanism, electroweak breaking, QCD confinement, the cosmological constant, the no-classical-$\hbar$ no-go theorem, and chirality each arise from the same underlying lattice condensate without additional structural input.
+
+The framework is graded against an explicit **TOE qualification predicate** $\mathrm{TOE} := S_1 \wedge S_2 \wedge S_3$ (per `Math60-TOE-Global-Closure-Spec`), extended below to a six-stage roadmap that includes cosmological extension, external verification, and publication acceptance. All claims are pinned to specific Math notes (`Docs/math/TECT-Math<NN>-*.tex.txt`) with explicit T0–T7 tier labels (per [STATUS_NOMENCLATURE.md](docs/POLICIES_INDEX.md)).
+
+## Foundational axioms (Math195)
+
+Per `TECT-Math195` (effective-axiom reduction analysis):
+
+- **A0** (BCC condensate dynamics): Brazovskii free energy $F[\Psi] = \int [\frac{1}{2}|\nabla\Psi|^2 + \frac{1}{2}\mu^2|\Psi|^2 + \frac{1}{2}\gamma(\Delta + q_0^2)^2|\Psi|^2 + \frac{1}{4}\lambda|\Psi|^4] d^3x$ governing a vector order parameter $\Psi:\mathbb{R}^3 \to \mathbb{C}^n$ with TDGL Model-A kinetics.
+- **A1** (cosmological cooling history): a monotone temperature trajectory $T(t)$ that drives the system through the BCC freeze-out transition (Math97 Brazovskii universality class).
+- **A2** (boundary condition): a Cauchy boundary condition at $t \to -\infty$, *reducible* to A0 + A1 dynamics with an external cosmological-evolution input. Effective core axiom count: **2 + 1 = 3 hierarchically structured**, with the two-axiom core $\{A0, A1\}$ load-bearing for the bulk of the theorem chain.
+
+All other inputs (gauge group, fermion generations, Higgs potential coefficients, $\hbar$, $G$ at low-energy precision) are derived emergently rather than postulated.
+
+## Key emergent results (theorem-level)
+
+| Result | Formula / mechanism | Tier | Canonical source |
+|---|---|---|---|
+| Mass gap $m^*$ | Single-mode Math56 cone, BCC ground-state uniqueness (Pillar 1) | T7 PROVED | `Math01-v2`, `Math82-AddG/H` |
+| Kinematic Lorentz | $|c_T - c|/c \le 4.8\times 10^{-4}$ (Pillar 2) | T6 PROVED CONDITIONAL | `Math_IR_Bound-v4-thm-v4-2-final` |
+| Emergent graviton | Spin-2 mode at 1-loop (Pillar 3) | T5 CLOSED@1-loop | `Pillar-3` notes |
+| SO(10) gauge group | $\mathrm{Stab}_{O_h}(\mathbf{T}_{1g}) \cap \mathrm{Stab}_{\mathrm{SO}(10)}(\mathbf{10}_{\rm vec}) = G_{\rm SM}$ (Pillar 4 atomic) | T6 PROVED CONDITIONAL | `Math270`, `Math279` |
+| Planck constant | $\hbar_{\rm TECT} = c^3 a_{\rm BCC}^2/(16\pi G)$ (Pillar 4 GAP-1) | T6 PROVED CONDITIONAL | `Math291` (errata for Math110-AddI) |
+| Cosmological constant | Four-sector cancellation (Pillar 11) | T6 PROVED CONDITIONAL | `Math58-v7` |
+| Three pre-registered | Lorentz $\|\kappa^{(c)}\| \in [1.5,5.5]\times 10^{-4}$; Eötvös $\|\eta_{\mathrm{EP}}\| \in [2,8]\times 10^{-13}$; GW/CMB $Z_h \in [0.575, 0.875]$ (Math60-E) | SEALED | `Math61-v1.0` |
+
 ## Side-by-side comparison vs other frameworks (compact)
 
 Compact comparison of TECT against three reference frameworks: the **Standard Model (SM)**, **Superstring / M-theory**, and **Loop Quantum Gravity (LQG)**. Status reflects the publicly stated state of each programme as of 2026 spring; entries for non-TECT frameworks are summary-grade and meant for orientation, not adjudication.
@@ -30,13 +58,20 @@ Compact comparison of TECT against three reference frameworks: the **Standard Mo
 
 Detailed per-pillar status: [docs/KEY_RESULTS.md](docs/KEY_RESULTS.md). The interactive site is published at [tect.kr](https://tect.kr); the GitHub mirror is browsable from the repository root by opening `index.html` directly.
 
-## Recent activity (top 5 from CHANGELOG)
+## TOE 6-Stage Status (extends the canonical Math60 3-stage rubric)
 
-- **2026-04-29** -- Recurrence-prevention infrastructure — verify_website.py + POSTMORTEM_RECURRENCE_POLICY.md + CLAUDE.md §6.3.7 + post-mortem 2026-04-29 reference incident
-- **2026-04-29** -- Hotfix — 3 bugs from prior commit: Results page empty (escape bug) + States Critical-path summary removed + Notes assets/math sync (330→397)
-- **2026-04-29** -- results.js v0.8 (download links + Honest-status table) + Codebase Older-versions page (code-old.html / code-old.js) + per-run files + assets refresh
-- **2026-04-29** -- results.js v0.7 (CLI commands + reflow) + assets refresh + CODE_BACKUP_POLICY.md NEW + backup_code.sh helper + retroactive v2.6.6 backup
-- **2026-04-29** -- TECT-Status-Tier (T0–T7) canonical 8-tier nomenclature — STATUS_NOMENCLATURE.md policy + CLAUDE.md §7 migration + Website states.js explicit display
+TECT's TOE qualification predicate is extended to a six-stage roadmap that exposes the full path from internal theorem-level closure to community-level acceptance. Stages 1–3 are the canonical Math60 rubric ($S_1 \wedge S_2 \wedge S_3$); Stages 4–6 extend the rubric with cosmological-extension, external-verification, and publication-acceptance layers.
+
+| Stage | Name | Predicate | Current status (2026-05-01) | Closure target |
+|---|---|---|---|---|
+| **S1** | 11-Pillar Theorem-Level Closure | $S_1 := \bigwedge_{i=1}^{11} \mathrm{Thm}(P_i)$ | **8/11 T6+** (PARTIAL, ADVANCING). 4 × T7 PROVED + 2 × T6 PROVED CONDITIONAL + 1 × T5 CLOSED@1-loop + 3 × T4 STRONG EVIDENCE + 1 split T0 + T2 (Pillar 10) | 11/11 T6+ upon Pillar 6 (F-Pillar6 deadline 2026-05-29) and Pillar 4 sub-task 2 (F-GAP4 deadline 2026-05-14) closure |
+| **S2** | Global Closure Theorem | $S_2 := \bigwedge \mathrm{Math60\text{-}A..E} \wedge \bigwedge \mathrm{GAP\text{-}1..4}$ | **T3 PROOF SKETCH** (PARTIAL). 5/5 Math60 sub-theorems SEALED; GAP-1 = T4, GAP-2 = T6 PROVED CONDITIONAL, GAP-3 = T6 PROVED CONDITIONAL, GAP-4 = T3. Composite via min-rule = T3 | T6 upon joint event ($C_1 \wedge C_2 \wedge C_3$ for GAP-1 + F-GAP4 PASS for GAP-4); deadline 2026-05-22 |
+| **S3** | External Phenomenological Qualification | $S_3 := S_3^{(\mathrm{reproduce})} \wedge S_3^{(\mathrm{predict})} \wedge S_3^{(\mathrm{survive})}$ | **OPEN**. Three F-candidates (F1 gauge-coupling ratio, F2 Eötvös, F3 GW/CMB) mapped to existing experiments; F1 closest to SEALING (gated on Pillar 4 atomic) | F1 closure post-2026-05-29 Pillar 4 promotion; F2/F3 open ≥ 1-year survival window |
+| **S4** | Cosmological Extension (Scope $S_{\rm IV}$) | TDGL pre-transition + Kibble–Zurek freeze-out + observables | **PARTIAL-ADVANCED** (Math145–147). Pre-transition phase SCAFFOLD; Kibble-Zurek $\hat{\xi} \sim \tau_Q^{0.26}$, $n_{\rm defect} \sim \tau_Q^{-0.78}$ STRONG CLOSURE DRAFT; primordial CMB / GW / DM / $\Lambda_{\rm eff}$ framework defined | F1 ($n_s \to 0.965 \pm 0.01$ Planck), F2 (GW peak in LIGO/LISA band), F3 ($\Omega_{\rm DM,defect}$ vs Planck benchmark); pending nonlinear + inflation analysis |
+| **S5** | Verification Programme | Independent re-derivation + numerical reproducibility + external-tool cross-check | **PLANNED** (Phase 10 of next 20-turn arc, Math317–319). Targets: alternative computational paths for Phase 1–7 theorems; RNG-seed / precision robustness audit on Math82-H + Task #156; Mathematica gauge-invariance + SageMath Chern-class + Sage GAP SO(10) representation cross-checks | Ready upon Stage 1 + 2 verdict period closure (≥ 2026-06-15) |
+| **S6** | External Publication & TOE Acceptance | PRL-grade manuscript + reviewer cycle + community recognition | **PLANNED** (Phase 11 of next 20-turn arc, Math320–322). Conditional on Stage 1 + 2 closure; paper outline + supplementary + reviewer-response template prepared in advance | Submission target ≥ 2026-08-01 (post-verification verdict) |
+
+**Reading the table**: Stages 1, 2, 4 are mathematically closeable within the next 4–6 weeks (deadline-driven). Stage 3 has a structurally longer survival-window component. Stages 5 and 6 are post-closure consolidation and external-acceptance stages with explicit operational plans archived at [`Docs/policy/PHASE_8_TO_14_PLAN.md`](docs/PHASE_8_TO_14_PLAN.md). The five active falsification gates (F-Pillar6 / F-GAP1 / F-GAP4-DEFECT-MASS / F-Math297-aBCC-precision / F-Math298-Sector) carry hard deadlines spanning 2026-05-14 to 05-29 and pre-registered failure-mode taxonomies (`Math299` § failure mode F1/F2/F3/F-X; `Math300` outcome PASS/FAIL/DEFER).
 
 ## How to navigate this repository
 
@@ -44,21 +79,10 @@ Detailed per-pillar status: [docs/KEY_RESULTS.md](docs/KEY_RESULTS.md). The inte
 - `data/` — the live JavaScript data layer that the pages render.
 - `assets/` — math notes (`assets/math/TECT-Math*.tex.txt`), code mirror (`assets/code/`), policy snapshots, asset manifest.
 - `docs/` — curated standalone documents: KEY_RESULTS, NAVIGATION, POLICIES_INDEX.
+- `CHANGELOG.md` — full chronological change log (root of the main repository; mirrors are auto-generated from this file).
 - `CITATION.cff` — citation metadata (auto-generated).
 
 All artefacts in this repository are written in English per the [output-language policy](docs/POLICIES_INDEX.md).
-
-## Support TECT research
-
-TECT is an open, independent theoretical-physics research programme. The core author works without institutional grant funding.
-
-Three legal global donation channels are documented on the live site footer (Overview / Theory / States / Papers / TOE pages):
-
-1. **GitHub Sponsors** — recurring or one-off, Stripe Connect; supports payouts to Korean residents.
-2. **Buy Me a Coffee** — one-time tips, no donor account required.
-3. **Cryptocurrency direct wallet** (BTC bech32 + ETH/USDC ERC-20) — no intermediary, globally accessible, irreversible.
-
-Donations are personal gifts to the author and are not tax-deductible unless explicitly routed through a registered fiscal host. Donors do not acquire any influence over scientific content, peer review, authorship, or release schedule of TECT.
 
 ## License & maintainer
 

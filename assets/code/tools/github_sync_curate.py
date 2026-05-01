@@ -326,26 +326,30 @@ def _render_cross_framework_comparison_md() -> str:
 def render_readme() -> str:
     """Top-level README.md for the public GitHub repo (auto-generated).
 
-    Sections:
+    Sections (revised 2026-05-01 per operator request):
       0. Sentinel + project tagline
-      1. What is TECT (short)
-      2. Cross-framework comparison (mirrored from States page card)
-      3. Recent commits (top 5)
-      4. How to navigate the repo
-      5. Donation card (mirrors website footer)
-      6. License + maintainer
+      1. What is TECT (detailed)
+      2. Foundational axioms (A0 + A1 per Math195)
+      3. Key emergent results (gauge / gravity / hbar / Lambda)
+      4. Cross-framework comparison (mirrored from States page card)
+      5. TOE 6-stage status (NEW: extends the canonical 3-stage Math60
+         hierarchy with cosmological-extension, verification, and
+         publication stages)
+      6. How to navigate the repo
+      7. License + maintainer
+
+    Removed (operator request 2026-05-01): ``Recent activity (top 5
+    from CHANGELOG)`` and ``Support TECT research`` sections. Recent
+    activity is fully tracked in ``CHANGELOG.md`` + ``Github`` commit
+    history; donation/funding info is documented on the live site
+    footer (states / theory / papers / toe pages) where it is more
+    prominently visible to interested supporters.
     """
     tagline = _read_first_paragraph(INDEX_NARRATIVE) or (
         "TECT (Topological Energy Condensate Theory) -- a candidate Theory of "
         "Everything built on a primordial three-dimensional BCC topological "
         "condensate."
     )
-
-    top_changes = _parse_top_changelog(n=5)
-    if top_changes:
-        recent = "\n".join(f"- **{d}** -- {t}" for d, t in top_changes)
-    else:
-        recent = "- (no CHANGELOG entries parsed)"
 
     today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
 
@@ -356,13 +360,145 @@ def render_readme() -> str:
     out += "---\n\n"
     out += "## Project tagline\n\n"
     out += tagline + "\n\n"
+
+    # ---- Section 1: What is TECT (detailed) ----
+    out += "## What is TECT?\n\n"
+    out += "TECT is a research programme that derives the Standard Model "
+    out += "(SM) gauge structure, general relativity (GR), and the quantum "
+    out += "constants of nature ($\\hbar$, $\\Lambda$) as **low-energy "
+    out += "consequences of a single primordial three-dimensional "
+    out += "body-centred-cubic (BCC) topological condensate** of an O(n) "
+    out += "order parameter. The condensate is governed by Brazovskii-type "
+    out += "free-energy dynamics; the BCC ground state breaks rotational "
+    out += "symmetry to the cubic point group $O_h$ but preserves CP and "
+    out += "translation. Pillar-by-pillar emergence theorems (Pillars 1–11) "
+    out += "show that mass, kinematic Lorentz invariance, gravity, gauge "
+    out += "structure, fermion content, Higgs mechanism, electroweak "
+    out += "breaking, QCD confinement, the cosmological constant, the "
+    out += "no-classical-$\\hbar$ no-go theorem, and chirality each arise "
+    out += "from the same underlying lattice condensate without additional "
+    out += "structural input.\n\n"
+    out += "The framework is graded against an explicit **TOE qualification "
+    out += "predicate** $\\mathrm{TOE} := S_1 \\wedge S_2 \\wedge S_3$ "
+    out += "(per `Math60-TOE-Global-Closure-Spec`), extended below to a "
+    out += "six-stage roadmap that includes cosmological extension, "
+    out += "external verification, and publication acceptance. All claims "
+    out += "are pinned to specific Math notes (`Docs/math/TECT-Math<NN>-*.tex.txt`) "
+    out += "with explicit T0–T7 tier labels (per "
+    out += "[STATUS_NOMENCLATURE.md](docs/POLICIES_INDEX.md)).\n\n"
+
+    # ---- Section 2: Foundational axioms ----
+    out += "## Foundational axioms (Math195)\n\n"
+    out += "Per `TECT-Math195` (effective-axiom reduction analysis):\n\n"
+    out += "- **A0** (BCC condensate dynamics): Brazovskii free energy "
+    out += "$F[\\Psi] = \\int [\\frac{1}{2}|\\nabla\\Psi|^2 + \\frac{1}{2}\\mu^2|\\Psi|^2 "
+    out += "+ \\frac{1}{2}\\gamma(\\Delta + q_0^2)^2|\\Psi|^2 + \\frac{1}{4}\\lambda|\\Psi|^4] "
+    out += "d^3x$ governing a vector order parameter "
+    out += "$\\Psi:\\mathbb{R}^3 \\to \\mathbb{C}^n$ with TDGL Model-A "
+    out += "kinetics.\n"
+    out += "- **A1** (cosmological cooling history): a monotone temperature "
+    out += "trajectory $T(t)$ that drives the system through the BCC "
+    out += "freeze-out transition (Math97 Brazovskii universality class).\n"
+    out += "- **A2** (boundary condition): a Cauchy boundary condition at "
+    out += "$t \\to -\\infty$, *reducible* to A0 + A1 dynamics with an "
+    out += "external cosmological-evolution input. Effective core axiom "
+    out += "count: **2 + 1 = 3 hierarchically structured**, with the "
+    out += "two-axiom core $\\{A0, A1\\}$ load-bearing for the bulk of "
+    out += "the theorem chain.\n\n"
+    out += "All other inputs (gauge group, fermion generations, Higgs "
+    out += "potential coefficients, $\\hbar$, $G$ at low-energy precision) "
+    out += "are derived emergently rather than postulated.\n\n"
+
+    # ---- Section 3: Key emergent results ----
+    out += "## Key emergent results (theorem-level)\n\n"
+    out += "| Result | Formula / mechanism | Tier | Canonical source |\n"
+    out += "|---|---|---|---|\n"
+    out += "| Mass gap $m^*$ | Single-mode Math56 cone, BCC ground-state uniqueness "
+    out += "(Pillar 1) | T7 PROVED | `Math01-v2`, `Math82-AddG/H` |\n"
+    out += "| Kinematic Lorentz | $|c_T - c|/c \\le 4.8\\times 10^{-4}$ "
+    out += "(Pillar 2) | T6 PROVED CONDITIONAL | `Math_IR_Bound-v4-thm-v4-2-final` |\n"
+    out += "| Emergent graviton | Spin-2 mode at 1-loop "
+    out += "(Pillar 3) | T5 CLOSED@1-loop | `Pillar-3` notes |\n"
+    out += "| SO(10) gauge group | $\\mathrm{Stab}_{O_h}(\\mathbf{T}_{1g}) "
+    out += "\\cap \\mathrm{Stab}_{\\mathrm{SO}(10)}(\\mathbf{10}_{\\rm vec}) "
+    out += "= G_{\\rm SM}$ (Pillar 4 atomic) | T6 PROVED CONDITIONAL | `Math270`, `Math279` |\n"
+    out += "| Planck constant | $\\hbar_{\\rm TECT} = c^3 a_{\\rm BCC}^2/(16\\pi G)$ "
+    out += "(Pillar 4 GAP-1) | T6 PROVED CONDITIONAL | `Math291` (errata for Math110-AddI) |\n"
+    out += "| Cosmological constant | Four-sector cancellation "
+    out += "(Pillar 11) | T6 PROVED CONDITIONAL | `Math58-v7` |\n"
+    out += "| Three pre-registered | Lorentz $\\|\\kappa^{(c)}\\| \\in [1.5,5.5]\\times 10^{-4}$; "
+    out += "Eötvös $\\|\\eta_{\\mathrm{EP}}\\| \\in [2,8]\\times 10^{-13}$; "
+    out += "GW/CMB $Z_h \\in [0.575, 0.875]$ (Math60-E) | SEALED | `Math61-v1.0` |\n\n"
+
+    # ---- Section 4: cross-framework comparison ----
     out += _render_cross_framework_comparison_md()
     out += "Detailed per-pillar status: [docs/KEY_RESULTS.md](docs/KEY_RESULTS.md). "
     out += "The interactive site is published at [tect.kr](https://tect.kr); "
     out += "the GitHub mirror is browsable from the repository root by "
     out += "opening `index.html` directly.\n\n"
-    out += "## Recent activity (top 5 from CHANGELOG)\n\n"
-    out += recent + "\n\n"
+
+    # ---- Section 5: TOE 6-stage status (NEW) ----
+    out += "## TOE 6-Stage Status (extends the canonical Math60 3-stage rubric)\n\n"
+    out += "TECT's TOE qualification predicate is extended to a six-stage "
+    out += "roadmap that exposes the full path from internal theorem-level "
+    out += "closure to community-level acceptance. Stages 1–3 are the "
+    out += "canonical Math60 rubric ($S_1 \\wedge S_2 \\wedge S_3$); "
+    out += "Stages 4–6 extend the rubric with cosmological-extension, "
+    out += "external-verification, and publication-acceptance layers.\n\n"
+    out += "| Stage | Name | Predicate | Current status (2026-05-01) | Closure target |\n"
+    out += "|---|---|---|---|---|\n"
+    out += "| **S1** | 11-Pillar Theorem-Level Closure | $S_1 := \\bigwedge_{i=1}^{11} \\mathrm{Thm}(P_i)$ | "
+    out += "**8/11 T6+** (PARTIAL, ADVANCING). 4 × T7 PROVED + 2 × T6 PROVED "
+    out += "CONDITIONAL + 1 × T5 CLOSED@1-loop + 3 × T4 STRONG EVIDENCE + "
+    out += "1 split T0 + T2 (Pillar 10) | 11/11 T6+ upon Pillar 6 (F-Pillar6 "
+    out += "deadline 2026-05-29) and Pillar 4 sub-task 2 (F-GAP4 deadline "
+    out += "2026-05-14) closure |\n"
+    out += "| **S2** | Global Closure Theorem | $S_2 := \\bigwedge \\mathrm{Math60\\text{-}A..E} \\wedge \\bigwedge \\mathrm{GAP\\text{-}1..4}$ | "
+    out += "**T3 PROOF SKETCH** (PARTIAL). 5/5 Math60 sub-theorems SEALED; "
+    out += "GAP-1 = T4, GAP-2 = T6 PROVED CONDITIONAL, GAP-3 = T6 PROVED "
+    out += "CONDITIONAL, GAP-4 = T3. Composite via min-rule = T3 | T6 upon "
+    out += "joint event ($C_1 \\wedge C_2 \\wedge C_3$ for GAP-1 + F-GAP4 "
+    out += "PASS for GAP-4); deadline 2026-05-22 |\n"
+    out += "| **S3** | External Phenomenological Qualification | $S_3 := S_3^{(\\mathrm{reproduce})} \\wedge S_3^{(\\mathrm{predict})} \\wedge S_3^{(\\mathrm{survive})}$ | "
+    out += "**OPEN**. Three F-candidates (F1 gauge-coupling ratio, F2 "
+    out += "Eötvös, F3 GW/CMB) mapped to existing experiments; F1 closest "
+    out += "to SEALING (gated on Pillar 4 atomic) | F1 closure post-2026-05-29 "
+    out += "Pillar 4 promotion; F2/F3 open ≥ 1-year survival window |\n"
+    out += "| **S4** | Cosmological Extension (Scope $S_{\\rm IV}$) | TDGL pre-transition "
+    out += "+ Kibble–Zurek freeze-out + observables | **PARTIAL-ADVANCED** "
+    out += "(Math145–147). Pre-transition phase SCAFFOLD; Kibble-Zurek "
+    out += "$\\hat{\\xi} \\sim \\tau_Q^{0.26}$, $n_{\\rm defect} \\sim \\tau_Q^{-0.78}$ "
+    out += "STRONG CLOSURE DRAFT; primordial CMB / GW / DM / $\\Lambda_{\\rm eff}$ "
+    out += "framework defined | F1 ($n_s \\to 0.965 \\pm 0.01$ Planck), F2 "
+    out += "(GW peak in LIGO/LISA band), F3 ($\\Omega_{\\rm DM,defect}$ vs "
+    out += "Planck benchmark); pending nonlinear + inflation analysis |\n"
+    out += "| **S5** | Verification Programme | Independent re-derivation + "
+    out += "numerical reproducibility + external-tool cross-check | "
+    out += "**PLANNED** (Phase 10 of next 20-turn arc, Math317–319). "
+    out += "Targets: alternative computational paths for Phase 1–7 theorems; "
+    out += "RNG-seed / precision robustness audit on Math82-H + Task #156; "
+    out += "Mathematica gauge-invariance + SageMath Chern-class + Sage GAP "
+    out += "SO(10) representation cross-checks | Ready upon Stage 1 + 2 "
+    out += "verdict period closure (≥ 2026-06-15) |\n"
+    out += "| **S6** | External Publication & TOE Acceptance | PRL-grade "
+    out += "manuscript + reviewer cycle + community recognition | "
+    out += "**PLANNED** (Phase 11 of next 20-turn arc, Math320–322). "
+    out += "Conditional on Stage 1 + 2 closure; paper outline + supplementary + "
+    out += "reviewer-response template prepared in advance | Submission "
+    out += "target ≥ 2026-08-01 (post-verification verdict) |\n\n"
+    out += "**Reading the table**: Stages 1, 2, 4 are mathematically "
+    out += "closeable within the next 4–6 weeks (deadline-driven). "
+    out += "Stage 3 has a structurally longer survival-window component. "
+    out += "Stages 5 and 6 are post-closure consolidation and external-acceptance "
+    out += "stages with explicit operational plans archived at "
+    out += "[`Docs/policy/PHASE_8_TO_14_PLAN.md`](docs/PHASE_8_TO_14_PLAN.md). "
+    out += "The five active falsification gates "
+    out += "(F-Pillar6 / F-GAP1 / F-GAP4-DEFECT-MASS / F-Math297-aBCC-precision "
+    out += "/ F-Math298-Sector) carry hard deadlines spanning 2026-05-14 to "
+    out += "05-29 and pre-registered failure-mode taxonomies (`Math299` § "
+    out += "failure mode F1/F2/F3/F-X; `Math300` outcome PASS/FAIL/DEFER).\n\n"
+
+    # ---- Section 6: navigation ----
     out += "## How to navigate this repository\n\n"
     out += "- `index.html` — landing page (also navigable: `theory.html`, "
     out += "`states.html`, `papers.html`, `toe.html`, `results.html`, "
@@ -372,23 +508,13 @@ def render_readme() -> str:
     out += "mirror (`assets/code/`), policy snapshots, asset manifest.\n"
     out += "- `docs/` — curated standalone documents: KEY_RESULTS, NAVIGATION, "
     out += "POLICIES_INDEX.\n"
+    out += "- `CHANGELOG.md` — full chronological change log (root of the "
+    out += "main repository; mirrors are auto-generated from this file).\n"
     out += "- `CITATION.cff` — citation metadata (auto-generated).\n\n"
     out += "All artefacts in this repository are written in English per the "
     out += "[output-language policy](docs/POLICIES_INDEX.md).\n\n"
-    out += "## Support TECT research\n\n"
-    out += "TECT is an open, independent theoretical-physics research programme. "
-    out += "The core author works without institutional grant funding.\n\n"
-    out += "Three legal global donation channels are documented on the live site "
-    out += "footer (Overview / Theory / States / Papers / TOE pages):\n\n"
-    out += "1. **GitHub Sponsors** — recurring or one-off, Stripe Connect; "
-    out += "supports payouts to Korean residents.\n"
-    out += "2. **Buy Me a Coffee** — one-time tips, no donor account required.\n"
-    out += "3. **Cryptocurrency direct wallet** (BTC bech32 + ETH/USDC ERC-20) — "
-    out += "no intermediary, globally accessible, irreversible.\n\n"
-    out += "Donations are personal gifts to the author and are not tax-deductible "
-    out += "unless explicitly routed through a registered fiscal host. Donors do "
-    out += "not acquire any influence over scientific content, peer review, "
-    out += "authorship, or release schedule of TECT.\n\n"
+
+    # ---- Section 7: license + maintainer ----
     out += "## License & maintainer\n\n"
     out += "- License: **Creative Commons Attribution 4.0 International "
     out += "(CC BY 4.0)** -- see `LICENSE` for the verbatim legal code "

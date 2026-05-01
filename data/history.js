@@ -1,4 +1,4 @@
-// AUTO-GENERATED v0.3 page 1/8 — 2026-05-01 22:31 UTC
+// AUTO-GENERATED v0.3 page 1/8 — 2026-05-01 22:55 UTC
 window.TECT_HISTORY = {
   title: "History (page 1 of 8)",
   subtitle: "Chronological CHANGELOG mirror — auto-generated.",
