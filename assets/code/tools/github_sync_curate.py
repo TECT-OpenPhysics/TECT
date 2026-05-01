@@ -326,31 +326,26 @@ def _render_cross_framework_comparison_md() -> str:
 def render_readme() -> str:
     """Top-level README.md for the public GitHub repo (auto-generated).
 
-    Sections (revised 2026-05-01 per operator request):
-      0. Sentinel + project tagline
+    Sections (revised 2026-05-01 per operator request, two passes):
+      0. Sentinel + title + last-curated date
       1. What is TECT (detailed)
       2. Foundational axioms (A0 + A1 per Math195)
       3. Key emergent results (gauge / gravity / hbar / Lambda)
       4. Cross-framework comparison (mirrored from States page card)
-      5. TOE 6-stage status (NEW: extends the canonical 3-stage Math60
-         hierarchy with cosmological-extension, verification, and
-         publication stages)
+      5. TOE 6-Stage roadmap (canonical, mirrors toe.js card —
+         construction-order: BCC → gravity → quantum gravity → ℏ →
+         SM → QFT → TOE)
       6. How to navigate the repo
       7. License + maintainer
 
     Removed (operator request 2026-05-01): ``Recent activity (top 5
-    from CHANGELOG)`` and ``Support TECT research`` sections. Recent
-    activity is fully tracked in ``CHANGELOG.md`` + ``Github`` commit
-    history; donation/funding info is documented on the live site
-    footer (states / theory / papers / toe pages) where it is more
-    prominently visible to interested supporters.
+    from CHANGELOG)``, ``Support TECT research``, and ``Project tagline``
+    sections. Recent activity → CHANGELOG.md + Github commit history;
+    donation/funding info → live site footer (states / theory / papers /
+    toe pages); tagline → GitHub repo About box (set via
+    github_sync_push.py meta) which serves the one-liner role
+    redundantly with the README's What is TECT detailed section.
     """
-    tagline = _read_first_paragraph(INDEX_NARRATIVE) or (
-        "TECT (Topological Energy Condensate Theory) -- a candidate Theory of "
-        "Everything built on a primordial three-dimensional BCC topological "
-        "condensate."
-    )
-
     today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
 
     out = AUTO_SENTINEL_MD
@@ -358,8 +353,6 @@ def render_readme() -> str:
     out += f"_Last curated: {today} (UTC) -- auto-generated mirror of the "
     out += "canonical research repository._\n\n"
     out += "---\n\n"
-    out += "## Project tagline\n\n"
-    out += tagline + "\n\n"
 
     # ---- Section 1: What is TECT (detailed) ----
     out += "## What is TECT?\n\n"
@@ -437,66 +430,113 @@ def render_readme() -> str:
     out += "the GitHub mirror is browsable from the repository root by "
     out += "opening `index.html` directly.\n\n"
 
-    # ---- Section 5: TOE 6-stage status (NEW) ----
-    out += "## TOE 6-Stage Status (extends the canonical Math60 3-stage rubric)\n\n"
-    out += "TECT's TOE qualification predicate is extended to a six-stage "
-    out += "roadmap that exposes the full path from internal theorem-level "
-    out += "closure to community-level acceptance. Stages 1–3 are the "
-    out += "canonical Math60 rubric ($S_1 \\wedge S_2 \\wedge S_3$); "
-    out += "Stages 4–6 extend the rubric with cosmological-extension, "
-    out += "external-verification, and publication-acceptance layers.\n\n"
-    out += "| Stage | Name | Predicate | Current status (2026-05-01) | Closure target |\n"
+    # ---- Section 5: TOE 6-Stage Roadmap (canonical, mirrors toe.js card) ----
+    out += "## TOE — 6-Stage Roadmap (canonical, construction-order)\n\n"
+    out += "The 11 emergence pillars and the $S_1 \\wedge S_2 \\wedge S_3$ "
+    out += "qualification predicate are re-arranged into a **6-Stage "
+    out += "roadmap** that traces the natural construction order from BCC "
+    out += "condensate to TOE: classical gravity emergence → quantum "
+    out += "gravity extension → $\\hbar$ generation → SM integration → "
+    out += "QFT unification → TOE completion. Each Stage groups multiple "
+    out += "Pillars and gates; status reflects the post-Math310 (Turn 80, "
+    out += "2026-05-01) state with the AUDIT-2026-05-01-Math310-N16-Wording "
+    out += "correction applied. This 6-Stage view is the canonical "
+    out += "presentational re-mapping mirrored from "
+    out += "[toe.html](toe.html) on the live site.\n\n"
+    out += "| Stage | Goal | Pillars / gates included | Status (2026-05-01) | Anchor results |\n"
     out += "|---|---|---|---|---|\n"
-    out += "| **S1** | 11-Pillar Theorem-Level Closure | $S_1 := \\bigwedge_{i=1}^{11} \\mathrm{Thm}(P_i)$ | "
-    out += "**8/11 T6+** (PARTIAL, ADVANCING). 4 × T7 PROVED + 2 × T6 PROVED "
-    out += "CONDITIONAL + 1 × T5 CLOSED@1-loop + 3 × T4 STRONG EVIDENCE + "
-    out += "1 split T0 + T2 (Pillar 10) | 11/11 T6+ upon Pillar 6 (F-Pillar6 "
-    out += "deadline 2026-05-29) and Pillar 4 sub-task 2 (F-GAP4 deadline "
-    out += "2026-05-14) closure |\n"
-    out += "| **S2** | Global Closure Theorem | $S_2 := \\bigwedge \\mathrm{Math60\\text{-}A..E} \\wedge \\bigwedge \\mathrm{GAP\\text{-}1..4}$ | "
-    out += "**T3 PROOF SKETCH** (PARTIAL). 5/5 Math60 sub-theorems SEALED; "
-    out += "GAP-1 = T4, GAP-2 = T6 PROVED CONDITIONAL, GAP-3 = T6 PROVED "
-    out += "CONDITIONAL, GAP-4 = T3. Composite via min-rule = T3 | T6 upon "
-    out += "joint event ($C_1 \\wedge C_2 \\wedge C_3$ for GAP-1 + F-GAP4 "
-    out += "PASS for GAP-4); deadline 2026-05-22 |\n"
-    out += "| **S3** | External Phenomenological Qualification | $S_3 := S_3^{(\\mathrm{reproduce})} \\wedge S_3^{(\\mathrm{predict})} \\wedge S_3^{(\\mathrm{survive})}$ | "
-    out += "**OPEN**. Three F-candidates (F1 gauge-coupling ratio, F2 "
-    out += "Eötvös, F3 GW/CMB) mapped to existing experiments; F1 closest "
-    out += "to SEALING (gated on Pillar 4 atomic) | F1 closure post-2026-05-29 "
-    out += "Pillar 4 promotion; F2/F3 open ≥ 1-year survival window |\n"
-    out += "| **S4** | Cosmological Extension (Scope $S_{\\rm IV}$) | TDGL pre-transition "
-    out += "+ Kibble–Zurek freeze-out + observables | **PARTIAL-ADVANCED** "
-    out += "(Math145–147). Pre-transition phase SCAFFOLD; Kibble-Zurek "
-    out += "$\\hat{\\xi} \\sim \\tau_Q^{0.26}$, $n_{\\rm defect} \\sim \\tau_Q^{-0.78}$ "
-    out += "STRONG CLOSURE DRAFT; primordial CMB / GW / DM / $\\Lambda_{\\rm eff}$ "
-    out += "framework defined | F1 ($n_s \\to 0.965 \\pm 0.01$ Planck), F2 "
-    out += "(GW peak in LIGO/LISA band), F3 ($\\Omega_{\\rm DM,defect}$ vs "
-    out += "Planck benchmark); pending nonlinear + inflation analysis |\n"
-    out += "| **S5** | Verification Programme | Independent re-derivation + "
-    out += "numerical reproducibility + external-tool cross-check | "
-    out += "**PLANNED** (Phase 10 of next 20-turn arc, Math317–319). "
-    out += "Targets: alternative computational paths for Phase 1–7 theorems; "
-    out += "RNG-seed / precision robustness audit on Math82-H + Task #156; "
-    out += "Mathematica gauge-invariance + SageMath Chern-class + Sage GAP "
-    out += "SO(10) representation cross-checks | Ready upon Stage 1 + 2 "
-    out += "verdict period closure (≥ 2026-06-15) |\n"
-    out += "| **S6** | External Publication & TOE Acceptance | PRL-grade "
-    out += "manuscript + reviewer cycle + community recognition | "
-    out += "**PLANNED** (Phase 11 of next 20-turn arc, Math320–322). "
-    out += "Conditional on Stage 1 + 2 closure; paper outline + supplementary + "
-    out += "reviewer-response template prepared in advance | Submission "
-    out += "target ≥ 2026-08-01 (post-verification verdict) |\n\n"
-    out += "**Reading the table**: Stages 1, 2, 4 are mathematically "
-    out += "closeable within the next 4–6 weeks (deadline-driven). "
-    out += "Stage 3 has a structurally longer survival-window component. "
-    out += "Stages 5 and 6 are post-closure consolidation and external-acceptance "
-    out += "stages with explicit operational plans archived at "
-    out += "[`Docs/policy/PHASE_8_TO_14_PLAN.md`](docs/PHASE_8_TO_14_PLAN.md). "
-    out += "The five active falsification gates "
-    out += "(F-Pillar6 / F-GAP1 / F-GAP4-DEFECT-MASS / F-Math297-aBCC-precision "
-    out += "/ F-Math298-Sector) carry hard deadlines spanning 2026-05-14 to "
-    out += "05-29 and pre-registered failure-mode taxonomies (`Math299` § "
-    out += "failure mode F1/F2/F3/F-X; `Math300` outcome PASS/FAIL/DEFER).\n\n"
+    out += "| **1** | Classical gravity emergence (BCC → GR) | "
+    out += "Pillar 3 (gravity), 8 (Lorentz), 9 (EP), 2 (inertia/IR bound) | "
+    out += "**COMPLETED ✓** (3+8+9 PROVED, 2 PROVED CONDITIONAL) | "
+    out += "Math41/45/46c ($\\kappa_G^2 = Y q_0^2$, TT-purity); "
+    out += "Math110-AddH ($c_T = c$); Math_IR_Bound-v4 (interval cert "
+    out += "$J_1 \\in [+5.99\\!\\times\\!10^{-2}, +1.51\\!\\times\\!10^{-1}]$); "
+    out += "Math_EP-rigorous-v3.1 (MPD bound) |\n"
+    out += "| **2** | Quantum gravity extension (1-loop and beyond) | "
+    out += "Pillar 3 multi-loop, 7 (per-gen consistency), GAP-2 (BRST) | "
+    out += "**PARTIAL-ADVANCED → STRONGER post-R7-8** (1-loop CLOSED; "
+    out += "GAP-2 promoted to T6 PROVED CONDITIONAL via Math280; 2-loop "
+    out += "+ non-perturbative OUTLINE) | Math60-C-AddD (3 quantum "
+    out += "observables QO1-3 closed form); Math120-125 (asymptotic-safety "
+    out += "OUTLINE); Math160 + Math280 (BRST FP determinant T6 PROVED "
+    out += "CONDITIONAL on Pillar 4 H1.1); Math47-48 (Ward); Math49b/c-v3 "
+    out += "(Witten + mod-2 spectral flow) |\n"
+    out += "| **3** | Planck constant ($\\hbar$) generation | "
+    out += "Pillar 10 ($\\hbar$ origin), GAP-1 ($\\hbar$ matching) | "
+    out += "**PARTIAL-ADVANCED → STRONGER post-Math291** (master formula "
+    out += "RECONCILED to canonical Formula B; matter-side substantiated; "
+    out += "GAP-1 = T4 with explicit T6 promotion path via Math299 joint "
+    out += "event) | Math79-AddB (classical no-go theorem); Math98-AddA-E "
+    out += "(KZ quench, Volovik shell, Berry, Onsager-Machlup); **Math291** "
+    out += "(corrected master $\\hbar_{\\rm TECT} = c^3 a_{\\rm BCC}^2/(16\\pi G)$, "
+    out += "Formula A errata); Math163 (boson-loop subdominance "
+    out += "$R \\approx 0.12$); Math296 ($\\gamma_\\hbar^{(1)}$ first-principles); "
+    out += "Math297 (continuum-limit error budget); Math298 (3-sector "
+    out += "decomposition); Math299 (joint-event T4 → T6 condition) |\n"
+    out += "| **4** | Standard Model integration (SM + GUT) | "
+    out += "Pillars 4 (gauge), 5 (chirality), 6 (Higgs), 7 (per-gen "
+    out += "consistency), 11 ($\\Lambda$); GAP-3 (anomaly) | "
+    out += "**NEAR-CLOSURE post-R8 + 20-turn defence (Math270-310)** "
+    out += "(Pillar 4 atomic = T6 PROVED CONDITIONAL via Math270 + Math279; "
+    out += "Math302 $H_{\\rm task}$ carve-out two-component record; "
+    out += "GAP-3 = T6 PROVED CONDITIONAL via Math281; Pillar 6 first "
+    out += "$\\Delta F < 0$ broken-energy data point achieved at "
+    out += "N=16, Math292 $\\mathcal A_{\\rm valid}$ pending transverse "
+    out += "projection per Math310-AddA) | Math80-AddA + Math162 + "
+    out += "Math191/192 (Pillar 4 sub-task 1 + 2 PROVED CONDITIONAL); "
+    out += "Math157 + Math281 (SO(10) $\\mathbf{16}$ anomaly six "
+    out += "coefficients exact zero); Math229 (sub-task 3 Cartan "
+    out += "forcing); Math242 (cubic-sublattice ladder); Math270 + Math279 "
+    out += "(atomic defence + final restatement); Math305 ($\\Sigma_0$ "
+    out += "Cech atlas); Math288 + Math300 (defect-mass "
+    out += "F-GAP4-DEFECT-MASS verdict template); Math58-v7 (Pillar 11 "
+    out += "$\\Lambda$ four-sector cancellation); Math10-14 (chirality) |\n"
+    out += "| **5** | Quantisation and QFT unification | "
+    out += "Pillar 1 (mass gap), Stage-2 Math60-A..E sub-theorems, "
+    out += "GAP-1/2/3/4 collectively | **PARTIAL → STRENGTHENED post-R8** "
+    out += "(5/5 Math60 sub-theorems SEALED; 3/4 quantum gates promoted "
+    out += "to T6 PROVED CONDITIONAL; Stage-2 composite = T3 PROOF "
+    out += "SKETCH via min-rule; T6 promotion gated on Math307 joint "
+    out += "event) | Math82-AddF (Pillar 1 numerical anchor "
+    out += "$m^{*2}_{\\rm num} = +4.247\\!\\times\\!10^{-2}$); Math60-A "
+    out += "meta-consistency (Math83); Math60-B parameter compression "
+    out += "$4.75\\times$ vs SM 19; Math60-C-AddD QO1-3 closed form; "
+    out += "Math60-D global injectivity; Math60-E falsifiability "
+    out += "(3 pre-registered + Math172); Math292 (4-gauge acceptance "
+    out += "criterion); Math293 (3-class false-negative taxonomy); "
+    out += "Math301 (min-rule explanatory); Math307 (Stage-2 promotion "
+    out += "path) |\n"
+    out += "| **6** | TOE completion ($S_1 \\wedge S_2 \\wedge S_3$ "
+    out += "unconditional) | All 11 Pillars + S1, S2, S3 final closure | "
+    out += "**PARTIAL → on track** (theoretical layer ACHIEVABLE in "
+    out += "remaining Phase 8-14 of next 20-turn arc Math311-330; "
+    out += "phenomenological layer gated on SKA / IPTA-2 2028-2030) | "
+    out += "Math60 spec ($\\mathrm{TOE} := S_1 \\wedge S_2 \\wedge S_3$); "
+    out += "Math193 (self-containment 3-layer analysis); Math195 (A2 axiom "
+    out += "reduction → effective **2-axiom theory**: 1 physics + 1 "
+    out += "cosmological); Math190 + Math269 + Math289 + Math310 "
+    out += "(autonomous-arc final syntheses); Math172 + Math196 "
+    out += "(Stage-3 PROVISIONAL prediction $\\Omega_{\\rm GW} \\sim 10^{-15}$ "
+    out += "at PTA, observable by SKA / IPTA-2 2028-2030); "
+    out += "[`docs/PHASE_8_TO_14_PLAN.md`](docs/PHASE_8_TO_14_PLAN.md) "
+    out += "(next-20-turn closure roadmap) |\n\n"
+    out += "**Effective axiom count post-Math195**: TECT = **1 physics "
+    out += "axiom (A0 BCC condensate) + 1 cosmological axiom (cooling "
+    out += "$T(t)$)**. Comparable to Einstein GR (1-2 + 1-2 = 2-4); "
+    out += "strictly fewer than SM (~7), LQG (~5-6), String/M (~6-11).\n\n"
+    out += "**One-glance synthesis**: Stages 1-4 are well-advanced "
+    out += "(1 COMPLETED ✓, 2/3 PARTIAL-ADVANCED-STRONGER, 4 NEAR-CLOSURE "
+    out += "with two-component (T6, realization PENDING) record). Stage 5 "
+    out += "is PARTIAL but reducible (Stage-2 composite T3 → T6 promotion "
+    out += "via Math307 joint event). Stage 6 (final TOE qualification) "
+    out += "is on a clear trajectory: theoretical-layer self-completion "
+    out += "ACHIEVABLE in 20 more autonomous turns (Math311-330, see "
+    out += "[`docs/PHASE_8_TO_14_PLAN.md`](docs/PHASE_8_TO_14_PLAN.md)); "
+    out += "phenomenological-layer self-completion gated on SKA "
+    out += "(calendar-dependent, not mathematics-dependent). The five "
+    out += "active falsification gates carry hard deadlines spanning "
+    out += "2026-05-14 to 05-29 and pre-registered failure-mode "
+    out += "taxonomies.\n\n"
 
     # ---- Section 6: navigation ----
     out += "## How to navigate this repository\n\n"
@@ -787,8 +827,11 @@ def prune_stale_files(stats: CurateStats, *, dry_run: bool) -> None:
     # Build the set of expected target paths.
     expected: set[str] = set()
     # 1) Auto-generated top-level files
-    for name in ("README.md", "CITATION.cff", "LICENSE", ".gitignore",
-                 ".nojekyll"):
+    # 2026-05-01: removed .nojekyll from expected set (operator request;
+    # tect.kr is the live host, GitHub Pages not used). The existing
+    # Github/.nojekyll file will be auto-deleted on next curate run
+    # because it's no longer in `expected`.
+    for name in ("README.md", "CITATION.cff", "LICENSE", ".gitignore"):
         expected.add(name)
     # 2) Auto-generated docs/
     for name in ("KEY_RESULTS.md", "NAVIGATION.md", "POLICIES_INDEX.md"):
@@ -864,7 +907,14 @@ def curate(args: argparse.Namespace) -> int:
     print("=" * 60)
 
     # E1) Auto-generated top-level files
-    print("[1/5] README + CITATION + LICENSE + .gitignore + .nojekyll …")
+    # 2026-05-01: removed .nojekyll generation per operator request
+    # (live site at tect.kr; GitHub Pages not used; the file was 0-byte
+    # defensive infrastructure for a feature not enabled). If GitHub
+    # Pages is later enabled, restore .nojekyll generation here +
+    # add ".nojekyll" back to the prune_stale_files() expected set
+    # so the path-with-underscore-prefix subdirs (data/_archive/,
+    # data/_narrative/) are served verbatim.
+    print("[1/5] README + CITATION + LICENSE + .gitignore …")
     _write_text_idempotent(TARGET / "README.md", render_readme(),
                            stats, "README.md", dry_run=dry_run)
     _write_text_idempotent(TARGET / "CITATION.cff", render_citation_cff(),
@@ -876,8 +926,6 @@ def curate(args: argparse.Namespace) -> int:
                            stats, "LICENSE", dry_run=dry_run)
     _write_text_idempotent(TARGET / ".gitignore", render_gitignore_for_target(),
                            stats, ".gitignore", dry_run=dry_run)
-    _write_text_idempotent(TARGET / ".nojekyll", render_nojekyll(),
-                           stats, ".nojekyll", dry_run=dry_run)
 
     # E2) Auto-generated docs/
     print("[2/5] docs/KEY_RESULTS + NAVIGATION + POLICIES_INDEX …")
