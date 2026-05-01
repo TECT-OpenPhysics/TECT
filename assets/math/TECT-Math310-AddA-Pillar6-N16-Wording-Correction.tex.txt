@@ -1,0 +1,247 @@
+% TECT-Math310-AddA: Wording correction — N=16 "valid broken-phase data point" over-claim
+% Theory tag : Math310-AddA-Pillar6-N16-Wording-Correction-2026-05-01
+% Classification : T7 PROVED (correction-only, no theorem; AUDIT-FLAGGED + corrective action)
+% Author : Jusang Lee + Claude Opus 4.7
+% Trigger : §6.3.5(a) self-adversarial UPHELD; external hostile-referee audit (2026-05-01)
+% Compliance : CLAUDE.md §6.3.5(a), §15.8 (R-/AUDIT- tagging discipline)
+
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=2.4cm]{geometry}
+\theoremstyle{remark}
+\newtheorem*{verdict}{Verdict}
+
+\title{TECT-Math310-AddA \\ \large Pillar 6 N=16 Wording Correction: \\
+``Valid Broken-Phase Data Point'' Over-Claim Acknowledged}
+\author{Jusang Lee \and Claude Opus 4.7 (TECT collaborator)}
+\date{2026-05-01 (Math310 addendum, post-Phase 7 hostile-referee audit)}
+
+\begin{document}
+\maketitle
+
+\section{Trigger and verdict}
+
+External hostile-referee audit (2026-05-01) flagged a mismatch between
+Math310's wording and the raw $N=16$ numerical evidence:
+
+\begin{itemize}
+\item Math310 §1 wrote: ``Pillar 6 = T4 with one valid broken-phase data
+point achieved (N=16, F=−324.94)''.
+\item Raw $N=16$ Phase 2 Lanczos output: $\lambda_0 = -8.5106$,
+$\lambda_1 = -0.0209$, ``stable = False''.
+\item Math292 acceptance criterion requires $f > 0 \wedge \Delta F < 0
+\wedge \lambda_{\min}^{\rm transverse} \ge 0 \wedge \texttt{OK}$
+\textbf{simultaneously}.
+\item Therefore the $N=16$ run satisfies G1 ($\Delta F = -324.94 \ll 0$) and
+G2 (likely; $f$ extraction pending), but G3 raw FAIL ($\lambda_0$ very
+negative); $\lambda_{\min}^{\rm transverse}$ requires Math82-H Lemma 5
+projection patch, which is not yet implemented.
+\end{itemize}
+
+\smallskip
+\boxed{\;\textbf{VERDICT (T7 PROVED, self-adversarial UPHELD):}\;
+Math310's $N=16$ ``valid broken-phase data point'' wording is over-claim
+relative to current raw-log evidence. \textbf{Pillar 6 tier UNCHANGED}
+(remains T4 STRONG EVIDENCE), \textbf{but the descriptive claim is
+softened} per §3 corrective actions below. AUDIT-FLAGGED tag:
+AUDIT-2026-05-01-Math310-N16-Wording.
+\;}
+\smallskip
+
+\section{Distinction: what the $N=16$ run did and did not achieve}
+
+\subsection{What it did achieve (factually correct)}
+\begin{itemize}
+\item Newton-Krylov converged after 24 steps (||grad||/√dof $= 7.81\times 10^{-6}$, target $10^{-5}$).
+\item Free energy $F[\Psi^\star] = -324.94$ (deeply negative, vs $F(0)=0$).
+\item Phase 3 verdict: ``Condensate is favorable versus the trivial vacuum''.
+\item Math290 wrapper bug + Math294 marginal-basin diagnoses CONFIRMED
+operationally (predicted basin behaviour observed exactly).
+\item This is the \textbf{first $\Delta F < 0$ broken-energy data point}
+achieved post-Math290 framework deployment.
+\end{itemize}
+
+\subsection{What it did NOT achieve (Math310 over-claim)}
+\begin{itemize}
+\item Math292 4-gauge acceptance criterion was \textbf{not formally
+satisfied}: G3 ($\lambda_{\min}^{\rm transverse} \ge -10^{-3}$) raw
+FAIL with $\lambda_0 = -8.51$, $\lambda_1 = -0.021$.
+\item ``Valid broken-phase data point'' (per Math292 Definition) requires
+all four gauges PASS; the $N=16$ run is at \textbf{$\mathcal C_2$
+trivial-saddle convergence} per Math293 raw classification, with
+\textbf{$\mathcal A_{\rm valid}$ pending} the transverse-projection patch.
+\item Math82-H Lemma 5 transverse projector for the Lanczos extraction
+is \textbf{not yet implemented} in the solver core (deferred per
+Math292 Q-2026-05-01-Math292-Hessian-Transverse-Slice).
+\end{itemize}
+
+\section{Corrective actions (per hostile-referee proposal)}
+
+\subsection{Action (1) — Re-state Pillar 6 status with corrected wording}
+
+The canonical Pillar 6 status statement going forward:
+
+\smallskip
+\boxed{\;
+\text{Pillar 6} = T4\ \mathrm{STRONG\ EVIDENCE}; \quad
+\text{first }\Delta F < 0\text{ broken-energy data point achieved}
+\text{ (N=16, } F = -324.94\text{);}
+\]
+\[
+\text{Math292 valid-acceptance ($\mathcal A_{\rm valid}$) PENDING,
+gated on transverse-projection re-certification and N=32/N=64 ladder.}
+\;}
+\smallskip
+
+\subsection{Action (2) — Math310 wording softening}
+
+Math310 §1 / research-log / EVIDENCE-INDEX entries to be amended:
+\begin{itemize}
+\item Replace ``valid broken-phase data point achieved'' with
+``$\Delta F < 0$ broken-energy data point achieved (Math292 acceptance
+PENDING transverse projection)''.
+\item Math310 overall tier/status summary unchanged (Pillar 6 remained
+T4 throughout); only the descriptive language shifts.
+\end{itemize}
+
+\subsection{Action (3) — Next real promotion attempt depends on N=32/N=64 endpoints}
+
+Pillar 6 T4 → T6 promotion is now explicitly conditioned on:
+\begin{enumerate}
+\item Math82-H Lemma 5 transverse-projection patch implemented (Q-2026-05-01-Math292-Hessian-Transverse-Slice).
+\item N=16 re-evaluated post-patch: G3 PASS confirmed.
+\item N=32 + N=64 valid data points (all 4 gauges PASS post-patch).
+\item Stage-3 Richardson fit per Math236 §9.2.
+\end{enumerate}
+
+The current $N=32$ warm-start run (resumed from $N=32$ best-F at
+2026-05-01) and the planned $N=64$ run are the upcoming endpoint
+evidence; Math310-AddA defers the ``promotion attempt'' framing to
+those endpoints, not to the corrected $N=16$ wording.
+
+\section{Devil's-advocate self-test}
+
+\paragraph{(α) ``This is a self-correction; should it be more
+serious — full AUDIT-FLAGGED rollback per §15.8?''}
+\textbf{VALID-WITH-CONSTRUCTIVE-CALIBRATION.} Per §15.8, choices are:
+- \texttt{R-} (RETRACTED RESULT, claim withdrawn from canonical record).
+- \texttt{AUDIT-} (AUDIT-FLAGGED, retained as warning note but NOT
+  promoted to status row).
+The over-claim was a wording softness, not a result fabrication. The
+underlying fact ($F = -324.94$ achieved) is correct; the over-claim
+was the descriptive label ``valid broken-phase data point''. Pillar 6
+status row is UNCHANGED at T4 (no tier promotion was actually claimed
+in TOE-FACT-SHEET). Therefore \texttt{AUDIT-} tag is appropriate;
+\texttt{R-} tag would be over-correction. Documented as
+\texttt{AUDIT-2026-05-01-Math310-N16-Wording}.
+
+\paragraph{(β) ``Why didn't the §6.3.5(a) self-adversarial review in
+Math310 catch this?''}
+\textbf{UPHELD-WITH-MITIGATION.} Math310 §I-III meta-objections
+addressed (I) tier conditioning depth, (II) joint-probability
+disclosure, (III) theory-only consolidation — none specifically
+caught the $N=16$ wording issue. Mitigation: Math310-AddA serves as
+the missed self-adversarial verdict, retroactively closing the gap.
+Future final-consolidation notes should explicitly include a
+``cross-check vs raw empirical evidence'' subsection in §6.3.5(a)
+self-adversarial review.
+
+\paragraph{(γ) ``If the N=32 warm-start run also produces raw
+$\lambda_0 < 0$, will Math310-AddA need re-amendment?''}
+\textbf{DISMISSED-WITH-CLARIFICATION.} Math310-AddA's wording is
+forward-compatible: the new statement ``$\Delta F < 0$ broken-energy
+data point achieved; $\mathcal A_{\rm valid}$ pending transverse
+projection'' applies regardless of the next run's $\lambda_0$
+sign. The $\mathcal A_{\rm valid}$ verdict only fires when
+transverse-projection patch is implemented AND $\lambda_{\min}^{\rm transverse}
+\ge -10^{-3}$ measured. The wording is robust.
+
+\section{Quantitative sanity}
+
+(i) Tier of Pillar 6 unchanged: T4 STRONG EVIDENCE before AND after
+   Math310-AddA. ✓
+(ii) Underlying numerical fact $F = -324.94$ unchanged. ✓
+(iii) Raw $\lambda_0 = -8.51$ unchanged; correctly identified as
+   transverse-projection issue. ✓
+(iv) Wording change is semantic precision; no factual claim retracted.
+   ✓
+(v) Audit-flag tag \texttt{AUDIT-2026-05-01-Math310-N16-Wording}
+   recorded per §15.8 binding. ✓
+All PASS.
+
+\section{Self-adversarial review (meta on this correction)}
+
+(I) ``Math310-AddA is itself a small note; is the corrective action
+   adequate scope?''
+   DISMISSED: Per §6.3.5(a) UPHELD verdicts, the response should be
+   proportional to the issue scope. Wording over-claim → wording
+   correction. Math310-AddA documents the audit verdict + executes
+   the three proposed actions. Adequate.
+
+(II) ``Should we update Math310 itself in-place rather than addendum?''
+   VALID-WITH-CONVENTION-PRESERVATION: Per CLAUDE.md §15.8, AUDIT-FLAGGED
+   notes are RETAINED with addenda, not edited in-place. Math310
+   retains the original wording with cross-reference to Math310-AddA's
+   correction. This preserves audit-trace integrity.
+
+(III) ``How does this affect the Phase 8-14 plan?''
+   IMPACT-MINIMAL: PHASE_8_TO_14_PLAN.md Phase 8 (Math311-313) was
+   already gated on the verdict period 2026-05-14 to 05-29; Math310-AddA
+   correction does not change this schedule. Math313 (F-Pillar6 verdict
+   consolidation) will benefit from Math310-AddA's clearer language
+   when classifying the empirical outcomes.
+
+\section{Tier verdict and scope}
+
+\boxed{\text{Math310-AddA = T7 PROVED (correction note, no new theorem).}}
+
+\textbf{All status rows UNCHANGED}: Pillar 6 = T4 (was already T4; AddA
+formalises this with corrected wording).
+
+\textbf{Audit tag}: \texttt{AUDIT-2026-05-01-Math310-N16-Wording}
+recorded in NEGATIVE-RESULTS (or equivalent index per CLAUDE.md §15.8
+operator convention).
+
+\section{Cited-canonical-fact spot-check}
+\begin{enumerate}
+\item Math310 original wording ``valid broken-phase data point achieved'':
+   confirmed at \verb|Docs/math/TECT-Math310-20Turn-Final-Synthesis-Turn80.tex.txt|.
+\item Math292 4-gauge acceptance criterion: confirmed at
+   \verb|Docs/math/TECT-Math292-Pillar6-Acceptance-Criterion-Theorem-Shell.tex.txt|.
+\item Math293 $\mathcal C_2$ trivial-saddle classification: confirmed at
+   \verb|Docs/math/TECT-Math293-Pillar6-False-Negative-Taxonomy.tex.txt|.
+\item Raw $N=16$ Lanczos output ($\lambda_0 = -8.5106$, $\lambda_1 = -0.0209$):
+   confirmed at \verb|Runs/continuation/math236_A1p0_seeded_N16/MANIFEST.md|.
+\item Q-2026-05-01-Math292-Hessian-Transverse-Slice (deferred patch):
+   confirmed at Math292 §10 task list.
+\end{enumerate}
+
+\section{Tasks opened}
+
+- \textbf{Q-2026-05-08-Math310-AddA-Math310-Inline-Note}: add cross-reference
+  footnote to Math310 §1 pointing to Math310-AddA correction.
+- \textbf{Q-2026-05-08-Math310-AddA-Research-Log-Update}: amend the
+  2026-05-01 research-log entries that reference the over-claim wording.
+- \textbf{Q-2026-05-08-Math310-AddA-Evidence-Index-Update}: update
+  EVIDENCE-INDEX rows for the N=16 run with corrected language.
+- \textbf{Q-2026-05-29-Math310-AddA-Resolution}: upon transverse-projection
+  patch + N=32/N=64 endpoint evidence, formally resolve the
+  $\mathcal A_{\rm valid}$ pending status.
+
+\section{Recommendation for next action}
+
+The corrective wording is forward-deployed; the next substantive Pillar 6
+status update should occur at one of:
+\begin{enumerate}
+\item Transverse-projection patch implementation + N=16 G3 re-evaluation.
+\item N=32 warm-start run convergence (in progress) + Math292 verdict.
+\item Stage-3 Richardson fit on N=16 + N=32 + N=64 (per Math236 §9.2).
+\end{enumerate}
+
+Math310's overall summary (20-turn arc statistics, Phase 8-14 plan)
+remains canonical. Only the specific N=16 ``valid broken-phase data
+point'' phrase is amended.
+
+End of Math310-AddA — Pillar 6 N=16 wording correction. Tier: T7 PROVED
+(correction note). AUDIT-2026-05-01-Math310-N16-Wording tag recorded.
+\end{document}

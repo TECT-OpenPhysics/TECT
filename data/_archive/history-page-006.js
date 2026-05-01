@@ -1,4 +1,4 @@
-// AUTO-GENERATED v0.3 page 6/8 — 2026-05-01 12:34 UTC
+// AUTO-GENERATED v0.3 page 6/8 — 2026-05-01 22:31 UTC
 window.TECT_HISTORY_PAGE_006 = {
   title: "History (page 6 of 8)",
   subtitle: "Chronological CHANGELOG mirror — auto-generated.",
@@ -7,6 +7,31 @@ window.TECT_HISTORY_PAGE_006 = {
   blocks: [
     { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history-page-005.html\">&larr; Newer</a> &middot; Page 6 / 8 &middot; <a href=\"history-archive-index.html\">archive index</a> &middot; <a href=\"history-page-007.html\">Older &rarr;</a></div>" },
     { type: "timeline", items: [
+        {
+          date: "2026-04-24",
+          title: "[Math84 — Website auto-generation v0.2: data-narrative composition architecture]",
+          body: "**Auto-data layer**: extracted from canonical sources by parsers in `generate_website.py`: - `Docs/math/TECT-Math*.tex.txt` headers → Math notes list (170 files) - `CHANGELOG.md` → timeline + history (top 30 entries) - `Docs/status/TOE-FACT-SHEET.md` → pillar scorecard (11 pillars) - `Docs/status/OPEN-QUESTIONS.md` → active Q list (53 entries) - `Docs/status/NEGATIVE-RESULTS.md` → F/R/D ledger (25 entries)"
+        },
+        {
+          date: "2026-04-24",
+          title: "[Round 10 mainline sweep — P2-P5 continuation: Q6b Pati-Salam SALVAGE + Pillar 11 Dirac TIGHTENING + Phase Z symmetry-broken seed + Stage-2-A SEALED]",
+          body: "**P2 — Math77-Q6b-Addendum-B**: Pati-Salam two-step RGE numerically SALVAGES Q6b. Scan over 1625 (M_PS, Δb_i) configurations yields **349 proton-decay-safe unification candidates**, including the minimal $\\Delta b = (0,0,0)$ case (no BCC-defect content required) at $M_{\\mathrm{PS}} = 10^{14}$ GeV, $M_{\\mathrm{GUT}} = 6.36 \\times 10^{16}$ GeV, $\\alpha_{\\mathrm{GUT}}^{-1} = 46.52$, RMS = 0.20%. Q6b-1 (pure-SM baseline FALSIFIED) → Q6b-2 (Pati-Salam two-step **NUMERICALLY CLOSED**)."
+        },
+        {
+          date: "2026-04-24",
+          title: "[Math80-Addendum-B — Q6a Defect-Bundle Equivariance Theorem: COMPLETE CLOSURE (Lie-algebraic + topological)]",
+          body: "**Math80-Addendum-B: Q6a Topological Realisation (Strategy 1)**"
+        },
+        {
+          date: "2026-04-24",
+          title: "[Math82-Addendum-D — Phase Z run result: PARTIAL with saddle-point identification]",
+          body: "`python -u Codes\\pde\\continuation_mu2_v25.py` with BCC analytic seed + reversed schedule per Math82-Addendum-B Phase Z runbook. Output: `Runs\\continuation\\math55_endpoint_N32_Lbcc7_phaseZ_2026-04-24\\`."
+        },
+        {
+          date: "2026-04-24",
+          title: "[Math82-Addendum-C — Phase E + F: PDE/ fully retired; canonical layout achieved]",
+          body: "The Phase Z continuation run uses `Codes\\pde\\continuation_mu2_v25.py` (post-correction from earlier `PDE\\continuation_mu2_v25.py` request) and `Codes\\pde\\config_template_brazovskii.json`. Neither path includes `PDE\\`. The script does not touch `Codes\\pde\\` or `Runs\\continuation\\math55_endpoint_N32_Lbcc7_phaseZ_2026-04-24\\`. Therefore PDE/ retirement during the run is safe."
+        },
         {
           date: "2026-04-24",
           title: "[Math82-Addendum-B — Phase Z BCC analytic seed runbook + driver --load-psi flag (v2.6.5)]",
@@ -131,31 +156,6 @@ window.TECT_HISTORY_PAGE_006 = {
           date: "2026-04-23",
           title: "[Pillar 11 Algebraic Closure — Monopole Vacuum-Energy Cancellation by CP Involution]",
           body: "- **Docs/math/TECT-Math58-v2-algebraic-monopole-cancellation.tex.txt** filed (NEW, 9563 words, 7 sections). Theory tag `Math58-Pillar11-algebraic-cancellation-2026-04-23`. - **Main Theorem (Thm 1.1)**: $\\sum_{\\sigma \\in \\Sigma_{\\mathrm{monopole}}} V_{\\mathrm{vac}}(\\sigma) = 0$ by CP-conjugation involution. **Status**: PROVED CONDITIONAL on three standard assumptions (CP is a true symmetry, path-integral measure transforms as claimed, sector enumeration exhaustive). - **Proof structure**: (i) Define monopole sector ensemble on BCC lattice (Def 1.2). (ii) Show CP conjugation is an involution (Lemma 1.3). (iii) Show vacuum-energy functional is anti-symmetric under CP (Lemma 2.3, conceptual proof; technical lattice details deferred to companion note). (iv) Partition sectors into CP-conjugate pairs and fixed points; show each pair sums to zero, each fixed point has zero energy (Thm 1.1, Corollary 1.5). - **Independence from pending tasks**: Does NOT depend on Task #54 continuation endpoint, Task #66 Monte-Carlo, coupling constants, lattice size, boundary conditions, or continuum limit. Survives $a \\to 0$ exactly. - **Pillar 11 impact**: Reduces cosmological-constant problem from"
-        },
-        {
-          date: "2026-04-23",
-          title: "[Task #74 — Math_IR_Bound-v4 Tier-3: analytical lower bound on $J_1$ via inscribed-ball method; $J_1 \\ge \\sqrt{3}/30 \\approx 0.0577 > 0$ as AUXILIARY partial result, not mainline closure]",
-          body: "- **Docs/math/TECT-Math_IR_Bound-v4-J1-lower-bound-tier3.tex.txt** filed (NEW, 971 lines, 8 sections). Theory tag `Math_IR_Bound-J1-lower-bound-tier3-2026-04-23`. - §1–§2 state the Pillar-2 context: $J_1 = \\int_{S^2} P_4(\\hat n)\\, r_{\\mathrm{BZ}}(\\hat n)\\, d\\Omega$ on the truncated-octahedron (BCC 1st BZ); positivity of $J_1$ is required for the emergent Lorentz bound of `Math_IR_Bound-v4-outline`, but to date was known only from the numerical interval-arithmetic certificate of `Math_IR_Bound_v4_BZ_interval.py`. - §3 selects Strategy 1 (inscribed-ball reduction) after rejecting Taylor+remainder (too complex), direction-decomposed monotonicity (sign-alternating $P_4$ defeats it), and polynomial domination (requires global approximation). - §4 Theorem (v4.1): $J_1 \\ge c_{J_1}^{\\mathrm{analytic}} := \\sqrt{3}/30 \\approx 0.0577$. The proof uses the truncated-octahedral inradius $r_{\\mathrm{in}} = \\sqrt{3}/2$ (closed-form from the face equations), decomposes $P_4$ into its positive and negative cubic-harmonic regions, and applies conservative geometry-based bounds on each. No numerical quadrature is used; every step is a geometric or polynomial inequality. - §5 explicit nume"
-        },
-        {
-          date: "2026-04-23",
-          title: "[Task #115 (B4) — `tests/test_v263_continuation_routing.py` (NEW) + `PDE/continuation_mu2_v25.py` v2.6.3 → v2.6.3-b: pure helpers `_converged_from_history` and `pass_math63_gate_2D` + `ContinuationPoi",
-          body: "- **PDE/continuation_mu2_v25.py** v2.6.3 → v2.6.3-b (1146 → 1272 lines, +126 lines). Theory tag retained; v2.6.3-b is a sub-patch recorded in a new `--- v2.6.3-b PATCH NOTES ---` header block. - Added pure helper `_converged_from_history(newton_history, tol_newton) -> bool` encapsulating Eq. `m74-conv-criterion` with IEEE 754 NaN fix. `run_one_point_v25` now calls this helper at the convergence-propagation site. - Added pure helper `pass_math63_gate_2D(newton_steps, tol_gate=dict(newton_max=8, tCG_max=300, rho_lin_max=0.05)) -> bool` closing $R'_3$ from Math74 Addendum-A §A.3. Enforces Newton $\\le 8$, $t_{\\mathrm{CG}} \\le 300$, $\\rho_{\\mathrm{lin}} \\le 0.05$ per step. - Extended `ContinuationPoint` dataclass with `pass_math63_2d: bool = False` field; populated in `run_one_point_v25` after `newton_solve` completes by calling `pass_math63_gate_2D` on the `newton_steps` log. - V1b 7-invariant AST contract ($I_1$–$I_7$) re-verified PASS after the patch: `I_1=\\mathrm{False}, I_2=1, I_3=0, I_4=\\mathrm{True}, I_5=\\mathrm{True}, I_6=\\{58\\}, I_7=\\mathrm{False}$`, overall PASS."
-        },
-        {
-          date: "2026-04-23",
-          title: "[Task #111 — `tools/check_jacobian_blocks.py` v1.3 → v1.4 + Math66 Path-X cos-theta classifier note; 8/8 selftest PASS; Math66 Path-X diagnostic formally closed]",
-          body: "- **Docs/math/TECT-Math66-PathX-cos-theta-classifier.tex.txt** filed (NEW, 316 lines, 8 sections). - §1 motivates the cos-theta classifier as a directional-alignment strictness upgrade over Math73's magnitude-ratio diagnostic $\\eta_{\\mathrm{chan}}$. Counter-example: two orthogonal equal-norm vectors give $\\eta_{\\mathrm{chan}} = 1$ (false positive) but $\\cos\\theta = 0$ (correct rejection). - §2 Def. `pathX-cos-theta`: $\\cos\\theta(\\Psi, v) := \\mathrm{Re}\\langle P_{\\mathrm{cII}}(\\Psi) A v,\\, A v\\rangle / (\\|P_{\\mathrm{cII}} A v\\| \\cdot \\|A v\\|)$ with $A v := \\tfrac{1}{2}(\\mathcal{J} - \\mathcal{J}^\\dagger) v$; Cauchy-Schwarz bound Lem. `pathX-cs-bound`. - §3 Thm. `pathX-prediction`: under the Path-X hypothesis the idempotency of $P_{\\mathrm{cII}}$ gives $P_{\\mathrm{cII}} A v = A v$, hence $\\cos\\theta = 1 + \\mathcal{O}(\\epsilon/|\\Psi|^2)$ with projector regulariser $\\epsilon \\sim 10^{-12}$. - §4 Prop. `pathX-falsify`: $\\cos\\theta < 0.99$ on any random-seed probe rejects Path-X. - §5 Algorithm `pathX-synthetic`: torch-free numpy selftest cases (i) pathX-localised-synthetic ($\\cos\\theta = 1.0 \\pm 10^{-13}$), (ii) pathX-delocalised-synthetic ($\\cos\\"
-        },
-        {
-          date: "2026-04-23",
-          title: "[Docs/runbooks/v263_execution_verification_runbook.md — GPU-only execution runbook for Task #54 stages 0–6, retirement on Task #54 closure]",
-          body: "- **Docs/runbooks/v263_execution_verification_runbook.md** filed (NEW). A single-file step-by-step PowerShell/Linux runbook that separates GPU-dependent verification from sandbox-grade rigor checks. Stages 0–6 cover environment sanity, full-pytest torch-enabled signature (5/0/0 on `test_v26_phase_d.py`, 6/0/0 on `test_v262_cii_mask.py`, 19/0/0 on `test_v263_continuation_routing.py`), v2.6.3 smoke V2/V3/V4, Task #54 full Math55 run, V5 regression vs. `n64_continuum_audit.py` at threshold $|\\Delta m_*^2|/m_*^2 < 5\\times 10^{-3}$, Task #54 execution-layer closure with a Math75 note skeleton, and downstream unblocks (Tasks #55, #56, #66, #77). - Troubleshooting appendix covers exit-code 10 (SKELETON_ONLY), exit-code 2 (FAIL/PARTIAL), and V5 regression divergence (> 5e-3). - Quick-reference command sequence (optimistic PASS path) provided at the end. - The runbook is scoped to retire on Task #54 closure — at that point, the Stages 0–4 transition from manual one-shots to a torch+GPU CI lane, and the historical record transfers to `Docs/math/TECT-Math75-Task54-Execution-Closure.tex.txt`."
-        },
-        {
-          date: "2026-04-23",
-          title: "[Math74 Addendum-A — post-upload status update: Math73/74 are no longer doc-only closures; B2 code-level resolved and B3 code-level landed; Task #54 reclassified to code-unblocked / awaiting live endp",
-          body: "- **docs/math/TECT-Math74-Addendum-A-Post-Upload-Status-Update.tex.txt** filed (NEW, 7 subsections). - §§A.1–A.2 record that the uploaded `PDE/tect_newton_krylov.py` (v2.6.2) and `PDE/continuation_mu2_v25.py` (v2.6.3) now carry the Math66 v0.2 Path-A torch-native adjoint-JVP, the Math73 `CiiProjector` API (`FullProjector`, `ChannelProjector`), the single-`newton_solve` `run_one_point_v25`, the Phase 2 / Phase 3 live wiring, and the sixteen-field `continuation_mu2_v25_endpoint/1.0` emission block. Eq. `math74-addA-B2B3-code-level`: **B2 is code-level resolved, B3 is code-level landed**. - §A.3 books three strictly non-blocking residual items $R^{\\prime}_{1}, R^{\\prime}_{2}, R^{\\prime}_{3}$: (i) B1 name-map shim `{pcg→cg, fgmres→gmres, minres→gmres}` is *operationally* closed rather than *elegantly* closed (a native indefinite-symmetric `minres` implementation is booked as future cleanup); (ii) `NewtonStep.eta_ew` remains a placeholder $0.5$ because `tect_newton_krylov.NewtonStepRecord` does not surface an inexact-Newton forcing sequence directly; (iii) the Math63 §2D acceptance gate (Newton $\\le 8$, $t_{\\mathrm{CG}} \\le 300$, $\\rho_{\\mathrm{lin}} \\le 0.05$ at $\\mu^2=-1.0$)"
         }
       ]
     },

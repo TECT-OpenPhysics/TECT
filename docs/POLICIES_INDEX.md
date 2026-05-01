@@ -14,6 +14,7 @@ TECT operates under a small set of explicit, binding policies documented in the 
 | `GITHUB_SYNC_POLICY.md` | GitHub-publish Sync Policy |
 | `NUMERICAL_RUN_RECORDING.md` | Numerical-Run Recording Policy |
 | `OUTPUT_LANGUAGE_POLICY.md` | Output-Language Policy (binding from 2026-04-29) |
+| `PHASE_8_TO_14_PLAN.md` | PHASE_8_TO_14_PLAN.md — Next 20-Turn Programme (Math311–330) |
 | `POSTMORTEM_RECURRENCE_POLICY.md` | Post-Mortem & Recurrence-Prevention Policy |
 | `RECORDS_CUTOFF.md` | TECT Records Cutoff |
 | `REPO_LAYOUT.md` | TECT Repository Layout Policy |

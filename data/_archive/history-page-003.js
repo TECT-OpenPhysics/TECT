@@ -1,4 +1,4 @@
-// AUTO-GENERATED v0.3 page 3/8 — 2026-05-01 12:34 UTC
+// AUTO-GENERATED v0.3 page 3/8 — 2026-05-01 22:31 UTC
 window.TECT_HISTORY_PAGE_003 = {
   title: "History (page 3 of 8)",
   subtitle: "Chronological CHANGELOG mirror — auto-generated.",
@@ -7,6 +7,31 @@ window.TECT_HISTORY_PAGE_003 = {
   blocks: [
     { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history-page-002.html\">&larr; Newer</a> &middot; Page 3 / 8 &middot; <a href=\"history-archive-index.html\">archive index</a> &middot; <a href=\"history-page-004.html\">Older &rarr;</a></div>" },
     { type: "timeline", items: [
+        {
+          date: "2026-04-29",
+          title: "[Math216-Addendum-A — Normalisation & representation audit-fix (reviewer 2026-04-28 late+13 PARTIAL ACCEPT)]",
+          body: "**Trigger**: Reviewer 2026-04-28 (late+13) audit of Math216 issued PARTIAL ACCEPT verdict — sign-positivity ACCEPT, numerical prefactor REVISE (factor-of-2 over-count), shell-measure notation REFINE, representation-matching connecting lemma REQUESTED."
+        },
+        {
+          date: "2026-04-28",
+          title: "[Math207 — RR1 closure: BCC reality condition forces antiholomorphic σ_I on Math162 CP²]",
+          body: "**Trigger**: First Tier-A dispatch from Math206 roadmap. RR1 = Q-2026-04-28-Math203-§3.4-rigor (Task #150) closure."
+        },
+        {
+          date: "2026-04-28",
+          title: "[Math206 — TOE Critical-Path Roadmap (post-Math200-AddB)]",
+          body: "**Trigger**: Synthesis of the 2026-04-28 closure cluster (9 atomic commits a25a4f8 → b7846f5; 8 new Math notes; CLAUDE.md §15 amendment) and queue of next dispatches."
+        },
+        {
+          date: "2026-04-28",
+          title: "[Math200-Addendum-B — ℏ_TECT(μ) matching functional + scope correction (reviewer item 4 closure)]",
+          body: "**Trigger**: Discharge of reviewer item 4 from AUDIT-2026-04-28-Math200-Proxy-Defect (substantive matching-functional derivation)."
+        },
+        {
+          date: "2026-04-28",
+          title: "[Math200-Addendum-A — RGE convention/sign sanity check (reviewer items 1-3 closure)]",
+          body: "**Trigger**: Discharge of reviewer items 1-3 from AUDIT-2026-04-28-Math200-Proxy-Defect (single-turn §15 dispatch following Math205)."
+        },
         {
           date: "2026-04-28",
           title: "[Math205 — Flat-Cartan atlas conditional uniqueness (synthesis L1+L2+L3)]",
@@ -131,31 +156,6 @@ window.TECT_HISTORY_PAGE_003 = {
           date: "2026-04-26",
           title: "[Round 23 — Math127-129 Tasks #115/#127/#128 Theoretical Framework Programme (T1)]",
           body: "**Status**: OUTLINE (theoretical framework complete; numerical closure pending Task #115). - Brazovskii critical behavior: universality class exponent $\\nu = 2/3$ (Brazovskii 1975, Math97 validation). - Richardson extrapolation in $h$ (lattice spacing): convergence order $p=2$ (3D cubic finite differences). - Joint critical-exponent scaling in Brazovskii distance $\\delta = |\\mu^2 - \\mu^2_c|$. - Operating point $\\mu^2 = 0.26$ is far from criticality ($\\delta \\approx 0.25$, non-critical regime). - Pre-registered protocol: 3-point Richardson fit in $h \\in \\{0.1, 0.05, 0.025\\}$; multi-$\\mu^2$ scan at $\\{\\mu^2 \\in 0.26, 0.22, 0.18, 0.14, 0.10\\}$. - Four falsification gates (G1–G4): (G1) Richardson RMS error $< 1\\%$; (G2) cross-$\\mu^2$ consistency $\\sigma < 5\\%$; (G3) $B_1 < 0$ (mass gap decreases toward criticality); (G4) analytic match $|m^{*2}_{\\infty,\\text{num}} - 9.005|/9.005 < 0.15$. - Predictions: continuum mass gap $m^{*2}_{\\infty, c} \\approx 9.005$ (from Math37 linear-response analytic theory). - Devil's-advocate self-test: α VALID (finite-$N$ effects; mitigation: verify at two $L_{\\text{phys}}$ values); β VALID (Hartree scope; mitigation: asymptotic-safe"
-        },
-        {
-          date: "2026-04-26",
-          title: "[Round 22 — Math121-125 Asymptotic-Safety Quantum-Gravity Proof Programme (Q1-Q6)]",
-          body: "**Status**: OUTLINE (framework established; derivations deferred to Q2-Q5). - Axiom statement: Weinberg-Reuter asymptotic-safety framework (5 axioms: W1-W5). - TECT mapping: dimensionless coupling $g^{\\rm TECT}(\\Lambda) = G^{\\rm TECT}(\\Lambda) \\cdot \\Lambda^2$. - Hypothesis H-AS: TECT implements UV-attractive fixed point in $\\beta_G$ at Hartree level. - Honest scope: Hartree truncation, lattice artefacts, gauge dependence all documented. - Devil's-advocate: 3 objections addressed (α VALID scope, β VALID explicit, γ DISMISSED with caveat)."
-        },
-        {
-          date: "2026-04-26",
-          title: "[Round 21 — Math110 AddB/C Framework Programme (Round R2): aBCC-Planck Numerical Framework + C1–C4 Stability Verification]",
-          body: "**Status**: PARTIAL-ADVANCED (symbolic framework complete; numerical closure pending Task #115). - Gate F5 definition: ratio $R_{\\rm F5} = a_{\\rm BCC}^{\\rm TECT} / (4\\sqrt{\\pi}\\ell_P^{\\rm TECT})$ with pass criterion $|R_{\\rm F5} - 1| \\le 0.1$. - Symbolic derivation of $a_{\\rm BCC}^{\\rm TECT}$ from Brazovskii lock equation at operating point. - Symbolic derivation of $\\ell_P^{\\rm TECT}$ from emergent gravity scale (spin-2/EH matching). - Current numerical estimate $R_{\\rm F5} \\approx 4.94$ (outside pass range [0.9, 1.1]); flagged for refinement. - Three-step contingency protocol: Math82-H continuum-limit execution, Hessian eigenvalue re-check, Gate F5 re-evaluation. - Devil's-advocate self-test (§6.3.1): α DISMISSED (dimensional consistency verified), β VALID-WITH-DOCUMENTED-SCOPE (continuum limit pending), γ VALID-WITH-DOCUMENTED-SCOPE (coarse-graining convention standard)."
-        },
-        {
-          date: "2026-04-26",
-          title: "[Round 21 — Math110 AddE Round-R1-R2 Second-Order Audit (AUDIT-PASS; mandatory cross-turn verification per CLAUDE.md §6.3.2)]",
-          body: "**Status**: AUDIT-PASS (all five deliverables verified; zero retroactive downgrades required). - Systematic review of all five notes from Rounds R1–R2 (Math110-AddA, AddD, AddF, AddB, AddC). - Devil's-advocate verification: all objections enumerated and resolved. - Gate and falsification-criterion matrix: 8 gates total. - Structural gates (C1, C3, Pillar 11 secondary): PASS analytically. - Analytical gate (C4, RG power-counting): PASS. - Numerical gates (C2, F5, $\\eta_{\\rm norm}$): PRE-REGISTERED and PENDING (Tasks #115, #127, #129). - Cascading risk analysis: **ZERO retroactive downgrades**. All 11 pillars and $S_1 \\land S_2$ remain SEALED and robust. - Contingency protocols outlined for each gate (diagnostic and recovery steps if numerical failures occur). - Certification: Approved for continuation to Rounds R4–R5."
-        },
-        {
-          date: "2026-04-26",
-          title: "[Round 21 — Math110 R4 Status Upgrade (status update) + R5 Final Synthesis (Math112; PROVED CONDITIONAL; capstone)]",
-          body: "**Status**: PROVED CONDITIONAL (updated from PARTIAL-ADVANCED; main note reflects Rounds R1–R3 verification). - Status line updated: PARTIAL-ADVANCED → PROVED CONDITIONAL. - New subsection (Completion summary: Rounds R1–R3 verification) added to main note. - Ingredient status summary: all four marked PROVED CONDITIONAL. - Math110 final status (boxed): PROVED CONDITIONAL. - Cross-references updated to include all six addenda (AddA–AddE + main + synthesis note). - Pillar 10 assessment: Math110 is secondary pathway; primary closure requires Pillars 1, 3, Task #121."
-        },
-        {
-          date: "2026-04-26",
-          title: "[Round 21 — Math110 AddA/D Verification Programme (Round R1): Fierz-Pauli Coefficient + eta_top Reconciliation]",
-          body: "**Status**: PROVED CONDITIONAL (gate F4 PASS). - Rigorous derivation of Fierz-Pauli kinetic term from TECT elastic Lagrangian. - Matching with linearized Einstein-Hilbert action at TT gauge yields coefficient $\\mu a_{\\rm BCC}^2 = c^3/(16\\pi G)$. - Factor-of-$16\\pi$ verified within standard GR conventions (Carroll, Wald textbooks). - RG-running effects (factor-of-2 enhancement from UV to IR) documented and accounted for. - **Gate F4 status**: PASS (coefficient within factor-2 tolerance; no deviation). - Numerical prediction confirmed: $a_{\\rm BCC} = 4\\sqrt{\\pi}\\ell_{\\rm P} \\approx 7.09\\ell_{\\rm P}$. - Devil's-advocate self-test (§6.3.1): three objections (α/β/γ); all DISMISSED or VALID-with-scope."
         }
       ]
     },

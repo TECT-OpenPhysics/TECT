@@ -1,4 +1,4 @@
-// AUTO-GENERATED v0.3 page 5/8 — 2026-05-01 12:34 UTC
+// AUTO-GENERATED v0.3 page 5/8 — 2026-05-01 22:31 UTC
 window.TECT_HISTORY_PAGE_005 = {
   title: "History (page 5 of 8)",
   subtitle: "Chronological CHANGELOG mirror — auto-generated.",
@@ -7,6 +7,31 @@ window.TECT_HISTORY_PAGE_005 = {
   blocks: [
     { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history-page-004.html\">&larr; Newer</a> &middot; Page 5 / 8 &middot; <a href=\"history-archive-index.html\">archive index</a> &middot; <a href=\"history-page-006.html\">Older &rarr;</a></div>" },
     { type: "timeline", items: [
+        {
+          date: "2026-04-24",
+          title: "[Math82-Joint-HI-integration-framework — Joint Classification Matrix for Concurrent GPU Execution (Turn 10 Track B)]",
+          body: "**Math note**: `Docs/math/TECT-Math82-Joint-HI-integration-framework.tex.txt` (v1.0, 380 lines, FRAMEWORK COMPLETE)."
+        },
+        {
+          date: "2026-04-24",
+          title: "[Math60-Stage2-D-Addendum-A — Observable-Map Injectivity: 5×9 Jacobian Rank Verification (Turn 9 Track A)]",
+          body: "Math60-Stage2-BDE §2.2 requires $\\mathrm{rank}(\\partial\\mathcal{O}/\\partial p) = 5$ for observable-map injectivity (Stage-2-D SEALED criterion). This turn computes the Jacobian symbolically and verifies rank = 5 via structural analysis + Python SVD validation + devil's-advocate self-test (CLAUDE.md §6.3.1). Status: OUTLINE → **PARTIAL** (symbolic closure; numerical execution pending Pillar 4 Q2 + Pillar 6 Q6d)."
+        },
+        {
+          date: "2026-04-24",
+          title: "[Math80-Addendum-D-AddA — Q6d Yukawa UV Anchor + RGE Running + Falsification Gates (Pillar 6, Turn 9 Track B)]",
+          body: "**Math note**: `Docs/math/TECT-Math80-Addendum-D-AddA-Yukawa-UV-anchor.tex.txt` (v1.0, 220 lines, PARTIAL-ADVANCED)."
+        },
+        {
+          date: "2026-04-24",
+          title: "[Math58-v7-Addendum-B — Q5 Numerical Verification Framework (Task #118, Turn 8 Track B)]",
+          body: "Math58-v7-Addendum-A (2026-04-24) rendered Q5 verdict as UNVERIFIED: numerical verification of the four-sector Λ_cosmo cancellation pending. Task #118 operationalizes this via closed-form sector evaluations + Python audit framework + devil's-advocate self-test (CLAUDE.md §6.3.1)."
+        },
+        {
+          date: "2026-04-24",
+          title: "[Math60-C-Addendum-A — QO1 Closed-Form Prediction (Zero-Point Brazovskii Fluctuation Energy)]",
+          body: "Task #83 (Math60-C closure): Derive three quantum observables (QO1, QO2, QO3) for quantum TECT. This turn completes **QO1 (zero-point Brazovskii fluctuation energy)** to closed form, advancing Stage-2-C from OUTLINE to PARTIAL per CLAUDE.md §4 (auto-archival) + §6.3.1 (devil's-advocate self-test mandatory)."
+        },
         {
           date: "2026-04-24",
           title: "[Math77-Q6b-Addendum-C — Pati-Salam RGE Finalisation: Candidate Selection Rule and PROVED CONDITIONAL Status]",
@@ -131,31 +156,6 @@ window.TECT_HISTORY_PAGE_005 = {
           date: "2026-04-24",
           title: "[Math84 — Website auto-generation v0.3: linked-list pagination + standalone publish]",
           body: "**Linked-list pagination**: `paginate_changelog()` partitions full CHANGELOG into `HISTORY_PAGE_SIZE = 30` entries per page. Page 1 → `Website/data/history.js`; subsequent pages → `Website/data/_archive/history-page-NNN.js`. Each page exposes a `pagination: {page, total, newer, older, archiveIndex}` object plus an HTML nav band (`Newer ←` / `archive index` / `Older →`). Archive index `_archive/history-archive-index.js` lists every page with its date range. As CHANGELOG grows, new pages are auto-appended; existing fixed pages remain byte-stable."
-        },
-        {
-          date: "2026-04-24",
-          title: "[Math84 — Website auto-generation v0.2: data-narrative composition architecture]",
-          body: "**Auto-data layer**: extracted from canonical sources by parsers in `generate_website.py`: - `Docs/math/TECT-Math*.tex.txt` headers → Math notes list (170 files) - `CHANGELOG.md` → timeline + history (top 30 entries) - `Docs/status/TOE-FACT-SHEET.md` → pillar scorecard (11 pillars) - `Docs/status/OPEN-QUESTIONS.md` → active Q list (53 entries) - `Docs/status/NEGATIVE-RESULTS.md` → F/R/D ledger (25 entries)"
-        },
-        {
-          date: "2026-04-24",
-          title: "[Round 10 mainline sweep — P2-P5 continuation: Q6b Pati-Salam SALVAGE + Pillar 11 Dirac TIGHTENING + Phase Z symmetry-broken seed + Stage-2-A SEALED]",
-          body: "**P2 — Math77-Q6b-Addendum-B**: Pati-Salam two-step RGE numerically SALVAGES Q6b. Scan over 1625 (M_PS, Δb_i) configurations yields **349 proton-decay-safe unification candidates**, including the minimal $\\Delta b = (0,0,0)$ case (no BCC-defect content required) at $M_{\\mathrm{PS}} = 10^{14}$ GeV, $M_{\\mathrm{GUT}} = 6.36 \\times 10^{16}$ GeV, $\\alpha_{\\mathrm{GUT}}^{-1} = 46.52$, RMS = 0.20%. Q6b-1 (pure-SM baseline FALSIFIED) → Q6b-2 (Pati-Salam two-step **NUMERICALLY CLOSED**)."
-        },
-        {
-          date: "2026-04-24",
-          title: "[Math80-Addendum-B — Q6a Defect-Bundle Equivariance Theorem: COMPLETE CLOSURE (Lie-algebraic + topological)]",
-          body: "**Math80-Addendum-B: Q6a Topological Realisation (Strategy 1)**"
-        },
-        {
-          date: "2026-04-24",
-          title: "[Math82-Addendum-D — Phase Z run result: PARTIAL with saddle-point identification]",
-          body: "`python -u Codes\\pde\\continuation_mu2_v25.py` with BCC analytic seed + reversed schedule per Math82-Addendum-B Phase Z runbook. Output: `Runs\\continuation\\math55_endpoint_N32_Lbcc7_phaseZ_2026-04-24\\`."
-        },
-        {
-          date: "2026-04-24",
-          title: "[Math82-Addendum-C — Phase E + F: PDE/ fully retired; canonical layout achieved]",
-          body: "The Phase Z continuation run uses `Codes\\pde\\continuation_mu2_v25.py` (post-correction from earlier `PDE\\continuation_mu2_v25.py` request) and `Codes\\pde\\config_template_brazovskii.json`. Neither path includes `PDE\\`. The script does not touch `Codes\\pde\\` or `Runs\\continuation\\math55_endpoint_N32_Lbcc7_phaseZ_2026-04-24\\`. Therefore PDE/ retirement during the run is safe."
         }
       ]
     },

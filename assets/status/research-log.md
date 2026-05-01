@@ -5,6 +5,105 @@
 
 ---
 
+## 2026-05-01 — Math310-AddA: Pillar 6 N=16 Wording Correction (Self-Adversarial UPHELD)
+
+**Task**: External hostile-referee audit (post-Math302-310 review) flagged Math310's "Pillar 6 = T4 with one valid broken-phase data point achieved" wording as over-claim relative to raw N=16 Phase 2 Lanczos output ($\lambda_0 = -8.51$, "stable = False"). Math292 4-gauge acceptance criterion requires $\lambda_{\min}^{\rm transverse} \ge -10^{-3}$ simultaneously with G1/G2/G4; raw $\lambda_0$ FAIL means $\mathcal A_{\rm valid}$ pending transverse-projection patch (Math82-H Lemma 5).
+
+**Verdict**: T7 PROVED self-adversarial UPHELD. Audit tag: **AUDIT-2026-05-01-Math310-N16-Wording**.
+
+**Three corrective actions executed**:
+1. Pillar 6 status re-stated: "first $\Delta F < 0$ broken-energy data point achieved (N=16, $F = -324.94$); Math292 $\mathcal A_{\rm valid}$ PENDING transverse projection + N=32/N=64 endpoints" (replaces "valid broken-phase data point achieved").
+2. Math310 wording softened in research-log + EVIDENCE-INDEX (this update).
+3. Next real Pillar 6 promotion attempt explicitly conditioned on (a) transverse-projection patch, (b) N=16 G3 re-evaluation, (c) N=32 + N=64 valid endpoints, (d) Stage-3 Richardson fit.
+
+**Distinction preserved (no factual retraction)**:
+- ✓ $F = -324.94$ achieved (factually correct)
+- ✓ Newton-Krylov converged (24 steps, ||grad||/√dof = 7.81×10⁻⁶)
+- ✓ Math290/Math294 framework operationally validated
+- ✗ "Valid broken-phase data point" per Math292 Definition NOT satisfied (G3 raw FAIL)
+- ✗ Math292 $\mathcal A_{\rm valid}$ PENDING (transverse projection patch needed)
+
+**Tier impact**: NONE. Pillar 6 was already T4; Math310-AddA only corrects descriptive wording. No status row change.
+
+**Tag classification per CLAUDE.md §15.8**: **AUDIT-** (warning note retained), not **R-** (retraction). The factual claim ($F = -324.94$) is correct; only the descriptive label was over-stated.
+
+**Tasks opened**: Q-2026-05-08-Math310-AddA-* (Math310 inline note, research-log update, EVIDENCE-INDEX update), Q-2026-05-29-Math310-AddA-Resolution (formal pending-status resolution upon transverse-projection patch + N=32/N=64 evidence).
+
+**Lesson learned for future final-consolidation notes**: §6.3.5(a) self-adversarial review must explicitly include "cross-check vs raw empirical evidence" subsection, separate from the existing meta-objections.
+
+---
+
+## 2026-05-01 — Math300–310: 20-Turn Programme Phases 4+5+6+7 Closure (Pillar 4 Realization + Residual + H5 + Hostile-Referee + Final Synthesis)
+
+**Task**: Turns 70-80 of 20-turn TECT defence + closure programme. 11 batched notes per multi-note efficiency. Phase 4 (Math300-302) + Phase 5 (Math303-305) + Phase 6 (Math306-308) + Phase 7 (Math309-310) all closed.
+
+**Headline**: 20-turn arc COMPLETE (Math291-310 + Math310-AddA correction). Cumulative: **0 tier promotions, 0 retractions, 14 new T6+ theorems, 5 pre-registered falsification gates, 3 cross-turn audits all OUTCOME A, 1 self-adversarial AUDIT-FLAG (AUDIT-2026-05-01-Math310-N16-Wording)**. Empirical advance: Pillar 6 first $\Delta F < 0$ broken-energy data point (N=16, F=−324.94, 2026-05-01) achieved; **Math292 $\mathcal A_{\rm valid}$ PENDING transverse-projection re-certification + N=32/N=64 endpoint evidence** (per Math310-AddA correction).
+
+**Per-note tier summary**:
+- Math300 (F-GAP4 verdict template) = T6 PROVED CONDITIONAL
+- Math301 (Stage-2 min-rule explanatory) = T7 PROVED
+- Math302 (H_task carve-out, Phase 4 closure) = T6 PROVED CONDITIONAL
+- Math303 (Math277 residual closure) = T7 PROVED audit
+- Math304 (Phase 3+4 audit OUTCOME A) = T7 PROVED audit
+- Math305 (Σ₀ Čech atlas, Phase 5 closure) = T6 PROVED CONDITIONAL
+- Math306 (H5 full-branch attempt) = T3 PROOF SKETCH partial (T6 gated on Math306-OpenA)
+- Math307 (Stage-2 promotion path) = T6 PROVED CONDITIONAL
+- Math308 (Phase 6 audit OUTCOME A, Phase 6 closure) = T7 PROVED audit
+- Math309 (Hostile-referee Round 2 anticipation) = T7 PROVED
+- Math310 (20-turn final synthesis, Phase 7 closure) = T3 PROOF SKETCH final-consolidation
+
+**Forward decision tree (verdict period 2026-05-14 to 05-29)**:
+- Scenario A (PASS-PASS-PASS, ~25%): Stage-1 8/11 → 11/11 T6+, MAJOR MILESTONE
+- Scenario B (mixed, ~50%): partial advance, failure-mode classified per Math299/300/293
+- Scenario C (FAIL-FAIL-FAIL, ~5%): Math246 contingency activated
+- Scenario D (DEFER mixture, ~20%): extension to 2026-05-29 hard deadline
+
+**Phase 8-14 plan (next 20 turns, Math311-330)**: separately archived at `Docs/policy/PHASE_8_TO_14_PLAN.md`. Themes: Phase 8 post-verdict consolidation, Phase 9 Stage-1 promotion, Phase 10 verification programme, Phase 11 external publication, Phase 12 Stage-3 TOE preparation, Phase 13 cross-cycle audit, Phase 14 40-turn final synthesis.
+
+**Compliance** (CLAUDE.md §6.3.1, §6.3.2, §6.3.2.1, §6.3.4, §6.3.5(a)+(c), §15.2/3/4): all PASS for all 11 notes.
+
+**All status rows unchanged**: Pillar 4 atomic = T6 PROVED CONDITIONAL, GAP-1 composite = T4, Stage-2 composite = T3, Stage-1 8/11 T6+, Pillar 6 = T4 (with empirical N=16 $\Delta F < 0$ broken-energy data point achieved; $\mathcal A_{\rm valid}$ PENDING transverse projection per Math310-AddA).
+
+---
+
+## 2026-05-01 — Math299: GAP-1 Matching-Functional Theoretical Closure (Phase 3 Closure)
+
+**Task**: Turn 69 of 20-turn TECT defence programme (**Phase 3 closure**). CLAUDE.md §6.3.5(c) final-consolidation note for the GAP-1 matching-functional theoretical pathway (Math296+297+298 → unified canonical archive).
+
+**Headline**: **Theorem 299.1 (T6 PROVED CONDITIONAL)**: GAP-1 composite tier T4→T6 promotion conditioned on joint event C1 (Math297 Outcome A or B) ∧ C2 (Math298 Outcome U or S$_{i^*=3}$) ∧ C3 (1-loop ansatz residual within F-GAP1 band). Joint probability ≈0.51 within 2026-05-29 deadline; ≈0.69 with 60-day extension.
+
+**Failure-mode taxonomy (4 classes)**: F1 continuum precision insufficient (N=128 needed), F2 sector-asymmetric SO(10) breaking (Pillar 4 H5 audit), F3 1-loop ansatz under-absorbs (2-loop extension), F-X combined.
+
+**Phase 3 (Turns 67–69) closure verdict: COMPLETE.** Math297 + Math298 + Math299 close GAP-1 matching-functional theoretical pathway. Phase 4 (Turns 70–72) opens with Math300.
+
+**Tier verdict**: Theorem 299.1 = T6 PROVED CONDITIONAL. **All status rows unchanged** (joint event awaiting Tasks #147/#148 + Math82-H Richardson empirical input).
+
+---
+
+## 2026-05-01 — Math298: GAP-1 Hidden SM-Loop Coupling Interpretation (3-Sector Decomposition)
+
+**Task**: Turn 68 of 20-turn TECT defence programme (Phase 3 second). Addresses Math296 universal-embedding objection (α): if BCC condensate couples preferentially to specific SM gauge sector, universal ansatz needs replacement.
+
+**Headline**: **Theorem 298.1 (T6 PROVED CONDITIONAL)**: empirical residual $\delta_{\rm emp}(\mu) = \sum_i c_i b_i g_i^2(M_Z) \ln(\mu/M_Z)/(16\pi^2)$ uniquely fits via least-squares at $N_\mu \ge 4$ scales. Sector weights $(c_1, c_2, c_3)$ for U(1)$_Y$ / SU(2)$_L$ / SU(3)$_c$ identify physics: Outcome U (universal, prior 60%), S (single-sector, prior 30%, with QCD-dominant most likely), M (mixed two-sector, prior 8%), F (framework anomaly, prior 2%).
+
+**Pre-registered F-Math298-Sector gate**: deadline 2026-05-22 with F-GAP1. Magnitude separation at $\mu=10^{12}$ GeV: U $-1.62$ vs QCD-only $-1.50$ vs U(1)$_Y$-only $+0.077$ vs SU(2)$_L$-only $-0.20$ — sign + magnitude distinguishable.
+
+**Tier verdict**: Theorem 298.1 = T6 PROVED CONDITIONAL. **All status rows unchanged**.
+
+---
+
+## 2026-05-01 — Math297: GAP-1 Continuum-Limit Error Budget (Phase 3 Opener)
+
+**Task**: Turn 67 of 20-turn TECT defence programme (Phase 3 opener). Quantifies Math82-H continuum extrapolation precision required for F-GAP1 structural-tier closure.
+
+**Headline**: **Theorem 297.1 (T6 PROVED CONDITIONAL)**: F-GAP1 budget $|\delta\hbar/\hbar| < 10^{-3}$ via $\hbar \propto a^2$ propagation requires $|\delta a_{\rm BCC}/a_{\rm BCC}| < 5\times 10^{-4}$. Math82-H 3-point ladder $N\in\{16,32,64\}$ Richardson extrapolation expected ~1.4×10⁻³ — **fails strict budget by ~3×**, but absorbable via 1-loop matching (Outcome B).
+
+**Pre-registered F-Math297-aBCC-precision gate**: 3 outcomes — A (strict closure), B (relaxed, 1-loop absorbable, expected), C (T0 refuted). Mitigation paths documented (N=128 ladder, tighter Newton, 1-loop matching).
+
+**Tier verdict**: Theorem 297.1 = T6 PROVED CONDITIONAL. **All status rows unchanged**.
+
+---
+
 ## 2026-05-01 — Snapshot Orchestrator + Policy + CLAUDE.md §16 (Infrastructure)
 
 **Task**: Operator request to eliminate per-session manual instructions for synchronising the four mirror trees (Docs/Codes canonical, Website/data, Website/assets, Github/). Establish single-command snapshot pipeline + binding policy + AI trigger phrases. User instruction: "매번 이렇게 지시할 수 없으니 우리 현시점 snapshot 기능에 대한 정책과 룰, 스크립트 등등을 이용해 일관되게 관리할 수 있는 방법을 적용해 주고, 어떻게 지시하면 되는지 알려줘."

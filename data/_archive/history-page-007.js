@@ -1,4 +1,4 @@
-// AUTO-GENERATED v0.3 page 7/8 — 2026-05-01 12:34 UTC
+// AUTO-GENERATED v0.3 page 7/8 — 2026-05-01 22:31 UTC
 window.TECT_HISTORY_PAGE_007 = {
   title: "History (page 7 of 8)",
   subtitle: "Chronological CHANGELOG mirror — auto-generated.",
@@ -7,6 +7,31 @@ window.TECT_HISTORY_PAGE_007 = {
   blocks: [
     { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history-page-006.html\">&larr; Newer</a> &middot; Page 7 / 8 &middot; <a href=\"history-archive-index.html\">archive index</a> &middot; <a href=\"history-page-008.html\">Older &rarr;</a></div>" },
     { type: "timeline", items: [
+        {
+          date: "2026-04-23",
+          title: "[Task #74 — Math_IR_Bound-v4 Tier-3: analytical lower bound on $J_1$ via inscribed-ball method; $J_1 \\ge \\sqrt{3}/30 \\approx 0.0577 > 0$ as AUXILIARY partial result, not mainline closure]",
+          body: "- **Docs/math/TECT-Math_IR_Bound-v4-J1-lower-bound-tier3.tex.txt** filed (NEW, 971 lines, 8 sections). Theory tag `Math_IR_Bound-J1-lower-bound-tier3-2026-04-23`. - §1–§2 state the Pillar-2 context: $J_1 = \\int_{S^2} P_4(\\hat n)\\, r_{\\mathrm{BZ}}(\\hat n)\\, d\\Omega$ on the truncated-octahedron (BCC 1st BZ); positivity of $J_1$ is required for the emergent Lorentz bound of `Math_IR_Bound-v4-outline`, but to date was known only from the numerical interval-arithmetic certificate of `Math_IR_Bound_v4_BZ_interval.py`. - §3 selects Strategy 1 (inscribed-ball reduction) after rejecting Taylor+remainder (too complex), direction-decomposed monotonicity (sign-alternating $P_4$ defeats it), and polynomial domination (requires global approximation). - §4 Theorem (v4.1): $J_1 \\ge c_{J_1}^{\\mathrm{analytic}} := \\sqrt{3}/30 \\approx 0.0577$. The proof uses the truncated-octahedral inradius $r_{\\mathrm{in}} = \\sqrt{3}/2$ (closed-form from the face equations), decomposes $P_4$ into its positive and negative cubic-harmonic regions, and applies conservative geometry-based bounds on each. No numerical quadrature is used; every step is a geometric or polynomial inequality. - §5 explicit nume"
+        },
+        {
+          date: "2026-04-23",
+          title: "[Task #115 (B4) — `tests/test_v263_continuation_routing.py` (NEW) + `PDE/continuation_mu2_v25.py` v2.6.3 → v2.6.3-b: pure helpers `_converged_from_history` and `pass_math63_gate_2D` + `ContinuationPoi",
+          body: "- **PDE/continuation_mu2_v25.py** v2.6.3 → v2.6.3-b (1146 → 1272 lines, +126 lines). Theory tag retained; v2.6.3-b is a sub-patch recorded in a new `--- v2.6.3-b PATCH NOTES ---` header block. - Added pure helper `_converged_from_history(newton_history, tol_newton) -> bool` encapsulating Eq. `m74-conv-criterion` with IEEE 754 NaN fix. `run_one_point_v25` now calls this helper at the convergence-propagation site. - Added pure helper `pass_math63_gate_2D(newton_steps, tol_gate=dict(newton_max=8, tCG_max=300, rho_lin_max=0.05)) -> bool` closing $R'_3$ from Math74 Addendum-A §A.3. Enforces Newton $\\le 8$, $t_{\\mathrm{CG}} \\le 300$, $\\rho_{\\mathrm{lin}} \\le 0.05$ per step. - Extended `ContinuationPoint` dataclass with `pass_math63_2d: bool = False` field; populated in `run_one_point_v25` after `newton_solve` completes by calling `pass_math63_gate_2D` on the `newton_steps` log. - V1b 7-invariant AST contract ($I_1$–$I_7$) re-verified PASS after the patch: `I_1=\\mathrm{False}, I_2=1, I_3=0, I_4=\\mathrm{True}, I_5=\\mathrm{True}, I_6=\\{58\\}, I_7=\\mathrm{False}$`, overall PASS."
+        },
+        {
+          date: "2026-04-23",
+          title: "[Task #111 — `tools/check_jacobian_blocks.py` v1.3 → v1.4 + Math66 Path-X cos-theta classifier note; 8/8 selftest PASS; Math66 Path-X diagnostic formally closed]",
+          body: "- **Docs/math/TECT-Math66-PathX-cos-theta-classifier.tex.txt** filed (NEW, 316 lines, 8 sections). - §1 motivates the cos-theta classifier as a directional-alignment strictness upgrade over Math73's magnitude-ratio diagnostic $\\eta_{\\mathrm{chan}}$. Counter-example: two orthogonal equal-norm vectors give $\\eta_{\\mathrm{chan}} = 1$ (false positive) but $\\cos\\theta = 0$ (correct rejection). - §2 Def. `pathX-cos-theta`: $\\cos\\theta(\\Psi, v) := \\mathrm{Re}\\langle P_{\\mathrm{cII}}(\\Psi) A v,\\, A v\\rangle / (\\|P_{\\mathrm{cII}} A v\\| \\cdot \\|A v\\|)$ with $A v := \\tfrac{1}{2}(\\mathcal{J} - \\mathcal{J}^\\dagger) v$; Cauchy-Schwarz bound Lem. `pathX-cs-bound`. - §3 Thm. `pathX-prediction`: under the Path-X hypothesis the idempotency of $P_{\\mathrm{cII}}$ gives $P_{\\mathrm{cII}} A v = A v$, hence $\\cos\\theta = 1 + \\mathcal{O}(\\epsilon/|\\Psi|^2)$ with projector regulariser $\\epsilon \\sim 10^{-12}$. - §4 Prop. `pathX-falsify`: $\\cos\\theta < 0.99$ on any random-seed probe rejects Path-X. - §5 Algorithm `pathX-synthetic`: torch-free numpy selftest cases (i) pathX-localised-synthetic ($\\cos\\theta = 1.0 \\pm 10^{-13}$), (ii) pathX-delocalised-synthetic ($\\cos\\"
+        },
+        {
+          date: "2026-04-23",
+          title: "[Docs/runbooks/v263_execution_verification_runbook.md — GPU-only execution runbook for Task #54 stages 0–6, retirement on Task #54 closure]",
+          body: "- **Docs/runbooks/v263_execution_verification_runbook.md** filed (NEW). A single-file step-by-step PowerShell/Linux runbook that separates GPU-dependent verification from sandbox-grade rigor checks. Stages 0–6 cover environment sanity, full-pytest torch-enabled signature (5/0/0 on `test_v26_phase_d.py`, 6/0/0 on `test_v262_cii_mask.py`, 19/0/0 on `test_v263_continuation_routing.py`), v2.6.3 smoke V2/V3/V4, Task #54 full Math55 run, V5 regression vs. `n64_continuum_audit.py` at threshold $|\\Delta m_*^2|/m_*^2 < 5\\times 10^{-3}$, Task #54 execution-layer closure with a Math75 note skeleton, and downstream unblocks (Tasks #55, #56, #66, #77). - Troubleshooting appendix covers exit-code 10 (SKELETON_ONLY), exit-code 2 (FAIL/PARTIAL), and V5 regression divergence (> 5e-3). - Quick-reference command sequence (optimistic PASS path) provided at the end. - The runbook is scoped to retire on Task #54 closure — at that point, the Stages 0–4 transition from manual one-shots to a torch+GPU CI lane, and the historical record transfers to `Docs/math/TECT-Math75-Task54-Execution-Closure.tex.txt`."
+        },
+        {
+          date: "2026-04-23",
+          title: "[Math74 Addendum-A — post-upload status update: Math73/74 are no longer doc-only closures; B2 code-level resolved and B3 code-level landed; Task #54 reclassified to code-unblocked / awaiting live endp",
+          body: "- **docs/math/TECT-Math74-Addendum-A-Post-Upload-Status-Update.tex.txt** filed (NEW, 7 subsections). - §§A.1–A.2 record that the uploaded `PDE/tect_newton_krylov.py` (v2.6.2) and `PDE/continuation_mu2_v25.py` (v2.6.3) now carry the Math66 v0.2 Path-A torch-native adjoint-JVP, the Math73 `CiiProjector` API (`FullProjector`, `ChannelProjector`), the single-`newton_solve` `run_one_point_v25`, the Phase 2 / Phase 3 live wiring, and the sixteen-field `continuation_mu2_v25_endpoint/1.0` emission block. Eq. `math74-addA-B2B3-code-level`: **B2 is code-level resolved, B3 is code-level landed**. - §A.3 books three strictly non-blocking residual items $R^{\\prime}_{1}, R^{\\prime}_{2}, R^{\\prime}_{3}$: (i) B1 name-map shim `{pcg→cg, fgmres→gmres, minres→gmres}` is *operationally* closed rather than *elegantly* closed (a native indefinite-symmetric `minres` implementation is booked as future cleanup); (ii) `NewtonStep.eta_ew` remains a placeholder $0.5$ because `tect_newton_krylov.NewtonStepRecord` does not surface an inexact-Newton forcing sequence directly; (iii) the Math63 §2D acceptance gate (Newton $\\le 8$, $t_{\\mathrm{CG}} \\le 300$, $\\rho_{\\mathrm{lin}} \\le 0.05$ at $\\mu^2=-1.0$)"
+        },
         {
           date: "2026-04-23",
           title: "[Math74 — `continuation_mu2_v25.py` v2.5.7 skeleton retired; v2.6.3 live driver lands with real Phase-D wire-through, Phase 2/3 integration, and endpoint JSON contract; driver-side blocker of Task #54",
@@ -131,31 +156,6 @@ window.TECT_HISTORY_PAGE_007 = {
           date: "2026-04-22",
           title: "[continuation_mu2_v25 Math63 §2A probe wiring (v2.5.4)]",
           body: "**Trigger**: End-to-end execution of the v2.5.3 driver terminated *correctly* with `Status: SKELETON_ONLY`, exit code $10$, and the honest MANIFEST per-point table — i.e. the honest-reporting contract from v2.5.3 worked as specified. The same clean run, however, surfaced a previously silenced defect visible at every Newton iteration of every one of the six $\\mu^{2}$ points:"
-        },
-        {
-          date: "2026-04-22",
-          title: "[continuation_mu2_v25 TypeError fix + honest skeleton-mode status (v2.5.3)]",
-          body: "**Trigger**: With the $\\texttt{Tools/}\\to\\texttt{tools/}$ rename (v2.5.1 plumbing) and the UTF-8 pin (v2.5.2) in place, Stage $[4/4]$ of `run_v25_diagnostic.ps1` finally reached the Newton loop. `[Point 1/6]$ $\\mu^{2}=-1.000000\\mathrm{e}{+00}$ aborted immediately with `ERROR: ContinuationPoint.__init__() missing 1 required positional argument: 'converged'` and the handoff script then mis-reported `*** v2.5 DIAGNOSTIC: PASS ***` because Python exited $0$. A run with *zero* real Newton steps thus looked indistinguishable from a fully-converged 6-point sweep."
-        },
-        {
-          date: "2026-04-22",
-          title: "[continuation_mu2_v25 UTF-8 locale hardening (v2.5.2)]",
-          body: "**Trigger**: After the user-side `Tools/` → `tools/` rename landed, the v2.5.1 diagnostic finally reached Stage [4/4] and the 6-point sweep actually started. The Math56 constants self-check passed; however `python PDE/continuation_mu2_v25.py` then aborted with `UnicodeDecodeError: 'cp949' codec can't decode byte 0xe2 in position 971: illegal multibyte sequence` at `base_params = json.load(f)`."
-        },
-        {
-          date: "2026-04-22",
-          title: "[Root-cause resolution: `tools/` ↔ `Tools/` case collision on Windows/Python 3.12]",
-          body: "**Trigger**: While static-smoke-testing the v2.5.1 `sys.path` fix, the in-sandbox import `from tools.check_jacobian_symmetry import probe_symmetry` *still* failed with `ModuleNotFoundError`, even though both `tools/` and `tools/__init__.py` were confirmed on disk. Escalated to root-cause investigation."
-        },
-        {
-          date: "2026-04-22",
-          title: "[continuation_mu2_v25 symmetry-probe import fix + run_v25_diagnostic.ps1 CLI contract (v2.5.1)]",
-          body: "**Trigger**: First full-path local run of `scripts/run_v25_diagnostic.ps1` (after the v1.2 BZ-preconditioner and v1.2 self-test patches) reached Stage [3/4] with all three self-tests green, but Stage [4/4] aborted at `python PDE/continuation_mu2_v25.py ...` with exit code $2$ and two distinct defects: 1. `WARNING: check_jacobian_symmetry not found.` — Math63 §2A symmetry-probe-driven solver routing was silently bypassed, degrading v2.5 to a plain FGMRES solver (specification deviation). 2. `continuation_mu2_v25.py: error: unrecognized arguments: --mu2_list -1.0,-0.8,-0.6,-0.4,-0.2,-0.1` — caller/callee CLI contract mismatch."
-        },
-        {
-          date: "2026-04-22",
-          title: "[check_jacobian_symmetry _self_test backend-coherence correction (v1.2)]",
-          body: "**Trigger**: First run of the v1.1 self-test via `python tools\\check_jacobian_symmetry.py --selftest` raised `TypeError: unsupported operand type(s) for @: 'numpy.ndarray' and 'Tensor'` at Case 1."
         }
       ]
     },
