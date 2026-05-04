@@ -1,12 +1,42 @@
-// AUTO-GENERATED v0.3 page 8/8 — 2026-05-01 23:27 UTC
+// AUTO-GENERATED v0.3 page 8/8 — 2026-05-04 10:58 UTC
 window.TECT_HISTORY_PAGE_008 = {
   title: "History (page 8 of 8)",
   subtitle: "Chronological CHANGELOG mirror — auto-generated.",
-  lastUpdated: "2026-05-01 (auto)",
+  lastUpdated: "2026-05-04 (auto)",
   pagination: {"page": 8, "total": 8, "newer": "history-page-007.html", "older": null, "archiveIndex": "history-archive-index.html"},
   blocks: [
     { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history-page-007.html\">&larr; Newer</a> &middot; Page 8 / 8 &middot; <a href=\"history-archive-index.html\">archive index</a></div>" },
     { type: "timeline", items: [
+        {
+          date: "2026-04-22",
+          title: "[check_jacobian_blocks v1.0 → v1.1 — sys.path bootstrap hotfix for Step (D1) live execution (Task #109)]",
+          body: "- `Tools/check_jacobian_blocks.py` v1.0 → v1.1. First live invocation aborted at `_build_seed()` line 499 with `ModuleNotFoundError: No module named 'math56_constants'`. Root cause: v1.0 relied on ambient `sys.path`, but `math56_constants.py` and `real_backend_pt_bcc_mixed_v3.py` both live in `Contents/PDE/`, which is not on `sys.path` when the script is launched from `Contents/` via `python Tools/check_jacobian_blocks.py ...`. This is the exact analogue of the `continuation_mu2_v25.py` v2.5.0 → v2.5.1 fix (Task #100) and belongs to the same class of import-bootstrap errors that the v2.0 probe tool already resolved. Fix: insert a `sys.path` bootstrap block immediately after the stdlib imports (lines 105–122 of v1.1) that uses `os.path.abspath(__file__)` as the anchor to compute `_THIS_FILE_DIR = .../Contents/Tools`, `_REPO_ROOT_DIR = .../Contents`, `_PDE_DIR = .../Contents/PDE`, and prepends both `_PDE_DIR` and `_REPO_ROOT_DIR` to `sys.path` if not already present. Both `from math56_constants import build_seed_bcc` and `importlib.import_module('real_backend_pt_bcc_mixed_v3')` now resolve deterministically regardless of launch directory. Patch is import-time only; the probe logic, W"
+        },
+        {
+          date: "2026-04-22",
+          title: "[check_jacobian_blocks v1.0 — Math63 §2A.3 BCC Jacobian Residual Anti-Hermitian Component Diagnostic, Step (D1) landing (Task #109)]",
+          body: "- `Tools/check_jacobian_blocks.py` v1.0 **created** (~460 lines). Sibling to `Tools/check_jacobian_symmetry.py` v2.0 (which is retained unchanged as the full-residual reference); does **not** supersede it. Implements Step (D1) of the Math63 §2A.3 diagnostic plan: the operator-level block decomposition probe. Six additive residual blocks of `real_backend_pt_bcc_mixed_v3.residual()` are probed **in isolation** under the v2.0 complex-Hermitian protocol (real-self-adjoint criterion $\\operatorname{Re}\\langle u, \\mathcal{J}v\\rangle = \\operatorname{Re}\\langle \\mathcal{J}u, v\\rangle$, complex $\\mathcal{CN}(0,I)$ probes, `torch.vdot`/`np.vdot` sesquilinear inner product, threshold $\\operatorname{antisym}/\\lVert J\\rVert < 10^{-8}$). - Block registry: `{\"bra\"=F_bra, \"fam\"=F_fam, \"lock\"=F_lock, \"shell\"=F_shell, \"nl\"=F_nl, \"cII\"=F_cII}` following the additive decomposition `F = F_bra + F_fam + F_lock + F_shell + F_nl + F_cII` (Definition 2A.3-1 of Math63 v1.3). - `F_nl` (quartic + sextic) uses the **analytical Wirtinger JVP** from Lemma 2A.3-2, not a finite-difference approximation: `delta_rho = 2·Re(Ψ* · v)`, `dq = λ(ρ·v + δρ·Ψ)`, `ds = γ(ρ²·v + 2ρ·δρ·Ψ)`. Reference for"
+        },
+        {
+          date: "2026-04-22",
+          title: "[continuation_mu2_v25 v2.5.7 + tect_newton_krylov minor — Math63 §2A.2 Exception-Handling Policy (Task #108)]",
+          body: "- `PDE/continuation_mu2_v25.py` v2.5.6 → v2.5.7. Three broad `except Exception` branches on the Math63 v2.5 live-execution path narrowed in accordance with Math63 §2A.2 addendum. Module header bumped and full Trigger/Evidence(A-D)/Decision(P1-P5)/Retires/Math-note block inserted. - **Line 299 (import fallback)**: `except Exception as _probe_err:` → `except (ImportError, ModuleNotFoundError) as _probe_err:`. Rationale: a `SyntaxError`, `NameError`, `TypeError`, or `AttributeError` raised from inside `tools.check_jacobian_symmetry` is a programming defect, not a missing-module condition, and must propagate rather than silently disable §2A routing. - **Line 488 (`probe_jacobian_cached`, the Layer-5 culprit)**: split into two branches per §2A.2 dichotomy. `except (AttributeError, TypeError, NameError, ImportError): raise` forecloses the concealment path that let `backend.residual_bcc` and the complex→real cast survive four releases each. `except (RuntimeError, ValueError, ArithmeticError, MemoryError, np.linalg.LinAlgError) as e:` retains graceful degradation for CUDA OOM / numerical overflow / singular-Jacobian conditions but now logs `type(e).__name__: str(e)` to stderr **uncondition"
+        },
+        {
+          date: "2026-04-22",
+          title: "[check_jacobian_symmetry v2.0 — complex-Hermitian probe (Math63 §2A.1 addendum)]",
+          body: "**Trigger**: The v2.5.5 shape-contract fix landed and the subsequent live Stage $[4/4]$ diagnostic run (`R-2026-04-22-001`) emitted"
+        },
+        {
+          date: "2026-04-22",
+          title: "[continuation_mu2_v25 seed shape fix — build_seed_bcc factory (v2.5.5)]",
+          body: "**Trigger**: The v2.5.4 attribute-name fix (`residual_bcc` $\\to$ `residual`) landed and the subsequent live Stage $[4/4]$ run printed a *new* error at every fifth Newton iteration of every one of the six $\\mu^{2}$ points:"
+        },
+        {
+          date: "2026-04-22",
+          title: "[continuation_mu2_v25 Math63 §2A probe wiring (v2.5.4)]",
+          body: "**Trigger**: End-to-end execution of the v2.5.3 driver terminated *correctly* with `Status: SKELETON_ONLY`, exit code $10$, and the honest MANIFEST per-point table — i.e. the honest-reporting contract from v2.5.3 worked as specified. The same clean run, however, surfaced a previously silenced defect visible at every Newton iteration of every one of the six $\\mu^{2}$ points:"
+        },
         {
           date: "2026-04-22",
           title: "[continuation_mu2_v25 TypeError fix + honest skeleton-mode status (v2.5.3)]",

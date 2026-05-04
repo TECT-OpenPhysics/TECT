@@ -1,12 +1,42 @@
-// AUTO-GENERATED v0.3 page 5/8 — 2026-05-01 23:27 UTC
+// AUTO-GENERATED v0.3 page 5/8 — 2026-05-04 10:58 UTC
 window.TECT_HISTORY_PAGE_005 = {
   title: "History (page 5 of 8)",
   subtitle: "Chronological CHANGELOG mirror — auto-generated.",
-  lastUpdated: "2026-05-01 (auto)",
+  lastUpdated: "2026-05-04 (auto)",
   pagination: {"page": 5, "total": 8, "newer": "history-page-004.html", "older": "history-page-006.html", "archiveIndex": "history-archive-index.html"},
   blocks: [
     { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history-page-004.html\">&larr; Newer</a> &middot; Page 5 / 8 &middot; <a href=\"history-archive-index.html\">archive index</a> &middot; <a href=\"history-page-006.html\">Older &rarr;</a></div>" },
     { type: "timeline", items: [
+        {
+          date: "2026-04-24",
+          title: "[Math90 — Cross-Turn Second-Order Audit of Turns 9 + 10]",
+          body: "**Math note**: `Docs/math/TECT-Math90-Turn9-10-second-order-audit.tex.txt` (v1.0, comprehensive per-document verdict + cross-cutting α/β/γ audit objections)."
+        },
+        {
+          date: "2026-04-24",
+          title: "[Math36-Addendum-A-AddA — Pre-execution Audit: Math36_RG_extractor.py Correctness Verified]",
+          body: "**Math note**: `Docs/math/TECT-Math36-Addendum-A-AddA-pre-exec-audit.tex.txt` (v1.0, ~450 lines, AUDIT NOTE — BINDING gate)."
+        },
+        {
+          date: "2026-04-24",
+          title: "[Math75-Q3-Addendum-C — Unconditional Closure: H1 & H2 Verified]",
+          body: "**Math note**: `Docs/math/TECT-Math75-Q3-Addendum-C-unconditional-closure.tex.txt` (v1.0, ~400 lines, PROVED UNCONDITIONAL)."
+        },
+        {
+          date: "2026-04-24",
+          title: "[Math89 — Next-10-Turn Priority Plan (Turns 11-20)]",
+          body: "**Math note**: `Docs/math/TECT-Math89-Next-10-turn-priority-plan-Turns-11-20.tex.txt` (v1.0, ~600 lines, BINDING EXECUTION PLAN)."
+        },
+        {
+          date: "2026-04-24",
+          title: "[Math93 — Math60-Stage2-D-AddB: Analytical Injectivity Proof (No Numerics)]",
+          body: "**Math note**: `Docs/math/TECT-Math60-Stage2-D-AddB-analytical-injectivity.tex.txt` (v1.0, ~450 lines, PARTIAL)."
+        },
+        {
+          date: "2026-04-24",
+          title: "[Math36-Addendum-A — Multi-scale RG-extractor Pipeline for Pillar 4 Q2 (Turn 10 Track A)]",
+          body: "**Theory**: - **Math note**: `Docs/math/TECT-Math36-Addendum-A-multi-scale-RG-extractor.tex.txt` (v1.0, ~350 lines, PROVED REDUCIBLE status). - §1: Recap Math36 dictionary (overlap-insertion coefficient identities). - §2: Formal 5-step pipeline definition with explicit equations (Spectral filter → Raw moments → Directional decomposition → Flow reconstruction → Fixed-point detection). - §3: Theorem thm:Q2-reducible — if pipeline executes on BCC ground state with (H1) exact PDE convergence, (H2) overlap-insertion exactness, (H3) isotropy in continuum limit, then Q2 is PROVED REDUCIBLE to numerical execution. - §4: Three pre-registered falsification gates (F1 fixed-point variance, F2 SM coupling ratios, F3 monotonicity). - §5: Devil's-advocate self-test (α lattice artefacts DISMISSED, β finite-window VALID/mitigated, γ ground-state dependency VALID/documented). - §6: Closure conditions (Cond-Q2-Path, Cond-Q2-Data, Cond-Q2-Interpretation) for status upgrade pathway."
+        },
         {
           date: "2026-04-24",
           title: "[Math82-Joint-HI-integration-framework — Joint Classification Matrix for Concurrent GPU Execution (Turn 10 Track B)]",
@@ -126,36 +156,6 @@ window.TECT_HISTORY_PAGE_005 = {
           date: "2026-04-24",
           title: "[Math75-Q2-AddendumA — Numerical RG-Flow Strategy for Pillar 4 Closure (Q2 implementation protocol)]",
           body: "Turn 2 Track A Pillar 4 Q2 numerical RG completion: provide pre-registered numerical protocol and executable code skeleton to complete Pillar 4 from PARTIAL-ADVANCED to PROVED via full Wetterich RG-flow integration from UV (BCC scale ~1.5 GeV) to IR (M_Z = 91.2 GeV)."
-        },
-        {
-          date: "2026-04-24",
-          title: "[Math82-AddG3 — Vacuum-floor convergence guard implementation (Task #116)]",
-          body: "Turn 1 Track A of the autonomous 5-turn research session (2026-04-24): close Math82-G2 §6.3 actionable item by patching `Codes/pde/tect_newton_krylov.py::newton_solve` with the vacuum-floor early-exit guard."
-        },
-        {
-          date: "2026-04-24",
-          title: "[Math79-AddendumB — Classical-TECT No-Go Theorem: Planck's constant cannot be derived from pure classical first principles]",
-          body: "Classical TECT (Brazovskii free energy + BCC topology + SO(10) embedding, Pillars 1--9) cannot derive Planck's constant $\\hbar$ as a unique value from any combination of: 1. **Symplectic/Poisson structure** (Lemma `lem:sympl-rescale`): rescaling freedom $(\\omega, H) \\to (c\\omega, cH)$ remains unfixed. 2. **Spectral lengths of the Hessian** (Lemma `lem:spectral-scale`): eigenvalue scaling $\\lambda_i \\to c\\lambda_i$ under energy-scale rescaling. 3. **Vacuum-energy consistency** (Lemma `lem:vacuum-cancel`): $\\Lambda \\to 0$ limit kills all constraints; true cosmological constant $\\Lambda_{\\mathrm{obs}} \\sim 10^{-52}$ m$^{-2}$ carries zero information about TECT scales. 4. **Anomaly cancellation** (Lemma `lem:anomaly-renorm`): topological constraint independent of scale; derivation would be circular (presupposes fermion quantisation)."
-        },
-        {
-          date: "2026-04-24",
-          title: "[Math82-AddI — Cold-start scan runbook and pre-registered Brazovskii subset-4-cosine spinodal/binodal prediction]",
-          body: "1. **Runbook (§1)**: Exact bash/PowerShell commands for 7 independent cold-start Newton runs (Stage 1: seed generation with random phases; Stage 2: single-point Newton from each seed, no continuation chain). Multi-replica enhancement recommended: 5 seeds per μ² for 35 total solves."
-        },
-        {
-          date: "2026-04-24",
-          title: "[Math82-AddG2 — PCG-routing audit: probe blindness + vacuum-floor stall partially refute Math82-G Regime III]",
-          body: "**Finding 1 — Probe dimensional blind spot (latent bug, real but not the present cause).** The 5-probe Rayleigh classifier in `probe_symmetry` cannot reliably detect symmetric-indefinite operators in dimension N≈2×10⁵ when the negative spectrum is a small fraction of the trace. Concentration estimate: $\\mathbb{E}[\\rho_i] = \\mathrm{tr}(J)/N \\approx 50$ for the bare Brazovskii Hessian (large-k modes dominate), σ_ρ ~ ||J||_F/√N ~ 0.1. Even with ~5,000 negative eigenvalues at μ²=-0.5, all 5 random Rayleigh quotients are positive with probability ≈ 1. This routes SI operators to PCG instead of MINRES. **Mitigated** by `truncated_cg_solve`'s negative-curvature detection (lines 894-901 of `tect_newton_krylov.py`) — Steihaug-Toint correctly steps to trust-region boundary on negative curvature, so PCG path is suboptimal but safe."
-        },
-        {
-          date: "2026-04-24",
-          title: "[Math82-AddG — Phase Z 7-point continuation: subset-4-cosine bifurcation curve at μ²≈-0.05]",
-          body: "| # | μ² | Newton | m*² | λ_min | ΔF | Regime | |---|----------|--------|------------|-------------|-------------|--------| | 1 | +5e-3 | 15 | +4.246e-2 | +4.246e-2 | +2.56e-10 | I (stable, F>0) | | 2 | -2e-2 | 1 | +1.748e-2 | +1.748e-2 | +1.16e-10 | I (stable, F>0) | | 3 | -1e-1 | 1 | +1.982e-2 | **-6.252e-2** | **-3.31e-10** | II (saddle, F<0) | | 4 | -5e-1 | 15 ✗ | nan | nan | nan | III (collapse to Ψ=0) | | 5 | -7e-1 | 15 ✗ | nan | nan | nan | III | | 6 | -8.5e-1 | 15 ✗ | nan | nan | nan | III | | 7 | -1.0 | 15 ✗ | nan | nan | nan | III |"
-        },
-        {
-          date: "2026-04-24",
-          title: "[Math84 — Website auto-generation v0.3: linked-list pagination + standalone publish]",
-          body: "**Linked-list pagination**: `paginate_changelog()` partitions full CHANGELOG into `HISTORY_PAGE_SIZE = 30` entries per page. Page 1 → `Website/data/history.js`; subsequent pages → `Website/data/_archive/history-page-NNN.js`. Each page exposes a `pagination: {page, total, newer, older, archiveIndex}` object plus an HTML nav band (`Newer ←` / `archive index` / `Older →`). Archive index `_archive/history-archive-index.js` lists every page with its date range. As CHANGELOG grows, new pages are auto-appended; existing fixed pages remain byte-stable."
         }
       ]
     },

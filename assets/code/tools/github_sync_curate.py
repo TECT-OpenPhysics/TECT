@@ -827,11 +827,8 @@ def prune_stale_files(stats: CurateStats, *, dry_run: bool) -> None:
     # Build the set of expected target paths.
     expected: set[str] = set()
     # 1) Auto-generated top-level files
-    # 2026-05-01: removed .nojekyll from expected set (operator request;
-    # tect.kr is the live host, GitHub Pages not used). The existing
-    # Github/.nojekyll file will be auto-deleted on next curate run
-    # because it's no longer in `expected`.
-    for name in ("README.md", "CITATION.cff", "LICENSE", ".gitignore"):
+    for name in ("README.md", "CITATION.cff", "LICENSE", ".gitignore",
+                 ".nojekyll"):
         expected.add(name)
     # 2) Auto-generated docs/
     for name in ("KEY_RESULTS.md", "NAVIGATION.md", "POLICIES_INDEX.md"):
@@ -907,14 +904,7 @@ def curate(args: argparse.Namespace) -> int:
     print("=" * 60)
 
     # E1) Auto-generated top-level files
-    # 2026-05-01: removed .nojekyll generation per operator request
-    # (live site at tect.kr; GitHub Pages not used; the file was 0-byte
-    # defensive infrastructure for a feature not enabled). If GitHub
-    # Pages is later enabled, restore .nojekyll generation here +
-    # add ".nojekyll" back to the prune_stale_files() expected set
-    # so the path-with-underscore-prefix subdirs (data/_archive/,
-    # data/_narrative/) are served verbatim.
-    print("[1/5] README + CITATION + LICENSE + .gitignore …")
+    print("[1/5] README + CITATION + LICENSE + .gitignore + .nojekyll …")
     _write_text_idempotent(TARGET / "README.md", render_readme(),
                            stats, "README.md", dry_run=dry_run)
     _write_text_idempotent(TARGET / "CITATION.cff", render_citation_cff(),
@@ -926,6 +916,8 @@ def curate(args: argparse.Namespace) -> int:
                            stats, "LICENSE", dry_run=dry_run)
     _write_text_idempotent(TARGET / ".gitignore", render_gitignore_for_target(),
                            stats, ".gitignore", dry_run=dry_run)
+    _write_text_idempotent(TARGET / ".nojekyll", render_nojekyll(),
+                           stats, ".nojekyll", dry_run=dry_run)
 
     # E2) Auto-generated docs/
     print("[2/5] docs/KEY_RESULTS + NAVIGATION + POLICIES_INDEX …")

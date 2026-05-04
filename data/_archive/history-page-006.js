@@ -1,12 +1,42 @@
-// AUTO-GENERATED v0.3 page 6/8 — 2026-05-01 23:27 UTC
+// AUTO-GENERATED v0.3 page 6/8 — 2026-05-04 10:58 UTC
 window.TECT_HISTORY_PAGE_006 = {
   title: "History (page 6 of 8)",
   subtitle: "Chronological CHANGELOG mirror — auto-generated.",
-  lastUpdated: "2026-05-01 (auto)",
+  lastUpdated: "2026-05-04 (auto)",
   pagination: {"page": 6, "total": 8, "newer": "history-page-005.html", "older": "history-page-007.html", "archiveIndex": "history-archive-index.html"},
   blocks: [
     { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history-page-005.html\">&larr; Newer</a> &middot; Page 6 / 8 &middot; <a href=\"history-archive-index.html\">archive index</a> &middot; <a href=\"history-page-007.html\">Older &rarr;</a></div>" },
     { type: "timeline", items: [
+        {
+          date: "2026-04-24",
+          title: "[Math82-AddG3 — Vacuum-floor convergence guard implementation (Task #116)]",
+          body: "Turn 1 Track A of the autonomous 5-turn research session (2026-04-24): close Math82-G2 §6.3 actionable item by patching `Codes/pde/tect_newton_krylov.py::newton_solve` with the vacuum-floor early-exit guard."
+        },
+        {
+          date: "2026-04-24",
+          title: "[Math79-AddendumB — Classical-TECT No-Go Theorem: Planck's constant cannot be derived from pure classical first principles]",
+          body: "Classical TECT (Brazovskii free energy + BCC topology + SO(10) embedding, Pillars 1--9) cannot derive Planck's constant $\\hbar$ as a unique value from any combination of: 1. **Symplectic/Poisson structure** (Lemma `lem:sympl-rescale`): rescaling freedom $(\\omega, H) \\to (c\\omega, cH)$ remains unfixed. 2. **Spectral lengths of the Hessian** (Lemma `lem:spectral-scale`): eigenvalue scaling $\\lambda_i \\to c\\lambda_i$ under energy-scale rescaling. 3. **Vacuum-energy consistency** (Lemma `lem:vacuum-cancel`): $\\Lambda \\to 0$ limit kills all constraints; true cosmological constant $\\Lambda_{\\mathrm{obs}} \\sim 10^{-52}$ m$^{-2}$ carries zero information about TECT scales. 4. **Anomaly cancellation** (Lemma `lem:anomaly-renorm`): topological constraint independent of scale; derivation would be circular (presupposes fermion quantisation)."
+        },
+        {
+          date: "2026-04-24",
+          title: "[Math82-AddI — Cold-start scan runbook and pre-registered Brazovskii subset-4-cosine spinodal/binodal prediction]",
+          body: "1. **Runbook (§1)**: Exact bash/PowerShell commands for 7 independent cold-start Newton runs (Stage 1: seed generation with random phases; Stage 2: single-point Newton from each seed, no continuation chain). Multi-replica enhancement recommended: 5 seeds per μ² for 35 total solves."
+        },
+        {
+          date: "2026-04-24",
+          title: "[Math82-AddG2 — PCG-routing audit: probe blindness + vacuum-floor stall partially refute Math82-G Regime III]",
+          body: "**Finding 1 — Probe dimensional blind spot (latent bug, real but not the present cause).** The 5-probe Rayleigh classifier in `probe_symmetry` cannot reliably detect symmetric-indefinite operators in dimension N≈2×10⁵ when the negative spectrum is a small fraction of the trace. Concentration estimate: $\\mathbb{E}[\\rho_i] = \\mathrm{tr}(J)/N \\approx 50$ for the bare Brazovskii Hessian (large-k modes dominate), σ_ρ ~ ||J||_F/√N ~ 0.1. Even with ~5,000 negative eigenvalues at μ²=-0.5, all 5 random Rayleigh quotients are positive with probability ≈ 1. This routes SI operators to PCG instead of MINRES. **Mitigated** by `truncated_cg_solve`'s negative-curvature detection (lines 894-901 of `tect_newton_krylov.py`) — Steihaug-Toint correctly steps to trust-region boundary on negative curvature, so PCG path is suboptimal but safe."
+        },
+        {
+          date: "2026-04-24",
+          title: "[Math82-AddG — Phase Z 7-point continuation: subset-4-cosine bifurcation curve at μ²≈-0.05]",
+          body: "| # | μ² | Newton | m*² | λ_min | ΔF | Regime | |---|----------|--------|------------|-------------|-------------|--------| | 1 | +5e-3 | 15 | +4.246e-2 | +4.246e-2 | +2.56e-10 | I (stable, F>0) | | 2 | -2e-2 | 1 | +1.748e-2 | +1.748e-2 | +1.16e-10 | I (stable, F>0) | | 3 | -1e-1 | 1 | +1.982e-2 | **-6.252e-2** | **-3.31e-10** | II (saddle, F<0) | | 4 | -5e-1 | 15 ✗ | nan | nan | nan | III (collapse to Ψ=0) | | 5 | -7e-1 | 15 ✗ | nan | nan | nan | III | | 6 | -8.5e-1 | 15 ✗ | nan | nan | nan | III | | 7 | -1.0 | 15 ✗ | nan | nan | nan | III |"
+        },
+        {
+          date: "2026-04-24",
+          title: "[Math84 — Website auto-generation v0.3: linked-list pagination + standalone publish]",
+          body: "**Linked-list pagination**: `paginate_changelog()` partitions full CHANGELOG into `HISTORY_PAGE_SIZE = 30` entries per page. Page 1 → `Website/data/history.js`; subsequent pages → `Website/data/_archive/history-page-NNN.js`. Each page exposes a `pagination: {page, total, newer, older, archiveIndex}` object plus an HTML nav band (`Newer ←` / `archive index` / `Older →`). Archive index `_archive/history-archive-index.js` lists every page with its date range. As CHANGELOG grows, new pages are auto-appended; existing fixed pages remain byte-stable."
+        },
         {
           date: "2026-04-24",
           title: "[Math84 — Website auto-generation v0.2: data-narrative composition architecture]",
@@ -126,36 +156,6 @@ window.TECT_HISTORY_PAGE_006 = {
           date: "2026-04-23",
           title: "[v2.6.4 same-day review cleanup — stale-header sync, status-name rename `SKELETON_ONLY → NO_CONVERGENCE`, PowerShell CLI fix, theory-note reclassification of Math58-v2 and Math_IR_Bound-v4-thm-v4-2]",
           body: "This block consolidates the two-pronged 2026-04-23 same-day review audit (code-side + theory-side). The v2.6.4 code landing was correct on core logic and contract tests, but the peer review exposed (a) stale header text, (b) a semantically misleading status label, (c) a PowerShell argparse pitfall on `--mu2-list`, and (d) two theory notes that had been labelled PROVED but did not meet theorem-grade rigor. All four are addressed here without changing any of the v2.6.4 physics or gate semantics."
-        },
-        {
-          date: "2026-04-23",
-          title: "[Math74 Addendum-B — v2.6.3-b → v2.6.4 `continuation_mu2_v25.py` gate-semantic fix + Eisenstat-Walker forcing recalibration + single-shot Task #54 CLI]",
-          body: "- **Docs/math/TECT-Math74-Addendum-B-v264-gate-semantic-fix.tex.txt** (NEW, 7 sections). Theory tag `Math74-AddB-v2p6p4-gate-semantic-fix-2026-04-23`. - §1 Context: 2026-04-23 live N=32 diagnostic run at $\\mu^2=-1.0$ reached textbook quadratic convergence (Newton 0..6, $\\rho=1.000$ throughout, $\\|\\nabla L\\|/\\sqrt{\\mathrm{dof}}$ reduction factors $\\{1.75, 2.27, 2.33, 5.98, 27.95, 99.93\\}$) but was manually interrupted by the maintainer after peak $t_{\\mathrm{CG}}=2304$ at Newton 5; interruption exposed three defects. - §2 Defect D1 — R'₃ semantic bug. The v2.6.3-b driver assigned `step_norm ← line_search_alpha` at NewtonStep construction (line 906) and `pass_math63_gate_2D` compared `step.step_norm > rho_lin_max` at line 785. Since every accepted trust-region step has $\\alpha=1$ in the quadratic regime, the gate was structurally guaranteed to return False on every converged point. Prop. `math74-addB-D1-unconditional-fail` formalises this. - §3 Defect D2 — Math63 §2D $t_{\\mathrm{CG}} \\le 300$ threshold empirically unphysical at N=32. Live peak 2304 is not pathology but the natural inner-CG cost under Eisenstat-Walker forcing clip $\\eta_{\\min}=0.01$ combined with near-s"
-        },
-        {
-          date: "2026-04-23",
-          title: "[B1 — Math_IR_Bound-v4 Thm v4-2 rigorous proof of anisotropy separation $B_\\parallel \\ne B_\\perp$ on the BCC 1st BZ]",
-          body: "- **Docs/math/TECT-Math_IR_Bound-v4-thm-v4-2-anisotropy-separation.tex.txt** filed (NEW, 727 lines, 9 sections). Theory tag `Math_IR_Bound-anisotropy-separation-thm-v4-2-2026-04-23`. - §4 cubic-harmonic decomposition of $B_\\parallel - B_\\perp$ in the $\\{P_0, P_4, P_6, \\ldots\\}$ basis: the $L=0$ and $L=2$ components vanish exactly by $O_h$ orthogonality (no cubic $L=2$ harmonic exists on the truncated octahedron); the $L=4$ coefficient is strictly positive with closed-form value $c_4^{(B)} = \\tfrac{2}{15}\\cdot\\tfrac{\\lambda^2}{12\\pi^2 Y} = 2.08\\times 10^{-4}$ (Clebsch–Gordan tabulation). - §5 main theorem: $$\\text{Thm v4-2:}\\qquad B_\\parallel - B_\\perp \\ge c_{\\Delta B}^{\\mathrm{analytic}} := \\frac{2}{15}\\cdot\\frac{\\lambda^2}{12\\pi^2 Y}\\cdot J_1^{(L=4)}_{\\min} = 1.25\\times 10^{-5} > 0,$$ using the $\\mathtt{mpmath.iv}$ interval certificate $J_1^{(L=4)} \\in [5.99\\times 10^{-2}, 1.51\\times 10^{-1}]$ from `Math_IR_Bound-v4-BZ-integrator`. - §7 devil's-advocate pass (4 objection/response pairs): $O_h$ orthogonality rigour; inscribed region containment; integrand convergence; cubic-harmonic normalisation independence. All closed."
-        },
-        {
-          date: "2026-04-23",
-          title: "[B2 — Math59 v2 Pillar-10 ($\\hbar$ origin) obstruction promotion attempt: direct promotion impossible, obstruction reduced to explicit Stiefel–Whitney class]",
-          body: "- **Docs/math/TECT-Math59-v2-obstruction-theorem-promotion.tex.txt** filed (NEW, 503 lines, 8 sections). Theory tag `Math59-v2-obstruction-theorem-promotion-2026-04-23`. - §3 rigorous negative result `Claim 1.1`: spectral flow is a dimensionless $\\mathbb Z_2$-valued topological invariant, whereas $\\hbar$ is a dimensionful scale; a scale cannot be extracted from a discrete topological invariant without ad-hoc dimensional input. Explicit rescaling argument: $\\mathcal F \\to \\lambda\\mathcal F$ preserves the spectral-flow integer but rescales eigenvalues by $\\lambda$; hence Thm. `symplectic-scale-ambiguity` of Math59 v1.1 remains uncontradicted. - §4 partial result `Theorem thm:qso-computable`: the Pillar-10 quantization-scale obstruction is reduced to the first Stiefel–Whitney class $w_1(\\mathcal O)$ of the orientation-pair bundle on the BCC-shell quotient; computed value $w_1(\\mathcal O)[g_{\\pi/2}] = 1 \\in \\mathbb Z_2$ (rigorous via Math49c-v3 Thm. `w1` + Thm. `flow`, non-circular — no fermion statistics, Clifford algebra, or spin-$1/2$ input). - §5 devil's-advocate pass (4 objection/response pairs): Berry-phase reinterpretation circularity, dynamical symmetry principle as"
-        },
-        {
-          date: "2026-04-23",
-          title: "[B4 — Math49c-v3 hypothesis $\\tau_* \\le R_c$ non-strict promotion via Fredholm-index constancy; Pillar 3 Tier-2 rigor refinement]",
-          body: "- **Docs/math/TECT-Math49c-v3-tau-star-nonstrict-relaxation.tex.txt** filed (NEW, 642 lines, 7 sections). Theory tag `Math49c-v3-tau-star-nonstrict-relaxation-2026-04-23`. - §3 strategy: Fredholm-index constancy. The mod-$2$ spectral flow $\\mathrm{sf}_{\\mathbb Z_2}(\\hat L_\\lambda)$ is an integer-valued topological invariant; integer-valued functions on connected parameter intervals are locally constant, therefore continuous across interior boundary points. - §4 main theorem `Theorem thm:FR-final-promoted`: the original hypothesis $\\tau_* < R_c$ (strict) of `Math49c-rigorous-v3` Thm. `FR-final` is promoted to $\\tau_* \\le R_c$ (non-strict) without any change in proof logic. The boundary case $\\lambda = 4 \\leftrightarrow \\tau_* = R_c$ is admissible via Cor. `sf-constancy-closure`. - §5 explicit boundary-case construction of $\\hat L_4$ and numerical verification: minimum absolute eigenvalue $|\\lambda_{\\min}(\\hat L_4)| \\approx 2\\times 10^{-2}$, well separated from zero; resolvent topology continuity confirmed at the boundary. - §6 devil's-advocate pass (5 objection/response pairs)."
-        },
-        {
-          date: "2026-04-23",
-          title: "[B5 — Math60 S3 phenomenological-qualification self-audit: scorecard 0 MET / 3 MISSING; critical path = Task #54 + Pillar 11 + external reproducibility]",
-          body: "- **Docs/math/TECT-Math60-S3-phenomenological-qualification.tex.txt** filed (NEW, 915 lines, 8 sections). Theory tag `Math60-S3-Phenomenological-Qualification-2026-04-23`. - §2 self-audit table: $S_3^{(\\rm reproduce)}$, $S_3^{(\\rm predict)}$, $S_3^{(\\rm survive)}$ each classified as MET / PARTIAL / MISSING against the Math60 §S2-E falsifiability package. - $S_3^{(\\rm reproduce)}$: **MISSING** — no independent-group numerical verification lodged; closable in 6–12 months with external recruitment. - $S_3^{(\\rm predict)}$: **MISSING** — $\\pi_1$ (Lorentz violation) inaccessible (theory prediction $\\sim 10^{-4}$ vs. experimental bound $\\sim 10^{-17}$); $\\pi_2$ (equivalence principle) is falsified or experimentally hidden pending Pillar 11 graviton-mass closure; $\\pi_3$ (graviton normalisation) internally consistent but awaiting continuum-limit extraction from Task #54. - $S_3^{(\\rm survive)}$: **MISSING** — pre-registration 2026-04-21; one-year survival threshold 2027-04-21; window not yet open. - §4 predicted signatures for each prediction; §5 devil's-advocate pass (4 pairs); §8 3-part traceability chain. - **Top-3 gap items** (ordered): (1) Task #54 continuum-limit run — hi"
-        },
-        {
-          date: "2026-04-23",
-          title: "[Pillar 11 Algebraic Closure — Monopole Vacuum-Energy Cancellation by CP Involution]",
-          body: "- **Docs/math/TECT-Math58-v2-algebraic-monopole-cancellation.tex.txt** filed (NEW, 9563 words, 7 sections). Theory tag `Math58-Pillar11-algebraic-cancellation-2026-04-23`. - **Main Theorem (Thm 1.1)**: $\\sum_{\\sigma \\in \\Sigma_{\\mathrm{monopole}}} V_{\\mathrm{vac}}(\\sigma) = 0$ by CP-conjugation involution. **Status**: PROVED CONDITIONAL on three standard assumptions (CP is a true symmetry, path-integral measure transforms as claimed, sector enumeration exhaustive). - **Proof structure**: (i) Define monopole sector ensemble on BCC lattice (Def 1.2). (ii) Show CP conjugation is an involution (Lemma 1.3). (iii) Show vacuum-energy functional is anti-symmetric under CP (Lemma 2.3, conceptual proof; technical lattice details deferred to companion note). (iv) Partition sectors into CP-conjugate pairs and fixed points; show each pair sums to zero, each fixed point has zero energy (Thm 1.1, Corollary 1.5). - **Independence from pending tasks**: Does NOT depend on Task #54 continuation endpoint, Task #66 Monte-Carlo, coupling constants, lattice size, boundary conditions, or continuum limit. Survives $a \\to 0$ exactly. - **Pillar 11 impact**: Reduces cosmological-constant problem from"
         }
       ]
     },
