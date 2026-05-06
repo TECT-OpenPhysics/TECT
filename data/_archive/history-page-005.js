@@ -1,12 +1,47 @@
-// AUTO-GENERATED v0.3 page 5/8 — 2026-05-04 10:58 UTC
+// AUTO-GENERATED v0.3 page 5/8 — 2026-05-06 09:20 UTC
 window.TECT_HISTORY_PAGE_005 = {
   title: "History (page 5 of 8)",
   subtitle: "Chronological CHANGELOG mirror — auto-generated.",
-  lastUpdated: "2026-05-04 (auto)",
+  lastUpdated: "2026-05-06 (auto)",
   pagination: {"page": 5, "total": 8, "newer": "history-page-004.html", "older": "history-page-006.html", "archiveIndex": "history-archive-index.html"},
   blocks: [
     { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history-page-004.html\">&larr; Newer</a> &middot; Page 5 / 8 &middot; <a href=\"history-archive-index.html\">archive index</a> &middot; <a href=\"history-page-006.html\">Older &rarr;</a></div>" },
     { type: "timeline", items: [
+        {
+          date: "2026-04-25",
+          title: "[Math79-AddB + Math60-C-AddD + Math97-AddC — Round 2 Completion: Stage-2-C SEALED, Pillar 10 CLOSED-AS-NO-GO, Stage-1 COMPLETE]",
+          body: "**Status**: AUDIT (per CLAUDE.md §6.3.2). Reviewed Round 1 (Math97 main + AddA + AddB) for hidden defects. - Structural completeness of axioms (C1)–(C5): ✓ PASSED. - Obstruction mapping (O1–O5 to axioms): ✓ PASSED. - Hypothesis clarity (H1–H3): VALID-with-scope (vagueness resolved by IFT, RG convergence). - Heavy-mediator justification (AddA): ✓ PASSED. - BFH threshold (AddB): VALID-with-margin (safety factor 7×). - **Verdict**: Math97 main promoted from **PARTIAL** (conditional on AddA/AddB) to **PROVED CONDITIONAL** (all three components verified). No new defects found."
+        },
+        {
+          date: "2026-04-25",
+          title: "[Math97 — TECT universality-class membership theorem]",
+          body: "**Math notes**: 1. `Docs/math/TECT-Math97-universality-class-membership.tex.txt` — Main theorem + obstruction ledger (status: PARTIAL, conditional on AddA/AddB). 2. `Docs/math/TECT-Math97-AddA-epsilon-nonlocal-bound.tex.txt` — Non-locality bound $\\epsilon_{\\rm nonlocal} \\le C(q_0/M_X)^2 \\lesssim 10^{-2}$ (PROVED). 3. `Docs/math/TECT-Math97-AddB-bubble-integral-verification.tex.txt` — Verification that $|\\lambda| I_{\\rm bubble}(\\mu^2) > 18 \\cdot \\mu^2_{\\rm ref}$ at critical point (PROVED CONDITIONAL on Math55 critical-point location)."
+        },
+        {
+          date: "2026-04-24",
+          title: "[Math93 — Pillar 4 promotion template (atomic-commit readiness)]",
+          body: "**Math note**: `Docs/math/TECT-Math93-Pillar4-Promotion-Template.tex.txt` (v1.0, template status; no numerical claims)."
+        },
+        {
+          date: "2026-04-24",
+          title: "[Math60-C-Addendum-C — QO3 zero-$T$ noise spectrum closed form]",
+          body: "**Math note**: `Docs/math/TECT-Math60-C-AddC-QO3-noise-spectrum.tex.txt` (v1.0, ~300 lines)."
+        },
+        {
+          date: "2026-04-24",
+          title: "[Math60-Stage2-D-Addendum-C — Global injectivity of the observable map]",
+          body: "**Math note**: `Docs/math/TECT-Math60-Stage2-D-AddC-global-injectivity.tex.txt` (v1.0, ~370 lines)."
+        },
+        {
+          date: "2026-04-24",
+          title: "[Math36-Addendum-B-AddA — Branch clustering post-processor: Math82_I_branch_clustering.py v1.0]",
+          body: "**Code module**: `Codes/supplementary/Math82_I_branch_clustering.py` (v1.0, 250 lines, implementation-complete, pre-test)."
+        },
+        {
+          date: "2026-04-24",
+          title: "[Math60-C-Addendum-B — QO2 Casimir-style Force Closed Form]",
+          body: "**Math note**: `Docs/math/TECT-Math60-C-Addendum-B-QO2-Casimir-closed-form.tex.txt` (v1.0, ~500 lines, PARTIAL-ADVANCED)."
+        },
         {
           date: "2026-04-24",
           title: "[Math90 — Cross-Turn Second-Order Audit of Turns 9 + 10]",
@@ -121,41 +156,6 @@ window.TECT_HISTORY_PAGE_005 = {
           date: "2026-04-24",
           title: "[Math60-Stage3 — External falsifiability instrument inventory (F1/F2/F3 against existing experiments; Stage-3 0/3 SEALED, 1 gated on Q2)]",
           body: "Turn 4 Track B of the autonomous TECT research session (2026-04-24): identify and inventory EXISTING experiments / observations that can test the three F-candidates (F1 gauge-coupling ratio, F2 cosmological constant, F3 Lorentz/isotropy) pre-registered in Math60 Stage-2-E, establishing which candidate is closest to SEALING Stage-3 external qualification."
-        },
-        {
-          date: "2026-04-24",
-          title: "[Math75-Q3-Addendum-A — Global topology closure attempt for Pillar 4 (3-obstruction analysis: π₁ + characteristic-class + singular-strata)]",
-          body: "Turn 4 Track A of the autonomous TECT research session (2026-04-24): advance Pillar 4 Gauge interactions from PARTIAL to PROVED CONDITIONAL via resolution of the global-topology obstruction to symplectic-reduced moduli-space diffeomorphism. Math75-Q3 base note (2026-04-24) established **local** moment-map construction and zero-level set dimension matching ($\\dim(\\mathcal{M}_{\\text{red}}) = 24 = \\dim(G_{\\text{SM}} \\text{ phase space})$). Remaining gap: prove this holds **globally** — i.e., the symplectic quotient $\\mathcal{M}_{\\text{red}} := \\mu^{-1}(0)/G$ is (a) topologically equivalent, (b) characteristic-class equivalent, and (c) orbifold-singularity equivalent to the SM gauge-field configuration space."
-        },
-        {
-          date: "2026-04-24",
-          title: "[Math60-Stage2-BDE — Stage-2 components B/D/E analysis (parameter compression theorem + observable map outline + falsifiability candidates)]",
-          body: "Turn 3 Track A of the autonomous 5-turn research session (2026-04-24): advance the Stage-2 Global Closure Theorem from 1/5 SEALED (only A) to multiple-component status, given that Math79-AddB now classifies Stage-2-C as DEFERRED via the classical-hbar no-go corollary."
-        },
-        {
-          date: "2026-04-24",
-          title: "[Math80-Addendum-D — Q6d Yukawa hierarchy outline (three-generation structure + amplitude-scaling candidates + RG-running dependency)]",
-          body: "`Math80-Addendum-D-Q6d-Yukawa-hierarchy-outline-2026-04-24`"
-        },
-        {
-          date: "2026-04-24",
-          title: "[Math58-v7-AddA — Pillar 11 Pauli-Villars scheme-dependence adversarial audit (Q1-Q5 verdicts: 2-DISMISSED, 2-VALID, 1-UNVERIFIED; status PROVED CONDITIONAL maintained)]",
-          body: "`Math58-v7-Addendum-A-PV-scheme-adversarial-audit-2026-04-24`"
-        },
-        {
-          date: "2026-04-24",
-          title: "[Math80-AddC — Q6c SO(10)-uniqueness theorem outline (3-criteria elimination strategy)]",
-          body: "`Math80-Addendum-C-Q6c-SO10-uniqueness-outline-2026-04-24`"
-        },
-        {
-          date: "2026-04-24",
-          title: "[Math82-AddG4 — Second-order devil's-advocate audit of G2 and G3 (three objections: verdicts α/β/γ all DISMISSED)]",
-          body: "Turn 2 Track C: perform a second-order (adversarial) scrutiny of Math82-G2 (PCG probe-blindness diagnosis) and Math82-G3 (vacuum-floor threshold) by formulating three structured objections (α: FFT roundoff scaling; β: mid-flight false-vacuum undershoot; γ: unit/dimension inconsistency) and rendering verdicts."
-        },
-        {
-          date: "2026-04-24",
-          title: "[Math75-Q2-AddendumA — Numerical RG-Flow Strategy for Pillar 4 Closure (Q2 implementation protocol)]",
-          body: "Turn 2 Track A Pillar 4 Q2 numerical RG completion: provide pre-registered numerical protocol and executable code skeleton to complete Pillar 4 from PARTIAL-ADVANCED to PROVED via full Wetterich RG-flow integration from UV (BCC scale ~1.5 GeV) to IR (M_Z = 91.2 GeV)."
         }
       ]
     },

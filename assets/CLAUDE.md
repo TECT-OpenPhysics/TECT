@@ -495,6 +495,78 @@ An autonomous-agent dispatch prompt MUST include:
    write the partial proof to disk with status OUTLINE / STRONG DRAFT /
    PARTIAL-ADVANCED, document the residual obstruction. Do NOT claim
    closure that does not hold."
+6. **Tier-compare-against-TOE-FACT-SHEET** (NEW, post-Math314
+   `AUDIT-2026-05-02-Wave7-Aux-Epoch-Overclaim`, 2026-05-02): "Before
+   writing any abstract, introduction, or discussion section of any
+   paper draft / Math note / status row, read the current
+   `Docs/status/TOE-FACT-SHEET.md` Stage-1/2/3 scorecard for the
+   pillar(s) being addressed. Any promotional adjective in the prose
+   ('rigorous', 'unique', 'valid', 'production-ready', 'production-
+   grade', 'first confirmed', 'closes', 'establishes', 'proves')
+   that is stronger than the canonical tier is a §6.3.5(a)
+   self-adversarial review violation and must be downgraded BEFORE
+   submission. Acceptable substitutes for over-claims: 'candidate',
+   'conditional', 'pending', 'developmental', 'first $\\Delta F<0$
+   data point', 'EPOCH RETROSPECTIVE recording the internal theorem
+   programme'. The Math310-AddA / Math314 lessons are canonical
+   examples of the failure mode this rule prevents."
+
+7. **Theorem-statement classification check** (NEW, post-Math314-AddB
+   `AUDIT-2026-05-02-Wave2-TopImpact-Mathematical-Defects`, 2026-05-02):
+   "Before writing any `\begin{theorem}` block in a paper draft or
+   Math note, classify the underlying claim against the §7
+   TECT-Status-Tier scale (T0--T7) and the analytical class of the
+   underlying object:
+   - **Analytical-class check for dynamical equations**: identify
+     whether the underlying flow is reversible Hamiltonian /
+     dissipative Model-A TDGL / stochastic Langevin /
+     Gross--Pitaevskii / etc. Any claim invoking
+     'time-reversibility', 'backward extrapolation to $t=-\\infty$',
+     'unique microscopic Cauchy datum from late-time data', or
+     'unique attractor backward in time' MUST be cross-checked against
+     this classification. Dissipative TDGL forbids backward-uniqueness
+     claims; Hamiltonian flow allows them under additional regularity
+     conditions; stochastic Langevin requires ensemble framing
+     throughout. The Math314-AddB / Paper-TI-3 lesson is the canonical
+     example of this rule's necessity.
+   - **Theorem-vs-estimate distinction (notation discipline)**: use
+     `\\le` only for analytically derived bounds with stated constant.
+     Use `\\lesssim` (or `\\sim`) for conditional / order-of-magnitude
+     bounds, scaling estimates, or numerical-extraction estimates that
+     have NOT been promoted to constant-bound theorems. A
+     '$\\le \\epsilon$' written next to a numerical $\\epsilon$ value
+     is a §6.3.5(b) ε-type-inequality classification: the claim must
+     either supply the analytic constant-bound (T6/T7) or be
+     downgraded to '$\\lesssim$' (T4 STRONG EVIDENCE).
+   - **Rank / dimension / parameter dependence audit**: any `\\boxed`
+     formula must explicitly state every input on which it depends. A
+     formula stated as '`ind(D) = 16 - mu`' that is actually
+     '`ind(D) = r - mu`' for general rank $r$ (with $r=16$ being a
+     specialisation) is rank-conflation and must be split into a
+     general theorem + corollary + remark structure per Math314-AddB
+     Paper-TI-1 repair pattern.
+   - **Single-shell / single-mode / single-iteration scope marking**:
+     any ranking, minimisation, or extraction result derived from
+     single-mode approximation, equal-amplitude ansatz, first-shell
+     truncation, or finite-N numerical anchor MUST carry the explicit
+     scope qualifier (e.g., 'within the single-shell SMA truncation at
+     the operating point') in BOTH the theorem statement AND the
+     abstract. Promotion to 'global minimum' / 'unique uniqueness' /
+     'rigorous closure' wording is FORBIDDEN at this scope.
+   - **Window-verdict vs precision-prediction distinction**: F-GAP
+     verdicts are typically window-verdict shells (e.g.,
+     $\\mu_{\\rm defect} \\in [10^{13}, 10^{17}]\\,\\mathrm{GeV}$ +
+     solver/grid certificates) and NOT 5% precision predictions.
+     Writing a single numerical value with a '$\\pm 5\\%$ binding
+     condition' where the canonical shell is a window verdict is a
+     §6.3.5(a) violation. Verify against `Docs/status/TOE-FACT-SHEET.md`
+     and the relevant `Math3NN` verdict-shell note before stating
+     numerical precision claims.
+   The Math314 / Math314-AddA / Math314-AddB / Math314-AddC lessons
+   collectively demonstrate the failure modes this rule prevents.
+   Audit-flagged history: 17/21 papers in the audited Wave-1/2/6/7
+   subset required correction = 81% defect rate. The present rule is
+   the structural mitigation."
 
 ### 15.7 Multi-turn dispatch — sequential, not parallel
 

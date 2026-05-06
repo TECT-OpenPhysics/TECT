@@ -23,6 +23,116 @@ approach.
 
 ## R — Retracted results
 
+### AUDIT-2026-05-02-Wave7-Aux-Epoch-Overclaim
+
+**Date**: 2026-05-02 (within 1 day of Math310-AddA wording correction).
+**Theory tag**: Math314 (`Docs/math/TECT-Math314-Wave7-Aux-Epoch-Overclaim-Audit.tex.txt`)
+**Type**: AUDIT-FLAGGED (4 paper drafts), NOT R-retracted (technical content preserved; only wording downgraded). The four drafts retain `[DRAFT]` status with side-flag `[NEEDS_UPDATE]`.
+
+**What was flagged** (hostile-referee audit on the four Wave-6/Wave-7 drafts produced by the 2026-05-02 mass-DRAFT closure dispatch):
+- **Auxiliary-02 (Numerical Solver)**: abstract + §1 + §3 + §4 contained "first valid Pillar 6 broken-energy run / data point", "production-ready", "production-grade", "first confirmed Pillar 6 broken-energy data point". These directly conflict with the canonical Math310-AddA wording correction (`AUDIT-2026-05-01-Math310-N16-Wording`) which had already established that the raw $\lambda_{\min}^{\rm transverse}(N=16) \approx -8.51$ fails Math292 G3 and that the canonical record reads "first $\Delta F<0$ broken-energy data point achieved; $\mathcal A_{\rm valid}$ pending".
+- **Auxiliary-01 (Brazovskii universality)**: abstract + §2.3 Theorem 1 stated "belongs rigorously to the Brazovskii universality class" / "mean-field critical exponents apply directly" / "obstruction-bound closure with <1% margin". The canonical separation between branch-continuation numerics and unbiased spontaneous-emergence simulations was elided.
+- **Epoch-01 (Foundation, Math01-09)**: "BCC lattice is the unique global minimum" claim ahead of the canonical Pillar 1 = T6 PROVED CONDITIONAL tier (BCC global uniqueness beyond single-shell remains single-shell-conditional per Math194 / Top-impact paper TI-2).
+- **Epoch-02 (Chirality + Cl(3), Math10-17)**: "exactly 16 chiral zero modes per valley" + "Cl(3) closure" + "we prove that the valley Z_2^V mass-protection symmetry renders the chiral zero modes topologically stable". The 16-zero-mode count is HRR-formula-conditional ($\mathrm{ind}(D_E^c) = 16 - \mu$) per Math171-AddA / Top-impact paper TI-1; Cl(3) closure remains conditional on Math233 spinor pair-kernel programme.
+
+**Ground truth** (Math292 G3 quantitative sanity per Math314 §5):
+$\lambda_{\min}^{\rm transverse, raw}(N=16) \approx -8.51$, i.e. order-unity in natural scale, not $10^{-6}$ numerical artefact. Violates the gate $\lambda_{\min}^{\rm transverse} \geq -10^{-6}$ by 7 orders of magnitude. Cannot be absorbed into any tightening of the projection scheme that preserves only the 3 translation modes. The $N=32$ (60 Newton steps, plateau at $\|grad\|/\sqrt{\rm dof} \approx 1.7\times 10^{-2}$) and $N=64$ (60 Newton steps, identical plateau at $1.68\times 10^{-2}$, with `pred_m=0 / ρ=-1e+30` REJECT pattern) runs of 2026-05-02 confirm a saddle manifold of dimension $\geq 4$.
+
+**Corrections applied** (same commit as this entry):
+1. Auxiliary-02: abstract sentence replaced with operator-recommended "The current solver stack has reached the first $\Delta F<0$ broken-energy data point at $N=16$, while full Math292 valid-acceptance remains pending the transverse-projection re-certification and the $N=32/N=64$ ladder." §1, §3 (Math292 production-status item), §4 reworded throughout.
+2. Auxiliary-01: title → "A conditional Brazovskii-universality programme..."; abstract recast as conditional programme; Theorem 1 → labelled Conjecture 1; `amsthm` package added.
+3. Epoch-01: title → "TECT epoch~1 retrospective ... internal theorem programme on candidate BCC uniqueness ..."; abstract recast as EPOCH RETROSPECTIVE; §2.1 BCC uniqueness paragraph recast as single-shell, finite-competitor-set framing.
+4. Epoch-02: title → "TECT epoch~2 retrospective ... candidate chirality emergence and Clifford-algebra closure"; abstract recast as EPOCH RETROSPECTIVE; §3 Math10-14 paragraph recast with HRR-formula-conditional 16-count statement.
+5. All four files have `[DRAFT][NEEDS_UPDATE]` status header + `AUDIT-FLAG: AUDIT-2026-05-02-Wave7-Aux-Epoch-Overclaim` banner above `\documentclass`.
+6. `Docs/papers/PAPERS_STATUS_REGISTRY.md` Rev 4 → Rev 5: scorecard updates `NEEDS_UPDATE` column from 0 to 4.
+
+**Why AUDIT not R**: the underlying technical content of the four papers is preserved (the corrections are wording calibrations to current canonical tier). The drafts remain `[DRAFT]`, and the `[NEEDS_UPDATE]` side-flag tracks the remaining work for F-Pillar6 verdict closure (deadline 2026-05-29). If F-Pillar6 fails, a follow-up `R-` entry will be created; if it passes (after transverse-projector extension), the `[NEEDS_UPDATE]` flag is removed and the wording is upgraded.
+
+**Extension to Epoch series 03-12 (Math314-AddA, same tag)**: subsequent hostile-referee passes (also 2026-05-02) extended the audit to the remaining ten Epoch papers. Severity ranking: Epoch-11 most severe, Epoch-12 cleanest (no patch required), others intermediate. Outcomes (full table in `Docs/math/TECT-Math314-AddA-Wave7-Epoch-Series-Overclaim-Audit.tex.txt`):
+- **Epoch-03**: rescast as Dirac-node / valley-mixing TOY PROGRAMME; |V_us| ≈ 0.228 explicitly labelled toy / leading-order / indicative.
+- **Epoch-04**: rescast as four-class ORGANISING SCHEME / WORKING DECOMPOSITION; "complete the mathematical foundation" / "no missing contributions" / "lattice-scale theory is complete and self-consistent" replaced.
+- **Epoch-05**: marked `[INTERNAL_SKETCH]`, external paper-draft use FORBIDDEN; "deriving emergent gravity" / "establishing Pillar 3" / "stage-1 proof programme concludes with all 11 pillars at proven or conditional-proved status" replaced with "outline a one-loop locked-branch programme and a candidate route ... without claiming a completed gravitational closure".
+- **Epoch-06**: rescast as CONDITIONAL Stage-2 SPECIFICATION PROGRAMME; "complete stage-2 global closure theorem" / "all five sub-theorems are sealed at tier T6" / "formal end of the proof programme" replaced with conditional / programme framing.
+- **Epoch-07**: rescast as scorecard SNAPSHOT; "completed a critical synthesis" replaced with "then-current advancement / first stage-wide scorecard ... without claiming that the later Math270-313 defence and verdict cycles were already complete".
+- **Epoch-08**: lightest substantive correction; canonical formula $\hbar_{\rm TECT} = c^3 a_{\rm BCC}^2 / (16\pi G)$ preserved; "establishing TECT's quantum closure as a genuine TOE reduction" → "motivates the GAP-1 verification programme"; "F-GAP1 ... currently PASS" → "structural-tier comparison currently motivates the F-GAP1 programme; strict closure still gated by later continuum-limit and matching-functional verdicts".
+- **Epoch-09**: rescast as GAP-1/2/3/4 PROGRAMME / pre-registered gate established; "GAP-1 ... PASS" / "Stage-2 closure" replaced.
+- **Epoch-10**: lightest correction (honest-audit narrative preserved); "This correction closes Pillar 4 sub-task 1 at T6" / "perfect match" / "enables Scenario B canonical choice" → "then-current internal conclusion" framing.
+- **Epoch-11**: marked `[INTERNAL_ARCHIVE_ONLY]`, external paper-draft use FORBIDDEN; title prefixed "intermediate consolidation BEFORE the flat-Cartan audit rollbacks of Epoch 12 [INTERNAL ARCHIVE ONLY — superseded by Epoch 12 falsification of Math203-205 forcing claims]"; abstract makes the chronological warning explicit.
+- **Epoch-12**: NO PATCH — paper recorded as canonically healthy; AUDIT-FLAG-NOTE marker only; recommended as core methodology chapter.
+
+**Final Wave-6/7 scorecard outcome (14 papers)**:
+- 1 paper clean externally publishable: Epoch-12.
+- 11 papers `[DRAFT][NEEDS_UPDATE]`: Aux-01, Aux-02, Epoch-01, 02, 03, 04, 06, 07, 08, 09, 10.
+- 2 papers `[DRAFT][NEEDS_UPDATE][INTERNAL_SKETCH/ARCHIVE]`: Epoch-05, Epoch-11.
+
+**Follow-up Q (Math314-AddA Objection γ UPHELD)**: Q-2026-05-02-Wave7-Independent-Audit (independent external peer review of the 14 Wave-6/7 drafts before next public snapshot).
+
+**Further extension to Wave-2 Top-impact 4 papers (Math314-AddB, same tag)**: 2026-05-02 hostile-referee audit extended to Paper-TI-1, TI-2, TI-3, TI-4. Severity ranking: TI-3 > TI-1 > TI-2 > TI-4. Findings of HIGHER severity than the Aux/Epoch wording over-claims:
+
+- **Paper-TI-1 (mathematical defect, REPAIRED in place)**: original main theorem $\mathrm{ind}(D_E^c) = 16 - \mu$ stated as general, but actual integration yields $\mathrm{ind}(D_E^c) = r - \mu$ for general rank $r$; the original ``$16 - \mu$'' wording is the $r=16$ corollary, not a general theorem. Rank-1 line-bundle context and rank-16 fermion-sector specialisation conflated within one theorem; arithmetic error in Step 3 of the proof sketch (mixed degree-0 and degree-4 contributions). REPAIRED: file restructured into (i) main theorem $\mathrm{ind} = r - \mu$, (ii) corollary $r=16 \Rightarrow \mathrm{ind} = 16 - \mu$, (iii) separate remark on Picard classification $\mathrm{Pic}(\mathbb{CP}^2) \cong \mathbb{Z}$ (NOT mixed with index formula).
+
+- **Paper-TI-2 (structural over-claim)**: original ``BCC Uniqueness at the Operating Point'' theorem presented an SMA / equal-amplitude / first-shell truncation ranking as a global-minimum theorem. Title and abstract recast as ``single-shell Brazovskii ranking model''; Theorem 1 relabelled ``Conditional BCC ranking within the SMA shell model'' with explicit ``NOT a global-minimum theorem'' disclaimer. New Remark on the ``cubic stabilisation'' nomenclature (effective $A^3$-type term arises from SMA-truncated four-wave resonance summation, not from explicit cubic operator). Operator pointer: historical reference at `Old folder Claude-Papers BCC TECT-BCC-Part-I`.
+
+- **Paper-TI-3 (FATAL logical defect, REPAIRED)**: original Step 2 invokes ``time-reversibility of the classical dynamics'' to support unique-microscopic-Cauchy-datum claim. The dissipative TDGL flow is NOT time-reversible. Additional defects: $\langle \Psi \rangle = 0$ conflated with unique microscopic boundary state; ``axiom count reduction $3 \to 2$'' mis-counts (total premises preserved at 3, only reclassification). REPAIRED: title $\to$ ``On the reclassification of A2 in TECT: from an independent ultra-high-energy postulate to a high-temperature symmetric-phase boundary class''; Theorem 1 $\to$ ``A2 weakening / reclassification'' with explicit total-premise-count preservation and dual structural caveats; Step 2 rewritten to remove time-reversibility invocation; new Remark explaining why this is weakening, not elimination.
+
+- **Paper-TI-4 (canonical-route mismatch only; mathematics correct)**: standard $H^1(\mathbb{CP}^2, \mathcal{O}) = 0$ + $\mathrm{Pic}(\mathbb{CP}^2) \cong \mathbb{Z}$ verified. The TECT-application phrasing was over-claim: current canonical Pillar-4 base is $\Sigma_0 = \mathbb{P}^1 \times \mathbb{P}^1$ per Math305, NOT $\mathbb{CP}^2$. Math302 carve-out applies. Recast as ``CP² background auxiliary note for $\mathbb{CP}^2$-based versions of the TECT Pillar-4 bundle programme''; Corollary $\to$ if-then auxiliary statement.
+
+**Updated final Wave-1-7 scorecard** (after Math314 + AddA + AddB):
+- 18 of 36 papers `[DRAFT][NEEDS_UPDATE]` (4 Top-impact + 2 auxiliary + 11 epoch + 1 epoch wave-7-special).
+- 2 of 36 papers `[DRAFT][NEEDS_UPDATE][INTERNAL_*]` (Epoch-05 + Epoch-11).
+- Aggregate over-claim / defect rate: **20/36 = 56%** of newly drafted papers required correction.
+- Wave 3, 4, 5 not yet audited at this scope; pending separate audit pass.
+
+**Two new follow-up Qs** (Math314-AddB Objections α + β UPHELD/VALID):
+- **Q-2026-05-02-Math171-AddA-Rank-Dependence** — Math171-AddA HRR formula note should be patched to record rank-dependent form $\mathrm{ind} = r - \mu$ + corollary $r=16$, matching the TI-1 repair.
+- **Q-2026-05-02-Math195-TDGL-Reversibility-Patch** — Math195 internal note (origin of the TI-3 ``backward extrapolation'' wording) should be retroactively patched to remove the time-reversibility invocation and use phase-class framing.
+
+**Final extension to Wave 1/3/4/5 Pillar papers (Math314-AddC, same tag)**: 2026-05-02 hostile-referee audit extended to 10 Wave 1/3/4/5 papers (Paper-00..08 + Paper-07-ext) to complete the Wave 1-7 audit pass. Severity ranking: Paper-07 > Paper-05 > Paper-01 > Paper-04 > Paper-03 > Paper-08 > Paper-02 > Paper-06 > Paper-00 > Paper-07-ext. Findings:
+
+- **Paper-00 (Cosmic Origin)**: lightest correction. Canonical Math291 formula `ℏ_TECT = c³ a_BCC² / (16πG)` preserved verbatim; "completes the GAP-1 structural closure" downgraded to "establishes canonical structural formula and motivates the GAP-1 verification programme". Math299 / Math310 GAP-1 composite tier T4 + Math297 strict-closure precision $|\delta a_{\rm BCC}/a_{\rm BCC}| < 5 \times 10^{-4}$ noted as remaining gap.
+- **Paper-01 (Pillar 1 Mass Gap)**: STRONGEST Wave 1 over-claim. "Rigorous uniqueness of the BCC ground state" + "establish mass-gap closure (Pillar 1)" + "stable minimum" recast as conditional Pillar-1 PROGRAMME combining (i) BCC shell-model ranking (single-shell SMA), (ii) finite-N numerical anchor at single operating point, (iii) analytic shell-gap bound.
+- **Paper-02 (Pillar 2 IR Bound)**: "rigorous upper bound" + `≤` notation downgraded to "conditional consistency bound" + `≲` per CLAUDE.md §15.6 rule #7 (theorem-vs-estimate notation discipline).
+- **Paper-03 (Pillar 3 Emergent Gravity)**: "derive emergent Einstein gravity" / "T5 CLOSED@1-LOOP" recast as one-loop spin-2 emergence PROGRAMME / candidate mechanism note. TT-projection-vs-Einstein-gravity gap explicitly acknowledged.
+- **Paper-04 (Pillar 4 Gauge SO(10))**: canonical-route mismatch (current Pillar-4 base is `Σ_0 = P¹×P¹` per Math305, NOT `CP²`). F-GAP4 wording recast from "$\pm 5\%$ binding condition" to canonical window-verdict shell over `μ_defect ∈ [10¹³, 10¹⁷] GeV` per Math311. Recast as historical CP²-route auxiliary note.
+- **Paper-05 (Pillar 5 Chirality)**: MATHEMATICALLY WORST. Original "Index(D) = wind(m)" identification on 3D Brillouin torus does NOT hold without Callias-type / domain-wall framework. Recast as MECHANISM NOTE; full theorem-level rewrite tracked under `Q-2026-05-02-Pillar5-Mechanism-Rewrite`.
+- **Paper-06 (Pillar 6 Generations)**: HEALTHIEST of Wave 4/5. "Three generations from the BCC shell" / "Higgs doublet emerge" downgraded to "candidate electroweak-bridge programme exploring the embedding". T4 STRONG EVIDENCE framing already aligned with canonical tier; Math310-AddA correction already correctly cited. F-Pillar6 deadline 2026-05-29 noted.
+- **Paper-07 (Pillar 7 Quantum)**: theorem does not stand. `A_grav = Σ_f Q_f^3` non-standard "gravitational anomaly coefficient"; Witten + mod-2 do NOT support generation-count-uniqueness theorem. **External use FORBIDDEN** at present canonical tier. Q-2026-05-02-Pillar7-Three-Generation-Rewrite opened for full theorem-level rewrite.
+- **Paper-07-ext (SO(10) anomaly)**: HEALTHIEST overall. "numerically to six-digit precision" → "symbolically exact zero, numerically cross-checked". Decoupled from Paper-07. Aligned with Math319 V1 verification target.
+- **Paper-08 (Pillar 8 Lorentz)**: title mis-classification. Interval `J_1 ∈ [5.99e-2, 1.51e-1]` EXCLUDES 0, so this is a finite-lattice Lorentz-VIOLATION bound, NOT an invariance certification. "95% confidence" (incompatible with deterministic interval arithmetic) → "deterministic enclosure". T7 PROVED claim retracted.
+
+**Final aggregate audited defect rate** (Math314 + AddA + AddB + AddC): **27/27 = 100%** of audited papers required correction. Wave 1/3/4/5 patches confirm the pattern observed in Wave 2/6/7.
+
+**Two new follow-up Qs** (Math314-AddC):
+- **Q-2026-05-02-Pillar5-Mechanism-Rewrite** — Paper-05 full theorem-level rewrite within Callias / domain-wall framework.
+- **Q-2026-05-02-Pillar7-Three-Generation-Rewrite** — Paper-07 full theorem-level rewrite (or honest demotion to mechanism note).
+
+**Permanent CLAUDE.md §15.6 rule #7 added** (this commit) — "Theorem-statement classification check" with four sub-rules: analytical-class check (Paper-TI-3 lesson), theorem-vs-estimate notation (Paper-02 lesson), rank/dimension audit (Paper-TI-1 lesson), single-shell scope marking (Paper-01/TI-2 lesson), window-verdict-vs-precision distinction (Paper-04 lesson).
+
+**Final extension to Wave 1/4/5 Cosmology + GAP-cluster papers (Math314-AddD, same tag)**: 2026-05-02 hostile-referee audit COMPLETED for the remaining 8 papers (Paper-09, 10, 11, 12, 13, 14, 15, 16). This is the most severe batch in the four-stage audit cycle, containing one PHYSICS ERROR, one INTERNAL NUMERICAL CONTRADICTION, one PHENOMENOLOGY MISMATCH, and 5 over-claim wording corrections. Severity ranking: Paper-12 > Paper-16 > Paper-11 > Paper-15 > Paper-09 > Paper-13 > Paper-14 > Paper-10. Findings:
+
+- **Paper-09 (Pillar 9 EP)**: "equivalence principle rigorously established" / "T7 PROVED" recast as "EP consistency bound on spin-curvature deviation from geodesic universality"; MPD bound `≤ 4ε² R_c` → `≲ 4ε² R_c` per CLAUDE.md §15.6 rule #7.
+- **Paper-10 (Pillar 10 ℏ)**: HEALTHIEST of batch. Canonical Math291 formula preserved; "matter-side substantiation confirms absence of competing contributions above 10⁻³" downgraded to "candidate matter-side consistency estimate ... programme-level estimate, NOT closed analytic theorem".
+- **Paper-11 (Pillar 11 Λ) [INTERNAL_INCONSISTENCY_REPAIRED]**: paper internally fails its own falsification gate (`|Λ|/M_Planck^4 ~ 10⁻¹¹⁸ to 10⁻¹¹⁹` does NOT pass gate `< 10⁻¹²⁰`). Inconsistency now flagged explicitly in abstract; Pillar-11 closure claim retracted. CLAUDE.md §6.3.4 quantitative-sanity-check failure canonicalised.
+- **Paper-12 (Stage-2 Synthesis) [EXTERNAL_USE_FORBIDDEN]**: old Math60-A..E packaging incompatible with current canonical bookkeeping (GAP-1=T4, GAP-2=T6, GAP-3=T6, GAP-4=T3 → Stage-2 composite=T3). External use FORBIDDEN; preserved as historical Stage-2 synthesis draft only.
+- **Paper-13 (GAP-1 ℏ matching)**: "first-principles ℏ running" / "matching to four-digit precision" / "two independent routes both yield ℏ_obs to four-digit precision" downgraded to candidate / programme / consistency framing. β-coefficient cleanup flagged.
+- **Paper-14 (GAP-2 BRST)**: HEALTHIEST of GAP cluster (GAP-2 = T6 already canonical). "GAP-2 is now complete" / "fully rigorous" / "ready for publication" wording removed; recast as conditional BRST/FP closure note inheriting Math160 Berry correction.
+- **Paper-15 (GAP-3 SO(10) anomaly) [PHYSICS_ERROR_REPAIRED]**: original Step 3 stated "RHN singlet 1(5) has hypercharge y=1/2", but the SO(10) right-handed neutrino has SM hypercharge `Y_RHN = 0` (it is a SM gauge singlet by definition; the "(5)" is the U(1)_χ charge, NOT SM hypercharge). REPAIRED in place. Anomaly taxonomy refined (SU(2)³ perturbative is trivial; Witten anomaly treated separately; Tr(U(1)_Y) is mixed gravitational). "Six-digit precision" → "symbolically exact zero, numerically cross-checked" per Math319 V1.
+- **Paper-16 (GAP-4 cosmology) [EXTERNAL_USE_FORBIDDEN]**: THREE structural problems: (a) PHENOMENOLOGY MISMATCH — `Ω_GW` peak at `f ~ 10⁻¹⁶` Hz labelled "PTA band", but PTA band is nHz (`~ 10⁻⁹` Hz); paper later contradicts itself with SKA/IPTA at `10⁻⁹` Hz. (b) Canonical F-GAP4 redefined as "SKA/IPTA non-detection" but canonical shell per Math300/Math311 is defect-mass verdict window `μ_defect ∈ [10¹³, 10¹⁷] GeV`. (c) "Paper 16 completes the GAP-4 closure" incompatible with Stage-2 composite = T3 / GAP-4 = T3. External use FORBIDDEN.
+
+**Final aggregate audited defect rate** (Math314 + AddA + AddB + AddC + AddD): **35/36 = 97%** of all Wave 1-7 papers required correction. Epoch-12 the sole audit-confirmed clean paper. 7 papers with severe flags: Paper-05 [REWRITE], Paper-07 [REWRITE+FORBIDDEN], Paper-11 [INTERNAL_INCONSISTENCY_REPAIRED], Paper-12 [FORBIDDEN], Paper-16 [FORBIDDEN], Epoch-05 [INTERNAL_SKETCH], Epoch-11 [INTERNAL_ARCHIVE_ONLY].
+
+**Three new follow-up Qs** (Math314-AddD):
+- **Q-2026-05-02-Pillar11-Lambda-Numerical-Repair** — Paper-11 internal numerical-vs-gate inconsistency resolution; either repair the four-sector cancellation calculation to actually achieve `< 10⁻¹²⁰`, OR honestly downgrade the gate to match the calculated `~ 10⁻¹¹⁸` to `10⁻¹¹⁹` (with separate accounting for the additional 1-2 orders of magnitude needed).
+- **Q-2026-05-02-Paper16-PTA-Band-Repair** — Paper-16 `Ω_GW` peak frequency re-derivation from first principles (current `10⁻¹⁶` Hz prediction is 7 orders below PTA / SKA / IPTA band).
+- **Q-2026-05-02-Paper12-Stage2-Successor-Draft** — Paper-12 successor draft using current canonical GAP-1/2/3/4 + verdict-shell bookkeeping (replaces old Math60-A..E packaging).
+
+**Lessons (recorded in CLAUDE.md §15.6 mandatory dispatch-prompt template, augmented in this commit)**:
+> Compare every promotional adjective in the abstract against the current TOE-FACT-SHEET tier; any phrase stronger than the canonical tier is a §6.3.5(a) violation.
+
+**Cross-references**: Math310-AddA (prior wording correction); Math292 (4-gauge acceptance criterion); Math171-AddA / Top-impact paper TI-1 (HRR formula); Math194 / Top-impact paper TI-2 (BCC single-shell uniqueness); Math233 (spinor pair-kernel programme).
+
+---
+
 ### R-2026-04-30-Math242-c2-misquote-Pillar4-T6-rollback
 
 **Date**: 2026-04-30 — Turn 16 (Math245 formal audit-rollback consolidation).

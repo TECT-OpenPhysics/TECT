@@ -5,6 +5,133 @@
 
 ---
 
+## 2026-05-02 — Math314: Wave-7 auxiliary + epoch paper-draft over-claim audit (AUDIT-FLAGGED, corrections applied)
+
+**Trigger**: Hostile-referee audit by maintainer immediately after the Wave 1-7 mass-DRAFT closure dispatch. Audit identified that 4 of the 35 newly drafted papers (Auxiliary-01, Auxiliary-02, Epoch-01, Epoch-02) contained wording at a tier strictly higher than the present `Docs/status/TOE-FACT-SHEET.md`, with Auxiliary-02 in direct conflict with the prior canonical Math310-AddA wording correction.
+
+**Audit verdict**: AUDIT-FLAGGED tag `AUDIT-2026-05-02-Wave7-Aux-Epoch-Overclaim`. NOT R-retracted (technical content preserved); only wording calibrated. Side-flag `[NEEDS_UPDATE]` applied to all four papers; Auxiliary-02 will be cleared upon F-Pillar6 verdict (2026-05-29) closure of transverse-projector extension; Epoch-01/02 are permanent EPOCH RETROSPECTIVE recast.
+
+**Specific corrections applied** (this commit, atomic):
+- **Auxiliary-02**: abstract sentence replaced with operator-recommended wording ("first ΔF<0 broken-energy data point at N=16, full Math292 valid-acceptance pending"); §1, §3 (Math292 production-status item), §4 reworded throughout.
+- **Auxiliary-01**: title and abstract recast as "conditional Brazovskii-universality programme"; Theorem 1 → labelled Conjecture 1; `amsthm` package added.
+- **Epoch-01**: title and abstract recast as EPOCH RETROSPECTIVE on candidate BCC uniqueness; §2.1 BCC uniqueness paragraph re-framed as single-shell finite-competitor argument with pointer to Math194/TI-2 for beyond-single-shell tracking.
+- **Epoch-02**: title and abstract recast as EPOCH RETROSPECTIVE on candidate chirality emergence; §3 Math10-14 paragraph recast with HRR-formula-conditional 16-count statement (`ind(D_E^c) = 16 - μ`).
+- All four files: `[DRAFT][NEEDS_UPDATE]` status header + AUDIT-FLAG banner above `\documentclass`.
+- New Math note: `TECT-Math314-Wave7-Aux-Epoch-Overclaim-Audit.tex.txt` with full §6.3.1 devil's-advocate self-test (3 objections α/β/γ, 1 DISMISSED + 2 VALID-with-mitigation) + §6.3.4 quantitative sanity check.
+- `NEGATIVE-RESULTS.md`, `CHANGELOG.md`, `PAPERS_STATUS_REGISTRY.md` (Rev 4 → Rev 5: NEEDS_UPDATE column 0 → 4) updated.
+
+**Quantitative ground truth**: $\lambda_{\min}^{\rm transverse, raw}(N=16) \approx -8.51$ (order-unity, not $10^{-6}$ artefact) violates Math292 G3 by 7 orders of magnitude. Confirmed by 2026-05-02 N=32 (60-step plateau at $\|grad\|/\sqrt{\rm dof} \approx 1.7 \times 10^{-2}$) and N=64 (60-step plateau, identical, with `pred_m=0/ρ=-1e+30` REJECT pattern indicating degenerate Hessian).
+
+**§6.3 honest scope reporting**: Wave 1-7 mass-DRAFT closure remains accurate at file-existence level (36/36 papers drafted). Quality-of-draft dimension was not separately tracked at dispatch time; the present audit corrects this. CLAUDE.md §15.6 mandatory dispatch-prompt template augmented:
+> "Compare every promotional adjective in the abstract against the current TOE-FACT-SHEET tier; any phrase stronger than the canonical tier is a §6.3.5(a) violation."
+
+**Process lesson**: hostile-referee audits should run BEFORE the parent commit per §6.3.5(a), not after. The 7-agent parallel dispatch did NOT include explicit per-paper tier-comparison against TOE-FACT-SHEET in the prompt; future dispatches must include this checklist item by §15.6 template upgrade.
+
+**Next mainline**: F-Pillar6 verdict (deadline 2026-05-29). Either the transverse-projector extension (Math314 §5 path) closes G3 — in which case the four affected drafts upgrade back to clean `[DRAFT]` — or G3 falsification triggers an `R-` retraction. Numerical-side prerequisite: Math292 transverse-Lanczos with extended zero-mode projector (translations + rotations + internal-phase modes).
+
+**Extension (Math314-AddA, same date 2026-05-02)**: hostile-referee audit extended to Epoch series 03-12 (10 papers). Severity ranking Epoch-11 > Epoch-05 > Epoch-06 > Epoch-04 > Epoch-09 > Epoch-07 > Epoch-08 > Epoch-03 > Epoch-10; Epoch-12 found canonically healthy and required no patch. Per-paper corrections summarised:
+- **Recast as conditional/programme/scorecard/snapshot/retrospective**: Epoch-03, 04, 06, 07, 08, 09, 10 (7 papers) + Epoch-01, 02 from parent Math314 (2 papers).
+- **`[INTERNAL_SKETCH]` (external draft FORBIDDEN)**: Epoch-05 (Brazovskii + emergent gravity).
+- **`[INTERNAL_ARCHIVE_ONLY]` (external draft FORBIDDEN)**: Epoch-11 (R7-R8 intermediate consolidation, supersededpost-Math203-205 falsification).
+- **No patch (canonically healthy)**: Epoch-12 (recommended as core methodology chapter).
+
+**Final Wave-6/7 deliverables outcome (14 papers)**:
+- 1 paper externally publishable after light polish: Epoch-12.
+- 11 papers `[DRAFT][NEEDS_UPDATE]`: Aux-01, Aux-02, Epoch-01, 02, 03, 04, 06, 07, 08, 09, 10.
+- 2 papers `[DRAFT][NEEDS_UPDATE][INTERNAL_SKETCH/ARCHIVE]`: Epoch-05, Epoch-11.
+
+**Math314-AddA new contributions**:
+- 10× Epoch tex header + title + abstract patches (Epoch-03 to Epoch-11; Epoch-12 marker comment only).
+- ADD: `Docs/math/TECT-Math314-AddA-Wave7-Epoch-Series-Overclaim-Audit.tex.txt` (full §6.3.1 self-test with 3 objections α/β/γ, §6.3.4 quantitative sanity, per-paper severity ranking + correction table).
+- MOD: `NEGATIVE-RESULTS.md` extension under same tag.
+- MOD: `PAPERS_STATUS_REGISTRY.md` Rev 5 → Rev 6 (Wave 7 NEEDS_UPDATE column 2 → 9, new INTERNAL_ONLY column with 2).
+- MOD: `CHANGELOG.md` (Math314-AddA entry).
+- TBD (Math314-AddA Objection γ UPHELD follow-up): `OPEN-QUESTIONS.md` entry `Q-2026-05-02-Wave7-Independent-Audit` (independent external peer review of all 14 Wave-6/7 drafts before next public snapshot of these papers).
+
+**Aggregate process lesson**: 14/35 newly drafted papers required wording correction (40% over-claim rate). Every future autonomous-agent dispatch must include the §15.6 rule #6 tier-compare-against-TOE-FACT-SHEET checklist, and the `check_paper_sync.py` (PAPERS_TRACK_PLAN §6.3) implementation should automate this comparison post-dispatch as standard CI.
+
+**Further extension (Math314-AddB, same date 2026-05-02)**: hostile-referee audit extended to Wave-2 Top-impact 4 papers (TI-1, TI-2, TI-3, TI-4) and uncovered defects of HIGHER severity than Aux/Epoch wording over-claims. Severity ranking: TI-3 > TI-1 > TI-2 > TI-4. Per-paper findings:
+
+- **TI-1 (mathematical defect REPAIRED in place)**: original `ind(D_E^c) = 16 - μ` stated as general theorem, but actual integration gives `ind = r - μ` (rank-dependent). Rank-1 line-bundle vs rank-16 fermion-sector contexts conflated; arithmetic error in proof Step 3. File fully restructured: (i) main theorem `ind = r - μ`, (ii) corollary `r=16`, (iii) separate Picard remark.
+
+- **TI-2 (structural over-claim downgrade)**: SMA / equal-amplitude / first-shell ranking presented as global-minimum theorem. Title and abstract recast as "single-shell Brazovskii ranking model"; Theorem 1 → "Conditional BCC ranking within the SMA shell model". New Remark on the "cubic stabilisation" effective-vs-explicit distinction.
+
+- **TI-3 (FATAL logical defect REPAIRED)**: original Step 2 invokes "time-reversibility of the classical dynamics" — but TDGL is dissipative and NOT time-reversible. ⟨Ψ⟩=0 conflated with unique microscopic boundary state; "axiom count 3→2" mis-counts. Title → "On the reclassification of A2 in TECT"; Theorem 1 → "A2 weakening / reclassification" (NOT elimination); Step 2 rewritten with forward consistency.
+
+- **TI-4 (canonical-route mismatch only; mathematics correct)**: standard `H¹(CP², O) = 0` + `Pic(CP²) ≅ Z` verified. Application phrasing over-claim: current canonical Pillar-4 base is `Σ_0 = P¹ × P¹` per Math305, NOT `CP²`. Recast as CP² background auxiliary note; Corollary → if-then statement.
+
+**Math314-AddB new contributions**:
+- 4× TI .tex patches (TI-1 = full restructure with new theorem/corollary/remark; TI-2/3 = theorem and abstract patches + amsthm preamble; TI-4 = abstract + corollary + discussion patches).
+- ADD: `Docs/math/TECT-Math314-AddB-Wave2-TopImpact-Mathematical-Defects-Audit.tex.txt` (full §6.3.1 self-test with 3 objections α/β/γ, §6.3.4 quantitative sanity including TI-1 cross-check `56-16=-μ` reproducing Scenario A as `r=16, μ=-40` specialisation).
+- MOD: `NEGATIVE-RESULTS.md` extension under same tag.
+- MOD: `PAPERS_STATUS_REGISTRY.md` Rev 6 → Rev 7 (Wave 2 NEEDS_UPDATE column 0 → 4).
+- 2 new Q entries opened in OPEN-QUESTIONS.md (Math171-AddA rank-dependence patch; Math195 TDGL-reversibility patch).
+
+**Final aggregate Wave-1-7 scorecard (after Math314 + AddA + AddB)**:
+- 15 of 36 `[DRAFT][NEEDS_UPDATE]` (4 TI + 2 Aux + 9 Epoch).
+- 2 of 36 `[DRAFT][NEEDS_UPDATE][INTERNAL_*]` (Epoch-05, Epoch-11).
+- Wave 3, 4, 5 NOT YET AUDITED at this scope (15 papers pending).
+- Aggregate over-claim/defect rate (audited subset): **17/21 = 81%** of Wave-1/2/6/7 papers required correction.
+
+**Next mainline candidates** (priority-sorted):
+1. **F-GAP4-DEFECT-MASS verdict turn** (deadline 2026-05-14, ~12 days).
+2. **Math171-AddA rank-dependence patch** (Math314-AddB Objection α follow-up).
+3. **Math195 TDGL-reversibility patch** (Math314-AddB Objection β follow-up).
+4. **Wave 3, 4, 5 audit pass** (15 remaining papers; expected similar correction rate).
+5. **F-Pillar6 verdict** (deadline 2026-05-29) + Q-Wave7-Independent-Audit dispatch.
+
+---
+
+**Final extension (Math314-AddC, same date 2026-05-02)**: hostile-referee audit completed for the remaining 10 Wave 1/3/4/5 Pillar papers (Paper-00..08 + Paper-07-ext). Severity ranking: Paper-07 > Paper-05 > Paper-01 > Paper-04 > Paper-03 > Paper-08 > Paper-02 > Paper-06 > Paper-00 > Paper-07-ext. Two papers received severe flags:
+- **Paper-05 [REWRITE_REQUIRED]**: original `Index(D) = wind(m)` identification on 3D Brillouin torus does NOT hold without Callias / domain-wall framework. Q-2026-05-02-Pillar5-Mechanism-Rewrite opened.
+- **Paper-07 [EXTERNAL_USE_FORBIDDEN][REWRITE_REQUIRED]**: three-generation forcing chain doesn't close; `A_grav = Σ_f Q_f^3` non-standard combination; Witten + mod-2 don't support generation-uniqueness theorem. Q-2026-05-02-Pillar7-Three-Generation-Rewrite opened.
+
+**Permanent CLAUDE.md §15.6 rule #7 added** (Theorem-statement classification check) with five sub-rules covering the patterns observed across Math314 + AddA + AddB + AddC: (1) analytical-class check for dynamical equations; (2) theorem-vs-estimate notation discipline (≤ vs ≲); (3) rank/dimension/parameter dependence audit; (4) single-shell scope marking; (5) window-verdict vs precision-prediction distinction.
+
+**Final aggregate Wave-1-7 scorecard** (after Math314 + AddA + AddB + AddC):
+- 24 of 36 papers `[DRAFT][NEEDS_UPDATE]` (15 wording + 4 TI + 5 Wave 1/3/4/5).
+- 4 of 36 papers with severe flags: `[INTERNAL_SKETCH]` Epoch-05; `[INTERNAL_ARCHIVE_ONLY]` Epoch-11; `[REWRITE_REQUIRED]` Paper-05; `[REWRITE_REQUIRED][EXTERNAL_USE_FORBIDDEN]` Paper-07.
+- 8 of 36 papers `[DRAFT]` un-audited at this scope (Paper-12, 13, 14, 15, 10, 11, 16, 09); Epoch-12 audit-confirmed clean (1 of 36 genuinely OK).
+- **Aggregate audited defect rate: 27/27 = 100%** of papers audited at Math314/AddA/AddB/AddC scope required correction.
+
+**Updated process discipline**: Future autonomous-agent dispatches MUST include CLAUDE.md §15.6 rule #6 (tier-compare-against-TOE-FACT-SHEET) AND rule #7 (theorem-statement classification check) in the dispatch prompt. The expected correction rate for any new agent-produced paper batch should be tracked as a quality metric.
+
+**Aggregate cross-incident lesson**: 4-stage audit cycle (Math314 + AddA + AddB + AddC) on 28 papers produced 27 corrections. The autonomous-agent dispatch architecture cannot reliably produce externally-publishable claim-precision wording at the current canonical tier without explicit per-paper hostile-referee review. Q-Wave7-Independent-Audit (now extended to all 28 audited papers) is the structural mitigation.
+
+---
+
+**Math314 family CLOSURE extension (Math314-AddD, 2026-05-02)**: hostile-referee audit COMPLETED for the final 8 papers (Paper-09..16). This is the most severe batch in the four-stage cycle, containing one PHYSICS ERROR (Paper-15 RHN hypercharge), one INTERNAL NUMERICAL CONTRADICTION (Paper-11 fails own gate), and one PHENOMENOLOGY MISMATCH (Paper-16 PTA-band off by 7 orders).
+
+Severity ranking: Paper-12 [FORBIDDEN] > Paper-16 [FORBIDDEN] > Paper-11 [INTERNAL_INCONSISTENCY_REPAIRED] > Paper-15 [PHYSICS_ERROR_REPAIRED] > Paper-09 > Paper-13 > Paper-14 > Paper-10 (HEALTHIEST).
+
+**Quantitative cross-checks performed (Math314-AddD §5)**:
+- Paper-11: gate `< 10⁻¹²⁰` vs body computation `~ 10⁻¹¹⁸ to 10⁻¹¹⁹` — **gap of 10¹ to 10² between numerical result and own gate**. CLAUDE.md §6.3.4 quantitative-sanity-check failure that should have been caught at draft time.
+- Paper-16: PTA band is `~10⁻⁹` Hz; paper's predicted peak `10⁻¹⁶` Hz — **gap of 10⁷ between predicted peak and named instrument band**. The paper's "PTA band" label is phenomenologically wrong by 7 orders of magnitude.
+- Paper-15: RHN is SM gauge singlet ⟹ `Y_RHN = 0` rigorously; original `Y=1/2` claim would have given non-zero RHN contribution `Tr(Y³) = 1/8` per RHN, which would actively SPOIL anomaly cancellation rather than restore it. Textbook-level SO(10) representation theory error.
+
+**Math314 family CLOSURE — Final aggregate**:
+- 4-stage cycle: Math314 (4) + AddA (10) + AddB (4) + AddC (10) + AddD (8) = 36 papers reviewed.
+- 35/36 papers required correction (97% defect rate).
+- 1 audit-confirmed clean paper: Epoch-12.
+- 7 papers with severe flags: Paper-05, Paper-07 [REWRITE_REQUIRED]; Paper-12, Paper-16 [EXTERNAL_USE_FORBIDDEN]; Paper-11 [INTERNAL_INCONSISTENCY_REPAIRED]; Epoch-05, Epoch-11 [INTERNAL_*].
+
+**Three new follow-up Qs** (Math314-AddD):
+- Q-2026-05-02-Pillar11-Lambda-Numerical-Repair (Paper-11 internal contradiction repair).
+- Q-2026-05-02-Paper16-PTA-Band-Repair (Paper-16 Ω_GW peak frequency re-derivation).
+- Q-2026-05-02-Paper12-Stage2-Successor-Draft (Paper-12 successor with current GAP-1/2/3/4 + verdict-shell bookkeeping).
+
+**Math314 family closure summary**: 6 follow-up Qs in OPEN-QUESTIONS (Math171-AddA rank-dependence + Math195 TDGL-reversibility patches from AddB; Pillar 5 mechanism rewrite + Pillar 7 three-generation rewrite from AddC; Pillar 11 Λ + Paper-16 PTA + Paper-12 Stage-2 from AddD). CLAUDE.md §15.6 rules #6 + #7 permanent. Q-Wave7-Independent-Audit now scope-extended to all 35 corrected papers — independent external peer review is the structural mitigation for the 97% audit defect rate.
+
+**Next mainline (post-Math314-family-closure)**:
+1. **F-GAP4-DEFECT-MASS verdict** (deadline 2026-05-14, ~12 days) — first F-* gate; gates removal of Paper-04 [NEEDS_UPDATE].
+2. **Math171-AddA + Math195 retroactive patches** (Math314-AddB Objections α + β follow-up).
+3. **F-GAP1 verdict** (deadline 2026-05-22) — gates removal of Paper-00, Paper-13, Paper-10 [NEEDS_UPDATE].
+4. **F-Pillar6 verdict** (deadline 2026-05-29) — gates removal of [NEEDS_UPDATE] for Paper-06, Aux-02, multiple Epoch papers.
+5. **Q-Wave7-Independent-Audit dispatch** (Math314-AddA Objection γ) — now scope-extended to all 35 corrected papers.
+6. Address 5 paper-level rewrite Qs (Pillar 5, Pillar 7, Pillar 11, Paper-16, Paper-12).
+
+---
+
 ## 2026-05-02 — Papers Track Wave 1-7 mass-DRAFT closure: 35 papers promoted [STUB] → [DRAFT] via 7 parallel autonomous-research agents
 
 **Task**: Operator request "wave 1~7까지 계속 자동 연구 에이전트로 진행해 주면 안되나?" — proceed with all remaining Waves of the Papers Track via autonomous agents.

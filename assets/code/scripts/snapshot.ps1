@@ -212,6 +212,25 @@ try {
     Invoke-Step 2 'generate' 'python -u Codes\tools\generate_website.py --publish' 20
     $stepResults['generate'] = 'PASS'
 
+    # ---- Step 2.5a / 8: extract-paper-dependencies ------------------
+    # NOTE (2026-05-06): scans every paper TeX for `% Canonical archive:`
+    # header tokens + body \cite{Math...} references, validates against
+    # Docs/math/, emits Docs/status/PAPER-MATH-DEPENDENCIES.md (forward +
+    # reverse map) AND Website/data/papers_math_dependencies.js
+    # (window.TECT_PAPERS_DEPS) so papers-deps.html can render the
+    # paper <-> Math-note dependency matrix. Exit 1 on missing-Math-note
+    # gates the snapshot pipeline (use --no-fail to override).
+    Invoke-Step 2 'extract-deps' 'python -u Codes\tools\extract_paper_dependencies.py' 20
+    $stepResults['extract-deps'] = 'PASS'
+
+    # ---- Step 2.5b / 8: publish-papers (PDF sweep + index.js) -------
+    # NOTE (2026-05-06): copies Docs/papers/**/Paper-*.pdf into
+    # Github/assets/papers/<category>/<stem>.pdf and emits
+    # Website/data/papers_pdf_index.js so papers-pdf.html can render
+    # download links.
+    Invoke-Step 2 'publish-papers' 'python -u Codes\tools\publish_papers.py' 20
+    $stepResults['publish-papers'] = 'PASS'
+
     # ---- Step 3 / 8: verify Website state ----------------------------
     Invoke-Step 3 'verify' 'python -u Codes\tools\verify_website.py' 30
     $stepResults['verify'] = 'PASS'

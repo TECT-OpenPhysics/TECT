@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>TECT — Paper / Math-note dependencies</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="assets/style.css">
+  <style>
+    .deps-summary  { font-size: 0.95em; color: #444; margin: 0.6em 0 1.4em 0; }
+    .deps-section  { margin: 1.6em 0 2em 0; }
+    .deps-section h2 { border-bottom: 1px solid #ccc; padding-bottom: 0.2em; margin-bottom: 0.4em; }
+    table.deps     { border-collapse: collapse; width: 100%; font-size: 0.92em; }
+    table.deps th, table.deps td { border: 1px solid #e5e5e5; padding: 0.35em 0.55em;
+                                    vertical-align: top; }
+    table.deps th  { background: #f4f4f4; text-align: left; }
+    table.deps td.num { text-align: right; font-variant-numeric: tabular-nums; }
+    table.deps code { font-size: 0.95em; color: #2266aa; background: transparent; }
+    .stem-cell     { font-family: ui-monospace,Menlo,Consolas,monospace;
+                     font-weight: 600; color: #333; }
+    .ttl-link      { color: #2266aa; text-decoration: none; }
+    .ttl-link:hover { text-decoration: underline; }
+    .cat-tag       { display: inline-block; padding: 0 0.45em; border-radius: 4px;
+                     font-size: 0.78em; margin-right: 0.4em;
+                     background: #eef; color: #225; }
+    .filter-bar    { margin: 0.8em 0 1.2em 0; }
+    .filter-bar input { padding: 0.35em 0.6em; width: 280px;
+                       border: 1px solid #ccc; border-radius: 4px; font-size: 0.92em; }
+    .warn          { background: #fff7e6; border-left: 4px solid #e8a330;
+                     padding: 0.6em 0.9em; margin: 0.8em 0; }
+  </style>
+</head>
+<body>
+<header class="site" id="site-header"></header>
+<main class="wrap">
+
+  <h1>Papers &times; Math-note dependency map</h1>
+  <p class="lead">
+    Auto-generated index of which TECT Math notes (canonical proofs in
+    <code>Docs/math/</code>) are cited by each of the 36 papers under
+    <code>Docs/papers/</code>. The forward map shows each paper's
+    dependency list (curated <code>% Canonical archive:</code> header +
+    every <code>\cite{Math&hellip;}</code> body reference). The reverse
+    map shows, for every Math note, which papers cite it &mdash; useful
+    for impact analysis when a Math note is updated.
+  </p>
+
+  <div id="deps-summary" class="deps-summary"></div>
+
+  <div class="filter-bar">
+    Filter:
+    <input id="filter" type="text" placeholder="Math note key or paper stem...">
+  </div>
+
+  <div id="deps-content"></div>
+
+</main>
+<footer class="site" id="site-footer"></footer>
+
+<script src="data/site.js"></script>
+<script src="data/papers_math_dependencies.js"></script>
+<script src="assets/js/tect-render.js"></script>
+<script>
+(function() {
+  if (window.TECT && typeof TECT.renderChrome === 'function') {
+    TECT.renderChrome();
+  }
+
+  var deps = window.TECT_PAPERS_DEPS;
+  if (!deps) {
+    document.getElementById('deps-content').innerHTML =
+      '<div class="warn"><em>papers_math_dependencies.js missing or empty. Run '
+      + '<code>python -u Codes/tools/extract_paper_dependencies.py</code> '
+      + 'and re-snapshot.</em></div>';
+    return;
+  }
+
+  // Top summary
+  var sum = document.getElementById('deps-summary');
+  sum.innerHTML =
+    '<strong>' + deps.totals.papers + ' papers</strong> citing '
+    + '<strong>' + deps.totals.unique_notes + ' unique Math notes</strong>'
+    + ' (' + deps.totals.header_refs + ' curated header refs + '
+    + deps.totals.body_refs + ' body refs). '
+    + (deps.totals.missing > 0
+        ? '<span style="color:#c44">'
+          + deps.totals.missing + ' missing</span>. '
+        : '')
+    + 'Generated <code>' + deps.generated + '</code>.';
+
+  function escapeHTML(s) {
+    return String(s).replace(/[&<>"']/g, function(c) {
+      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+    });
+  }
+
+  function pdfUrlFor(stem) {
+    // Heuristic: assets/papers/<cat>/<stem>.pdf via TECT_PAPERS_PDF_INDEX
+    if (!window.TECT_PAPERS_PDF_INDEX) return null;
+    var cats = window.TECT_PAPERS_PDF_INDEX.categories || [];
+    for (var i=0; i<cats.length; i++) {
+      var hits = (cats[i].papers || []).filter(function(p) { return p.stem === stem; });
+      if (hits.length) return hits[0].url;
+    }
+    return null;
+  }
+
+  var root = document.getElementById('deps-content');
+
+  // -------- 1. Forward map --------
+  var fwdSec = document.createElement('div');
+  fwdSec.className = 'deps-section';
+  fwdSec.innerHTML = '<h2>1. Forward map (paper &rarr; cited Math notes)</h2>';
+  var fwdTbl = document.createElement('table');
+  fwdTbl.className = 'deps';
+  fwdTbl.innerHTML =
+    '<thead><tr>' +
+      '<th>Paper</th><th>Cat</th>' +
+      '<th class="num">Hdr</th><th class="num">Body</th><th class="num">Tot</th>' +
+      '<th>Cited Math notes</th>' +
+    '</tr></thead><tbody></tbody>';
+  var fwdBody = fwdTbl.querySelector('tbody');
+  deps.papers.forEach(function(p) {
+    var pdfUrl = pdfUrlFor(p.stem);
+    var stemCell = pdfUrl
+      ? '<a class="ttl-link stem-cell" href="' + pdfUrl + '" download>' + p.stem + '</a>'
+      : '<span class="stem-cell">' + p.stem + '</span>';
+    var citeStr = p.cited_math.length
+      ? p.cited_math.map(function(t) { return '<code>' + t + '</code>'; }).join(' ')
+      : '<em>(none)</em>';
+    var tr = document.createElement('tr');
+    tr.innerHTML =
+      '<td>' + stemCell + '</td>' +
+      '<td><span class="cat-tag">' + p.category + '</span></td>' +
+      '<td class="num">' + p.header_count + '</td>' +
+      '<td class="num">' + p.body_count + '</td>' +
+      '<td class="num">' + p.total + '</td>' +
+      '<td>' + citeStr + '</td>';
+    tr.dataset.searchKey = (p.stem + ' ' + p.cited_math.join(' ')).toLowerCase();
+    fwdBody.appendChild(tr);
+  });
+  fwdSec.appendChild(fwdTbl);
+  root.appendChild(fwdSec);
+
+  // -------- 2. Reverse map --------
+  var revSec = document.createElement('div');
+  revSec.className = 'deps-section';
+  revSec.innerHTML = '<h2>2. Reverse map (Math note &rarr; papers that cite it)</h2>';
+  var revTbl = document.createElement('table');
+  revTbl.className = 'deps';
+  revTbl.innerHTML =
+    '<thead><tr>' +
+      '<th>Math note</th><th class="num"># papers</th><th>Cited in</th>' +
+    '</tr></thead><tbody></tbody>';
+  var revBody = revTbl.querySelector('tbody');
+  deps.notes.forEach(function(n) {
+    var papersStr = n.papers.map(function(s) {
+      return '<code>' + s + '</code>';
+    }).join(' ');
+    var tr = document.createElement('tr');
+    tr.innerHTML =
+      '<td><code>' + n.key + '</code></td>' +
+      '<td class="num">' + n.count + '</td>' +
+      '<td>' + papersStr + '</td>';
+    tr.dataset.searchKey = (n.key + ' ' + n.papers.join(' ')).toLowerCase();
+    revBody.appendChild(tr);
+  });
+  revSec.appendChild(revTbl);
+  root.appendChild(revSec);
+
+  // -------- live filter --------
+  var input = document.getElementById('filter');
+  input.addEventListener('input', function() {
+    var q = input.value.trim().toLowerCase();
+    [fwdBody, revBody].forEach(function(tb) {
+      Array.prototype.forEach.call(tb.children, function(tr) {
+        tr.style.display = (q === '' || tr.dataset.searchKey.indexOf(q) >= 0)
+          ? '' : 'none';
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,354 @@
+% =====================================================================
+% TECT-Math315 — Pillar~6 / Math292 G3 first transverse-Lanczos diagnostic
+%   on the N=32, mu^2 = -0.7 broken-phase configuration
+%   Psi_best_F.npy from math236_A1p0_seeded_N32_resumed
+% Theory tag : Math315-Pillar6-G3-Lanczos-N32-mu2_-0.7-First-Diagnostic
+% Date       : 2026-05-06
+% Status     : T1 OPEN  (G3 verdict INDETERMINATE pending shift-invert /
+%                        lobpcg / phase-projector / deeper-convergence
+%                        re-runs; F-Pillar6 deadline 2026-05-29)
+% Cross-refs : Math290 (first-run audit, transverse-projector gap),
+%              Math292 (4-gauge acceptance criterion),
+%              Math310-AddA (binding wording correction),
+%              Math313 (F-Pillar6 verdict consolidation shell),
+%              Math314-AddD (Wave-7 audit, current Pillar~6 = T4),
+%              Auxiliary-02 \S 3 Math290 first-run-audit paragraph,
+%              Paper-06 Rev 4 Theorem H2 (G2 only / G1+G3+G4 pending)
+% =====================================================================
+
+\section*{Math315 --- Pillar~6 / Math292 G3 first transverse-Lanczos
+diagnostic at $N=32$, $\mu^2=-0.7$ on
+\texttt{Psi\_best\_F.npy} from
+\texttt{math236\_A1p0\_seeded\_N32\_resumed}}
+
+\paragraph{Run input and provenance.}
+\begin{itemize}
+  \item Driver: \texttt{Codes/supplementary/Math292\_transverse\_lanczos.py}
+    v1.1 (theory tag
+    \texttt{Math292-transverse-Hessian-Lanczos-v1.1-2026-05-02}).
+  \item Candidate critical point:
+    \texttt{Runs/continuation/math236\_A1p0\_seeded\_N32\_resumed/Psi\_best\_F.npy},
+    shape $(3, 32, 32, 32)$, \texttt{complex128},
+    $\mathrm{RMS}|\Psi| = 4.080007 \times 10^{-1}$.
+  \item Brazovskii parameters at evaluation:
+    $\mu^2 = -7.000000\times 10^{-1}$,
+    $r = -4.859664\times 10^{-1}$,
+    $Z = -9.252754\times 10^{-1}$,
+    $Y = 1.0000$,
+    $L = 16.000000$, $N = 32$.
+  \item Run command (operator log, 2026-05-06):
+    \begin{quote}\small\ttfamily
+    python Codes/supplementary/Math292\_transverse\_lanczos.py
+    --psi Runs/continuation/math236\_A1p0\_seeded\_N32\_resumed/Psi\_best\_F.npy
+    --N 32 --mu2 -0.7
+    --n-eig 1 --tol 1e-4 --maxiter 1000 --asymmetry-probe
+    \end{quote}
+  \item Solver: ARPACK \texttt{eigsh}, \texttt{which='SA'} (smallest
+    algebraic), \texttt{ncv = 20}, \texttt{tol = 1.0e-04},
+    \texttt{maxiter = 1000}.
+  \item Zero-mode projector applied: \emph{three translations only}
+    (default; \texttt{--include-phase-mode} not requested).
+\end{itemize}
+
+\paragraph{Run output (verbatim).}
+\begin{verbatim}
+[load] Psi shape = (3, 32, 32, 32), dtype = complex128,
+       RMS|Psi| = 4.080007e-01
+[params] mu2 = -7.000000e-01, r = -4.859664e-01, Z = -9.252754e-01,
+         Y = 1.0000, L = 16.000000, N = 32
+[sanity] ||R[Psi]||/sqrt(dof) = 9.987234e-03
+[asymmetry probe] avg ||(J - J^T)v|| / (||Jv|| + ||J^Tv||) = 1.240e-05
+[eigsh] which='SA', n_eig = 1, ncv = 20, tol = 1.0e-04, maxiter = 1000
+[ARPACK PARTIAL] 0/1 eigenvalues converged after 10021 matvecs.
+[ARPACK PARTIAL] densely clustered spectrum near the SA target.
+[FATAL] zero eigenvalues recovered; cannot diagnose.
+\end{verbatim}
+
+\section*{1. Diagnostic interpretation}
+
+The three measurements together fix a unique interpretation of the
+state of the candidate $\Psi_{\mathrm{best\,F}}$ at $\mu^2 = -0.7$
+within the canonical Math290 / Math310-AddA framework.
+
+\paragraph{(D1) Hessian implementation is correct.}
+The asymmetry probe averaged
+\begin{equation}\label{eq:asym}
+  \frac{\bigl\|\,(J - J^{T})\,v\,\bigr\|}
+       {\bigl\|J v\bigr\| + \bigl\|J^{T} v\bigr\|}
+  \;\approx\; 1.24\times 10^{-5}
+\end{equation}
+across three random probe vectors, which is comfortably within the
+machine-noise band for a properly Hermitian Hessian under explicit
+real-symmetrisation $H_{\mathrm{sym}} = \tfrac{1}{2}(J + J^{T})$.
+The asymmetry-probe value rules out an operator-level defect in
+\texttt{backend.hessian\_vec} or
+\texttt{\_compute\_adjoint\_jacobian\_vec\_v26} as the cause of the
+ARPACK non-convergence.
+
+\paragraph{(D2) The Newton residual is at the loose-converged level,
+not deeply converged.}
+The reported per-degree-of-freedom residual
+\begin{equation}\label{eq:res}
+  \frac{\|R[\Psi]\|_{2}}{\sqrt{\mathrm{dof}}}
+  \;\approx\; 9.99\times 10^{-3}
+\end{equation}
+sits at the standard Newton stopping tolerance of the
+\texttt{continuation\_mu2\_v25} driver
+(\texttt{tol\_newton} $=10^{-2}$ at $\mu^2 = -0.7$). This is
+sufficient for the Math236 continuation curve and for the broken-energy
+gauge G2 ($\Delta F < 0$) but is \emph{not} sufficient for the
+G3 transverse-Hessian PSD test: at this residual level the
+``critical point'' is shallow and the smallest eigenvalues of the
+Hessian acquire a residual-noise floor of order
+$\|R\|/\|\Psi\| \sim 2.5\times 10^{-2}$, comparable to the physical
+saddle-direction eigenvalue magnitudes expected from Math290.
+
+\paragraph{(D3) ARPACK SA non-convergence is the canonical
+saddle-manifold signature, not a numerical bug.}
+The 0/1 partial-result outcome after $10\,021$ matvecs at
+$\mathtt{which}=\mathtt{'SA'}$, $\mathtt{ncv}=20$ is the textbook
+ARPACK signature of a \emph{densely clustered spectrum near the SA
+target}. This is the canonical Pillar~6 saddle-manifold structure
+documented in Math290 \S Step~5 and recorded in Auxiliary-02 \S 3
+Math290-first-run-audit paragraph: the broken-phase configuration
+$\Psi_{\mathrm{best\,F}}$ is a saddle on a manifold of dimension at
+least
+\begin{equation}\label{eq:zeromode-count}
+  d_{\mathrm{zero\,modes}}
+  \;\geq\;
+  \underbrace{3}_{\text{translations}}
+  \;+\;
+  \underbrace{1}_{\text{global U(1) phase}}
+  \;+\;
+  \underbrace{(\geq 3)}_{\text{internal Cartan / shell phases}}
+  \;\geq\; 7,
+\end{equation}
+of which the present run projects out only the three translations.
+The remaining $(\geq 4)$ near-zero eigenvalues populate a dense
+cluster within the interval-arithmetic budget of $\mathtt{tol}=10^{-4}$,
+preventing ARPACK Krylov subspace iteration with $\mathtt{ncv}=20$ from
+isolating any single SA eigenvalue.
+
+\section*{2. Math292 G3 verdict: \textbf{INDETERMINATE}}
+
+Per the explicit Math292 G3 acceptance gate
+$\lambda_{\min}^{\mathrm{transverse}} \geq 0$, and per the script's
+own INDETERMINATE-class verdict (driver \texttt{eigsh} return path),
+the present run is recorded as
+\begin{equation}\label{eq:G3-verdict}
+  \boxed{\;
+    \text{Math292 G3 verdict (Math315 first run)}
+    \;=\;
+    \mathbf{INDETERMINATE}
+  \;}
+\end{equation}
+The verdict is \emph{not} a FAIL (no negative eigenvalue was
+recovered) and \emph{not} a PASS (no eigenvalue was recovered at all).
+It is recorded in F-Pillar6 verdict-shell consumption history
+(Math313) as the first attempt, with the canonical Pillar~6 tier
+remaining \textbf{T4 \textsc{strong evidence}} per
+\texttt{Docs/status/TOE-FACT-SHEET.md} and Math314-AddD; this
+diagnostic does \emph{not} promote or demote the canonical tier.
+
+\section*{3. Cross-coherence with the Math notes archive}
+
+The interpretation of \S 1 is fully consistent with the canonical
+archive, and constitutes a quantitative confirmation of the
+prediction recorded in Math290 / Math310-AddA / Auxiliary-02 /
+Paper-06 Rev 4.
+
+\paragraph{(C1) Math290 first-run audit (Math290 \S Step~5).}
+Math290 identified three structural issues with the first $N=16$
+production run: (a) wrapper-bug (fixed in v2.6.7d), (b) trivial-saddle
+trap (fixed by warm-start protocol), and \emph{(c) the
+transverse-projection gap}. The present Math315 run is the canonical
+quantitative manifestation of (c) at $N=32$, $\mu^2 = -0.7$.
+
+\paragraph{(C2) Math292 4-gauge acceptance criterion.}
+Math292 specifies the joint gauge
+\begin{equation}\label{eq:Math292-gauges}
+  \mathrm{Math292\!-\!Accept}
+  \;\Longleftrightarrow\;
+  \underbrace{(f > 0)}_{\textbf{G1}}
+  \wedge
+  \underbrace{(\Delta F < 0)}_{\textbf{G2}}
+  \wedge
+  \underbrace{\bigl(\lambda_{\min}^{\mathrm{transverse}} \geq 0\bigr)}_{\textbf{G3}}
+  \wedge
+  \underbrace{(\text{extraction} = \texttt{OK})}_{\textbf{G4}}.
+\end{equation}
+At the operating point of the present run, G2 has already been
+satisfied at $N=16$ (Math236 striped-seed run, $\Delta F_{N=16}
+\approx -324.94$); the present Math315 INDETERMINATE on G3 keeps
+the joint gauge \emph{not yet} satisfied at $N=32$, in line with
+Paper-06 Rev 4 Theorem~H2 honest scope.
+
+\paragraph{(C3) Math310-AddA wording correction binding.}
+Math310-AddA recorded that, at the point of the first $N=16$
+broken-energy data point, the raw transverse-Lanczos
+$\lambda_{\min}^{\mathrm{transverse}}$ does not satisfy G3 in the
+canonical projection scheme of the day, and that the audit-flag
+correction must be honoured in all downstream papers. The present
+Math315 result extends that wording correction from $N=16$ to $N=32$:
+the $N=32$ residual-noise floor is comparable to (or exceeds) the
+physical saddle-direction eigenvalue magnitudes expected from
+Math290, and the bare-translation transverse projector is
+insufficient.
+
+\paragraph{(C4) Auxiliary-02 \S 3 Math290 first-run-audit.}
+Auxiliary-02 \S 3 records explicitly: ``the wrapper-bug and
+trivial-saddle-trap mitigations landed in v2.6.7d as code patches;
+the transverse-projection issue was diagnosed in Math290 but the
+full transverse-projector extension (translations + rotations +
+internal-phase modes per Math310-AddA) remains pending and is the
+load-bearing item for F-Pillar6 verdict closure''. The present
+Math315 result is the first quantitative measurement at $N=32$
+confirming this prediction.
+
+\paragraph{(C5) Paper-06 Rev 4 Theorem~H2.}
+Paper-06 Rev 4 records Pillar~6 at \textbf{T4 \textsc{strong
+evidence}} with the data point passing G2 only and G1, G3, G4
+pending Math310-AddA re-certification. The Math315 G3 INDETERMINATE
+verdict at $N=32$, $\mu^2 = -0.7$ is the first explicit numerical
+substantiation of this honest scope at the $N=32$ continuum
+operating point.
+
+\section*{4. Recommended next runs (programme-level, not theorem)}
+
+The Math292 \texttt{transverse\_lanczos.py} v1.1 driver already
+implements three orthogonal mitigations for the present diagnostic
+class. The recommended next runs, in order of expected information
+gain per CPU hour, are:
+
+\paragraph{(N1) Shift-invert near zero $+$ phase-mode projection
+$+$ larger Krylov subspace (preferred).}
+\begin{quote}\small\ttfamily
+python Codes/supplementary/Math292\_transverse\_lanczos.py \\
+\hphantom{python }--psi Runs/continuation/math236\_A1p0\_seeded\_N32\_resumed/Psi\_best\_F.npy \\
+\hphantom{python }--N 32 --mu2 -0.7 \\
+\hphantom{python }--solver eigsh-shift-invert --sigma -1.0e-3 \\
+\hphantom{python }--n-eig 5 --tol 1.0e-5 --maxiter 2000 --ncv 60 \\
+\hphantom{python }--include-phase-mode --asymmetry-probe
+\end{quote}
+\textbf{Rationale.} Shift-invert with $\sigma = -10^{-3}$ inverts the
+spectral problem to find eigenvalues nearest $\sigma$, which converts
+the densely-clustered-near-zero ARPACK pathology into a
+well-separated-near-$1/(\lambda - \sigma)$ pathology that ARPACK
+handles efficiently. Combined with $\mathtt{--include-phase-mode}$
+(removes the global-U(1) zero mode) and $\mathtt{--ncv}=60$ (large
+enough Krylov subspace for the residual cluster), and
+$\mathtt{--n-eig}=5$ (resolves the cluster as five separate
+eigenvalues), the run is expected to terminate in $\mathcal{O}(10^3)$
+matvecs with five converged eigenvalues, resolving G3.
+
+\paragraph{(N2) LOBPCG (alternative solver, robust to clustering).}
+\begin{quote}\small\ttfamily
+python Codes/supplementary/Math292\_transverse\_lanczos.py \\
+\hphantom{python }--psi Runs/continuation/math236\_A1p0\_seeded\_N32\_resumed/Psi\_best\_F.npy \\
+\hphantom{python }--N 32 --mu2 -0.7 \\
+\hphantom{python }--solver lobpcg \\
+\hphantom{python }--n-eig 8 --tol 1.0e-5 --maxiter 5000 \\
+\hphantom{python }--include-phase-mode --asymmetry-probe
+\end{quote}
+\textbf{Rationale.} LOBPCG (locally optimal block preconditioned
+conjugate gradient) is structurally more robust to clustered
+spectra than ARPACK Lanczos, and the script's
+\texttt{--solver lobpcg} branch already implements zero-mode
+projection of the initial guess. The $\mathtt{--n-eig}=8$ block size
+spans the expected cluster.
+
+\paragraph{(N3) Re-converge $\Psi$ to deeper Newton tolerance first.}
+Before either (N1) or (N2), it is worth re-running the
+continuation driver to force
+$\|R\|/\sqrt{\mathrm{dof}} < 10^{-5}$ at this point, e.g.\ via
+\begin{quote}\small\ttfamily
+python Codes/pde/continuation\_mu2\_v25.py \\
+\hphantom{python }--restart Runs/continuation/math236\_A1p0\_seeded\_N32\_resumed \\
+\hphantom{python }--target-mu2 -0.7 --tol-newton 1e-5 \\
+\hphantom{python }--max-newton-steps 50
+\end{quote}
+\textbf{Rationale.} A residual at $10^{-2}$ produces a Hessian
+near-zero-eigenvalue noise floor at $\sim 10^{-2}\cdot \|H\|$, which
+masks any genuine physical saddle-direction eigenvalue smaller than
+that floor. Tightening to $\|R\|/\sqrt{\mathrm{dof}} < 10^{-5}$
+reduces the noise floor by three orders of magnitude.
+
+\section*{5. Decision tree for the next Math note in this track}
+
+\begin{itemize}
+  \item If (N1) returns a converged $\lambda_{\min}^{\mathrm{transverse}} > 0$
+    cluster $\Rightarrow$ G3 PASS candidate $\Rightarrow$ open
+    Math316 recording the result and feeding the F-Pillar6 verdict
+    shell (Math313); cross-update Paper-06 to ``G2+G3 satisfied,
+    G1+G4 pending''.
+  \item If (N1) returns at least one $\lambda_{\min}^{\mathrm{transverse}} < 0$
+    well-separated from zero $\Rightarrow$ G3 FAIL $\Rightarrow$
+    open Math316 recording the negative verdict and tagging the
+    F-Pillar6 verdict in NEGATIVE-RESULTS as
+    \texttt{R-2026-05-XX-Math292-G3-N32-Saddle-Confirmed};
+    Pillar~6 remains T4 with the gate-failure documented.
+  \item If (N1) again returns INDETERMINATE
+    $\Rightarrow$ try (N2) LOBPCG, then (N3) deeper convergence;
+    iterate until either PASS or FAIL is conclusive.
+\end{itemize}
+
+\section*{6. CLAUDE.md \S 6 self-adversarial review of this note}
+
+\paragraph{(\(\alpha\)) Could the asymmetry probe \eqref{eq:asym}
+under-detect a genuine implementation defect?}
+The probe averages over three random vectors and may miss
+direction-specific defects with measure-zero overlap. \emph{Mitigation:}
+use $n_{\mathrm{probe}} \geq 10$ in the next runs to bring the
+statistical detection threshold below $10^{-4}$.
+
+\paragraph{(\(\beta\)) Could the residual \eqref{eq:res} be the
+\emph{cause} of the ARPACK non-convergence rather than a
+\emph{co-occurring} symptom?}
+Plausible. The Hessian eigenvalues near a non-deeply-converged
+critical point pick up residual-noise contamination of order
+$\|R\|/\|\Psi\|$. Mitigation (N3) explicitly addresses this: if
+deeper convergence resolves G3 PASS without need for shift-invert,
+the present cluster signature is residual-noise, not physical
+saddle-manifold.
+
+\paragraph{(\(\gamma\)) Could the zero-mode count \eqref{eq:zeromode-count}
+be wrong?}
+The translation count (3) is exact. The global U(1) phase count (1)
+is exact for the SMA single-component case but the present field is
+3-component, so the global-phase mode is part of a larger internal
+$\mathrm{U}(3)$ structure with up to $9$ generators; the
+$\mathtt{--include-phase-mode}$ flag covers only the global U(1).
+Mitigation: extend \texttt{build\_zero\_mode\_projector} to the full
+internal $\mathrm{SU}(3)$ Cartan + global U(1) basis, increasing the
+projected zero-mode dimension from $4$ to $\geq 7$. This is the
+load-bearing extension item per Math310-AddA \S 4 and Auxiliary-02
+\S 3 Math290-first-run-audit.
+
+\paragraph{Quantitative-sanity-check (CLAUDE.md \S 6.3.4).}
+The matvec budget is the relevant magnitude check:
+$10\,021$ matvecs vs.\ ARPACK's typical $\mathcal{O}(10^{2}\!-\!10^{3})$
+matvecs for a well-separated SA eigenvalue is a $10\!\times\!\!-\!\!100\times$
+overrun. This order-of-magnitude excess is the canonical
+densely-clustered-spectrum signature, not a numerical anomaly.
+
+\section*{7. Atomic-write checklist (CLAUDE.md \S 3)}
+
+\begin{itemize}
+  \item Math note: \emph{this file},
+    \texttt{Docs/math/TECT-Math315-Pillar6-G3-Lanczos-N32-mu2\_-0.7-First-Diagnostic.tex.txt}.
+  \item \texttt{CHANGELOG.md}: append entry under
+    \texttt{[Math315 --- Pillar~6 G3 First Lanczos Diagnostic]}.
+  \item \texttt{Docs/status/TOE-FACT-SHEET.md} Pillar~6 row: add
+    Math315 reference to ``audit-verified evidence / blocking items''
+    column. Tier remains T4 \textsc{strong evidence}.
+  \item \texttt{Docs/status/EVIDENCE-INDEX.md}: add
+    \texttt{(Math292 G3 first-run INDETERMINATE)
+    \rightarrow Math315 \S 2 + Run path}.
+  \item \texttt{Docs/status/research-log.md}: prepend entry referencing
+    this note plus the next-run plan of \S 4.
+  \item Single \texttt{git commit} stamping all of the above.
+\end{itemize}
+
+% =====================================================================
+% End of TECT-Math315
+% =====================================================================

@@ -55,6 +55,120 @@ archived with the replacement's tag, and the replacement gains an
 
 ## Active
 
+#### Q-2026-05-02-Pillar11-Lambda-Numerical-Repair — Paper-11 internal numerical-vs-gate inconsistency resolution — **OPENED 2026-05-02 (Math314-AddD Paper-11 [INTERNAL_INCONSISTENCY_REPAIRED] flag)**
+
+**[OPENED 2026-05-02 — Math314-AddD §2 Paper-11 correction follow-up]** **Context**: Paper-11 (Pillar 11 Λ) as drafted contains an internal contradiction: the abstract claims "verification within F-GAP gate $|\Lambda|/M_{\rm Planck}^4 < 10^{-120}$", but §Numerical-result computes $|\Lambda_{\rm TECT}|/M_{\rm Planck}^4 \sim 10^{-118}\text{ to }10^{-119}$. The paper fails its own pre-registered falsification gate by 1-2 orders of magnitude. The Math314-AddD audit flagged the inconsistency in the abstract; the underlying physics question remains open.
+
+**Statement**: Resolve the internal inconsistency in Paper-11 by ONE of the following paths: (a) repair the four-sector cancellation calculation to actually achieve $|\Lambda|/M_{\rm Planck}^4 < 10^{-120}$ (find the additional 1-2 orders of magnitude of suppression in the four-sector analysis); OR (b) honestly downgrade the F-GAP gate to match the calculated $\sim 10^{-118}$ to $10^{-119}$ (with explicit accounting for why the additional 2 orders to reach the observed $\Lambda \sim 10^{-120} M_{\rm Planck}^4$ are not derived); OR (c) acknowledge that the four-sector cancellation programme is currently insufficient to reach the observed $\Lambda$ and re-frame the paper as a partial mechanism note.
+
+**Why open**: the cosmological constant problem is one of the most acute tensions in theoretical physics; a partially successful four-sector cancellation programme that reaches $\sim 10^{-118}$ vs the observed $\sim 10^{-120}$ is still scientifically interesting (the typical naive QFT estimate is $M_{\rm Planck}^4$ itself, which is over by $\sim 120$ orders), but the wording must reflect the actual achievement, not over-claim closure that doesn't pass the gate.
+
+**Owner**: Jusang Lee (maintainer). **Expected closure**: ~1-3 months (calculation-level work).
+
+**Cross-references**: Paper-11 (current INTERNAL_INCONSISTENCY_REPAIRED form, Math314-AddD commit), Math58-v7 four-sector cancellation chain.
+
+---
+
+#### Q-2026-05-02-Paper16-PTA-Band-Repair — Paper-16 Ω_GW peak frequency re-derivation from first principles — **OPENED 2026-05-02 (Math314-AddD Paper-16 [EXTERNAL_USE_FORBIDDEN] flag)**
+
+**[OPENED 2026-05-02 — Math314-AddD §2 Paper-16 correction follow-up]** **Context**: Paper-16 (GAP-4 Cosmology) claims the $\Omega_{\rm GW}$ peak from KZ defect formation lies at $f \sim 10^{-16}$ Hz, labelled "PTA band". The actual PTA band is nHz $\sim 10^{-9}$ Hz; the predicted peak is 7 orders of magnitude below the closest existing GW observational band. The paper later cites SKA/IPTA sensitivity at $\sim 10^{-9}$ Hz, contradicting its own peak prediction. Additionally, the paper silently redefines the canonical F-GAP4 gate from a defect-mass verdict window to "SKA/IPTA non-detection by 2026-12-31".
+
+**Statement**: Re-derive the predicted $\Omega_{\rm GW}$ peak frequency from first principles using the canonical TECT BCC condensate parameters. Three possible outcomes: (a) corrected derivation gives a peak in the $\mu$Hz to nHz range (potentially observable by LISA / SKA / IPTA), upgrading the paper to a falsifiable cosmological-prediction note; (b) corrected derivation confirms the peak lies in a no-current-instrument zone ($10^{-18}$ to $10^{-12}$ Hz), forcing the paper to acknowledge the prediction as currently un-testable; (c) the candidate KZ-defect mechanism is identified as not producing a sharp $\Omega_{\rm GW}$ peak at all, requiring the paper to be re-framed as a different cosmological observable. Separately, the F-GAP4 gate must be restored to its canonical form (defect-mass verdict window per Math300/Math311), NOT silently redefined.
+
+**Why open**: TECT cosmological observable predictions are scientifically important for falsifiability, but the present draft has both a phenomenological error (peak frequency) and a canonical-gate-redefinition error (F-GAP4 scope). Both must be repaired before any external use.
+
+**Owner**: Jusang Lee (maintainer). **Expected closure**: ~1-2 months.
+
+**Cross-references**: Paper-16 (current EXTERNAL_USE_FORBIDDEN form, Math314-AddD commit), Math156, Math159, Math172, Math196, Math300, Math311.
+
+---
+
+#### Q-2026-05-02-Paper12-Stage2-Successor-Draft — Paper-12 successor draft using current canonical GAP-1/2/3/4 + verdict-shell bookkeeping — **OPENED 2026-05-02 (Math314-AddD Paper-12 [EXTERNAL_USE_FORBIDDEN] flag)**
+
+**[OPENED 2026-05-02 — Math314-AddD §2 Paper-12 correction follow-up]** **Context**: Paper-12 (Stage-2 Synthesis) reuses the old Math60-A..E packaging that predates the GAP-1/2/3/4 + verdict-shell decomposition introduced by Math270--313. The original Paper-12 wording ("Stage-2 global closure theorem", "quantum sector mathematically complete", "five sub-theorems establish structural integrity") is incompatible with the current canonical Stage-2 composite tier of T3 with promotion gated by $(C_1 \wedge C_2 \wedge C_3) \wedge (\text{F-GAP4}=\text{PASS})$ per Math307 / Math310. The Math314-AddD audit flagged the old draft as [EXTERNAL_USE_FORBIDDEN] and preserved it as a historical chronological-record artefact only.
+
+**Statement**: Draft a successor Paper-12-v2 using the current canonical bookkeeping: (a) replace the Math60-A..E five-sub-theorem packaging with the GAP-1/2/3/4 four-gate decomposition; (b) state the current Stage-2 composite tier T3 honestly with the joint-event promotion gate $(C_1 \wedge C_2 \wedge C_3) \wedge (\text{F-GAP4}=\text{PASS})$; (c) reference the canonical verdict shells (Math299 GAP-1, Math311 F-GAP4, Math292 / Math313 F-Pillar6) and their pending status; (d) provide an honest timeline of the F-* verdicts (2026-05-14 / 2026-05-22 / 2026-05-29) that gate Stage-2 promotion.
+
+**Why open**: a current Stage-2 synthesis paper is scientifically necessary for the public TECT mirror, since the Math60-A..E old draft is now flagged FORBIDDEN. The successor draft would bridge the gap between current canonical bookkeeping and external Stage-2 narrative.
+
+**Owner**: Jusang Lee (maintainer). **Expected closure**: ~2-4 weeks (after F-* verdict arrival, since the successor needs to incorporate the actual verdict outcomes).
+
+**Cross-references**: Paper-12 v1 (EXTERNAL_USE_FORBIDDEN, Math314-AddD commit), Math60, Math60-A..E (historical), Math299, Math307, Math310, Math311.
+
+---
+
+#### Q-2026-05-02-Pillar5-Mechanism-Rewrite — Paper-05 (Pillar 5 chirality) full theorem-level rewrite within Callias / domain-wall framework — **OPENED 2026-05-02 (Math314-AddC Paper-05 [REWRITE_REQUIRED] flag)**
+
+**[OPENED 2026-05-02 — Math314-AddC §2 Paper-05 correction follow-up]** **Context**: Paper-05 (Pillar 5 Chirality) originally claimed `Index(D) = wind(m)` for a real scalar mass $m(\mathbf{k})$ on a 3D Brillouin torus, and identified the chiral family count with the winding number. The Math314-AddC audit identified that this identification does NOT hold in the general form claimed: the appropriate framework is Callias-type / domain-wall theory (e.g., Callias (1978) for non-compact base manifolds; Niemi-Semenoff (1986) for Brillouin-zone topological fermion counting). The current draft has been recast as a MECHANISM NOTE; the theorem-level statement requires a full rewrite within an appropriate Callias / domain-wall framework.
+
+**Statement**: Rewrite Paper-05 (`Docs/papers/papers/Paper-05-Pillar5-Chirality/Paper-05.tex`) with (i) a properly set-up Callias-type or domain-wall-type framework on the 3D Brillouin torus + condensate sector, (ii) explicit identification of the topological zero-mode count with the appropriate winding-number invariant under the framework's hypotheses, (iii) explicit cross-check against textbook Callias / Niemi-Semenoff results for the special case of trivial condensate background. The rewrite should also clarify the relationship between the chiral family count and SM phenomenology (which is not currently a derived consequence at the canonical tier).
+
+**Why open**: the current MECHANISM NOTE framing is honest but the underlying physics question (does TECT have a route to derive SM chirality from a topological-protection mechanism?) remains scientifically interesting. A correct theorem statement within the appropriate framework would substantially strengthen Pillar 5.
+
+**Owner**: Jusang Lee (maintainer). **Expected closure**: ~2-4 weeks (mathematical-research-level work).
+
+**Cross-references**: Paper-05 (current MECHANISM NOTE form, Math314-AddC commit), Math10-14 (canonical archive of original Pillar 5 chirality programme).
+
+---
+
+#### Q-2026-05-02-Pillar7-Three-Generation-Rewrite — Paper-07 (Pillar 7 quantum) full theorem-level rewrite (or honest demotion to mechanism note) — **OPENED 2026-05-02 (Math314-AddC Paper-07 [EXTERNAL_USE_FORBIDDEN][REWRITE_REQUIRED] flag)**
+
+**[OPENED 2026-05-02 — Math314-AddC §2 Paper-07 correction follow-up]** **Context**: Paper-07 (Pillar 7 Quantum Consistency) originally claimed that four constraints — (1) Ward identity, (2) Einstein-Hilbert coupling, (3) Witten SU(2) anomaly, (4) mod-2 spectral flow — combine to FORCE exactly three SM generations at tier T7 PROVED. The Math314-AddC audit identified that (a) the `A_grav = Σ_f Q_f^3` combination used as "gravitational anomaly coefficient" is non-standard; (b) the Witten + mod-2 arguments do NOT support a generation-count uniqueness theorem at the present draft level; (c) the four-constraint forcing chain cannot close without significant additional structure. The paper has been flagged `[EXTERNAL_USE_FORBIDDEN]` at the present canonical tier.
+
+**Statement**: Either (a) rewrite Paper-07 (`Docs/papers/papers/Paper-07-Pillar7-Quantum-Consistency/Paper-07.tex`) with a corrected, self-contained derivation of the generation-count constraint from the appropriate combination of standard anomaly-cancellation results (gravitational anomaly $\propto \mathrm{Tr}(Q_Y)$, not $\mathrm{Tr}(Q_Y^3)$; Witten anomaly applies only to SU(2), not directly to family count; mod-2 spectral flow applies to specific topological scenarios), OR (b) honestly demote the paper to a mechanism / outlook note acknowledging that the three-generation question remains open in TECT at the current canonical tier.
+
+**Why open**: the four-constraint framework is intriguing and may yield genuine mathematical content under proper formulation, but the present draft over-reaches. Either rewrite path (a) or path (b) would resolve the structural defect.
+
+**Owner**: Jusang Lee (maintainer). **Expected closure**: pending preferred path selection (a vs b); 2-6 weeks depending on choice.
+
+**Cross-references**: Paper-07 (current EXTERNAL_USE_FORBIDDEN form, Math314-AddC commit), Math47, Math48, Math49b-v3, Math49c-v3 (canonical archive of original Pillar 7 quantum-consistency programme).
+
+---
+
+#### Q-2026-05-02-Math171-AddA-Rank-Dependence — Retroactive patch of Math171-AddA HRR-formula note to record rank-dependent form — **OPENED 2026-05-02 (Math314-AddB Objection α VALID-with-mitigation follow-up)**
+
+**[OPENED 2026-05-02 — Math314-AddB §3 objection α mitigation]** **Context**: Math171-AddA is the canonical archive for the corrected Hirzebruch–Riemann–Roch / spin-c Dirac index formula on `CP²`. The Math314-AddB audit of Paper-TI-1 established that the correct general formula is rank-dependent (`ind(D_E^c) = r - μ` for general rank `r` with `c_1(E) = 0`, `c_2(E) = μH²`), and that the originally archived `16 - μ` is the `r=16` corollary (rank-16 SO(10) chiral-fermion sector specialisation), NOT a general theorem. The TI-1 paper has been repaired in place; the parent Math171-AddA note must be retroactively patched to match.
+
+**Statement**: Update `Docs/math/TECT-Math171-AddA-*.tex.txt` to (i) record the general rank-dependent formula `ind(D_E^c) = r - μ` as the main theorem, (ii) record `r=16 ⟹ ind = 16 - μ` as an explicit corollary for the SO(10) fermion sector, (iii) cross-reference Paper-TI-1 (the corrected Top-impact paper, repaired in Math314-AddB commit) and Math314-AddB itself as the source of the rank-dependence audit. Until this patch lands, citations to the HRR formula should use either Paper-TI-1 or Math314-AddB as the canonical source rather than the un-patched Math171-AddA.
+
+**Why open**: Math171-AddA is on the canonical record at the pre-Math314-AddB version. Until patched, the canonical archive contains a wording inconsistency with the corrected Paper-TI-1. The patch is straightforward (no new mathematics required; only restate the existing derivation as rank-dependent + add corollary).
+
+**Owner**: Jusang Lee (maintainer). **Expected closure**: within 1 week (low complexity).
+
+**Cross-references**: Paper-TI-1 (corrected, this commit), Math314-AddB §2 + §5 (TI-1 correction details), `PAPERS_STATUS_REGISTRY.md` Rev 7.
+
+---
+
+#### Q-2026-05-02-Math195-TDGL-Reversibility-Patch — Retroactive patch of Math195 to remove time-reversibility invocation — **OPENED 2026-05-02 (Math314-AddB Objection β UPHELD follow-up)**
+
+**[OPENED 2026-05-02 — Math314-AddB §3 objection β mitigation]** **Context**: Math195 is the canonical internal note for the A2 axiom reducibility analysis. The Math314-AddB audit of Paper-TI-3 established that the original ``backward extrapolation by time-reversibility'' argument structurally fails (the dissipative TDGL flow `∂_t Ψ = -Γ δF/δΨ*` is NOT time-reversible). The TI-3 paper has been repaired in place using the correct ``forward consistency / phase-class'' framing; the parent Math195 note (which was the source of the original wording in the autonomous-agent dispatch) must be retroactively patched.
+
+**Statement**: Update `Docs/math/TECT-Math195-*.tex.txt` to (i) remove the time-reversibility invocation, (ii) replace the ``unique microscopic Cauchy datum at $t = -\infty$'' framing with the weaker ``symmetric high-temperature phase class $\langle \Psi \rangle = 0$'' framing, (iii) preserve the total-premise-count (3 = 2 internal + 1 boundary), (iv) downgrade the theorem from ``A2 elimination'' / ``A2 reducibility'' to ``A2 weakening / reclassification'', (v) cross-reference Paper-TI-3 (the corrected Top-impact paper, repaired in Math314-AddB commit) and Math314-AddB itself as the source of the structural-defect audit.
+
+**Why open**: Math195 is on the canonical record with the structural defect that was inherited by the autonomous-agent into Paper-TI-3. The TI-3 repair is correct, but the parent Math195 note still carries the original defect; until patched, any citation to Math195 must be cross-checked against the repaired TI-3 wording.
+
+**Owner**: Jusang Lee (maintainer). **Expected closure**: within 1 week (low complexity once the TI-3 corrected wording is adopted).
+
+**Cross-references**: Paper-TI-3 (corrected, this commit), Math314-AddB §2 + §5 (TI-3 correction details), `PAPERS_STATUS_REGISTRY.md` Rev 7.
+
+---
+
+#### Q-2026-05-02-Wave7-Independent-Audit — Independent external peer review of all 14 Wave-6/7 paper drafts before next public snapshot — **OPENED 2026-05-02 (Math314-AddA Objection γ UPHELD follow-up)**
+
+**[OPENED 2026-05-02 — Math314-AddA §3 objection γ mitigation]** **Context**: The hostile-referee audit that produced Math314 + Math314-AddA (correcting 14 of 35 newly drafted Wave-6/7 papers for canonical-tier over-claim) was performed by the human maintainer rather than an independent third party. Per CLAUDE.md §6.3.5(a), self-confirmation bias remains a residual risk: the maintainer is also the theory's author, so independent peer review is structurally needed before external publication.
+
+**Statement**: Schedule and complete an independent external peer review of the 14 Wave-6/7 paper drafts (Auxiliary-01, Auxiliary-02, Epoch-01 through Epoch-12) before the next public snapshot of any of these papers to the GitHub mirror or external archive. The review must, at minimum, (a) cross-check each paper's wording against the canonical TOE-FACT-SHEET tier per CLAUDE.md §15.6 rule #6 (tier-compare-against-TOE-FACT-SHEET), (b) verify that no further over-claim survived the Math314 + Math314-AddA correction sweep, and (c) provide an independent verdict on whether Epoch-12 is genuinely externally publishable after light polish.
+
+**Why open**: Math314 + Math314-AddA caught 40% over-claim rate in the autonomous-agent dispatch output (14/35 newly drafted papers). The maintainer's hostile-referee pass is a self-test, which is structurally weaker than independent peer review. Until external review is complete, the corrected papers may still contain subtle over-claims that the maintainer is in a position similar to the autonomous agents (knowing the canonical record but able to be inadvertently optimistic about derived claims).
+
+**Owner**: Jusang Lee (maintainer to coordinate external reviewer recruitment).
+
+**Expected closure**: Q3 2026 OR first F-* verdict arrival (F-GAP4 deadline 2026-05-14, F-GAP1 deadline 2026-05-22, F-Pillar6 deadline 2026-05-29) — whichever earlier. Verdict-conditional snapshot of these papers should be deferred until either (i) independent peer review verdict arrives, or (ii) the F-* verdicts force a separate canonical-row update that subsumes the present audit-flag work.
+
+**Cross-references**: Math314 (parent audit), Math314-AddA (Epoch series 03-12 extension), CLAUDE.md §15.6 rule #6, PAPERS_STATUS_REGISTRY.md Rev 6, NEGATIVE-RESULTS.md tag `AUDIT-2026-05-02-Wave7-Aux-Epoch-Overclaim`.
+
+---
+
 #### Q-2026-05-01-Math288-Proposition-4-3-1-Rigorous-Proof — Rigorous Hodge-theoretic derivation of Proposition 4.3.1 (Bogomolov-type eigenvalue bound for bundle Laplacian) — **OPENED 2026-05-01 TURN 59 (Math288 §7 objection α mitigation)**
 
 **[OPENED 2026-05-01 TURN 59 — Math288 §4.3 / §7 objection α / §11 open-task register]** **Context**: Math288 (Turn 59) derives a new Bogomolov-type inequality (Proposition 4.3.1) relating bundle Chern class $c_2(E)$ to covariant Laplacian spectrum on Kähler surfaces. The proposition is **stated heuristically** (standard form in physics literature) but requires rigorous Hodge-theoretic justification in analytic terms. Objection α (§7) identifies this as VALID-WITH-MITIGATION: the bound is used in Task #156 numerical dispatch to predict defect-mass magnitude, and will be validated a posteriori by comparing numerical eigenvalue against the Bogomolov inequality. This task opens the rigorous derivation as a follow-up.

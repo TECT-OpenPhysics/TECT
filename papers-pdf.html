@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>TECT — Papers (PDF downloads)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="assets/style.css">
+  <style>
+    /* Inline page-specific styling for the PDF download grid */
+    .pdf-cat       { margin: 1.4em 0 2em 0; }
+    .pdf-cat h2    { border-bottom: 1px solid #ccc; padding-bottom: 0.2em; margin-bottom: 0.4em; }
+    .pdf-cat .sub  { color: #666; font-size: 0.92em; margin-bottom: 1em; }
+    .pdf-grid      { display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+                     gap: 0.8em; }
+    .pdf-card      { border: 1px solid #ddd; padding: 0.7em 0.9em; border-radius: 6px;
+                     background: #fafafa; }
+    .pdf-card .stem { font-family: ui-monospace,Menlo,Consolas,monospace;
+                      color: #2266aa; font-weight: 600; }
+    .pdf-card .ttl  { display: block; margin: 0.3em 0; line-height: 1.35; color: #222;
+                      font-size: 0.95em; }
+    .pdf-card .meta { font-size: 0.82em; color: #888; }
+    .pdf-card a.dl  { display: inline-block; margin-top: 0.4em; padding: 0.25em 0.7em;
+                      border: 1px solid #2266aa; color: #2266aa;
+                      text-decoration: none; border-radius: 4px; font-size: 0.85em; }
+    .pdf-card a.dl:hover { background: #2266aa; color: white; }
+    .pdf-summary    { font-size: 0.95em; color: #444; margin: 0.6em 0 1.4em 0; }
+  </style>
+</head>
+<body>
+<header class="site" id="site-header"></header>
+<main class="wrap">
+
+  <h1>Papers — PDF downloads</h1>
+  <p class="lead">
+    All TECT manuscripts compiled to PDF. The source TeX lives under
+    <code>Docs/papers/</code> in the canonical repository; the PDFs
+    here are the result of running
+    <code>Codes/scripts/build-all-papers.ps1</code> on the source.
+    For the conceptual / proof-archive structure of these papers see
+    the curated <a href="papers.html">Papers index</a>.
+  </p>
+
+  <div id="pdf-summary" class="pdf-summary"></div>
+  <div id="pdf-content"></div>
+
+</main>
+<footer class="site" id="site-footer"></footer>
+
+<script src="data/site.js"></script>
+<script src="data/papers_pdf_index.js"></script>
+<script src="assets/js/tect-render.js"></script>
+<script>
+(function() {
+  // Render header / footer via the standard TECT chrome
+  if (window.TECT && typeof TECT.renderChrome === 'function') {
+    TECT.renderChrome();
+  }
+
+  var idx = window.TECT_PAPERS_PDF_INDEX;
+  if (!idx) {
+    document.getElementById('pdf-content').innerHTML =
+      '<p><em>papers_pdf_index.js missing or empty. Run '
+      + '<code>python -u Codes/tools/publish_papers.py</code> '
+      + 'and re-snapshot.</em></p>';
+    return;
+  }
+
+  // Top summary
+  var sum = document.getElementById('pdf-summary');
+  var totalKB = Math.round(idx.totalBytes / 1024);
+  sum.innerHTML =
+    '<strong>' + idx.totalPapers + ' PDFs</strong> across '
+    + idx.categories.length + ' categories &mdash; total '
+    + (totalKB > 1024 ? (totalKB/1024).toFixed(1) + ' MB' : totalKB + ' KB')
+    + '. Generated <code>' + idx.generated + '</code>.';
+
+  var root = document.getElementById('pdf-content');
+  idx.categories.forEach(function(cat) {
+    if (cat.papers.length === 0) return;
+    var div = document.createElement('div');
+    div.className = 'pdf-cat';
+    var h = document.createElement('h2');
+    h.textContent = cat.label + ' (' + cat.papers.length + ')';
+    div.appendChild(h);
+    var sub = document.createElement('div');
+    sub.className = 'sub';
+    sub.textContent = cat.subtitle;
+    div.appendChild(sub);
+
+    var grid = document.createElement('div');
+    grid.className = 'pdf-grid';
+    cat.papers.forEach(function(p) {
+      var card = document.createElement('div');
+      card.className = 'pdf-card';
+      card.innerHTML =
+        '<span class="stem">' + p.stem + '</span>'
+        + '<span class="ttl">' + escapeHTML(p.title) + '</span>'
+        + '<span class="meta">' + p.kb + ' KB</span><br>'
+        + '<a class="dl" href="' + p.url + '" download="' + p.stem + '.pdf">'
+        + 'Download PDF</a>';
+      grid.appendChild(card);
+    });
+    div.appendChild(grid);
+    root.appendChild(div);
+  });
+
+  function escapeHTML(s) {
+    return String(s).replace(/[&<>"']/g, function(c) {
+      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+    });
+  }
+})();
+</script>
+</body>
+</html>

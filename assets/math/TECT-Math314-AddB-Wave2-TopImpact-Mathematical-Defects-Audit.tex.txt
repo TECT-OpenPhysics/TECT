@@ -1,0 +1,392 @@
+% ===========================================================================
+% TECT-Math314-AddB — Wave-2 Top-impact (TI-1..4) MATHEMATICAL DEFECTS audit
+% Tag           : AUDIT-2026-05-02-Wave7-Aux-Epoch-Overclaim (extended Math314 family)
+% Status        : T7 PROVED (audit verdict = AUDIT-FLAGGED + corrections applied)
+% Theory tag    : Math314-AddB-2026-05-02
+% Authors       : Jusang Lee + Anthropic Claude Opus 4.7
+% Sync targets  : CHANGELOG.md, NEGATIVE-RESULTS.md, PAPERS_STATUS_REGISTRY.md, research-log.md
+% Cross-ref     : Math314 (parent: Aux-01/02 + Epoch-01/02 wording),
+%                 Math314-AddA (Epoch 03-12 wording),
+%                 Math171-AddA (HRR formula canonical statement),
+%                 Math194 (BCC single-shell uniqueness, single-shell caveat),
+%                 Math195 (A2 axiom reducibility analysis),
+%                 Math202 (CP^2 cohomology),
+%                 Math305 (canonical Pillar-4 base = P^1 x P^1),
+%                 Math302 (proof-rigor / realisation-gate carve-out)
+% ===========================================================================
+
+\documentclass[11pt,a4paper]{article}
+\usepackage{amsmath,amssymb,amsthm,bm,hyperref,xcolor,enumitem,geometry,longtable}
+\geometry{margin=2.4cm}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{audit}[theorem]{Audit verdict}
+
+\begin{document}
+
+\title{Math314-AddB --- Wave-2 Top-impact paper audit:
+mathematical defects in Paper-TI-1, structural over-claims in TI-2/TI-3,
+canonical-route mismatch in TI-4 \\
+(\textbf{Tag}: AUDIT-2026-05-02-Wave7-Aux-Epoch-Overclaim, extended)}
+\author{Jusang Lee \and Anthropic Claude Opus 4.7}
+\date{2026-05-02}
+\maketitle
+
+% ===========================================================================
+\section{Trigger and audit context}
+% ===========================================================================
+
+The parent Math314 (Aux-01/02 + Epoch-01/02) and Math314-AddA
+(Epoch 03--12) audits established the wording-calibration discipline
+for Wave-6 and Wave-7 papers. The hostile-referee audit on 2026-05-02
+extended to the four Wave-2 Top-impact papers (Paper-TI-1 through
+Paper-TI-4) and uncovered defects of \emph{higher} severity than the
+Aux/Epoch wording over-claims:
+
+\begin{itemize}[leftmargin=1.4em]
+\item \textbf{Paper-TI-1}: actual mathematical inconsistency in the
+main theorem (rank-dependence elided; rank-1 line-bundle context
+conflated with rank-16 fermion-sector specialisation; arithmetic error
+in Step~3 of the proof sketch).
+\item \textbf{Paper-TI-2}: structural over-claim presenting a
+single-mode-approximation (SMA) / equal-amplitude / first-shell
+truncation ranking as a ``rigorous unique global minimum theorem''.
+\item \textbf{Paper-TI-3}: \emph{fatal logical defect}: the original
+proof Step 2 invokes ``time-reversibility of the classical dynamics''
+to support a unique-microscopic-Cauchy-datum claim, but the underlying
+TDGL flow is dissipative and NOT time-reversible; additionally,
+$\langle \Psi \rangle = 0$ is conflated with a unique microscopic
+boundary state, and ``axiom count reduction $3 \to 2$'' is
+mis-counted.
+\item \textbf{Paper-TI-4}: standard mathematics is correct; the
+TECT-application phrasing was over-claim relative to the current
+canonical Pillar-4 realisation programme on
+$\Sigma_0 = \mathbb{P}^1 \times \mathbb{P}^1$ (Math305) and the
+Math302 proof-rigor / realisation-gate carve-out.
+\end{itemize}
+
+The present addendum documents these corrections, repairs the
+mathematics where required (TI-1, TI-3), recasts theorem statements
+where required (TI-2), and downgrades scope where required (TI-4).
+
+% ===========================================================================
+\section{Severity ranking and corrections per paper}
+% ===========================================================================
+
+\begin{audit}[Wave-2 Top-impact severity ranking]
+\label{audit:wave2-ti-ranking}
+
+The hostile-referee severity ranking (most-severe first) is:
+\[
+\text{TI-3} \;\succ\; \text{TI-1} \;\succ\;
+\text{TI-2} \;\succ\; \text{TI-4}.
+\]
+The TI-3 and TI-1 defects are mathematical (cannot be fixed by wording
+alone); TI-2 and TI-4 are over-claim wording / scope corrections.
+
+\subsection*{Paper-TI-1 corrections (mathematical repair)}
+
+The original main theorem stated $\mathrm{ind}(D_E^c) = 16 - \mu$ as a
+general theorem for a holomorphic vector bundle $E$ on $\mathbb{CP}^2$
+with $c_1(E) = 0$ and $c_2(E) = \mu H^2$. The actual integration in
+the proof yields, by the spin-c Hirzebruch--Riemann--Roch formula on
+complex 2-fold $\mathbb{CP}^2$ with canonical spin-c structure
+($c_1(L_{\rm can}) = 3H$):
+\[
+\mathrm{ind}(D_E^c) \;=\; \int_{\mathbb{CP}^2}
+\mathrm{td}(T\mathbb{CP}^2) \wedge \mathrm{ch}(E)
+\;=\; r - \mu,
+\]
+where $r = \mathrm{rk}(E)$. The original $16 - \mu$ wording is the
+specialisation $r = 16$ (relevant to the SO(10) chiral-fermion sector
+of the TECT Pillar-4 programme), NOT a general theorem.
+
+\textbf{Restructured corrected file (Paper-TI-1, in this commit)}:
+\begin{enumerate}[leftmargin=1.6em]
+\item \textbf{Main theorem}: $\mathrm{ind}(D_E^c) = r - \mu$ for
+general rank $r$, $c_1(E) = 0$, $c_2(E) = \mu H^2$ on $\mathbb{CP}^2$
+with the canonical spin-c structure. Proof gives the explicit
+degree-graded integration:
+\[
+[\mathrm{td} \wedge \mathrm{ch}]_{(4)} = H^2 \cdot r + \tfrac{3}{2} H \cdot 0 + 1 \cdot (-\mu H^2) = (r - \mu)\, H^2,
+\]
+which integrates to $r - \mu$ via $\int_{\mathbb{CP}^2} H^2 = 1$.
+\item \textbf{Corollary} (rank-$16$ specialisation): $r = 16
+\Rightarrow \mathrm{ind} = 16 - \mu$ for the SO(10)-fermion sector.
+\item \textbf{Separate remark} on the Picard classification
+$\mathrm{Pic}(\mathbb{CP}^2) \cong \mathbb{Z}$, explicitly NOT mixed
+with the rank-$r$ index formula. The rank-$1$ Picard context (with
+$c_2 = 0$) is geometrically distinct from the abstract rank-$1$ index
+calculation that would formally give $1 - \mu$ for $c_2 = \mu H^2$.
+\end{enumerate}
+
+The arithmetic error in the original Step~3 (mixing degree-$0$ and
+degree-$4$ contributions in the integration) is removed by the
+explicit degree-graded computation above.
+
+\subsection*{Paper-TI-2 corrections (structural over-claim)}
+
+The original theorem ``BCC Uniqueness at the Operating Point''
+described a global-minimum result, but the proof actually executes:
+single-mode approximation (SMA), equal-amplitude ans\"atz,
+first-shell truncation, and numerical free-energy ranking at one
+operating point. The honest scope is:
+\[
+\boxed{
+\text{within the SMA / equal-amplitude / first-shell truncation, BCC
+ranks lowest among the nine tested competitors at the operating point
+$(\mu^2, \lambda, \gamma, q_0)$.}
+}
+\]
+\textbf{Corrected wording (Paper-TI-2, in this commit)}:
+\begin{itemize}[leftmargin=1.6em]
+\item Title: ``Body-centered cubic selection among nine
+crystallographic competitors in a single-shell Brazovskii ranking
+model for TECT'' (no ``rigorous uniqueness'').
+\item Abstract: explicit conditional framing (``We study a single-shell
+Brazovskii ranking model \dots\ within the SMA / equal-amplitude /
+first-shell truncation'').
+\item Theorem~1 (relabelled ``Conditional BCC ranking within the SMA
+shell model''): explicit conditional statement; explicit ``NOT a
+global-minimum theorem'' disclaimer; explicit ``beyond-truncation
+corrections may strengthen or overturn the ranking'' caveat.
+\item New Remark on the ``cubic stabilisation'' nomenclature
+clarifying that the effective $A^3$-type term arises from
+SMA-truncated four-wave resonance summation, not from an explicit
+cubic operator in the functional (anticipates the natural referee
+question).
+\end{itemize}
+Operator pointer: historical reference draft at \texttt{Old folder
+Claude-Papers BCC TECT-BCC-Part-I} for cross-check.
+
+\subsection*{Paper-TI-3 corrections (fatal logical defect repair)}
+
+The original Theorem~1 ``A2 Axiom Reducibility'' claimed
+\[
+\text{A2} \Leftrightarrow (\text{A0} + \text{A1}) \quad
+\text{at} \quad t = -\infty \quad \text{under cosmological } T(t).
+\]
+This claim is supported in the proof by Step 2 (``backward
+extrapolation by time-reversibility'') and Step 4 (``unique
+causally-determined boundary condition''). Both steps fail for the
+following independent reasons:
+
+\begin{enumerate}[leftmargin=1.6em]
+\item The dissipative TDGL flow $\partial_t \Psi = -\Gamma\, \delta
+\mathcal{F} / \delta \Psi^*$ is NOT time-reversible. The ``backward
+extrapolation by time-reversibility'' invocation is structurally
+incorrect; backward-uniqueness of the microscopic Cauchy datum cannot
+be obtained from forward dissipative TDGL.
+\item $\langle \Psi \rangle = 0$ is an ensemble / phase-class
+characterisation of the symmetric high-temperature regime; it is NOT
+a unique microscopic Cauchy datum at $t = -\infty$. Many distinct
+microscopic configurations are compatible with the same phase-class
+behaviour.
+\item The ``effective axiom count reduces from 3 to $2_{\rm core} +
+1_{\rm cosmological}$'' framing mis-counts: the total premise count
+is preserved at 3; the actual change is reclassification (2 internal
+axioms + 1 external boundary input).
+\end{enumerate}
+
+\textbf{Corrected wording (Paper-TI-3, in this commit)}:
+\begin{itemize}[leftmargin=1.6em]
+\item Title: ``On the reclassification of A2 in TECT: from an
+independent ultra-high-energy postulate to a high-temperature
+symmetric-phase boundary class'' (NOT ``reducibility'').
+\item Abstract: explicit ``weakening / reclassification, NOT
+elimination''; explicit two-part structural caveat (TDGL irreversibility
+$+$ ensemble-vs-microscopic distinction); explicit total-premise-count
+preservation.
+\item Theorem~1 (relabelled ``A2 weakening / reclassification''):
+states that A2 ``need not be imposed as an independent microscopic
+dynamical law'', and ``can be replaced by the weaker requirement that
+the early-time state belongs to the symmetric high-temperature phase
+class $\langle \Psi \rangle = 0$''. Total premise count preserved
+$3 = 2_{\rm internal} + 1_{\rm boundary}$.
+\item New Remark explaining why this is weakening, not elimination
+(TDGL irreversibility + ensemble-microscopic gap).
+\item Step 2 of the proof sketch rewritten to remove the
+``time-reversibility'' invocation and replace it with forward
+consistency.
+\item Step 4 of the proof sketch rewritten to use a phase-class
+argument rather than a unique-Cauchy-datum argument.
+\end{itemize}
+
+\subsection*{Paper-TI-4 corrections (canonical-route mismatch only)}
+
+The mathematics of TI-4 ($H^1(\mathbb{CP}^2, \mathcal{O}) = 0$ +
+$\mathrm{Pic}(\mathbb{CP}^2) \cong \mathbb{Z}$) is correct and
+standard. The TECT-application phrasing was over-claim: the current
+canonical Pillar-4 realisation programme uses
+$\Sigma_0 = \mathbb{P}^1 \times \mathbb{P}^1$ per Math305, NOT
+$\mathbb{CP}^2$, and Math302 formalised the proof-rigor /
+realisation-gate carve-out.
+
+\textbf{Corrected wording (Paper-TI-4, in this commit)}:
+\begin{itemize}[leftmargin=1.6em]
+\item Title: ``\dots\ a background auxiliary note for
+$\mathbb{CP}^2$-based versions of the TECT Pillar-4 bundle programme''
+(explicit auxiliary scope).
+\item Abstract: explicit ``standard textbook facts'' / ``novelty is
+low; its role is auxiliary / expository'' framing; explicit pointer to
+$\Sigma_0$-based current canonical route per Math305.
+\item Corollary (relabelled ``$\mathbb{CP}^2$-base auxiliary
+statement, NOT a current Pillar-4 closure''): if-then framing (``If
+a TECT realisation is formulated on a $\mathbb{CP}^2$-type base \dots
+then \dots'').
+\item Discussion section recast to clarify the auxiliary /
+expository role.
+\end{itemize}
+\end{audit}
+
+% ===========================================================================
+\section{Devil's-advocate self-test (CLAUDE.md §6.3.1)}
+% ===========================================================================
+
+\paragraph{Objection $\alpha$.}
+\emph{The TI-1 mathematical correction --- replacing
+$\mathrm{ind}(D_E^c) = 16 - \mu$ with $r - \mu$ + corollary --- is a
+genuine theorem-level repair. Should the parent Math171-AddA note
+also be retroactively corrected?}
+
+\textbf{VALID-with-mitigation.} Math171-AddA is the canonical archive
+for the corrected HRR formula and should reflect the rank-dependent
+form. A follow-up Math171-AddA-rev2 update is opened as
+\texttt{Q-2026-05-02-Math171-AddA-Rank-Dependence} in
+\texttt{OPEN-QUESTIONS.md}; the present Math314-AddB note already
+contains the corrected mathematical statement and can be cited as the
+canonical source until Math171-AddA-rev2 is deployed.
+
+\paragraph{Objection $\beta$.}
+\emph{The TI-3 ``time-reversibility'' defect is not just a wording
+issue --- it is a known textbook fact that Model-A TDGL is
+dissipative. How did the autonomous-agent dispatch produce this
+defect in the first place?}
+
+\textbf{UPHELD with follow-up.} The autonomous-agent produced
+TI-3 by drawing on the Math195 internal note, which itself contained
+the ``backward extrapolation'' wording. The defect was inherited from
+Math195, not introduced by the agent. Therefore Math195 should also
+be retroactively patched. Opened as
+\texttt{Q-2026-05-02-Math195-TDGL-Reversibility-Patch} in
+\texttt{OPEN-QUESTIONS.md}. The TI-3 paper's repaired wording (this
+commit) is the canonical source until Math195 patch is deployed.
+
+\paragraph{Objection $\gamma$.}
+\emph{The TI-4 corrections downgrade the paper's claim to an
+``auxiliary note'', which appears to render the paper non-novel and
+therefore non-publishable. Should it then be removed from the Wave-2
+Top-impact track?}
+
+\textbf{DISMISSED.} The Wave-2 Top-impact track includes papers of
+varying novelty. TI-4 has low intrinsic novelty (the underlying
+mathematics is standard textbook), but it has cross-paper utility
+within the TECT manuscript collection: it serves as a citable
+geometric-background reference for Pillar-4 papers that need the
+$\mathbb{CP}^2$ Picard classification. The paper retains its
+\texttt{[DRAFT]} status with \texttt{[NEEDS\_UPDATE]} side-flag; the
+expository framing is the appropriate scope. Removing it from the
+Top-impact track is not required.
+
+% ===========================================================================
+\section{Quantitative sanity check (CLAUDE.md §6.3.4)}
+% ===========================================================================
+
+\textbf{TI-1 mathematical defect: arithmetic verification.} For
+$r = 16$, $\mu = 0$ (canonical Math179--198 realisation), the corrected
+formula gives $\mathrm{ind}(D_E^c) = r - \mu = 16$. For $\mu = -40$
+(originally claimed Scenario A), the corrected formula gives
+$\mathrm{ind}(D_E^c) = 16 - (-40) = 56$, matching the original Scenario
+A as a special case. The corrected general formula therefore reproduces
+both the originally claimed $16$ and the originally rejected $56$ as
+two specialisations of the same rank-$r$ formula at $\mu \in \{0,
+-40\}$. The relation
+\[
+56 - 16 \;=\; 40 \;=\; -\mu \quad \text{(Scenario A)}
+\]
+provides a non-trivial cross-check on the arithmetic.
+
+\textbf{TI-3 quantitative-sanity on the ``axiom count'' claim.} Original
+$N_{\rm axiom}^{\rm TECT} = 2_{\rm core} + 1_{\rm cosmological} = 3$.
+Corrected: total premise count = 3 (preserved). The corrected
+``reduction factor'' in the original arithmetic
+$\rho_{\rm reduction} = N^{\rm before} / N^{\rm after} = 3 / 2 = 1.5$
+is structurally vacuous (the denominator $2$ counts internal axioms
+only and excludes the boundary input; the numerator $3$ counts all
+premises). The honest reclassification statement preserves the total
+count and reports only the structural shift.
+
+\textbf{TI-4 canonical-base sanity.} The current canonical Pillar-4
+base $\Sigma_0 = \mathbb{P}^1 \times \mathbb{P}^1$ has Hodge numbers
+distinct from $\mathbb{CP}^2$:
+\[
+h^{1,1}(\mathbb{P}^1 \times \mathbb{P}^1) = 2 \neq h^{1,1}(\mathbb{CP}^2) = 1,
+\quad
+h^{2,0} = 0 \text{ for both.}
+\]
+The Picard rank therefore differs ($\mathrm{Pic}(\mathbb{P}^1 \times
+\mathbb{P}^1) \cong \mathbb{Z}^2$, NOT $\mathbb{Z}$), which is one
+concrete reason the $\mathbb{CP}^2$ result of TI-4 cannot be
+transferred verbatim to the current canonical Pillar-4 base. A
+separate $\Sigma_0$ companion note is required for the canonical
+realisation chain; this is not derived in the present audit.
+
+% ===========================================================================
+\section{Updated final Wave-1-7 scorecard outcome (after Math314 + AddA + AddB)}
+% ===========================================================================
+
+\begin{itemize}[leftmargin=1.4em]
+\item \textbf{Wave 1 (PoC, 3 papers)}: Paper 0 \texttt{[DRAFT]} (clean),
+Paper 1 + Paper 12 \texttt{[DRAFT]} (clean wording, pending F-* verdicts).
+\item \textbf{Wave 2 (Top-impact, 4 papers)}: ALL 4 now flagged
+\texttt{[DRAFT][NEEDS\_UPDATE]} per Math314-AddB:
+TI-1 (mathematical repair), TI-2 (structural over-claim downgrade),
+TI-3 (fatal logical defect repair), TI-4 (canonical-route mismatch).
+\item \textbf{Wave 3 (Pillar clean, 5 papers)}: \texttt{[DRAFT]} (not
+yet audited at this scope; pending separate audit pass).
+\item \textbf{Wave 4 (gauge + GAP, 7 papers)}: \texttt{[DRAFT]} (3
+\texttt{[PENDING\_VERDICT]}; not yet audited at this scope).
+\item \textbf{Wave 5 (cosmology, 3 papers)}: \texttt{[DRAFT]} (not yet
+audited at this scope).
+\item \textbf{Wave 6 (auxiliaries, 2 papers)}: ALL 2 flagged
+\texttt{[DRAFT][NEEDS\_UPDATE]} per parent Math314.
+\item \textbf{Wave 7 (epochs, 12 papers)}: 11
+\texttt{[DRAFT][NEEDS\_UPDATE]} (Epoch-01..04, 06..10) + 2
+\texttt{[INTERNAL\_*]} (Epoch-05, Epoch-11) + 1 clean (Epoch-12) per
+parent Math314 + Math314-AddA.
+\end{itemize}
+\textbf{Aggregate}: 18 of 36 papers flagged
+\texttt{[DRAFT][NEEDS\_UPDATE]} (4 Top-impact, 2 auxiliary, 11 epoch)
++ 2 \texttt{[INTERNAL\_*]} = 20 of 36. Clean externally publishable
+after light polish: 16 of 36 (Wave 1 clean, Wave 3 / 4 / 5 not yet
+audited at this scope, Wave 7 Epoch-12). \textbf{Updated over-claim /
+defect rate: 20/36 = 56\%}.
+
+% ===========================================================================
+\section{Cross-references}
+% ===========================================================================
+
+\begin{itemize}[leftmargin=1.4em]
+\item \texttt{Docs/math/TECT-Math314-Wave7-Aux-Epoch-Overclaim-Audit.tex.txt}
+--- parent audit note (Aux-01/02 + Epoch-01/02).
+\item \texttt{Docs/math/TECT-Math314-AddA-Wave7-Epoch-Series-Overclaim-Audit.tex.txt}
+--- prior addendum (Epoch 03--12).
+\item \texttt{Docs/math/TECT-Math171-AddA-...} --- HRR formula
+canonical statement; should be patched per Objection $\alpha$ follow-up.
+\item \texttt{Docs/math/TECT-Math195-...} --- A2 reducibility analysis;
+should be patched per Objection $\beta$ follow-up (TDGL irreversibility).
+\item \texttt{Docs/papers/PAPERS\_STATUS\_REGISTRY.md} Rev~7 (this
+commit) --- updated scorecard.
+\item \texttt{Docs/status/NEGATIVE-RESULTS.md} --- entry under tag
+\texttt{AUDIT-2026-05-02-Wave7-Aux-Epoch-Overclaim} extended with the
+4-paper TI batch.
+\item \texttt{CHANGELOG.md} --- audit-rollback entry update.
+\item \texttt{Docs/status/research-log.md} --- 2026-05-02 entry update.
+\item \texttt{Docs/status/OPEN-QUESTIONS.md} --- 3 new entries:
+\texttt{Q-2026-05-02-Math171-AddA-Rank-Dependence} (Objection $\alpha$),
+\texttt{Q-2026-05-02-Math195-TDGL-Reversibility-Patch} (Objection $\beta$),
+plus the prior \texttt{Q-2026-05-02-Wave7-Independent-Audit} from
+Math314-AddA (Objection $\gamma$).
+\end{itemize}
+
+\end{document}

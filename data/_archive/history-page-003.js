@@ -1,12 +1,47 @@
-// AUTO-GENERATED v0.3 page 3/8 — 2026-05-04 10:58 UTC
+// AUTO-GENERATED v0.3 page 3/8 — 2026-05-06 09:20 UTC
 window.TECT_HISTORY_PAGE_003 = {
   title: "History (page 3 of 8)",
   subtitle: "Chronological CHANGELOG mirror — auto-generated.",
-  lastUpdated: "2026-05-04 (auto)",
+  lastUpdated: "2026-05-06 (auto)",
   pagination: {"page": 3, "total": 8, "newer": "history-page-002.html", "older": "history-page-004.html", "archiveIndex": "history-archive-index.html"},
   blocks: [
     { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history-page-002.html\">&larr; Newer</a> &middot; Page 3 / 8 &middot; <a href=\"history-archive-index.html\">archive index</a> &middot; <a href=\"history-page-004.html\">Older &rarr;</a></div>" },
     { type: "timeline", items: [
+        {
+          date: "2026-04-29",
+          title: "[Numerical-record infrastructure boost — driver v2.6.7 (newton_history.json) + RESULT_TEMPLATE.md + math82H_v266d retroactive RESULT.md + ledger entries]",
+          body: "- **`Codes/pde/continuation_mu2_v25.py` v2.6.6 → v2.6.7**: appended `newton_history.json` auto-persistence block immediately before stdout summary. Persisted fields: driver/version/theory tag, overall_status, n_points/converged/errored/stalled, all gate parameters (tol_newton, max_newton, tcg_max, ew_eta, rho_min, krylov_method, N, L, load_psi), per-point (mu2, converged, stagnation, wall_time, n_newton_steps), per-step (grad_norm, merit, F_value, rho_trust, eta_forcing, krylov_iterations, step_alpha, trust_radius, accepted). Defensive try/except wraps the JSON dump so a persistence failure cannot break the v2.6.4 exit-code contract."
+        },
+        {
+          date: "2026-04-29",
+          title: "[Reviewer audit 2026-04-29 (post Math221-AddB) + CLAUDE.md §6.3.5 NEW user-policy directive (self-adversarial review + estimate-vs-theorem + final-consolidation-note)]",
+          body: "**Trigger**: (i) Reviewer audit of Math221-AddB issued PARTIAL ACCEPT — the finite-dim trace-positivity Lemma A.1 is fully proved (textbook), V_shell ≅ 𝟏𝟔 abandonment correct, but the TECT-microscopic connection (ρ(X_χ) ≠ 0 explicit charge table + audit-clean trace-stiffness proportionality) is ASSUMED, not derived. Status DOWNGRADED: PROVED CONDITIONAL → PARTIAL ACCEPT / STRONG PARTIAL CLOSURE. (ii) User policy directive: end dependence on external reviewer audit to catch over-promotions; institute self-adversarial review + estimate-vs-theorem + final-consolidation-note rules. CLAUDE.md §6.3.5 codified."
+        },
+        {
+          date: "2026-04-29",
+          title: "[Reviewer audit 2026-04-29 (post Math220-AddA) — STRUCTURAL REPAIR ACCEPTED, Lemma B NOT CLOSED; Math220-AddA → STRONG DRAFT; Math221-AddB co-emitted with pre-audit scope]",
+          body: "**Trigger**: Reviewer audit verdict on Math220-AddA: 4-issue structural repairs (Issues 1, 2, 3) ACCEPTED; Issue 4 ($\\Lambda_{\\rm UV}$ vs $q_0$ regime) NOT YET resolved due to convention conflict ($q_0 = 0.6802$ vs $q_0 = 0.6802 \\times 2\\pi/a_{\\rm BCC} \\approx 2.91$). $\\epsilon < 1$ closure remains ESTIMATE not theorem; Lemma B NOT yet closed at theorem level."
+        },
+        {
+          date: "2026-04-29",
+          title: "[Math221-Addendum-B — Lemma A (weak trace-positivity) microscopic closure; discharges Math222 Hypothesis (H1)]",
+          body: "**Trigger**: Reviewer 2026-04-29 explicit directive to abandon Math221's $V_{\\rm shell} \\cong \\mathbf{16}$ identification goal and instead prove the WEAK statement sufficient for sign-positivity: $\\mathrm{Tr}_{V_{\\rm shell}}(T_\\chi^2) > 0$ and $\\sum_a \\mathrm{Tr}_{V_{\\rm shell}}(T_a^2) > 0$. This discharges Math222 Hypothesis (H1) without requiring representation identification."
+        },
+        {
+          date: "2026-04-29",
+          title: "[Math220-Addendum-A — Lemma B (rest-bound) microscopic closure; repairs four Math220 v1.0 reviewer-flagged issues]",
+          body: "**Trigger**: Reviewer 2026-04-29 comprehensive audit of Math220 v1.0 identified four substantive corrections required before Lemma B (the rest-bound component of Math222 Master Forcing Theorem) could be accepted. Math220-AddA addresses all four issues:"
+        },
+        {
+          date: "2026-04-29",
+          title: "[Math222 v1.1 — Minor convention repairs (reviewer ACCEPT verdict)]",
+          body: "**Trigger**: Reviewer 2026-04-29 audit of Math222 issued ACCEPT WITH MINOR CONVENTION REPAIRS verdict. Three repairs applied:"
+        },
+        {
+          date: "2026-04-29",
+          title: "[Math222 — Flat-Cartan Master Forcing Theorem (Conditional Skeleton); reviewer-acknowledged \"honest closure\" form]",
+          body: "**Trigger**: Reviewer 2026-04-29 audit explicitly noted that \"the mathematical skeleton of flat-Cartan forcing IS closed; what remains is exactly two named microscopic lemmas\" after 6 audit-rollbacks. Math222 archives this honest-scope decomposition in canonical form."
+        },
         {
           date: "2026-04-29",
           title: "[Reviewer audit 2026-04-29 (post Math220 + Math221 + Math221-AddA write) — STRONG DRAFT maintained on all three; Math220-AddA queued as next mainline]",
@@ -121,41 +156,6 @@ window.TECT_HISTORY_PAGE_003 = {
           date: "2026-04-27",
           title: "[Math172 — GAP-4 Defect-Mass Scenario Table and Dimensional-Consistency Audit of Math168]",
           body: "**Math172 (R3-C) GAP-4 defect-mass scenario table — PROVED CONDITIONAL**."
-        },
-        {
-          date: "2026-04-27",
-          title: "[Math157-AddD — Right-handed neutrino singlet explicit role in SO(10) anomaly cancellation]",
-          body: "**Math157-AddD (R3-B) RHN singlet documentation**: PROVED (documentation polish). Task #143 (Q-2026-04-26-Math157-RHN-singlet-documentation): Discharge the cross-coupling gap flagged in Math169 §5.1 by explicitly documenting the right-handed neutrino singlet $N(\\mathbf{1},\\mathbf{1})_0$ in the SO(10) $\\mathbf{16}$ spinor and its zero contribution to all six SM anomaly coefficients."
-        },
-        {
-          date: "2026-04-26",
-          title: "[Round R2 + Math170 synthesis — Pillar 4 sub-task 2 advanced + audit-mandated demote of Math166 (index by ansatz) + Math168 GW prediction provisional + Math162 foundation closed by 3-patch closure (Ma",
-          body: "**Math166 (R2-A) Pillar 4 sub-task 2 chiral zero modes — DEMOTED to PARTIAL by audit.** Agent claimed Atiyah–Singer index $\\mathrm{ind}(D_E)=16$ exactly, decomposition $\\mathbf{16}=\\mathbf{10}+\\overline{\\mathbf{5}}+\\mathbf{1}$ matching Georgi–Glashow exactly, all 16 chiral. Math169 audit Objection α UPHELD: index value of 16 was asserted by ansatz (matching SO(10) spinor dim target) rather than derived from first principles via the explicit integral $\\int_{\\mathrm{CP}^2}\\hat A(T\\mathrm{CP}^2)\\wedge\\mathrm{ch}(E)$. Bundle-rank assumption is unverified — the twisted Dirac operator on rank-5 fundamental, rank-21 fibre, and rank-24 adjoint each give different indices. Recorded as R-2026-04-26-Math166-IndexByAnsatz. Re-derivation queued as Q-2026-04-26-Math166-rigorous-AS-index (Task #142)."
-        },
-        {
-          date: "2026-04-26",
-          title: "[Round R1 — Math162 + Math163 + Math164 + Math165: Pillar 4 sub-task 1 + GAP-1 boson-loop + GAP-2 signature demotion + cross-turn audit]",
-          body: "R1 is the first round of a 10-turn autonomous research programme on the post-Math161 critical-path. Three sibling agents and one cross-turn audit agent dispatched in sequence; audit-recommended revisions applied in this same atomic commit per CLAUDE.md §6.3.2."
-        },
-        {
-          date: "2026-04-26",
-          title: "[Math163 — GAP-1 Boson-Loop Subdominance Check]",
-          body: "**Status**: PROVED CONDITIONAL (weak) — fermion loops dominate over gauge-boson and Higgs loops. - **Task**: Discharge Q-2026-04-26-Math158-boson-loop-subdominance-check (Math161 §2.4 objection γ UPHELD). Compute one-loop gauge-boson and Higgs contributions to the canonical commutator $[\\hat\\Psi,\\hat\\Pi_\\Psi]=i\\hbar\\delta^3$ and verify fermion dominance. - **Method**: Dimensional regularization ($\\overline{\\rm MS}$ scheme) one-loop bubble integrals for fermion, vector-boson, Higgs, and ghost loops. Ratio $R_{\\rm boson/fermion} = (N_V g_{\\rm EW}^2 + N_H\\lambda_H)/(N_f y_t^2)$. - **Result**: $R_{\\rm boson/fermion} \\approx 0.12$ using $N_f=12$ (chiral doublets), $N_V=3$ (W/Z), $N_H=1$ (Higgs), $g_{\\rm EW}\\approx 0.65$, $y_t\\approx 1.0$, $\\lambda_H\\approx 0.13$. Boson contributions subdominant by an order of magnitude. - **Subdominance mechanism**: Not pure colour multiplicity but coupling-strength hierarchy $y_t^2 \\gg g_{\\rm EW}^2$. BRST invariance ensures internal consistency; full cancellation does NOT occur (path b fails). - **Devil's advocate**: α DISMISSED (ratio scheme-independent), β VALID (form-factor corrections $\\lesssim 3\\%$), γ DISMISSED (BRST-covari"
-        },
-        {
-          date: "2026-04-26",
-          title: "[v2.6.6b — per-step Psi checkpoint + KeyboardInterrupt graceful warm-start]",
-          body: "**Motivation**: even with the v2.6.6 wiring fix (previous entry), a deep-regime run is still a ~5–7 hour wall-time commitment, and any unplanned interruption (Ctrl-C, OS reboot, OOM) destroys the current Psi state because v2.6.5 only persists `Psi_final.npy` *after* the entire `run_one_point_v25` returns. The 22-hour Math82-H r3 incident (Psi discarded on NO_CONVERGENCE) demonstrated the cost; v2.6.5 plugged the post-run case but left mid-run interruptions exposed."
-        },
-        {
-          date: "2026-04-26",
-          title: "[v2.6.6 wiring fix — `--tcg-max` propagated to inner Krylov; SciPy GMRES restart-cycle conversion]",
-          body: "**Diagnosed from**: 22-hour Math82-H phase2 $\\mu^2 = -0.7$ run that reached $\\|grad\\|/\\sqrt{dof} = 8.34\\times 10^{-7}$ at Newton step 19 with EW $\\eta$ saturating near $0.677$ and inner $tCG$ permanently capped at $15000$ (linear convergence rate $\\approx 0.866$, far from quadratic)."
-        },
-        {
-          date: "2026-04-26",
-          title: "[Math158 + Math159 + Math160 + Math161 — GAP-1 third route, GAP-4 rescope, GAP-2 BRST FP determinant + cross-turn audit]",
-          body: "**Status**: PARTIAL-ADVANCED (structural independence established; full numerical agreement awaits all-loop boson-loop subdominance check). - **Method**: fermion-loop saturation of the equal-time canonical commutator $[\\hat\\Psi,\\hat\\Pi_\\Psi]=i\\hbar\\delta^3$ on the BCC condensate background, using Pillar-5 chiral fermion modes (Math49) and the Yukawa coupling $y_t$. - **Independence**: structurally disjoint from the $\\rho_{\\rm cond}\\leftrightarrow G$ identification that made Math149 Routes A/B tautological. Inputs: $y_t$ (Pillar 5), $D$ (axiom A1), Brazovskii free-energy curvature (axiom A0). No elastic-modulus input. - **Numerical gate**: one-loop perturbation theory breaks down at the operating point ($Z_\\Psi^{(1)}\\approx 0.54$), so the absolute numerical match to $\\hbar=c^3 a_{\\rm BCC}^2/(16\\pi G)$ requires non-perturbative resummation (Schwinger–Dyson or lattice). Documented in `Codes/supplementary/Math158_fermion_loop_saturation.py --check`. - **Audit-recommended caveat (Math161 §2)**: gauge-boson and Higgs loops not computed; route-independence claim holds only within the fermion sector. Open task Q-2026-04-26-Math158-boson-loop-subdominance-check."
         }
       ]
     },
