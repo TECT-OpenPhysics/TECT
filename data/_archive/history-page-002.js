@@ -1,4 +1,4 @@
-// AUTO-GENERATED v0.3 page 2/8 — 2026-05-06 09:20 UTC
+// AUTO-GENERATED v0.3 page 2/8 — 2026-05-06 14:34 UTC
 window.TECT_HISTORY_PAGE_002 = {
   title: "History (page 2 of 8)",
   subtitle: "Chronological CHANGELOG mirror — auto-generated.",
@@ -7,6 +7,16 @@ window.TECT_HISTORY_PAGE_002 = {
   blocks: [
     { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history.html\">&larr; Newer</a> &middot; Page 2 / 8 &middot; <a href=\"history-archive-index.html\">archive index</a> &middot; <a href=\"history-page-003.html\">Older &rarr;</a></div>" },
     { type: "timeline", items: [
+        {
+          date: "2026-05-01",
+          title: "[Theory] Math288: Turn 59 — Task #156 Pillar 4 Σ₀-Realization Computational-Readiness Assessment (Defect-Mass Formula Derivation, Numerical-Driver Architecture)",
+          body: "**Significance**: Turn 59 of 20-turn TECT defence programme (Turns 41–60, Phase 4). Math288 is the **computational-readiness scaffolding** for Task #156 (Pillar 4 sub-task 2, SO(10) gauge-bundle realization on $\\Sigma_0 = \\mathbb{P}^1 \\times \\mathbb{P}^1$ via Hermitian-Yang-Mills PDE solve + defect-mass extraction). Deadline: **hard gate 2026-05-14**. Falsification criterion F-GAP4-DEFECT-MASS pre-registered: $\\mu_{\\rm defect} \\in (10^{13}, 10^{17})$ GeV. If PASS → Pillar 4 T4 → T6, Stage-2 T3 → T6 (cascade). If FAIL → Math246 contingency routes B/C/D activate. If DEFER → extended schedule, contingencies in parallel."
+        },
+        {
+          date: "2026-05-01",
+          title: "[Theory] Math287: Turn 58 — GAP-1 ℏ Matching Closure Attempt (Analytical Scaffolding for Tasks #147/#148, RGE Integration Framework)",
+          body: "**Significance**: Turn 58 of 20-turn TECT defence programme (Turns 41–60, Phase 4). Math287 produces the complete analytical scaffolding for Tasks #147 (2-loop SM RGE integration) and #148 (functional-form closure of $\\hbar_{\\rm TECT}(\\mu)$). Prepares numerical dispatch of RGE solver and ℏ matching evaluation. F-GAP1 gate (falsification criterion $|\\hbar_{\\rm TECT} - \\hbar_{\\rm obs}|/\\hbar_{\\rm obs} < 10^{-3}$) remains unresolved at analytical level; numerical verdict expected by 2026-05-22."
+        },
         {
           date: "2026-05-01",
           title: "[Theory] Math286: Turn 57 — Stage-2 Final-Form Consolidation (Canonical Archive, Quantum-Gate Hypothesis Enumeration, Falsification-Gate Calendar)",
@@ -146,16 +156,6 @@ window.TECT_HISTORY_PAGE_002 = {
           date: "2026-04-29",
           title: "[TECT-Status-Tier (T0–T7) canonical 8-tier nomenclature — STATUS_NOMENCLATURE.md policy + CLAUDE.md §7 migration + Website states.js explicit display]",
           body: "- **`Docs/policy/STATUS_NOMENCLATURE.md` (NEW, binding 2026-04-29)**: canonical 8-tier schema (T0–T7), hybrid of standard mathematical-physics + standard particle-physics nomenclature. §1 tier definitions + standard physics/math phrase mapping; §2 per-tier mandatory artefact requirements; §3 legacy-label translation table (~17 legacy labels mapped); §4 application examples (Pillar 4 sub-task 2/3, GAP-2 Berry phase, Math218-AddA E3'); §5 Stage-1 scorecard re-labelling; §6 website mandatory display; §7 failure mode (audit-flag any non-canonical label); §8 cross-references."
-        },
-        {
-          date: "2026-04-29",
-          title: "[Website 9-menu auto-sync — generate_website.py v0.6 (results.js auto-gen) + WEBSITE_AUTO_SYNC.md policy + 12 auto pages refreshed + 5 manual-override pages latest-status banner]",
-          body: "- **`Codes/tools/generate_website.py` v0.5 → v0.6**: - NEW `render_results_js(top_changelog)` function: scans `Runs/<class>/<run_id>/MANIFEST.md + RESULT.md + run_diagnostics.json`, extracts (run_id, run_class, status, μ², n_converged/n_total, wall_time, theory_tag, has_RESULT.md), emits canonical inventory table sorted newest-first, composes hand-curated narrative cards from NARRATIVE_MAP['results.js']['cards'], appends most-recent-CHANGELOG-commits block. - NEW `--results` argparse flag. - main() dispatch updated. - Total: ~110 new lines, ~3 modifications."
-        },
-        {
-          date: "2026-04-29",
-          title: "[Universal numerical-run recording — record_run.py helper + NUMERICAL_RUN_RECORDING.md policy + CLAUDE.md §6.3.6 binding rule + CLAUDE.md §15 recovery]",
-          body: "- **`Codes/pde/record_run.py` (NEW, v1.0)** — universal driver-agnostic recorder. 3-call API (`RunRecorder.start()` / `record_step()` / `finalize()`). Emits `run_diagnostics.json` (full per-iteration time-series + provenance: driver/version/theory tag/git SHA/hardware/seeds/configs) + `RESULT.md` skeleton (auto-populated §0–§7 from `Codes/pde/RESULT_TEMPLATE.md`; §8–§10 left for operator). Defensive: every persistence call is `try/except`-wrapped; host driver's exit-code contract preserved bit-identically. Hardware-introspection optional (PyTorch/CUDA/NumPy if importable; never fatal)."
         }
       ]
     },

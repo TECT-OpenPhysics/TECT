@@ -9,17 +9,12 @@ window.TECT_SITE = {
     sub:  "Topological Energy Condensate Theory"
   },
 
-  /**
-   * banners — site-wide top/bottom banner slots.
-   * Set html to "" or null to disable a slot.
-   * Change once here → reflected on every page.
-   *
-   * 2026-04-26: bottom slot carries the Open Physics Independent Research
-   * tag and the non-commercial copyright line, applied site-wide.
-   */
   banners: {
     top:    "",
     bottom: "<div class=\"site-license wrap\">" +
+              "<div class=\"footer-profile\">" +
+                "<img src=\"assets/TECT_Profile_S.png\" alt=\"TECT\" loading=\"lazy\">" +
+              "</div>" +
               "<p class=\"site-license-line\"><strong>Open Physics Independent Research</strong></p>" +
               "<p class=\"site-license-line muted\">" +
                 "© 2024–2026 Jusang Lee. The TECT framework, theorem notes, code, and " +
@@ -31,31 +26,6 @@ window.TECT_SITE = {
             "</div>"
   },
 
-  /*
-   * Navigation order (2026-04-26 publish-readiness revision, rev 3 — user directive):
-   *
-   *   Overview → Theory → States → Papers → TOE → Notes → Code → Results → History
-   *
-   * Reader flow:
-   *   • Overview — public-facing entry, brief description + latest snapshot.
-   *   • Theory   — minimal-axiom philosophy, full goal, detailed framework.
-   *   • States   — S1/S2/S3 qualification predicates + comparison vs other theories.
-   *   • Papers   — one per Pillar + cosmic-origin proof, with TOE/GUT/SM/QCT/GR tags.
-   *   • TOE      — what TECT has achieved vs other TOE candidates + remaining goals.
-   *   • Notes    — proof-level Math notes (Math01..Math157).
-   *   • Code     — implementation modules.
-   *   • Results  — numerical run outputs.
-   *   • History  — chronological timeline + status-ledger pointers (Records absorbed).
-   *
-   * Change rev 2 → rev 3 (2026-04-26):
-   *   • Inserted States between Theory and Papers (carries S1/S2/S3 +
-   *     comparison table previously in Theory; Causal Set Theory excluded).
-   *   • Moved Papers to position after States and before TOE.
-   *   • Records merged into History (records.html keeps a redirect note).
-   *   • Theory page slimmed to minimal-axiom philosophy + advantages.
-   *   • TOE page repurposed to comparison + remaining goals.
-   *   • Site-wide footer banner with non-commercial CC BY-NC-SA 4.0 added.
-   */
   nav: [
     { id: "index",      label: "Overview", href: "index.html" },
     { id: "theory",     label: "Theory",   href: "theory.html" },
@@ -66,5 +36,21 @@ window.TECT_SITE = {
     { id: "code",       label: "Code",     href: "code.html" },
     { id: "results",    label: "Results",  href: "results.html" },
     { id: "history",    label: "History",  href: "history.html" }
-  ]
+  ],
+
+  github: {
+    url:   "https://github.com/TECT-OpenPhysics/TECT",
+    label: "TECT on GitHub"
+  },
+
+  hero: {
+    src:  "assets/TECT_Covers.png",
+    alt:  "TECT - Topological Energy Condensate Theory",
+    href: "index.html"
+  },
+
+  profile: {
+    src: "assets/TECT_Profile_S.png",
+    alt: "TECT"
+  }
 };

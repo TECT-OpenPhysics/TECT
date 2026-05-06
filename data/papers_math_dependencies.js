@@ -2,7 +2,7 @@
 /* Source: Docs/papers/{papers,auxiliary,top_impact,epochs}/*.tex            */
 window.TECT_PAPERS_DEPS = {
   "schema": "tect-papers-math-deps-v1",
-  "generated": "2026-05-06T09:20:17+00:00",
+  "generated": "2026-05-06T14:35:01+00:00",
   "papers": [
     {
       "stem": "Auxiliary-01",
@@ -25,8 +25,8 @@ window.TECT_PAPERS_DEPS = {
       "category": "auxiliary",
       "tex_path": "Docs\\papers\\auxiliary\\Auxiliary-02-Numerical-Solver\\Auxiliary-02.tex",
       "header_count": 12,
-      "body_count": 12,
-      "total": 14,
+      "body_count": 13,
+      "total": 15,
       "cited_math": [
         "Math236",
         "Math290",
@@ -38,6 +38,7 @@ window.TECT_PAPERS_DEPS = {
         "Math313",
         "Math314",
         "Math314-AddD",
+        "Math315",
         "Math66",
         "Math68",
         "Math73",
@@ -505,8 +506,8 @@ window.TECT_PAPERS_DEPS = {
       "category": "papers",
       "tex_path": "Docs\\papers\\papers\\Paper-06-Pillar6-Generations\\Paper-06.tex",
       "header_count": 11,
-      "body_count": 9,
-      "total": 11,
+      "body_count": 10,
+      "total": 12,
       "cited_math": [
         "Math234",
         "Math235",
@@ -518,7 +519,8 @@ window.TECT_PAPERS_DEPS = {
         "Math294-AddA",
         "Math310-AddA",
         "Math313",
-        "Math314-AddC"
+        "Math314-AddC",
+        "Math315"
       ],
       "missing": []
     },
@@ -1525,6 +1527,14 @@ window.TECT_PAPERS_DEPS = {
       ]
     },
     {
+      "key": "Math315",
+      "count": 2,
+      "papers": [
+        "Auxiliary-02",
+        "Paper-06"
+      ]
+    },
+    {
       "key": "Math01-v2",
       "count": 1,
       "papers": [
@@ -2311,9 +2321,9 @@ window.TECT_PAPERS_DEPS = {
   ],
   "totals": {
     "papers": 36,
-    "unique_notes": 192,
+    "unique_notes": 193,
     "header_refs": 117,
-    "body_refs": 413,
+    "body_refs": 415,
     "missing": 0
   }
 };

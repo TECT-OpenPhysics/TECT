@@ -1,4 +1,4 @@
-// AUTO-GENERATED v0.3 page 8/8 — 2026-05-06 09:20 UTC
+// AUTO-GENERATED v0.3 page 8/8 — 2026-05-06 14:34 UTC
 window.TECT_HISTORY_PAGE_008 = {
   title: "History (page 8 of 8)",
   subtitle: "Chronological CHANGELOG mirror — auto-generated.",
@@ -7,6 +7,16 @@ window.TECT_HISTORY_PAGE_008 = {
   blocks: [
     { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history-page-007.html\">&larr; Newer</a> &middot; Page 8 / 8 &middot; <a href=\"history-archive-index.html\">archive index</a></div>" },
     { type: "timeline", items: [
+        {
+          date: "2026-04-22",
+          title: "[Math65 v0.1.2 → v0.1.3 + Runs R-2026-04-22-005 and R-2026-04-22-006 — triangulation completed; branch (I) Class Insufficiency sealed; Math66 operator surgery mandatory; Path (X) in-solver symmetrisat",
+          body: "- `docs/math/TECT-Math65-cII-EulerLagrange-Rewrite.tex.txt` v0.1.2 → **v0.1.3**. New §7 \"Sealed verdict: runs R-2026-04-22-005 and R-2026-04-22-006 and the branch-(I) selection\" with: - Boxed Eqs. `math65-run-A-norms` and `math65-run-B-norms` recording the run triples $(\\lVert F^{\\mathrm{impl}}\\rVert, \\lVert F^{\\mathrm{grad}(X)}\\rVert, \\Delta^{(X)})$ and $(r^{\\mathrm{impl}}_X, r^{\\mathrm{grad}}_X)$ for $X \\in \\{A, B\\}$; - Eq. `math65-polarization` (polarisation identity) and Eq. `math65-cos-triangulation` with $\\cos\\theta^{(A)} \\approx -1.27\\times 10^{-2}$, $\\cos\\theta^{(B)} \\approx -7.93\\times 10^{-3}$, $\\cos\\theta^{(C)} \\approx -1.55\\times 10^{-3}$, demonstrating that all three candidate gradients are $L^{2}$-orthogonal to $F_{\\mathrm{cII}}^{\\mathrm{impl}}$ across magnitude ratios $\\lVert F^{\\mathrm{grad}(X)}\\rVert / \\lVert F^{\\mathrm{impl}}\\rVert \\in \\{0.05, 55.7, 83.6\\}$; - Remark `math65-A-false-rescue` identifying the $r^{\\mathrm{impl}}_A = 1.0013$ Case-2 signature as a **magnitude artefact** forced by $\\lVert F^{\\mathrm{grad}(A)}\\rVert \\ll \\lVert F^{\\mathrm{impl}}\\rVert$; the true directional verdict is orthogonality; - Prop. `mat"
+        },
+        {
+          date: "2026-04-22",
+          title: "[Math65 v0.1.1 → v0.1.2 + Run R-2026-04-22-004 — decisive test executed on candidate C; Case 2* structural class mismatch; triangulation on A, B mandated (Task #110)]",
+          body: "- `docs/math/TECT-Math65-cII-EulerLagrange-Rewrite.tex.txt` v0.1.1 → **v0.1.2**. New §5 \"Candidate $C$ post-run analysis (R-2026-04-22-004)\" records the raw triple $(\\lVert F^{\\mathrm{impl}}\\rVert_{F}, \\lVert F^{\\mathrm{grad}(C)}\\rVert_{F}, \\Delta_{\\mathrm{cII}}^{(C)}) = (1.265\\times 10^{-4}, 1.057\\times 10^{-2}, 1.057\\times 10^{-2})$ with $(r^{\\mathrm{impl}}_C, r^{\\mathrm{grad}}_C) = (83.59, 1.00009)$. Remark `math65-C-orthogonality` pins $\\mathrm{Re}\\langle F^{\\mathrm{impl}},F^{\\mathrm{grad}(C)}\\rangle \\approx -2\\times 10^{-9}$ and $\\cos\\angle = -1.5\\times 10^{-3}$ via the polarisation identity; candidate $C$'s gradient is near-$L^{2}$-orthogonal to $F^{\\mathrm{impl}}$, ruling out the \"variational parent modulo small anti-Hermitian defect\" reading. Remark `math65-C-magnitude` establishes the $\\Delta_{\\mathrm{cII}}^{(C)}/a_{\\mathrm{cII}} \\approx 2.4\\times 10^{4}$ magnitude stratification, re-labelling this as **Case 2* (structural class mismatch)** rather than the \"comparable-to-$a_{\\mathrm{cII}}$\" Case 2 originally envisaged by Prop. `math64-cii-surgery-gate`(2). New §6 \"Triangulation mandate (T-A, T-B) and measure audit (M1--M3)\" with Def. `"
+        },
         {
           date: "2026-04-22",
           title: "[check_jacobian_blocks v1.3.1 + cII_energy_candidates v0.1.1 — Tools/tools case-collision hardening (Task #101/#110 follow-up)]",

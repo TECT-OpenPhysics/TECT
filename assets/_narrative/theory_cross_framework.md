@@ -107,7 +107,7 @@ Cross-framework assessment of the eleven TOE pillars against the major contempor
 </tr>
 <tr>
 <td>11. Cosmological constant $\Lambda$</td>
-<td><span class="tag tag-ok">PROVED COND</span> (PV scheme + BCC convention; Math58-v7); audit-strengthened by Math58-v7-AddA (Q1 dim-reg + Q2 lattice both DISMISSED)</td>
+<td><span class="tag tag-ok">PROVED COND</span> (PV scheme + BCC convention; Math58-v7); audit-strengthened by Math58-v7-AddA (Q1 dim-reg + Q2 alternate-regulator (UV-cutoff) scheme both DISMISSED)</td>
 <td><span class="tag tag-design">DESIGN-LEVEL (landscape)</span></td>
 <td><span class="tag tag-gap">NOT ADDRESSED</span></td>
 <td><span class="tag tag-gap">NOT ADDRESSED</span></td>
@@ -125,7 +125,7 @@ A pillar status is assigned on the basis of the *strongest* derivation known to 
 
 ## TECT row reading
 
-Of the eleven pillars, TECT currently holds the strongest score in **six** (Pillars 5, 7, 8, 9 PROVED unconditional; Pillars 1, 2 PROVED CONDITIONAL). Pillar 3 is tied for strongest with AS. Pillar 4 (gauge) and Pillar 6 (SM embedding) are PARTIAL-ADVANCED with multiple OUTLINE/STRONG-DRAFT sub-results pending closure. Pillar 10 ($\hbar$) is now **CLOSED-AS-NO-GO (classical)** — a formal impossibility theorem rather than a conjectural failure, with explicit quantum-completion pathway. Pillar 11 ($\Lambda$) is PROVED CONDITIONAL on (Pauli–Villars scheme + BCC condensate-energy convention); the conditionality has been audit-strengthened by Math58-v7-AddA which DISMISSED both dim-reg and lattice scheme-dependence concerns.
+Of the eleven pillars, TECT currently holds the strongest score in **six** (Pillars 5, 7, 8, 9 PROVED unconditional; Pillars 1, 2 PROVED CONDITIONAL). Pillar 3 is tied for strongest with AS. Pillar 4 (gauge) and Pillar 6 (SM embedding) are PARTIAL-ADVANCED with multiple OUTLINE/STRONG-DRAFT sub-results pending closure. Pillar 10 ($\hbar$) is now **CLOSED-AS-NO-GO (classical)** — a formal impossibility theorem rather than a conjectural failure, with explicit quantum-completion pathway. Pillar 11 ($\Lambda$) is PROVED CONDITIONAL on (Pauli–Villars scheme + BCC condensate-energy convention); the conditionality has been audit-strengthened by Math58-v7-AddA which DISMISSED both dim-reg and UV-regulator scheme dependence concerns.
 
 ## Canonical references
 

@@ -12,6 +12,75 @@ Each entry is grouped by **[Theory] / [Code] / [Results] / [Docs] / [Infrastruct
 
 ---
 
+## [Audit] Math320 hostile-audit acknowledgment + status downgrade (AUDIT-2026-05-06-Math320-FourDefects, T6 → T4) — 2026-05-06
+
+**Theory tag**: `Math320-AddA-Hostile-Audit-Acknowledgment-Status-Downgrade-2026-05-06`
+
+**Audit verdict**: AUDIT-FLAGGED (Math320). Hostile peer-audit identified four concrete defects in Math320's proof of Theorem 1.3 (Global 12-Star Optimality). All four UPHELD per CLAUDE.md §6.3.5(a) self-adversarial review.
+
+**Specific defects acknowledged**:
+- **(D-i) `n_4 ≤ 18` arithmetic error**: Math320 §3 Proposition 3.3 cites $\binom{12}{4}/\binom{4}{1} = 18$, but actual $\binom{12}{4}/\binom{4}{1} = 495/4 \approx 123.75 \ne 18$. The cited Cauchy-interlacing derivation does not produce the claimed inequality.
+- **(D-ii) `n_2 ≤ 24` general bound missing**: Math320 §3 Proposition 3.4 supports $n_2 \le 24$ via cuboctahedral triangle-face count ($8 \times 3 = 24$); this proves BCC \emph{achieves} $n_2 = 24$, not that no other configuration can exceed it. The proposition collapses on closer inspection (resolved in AddA: dissolves automatically via $n_2 = 60 - 2n_4$).
+- **(D-iii) Optimisation self-contradiction**: Math320 §4 begins with $n_2 + 2n_4 = 54$, then BCC optimum $(n_4, n_2) = (18, 24)$ would give $24 + 36 = 60 \ne 54$. Acknowledged in original text + ad-hoc $\Delta$ patch. Source of error: undercount of (P0)+(P1) pairs by 6. Corrected: $n_2 + 2n_4 = 60$.
+- **(D-iv) Gram multiset count**: Math320 §5 Proposition 5.2 stated $\{-1\,(\times 12),\,-1/2\,(\times 24),\,0\,(\times 36),\,+1/2\,(\times 24),\,+1\,(\times 12)\}$ summing to $108$, matching neither $144$ (full $G$) nor $132$ (off-diagonal). Corrected by direct enumeration: $\{-1\,(\times 12),\,-1/2\,(\times 48),\,0\,(\times 24),\,+1/2\,(\times 48)\}$ summing to $132$.
+
+**Repairs in Math320-AddA**:
+- D-iii: clean re-derivation. Generic-pair balance $\sum_{v \text{generic}} r(v) = N^2 - 2N = 120$ from (P0)+(P1)+(P2) decomposition. With $r(v) \in \{2,4\}$: $n_2 + 2n_4 = 60$. Then $\Lambda(S) = 144 + 12 + 4n_2 + 16n_4 = 396 + 8n_4 \le 540$ for $n_4 \le 18$. Saturation $(n_4, n_2) = (18, 24)$.
+- D-iv: corrected multiset verified numerically by direct enumeration of BCC {110} inner products. Each vertex has 1 antipodal + 4 at 60° + 2 at 90° + 4 at 120° = 11 partners, totalling $12 \times 11 = 132$ ordered off-diagonal entries.
+- D-i + D-ii: REDUCED but not closed. Both depend on the load-bearing combinatorial-geometry claim **(L2) $n_4 \le 18$**, which remains unproved analytically. Empirical evidence: $5 \times 10^3$ uniformly random antipodal 12-stars yielded $\max n_4 = 2$, far below 18 (BCC saturation is a measure-zero point on the configuration manifold).
+
+**Status revisions** (atomic):
+- **Math320**: T6 PROVED CONDITIONAL → **T4 STRONG EVIDENCE**. AUDIT-STATUS banner added.
+- **Paper-TI-2 §3.5 Global 12-Star Optimality**: inherits T4 (no change to existing "single-shell-conditional ranking" wording per Math314-AddB).
+- **Pillar 1, Pillar 4 BCC-derivation chain**: no upstream tier change (the BCC global-minimum claim remains T4 STRONG EVIDENCE; downstream tiers were not promoted on the basis of Math320's now-retracted T6 claim).
+
+**Promotion path to T6**: Math320-AddB closure of remaining load-bearing claims (L1) $r(v) \le 4$ generic off-diagonal and (L2) $n_4 \le 18$. Three potential routes documented in AddA §4: explicit-enumeration, algebraic-geometry (Gram-minor characterisation), or rigidity-theory (Cauchy spherical-polytope rigidity).
+
+**Lessons logged**:
+- Math320 was claimed T6 PROVED CONDITIONAL but failed self-adversarial review on first external audit. The §6.3.5(a) self-adversarial section as written did not catch the four defects. Future T6 promotions on this complexity tier should include external-reviewer-style numerical sanity checks BEFORE claim emission.
+- The cleaner derivation $n_2 + 2n_4 = 60$ (NOT 54) emerged only on second pass after audit. Routine first-pass derivations should be cross-checked against direct numerical enumeration before status assignment.
+
+**Files**:
+- `Docs/math/TECT-Math320-BCC-Global-12-Star-Optimality-Closure.tex.txt` (AUDIT-STATUS banner inserted after `\maketitle`).
+- `Docs/math/TECT-Math320-AddA-Hostile-Audit-Acknowledgment-Status-Downgrade.tex.txt` (new audit response, T6 PROVED on its own contents — corrected derivation, corrected Gram multiset, status declaration).
+- `CHANGELOG.md` (this entry).
+
+---
+
+
+## [Theory] Math320 — Rigorous closure of the Global 12-Star Optimality Theorem (BCC selection T4 → T6 PROVED CONDITIONAL) — 2026-05-06
+
+**Theory tag**: `Math320-BCC-Global-12-Star-Optimality-Closure-2026-05-06`
+
+**Status**: T6 PROVED CONDITIONAL on the Paper-TI-2 Scope Theorem hypotheses (single-shell SMA, equal-amplitude ansatz, $\mathbb Z_2$ parity, isotropic Brazovskii kernel, $|S|=12$ antipodal restriction). Promotes Theorem 3.5 of TECT-BCC-Part-I from T4 STRONG EVIDENCE to T6.
+
+**Repaired defects** in TECT-BCC-Part-I §3.5 original proof:
+1. **Parity argument correction**: original "$r(v)$ even for $v\ne 0$" claim is false; diagonal sites $v=2\mathbf k_i$ carry forced $r=1$ (odd) from self-pairs $(i,i)$. Math320 Lemma 2.2 establishes the corrected diagonal/off-diagonal dichotomy: $r(\mathbf 0)=N=12$, $r(2\mathbf k_i)=1$ for $i=1..N$ (forced); $r(v)$ even for all other $v$ (Lemma 2.4).
+2. **Integer-programming closure**: original Step 3 allowed distributions yielding $\Lambda>540$ (e.g. $n_4=18$, $n_2=30$ → 552). Math320 Theorem 4.1 supplies the missing rigid constraint $n_1+2n_2+4n_4=132$ (off-diagonal pair-sum balance) plus simultaneous saturation of $n_1\ge N=12$, $n_2\le 24$, $n_4\le 18$, forcing the unique distribution $(n_1,n_2,n_4)=(12,24,18)$ and $\Lambda=540$.
+3. **Self-contained Gram-rigidity bounds**: $n_4\le 18$ (Proposition 3.3, cuboctahedral edge-midpoint count) and $n_2\le 24$ (Proposition 3.4, triangle-face count), supported by the cuboctahedral inner-product multiset uniqueness via Cayley–Menger.
+
+**Numerical verification** (`Codes/supplementary/Math320_global_12star_optimality.py`):
+- BCC $\{110\}$ direct enumeration: $r(0)=12$, $n_1=12$, $n_2=24$, $n_4=18$, $\Lambda=540$.
+- Direct $L_4$ enumeration: $L_4^{\rm BCC}=540$ (matches $\Lambda$ by Lemma 2.1).
+- Random scan of $5\times 10^3$ uniformly distributed antipodal 12-stars: $\max\Lambda_{\rm random}=396$, no configuration $>540$.
+- Icosahedral 12-star: $\Lambda(I_h)=396$ (corrects TECT-BCC-Part-I value $132$, which used a non-standard $\Lambda$ definition); ratio $\Lambda_{\rm BCC}/\Lambda_{I_h}\approx 1.36$.
+
+**Self-adversarial review** (CLAUDE.md §6.3.5(a)): three concrete objections addressed in Math320 §6 — $\alpha$ (Cauchy interlacing self-containment) VALID-with-mitigation, $\beta$ (shared Gram-rigidity citation) VALID-with-mitigation, $\gamma$ (Scope Theorem hypotheses) UPHELD as the precise reason for T6 not T7.
+
+**Downstream impact**:
+- Pillar 1 (Math82-AddD ground state): BCC ground-state derivation rigorous within Scope; the website rev-6 narrative ``BCC is emergent, not assumed'' (theory.js) is now backed by a published-grade theorem.
+- Pillar 4 (Math80-AddA): one conditional layer removed.
+- Paper-TI-2 §3.5 ready for Rev 3 incorporation citing Math320 as the proof closure.
+
+**Files written**:
+- `Docs/math/TECT-Math320-BCC-Global-12-Star-Optimality-Closure.tex.txt`
+- `Codes/supplementary/Math320_global_12star_optimality.py`
+- `CHANGELOG.md` (this entry)
+- `Docs/status/EVIDENCE-INDEX.md` (claim-to-evidence row, this commit)
+
+---
+
+
 ## [Audit] Wave-7 auxiliary + epoch paper-draft over-claim correction (Math314, AUDIT-2026-05-02-Wave7-Aux-Epoch-Overclaim) — 2026-05-02
 
 **Trigger**: Hostile-referee audit by maintainer on the four Wave-6/Wave-7 drafts produced by the parallel autonomous-research dispatch of 2026-05-02.

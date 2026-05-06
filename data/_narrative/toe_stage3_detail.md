@@ -4,7 +4,7 @@ TECT's internal theorem framework ($S_1$ and $S_2$) is a **classical field theor
 
 ## Qualification Predicate
 
-$$S_3 := S_3^{(\mathrm{reproduce})}\;\wedge\;S_3^{(\mathrm{predict})}\;\wedge\;S_3^{(\mathrm{survive})}$$
+$$S_3:= S_3^{(\mathrm{reproduce})}\;\wedge\;S_3^{(\mathrm{predict})}\;\wedge\;S_3^{(\mathrm{survive})}$$
 
 | Sub-condition | Definition | Current Status |
 |---|---|---|
@@ -29,10 +29,10 @@ Three independent predictions, each arising from Stage-1/2 content:
 - **Experimental tolerance**: $\pm [2\times 10^{-13}, 8\times 10^{-13}]$ (MICROSCOPE/Eötvös)
 - **Falsification gate**: F2 becomes active once Pillar 10 (quantum $\hbar$ origin) moves from CLOSED-AS-NO-GO to a quantum-completion framework
 
-### F3: Cosmic anisotropy from BCC lattice structure
+### F3: Cosmic anisotropy from BCC condensate ordering
 - **Prediction**: Anisotropy coupling $O(a_{\rm BCC}^2)$ breaks isotropy at ultra-high precision
 - **Current status**: CONSTRAINED (existing experiments: cryogenic cavity $< 10^{-25}$ m, atomic clocks, cosmic-ray dispersion)
-- **Falsification threshold**: BCC lattice spacing $a_{\rm BCC}$ must be below current bounds or show new directional dependence
+- **Falsification threshold**: BCC condensate modulation length $a_{\rm BCC}$ must be below current bounds or show new directional dependence
 - **Distinction**: SM has no anisotropy prediction; F3 is a genuinely distinguishing test
 
 **Canonical reference**: `Docs/math/TECT-Math60-Stage3-experiment-inventory.tex.txt` (2026-04-24 audit)

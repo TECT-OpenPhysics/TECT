@@ -1,4 +1,4 @@
-// AUTO-GENERATED v0.3 page 1/8 — 2026-05-06 09:20 UTC
+// AUTO-GENERATED v0.3 page 1/8 — 2026-05-06 14:34 UTC
 window.TECT_HISTORY = {
   title: "History (page 1 of 8)",
   subtitle: "Chronological CHANGELOG mirror — auto-generated.",
@@ -7,6 +7,16 @@ window.TECT_HISTORY = {
   blocks: [
     { type: "html", content: "<div class=\"pagination-nav\">Page 1 / 8 &middot; <a href=\"history-archive-index.html\">archive index</a> &middot; <a href=\"history-page-002.html\">Older &rarr;</a></div>" },
     { type: "timeline", items: [
+        {
+          date: "2026-05-06",
+          title: "[Audit] Math320 hostile-audit acknowledgment + status downgrade (AUDIT-2026-05-06-Math320-FourDefects, T6 → T4)",
+          body: "**Theory tag**: `Math320-AddA-Hostile-Audit-Acknowledgment-Status-Downgrade-2026-05-06`"
+        },
+        {
+          date: "2026-05-06",
+          title: "[Theory] Math320 — Rigorous closure of the Global 12-Star Optimality Theorem (BCC selection T4 → T6 PROVED CONDITIONAL)",
+          body: "**Theory tag**: `Math320-BCC-Global-12-Star-Optimality-Closure-2026-05-06`"
+        },
         {
           date: "2026-05-02",
           title: "[Audit] Wave-7 auxiliary + epoch paper-draft over-claim correction (Math314, AUDIT-2026-05-02-Wave7-Aux-Epoch-Overclaim)",
@@ -146,16 +156,6 @@ window.TECT_HISTORY = {
           date: "2026-05-01",
           title: "[Theory] Math289: Turn 60 — 20-Turn Defence Programme Final Synthesis (Turns 41–60: Canonical Archive, Pillar 4 Atomic T6 PROVED CONDITIONAL via Three-Cycle Verification + Five-Attack Defence; Stage-2",
           body: "**Significance**: Turn 60 of 20-turn TECT defence programme (Turns 41–60, Phase 5 final synthesis). **CANONICAL ARCHIVE** per CLAUDE.md §6.3.5(c) (final-consolidation-note rule). Math289 records the complete 20-turn arc (Math270–289), establishes cumulative status (Stage-1 8/11 T6+ including Pillar 4 atomic T6; Stage-2 composite T3 PROOF SKETCH ADVANCING; Stage-3 OPEN experimental), pre-registers five falsification gates (F-GAP1 2026-05-22, F-GAP4-DEFECT-MASS 2026-05-14 HARD, F-GAP4-PTA 2027-12-31, F-GAP4-LSS 2030-06-30, F-Pillar6 2026-05-29 HARD), and establishes forward decision tree (Scenarios A/B/C for 2026-05-29 joint hard gates)."
-        },
-        {
-          date: "2026-05-01",
-          title: "[Theory] Math288: Turn 59 — Task #156 Pillar 4 Σ₀-Realization Computational-Readiness Assessment (Defect-Mass Formula Derivation, Numerical-Driver Architecture)",
-          body: "**Significance**: Turn 59 of 20-turn TECT defence programme (Turns 41–60, Phase 4). Math288 is the **computational-readiness scaffolding** for Task #156 (Pillar 4 sub-task 2, SO(10) gauge-bundle realization on $\\Sigma_0 = \\mathbb{P}^1 \\times \\mathbb{P}^1$ via Hermitian-Yang-Mills PDE solve + defect-mass extraction). Deadline: **hard gate 2026-05-14**. Falsification criterion F-GAP4-DEFECT-MASS pre-registered: $\\mu_{\\rm defect} \\in (10^{13}, 10^{17})$ GeV. If PASS → Pillar 4 T4 → T6, Stage-2 T3 → T6 (cascade). If FAIL → Math246 contingency routes B/C/D activate. If DEFER → extended schedule, contingencies in parallel."
-        },
-        {
-          date: "2026-05-01",
-          title: "[Theory] Math287: Turn 58 — GAP-1 ℏ Matching Closure Attempt (Analytical Scaffolding for Tasks #147/#148, RGE Integration Framework)",
-          body: "**Significance**: Turn 58 of 20-turn TECT defence programme (Turns 41–60, Phase 4). Math287 produces the complete analytical scaffolding for Tasks #147 (2-loop SM RGE integration) and #148 (functional-form closure of $\\hbar_{\\rm TECT}(\\mu)$). Prepares numerical dispatch of RGE solver and ℏ matching evaluation. F-GAP1 gate (falsification criterion $|\\hbar_{\\rm TECT} - \\hbar_{\\rm obs}|/\\hbar_{\\rm obs} < 10^{-3}$) remains unresolved at analytical level; numerical verdict expected by 2026-05-22."
         }
       ]
     },

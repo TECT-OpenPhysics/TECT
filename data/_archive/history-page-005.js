@@ -1,4 +1,4 @@
-// AUTO-GENERATED v0.3 page 5/8 — 2026-05-06 09:20 UTC
+// AUTO-GENERATED v0.3 page 5/8 — 2026-05-06 14:34 UTC
 window.TECT_HISTORY_PAGE_005 = {
   title: "History (page 5 of 8)",
   subtitle: "Chronological CHANGELOG mirror — auto-generated.",
@@ -7,6 +7,16 @@ window.TECT_HISTORY_PAGE_005 = {
   blocks: [
     { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history-page-004.html\">&larr; Newer</a> &middot; Page 5 / 8 &middot; <a href=\"history-archive-index.html\">archive index</a> &middot; <a href=\"history-page-006.html\">Older &rarr;</a></div>" },
     { type: "timeline", items: [
+        {
+          date: "2026-04-25",
+          title: "[Math110 — GPT-chain synthesis: CP² RG-freeze pathway + Pillar 11 four-sector signed representation]",
+          body: "**Math note**: `Docs/math/TECT-Math110-GPT-chain-synthesis-CP2-RG-freeze.tex.txt` (425 lines, **PARTIAL-ADVANCED**, NOT a full upgrade)."
+        },
+        {
+          date: "2026-04-25",
+          title: "[Math98 — Phase-transition origin of $\\hbar$: research programme (CONJECTURAL, parallel to Pillar 10 classical no-go)]",
+          body: "**Math note**: `Docs/math/TECT-Math98-hbar-phase-transition-origin-programme.tex.txt` (v1.0, 407 lines, CONJECTURAL). NOT a theorem."
+        },
         {
           date: "2026-04-25",
           title: "[Math79-AddB + Math60-C-AddD + Math97-AddC — Round 2 Completion: Stage-2-C SEALED, Pillar 10 CLOSED-AS-NO-GO, Stage-1 COMPLETE]",
@@ -146,16 +156,6 @@ window.TECT_HISTORY_PAGE_005 = {
           date: "2026-04-24",
           title: "[Math85 — Five-turn autonomous research session synthesis (12 Math notes archived; Pillar 10 closed-as-no-go; Stage-2 1/5→3/5; Stage-3 inventory established)]",
           body: "Archive and analysis of all 12 mathematical deliverables from autonomous research Turns 1-4 (continuous session, 2026-04-24):"
-        },
-        {
-          date: "2026-04-24",
-          title: "[Math60-C — Quantum-completion outline (canonical quantisation prescription + 3 observable predictions + 3 compatibility checks)]",
-          body: "Turn 4 Track C of the autonomous TECT research session (2026-04-24): develop the quantum-completion escape route opened by Math79-Addendum-B Corollary cor:quantum-completion. The classical no-go theorem closes Pillar 10 in the classical regime but explicitly permits quantum completion via field quantisation. This turn specifies the quantisation protocol, derives three measurable quantum observables, and verifies Stage-1 consistency."
-        },
-        {
-          date: "2026-04-24",
-          title: "[Math60-Stage3 — External falsifiability instrument inventory (F1/F2/F3 against existing experiments; Stage-3 0/3 SEALED, 1 gated on Q2)]",
-          body: "Turn 4 Track B of the autonomous TECT research session (2026-04-24): identify and inventory EXISTING experiments / observations that can test the three F-candidates (F1 gauge-coupling ratio, F2 cosmological constant, F3 Lorentz/isotropy) pre-registered in Math60 Stage-2-E, establishing which candidate is closest to SEALING Stage-3 external qualification."
         }
       ]
     },

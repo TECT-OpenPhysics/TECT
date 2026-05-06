@@ -1,10 +1,10 @@
-// AUTO-GENERATED v0.3 history archive index — 2026-05-06 09:20 UTC
+// AUTO-GENERATED v0.3 history archive index — 2026-05-06 14:34 UTC
 window.TECT_HISTORY_ARCHIVE_INDEX = {
   title: "History Archive Index",
   subtitle: "All history pages (newest first). Each contains up to 30 CHANGELOG entries.",
   lastUpdated: "2026-05-06 (auto)",
   blocks: [{ type: "card", title: "All history pages", blocks: [{ type: "list", items: [
-    "<a href=\"history.html\">Page 1 of 8 (2026-05-01 to 2026-05-02)</a>",
+    "<a href=\"history.html\">Page 1 of 8 (2026-05-01 to 2026-05-06)</a>",
     "<a href=\"history-page-002.html\">Page 2 of 8 (2026-04-29 to 2026-05-01)</a>",
     "<a href=\"history-page-003.html\">Page 3 of 8 (2026-04-27 to 2026-04-29)</a>",
     "<a href=\"history-page-004.html\">Page 4 of 8 (2026-04-25 to 2026-04-27)</a>",

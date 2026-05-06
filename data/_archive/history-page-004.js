@@ -1,4 +1,4 @@
-// AUTO-GENERATED v0.3 page 4/8 — 2026-05-06 09:20 UTC
+// AUTO-GENERATED v0.3 page 4/8 — 2026-05-06 14:34 UTC
 window.TECT_HISTORY_PAGE_004 = {
   title: "History (page 4 of 8)",
   subtitle: "Chronological CHANGELOG mirror — auto-generated.",
@@ -7,6 +7,16 @@ window.TECT_HISTORY_PAGE_004 = {
   blocks: [
     { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history-page-003.html\">&larr; Newer</a> &middot; Page 4 / 8 &middot; <a href=\"history-archive-index.html\">archive index</a> &middot; <a href=\"history-page-005.html\">Older &rarr;</a></div>" },
     { type: "timeline", items: [
+        {
+          date: "2026-04-27",
+          title: "[R3 + Math171-AddA degree-arithmetic correction — Pillar 4 sub-task 2 first-principles AS index, RHN singlet polish, GAP-4 scenario table, audit miss caught at commit-review]",
+          body: "R3 of the second 10-turn autonomous research programme on the post-Math170 critical-path. Three sibling agents (Math171, Math157-AddD, Math172) dispatched in parallel; Math173 cross-turn audit; **Math171-AddA dispatcher correction** caught at commit-review."
+        },
+        {
+          date: "2026-04-27",
+          title: "[Math172 — GAP-4 Defect-Mass Scenario Table and Dimensional-Consistency Audit of Math168]",
+          body: "**Math172 (R3-C) GAP-4 defect-mass scenario table — PROVED CONDITIONAL**."
+        },
         {
           date: "2026-04-27",
           title: "[Math157-AddD — Right-handed neutrino singlet explicit role in SO(10) anomaly cancellation]",
@@ -146,16 +156,6 @@ window.TECT_HISTORY_PAGE_004 = {
           date: "2026-04-25",
           title: "[Round 3 — Stage-2-A closure + Pillar 11 promotion: Math60-Stage2-A-AddA (pairwise commutativity), Math56-AddB (guarded-quotient bound), Math58-v7-AddC (Pillar 11 PROVED CONDITIONAL)]",
           body: "**Status**: PROVED CONDITIONAL. Five highest-impact pillar pairs verified on shared background $\\mathcal{M}_0$: - (P1, P2): mass gap ↔ Lorentz emergence — VERIFIED UNCONDITIONAL - (P2, P5): Lorentz ↔ chirality — VERIFIED UNCONDITIONAL - (P3, P7): gravity ↔ gauge — VERIFIED CONDITIONAL - (P4, P6): gauge group ↔ couplings — VERIFIED UNCONDITIONAL - (P2, P11): Lorentz ↔ quantum structure — VERIFIED UNCONDITIONAL"
-        },
-        {
-          date: "2026-04-25",
-          title: "[Math110 — GPT-chain synthesis: CP² RG-freeze pathway + Pillar 11 four-sector signed representation]",
-          body: "**Math note**: `Docs/math/TECT-Math110-GPT-chain-synthesis-CP2-RG-freeze.tex.txt` (425 lines, **PARTIAL-ADVANCED**, NOT a full upgrade)."
-        },
-        {
-          date: "2026-04-25",
-          title: "[Math98 — Phase-transition origin of $\\hbar$: research programme (CONJECTURAL, parallel to Pillar 10 classical no-go)]",
-          body: "**Math note**: `Docs/math/TECT-Math98-hbar-phase-transition-origin-programme.tex.txt` (v1.0, 407 lines, CONJECTURAL). NOT a theorem."
         }
       ]
     },

@@ -1,4 +1,4 @@
-// AUTO-GENERATED v0.3 page 3/8 — 2026-05-06 09:20 UTC
+// AUTO-GENERATED v0.3 page 3/8 — 2026-05-06 14:34 UTC
 window.TECT_HISTORY_PAGE_003 = {
   title: "History (page 3 of 8)",
   subtitle: "Chronological CHANGELOG mirror — auto-generated.",
@@ -7,6 +7,16 @@ window.TECT_HISTORY_PAGE_003 = {
   blocks: [
     { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history-page-002.html\">&larr; Newer</a> &middot; Page 3 / 8 &middot; <a href=\"history-archive-index.html\">archive index</a> &middot; <a href=\"history-page-004.html\">Older &rarr;</a></div>" },
     { type: "timeline", items: [
+        {
+          date: "2026-04-29",
+          title: "[Website 9-menu auto-sync — generate_website.py v0.6 (results.js auto-gen) + WEBSITE_AUTO_SYNC.md policy + 12 auto pages refreshed + 5 manual-override pages latest-status banner]",
+          body: "- **`Codes/tools/generate_website.py` v0.5 → v0.6**: - NEW `render_results_js(top_changelog)` function: scans `Runs/<class>/<run_id>/MANIFEST.md + RESULT.md + run_diagnostics.json`, extracts (run_id, run_class, status, μ², n_converged/n_total, wall_time, theory_tag, has_RESULT.md), emits canonical inventory table sorted newest-first, composes hand-curated narrative cards from NARRATIVE_MAP['results.js']['cards'], appends most-recent-CHANGELOG-commits block. - NEW `--results` argparse flag. - main() dispatch updated. - Total: ~110 new lines, ~3 modifications."
+        },
+        {
+          date: "2026-04-29",
+          title: "[Universal numerical-run recording — record_run.py helper + NUMERICAL_RUN_RECORDING.md policy + CLAUDE.md §6.3.6 binding rule + CLAUDE.md §15 recovery]",
+          body: "- **`Codes/pde/record_run.py` (NEW, v1.0)** — universal driver-agnostic recorder. 3-call API (`RunRecorder.start()` / `record_step()` / `finalize()`). Emits `run_diagnostics.json` (full per-iteration time-series + provenance: driver/version/theory tag/git SHA/hardware/seeds/configs) + `RESULT.md` skeleton (auto-populated §0–§7 from `Codes/pde/RESULT_TEMPLATE.md`; §8–§10 left for operator). Defensive: every persistence call is `try/except`-wrapped; host driver's exit-code contract preserved bit-identically. Hardware-introspection optional (PyTorch/CUDA/NumPy if importable; never fatal)."
+        },
         {
           date: "2026-04-29",
           title: "[Numerical-record infrastructure boost — driver v2.6.7 (newton_history.json) + RESULT_TEMPLATE.md + math82H_v266d retroactive RESULT.md + ledger entries]",
@@ -146,16 +156,6 @@ window.TECT_HISTORY_PAGE_003 = {
           date: "2026-04-27",
           title: "[Round R4 + Math180 second-10-turn synthesis — Pillar 4 sub-task 2 BIFURCATED (Scenario A FALSIFIED, Scenario B RESCUED) on U(1)_χ topology]",
           body: "R4 of the second 10-turn autonomous research programme. Three sibling agents (Math174, Math175, Math176) dispatched in parallel; Math177 cross-turn audit; Math180 R3+R4 synthesis. Audit-recommended revisions applied in this same atomic commit per CLAUDE.md §6.3.2."
-        },
-        {
-          date: "2026-04-27",
-          title: "[R3 + Math171-AddA degree-arithmetic correction — Pillar 4 sub-task 2 first-principles AS index, RHN singlet polish, GAP-4 scenario table, audit miss caught at commit-review]",
-          body: "R3 of the second 10-turn autonomous research programme on the post-Math170 critical-path. Three sibling agents (Math171, Math157-AddD, Math172) dispatched in parallel; Math173 cross-turn audit; **Math171-AddA dispatcher correction** caught at commit-review."
-        },
-        {
-          date: "2026-04-27",
-          title: "[Math172 — GAP-4 Defect-Mass Scenario Table and Dimensional-Consistency Audit of Math168]",
-          body: "**Math172 (R3-C) GAP-4 defect-mass scenario table — PROVED CONDITIONAL**."
         }
       ]
     },

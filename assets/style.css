@@ -26,11 +26,40 @@ header.site, footer.site {
   background: var(--bg-card);
   border-bottom: 1px solid var(--border);
 }
+/* Top hero banner: full-width 3:1 image (TECT_Covers.png), no padding,
+   sits above the nav. Hero links to home; image scales responsively. */
+header.site .hero-banner {
+  width: 100%;
+  background: var(--bg);
+  line-height: 0;
+  border-bottom: 1px solid var(--border);
+}
+header.site .hero-banner .hero-link { display: block; }
+header.site .hero-banner .hero-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 240px;        /* cap on large desktop */
+  object-fit: cover;        /* if narrower, crop centre */
+  object-position: center;
+}
+@media (max-width: 700px) {
+  header.site .hero-banner .hero-img { max-height: 140px; }
+}
 footer.site { border-top: 1px solid var(--border); border-bottom: none; margin-top: 4em; }
 header.site .wrap, footer.site .wrap, main.wrap {
   max-width: var(--maxw);
   margin: 0 auto;
   padding: 1.2em 1.5em;
+}
+/* Restored layout (2026-05-06): brand on its own row at top, nav row
+   below. Inside the nav row only, the GitHub icon is right-aligned via
+   flex; the nav-link items remain inline-block on the left. */
+header.site nav {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 0.6em;
 }
 header.site nav a {
   display: inline-block;
@@ -41,6 +70,38 @@ header.site nav a {
 }
 header.site nav a:hover { color: var(--accent); }
 header.site nav a.active { color: var(--accent); border-bottom: 2px solid var(--accent); padding-bottom: 2px; }
+/* GitHub repo link: pushed to far right of the nav row, icon-only */
+header.site nav a.nav-github {
+  margin-left: auto;
+  margin-right: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25em;
+  border-radius: 4px;
+  color: var(--fg);
+  transition: color 0.15s ease, background 0.15s ease;
+}
+header.site nav a.nav-github:hover {
+  color: var(--accent);
+  background: var(--bg);
+}
+/* Profile circle (TECT_Profile_S.png), centred and small.
+   Rendered inside the bottom banner (banners.bottom in site.js)
+   directly above the "Open Physics Independent Research" line. */
+.footer-profile {
+  text-align: center;
+  margin: 0.4em 0 0.6em 0;
+}
+.footer-profile img {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--border);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.10);
+  background: var(--bg-card);
+}
 header.site .brand {
   font-weight: 700;
   font-size: 1.15em;

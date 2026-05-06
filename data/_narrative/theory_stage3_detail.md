@@ -60,7 +60,7 @@ The three pre-registered F-candidates from Stage-2-E, mapped to existing experim
 <tr>
 <td><strong>F3</strong></td>
 <td>Anisotropy at $O(a_{\rm BCC}^2)$ in flat-space dispersion — bounded by cryogenic cavity, atomic clocks, GZK cosmic-ray dispersion</td>
-<td>Müller / Nagel cryogenic cavities ($\Delta c/c < 10^{-18}$); Pierre Auger photon dispersion ($\sim 10^{-23}$); Sr lattice clocks ($10^{-19}$)</td>
+<td>Müller / Nagel cryogenic cavities ($\Delta c/c < 10^{-18}$); Pierre Auger photon dispersion ($\sim 10^{-23}$); Sr optical clocks ($10^{-19}$)</td>
 <td><span class="tag tag-partial">CONSTRAINS</span></td>
 <td><strong>Most distinguishing</strong> — SM has no built-in BCC anisotropy prediction. Existing isotropy bounds give $a_{\rm BCC} < 10^{-25}$ m. Genuine post-fit prediction once $a_{\rm BCC}$ is independently derived.</td>
 </tr>

@@ -32,7 +32,7 @@ Comparative assessment of the eleven TOE pillars across the major contemporary f
 
 **TECT Pillar 10** ($\hbar$): Proved classical no-go (Math79-AddB `thm:hbar-no-go-classical`, unifying 8 independent failed routes). Quantum completion outlined in Math60-C.
 
-**TECT Pillar 11** ($\Lambda$): 4-sector derivation chain (monopole CP, measure-antisymmetry, vortex, Dirac PV scheme). Audit PASSED (Math58-v7-AddA): dim-reg and lattice scheme-dependence both DISMISSED.
+**TECT Pillar 11** ($\Lambda$): 4-sector derivation chain (monopole CP, measure-antisymmetry, vortex, Dirac PV scheme). Audit PASSED (Math58-v7-AddA): dim-reg and UV-regulator scheme dependence both DISMISSED.
 
 ## TECT Strength Summary
 

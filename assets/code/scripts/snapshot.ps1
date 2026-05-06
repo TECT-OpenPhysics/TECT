@@ -212,6 +212,17 @@ try {
     Invoke-Step 2 'generate' 'python -u Codes\tools\generate_website.py --publish' 20
     $stepResults['generate'] = 'PASS'
 
+    # ---- Step 2.4 / 8: sync-toe-from-states -------------------------
+    # NOTE (2026-05-06): States page (states.js, hand-curated) is the
+    # single source of truth for the 11-pillar canonical T-tier
+    # scoreboard. TOE page (toe.js, hand-curated) carried 6-Stage
+    # narrative which drifted from States. This step parses the
+    # pillar-tier table from states.js and emits states_pillar_tiers.js
+    # + injects an auto-derived overlay into toe.html so the TOE page
+    # always shows live States data.
+    Invoke-Step 2 'sync-toe-from-states' 'python -u Codes\tools\sync_toe_from_states.py' 20
+    $stepResults['sync-toe-from-states'] = 'PASS'
+
     # ---- Step 2.5a / 8: extract-paper-dependencies ------------------
     # NOTE (2026-05-06): scans every paper TeX for `% Canonical archive:`
     # header tokens + body \cite{Math...} references, validates against
@@ -222,6 +233,10 @@ try {
     # gates the snapshot pipeline (use --no-fail to override).
     Invoke-Step 2 'extract-deps' 'python -u Codes\tools\extract_paper_dependencies.py' 20
     $stepResults['extract-deps'] = 'PASS'
+
+    # ---- Step 2.6 / 8: website-freshness audit ---------------------
+    Invoke-Step 2 'audit-website-freshness' 'python -u Codes\tools\audit_website_freshness.py' 20
+    $stepResults['audit-website-freshness'] = 'PASS'
 
     # ---- Step 2.5b / 8: publish-papers (PDF sweep + index.js) -------
     # NOTE (2026-05-06): copies Docs/papers/**/Paper-*.pdf into

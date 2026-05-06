@@ -168,18 +168,49 @@
   function renderNav(activeId) {
     var s = window.TECT_SITE;
     if (!s) return '';
-    var h = '<div class="wrap">\n' +
+    // Hero banner above the nav (TECT_Covers.png at the very top of every
+    // page). Site-wide; falls back gracefully if the image is missing.
+    var hero = '';
+    if (s.hero && s.hero.src) {
+      hero = '<div class="hero-banner">' +
+             '<a href="' + (s.hero.href || 'index.html') + '" class="hero-link">' +
+             '<img src="' + s.hero.src + '" alt="' +
+             (s.hero.alt || 'TECT') + '" class="hero-img" loading="eager">' +
+             '</a></div>\n';
+    }
+    var h = hero + '<div class="wrap">\n' +
       '<span class="brand"><a href="index.html">' + s.brand.name + '</a>' +
       '<span class="sub">' + s.brand.sub + '</span></span>\n<nav>\n';
     s.nav.forEach(function (n) {
       var c = (n.id === activeId) ? ' class="active"' : '';
       h += '<a href="' + n.href + '"' + c + '>' + n.label + '</a>\n';
     });
+    // GitHub repo link — right-aligned logo, opens in new tab.
+    if (s.github && s.github.url) {
+      var ghSvg =
+        '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" ' +
+        'style="vertical-align:middle;fill:currentColor;display:inline-block">' +
+        '<path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56 ' +
+        '0-.27-.01-1-.02-1.97-3.2.7-3.87-1.54-3.87-1.54-.52-1.32-1.27-1.67-1.27-1.67-1.04-.71.08-.7.08-.7 ' +
+        '1.15.08 1.76 1.18 1.76 1.18 1.02 1.75 2.69 1.24 3.34.95.1-.74.4-1.24.73-1.53-2.55-.29-5.24-1.27-5.24-5.66 ' +
+        '0-1.25.45-2.27 1.18-3.07-.12-.29-.51-1.46.11-3.04 0 0 .96-.31 3.15 1.17a10.96 10.96 0 0 1 5.74 0 ' +
+        'c2.19-1.48 3.15-1.17 3.15-1.17.62 1.58.23 2.75.11 3.04.74.8 1.18 1.82 1.18 3.07 0 4.4-2.69 5.37-5.25 5.65 ' +
+        '.41.36.78 1.06.78 2.14 0 1.55-.01 2.79-.01 3.17 0 .31.21.67.79.55C20.21 21.38 23.5 17.07 23.5 12 ' +
+        '23.5 5.65 18.35.5 12 .5z"/></svg>';
+      h += '<a href="' + s.github.url + '" class="nav-github" ' +
+           'target="_blank" rel="noopener noreferrer" title="' + s.github.label + '" ' +
+           'aria-label="' + s.github.label + '">' + ghSvg + '</a>\n';
+    }
     h += '</nav>\n</div>';
     return h;
   }
 
   function renderFooter(data) {
+    /* The circular profile photo (s.profile) is rendered as the FIRST
+       element of the bottom banner (banners.bottom in site.js) so that
+       it sits directly above the "Open Physics Independent Research"
+       license line. It is intentionally NOT rendered inside the footer
+       wrap. */
     var h = '<div class="wrap">\n';
     if (data.footerNote) h += '<p>' + data.footerNote + '</p>\n';
     h += '<p class="timestamp">Last updated: ' + (data.lastUpdated || '—') + '</p>\n';
