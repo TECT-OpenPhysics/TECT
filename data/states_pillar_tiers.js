@@ -3,7 +3,7 @@
 /* Loaded by toe.html so the TOE page always shows live States data.    */
 window.TECT_STATES_TIERS = {
   "schema": "tect-states-pillar-tiers-v1",
-  "generated": "2026-05-06T14:35:00+00:00",
+  "generated": "2026-05-07T04:19:12+00:00",
   "source": "Website/data/states.js (parse of 11-Pillar scoreboard table)",
   "pillars": [
     {

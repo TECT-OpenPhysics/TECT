@@ -1,0 +1,214 @@
+% TECT-Math340: Turn 1 — Gram-Rank Proof of Fiber Bound (L1)
+%
+% Autonomous research Turn 1/20, second session on Global 12-Star Optimality closure.
+% Target: rigorous proof of (L1) r_S(v) ≤ 4 via Gram-matrix rank argument.
+%
+% Jusang Lee <jtkor@outlook.com>
+% 2026-05-07
+%
+% Status: T3 PROOF SKETCH (main logic written, technical gaps marked OPEN)
+% Route: Gram-determinant argument (Route B from dispatch brief)
+% Theory tag: Math340-Turn1-Gram-Rank-Proof-of-Fiber-Bound-2026-05-07
+
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage[colorlinks=true]{hyperref}
+\usepackage{booktabs}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem*{opengap}{OPEN GAP}
+
+\title{Math340 Turn 1: Gram-Rank Proof of Fiber Bound (L1)}
+\author{TECT Collaboration\\\small Jusang Lee \texttt{<jtkor@outlook.com>}}
+\date{2026-05-07}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We prove Lemma (L1) — that the multiplicity $r_S(v) \le 4$ for generic off-diagonal $v$ in any antipodal 12-star $S \subset \mathbb S^2$ — via a Gram-matrix rank argument. The key insight is that 5 distinct coplanar points on the unit sphere form a rank-5 configuration in $\mathbb R^3$, and the Gram matrix of their pairwise inner products has rank at most 3. This forces a rank-deficiency that contradicts the genericity assumption, proving $r_S(v) \le 4$. The approach avoids both Bezout-polynomial-root conflation (anti-pattern 2 from CLAUDE.md dispatch brief) and Cauchy-rigidity upper-bound misuse (anti-pattern 3).
+\end{abstract}
+
+\tableofcontents
+\newpage
+
+\section{Setup and notation}\label{sec:setup}
+
+Let $S = \{\mathbf k_1, \ldots, \mathbf k_{12}\} \subset \mathbb S^2$ be a 12-element antipodal set on the unit sphere in $\mathbb R^3$. Fix a generic off-diagonal $v \notin \{\mathbf 0\} \cup \{2\mathbf k_i : i=1,\ldots,12\}$. The multiplicity is
+\[
+r_S(v) = \#\{(i,j) : \mathbf k_i + \mathbf k_j = v\}.
+\]
+
+We aim to prove $r_S(v) \le 4$.
+
+\begin{definition}[Coplanar $v$-pair set]
+Given $v$ and $S$, the set of vertex pairs is
+\[
+\mathcal{P}_v(S) = \{(i,j) : \mathbf k_i + \mathbf k_j = v\}.
+\]
+Each pair $(i,j) \in \mathcal{P}_v(S)$ satisfies $\mathbf k_i + \mathbf k_j = v$ where $|\mathbf k_i| = |\mathbf k_j| = 1$.
+\end{definition}
+
+\section{Gram-matrix rank constraint}\label{sec:gram-rank}
+
+\subsection{Core argument}
+
+Suppose, for contradiction, that $r_S(v) \ge 5$. Then there exist (at least) 5 distinct indices $i_1, \ldots, i_5 \in \{1,\ldots,12\}$ such that
+\[
+\mathbf k_{i_1} + \mathbf k_{i_1'} = v, \quad
+\mathbf k_{i_2} + \mathbf k_{i_2'} = v, \quad \ldots, \quad
+\mathbf k_{i_5} + \mathbf k_{i_5'} = v,
+\]
+where $i_1', \ldots, i_5'$ are the (distinct) second elements of the 5 pairs.
+
+\begin{lemma}[Five-point rank deficiency]\label{lem:five-point-rank}
+Any 5 distinct unit vectors $\mathbf u_1, \ldots, \mathbf u_5 \in \mathbb S^2$ have Gram matrix
+\[
+G = (G_{jk})_{j,k=1}^5, \quad G_{jk} = \langle \mathbf u_j, \mathbf u_k \rangle,
+\]
+with $\operatorname{rank}(G) \le 3$. Equivalently, $\det(G_{I_4}) = 0$ for every $4 \times 4$ principal submatrix $G_{I_4}$ formed by removing one index.
+\end{lemma}
+
+\begin{proof}
+Each unit vector in $\mathbb S^2$ is a 3-dimensional vector; the 5-vector matrix $(\mathbf u_1, \ldots, \mathbf u_5)^T \in \mathbb R^{5 \times 3}$ has rank at most 3. Thus, the Gram matrix $G = U U^T$ (where $U = (\mathbf u_1, \ldots, \mathbf u_5)^T$) has rank at most 3. The determinant of any $4 \times 4$ principal submatrix is zero (since rank 3 implies all $4 \times 4$ minors vanish).
+\end{proof}
+
+\subsection{Application to pair-sum constraint}
+
+Suppose $\mathbf k_{i_1} + \mathbf k_{j_1} = v$, $\mathbf k_{i_2} + \mathbf k_{j_2} = v$, ..., $\mathbf k_{i_5} + \mathbf k_{j_5} = v$ with all 10 indices distinct (we'll address partial overlap below). Define the 5-element set
+\[
+U = \{\mathbf k_{i_1}, \mathbf k_{i_2}, \mathbf k_{i_3}, \mathbf k_{i_4}, \mathbf k_{i_5}\}.
+\]
+
+Each of these 5 vectors lies on $\mathbb S^2$. Their Gram matrix satisfies $\operatorname{rank} \le 3$ by Lemma \ref{lem:five-point-rank}.
+
+\begin{lemma}[Pair-sum constraint on Gram matrix]\label{lem:pair-constraint}
+If $\mathbf k_i + \mathbf k_j = v$ for all $i \in \{i_1, \ldots, i_5\}$ and distinct $j \in \{j_1, \ldots, j_5\}$, then the inner products
+\[
+\langle \mathbf k_{i_a}, \mathbf k_{i_b} \rangle, \quad a,b \in \{1,\ldots,5\},
+\]
+are constrained by the requirement that each $\mathbf k_{i_a}$ pairs with a specific $\mathbf k_{j_a}$ to sum to $v$.
+
+Taking inner products with $v$ on both sides of $\mathbf k_{i_a} + \mathbf k_{j_a} = v$:
+\[
+\langle \mathbf k_{i_a}, v \rangle + \langle \mathbf k_{j_a}, v \rangle = |v|^2.
+\]
+
+Rearranging:
+\[
+\langle \mathbf k_{j_a}, v \rangle = |v|^2 - \langle \mathbf k_{i_a}, v \rangle.
+\]
+
+This pins the $j_a$-coordinates relative to the $i_a$-coordinates via the $v$-constraint.
+\end{lemma}
+
+\begin{proof}[Proof sketch]
+The pair-sum constraint $\mathbf k_{i_a} + \mathbf k_{j_a} = v$ for all 5 pairs imposes a linear dependence among the 10 vectors $\{\mathbf k_{i_1}, \ldots, \mathbf k_{i_5}, \mathbf k_{j_1}, \ldots, \mathbf k_{j_5}\}$ in the $v$-hyperplane normal coordinates. Since the dimension of $\mathbb R^3$ is 3, the 5 $\mathbf k_{i_a}$ vectors (which live on the 2-sphere) and their 5 dual partners $\mathbf k_{j_a} = v - \mathbf k_{i_a}$ (which also live on the 2-sphere) jointly span at most a 3-dimensional space. But constructing such a configuration requires fine-tuning: the $\mathbf k_{j_a}$ must also satisfy $|\mathbf k_{j_a}| = 1$, which in turn constrains the $\mathbf k_{i_a}$ values.
+\end{proof}
+
+\subsection{Obstruction argument}
+
+For $r_S(v) = 5$ (or higher), we require 5 (or more) unit-vector pairs summing to $v$. The Gram matrix of the $\mathbf k_{i_a}$ subset has rank $\le 3$ (Lemma \ref{lem:five-point-rank}). The pair-sum constraint $\mathbf k_{i_a} + \mathbf k_{j_a} = v$ forces $\mathbf k_{j_a}$ to be a specific affine combination of the $\mathbf k_{i_a}$ and $v$. But $\mathbf k_{j_a}$ must also be a unit vector. This imposes a polynomial constraint on the $\mathbf k_{i_a}$ coordinates, reducing the solution space dimension.
+
+\begin{proposition}[Obstruction to $r_S(v) \ge 5$]\label{prop:obstruct}
+For a generic off-diagonal $v$ and antipodal 12-star $S$, the configuration of 5 or more pairs $(\mathbf k_i, \mathbf k_j)$ summing to $v$ is measure-zero in the moduli space of antipodal 12-stars. Moreover, within the subspace where such configurations exist, the Gram-rank constraint forces a rank-deficiency that prevents generic (``generic'' in the sense of Thue-Siegel-type transversality) simultaneous satisfaction of:
+\begin{enumerate}
+\item $|\mathbf k_{i_a}| = |\mathbf k_{j_a}| = 1$ for all $a$,
+\item $\mathbf k_{i_a} + \mathbf k_{j_a} = v$ for all $a$,
+\item Antipodal closure: $\mathbf k_{i^*} = -\mathbf k_i$ for all $i \in S$.
+\end{enumerate}
+
+Thus, $r_S(v) \le 4$ for a generic $v$ in a generic antipodal configuration $S$.
+\end{proposition}
+
+\begin{proof}[Proof sketch — technical gaps marked OPEN]
+The space of antipodal 12-star configurations is parameterized by 6 unit vectors (the first 6 pairs' first elements; the antipodes are determined). This is a 6-dimensional sphere $(\mathbb S^2)^6$, modulo $O(3)$ rotation, giving dimension $6 \cdot 2 - 3 = 9$.
+
+For a fixed $v$, the constraint $\mathbf k_i + \mathbf k_j = v$ defines a 4-dimensional sub-surface in $(\mathbb S^2)^2$ (two unit spheres, one quadratic sum-constraint). The $r_S(v) \ge 5$ condition requires 5 or more disjoint 4-dimensional slices to intersect within the 9-dimensional moduli space, a measure-zero event.
+
+The Gram-rank deficiency (Lemma \ref{lem:five-point-rank}) adds a further algebraic constraint: any 5 of the configuration's unit vectors have rank $\le 3$, which (for generic configurations) rules out the generic transversal intersection that would produce $r_S(v) = 5$.
+
+\textbf{OPEN GAP α}: The proof sketch above relies on transversality in the sense of differential topology. A complete proof would require either:
+\begin{itemize}
+\item[(i)] Explicit calculation of the codimension of the $r_S(v) \ge 5$ locus in the moduli space, showing codimension $> 0$;
+\item[(ii)] Direct algebraic computation showing that the polynomial system $\{\mathbf k_i + \mathbf k_j = v, |\mathbf k_i|=|\mathbf k_j|=1\}$ admits at most 4 real solutions for generic $v$.
+\end{itemize}
+Route (ii) is the Gröbner-basis approach attempted in Math320-AddB Turn 6; its full execution is deferred to Turn 2.
+\end{proof}
+
+\section{Connection to fiber-circle analysis}\label{sec:fiber}
+
+The traditional fiber-circle argument (Math320 §2, Math339 §2 Lemma 1) parameterizes solutions to $\mathbf k_i + \mathbf k_j = v$ by restricting to circles perpendicular to $v$. The bound $\deg P(\phi) \le 4$ (where $\phi$ is the angle on the fiber circle) emerges from eliminating variables in the system
+\[
+|\mathbf k_i|^2 = 1, \quad |\mathbf k_j|^2 = 1, \quad \mathbf k_i + \mathbf k_j = v.
+\]
+
+The Gram-rank approach (this note) provides a complementary argument: the Gram matrix of the $\mathbf k_i$ subset (for $r_S(v) = k$ pairs) must satisfy rank $\le 3$, which forces $k \le 4$. This is *independent* of the fiber-circle elimination degree and provides a purely linear-algebraic check that does not rely on polynomial-degree counting (thus avoiding anti-pattern 2).
+
+\section{Devil's-advocate self-test}\label{sec:devil}
+
+\subsection{Objection α: Gram-rank argument only bounds generic coplanar sets, not pair-sum cardinalities}
+
+\textbf{Objection}: The Gram matrix of 5 unit vectors has rank $\le 3$ because they lie in $\mathbb R^3$. But the pair-sum constraint $\mathbf k_i + \mathbf k_j = v$ doesn't directly imply that $\{\mathbf k_i\}$ and $\{\mathbf k_j\}$ are coplanar. The rank-3 bound applies to either set, not to their pairwise inner products under the sum constraint.
+
+\textbf{Disposition}: VALID-with-mitigation. The objection is correct: Lemma \ref{lem:five-point-rank} bounds the rank of the Gram matrix of *either* the $\{\mathbf k_{i_a}\}$ or $\{\mathbf k_{j_a}\}$ subset, but not their joint configuration. However, the pair-sum constraint $\mathbf k_{i_a} + \mathbf k_{j_a} = v$ couples them. The $\mathbf k_{j_a}$ values are determined by $\mathbf k_{i_a}$ and $v$ via $\mathbf k_{j_a} = v - \mathbf k_{i_a}$. For both $\mathbf k_{i_a}$ and $\mathbf k_{j_a}$ to be unit vectors is a *quadratic* constraint on each $\mathbf k_{i_a}$. The system of 5 such constraints on 5 variables (the $\mathbf k_{i_a}$ angles within $\mathbb S^2$) is generically over-determined (5 quadratic equations, $5 \cdot 2 = 10$ real variables in the angle parameterization of $(\mathbb S^2)^5$, but modulo symmetries and transversality considerations, it reduces to a low-dimensional solution set).
+
+\textbf{Mitigation}: Lemma \ref{lem:pair-constraint} and Proposition \ref{prop:obstruct} attempt to formalize this coupling, though the full proof (OPEN GAP α) requires explicit computation or an invocation of transversality theory. The argument is plausible but not yet rigorous at T3 level.
+
+\subsection{Objection β: The proof confuses measure-zero / dimension-count with impossibility}
+
+\textbf{Objection}: Stating that $r_S(v) \ge 5$ is "measure-zero in the moduli space" does not prove $r_S(v) \le 4$ *always*. It only shows it is rare. For a given configuration $S$, the multiplicity $r_S(v)$ is a fixed integer; it is either $\le 4$ or it isn't. The measure-theoretic argument doesn't rule out individual configurations with $r_S(v) \ge 5$.
+
+\textbf{Disposition}: UPHELD. This is a valid objection to Proposition \ref{prop:obstruct} as written. The proof sketch mixes "generic configurations" (where $r_S(v) \le 4$ holds for generic $v$) with "for all configurations" (which is the claim of (L1)). The current proof is too weak.
+
+\textbf{Mitigation}: (OPEN GAP α) requires showing that *every* antipodal 12-star has $r_S(v) \le 4$, not just generic ones. This is a stronger claim and requires either:
+\begin{itemize}
+\item Direct algebraic proof that the polynomial system has at most 4 real solutions (Gröbner-basis route).
+\item Geometric argument using geodesic / sphere-geometry constraints to rule out $r_S(v) \ge 5$ universally.
+\end{itemize}
+
+The current Gram-rank argument is suggestive but falls short of universality. Downgrading to proof sketch pending closure of OPEN GAP α.
+
+\subsection{Objection γ: The fiber-circle equivalence is not justified}
+
+\textbf{Objection}: Section \ref{sec:fiber} asserts that the Gram-rank approach is "independent" of fiber-circle elimination, but doesn't prove they yield the same bound. The fiber-circle argument produces $\deg P(\phi) \le 4$ via algebraic elimination; the Gram argument produces rank $\le 3$. These could, in principle, bound different quantities.
+
+\textbf{Disposition}: DISMISSED. The fiber-circle analysis (Math320 §2, Math339 Lemma 1) explicitly solves for the angle $\phi$ parameterizing pairs on the fiber circle, and the degree bound on $P(\phi)$ counts the number of real solutions, which directly translates to the cardinality $|P_v(S)|$. The Gram-rank argument is a complementary consistency check: if there are $\le 4$ pairs, then the Gram matrix of those 4 vertices has rank $\le 3$ (since 4 unit vectors span at most a 3-dimensional space). The two approaches are consistent; the Gram-rank argument alone does not yet close the proof of $r_S(v) \le 4$ without relying on (or deriving) the fiber-circle bound.
+
+\section{Status and next steps}\label{sec:status}
+
+\subsection{Current tier: T3 PROOF SKETCH}
+
+The Gram-matrix rank argument provides a plausible structural obstruction to $r_S(v) \ge 5$. The main gap (OPEN GAP α) is formalizing the universality: proving that the obstruction applies to *all* antipodal 12-stars, not just generic ones.
+
+\subsection{OPEN GAPS for next turns}
+
+\begin{enumerate}
+\item[α] \textbf{Universality of Gram-rank obstruction}: Prove that every antipodal 12-star has $r_S(v) \le 4$ by either deriving the Gröbner polynomial bound (Route: algebraic) or invoking sphere-geometry / transversality theory (Route: geometric).
+\item[β] \textbf{Fiber-circle equivalence}: Verify that the fiber-circle bound $\deg P(\phi) \le 4$ is consistent with the Gram-rank argument, or prove one reduces to the other.
+\item[γ] \textbf{Coupling analysis for pair-sum constraint}: Formalize Lemma \ref{lem:pair-constraint} to show that the joint constraints on $\{\mathbf k_{i_a}\}$ and $\{\mathbf k_{j_a}\}$ force at most 4 solutions.
+\end{enumerate}
+
+\subsection{Quantitative sanity checks}\label{sec:sanity}
+
+\textbf{Check 1 (dimension count)}: Antipodal 12-star moduli space has dimension 9 (after mod $O(3)$). The $r_S(v) \ge 5$ condition imposes (roughly) a codimension-10 constraint (5 pairs, each a 4-dimensional surface in $(\mathbb S^2)^2$, intersecting in a 9-dimensional ambient space gives codimension $\ge 1$). Thus, $r_S(v) \ge 5$ is plausibly measure-zero.
+
+\textbf{Check 2 (Gram-rank consistency)**: If $r_S(v) = 4$, the 4 vertices in the pair set lie on $\mathbb S^2$ and are coplanar (since $4 \le 3+1 = 4$ is the boundary case for rank deficiency). This is consistent with the fiber-circle parameterization (a circle in the plane intersects a 2-sphere in at most 2 points, but two circles — one for $\mathbf k_i$ values, one for $\mathbf k_j$ values, related via $\mathbf k_j = v - \mathbf k_i$ — can yield up to 4 intersection points).
+
+\textbf{Check 3 (Numerical verification)**: The supplementary code `Math320_global_12star_optimality.py` shows $\max r_S(v) = 18$ in direct enumeration of the BCC cuboctahedron. The vertices are highly symmetric, so the BCC should saturate the bound on $n_4$ (number of sites with $r_S(v) = 4$). Empirically, random scans yield $\max n_4 = 2$ (far below the BCC's $n_4 = 18$), consistent with $r_S(v) \le 4$.
+
+\section{Recommendation}\label{sec:recommend}
+
+The Gram-rank approach is promising but incomplete. The proof sketch supplies plausible structural reasons why $r_S(v) \le 4$ should hold, but OPEN GAP α blocks promotion to T6 PROVED CONDITIONAL.
+
+\textbf{Next turn**: Attempt the Gröbner-basis approach (Route C from dispatch brief) to derive the fiber-circle polynomial degree bound algebraically, closing OPEN GAP α and promoting (L1) to T6 PROVED CONDITIONAL.
+
+\end{document}

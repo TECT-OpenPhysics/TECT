@@ -48,6 +48,20 @@ The snapshot orchestrator brings all four TECT mirror trees into a coherent stat
 - Elapsed: 384.1 s
 
 ---
+## 2026-05-06T14:44:39 UTC -- 4c925dd -- Math320-AddA: hostile-audit acknowledgment of 4 defects (D-i n_4 arithmetic, D-ii n_2 general bound, D-iii optimisation self-contradiction, D-iv Gram multiset count); status downgrade T6 PROVED CONDITIONAL -> T4 STRONG EVIDENCE; corrected derivation n_2+2n_4=60 + Gram multiset {-1*12, -1/2*48, 0*24, +1/2*48}; remaining load-bearing claim n_4<=18 deferred to Math320-AddB
+- stamp : PASS
+- generate : PASS
+- verify : PASS
+- manifest : PASS
+- commit : PASS (4c925dd)
+- curate : PASS
+- push : PASS (https://github.com/TECT-OpenPhysics/TECT/commit/71ef128dc39ca6cdbf58a1cdc6e394fdec5b537e)
+- audit : PASS (clean)
+- Elapsed: 584.4 s
+- GitHub: https://github.com/TECT-OpenPhysics/TECT/commit/71ef128dc39ca6cdbf58a1cdc6e394fdec5b537e
+
+---
+
 ## 2026-05-06T09:58:52 UTC -- cec82d9 -- Math315 updated; refresh dependent papers
 - stamp : PASS
 - generate : PASS
@@ -117,6 +131,7 @@ The snapshot orchestrator brings all four TECT mirror trees into a coherent stat
 - GitHub: https://github.com/TECT-OpenPhysics/TECT/commit/b83758bd0a94c3b2b97ff9f09a0ef6c8cb736de2
 
 ---
+
 
 
 

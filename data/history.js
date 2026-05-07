@@ -1,8 +1,8 @@
-// AUTO-GENERATED v0.3 page 1/8 — 2026-05-06 14:34 UTC
+// AUTO-GENERATED v0.3 page 1/8 — 2026-05-07 04:19 UTC
 window.TECT_HISTORY = {
   title: "History (page 1 of 8)",
   subtitle: "Chronological CHANGELOG mirror — auto-generated.",
-  lastUpdated: "2026-05-06 (auto)",
+  lastUpdated: "2026-05-07 (auto)",
   pagination: {"page": 1, "total": 8, "newer": null, "older": "history-page-002.html", "archiveIndex": "history-archive-index.html"},
   blocks: [
     { type: "html", content: "<div class=\"pagination-nav\">Page 1 / 8 &middot; <a href=\"history-archive-index.html\">archive index</a> &middot; <a href=\"history-page-002.html\">Older &rarr;</a></div>" },
