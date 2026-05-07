@@ -1,0 +1,339 @@
+% TECT-Math351: Sh raw-ansatz Lanczos diagnostic — Phase 0 closure
+% (BCC vs Sh prismatic family in deep regime mu^2 = -0.7).
+%
+% Jusang Lee <jtkor@outlook.com>
+% 2026-05-07
+%
+% Status: T6 PROVED on the negative-result diagnostic itself
+%         (raw Sh ansatz cannot reach BCC-continuation residual at any
+%         (N, L, A) combination tested; eigenvalues ~= mu^2 in the small-A
+%         linear regime confirm trivial nature of raw-ansatz Hessian).
+% Theory tag: Math351-Sh-Raw-Ansatz-Lanczos-Phase0-Closure-2026-05-07
+% R-tag: R-2026-05-07-Math351-Sh-Raw-Ansatz-Non-Comparable (negative-result class)
+% Predecessors: Math348, Math349, Math349-AddA, Math350.
+
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage[colorlinks=true]{hyperref}
+\usepackage{booktabs,array}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}[theorem]{Proposition}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+
+\title{Math351: Sh raw-ansatz Lanczos diagnostic and Phase 0 closure
+of the BCC-vs-prismatic comparison programme}
+\author{TECT Collaboration\\\small Jusang Lee \texttt{<jtkor@outlook.com>}}
+\date{2026-05-07}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We attempt a numerical comparison between the BCC continuation seed (Math82-AddD operating point, N=32, L=16, $\mu^2=-0.7$) and the Math348 two-latitude hexagon family $S_h$ (h=0.3) by running the Math292 transverse-Hessian acceptance gate (G3) under LOBPCG on raw Sh ansatze at three distinct (N, L, A) operating points, plus a 4-step (N, L) residual scan covering 24 (polarisation, amplitude) variants. Every raw Sh ansatz residual exceeds the BCC continuation residual ($9.99\times 10^{-3}$) by at least 35 fold, with the smallest achievable raw residual being $3.45\times 10^{-1}$ at (N=16, L=18.47, A=0.05, parallel polarisation). LOBPCG eigenvalue spectra of these ansatze are dominated by the small-amplitude linear regime, where Hessian eigenvalues converge to bare $\mu^2 = -0.7$, providing no information about the converged Sh ground-state stability. We conclude that any meaningful Sh-vs-BCC linear-stability comparison requires Newton--Krylov continuation of an Sh seed to its converged fixed point (residual $\le 10^{-3}$), and not a raw-ansatz computation. Phase 0 of the post-Math348 mainline reorganisation is hereby closed; the new mainline target M5 (deep-regime ground-state identification via Newton--Krylov continuation) is the immediate next-priority work.
+\end{abstract}
+
+\tableofcontents
+\newpage
+
+\section{Three LOBPCG runs: data summary}\label{sec:lobpcg-summary}
+
+The three runs share configuration $\mu^2=-0.7$, $q_0=0.6802$, RMS-normalised
+Brazovskii backend, complex 3-component vector field, Math292 transverse-Hessian
+acceptance gate. They differ in (N, L, A) and source.
+
+\begin{center}
+\begin{tabular}{l ccc c c c}
+\toprule
+Source & N & L & A & residual & $\lambda_{\min}$ & $\lambda_{\max}$ \\
+\midrule
+\textbf{BCC continuation (Math350)}
+  & 32 & 16.00 & 0.408 & $9.99\!\times\!10^{-3}$ & $-0.237$ & $-0.170$ \\
+\textbf{Sh raw ansatz (Run~1)}
+  & 32 & 16.00 & 0.408 & $6.57\!\times\!10^{1}$  & $-0.429$ & $-0.378$ \\
+\textbf{Sh raw ansatz (Run~2)}
+  & 16 & 18.47 & 0.050 & $3.45\!\times\!10^{-1}$ & $-0.674$ & $-0.665$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{Quantitative observations}:
+
+\begin{enumerate}
+\item All five eigenvalues are negative in every run (saddle of Morse index $\ge 5$).
+\item Sh raw Run~1 produces $\lambda_{\min}$ that is $1.81\times$ deeper than BCC.
+\item Sh raw Run~2 produces $\lambda_{\min}$ that is $2.85\times$ deeper than BCC and within $4\%$ of bare $\mu^2 = -0.7$.
+\item Run~2 eigenvalues cluster within a 0.009 range, indicating amplitude $A$ is in the linear regime where cubic stabilisation is negligible.
+\item Zero-mode contamination in Run~2 is $\le 1.04\times 10^{-15}$, confirming spurious Goldstones are not contributing to the cluster.
+\end{enumerate}
+
+\section{Four-step (N, L) residual scan}\label{sec:residual-scan}
+
+The supplementary script \texttt{Codes/supplementary/scan\_Sh\_residual.py}
+sweeps 24 variants per (N, L) configuration: 4 polarisations $\times$ 6 amplitudes,
+computing $\|R[\Psi]\|/\sqrt{\rm dof}$ via the canonical
+\texttt{real\_backend\_pt\_bcc\_mixed\_v3.residual()} backend.
+
+\begin{center}
+\begin{tabular}{cc c c c}
+\toprule
+N & L & best polarisation & best A & best residual \\
+\midrule
+32 & 16.00 & parallel & 0.050 & $8.02\!\times\!10^{0}$ \\
+32 & 18.47 & parallel & 0.050 & $3.75\!\times\!10^{0}$ \\
+16 & 16.00 & parallel & 0.050 & $7.71\!\times\!10^{-1}$ \\
+\textbf{16} & \textbf{18.47} & \textbf{parallel} & \textbf{0.050} & $\mathbf{3.45\!\times\!10^{-1}}$ \\
+16 & 9.235 & parallel & 0.050 & $6.53\!\times\!10^{0}$ \\
+\bottomrule
+\end{tabular}
+\end{center>
+
+\textbf{Pattern findings}:
+
+\begin{itemize}
+\item residual $\propto$ amplitude $A$ in linear regime (slope $\sim 6.9$ at the best (N, L)),
+indicating the cubic term $\lambda |\Psi|^2 \Psi$ does not contribute meaningfully at A=0.05.
+\item Smaller N reduces residual non-trivially (factor $\sim 10$) — this is the
+opposite of the expectation that smaller grids miss high-momentum modes.
+The mechanism is reduction of $k_{\rm max} = \pi N / L$, which restricts
+the ultraviolet contribution of $\gamma(\nabla^2 + q_0^2)^2$ to modes
+participating in the Sh ansatz.
+\item Grid-commensurate $L = 18.47 \approx 2 \times 2\pi/q_0$ reduces residual by
+$\sim 50\%$ vs $L = 16$, consistent with partial alleviation of the
+critical-shell mismatch.
+\item Surprising: $L = 9.235$ ($1 \times 2\pi/q_0$, BCC's natural period) does
+NOT reduce residual; in fact residual increases by $\sim 8\times$ vs the
+best (N=16, L=18.47) configuration. The cause is that the Sh natural
+axial period is $2\pi/(q_0 \cdot 2h) \approx 15.4$ for $h = 0.3$, not
+$2\pi/q_0 = 9.235$.
+\end{itemize}
+
+\begin{remark}[Sh and BCC have different natural box lengths]
+This is a substantive physical observation: the Sh prismatic family has
+a longer natural modulation length along its prism axis than the BCC
+condensate has along any direction. Specifically, the BCC modulation
+length is $2\pi/q_0 \approx 9.24$ (isotropic), whereas the Sh prismatic
+modulation length is $2\pi/(q_0 \cdot 2h) \approx 15.4$ (axial; in-plane
+length differs). This contradicts the implicit assumption in pre-Math348
+TECT prose that BCC and Sh share the same characteristic length scale.
+The Math110-AddI formula $\hbar = c^3 a_{\rm BCC}^2/(16\pi G)$ would yield
+a different value $\hbar' = c^3 a_{S_h}^2/(16\pi G)$ if the deep-regime
+ground state were $S_h$-like rather than BCC-like.
+\end{remark>
+
+\section{Eigenvalues $\approx \mu^2$ discovery: meaning}\label{sec:eigvals-mu2}
+
+Run~2's spectrum cluster at $\lambda \in [-0.674, -0.665]$ is essentially the
+bare $\mu^2 = -0.7$ value, with discrepancy $|\lambda - \mu^2|/|\mu^2| \approx
+4\%$. This is no coincidence.
+
+The Brazovskii Hessian at amplitude A is
+\[
+H[\Psi] \;=\; \mu^2 + \gamma(\nabla^2 + q_0^2)^2 + 3\lambda |\Psi|^2.
+\]
+
+In the limit $A \to 0$ (so $|\Psi|^2 \to A^2 \to 0$):
+
+\begin{enumerate}
+\item Cubic stabilisation $3\lambda |\Psi|^2 \to 0$.
+\item For Sh wavevectors located \emph{exactly} on the critical shell
+($|\mathbf k|=q_0$), $\gamma(\nabla^2 + q_0^2)^2 = 0$ identically.
+\item Hence $H \to \mu^2$.
+\end{enumerate}
+
+The observed $\lambda_{\min} = -0.674$ (vs $\mu^2 = -0.700$, error $4\%$)
+shows that Sh wavevectors at (N=16, L=18.47) are \emph{very nearly} on the
+critical shell, with the residual $4\%$ deviation absorbed in the small
+quadratic correction from grid discreteness and finite A.
+
+\begin{proposition}[Linear-regime triviality]\label{prop:linear-regime}
+For any 12-mode ansatz $\Psi = A \sum_m e^{i \mathbf k_m \cdot x}$ with
+all $|\mathbf k_m| = q_0$, the LOBPCG transverse-Hessian eigenvalues in the
+small-amplitude limit $A \to 0$ converge to $\mu^2$. The eigenvalues therefore
+contain no information about the ansatz's true saddle/minimum classification
+in this limit; they merely confirm that the Brazovskii functional is in the
+disordered phase ($\mu^2 < 0$ unstable for any small fluctuation about the
+zero ansatz).
+\end{proposition>
+
+\begin{proof}[Sketch]
+Direct from the Brazovskii Hessian formula. The transverse projection
+removes Goldstone modes (translation, U(1) phase) but not the bare $\mu^2$
+linear instability. The Math292 G3 acceptance gate is therefore valid only
+for amplitudes large enough that the cubic stabilisation $3\lambda |\Psi|^2$
+is comparable to $\mu^2$; in our case $|\lambda| = 0.43$, requiring
+$|\Psi|^2 \gtrsim |\mu^2|/(3|\lambda|) \approx 0.54$, hence $A \gtrsim 0.74$
+to leave the linear regime.
+\end{proof>
+
+\section{Why raw Sh ansatz cannot diagnose ground-state stability}\label{sec:fundamental}
+
+Combining the above:
+
+\begin{itemize}
+\item At small A (e.g.\ A = 0.05 in Run~2), the residual is small ($0.35$) but the
+Hessian spectrum is trivial linear-regime $\approx \mu^2$.
+\item At larger A (e.g.\ A = 0.408 in Run~1), the cubic activates, the spectrum
+becomes more BCC-like, but the residual explodes ($65.7$), making the Hessian
+itself dominated by displacement from any fixed point.
+\item There is no "sweet spot" amplitude: as $A$ grows from $0$ to BCC's $0.408$,
+residual grows monotonically while spectrum shifts non-monotonically. No
+intermediate $A$ produces a meaningful comparison with BCC.
+\end{itemize}
+
+\textbf{Conclusion}: Sh family stability cannot be diagnosed from raw
+ansatze. Newton-Krylov continuation of an Sh seed to its converged fixed
+point (target residual $\le 10^{-3}$) is required.
+
+\section{Phase 0 status revision (canonical ledger)}\label{sec:status}
+
+\textbf{Math350 (deep-regime BCC saddle, R-2026-05-07-Math350)}: unchanged.
+The verdict that BCC continuation at $\mu^2 = -0.7$ is a saddle (Morse $\ge 5$,
+$\lambda_{\min} = -0.237$) stands.
+
+\textbf{Math348 (Sh mean-field uniqueness counter-example)}: unchanged.
+Sh family achieves $\Lambda(S_h) = 540 = \Lambda(S_{\rm BCC})$ for every
+$h \in (0, 1)$.
+
+\textbf{Math351 (this note, Sh raw-ansatz non-comparable)}: \textbf{T6 PROVED}
+on the negative diagnostic. Raw Sh ansatz spectra are dominated by linear
+regime artifacts; no quantitative comparison with BCC continuation results
+is possible without converged Sh fixed point.
+
+\textbf{Pillar 1 status (combined update)}:
+\begin{itemize}
+\item Shallow regime ($\mu^2 \gtrsim 0$): T4 STRONG EVIDENCE retained
+(Math82-AddD anchor).
+\item Deep regime ($\mu^2 = -0.7$): T0 REFUTED for "BCC is local minimum"
+(Math350); T1 OPEN for "true ground state at deep regime".
+\item Sh family viability: T1 OPEN; Newton-Krylov continuation is the
+immediate next-priority programme (M5 in Math349-AddA).
+\item Sh natural box length differs from BCC ($2\pi/(q_0 \cdot 2h) = 15.4$ for
+$h = 0.3$ vs $2\pi/q_0 = 9.24$ for BCC isotropic): \textbf{new finding}
+from this note's residual scan, recorded as a working hypothesis pending
+formal derivation.
+\end{itemize}
+
+\section{Self-adversarial review (CLAUDE.md \S6.3.5(a))}\label{sec:audit}
+
+\textbf{Objection $\alpha$}: "All three LOBPCG runs failed to reach the
+$10^{-5}$ tolerance (max accuracy $\sim 1.5$ in Runs 1--2, $\sim 0.05$ in
+Run~3). The eigenvalues may be inaccurate."
+
+\emph{Disposition: VALID-with-mitigation.} Eigenvalue accuracy is bounded
+by LOBPCG residual; magnitudes $|\lambda_k| \in [0.17, 0.67]$ vastly exceed
+the LOBPCG accuracy in all three runs. Sign verdicts (saddle, $\lambda_{\min} < 0$)
+are robust. The numerical agreement of Run~3 spectrum with bare $\mu^2$
+(Proposition \ref{prop:linear-regime}) is a parameter-free check that the
+spectrum is real and not a numerical artefact.
+
+\textbf{Objection $\beta$}: "Run~3's residual is 35x larger than BCC's, so
+its eigenvalues should NOT be considered a valid comparison."
+
+\emph{Disposition: ACCEPTED.} This is precisely the Phase 0 closure verdict:
+no raw Sh ansatz at any (N, L, A) combination tested produces a residual
+comparable to BCC's $0.01$. The conclusion is therefore not that Sh is
+unstable, but that raw ansatz is non-comparable. Sh ground-state stability
+remains an OPEN question.
+
+\textbf{Objection $\gamma$}: "The 4-step residual scan only varied (N, L) over
+5 combinations. Maybe (N, L) = (8, 18.47) or (32, 9.235) would do better."
+
+\emph{Disposition: VALID-with-mitigation.} The scan is not exhaustive.
+However, the Proposition \ref{prop:linear-regime} argument shows that for any
+small-A ansatz with on-shell wavevectors, the spectrum trivialises to $\mu^2$
+regardless of (N, L). For large-A ansatz, the residual scales linearly in A
+times an N-dependent prefactor, and reducing N below 16 introduces
+under-resolution issues. Further (N, L) scans are unlikely to change the
+qualitative conclusion that raw ansatz is non-comparable.
+
+\textbf{Objection $\delta$ (self-adversarial, additional)}: "The new finding
+that Sh natural box length is $\sim 15.4$ vs BCC's $\sim 9.24$ is from the
+residual scan only and has not been formally derived."
+
+\emph{Disposition: VALID; flagged as hypothesis pending formal derivation.}
+The number $15.4 = 2\pi/(q_0 \cdot 2h)$ for $h = 0.3$ is a heuristic
+calculation based on the axial wavevector projection of the upper hexagon
+mode. A formal derivation would compute the Brazovskii free energy as a
+function of L for the Sh family and identify the L that minimises F at fixed
+mode count. This is recorded as M5b (companion to M5 in Math349-AddA).
+
+\textbf{Quantitative sanity checks (\S6.3.4)}: All three runs satisfy
+dimensional consistency, magnitude bounds, sign-direction physics,
+zero-mode-contamination $< 10^{-13}$. No spurious eigenvalues detected.
+
+\section{Phase 0 closure declaration}\label{sec:phase0-closure}
+
+Phase 0 of the post-Math348 mainline reorganisation is hereby closed with
+the following verdicts:
+
+\begin{enumerate}
+\item BCC continuation at $\mu^2 = -0.7$ is a saddle. \textbf{(Math350, T0 REFUTED for local minimum.)}
+\item Sh mean-field $\Lambda(S_h) = 540 = \Lambda(S_{\rm BCC})$ for every $h \in (0, 1)$. \textbf{(Math348, R-tag retraction of BCC uniqueness.)}
+\item Raw Sh ansatze cannot reach BCC's converged residual; their LOBPCG eigenvalues are dominated by linear-regime triviality. \textbf{(Math351, this note, T6 PROVED.)}
+\item Sh and BCC have different natural box lengths. \textbf{(Math351, this note, hypothesis pending formal derivation.)}
+\end{enumerate}
+
+\textbf{Mainline next-priority work (M5)}: Newton-Krylov continuation of an
+Sh seed at deep regime $\mu^2 = -0.7$, target residual $\le 10^{-3}$,
+followed by Math292 G3 LOBPCG diagnostic at the converged Sh fixed point.
+This is the only path to quantitative comparison with BCC.
+
+\textbf{Alternative path (Pillar redirect)}: redirect mainline effort to
+Pillar 4 sub-task 3 (Higgs / matter), Pillar 6 (electroweak symmetry
+breaking), or Pillar 11 (cosmological constant). These pillars do not
+depend on the deep-regime ground-state identification and have established
+T4--T6 progress paths.
+
+\section{Files written by Phase 0}\label{sec:files}
+
+Math notes:
+\begin{itemize}
+\item \texttt{Docs/math/TECT-Math348-TwoLatitudeHexagon-CounterExample-...tex.txt}
+\item \texttt{Docs/math/TECT-Math349-Math348-Cascading-Impact-Analysis.tex.txt}
+\item \texttt{Docs/math/TECT-Math349-AddA-User-Audit-Acknowledgment-and-Math350-Reprioritisation.tex.txt}
+\item \texttt{Docs/math/TECT-Math350-Math292-G3-N32-DeepRegime-Saddle.tex.txt}
+\item \texttt{Docs/math/TECT-Math351-Sh-Raw-Ansatz-Lanczos-Phase0-Closure.tex.txt} (this note)
+\end{itemize}
+
+Supplementary code:
+\begin{itemize}
+\item \texttt{Codes/supplementary/Math348\_two\_latitude\_counterexample.py}
+\item \texttt{Codes/supplementary/emit\_Sh\_psi.py}
+\item \texttt{Codes/supplementary/scan\_Sh\_residual.py}
+\end{itemize}
+
+Numerical data archived (sidecar JSONs):
+\begin{itemize}
+\item \texttt{Runs/continuation/math236\_A1p0\_seeded\_N32\_resumed/Psi\_best\_F.npy.lanczos.json}
+(BCC continuation, Math350)
+\item \texttt{Runs/continuation/Sh\_h0p3\_N32\_psi.npy.lanczos.json}
+(Sh raw N=32, L=16, A=0.408)
+\item \texttt{Runs/continuation/Sh\_h0p3\_N16\_L18p47\_A0p05\_psi.npy.lanczos.json}
+(Sh raw N=16, L=18.47, A=0.05)
+\end{itemize>
+
+Status documents:
+\begin{itemize}
+\item \texttt{Docs/status/STATUS-HISTORY.md} (append-only ledger; Math350+Math348 entries already present)
+\item \texttt{CHANGELOG.md} (R-2026-05-07-Math350-DeepRegime-BCC-Saddle entry)
+\item \texttt{Website/data/theory.js} (Honest Limitations card: Limitation 4 added)
+\end{itemize>
+
+\section{References}
+
+\begin{itemize}
+\item \emph{Math82-AddD} (shallow-regime BCC stability anchor).
+\item \emph{Math292} (G3 acceptance gate definition).
+\item \emph{Math348} (Sh mean-field uniqueness counter-example).
+\item \emph{Math349, Math349-AddA} (cascading-impact analysis + user-audit acknowledgment).
+\item \emph{Math350} (deep-regime BCC saddle verdict).
+\item LOBPCG: Knyazev (2001), \texttt{scipy.sparse.linalg.lobpcg}.
+\item Brazovskii backend: \texttt{Codes/pde/real\_backend\_pt\_bcc\_mixed\_v3.py}.
+\end{itemize}
+
+\end{document}

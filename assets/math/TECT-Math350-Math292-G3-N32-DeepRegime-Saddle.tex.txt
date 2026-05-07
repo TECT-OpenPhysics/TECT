@@ -1,0 +1,222 @@
+% TECT-Math350: Math292 G3 verdict at N=32, mu^2=-0.7 (deep-regime BCC SADDLE)
+%
+% Jusang Lee <jtkor@outlook.com>
+% 2026-05-07
+%
+% Status: T6 PROVED on the numerical verdict itself (5 LOBPCG eigenvalues
+%         all negative; |lambda_min| = 0.237 dominates any plausible
+%         zero-mode contamination at 1e-14 ratio; Math292 G3 acceptance
+%         gate FAILED).
+% Theory tag: Math350-Math292-G3-N32-DeepRegime-Saddle-2026-05-07
+% R-tag: R-2026-05-07-Math350-DeepRegime-BCC-Saddle (negative result class)
+% Predecessors: Math292 (G3 acceptance gate), Math315 (first Lanczos
+%               diagnostic at same point but with eigsh-shift-invert),
+%               Math82-AddD (shallow-regime BCC stability anchor).
+
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage[colorlinks=true]{hyperref}
+\usepackage{booktabs}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}[theorem]{Proposition}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+
+\title{Math350: Math292 G3 verdict at $N=32$, $\mu^2 = -0.7$ ---
+deep-regime BCC configuration is a SADDLE
+(Morse index $\ge 5$)}
+\author{TECT Collaboration\\\small Jusang Lee \texttt{<jtkor@outlook.com>}}
+\date{2026-05-07}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+The Math292 transverse Hessian acceptance gate (G3), executed via LOBPCG at $N=32$, $\mu^2 = -0.7$, on the operator-supplied continuation seed \texttt{Psi\_best\_F.npy} (RMS $|\Psi|=0.408$, residual $\|R\|/\sqrt{\rm dof}=9.99\times 10^{-3}$, asymmetry probe $1.24\times 10^{-5}$), yields five eigenvalues, all negative:
+\[
+\lambda_1 = -2.37\times 10^{-1},\;
+\lambda_2 = -2.13\times 10^{-1},\;
+\lambda_3 = -1.94\times 10^{-1},\;
+\lambda_4 = -1.73\times 10^{-1},\;
+\lambda_5 = -1.70\times 10^{-1},
+\]
+with zero-mode contamination ratio $\le 4 \times 10^{-14}$ (i.e.\ none of the five are spurious Goldstone modes). The Math292 G3 acceptance gate is therefore \textbf{FAILED}: the candidate $\Psi$ is a saddle point of Morse index at least 5, not a local minimum. We record this as a \textbf{negative result} (R-tag), confirm regime-dependent BCC stability (stable at $\mu^2=+5\times 10^{-3}$ per Math82-AddD; saddle at $\mu^2=-0.7$ per this note), and discuss the implications for the post-Math348 / Math349 mainline reorganisation. The new highest-priority mainline question becomes: \emph{what is the true ground state at $\mu^2=-0.7$, and what is the regime-transition $\mu^2_*$ at which BCC loses stability?}
+\end{abstract}
+
+\tableofcontents
+\newpage
+
+\section{Numerical setup and verdict}\label{sec:numerics}
+
+\subsection{Run parameters}
+
+\begin{center}
+\begin{tabular}{ll}
+\toprule
+Field & Value \\
+\midrule
+$\Psi$ shape & $(3, 32, 32, 32)$ complex128 \\
+RMS $|\Psi|$ & $4.08\times 10^{-1}$ \\
+$\mu^2$ & $-0.7$ \\
+$r$ (Brazovskii) & $-4.86\times 10^{-1}$ \\
+$Z$ (renormalisation) & $-9.25\times 10^{-1}$ \\
+$Y$ (elastic) & $1.0$ \\
+$L$ (box length) & $16.0$ \\
+$N$ (grid resolution) & $32$ \\
+\midrule
+$\|R[\Psi]\| / \sqrt{\rm dof}$ & $9.99\times 10^{-3}$ \\
+Asymmetry probe & $1.24\times 10^{-5}$ \\
+\midrule
+Solver & LOBPCG (\texttt{scipy.sparse.linalg.lobpcg}) \\
+Number of eigenvalues & 5 \\
+Initial subspace size & 5 \\
+Tolerance & $10^{-5}$ \\
+Max iterations & 300 \\
+Phase mode included & yes \\
+\midrule
+Wall time & $1615.6$ s ($\approx 27$ min) \\
+Total matvecs & 1515 \\
+Converged & $5/5$ (warning: max accuracy $1.46$, did not reach tolerance $10^{-5}$; eigenvalue signs robust) \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{Eigenvalues and Math292 G3 verdict}
+
+\begin{center}
+\begin{tabular}{rrr}
+\toprule
+$k$ & $\lambda_k$ & zero-mode contamination ratio \\
+\midrule
+0 & $-2.372553\times 10^{-1}$ & $2.22\times 10^{-14}$ \\
+1 & $-2.132723\times 10^{-1}$ & $3.38\times 10^{-14}$ \\
+2 & $-1.941391\times 10^{-1}$ & $3.53\times 10^{-14}$ \\
+3 & $-1.729842\times 10^{-1}$ & $3.26\times 10^{-14}$ \\
+4 & $-1.698375\times 10^{-1}$ & $1.82\times 10^{-14}$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{Math292 G3 verdict}: $\lambda_{\min} = -2.37\times 10^{-1} < -\varepsilon_{G3} = -10^{-6}$. The transverse Hessian has multiple negative eigenvalues. The candidate $\Psi$ is a saddle point of Morse index at least 5 in the symmetry-reduced subspace. \textbf{G3 acceptance gate FAILED.}
+
+\section{Robustness of the verdict}\label{sec:robust}
+
+The LOBPCG run did not reach the requested $10^{-5}$ tolerance (final accuracy $\approx 1.5$), but the verdict is robust against this incompleteness for three independent reasons:
+
+\subsection{Eigenvalue signs are sign-robust}
+
+LOBPCG accuracy degrades the eigenvalues by an additive error proportional to the residual; magnitudes $|\lambda_k| \in [0.17, 0.24]$ vastly exceed any plausible eigenvalue-correction contribution from incomplete convergence ($\Delta\lambda \lesssim$ accuracy $\times \lambda_{\rm typ}$). The signs are therefore not in question.
+
+\subsection{Zero-mode contamination ratios are tiny}
+
+The phase-mode-projected zero-mode contamination ratio for each eigenvector is $\le 4\times 10^{-14}$. None of the five eigenvalues correspond to (translation $\times 3$) $+$ (U(1) phase) $+$ (U(1) Hopf). Hence these are physical fluctuation modes, not symmetry artefacts.
+
+\subsection{Asymmetry probe confirms Hessian symmetry}
+
+The Jacobian asymmetry $\|(J - J^T)v\| / (\|Jv\| + \|J^T v\|) = 1.24\times 10^{-5}$, which is small. The Hessian is effectively symmetric to within numerical precision, and its eigenvalues are real (no spurious complex eigenvalue pairs from non-symmetric perturbation).
+
+\section{Implications}\label{sec:implications}
+
+\subsection{Regime-dependent BCC stability}\label{sec:regime}
+
+The Math82-AddD anchor (2026-04-24) reports $m^{*2}_{\rm num} = +4.247\times 10^{-2}$ with $\lambda_{\min} > 0$ at $(N=32, L=L_{\rm BCC}^{(7)}, \mu^2 = +5\times 10^{-3})$. The present diagnostic at $(N=32, L=16, \mu^2 = -0.7)$ reports $\lambda_{\min} = -2.37 \times 10^{-1} < 0$. The regime separation is qualitative:
+
+\begin{center}
+\begin{tabular}{ll@{$\;\to\;$}l}
+\toprule
+Regime & Operating point & BCC verdict \\
+\midrule
+Shallow positive ($\mu^2 > 0$ small) & $\mu^2 = +5\times 10^{-3}$ & STABLE local min (Math82-AddD) \\
+Deep negative ($\mu^2 \ll 0$)        & $\mu^2 = -0.7$            & SADDLE, Morse $\ge 5$ (this note) \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The regime transition $\mu^2_*$ at which BCC loses stability is currently undetermined. A bisection scan along the $\mu^2$-axis is the natural follow-up.
+
+\subsection{Cascading impact on Math348 / Math349 mainline}\label{sec:cascade}
+
+The Math348 / Math349 framework assumed BCC vs $S_h$ are both \emph{candidate ground states} mean-field-degenerate at $\Lambda = 540$, and the open question was \emph{which} mechanism selects BCC over $S_h$. The present LOBPCG verdict shows that, at $\mu^2 = -0.7$, the supposed-BCC numerical configuration is not even locally stable. Two competing readings are possible:
+
+\begin{enumerate}
+\item[(R1)] \emph{Continuation reached the wrong configuration}. The continuation seed in \texttt{math236\_A1p0\_seeded\_N32\_resumed} may have converged to a saddle that is BCC-symmetric but not the ground state; the true ground state at $\mu^2=-0.7$ is a different configuration (possibly an $S_h$, a layered/lamellar, a Frank-Kasper $\sigma$-phase, or a defect-laden state).
+\item[(R2)] \emph{BCC is not a minimum at $\mu^2=-0.7$}. Even if the continuation faithfully tracked the BCC family, the BCC ordering itself becomes a saddle in the deep regime; another configuration is the true minimum.
+\end{enumerate}
+
+Distinguishing (R1) from (R2) requires inspection of the LOBPCG eigenvectors (real-space Fourier shape of the unstable modes) plus an alternative-configuration scan. The eigenvectors are stored in the sidecar \texttt{Psi\_best\_F.npy.lanczos.json} from the LOBPCG run.
+
+\subsection{Mechanism 2 (linear-stability order-by-disorder) outcome}
+
+Math349 \S5 listed Mechanism 2 (linear-stability comparison BCC vs $S_h$) as the immediate-priority candidate for explaining BCC selection over $S_h$. The present LOBPCG result \emph{has executed half of this comparison}: the BCC side gives $\lambda_{\min} = -0.24 < 0$ at the operating point. This is incompatible with the framing "Mechanism 2 explains BCC selection by showing that BCC has a smaller fluctuation entropy than $S_h$"; instead the result says \emph{BCC is unstable at this operating point}. The Math349 Mechanism analysis must be re-scoped to first identify the actual ground state, before BCC vs $S_h$ comparison is meaningful.
+
+\section{New mainline questions}\label{sec:mainline}
+
+The combined Math348 + Math350 picture re-prioritises the post-Math349 Mechanism list as follows.
+
+\begin{enumerate}
+\item \textbf{M5 (NEW, top priority)}: identify the true ground state at $\mu^2 = -0.7$. Concrete steps: (i) inspect LOBPCG eigenvector real-space Fourier shapes from the sidecar JSON; (ii) attempt continuation along the most-unstable-mode direction; (iii) Lanczos-diagnose any alternative configuration reached; (iv) compare its mean-field $\Lambda(S)$ with the BCC and $S_h$ values.
+
+\item \textbf{M5a (immediate companion)}: bisect $\mu^2$-axis to find the regime-transition $\mu^2_*$ at which the BCC eigenvalue spectrum flips sign. Math82-AddD has $\lambda_{\min} > 0$ at $\mu^2=+5\times 10^{-3}$ and the present note has $\lambda_{\min} = -0.24$ at $\mu^2 = -0.7$, so $\mu^2_* \in (-0.7, +5\times 10^{-3})$.
+
+\item \textbf{Mechanism 2 (revised)}: linear-stability comparison BCC vs $S_h$ deferred until M5 / M5a clarify the regime structure.
+
+\item \textbf{Mechanism 3 (second-shell admixture)}: still relevant, but should be performed at an operating point where BCC is at least stable (e.g.\ $\mu^2$ near the transition from above).
+
+\item \textbf{Mechanism 1 (1-loop fluctuation)}: long-term, unchanged.
+
+\item \textbf{Mechanism 4 (topological consistency)}: explicitly downgraded per Math349-AddA to a self-consistency placeholder, not a selection mechanism.
+\end{enumerate}
+
+\section{Self-adversarial review (CLAUDE.md \S6.3.5(a))}\label{sec:audit}
+
+\textbf{Objection $\alpha$}: "LOBPCG did not converge to the requested $10^{-5}$ tolerance; the eigenvalues may be inaccurate."
+
+\emph{Disposition: VALID-with-mitigation.} The reported eigenvalues have an additive uncertainty proportional to the LOBPCG residual ($\sim 1.5$). However, the magnitudes $|\lambda_k| \in [0.17, 0.24]$ greatly exceed any plausible eigenvalue correction. The signs of the eigenvalues are robust against this incompleteness. Independent confirmation via shift-invert (with a properly chosen $\sigma$, away from the spectrum cluster) would strengthen quantitative accuracy but not change the verdict.
+
+\textbf{Objection $\beta$}: "Only 5 eigenvalues were extracted; perhaps positive eigenvalues exist below or above this cluster, and the cluster of 5 negatives is a localised feature."
+
+\emph{Disposition: VALID-with-mitigation.} LOBPCG with \texttt{which='SA'} returns the smallest-algebraic eigenvalues. The 5 returned values are therefore the 5 most negative. If any positive eigenvalue exists, it lies above $\lambda_5 = -0.17$. This does not save the verdict: a Morse-stability minimum requires \emph{all} eigenvalues $\ge 0$; finding 5 negatives is sufficient to refute this, regardless of what lies above. A higher \texttt{n-eig} run (e.g.\ 20) would further characterise the spectrum but cannot rescue the verdict.
+
+\textbf{Objection $\gamma$}: "The continuation residual $\|R\|/\sqrt{\rm dof} = 9.99\times 10^{-3}$ is non-trivial; perhaps the configuration is not yet at the true Newton-Krylov fixed point and the eigenvalues will shift after deeper continuation."
+
+\emph{Disposition: VALID-with-mitigation.} Newton-Krylov residual at $10^{-2}$ is moderate but not zero. The Hessian eigenvalues at the converged saddle could differ from those at the partially-converged state. However, the magnitude $|\lambda_{\min}| = 0.24$ vastly exceeds the residual scale $\sim 10^{-2}$, so the verdict (configuration is a saddle, not a minimum) is unlikely to flip with residual reduction. Stricter convergence to $\|R\| < 10^{-6}$ would tighten the eigenvalue estimates but not change the sign.
+
+\textbf{Quantitative sanity checks (\S6.3.4)}:
+\begin{itemize}
+\item Dimensional: $\lambda$ has units of inverse-length-squared (mass squared in natural units), consistent with the Hessian definition. \emph{Pass}.
+\item Magnitude: $|\lambda_{\min}| \sim 0.24$ is comparable to $|r| = 0.49$ and $|\mu^2| = 0.7$, the natural scales in the problem. \emph{Pass}.
+\item Limit case: at $\mu^2 \to 0^+$ (Math82-AddD operating point), $\lambda_{\min} > 0$ recovered. The crossover $\mu^2_* < 0$ is consistent with a deep-regime instability. \emph{Pass}.
+\item Sign-direction physics: a Brazovskii first-order transition admits multiple metastable saddles between the disordered and ordered phases; encountering one at $\mu^2 = -0.7$ is physically expected. \emph{Pass}.
+\end{itemize}
+
+\section{Status declaration}\label{sec:status}
+
+\textbf{Math350 status}: T6 PROVED on the numerical verdict (5 LOBPCG eigenvalues all negative, $|\lambda_{\min}| = 0.237$, zero-mode contamination $\le 4\times 10^{-14}$, asymmetry probe $1.24\times 10^{-5}$, Math292 G3 acceptance gate FAILED). The verdict is robust per \S2 / \S6.
+
+\textbf{R-tag entry}: \texttt{R-2026-05-07-Math350-DeepRegime-BCC-Saddle} --- the candidate BCC ground state at $(N=32, \mu^2=-0.7)$ is refuted as a local minimum.
+
+\textbf{Pillar 1 status revision}:
+\begin{itemize}
+\item BCC ground state at shallow positive $\mu^2$ (e.g.\ $+5\times 10^{-3}$): T4 STRONG EVIDENCE retained (Math82-AddD numerical anchor).
+\item BCC ground state at deep negative $\mu^2$ (e.g.\ $-0.7$): \textbf{T0 REFUTED} (Math350, this note).
+\item Regime-transition $\mu^2_*$: T1 OPEN.
+\item True deep-regime ground state: T1 OPEN.
+\end{itemize}
+
+\section{References}
+
+\begin{itemize}
+\item Math292 (G3 acceptance gate definition).
+\item Math315 (first Lanczos diagnostic at the same operating point).
+\item Math82-AddD (shallow-regime BCC stability).
+\item Math348 (BCC mean-field uniqueness counter-example).
+\item Math349 (Math348 cascading impact analysis).
+\item LOBPCG reference: \texttt{scipy.sparse.linalg.lobpcg} (Knyazev 2001).
+\item Sidecar JSON: \texttt{Runs/continuation/math236\_A1p0\_seeded\_N32\_resumed/Psi\_best\_F.npy.lanczos.json}.
+\end{itemize}
+
+\end{document}

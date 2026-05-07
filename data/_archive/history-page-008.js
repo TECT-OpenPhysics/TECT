@@ -1,4 +1,4 @@
-// AUTO-GENERATED v0.3 page 8/8 — 2026-05-07 04:19 UTC
+// AUTO-GENERATED v0.3 page 8/8 — 2026-05-07 08:31 UTC
 window.TECT_HISTORY_PAGE_008 = {
   title: "History (page 8 of 8)",
   subtitle: "Chronological CHANGELOG mirror — auto-generated.",
@@ -7,6 +7,16 @@ window.TECT_HISTORY_PAGE_008 = {
   blocks: [
     { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history-page-007.html\">&larr; Newer</a> &middot; Page 8 / 8 &middot; <a href=\"history-archive-index.html\">archive index</a></div>" },
     { type: "timeline", items: [
+        {
+          date: "2026-04-22",
+          title: "[tect_newton_krylov v2.6.0 + continuation_mu2_v25 Phase D wiring + test_v26_phase_d.py — Task #104 Block 3: Math66 Path-X implementation sealed; Phase D operational]",
+          body: "- No new theory. v2.6.0 implementation faithfully follows Math66 v0.1 §2–§8 (operator surgery, preconditioner placement, spectral-gap preservation, convergence theorems, API contract, verification plan)."
+        },
+        {
+          date: "2026-04-22",
+          title: "[Math66 Path-X v0.1 + Tool v1.4 + Autonomous Block 1–2 closure — operator surgery operationalized; Case-0 classifier sealed; Task #111 half-1/half-2 completed]",
+          body: "- `docs/math/TECT-Math66-cII-OperatorSurgery-PathX.tex.txt` **v0.1 (NEW)**, filed 2026-04-22. Complete operational specification for Math65 Cor. `math65-math66-mandate` Path-X mandate: - §1 Motivation: legitimacy of in-solver Hermitian projection via Thm. `math64-full-sympd` ($\\rho_{\\mathrm{FULL}} = 1.62 \\times 10^{-10}$ at Machine Precision); - §2 Construction of $\\widetilde{\\mathcal{J}}_{\\mathrm{cII}}(\\Psi) := \\tfrac{1}{2}(\\mathcal{J}_{\\mathrm{cII}} + \\mathcal{J}_{\\mathrm{cII}}^{\\dagger})$ with Lem. `math66-hermiticity` and Lem. `math66-residual-reduction`; - §3 Preconditioner placement: in Newton--Krylov inner loop (PCG); Operation count: one extra adjoint JVP per Krylov step, $O(N\\log N)$; - §4 Spectral-gap preservation (Lem. `math66-spectral-gap`) via Bendixson inequality; real eigenvalues of $\\widetilde{\\mathcal{J}}_{\\mathrm{cII}}$ bounded from below by real eigenvalues of $\\mathcal{J}_{\\mathrm{cII}}$ minus anti-Hermitian residual; - §5 Full-operator consistency (Thm. `math66-full-consistency`): condition-number preservation to Machine Precision, $\\kappa(\\widetilde{\\mathcal{J}}_{\\mathrm{FULL}}) / \\kappa(\\mathcal{J}_{\\mathrm{FULL}}) \\in [1 - 10^{-9},"
+        },
         {
           date: "2026-04-22",
           title: "[Math65 v0.1.2 → v0.1.3 + Runs R-2026-04-22-005 and R-2026-04-22-006 — triangulation completed; branch (I) Class Insufficiency sealed; Math66 operator surgery mandatory; Path (X) in-solver symmetrisat",

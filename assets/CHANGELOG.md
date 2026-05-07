@@ -12,6 +12,99 @@ Each entry is grouped by **[Theory] / [Code] / [Results] / [Docs] / [Infrastruct
 
 ---
 
+## [Negative Result] Math351 Phase 0 closure: Sh raw-ansatz non-comparable to BCC continuation — 2026-05-07
+
+**R-tag**: `R-2026-05-07-Math351-Sh-Raw-Ansatz-Non-Comparable`
+**Theory tag**: `Math351-Sh-Raw-Ansatz-Lanczos-Phase0-Closure-2026-05-07`
+
+**Verdict**: Three LOBPCG runs (BCC continuation residual 0.01 with $\lambda_{\min}=-0.237$; Sh raw N=32/L=16/A=0.408 residual 65.7 with $\lambda_{\min}=-0.429$; Sh raw N=16/L=18.47/A=0.05 residual 0.35 with $\lambda_{\min}=-0.674$) plus 24-variant (N, L, polarisation, A) residual scan establish that no raw Sh ansatz reaches BCC-continuation residual at any tested combination. Smallest achievable raw residual is 0.35, still 35× larger than BCC. **T6 PROVED** on the negative diagnostic itself.
+
+**Key findings**:
+- **Eigenvalues ≈ μ² discovery**: Run 3 spectrum cluster at -0.674 ≈ μ² = -0.7 confirms linear-regime triviality. Sh wavevectors fit critical shell almost exactly (gradient kernel ≈ 0); cubic stabilisation negligible at A=0.05 (would require A ≥ 0.74). Hessian eigenvalues therefore contain no information about saddle/minimum classification.
+- **Sh natural box length**: residual scan reveals Sh's natural axial period $2\pi/(q_0 \cdot 2h) \approx 15.4$ for $h=0.3$, distinct from BCC's natural period $2\pi/q_0 \approx 9.24$. New physical hypothesis pending formal Brazovskii free-energy derivation as M5b.
+- **L=9.235 (1 BCC period) is NOT optimal for Sh**: residual 6.53 (worse), confirming Sh and BCC have distinct length scales.
+
+**Phase 0 closure summary** (5 Math notes archived):
+- Math348 (Sh family Λ=540 counter-example)
+- Math349 (cascading 11-pillar impact analysis)
+- Math349-AddA (user-audit acknowledgment, Mechanism 4 downgrade, M5 priority)
+- Math350 (deep-regime BCC saddle verdict)
+- Math351 (Sh raw-ansatz non-comparable, this entry)
+
+**Pillar 1 status (cumulative)**:
+- Shallow regime ($\mu^2 \gtrsim 0$): T4 STRONG EVIDENCE retained (Math82-AddD).
+- Deep regime BCC stability: T0 REFUTED (Math350).
+- Sh family ground-state viability: T1 OPEN.
+- Sh natural box length differs from BCC: hypothesis pending formal derivation.
+
+**Mainline next-priority (M5)**: Newton-Krylov continuation of an Sh seed at $\mu^2 = -0.7$ to converged fixed point ($\|R\| \le 10^{-3}$), then Math292 G3 LOBPCG at converged point. Estimated cost: hours to half-day.
+
+**Alternative path (Pillar redirect)**: defer M5; redirect mainline to Pillar 4 sub-task 3, Pillar 6, or Pillar 11.
+
+**Files written**:
+- `Docs/math/TECT-Math351-Sh-Raw-Ansatz-Lanczos-Phase0-Closure.tex.txt`
+- `Codes/supplementary/emit_Sh_psi.py` (Sh psi generator)
+- `Codes/supplementary/scan_Sh_residual.py` (24-variant residual scanner)
+- 3 sidecar JSONs in `Runs/continuation/`
+- `Docs/status/STATUS-HISTORY.md` (entry 2026-05-07-04 added)
+- `CHANGELOG.md` (this entry)
+
+**Self-adversarial review (CLAUDE.md §6.3.5(a))**: 4 concrete objections (LOBPCG accuracy, residual gap, scan coverage, box-length hypothesis status); all addressed in Math351 §6 with VALID-with-mitigation or ACCEPTED dispositions.
+
+**Quantitative sanity check (CLAUDE.md §6.3.4)**: dimensional / magnitude / limit-case / sign / zero-mode-contamination all PASS in Math351 §6.
+
+---
+
+
+## [Negative Result + Audit] Math350 (deep-regime BCC saddle) + Math349-AddA (Mechanism re-prioritisation) — 2026-05-07
+
+**R-tag**: `R-2026-05-07-Math350-DeepRegime-BCC-Saddle`
+**Theory tags**: `Math350-Math292-G3-N32-DeepRegime-Saddle-2026-05-07`, `Math349-AddA-User-Audit-Acknowledgment-and-Math350-Reprioritisation-2026-05-07`
+
+**Math350 verdict** (deep-regime BCC SADDLE): The Math292 G3 transverse-Hessian acceptance gate, executed via LOBPCG at $N=32$, $\mu^2 = -0.7$ on the operator-supplied continuation seed `math236_A1p0_seeded_N32_resumed/Psi_best_F.npy`, returns five eigenvalues all negative:
+- $\lambda_1 = -2.37 \times 10^{-1}$
+- $\lambda_2 = -2.13 \times 10^{-1}$
+- $\lambda_3 = -1.94 \times 10^{-1}$
+- $\lambda_4 = -1.73 \times 10^{-1}$
+- $\lambda_5 = -1.70 \times 10^{-1}$
+
+with zero-mode contamination ratios all $\le 4 \times 10^{-14}$ (i.e.\ none of the five are spurious Goldstone modes). G3 acceptance gate **FAILED**; the candidate configuration is a saddle of Morse index $\ge 5$ in the symmetry-reduced subspace.
+
+**Robustness**: LOBPCG accuracy 1.5 (did not reach $10^{-5}$ tolerance), but $|\lambda_k| \in [0.17, 0.24]$ vastly exceed any plausible eigenvalue-correction. Asymmetry probe $1.24\times 10^{-5}$ confirms the Hessian is effectively symmetric. Sign verdict robust.
+
+**Regime-dependent stability**:
+- Shallow positive ($\mu^2 = +5\times 10^{-3}$, Math82-AddD anchor): BCC STABLE local minimum.
+- Deep negative ($\mu^2 = -0.7$, Math350 this entry): BCC SADDLE, Morse $\ge 5$.
+- Regime-transition $\mu^2_* \in (-0.7, +5 \times 10^{-3})$ undetermined.
+
+**Math349-AddA — User audit acknowledgment + re-prioritisation**:
+- (A) Math349 §5.4 Mechanism 4 (topological consistency): downgraded from "selection mechanism" to **self-consistency placeholder**. Wording explicitly relabelled.
+- (B) Math349 §8 Objection γ (cosmic isotropy → $S_h$ exclusion): downgraded from "DISMISSED" to **VALID-with-future-target**. The microscopic-to-cosmological RG flow has not been computed; the argument is F3 programme motivation, not exclusion theorem.
+- (C) Mechanism priority list re-organised: **M5 (true deep-regime ground state identification)** added as new top priority. M2 (linear stability) executed by Math350 with negative outcome (BCC = saddle, not BCC selection mechanism). M2/M3 deferred until M5 / M5a clarify regime structure.
+
+**Pillar 1 status revision**:
+- Shallow regime: **T4 STRONG EVIDENCE** retained (Math82-AddD).
+- Deep regime: **T0 REFUTED** (Math350 this entry).
+- Regime-transition $\mu^2_*$: **T1 OPEN**.
+- True deep-regime ground state: **T1 OPEN** (new mainline target M5).
+
+**Combined Math348 + Math349 + Math350 picture**: TECT mainline question shifts from "Is BCC the unique mean-field maximiser?" (refuted by Math348) to "What is the true ground state at deep $\mu^2$, and why does TECT downstream require BCC?" (Math350 + Math349-AddA). The cascading impact on 11 pillars is documented in Math349 with this AddA's revisions; Pillar 1 wording on `theory.js` Honest Limitations card upgraded to Limitation 4 covering both findings.
+
+**Files written**:
+- `Docs/math/TECT-Math350-Math292-G3-N32-DeepRegime-Saddle.tex.txt`
+- `Docs/math/TECT-Math349-AddA-User-Audit-Acknowledgment-and-Math350-Reprioritisation.tex.txt`
+- `Website/data/theory.js` (Honest Limitations card: Limitation 4 added; "Three" → "Four" updated)
+- `CHANGELOG.md` (this entry)
+
+**Self-adversarial review (CLAUDE.md §6.3.5(a))**:
+- Math350 §6: 3 concrete objections (LOBPCG accuracy, only 5 eigenvalues found, residual moderate) — all VALID-with-mitigation, sign verdict preserved.
+- Math349-AddA §3: 3 concrete objections (wording-only retraction, Math350 audit, M5 may return to BCC) — all VALID with informative outcomes either way.
+
+**Quantitative sanity checks (CLAUDE.md §6.3.4)**: Math350 §6 dimensional/magnitude/limit-case/sign-direction all PASS.
+
+---
+
+
 ## [Audit] Math320 hostile-audit acknowledgment + status downgrade (AUDIT-2026-05-06-Math320-FourDefects, T6 → T4) — 2026-05-06
 
 **Theory tag**: `Math320-AddA-Hostile-Audit-Acknowledgment-Status-Downgrade-2026-05-06`

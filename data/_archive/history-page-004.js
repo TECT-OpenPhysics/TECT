@@ -1,4 +1,4 @@
-// AUTO-GENERATED v0.3 page 4/8 — 2026-05-07 04:19 UTC
+// AUTO-GENERATED v0.3 page 4/8 — 2026-05-07 08:31 UTC
 window.TECT_HISTORY_PAGE_004 = {
   title: "History (page 4 of 8)",
   subtitle: "Chronological CHANGELOG mirror — auto-generated.",
@@ -7,6 +7,16 @@ window.TECT_HISTORY_PAGE_004 = {
   blocks: [
     { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history-page-003.html\">&larr; Newer</a> &middot; Page 4 / 8 &middot; <a href=\"history-archive-index.html\">archive index</a> &middot; <a href=\"history-page-005.html\">Older &rarr;</a></div>" },
     { type: "timeline", items: [
+        {
+          date: "2026-04-27",
+          title: "[Math184 — Round-R5 Cross-Turn Audit of Math181 \"Scenario B Rescue\": Verdict UNPROVEN / DOWNGRADED to STRONG CLOSURE DRAFT]",
+          body: "Round-R5 second-order audit (CLAUDE.md §6.3.2) of Math181 (Task #147 Scenario B rescue claim), Math182 (not produced), and Math183 (not produced). Adversarial peer-review with maximum scrutiny per Math150/Math173 precedents."
+        },
+        {
+          date: "2026-04-27",
+          title: "[Round R4 + Math180 second-10-turn synthesis — Pillar 4 sub-task 2 BIFURCATED (Scenario A FALSIFIED, Scenario B RESCUED) on U(1)_χ topology]",
+          body: "R4 of the second 10-turn autonomous research programme. Three sibling agents (Math174, Math175, Math176) dispatched in parallel; Math177 cross-turn audit; Math180 R3+R4 synthesis. Audit-recommended revisions applied in this same atomic commit per CLAUDE.md §6.3.2."
+        },
         {
           date: "2026-04-27",
           title: "[R3 + Math171-AddA degree-arithmetic correction — Pillar 4 sub-task 2 first-principles AS index, RHN singlet polish, GAP-4 scenario table, audit miss caught at commit-review]",
@@ -146,16 +156,6 @@ window.TECT_HISTORY_PAGE_004 = {
           date: "2026-04-25",
           title: "[Rounds 5–10 — Math98 Phase-Transition Origin of Planck Constant: Complete Programme Execution (Kibble-Zurek, Volovik, Berry, IR Reconstruction, Onsager-Machlup, Synthesis)]",
           body: "**Status**: PROVED CONDITIONAL. - Derived $\\tau_{\\rm PT}$ from Brazovskii critical exponents ($\\nu = 1/2$, $z = 2$). - Result: $\\tau_{\\rm PT} \\approx 5.6 \\times a_{\\rm BCC}/c_T$ (TECT units). - Gate F2 ($0.1 \\le \\tau_{\\rm PT}/(a_{\\rm BCC}/c_T) \\le 10$): **PASS**. - Devil's-advocate self-test: four objections; three DISMISSED, one VALID-WITH-DOC (cosmology coupling queued Q-2026-04-25-Math98-AddA-cosmology-coupling)."
-        },
-        {
-          date: "2026-04-25",
-          title: "[Round 4 — IR Bound Rigor + Cross-Pillar Consistency + BCC Symmetry Algebra: Math_IR_Bound-v4-L6-suppression, Math60-Stage2-F, Math96, Round-3-4-Audit]",
-          body: "**Status**: PROVED. Closes heuristic gap in Theorem v4-2 (anisotropy separation). - Rigorous interval-arithmetic computation of $J_1^{(L=6)} \\in [-6.3\\times 10^{-3}, +7.1\\times 10^{-3}]$ at $N=256$. - Loop-counting bound $|c_6/c_4| \\le 0.055$ yields $|c_6 J_1^{(L=6)}| \\le 0.001 \\times c_4 J_1^{(L=4)}_{\\min}$. - Consequence: Theorem v4-2 lower bound $B_\\parallel - B_\\perp \\ge 1.25\\times 10^{-5}$ now **fully rigorous** without heuristic assumption. - Devil's-advocate self-test: α (interval-arithmetic reliability), β (loop-bound tightness), γ (L≥8 truncation) — all DISMISSED."
-        },
-        {
-          date: "2026-04-25",
-          title: "[Round 3 — Stage-2-A closure + Pillar 11 promotion: Math60-Stage2-A-AddA (pairwise commutativity), Math56-AddB (guarded-quotient bound), Math58-v7-AddC (Pillar 11 PROVED CONDITIONAL)]",
-          body: "**Status**: PROVED CONDITIONAL. Five highest-impact pillar pairs verified on shared background $\\mathcal{M}_0$: - (P1, P2): mass gap ↔ Lorentz emergence — VERIFIED UNCONDITIONAL - (P2, P5): Lorentz ↔ chirality — VERIFIED UNCONDITIONAL - (P3, P7): gravity ↔ gauge — VERIFIED CONDITIONAL - (P4, P6): gauge group ↔ couplings — VERIFIED UNCONDITIONAL - (P2, P11): Lorentz ↔ quantum structure — VERIFIED UNCONDITIONAL"
         }
       ]
     },

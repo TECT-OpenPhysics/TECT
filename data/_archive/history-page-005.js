@@ -1,4 +1,4 @@
-// AUTO-GENERATED v0.3 page 5/8 — 2026-05-07 04:19 UTC
+// AUTO-GENERATED v0.3 page 5/8 — 2026-05-07 08:31 UTC
 window.TECT_HISTORY_PAGE_005 = {
   title: "History (page 5 of 8)",
   subtitle: "Chronological CHANGELOG mirror — auto-generated.",
@@ -7,6 +7,16 @@ window.TECT_HISTORY_PAGE_005 = {
   blocks: [
     { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history-page-004.html\">&larr; Newer</a> &middot; Page 5 / 8 &middot; <a href=\"history-archive-index.html\">archive index</a> &middot; <a href=\"history-page-006.html\">Older &rarr;</a></div>" },
     { type: "timeline", items: [
+        {
+          date: "2026-04-25",
+          title: "[Round 4 — IR Bound Rigor + Cross-Pillar Consistency + BCC Symmetry Algebra: Math_IR_Bound-v4-L6-suppression, Math60-Stage2-F, Math96, Round-3-4-Audit]",
+          body: "**Status**: PROVED. Closes heuristic gap in Theorem v4-2 (anisotropy separation). - Rigorous interval-arithmetic computation of $J_1^{(L=6)} \\in [-6.3\\times 10^{-3}, +7.1\\times 10^{-3}]$ at $N=256$. - Loop-counting bound $|c_6/c_4| \\le 0.055$ yields $|c_6 J_1^{(L=6)}| \\le 0.001 \\times c_4 J_1^{(L=4)}_{\\min}$. - Consequence: Theorem v4-2 lower bound $B_\\parallel - B_\\perp \\ge 1.25\\times 10^{-5}$ now **fully rigorous** without heuristic assumption. - Devil's-advocate self-test: α (interval-arithmetic reliability), β (loop-bound tightness), γ (L≥8 truncation) — all DISMISSED."
+        },
+        {
+          date: "2026-04-25",
+          title: "[Round 3 — Stage-2-A closure + Pillar 11 promotion: Math60-Stage2-A-AddA (pairwise commutativity), Math56-AddB (guarded-quotient bound), Math58-v7-AddC (Pillar 11 PROVED CONDITIONAL)]",
+          body: "**Status**: PROVED CONDITIONAL. Five highest-impact pillar pairs verified on shared background $\\mathcal{M}_0$: - (P1, P2): mass gap ↔ Lorentz emergence — VERIFIED UNCONDITIONAL - (P2, P5): Lorentz ↔ chirality — VERIFIED UNCONDITIONAL - (P3, P7): gravity ↔ gauge — VERIFIED CONDITIONAL - (P4, P6): gauge group ↔ couplings — VERIFIED UNCONDITIONAL - (P2, P11): Lorentz ↔ quantum structure — VERIFIED UNCONDITIONAL"
+        },
         {
           date: "2026-04-25",
           title: "[Math110 — GPT-chain synthesis: CP² RG-freeze pathway + Pillar 11 four-sector signed representation]",
@@ -146,16 +156,6 @@ window.TECT_HISTORY_PAGE_005 = {
           date: "2026-04-24",
           title: "[Math86 — Next 5-turn priority plan (Turn 6–10 triple-track structure + Stage-2/3 sequencing + consolidation strategy)]",
           body: "Turn 5 Track C autonomous research: TECT has reached a critical junction. 8 of 11 Stage-1 pillars are at least PARTIAL; Stage-2-E (falsifiability package) is sealed. The next 5-turn session (Turns 6–10) is explicitly planned and sequenced to target Stage-2 global closure (especially B, D, E sub-theorems) and Stage-3 external falsifiability (F1 gauge-coupling ratio). Math86 specifies the exact turn-by-turn roadmap with explicit parallel triple-track execution (Track A: Pillar 1 numerics; Track B: Pillars 4+6 RGE; Track C: Stage-2 theory) and mandatory consolidation turn (Turn 8)."
-        },
-        {
-          date: "2026-04-24",
-          title: "[Math81 — Stage-1 11-pillar scorecard recomputation post-Turn-4 (Pillar 10: OPEN-NEGATIVE REFINED → CLOSED-AS-NO-GO; Pillar 11: NOT ADDRESSED → PROVED CONDITIONAL; net PROVED count: 4 unconditional + ",
-          body: "Autonomous TECT Turn 4 Track B (2026-04-24): after four turns of parallel research (Tracks A/B/C), perform a comprehensive per-pillar scorecard recomputation to reflect all status transitions. Major changes: (i) Pillar 10 closed via classical no-go theorem (Math79-Addendum-B), transitioning from OPEN-NEGATIVE REFINED to new category CLOSED-AS-NO-GO (classical regime), formally declaring TECT a Unified Classical Field Theory (UCFT); (ii) Pillar 11 promoted to PROVED CONDITIONAL after Math58-v7 Dirac-sector tadpole calculation; (iii) Pillars 4 and 6 internal structure refined (Q1 answered, Q2/Q3/Q6c/Q6d advanced to STRONG DRAFT / OUTLINE)."
-        },
-        {
-          date: "2026-04-24",
-          title: "[Math85 — Five-turn autonomous research session synthesis (12 Math notes archived; Pillar 10 closed-as-no-go; Stage-2 1/5→3/5; Stage-3 inventory established)]",
-          body: "Archive and analysis of all 12 mathematical deliverables from autonomous research Turns 1-4 (continuous session, 2026-04-24):"
         }
       ]
     },

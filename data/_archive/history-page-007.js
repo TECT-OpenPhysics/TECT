@@ -1,4 +1,4 @@
-// AUTO-GENERATED v0.3 page 7/8 — 2026-05-07 04:19 UTC
+// AUTO-GENERATED v0.3 page 7/8 — 2026-05-07 08:31 UTC
 window.TECT_HISTORY_PAGE_007 = {
   title: "History (page 7 of 8)",
   subtitle: "Chronological CHANGELOG mirror — auto-generated.",
@@ -7,6 +7,16 @@ window.TECT_HISTORY_PAGE_007 = {
   blocks: [
     { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history-page-006.html\">&larr; Newer</a> &middot; Page 7 / 8 &middot; <a href=\"history-archive-index.html\">archive index</a> &middot; <a href=\"history-page-008.html\">Older &rarr;</a></div>" },
     { type: "timeline", items: [
+        {
+          date: "2026-04-24",
+          title: "[Math79 — Pillar 10 R5 framework: residual-matching audit; four canonical channels fixed]",
+          body: "`Docs/math/TECT-Math79-Pillar10-R5-residual-matching-framework.tex.txt` (NEW). Pillar 10 supplementary route R5 (residual matching between exact classical TECT and observed physics) reframes the user-suggested R4 (dimensional-monomial enumeration of $\\hbar$ from BCC stiffness + cosmic expansion). The reframing drops the unrealistic \"derive $\\hbar$ from nothing\" goal and instead asks whether a single external completion scale $\\chi_* := \\hbar/(m_e c\\,a_{\\mathrm{BCC}})$ can be consistently inferred from multiple independent residual mismatches."
+        },
+        {
+          date: "2026-04-24",
+          title: "[Round 9 (FINAL of 5-round batch) — 3-agent parallel: Math77 Q6c/Q6d CLOSURE → Pillar 6 FULL CLOSURE, Math78 Stage-2-A Meta-Consistency SEALED, Math78 TOE Global Closure Synthesis publication-ready]",
+          body: "> **[Audit-superseded 2026-04-24]** Three closure declarations in this entry are reverted by the immediately preceding `[Audit Rollback — 2026-04-24]` entry: `Pillar 6 FULL CLOSURE` ⇒ PARTIAL-ADVANCED; `Pillar 11 FULLY PROVED` ⇒ NEAR-CLOSURE / not yet final archive theorem; `Pillar 4 UNCONDITIONAL PROVED` ⇒ PARTIAL-ADVANCED. Original entry text retained below as historical record per append-only discipline."
+        },
         {
           date: "2026-04-24",
           title: "[Round 8 — 3-agent parallel: Math77 Q6a THEOREM + Q6b PARTIAL (Pillar 6 consolidation), Math60 S3 update 0/3→1.5/3 PARTIAL-ADVANCED, Math59-v3 Pillar 10 OPEN-NEGATIVE CONFIRMED through 3 failing route",
@@ -146,16 +156,6 @@ window.TECT_HISTORY_PAGE_007 = {
           date: "2026-04-22",
           title: "[Math68 v0.1 PI-level audit + Math66 status retraction + five blockers B1--B5 filed — Task #104 reclassified \"partial live integration; executable closure OPEN\"]",
           body: "- `docs/math/TECT-Math68-v26-PhaseD-Integration-Audit.tex.txt` **v0.1 (NEW)**, filed 2026-04-22. Three PI-level judgments frozen in LaTeX: - **§1 Updated critical-path priority chain** (Eq. `math68-priority-chain`, 8 stages): (i) v2.6.0 Phase D live integration + B1--B5 repair; (ii) Math66 §8 U1--U4 + R1--R2 verification; (iii) Math64 D5 $a_{\\mathrm{cII}}(N)$ scaling; (iv) Pillar 1 / Phase 4 continuum closure; (v) Math67 Global Closure Theorem assembly; (vi) 11-pillar TOE scorecard update; (vii) cII variational-parent search (research track, non-critical); (viii) Path-Y sector rewrite (research track, non-critical). - **§2 Math66 status retraction** (Prop. `math68-math66-status`, Cor. `math68-math66-label`): Math66 v0.1 header label \"THEOREM v0.1, complete\" is over-claim under peer-review standards; corrected to \"OPERATIONAL THEOREM / IMPLEMENTATION SPECIFICATION v0.1\" with four-status block {path-selection: CLOSED / implementation-spec: CLOSED / rigorous mathematical: OPEN to v0.2 / execution-verification: OPEN (pytest 2F/1S/2P on 2026-04-22)}. Header edit applied to Math66 source 2026-04-22. - **§3 Task #104 integration audit** (Prop. `math68-B1-fix` through `math68-B5-fix`)"
-        },
-        {
-          date: "2026-04-22",
-          title: "[tect_newton_krylov v2.6.0 + continuation_mu2_v25 Phase D wiring + test_v26_phase_d.py — Task #104 Block 3: Math66 Path-X implementation sealed; Phase D operational]",
-          body: "- No new theory. v2.6.0 implementation faithfully follows Math66 v0.1 §2–§8 (operator surgery, preconditioner placement, spectral-gap preservation, convergence theorems, API contract, verification plan)."
-        },
-        {
-          date: "2026-04-22",
-          title: "[Math66 Path-X v0.1 + Tool v1.4 + Autonomous Block 1–2 closure — operator surgery operationalized; Case-0 classifier sealed; Task #111 half-1/half-2 completed]",
-          body: "- `docs/math/TECT-Math66-cII-OperatorSurgery-PathX.tex.txt` **v0.1 (NEW)**, filed 2026-04-22. Complete operational specification for Math65 Cor. `math65-math66-mandate` Path-X mandate: - §1 Motivation: legitimacy of in-solver Hermitian projection via Thm. `math64-full-sympd` ($\\rho_{\\mathrm{FULL}} = 1.62 \\times 10^{-10}$ at Machine Precision); - §2 Construction of $\\widetilde{\\mathcal{J}}_{\\mathrm{cII}}(\\Psi) := \\tfrac{1}{2}(\\mathcal{J}_{\\mathrm{cII}} + \\mathcal{J}_{\\mathrm{cII}}^{\\dagger})$ with Lem. `math66-hermiticity` and Lem. `math66-residual-reduction`; - §3 Preconditioner placement: in Newton--Krylov inner loop (PCG); Operation count: one extra adjoint JVP per Krylov step, $O(N\\log N)$; - §4 Spectral-gap preservation (Lem. `math66-spectral-gap`) via Bendixson inequality; real eigenvalues of $\\widetilde{\\mathcal{J}}_{\\mathrm{cII}}$ bounded from below by real eigenvalues of $\\mathcal{J}_{\\mathrm{cII}}$ minus anti-Hermitian residual; - §5 Full-operator consistency (Thm. `math66-full-consistency`): condition-number preservation to Machine Precision, $\\kappa(\\widetilde{\\mathcal{J}}_{\\mathrm{FULL}}) / \\kappa(\\mathcal{J}_{\\mathrm{FULL}}) \\in [1 - 10^{-9},"
         }
       ]
     },

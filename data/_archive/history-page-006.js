@@ -1,4 +1,4 @@
-// AUTO-GENERATED v0.3 page 6/8 — 2026-05-07 04:19 UTC
+// AUTO-GENERATED v0.3 page 6/8 — 2026-05-07 08:31 UTC
 window.TECT_HISTORY_PAGE_006 = {
   title: "History (page 6 of 8)",
   subtitle: "Chronological CHANGELOG mirror — auto-generated.",
@@ -7,6 +7,16 @@ window.TECT_HISTORY_PAGE_006 = {
   blocks: [
     { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history-page-005.html\">&larr; Newer</a> &middot; Page 6 / 8 &middot; <a href=\"history-archive-index.html\">archive index</a> &middot; <a href=\"history-page-007.html\">Older &rarr;</a></div>" },
     { type: "timeline", items: [
+        {
+          date: "2026-04-24",
+          title: "[Math81 — Stage-1 11-pillar scorecard recomputation post-Turn-4 (Pillar 10: OPEN-NEGATIVE REFINED → CLOSED-AS-NO-GO; Pillar 11: NOT ADDRESSED → PROVED CONDITIONAL; net PROVED count: 4 unconditional + ",
+          body: "Autonomous TECT Turn 4 Track B (2026-04-24): after four turns of parallel research (Tracks A/B/C), perform a comprehensive per-pillar scorecard recomputation to reflect all status transitions. Major changes: (i) Pillar 10 closed via classical no-go theorem (Math79-Addendum-B), transitioning from OPEN-NEGATIVE REFINED to new category CLOSED-AS-NO-GO (classical regime), formally declaring TECT a Unified Classical Field Theory (UCFT); (ii) Pillar 11 promoted to PROVED CONDITIONAL after Math58-v7 Dirac-sector tadpole calculation; (iii) Pillars 4 and 6 internal structure refined (Q1 answered, Q2/Q3/Q6c/Q6d advanced to STRONG DRAFT / OUTLINE)."
+        },
+        {
+          date: "2026-04-24",
+          title: "[Math85 — Five-turn autonomous research session synthesis (12 Math notes archived; Pillar 10 closed-as-no-go; Stage-2 1/5→3/5; Stage-3 inventory established)]",
+          body: "Archive and analysis of all 12 mathematical deliverables from autonomous research Turns 1-4 (continuous session, 2026-04-24):"
+        },
         {
           date: "2026-04-24",
           title: "[Math60-C — Quantum-completion outline (canonical quantisation prescription + 3 observable predictions + 3 compatibility checks)]",
@@ -146,16 +156,6 @@ window.TECT_HISTORY_PAGE_006 = {
           date: "2026-04-24",
           title: "[Math79-Addendum-A — Pillar 10 R5 first-iteration extraction: pre-registered FAILURE; OPEN-NEGATIVE REFINED reinforced]",
           body: "`Docs/math/TECT-Math79-Addendum-A-R5-first-iteration-FAILURE.tex.txt` (NEW). `Codes/supplementary/Math79_R5_chi_star_extraction.py` (NEW). `Codes/supplementary/Math79_R5_chi_star_results.json` (NEW, run output)."
-        },
-        {
-          date: "2026-04-24",
-          title: "[Math79 — Pillar 10 R5 framework: residual-matching audit; four canonical channels fixed]",
-          body: "`Docs/math/TECT-Math79-Pillar10-R5-residual-matching-framework.tex.txt` (NEW). Pillar 10 supplementary route R5 (residual matching between exact classical TECT and observed physics) reframes the user-suggested R4 (dimensional-monomial enumeration of $\\hbar$ from BCC stiffness + cosmic expansion). The reframing drops the unrealistic \"derive $\\hbar$ from nothing\" goal and instead asks whether a single external completion scale $\\chi_* := \\hbar/(m_e c\\,a_{\\mathrm{BCC}})$ can be consistently inferred from multiple independent residual mismatches."
-        },
-        {
-          date: "2026-04-24",
-          title: "[Round 9 (FINAL of 5-round batch) — 3-agent parallel: Math77 Q6c/Q6d CLOSURE → Pillar 6 FULL CLOSURE, Math78 Stage-2-A Meta-Consistency SEALED, Math78 TOE Global Closure Synthesis publication-ready]",
-          body: "> **[Audit-superseded 2026-04-24]** Three closure declarations in this entry are reverted by the immediately preceding `[Audit Rollback — 2026-04-24]` entry: `Pillar 6 FULL CLOSURE` ⇒ PARTIAL-ADVANCED; `Pillar 11 FULLY PROVED` ⇒ NEAR-CLOSURE / not yet final archive theorem; `Pillar 4 UNCONDITIONAL PROVED` ⇒ PARTIAL-ADVANCED. Original entry text retained below as historical record per append-only discipline."
         }
       ]
     },
