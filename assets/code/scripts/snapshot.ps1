@@ -68,6 +68,11 @@ param(
     # check before any work happens.
     [string]$CredentialName = "tect-github",
     [string]$Token = "",
+    # r6 (2026-05-08): -RemoteUrl for first-time setup. If github_sync_config.json
+    # is missing AND none of the auto-detection paths find an origin remote, this
+    # parameter supplies the GitHub repo URL inline. Format: https://github.com/USER/REPO.git
+    # or git@github.com:USER/REPO.git
+    [string]$RemoteUrl = "",
 
     [string[]]$ExtraFiles = @(),
 
@@ -166,6 +171,116 @@ if (-not $SkipGitHub) {
         Write-Host "        Then snapshot.ps1 will pick it up automatically (current default name: $CredentialName)." -ForegroundColor Yellow
         Write-Host "    (e) Use GitHub CLI: gh auth login (then snapshot inherits via git credential helper)." -ForegroundColor Yellow
         exit 90
+    }
+}
+
+# ---------------------------------------------------------------------
+# Math353-AddA r5 (2026-05-08): auto-bootstrap github_sync_config.json
+# from the template + 'git remote get-url origin' if it does not exist.
+# This lets the operator pass only -Token and have the config materialise
+# automatically. The token itself is NEVER persisted to the JSON file --
+# it flows through env GITHUB_TOKEN exposed by publish.ps1 between steps.
+# ---------------------------------------------------------------------
+if (-not $SkipGitHub) {
+    $cfgPath = 'Codes\tools\github_sync_config.json'
+    $tplPath = 'Codes\tools\github_sync_config.template.json'
+    if (-not (Test-Path $cfgPath)) {
+        if (-not (Test-Path $tplPath)) {
+            Write-Host ('FAIL [precondition]: ' + $cfgPath + ' missing and ' + $tplPath + ' template not found') -ForegroundColor Red
+            exit 91
+        }
+        try {
+            # r6 (2026-05-08): multi-source remote URL detection.
+            # 1) -RemoteUrl param (first-time operator setup)
+            # 2) git remote get-url origin (canonical repo)
+            # 3) git -C Github remote get-url origin (publish-side mirror, separate .git)
+            $remoteUrl = ""
+            $remoteSource = ""
+            if (-not [string]::IsNullOrWhiteSpace($RemoteUrl)) {
+                $remoteUrl = $RemoteUrl.Trim()
+                $remoteSource = "-RemoteUrl parameter"
+            } else {
+                # r7 (2026-05-08): wrap native git probes against PS 7.4+
+                # \$PSNativeCommandUseErrorActionPreference + 'Stop' interaction
+                # which can throw on git stderr even with 2>\$null. Save + restore
+                # both prefs so the rest of the script keeps Stop behaviour.
+                $savedEAP = $ErrorActionPreference
+                $savedNCP = $null
+                $hasNCP = $false
+                if ($PSVersionTable.PSVersion.Major -ge 7) {
+                    try { $savedNCP = Get-Variable -Name 'PSNativeCommandUseErrorActionPreference' -ValueOnly -ErrorAction SilentlyContinue; $hasNCP = $true } catch {}
+                }
+                $r1 = ""; $exit1 = -1
+                $r2 = ""; $exit2 = -1
+                try {
+                    $ErrorActionPreference = 'Continue'
+                    if ($hasNCP) {
+                        try { Set-Variable -Name 'PSNativeCommandUseErrorActionPreference' -Value $false -Scope Script } catch {}
+                    }
+                    $r1 = (& git remote get-url origin 2>$null)
+                    $exit1 = $LASTEXITCODE
+                    if ((-not ($exit1 -eq 0 -and -not [string]::IsNullOrWhiteSpace($r1))) -and (Test-Path "Github\.git")) {
+                        $r2 = (& git -C Github remote get-url origin 2>$null)
+                        $exit2 = $LASTEXITCODE
+                    }
+                } finally {
+                    $ErrorActionPreference = $savedEAP
+                    if ($hasNCP -and $null -ne $savedNCP) {
+                        try { Set-Variable -Name 'PSNativeCommandUseErrorActionPreference' -Value $savedNCP -Scope Script } catch {}
+                    }
+                }
+                if ($exit1 -eq 0 -and -not [string]::IsNullOrWhiteSpace($r1)) {
+                    $remoteUrl = $r1.Trim()
+                    $remoteSource = "canonical-repo origin"
+                } elseif ($exit2 -eq 0 -and -not [string]::IsNullOrWhiteSpace($r2)) {
+                    $remoteUrl = $r2.Trim()
+                    $remoteSource = "Github\.git origin"
+                }
+            }
+            if ([string]::IsNullOrWhiteSpace($remoteUrl)) {
+                Write-Host ('FAIL [precondition]: ' + $cfgPath + ' missing and no remote URL detected.') -ForegroundColor Red
+                Write-Host ('  Tried: -RemoteUrl param, git remote get-url origin (canonical), git -C Github remote get-url origin') -ForegroundColor DarkGray
+                Write-Host ('  (Most likely cause: -RemoteUrl was not passed AND neither .git directory has an origin remote)') -ForegroundColor DarkGray
+                Write-Host ('  Options:') -ForegroundColor Yellow
+                Write-Host ("    (a) Pass remote inline: .\snapshot.ps1 -Token ""<PAT>"" -RemoteUrl ""https://github.com/USER/REPO.git""") -ForegroundColor Yellow
+                Write-Host ("    (b) Initialise Github\.git first: cd Github; git init; git remote add origin <URL>; cd ..") -ForegroundColor Yellow
+                Write-Host ('    (c) Hand-create the file from the template:') -ForegroundColor Yellow
+                Write-Host ('         cp Codes\tools\github_sync_config.template.json ' + $cfgPath) -ForegroundColor Yellow
+                exit 92
+            }
+            $tplJson = Get-Content $tplPath -Raw -ErrorAction Stop
+            $cfg = $tplJson | ConvertFrom-Json -ErrorAction Stop
+            $username = ''; $repoName = ''
+            if ($remoteUrl -match 'github\.com[:/]([^/]+)/([^/]+?)(?:\.git)?$') {
+                $username = $matches[1]
+                $repoName = $matches[2]
+            }
+            $cfg.github_username = $username
+            $cfg.github_repo     = $repoName
+            $cfg.remote_url      = $remoteUrl
+            $cfg.auth.method     = if ($remoteUrl -match '^git@') { 'ssh' } else { 'https-token' }
+            # Drop self-documenting underscore fields that github_sync_push.py ignores
+            foreach ($k in @('_comment','_remote_url_examples','_homepage_doc')) {
+                if ($cfg.PSObject.Properties.Match($k).Count -gt 0) {
+                    $cfg.PSObject.Properties.Remove($k) | Out-Null
+                }
+            }
+            foreach ($k in @('_method_choices','_token_env_var_doc')) {
+                if ($cfg.auth.PSObject.Properties.Match($k).Count -gt 0) {
+                    $cfg.auth.PSObject.Properties.Remove($k) | Out-Null
+                }
+            }
+            $jsonOut = $cfg | ConvertTo-Json -Depth 10
+            $utf8NoBom = New-Object System.Text.UTF8Encoding($false)
+            [System.IO.File]::WriteAllText($cfgPath, $jsonOut, $utf8NoBom)
+            Write-Host ('[preflight] auto-generated ' + $cfgPath +
+                       ' (method=' + $cfg.auth.method + ', repo=' + $username + '/' + $repoName + ')') -ForegroundColor Cyan
+            Write-Host ('           (remote source: ' + $remoteSource + ', URL: ' + $remoteUrl + ')') -ForegroundColor DarkGray
+            Write-Host ('           (token will be passed via $env:GITHUB_TOKEN at step 7/8; not persisted to file)') -ForegroundColor DarkGray
+        } catch {
+            Write-Host ('FAIL [precondition]: auto-bootstrap of ' + $cfgPath + ' failed: ' + $_.Exception.Message) -ForegroundColor Red
+            exit 93
+        }
     }
 }
 
@@ -426,16 +541,48 @@ try {
             Write-Host ('       discovered ' + $changedFiles.Count + ' changed file(s):') -ForegroundColor DarkGray
             foreach ($f in $changedFiles) { Write-Host ('         ' + $f) -ForegroundColor DarkGray }
 
-            # Build the bash command. sandbox_commit.sh expects:
-            #   sandbox_commit.sh "<message>" <file1> <file2> ...
-            $bashFiles = ($changedFiles | ForEach-Object { '"' + $_ + '"' }) -join ' '
-            $msgEsc = $Message -replace '"', '\"'
-            $bashCmd = "bash Codes/scripts/sandbox_commit.sh `"$msgEsc`" $bashFiles"
-            Write-Host ('       $ ' + $bashCmd) -ForegroundColor DarkGray
-            & cmd /c $bashCmd
-            if ($LASTEXITCODE -ne 0) {
-                Write-Host ('FAIL [5/8 commit]: exit ' + $LASTEXITCODE) -ForegroundColor Red
-                throw "commit step failed (exit $LASTEXITCODE)"
+            # v2.1 (2026-05-07 Math353-AddA): use --files-from + -F message file
+            # to bypass Windows CMD 8191-char limit when many files changed.
+            # r4 (2026-05-08): use repo-root relative paths instead of $env:TEMP
+            # to avoid Windows drive-letter / git-bash mount translation issues.
+            # Both 'C:\Users\...' (backslash) and 'C:/Users/...' (forward slash)
+            # forms can fail under [[ -f path ]] in git-bash on certain Windows
+            # configurations; relative path under cwd (repo root) works universally.
+            $stamp     = [DateTime]::UtcNow.ToString("yyyyMMddHHmmssfff")
+            $listFile  = Join-Path (Get-Location) (".tmp_snapshot_files_" + $stamp + ".txt")
+            $msgFile   = Join-Path (Get-Location) (".tmp_snapshot_msg_"   + $stamp + ".txt")
+            $listFileRel = ".tmp_snapshot_files_" + $stamp + ".txt"
+            $msgFileRel  = ".tmp_snapshot_msg_"   + $stamp + ".txt"
+            try {
+                # UTF-8 no-BOM (Math353-AddA reviewer comment 2026-05-08): PS 5.x
+                # Out-File/Set-Content emit BOM by default for utf8; that would
+                # corrupt the listFile first-line path and prefix the commit
+                # message with U+FEFF. Use explicit UTF8Encoding($false) instance.
+                $utf8NoBom = New-Object System.Text.UTF8Encoding($false)
+                [System.IO.File]::WriteAllLines($listFile, [string[]]$changedFiles, $utf8NoBom)
+                [System.IO.File]::WriteAllText($msgFile, $Message, $utf8NoBom)
+                # r4 (2026-05-08): use relative paths; bash cwd is repo root,
+                # so '.tmp_snapshot_*.txt' resolves directly without drive-letter
+                # or mount-prefix translation.
+                # Sanity: confirm writes succeeded before invoking bash.
+                if (-not (Test-Path -LiteralPath $listFile)) {
+                    throw "snapshot v2.1.3 internal error: failed to write listFile $listFile"
+                }
+                if (-not (Test-Path -LiteralPath $msgFile)) {
+                    throw "snapshot v2.1.3 internal error: failed to write msgFile $msgFile"
+                }
+                $bashCmd = "bash Codes/scripts/sandbox_commit.sh -F `"$msgFileRel`" --files-from `"$listFileRel`""
+                Write-Host ('       $ ' + $bashCmd) -ForegroundColor DarkGray
+                & cmd /c $bashCmd
+                if ($LASTEXITCODE -ne 0) {
+                    Remove-Item $listFile -Force -ErrorAction SilentlyContinue
+                    Remove-Item $msgFile  -Force -ErrorAction SilentlyContinue
+                    Write-Host ('FAIL [5/8 commit]: exit ' + $LASTEXITCODE) -ForegroundColor Red
+                    throw "commit step failed (exit $LASTEXITCODE)"
+                }
+            } finally {
+                Remove-Item $listFile -Force -ErrorAction SilentlyContinue
+                Remove-Item $msgFile  -Force -ErrorAction SilentlyContinue
             }
             $commitHash = (& git rev-parse --short HEAD).Trim()
             Write-Host ('       OK [5/8] commit ' + $commitHash) -ForegroundColor Green

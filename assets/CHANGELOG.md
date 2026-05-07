@@ -11,6 +11,109 @@ The format is adapted from [Keep a Changelog](https://keepachangelog.com/en/1.1.
 Each entry is grouped by **[Theory] / [Code] / [Results] / [Docs] / [Infrastructure]**.
 
 ---
+## [Infrastructure + Policy] Math353-AddA: Snapshot v2.1 fix (CMD 8191-char limit) + Phase B/C inventory gap closure — 2026-05-07
+
+**Theory tag**: `Math353-AddA-Snapshot-v2.1-Fix-and-Phase-B-C-Inventory-2026-05-07`
+**Type**: Addendum to Math353 (CLAUDE.md §4.3 Addendum-A convention).
+**Triggers**: (a) operator's snapshot.ps1 invocation failed at step 5/8 with `명령줄이 너무 깁니다` (Windows CMD 8191-char argument-list limit) when the auto-regen produced ~60 changed files; (b) prior-session latter-half discussion of root-orphan cleanup, README rewrite scope, internal-ops policy mirror-exclusion was not enumerated in parent Math353 plan; (c) NUL-byte padding defect (§11.5 Edit/Write artefact) found in 8 Website/data/*.js files during pre-commit verify, all repaired in this commit.
+
+**Snapshot v2.1 patches** (this commit):
+- `Codes/scripts/sandbox_commit.sh` (v2.1): argument parser extended to accept `--files-from <listfile>` in addition to inline positional arguments. CRLF preserved (138→154 line-ending count = +16 new lines). Backward-compatible with existing callers.
+- `Codes/scripts/snapshot.ps1` (v2.1): step 5/8 commit-step rewritten to write file list and message to `$env:TEMP\snapshot_*_<stamp>.txt`, then invoke `bash Codes/scripts/sandbox_commit.sh -F "<msgfile>" --files-from "<listfile>"`. CMD command line bounded by two short paths (~120 chars) regardless of file count. `try/finally` cleanup of temp files preserved across both success and failure paths. CRLF preserved (609→619 = +10 new lines).
+- AST/safe-write verification PASS on both files; `grep --files-from` returns 2 occurrences each (parser + caller).
+
+**NUL-padding sweep** (this commit): Website/data/{code-old,code,history,records}.js + Website/data/_archive/history-page-{002,004,005,007}.js had a total of 2,137 NUL bytes accumulated from prior Edit/Write tool truncation events; all 8 files repaired via safe_write with content preserved (TECT_<NAME> markers verified intact). verify_website.py now exits 0/0.
+
+**Phase B/C inventory gap closure** (this commit):
+- New steps **B-ι** (snapshot fix above), **B-κ** (root orphan cleanup: Backup/, outputs/, .tmp.driveupload/ mirror-exclude; TECT_Covers.png + TECT_Profile.png + TECT_Profile_S.png relocate to Website/assets/branding/; code/ delete-if-present check), **B-λ** (Codes/pde/continuation_mu2_v25.old.v2.6.6.py + v24_thresholds.py git-tag retire), **B-μ** (activate mirror.json::exclude_from_mirror.active_v1_0 with the 3 v1_1_candidates: POSTMORTEM_RECURRENCE_POLICY.md, GITHUB_FIRST_PUSH_RUNBOOK.md, PHASE_8_TO_14_PLAN.md).
+- Phase C step **C-β** scope detailed: root README.md rewrite (operator authors per CLAUDE.md §9) — 7 required sections enumerated (one-line desc, scoreboard summary, 5-line pipeline, repo layout, citation, license, contact). Forbidden-phrase list added (per §15.6 rule #6).
+- Phase C steps **C-α** specifics (Pages folder=`Github/site/`, .nojekyll preservation, relative-path verification) and **C-ε** (per-page provenance footer auto-emission).
+
+**Operator retry path** (post-this-commit):
+```powershell
+.\Codes\scripts\snapshot.ps1 -Message "Math353-AddA: snapshot v2.1 fix + Phase B/C inventory gap closure"
+```
+Step 5/8 now succeeds regardless of file-count.
+
+**Files written**:
+- `Docs/math/TECT-Math353-AddA-Snapshot-v2.1-Fix-and-Phase-B-C-Inventory.tex.txt` (new, 222 lines, ACCEPTED).
+- `Codes/scripts/snapshot.ps1` (v2.1 patch).
+- `Codes/scripts/sandbox_commit.sh` (v2.1 patch).
+- 8× Website/data/*.js (NUL padding stripped).
+- `CHANGELOG.md` (this entry).
+
+**Self-adversarial review (CLAUDE.md §6.3.5(a))**: Math353-AddA §9 — 3 concrete objections all addressed (1 DISMISSED + 2 VALID-WITH-MITIGATION).
+
+**Quantitative sanity check (CLAUDE.md §6.3.4)**: 4/4 PASS.
+
+**Pillar status**: unchanged.
+
+---
+## [Infrastructure + Policy] Math353: Mirror-first restructure strategy framework + Phase B-revised B-α/β/γ executed — 2026-05-07
+
+**Theory tag**: `Math353-Mirror-First-Restructure-Strategy-Framework-2026-05-07`
+**R-tag**: n/a (operational + policy; no physics tier change)
+**Supersedes**: `REPO_RESTRUCTURE_ROADMAP.md` §2.1/§2.2/§2.3 (lowercase-rename plan); `Codes/scripts/migrate_to_lowercase_code.py` v1.1 (retired with header banner).
+
+**Operator directive (2026-05-07)**: local `Codes/`/`Docs/`/`Runs/`/`Website/` rename is unnecessary; the rename and content-path-rewrite happen at the `github_sync_curate.py` mirror boundary. `Github/site/` is the GitHub Pages serve target derived from local `Website/`. Local and public surfaces decouple cleanly.
+
+**5 design principles**:
+1. Local single source of truth — zero local rename, zero in-flight numerical-work disruption.
+2. Single mapping table — `Codes/config/mirror.json` v2 carries all rename + exclude + rewrite rules.
+3. Idempotent mirror — single Boolean toggle (`v0_compat_disable_renames`) reverts to v0.
+4. Path rewriting at the publish boundary — `.md`/`.tex.txt`/`.js`/`.html` whitelist; `.py` excluded.
+5. GitHub Pages serves `Github/site/` only.
+
+**Phase B-revised B-α/β/γ delivered in this commit**:
+
+- **B-α** (mirror.json v2 schema): added `schema_version: 2`, `v0_compat_disable_renames: true` (safe default), `directory_renames.rules` (5 prefix maps: `Codes`→`code`, `Docs/manual`→`code/manual`, `Docs`→`docs`, `Runs`→`code/runs`, `Website`→`site`), `content_path_rewrites` (4-extension whitelist + 5 negative-lookbehind regex rules), `page_serve_root.v2_post_cutover: site/`. Backward-compat `exclude_from_mirror.active_v1_0` preserved.
+
+- **B-β** (`github_sync_curate.py` v2 framework, additive): inserted Section C2 between auto-generated rendering and `def curate(...)`. New functions: `_load_mirror_v2_config`, `_apply_directory_rename` (longest-prefix-first; negative lookbehind blocks false-positive on `XCodes/` / `AB/Codes/`), `_apply_content_rewrites` (regex application by extension whitelist), `emit_v2_preview` (walk source roots, emit `Docs/status/mirror-rewrite-preview.log`). New CLI flag `--mirror-v2-preview`. New safety check in `curate()`: refuses to write Github/ if `v0_compat_disable_renames=false` until the B-δ cutover review (exit 9). Default v0 behaviour bit-identical preserved (toggle stays `true`).
+
+- **B-γ** (dry-run validation, in-process):
+  - 7/7 unit-test PASS for `_apply_directory_rename`: `Codes/pde/foo.py`→`code/pde/foo.py`, `Docs/manual/CODE_MANUAL.md`→`code/manual/CODE_MANUAL.md`, `Docs/math/Math1.tex.txt`→`docs/math/Math1.tex.txt`, `Runs/seeds/x.npy`→`code/runs/seeds/x.npy`, `Website/index.html`→`site/index.html`, plus negative cases `CodesBackup/x` and `CHANGELOG.md` correctly UNCHANGED.
+  - 7/7 unit-test PASS for `_apply_content_rewrites`: positive cases (citations, link refs, multiple matches in one line) PASS; negative cases (`AB/Codes/X`, `XCodes/foo`) correctly NOT rewritten (negative lookbehind `(?<![\w/])` blocks false-positive).
+  - Full v2 preview run: 2,635 files scanned, 2,635 renamed, 5,526 content rewrites, 0 unreadable. Output `Docs/status/mirror-rewrite-preview.log` (160 KB). Local `Github/` tree unchanged (no actual write).
+
+**Two-snapshot deprecation window**: `v0_compat_disable_renames: true` is the default in this commit. Operator reviews the dry-run preview log (`Docs/status/mirror-rewrite-preview.log`); flipping toggle to `false` (B-δ cutover) requires a follow-up commit with explicit operator authorisation. Local canonical tree never touched at any phase.
+
+**B-δ/ε/ζ/η/θ + Phase C deferred** to a follow-up session:
+- B-δ: snapshot.ps1 final wiring with toggle=false trial.
+- B-ε: `verify_website.py` v1.1 path-resolution check on rewritten paths.
+- B-ζ: root `site/` v0 scaffold removal (1982-byte README + .nojekyll).
+- B-η: final retirement of `migrate_to_lowercase_code.py` (banner already inserted in this commit; full removal deferred).
+- B-θ: REPO_RESTRUCTURE_ROADMAP.md v2 final rewrite (current commit only inserts SUPERSEDED-BY-Math353 markers in §2.1/§2.2/§2.3).
+- Phase C: GitHub Pages activation, README rewrite, BCC narrative softening, GitHub metadata refresh, per-page provenance footer.
+
+**Risk register acknowledgement**: 5 risks documented in Math353 §Risk register, each with mitigation. The §11.5 atomic-write discipline was triggered twice during this session (Edit-tool truncation observed at lines 1158 and 424 of two files); `safe_write.py` was used for repair both times; all final files passed AST + safe-write verification.
+
+**Files written**:
+- `Docs/math/TECT-Math353-Mirror-First-Restructure-Strategy-Framework.tex.txt` (new, 244 lines, ACCEPTED status).
+- `Docs/policy/REPO_RESTRUCTURE_ROADMAP.md` (§2.1/§2.2/§2.3 SUPERSEDED-BY-Math353 markers).
+- `Codes/scripts/migrate_to_lowercase_code.py` (header retirement banner; v1.1 logic retained for git history).
+- `Codes/config/mirror.json` (v1 → v2 schema; backward-compatible).
+- `Codes/tools/github_sync_curate.py` (1022 → 1211 lines; new Section C2 v2 framework + `--mirror-v2-preview` CLI + `curate()` v2-safety check).
+- `Docs/status/mirror-rewrite-preview.log` (dry-run output, 2640 lines).
+- `Website/data/math-notes.js` (auto-regenerated to include Math353).
+- `Website/assets/math/TECT-Math353-Mirror-First-Restructure-Strategy-Framework.tex.txt` (mirrored).
+- `Website/assets/manifest.json` (auto-regenerated).
+- `CHANGELOG.md` (this entry).
+
+**Pillar status**: unchanged. The mainline scientific next step (M5: Newton-Krylov continuation of `Sh` seed at $\mu^2=-0.7$) is unaffected; this commit closes the operational layer beneath the physics work.
+
+**Self-adversarial review (CLAUDE.md §6.3.5(a))**: Math353 §9 — 3 concrete objections (need for non-trivial code change, subtle rewrite-rule miss, external-clone usage). Dispositions: 2 VALID-WITH-MITIGATION + 1 DISMISSED-with-clarification. Documented in note.
+
+**Quantitative sanity check (CLAUDE.md §6.3.4)**: tree size 1.0×, 20 effective regex contexts, ~1000 files per snapshot operation count, single-Boolean reversibility, zero local-workflow disruption — 5/5 PASS.
+
+**End-to-end verification pre-commit**:
+- `verify_website.py`: errors=0, warnings=0.
+- `propagate_status.py --check`: OK (no drift).
+- v2 preview unit tests: 14/14 PASS.
+- AST parse on modified Python files: PASS.
+
+---
+
+
 
 ## [Infrastructure + Docs + Code] Math352: Status propagation pipeline + States→Status rename + Phase A automation closure — 2026-05-07
 

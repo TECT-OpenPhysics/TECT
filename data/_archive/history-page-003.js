@@ -1,4 +1,4 @@
-// AUTO-GENERATED v0.3 page 3/8 — 2026-05-07 12:56 UTC
+// AUTO-GENERATED v0.3 page 3/8 — 2026-05-07 15:49 UTC
 window.TECT_HISTORY_PAGE_003 = {
   title: "History (page 3 of 8)",
   subtitle: "Chronological CHANGELOG mirror — auto-generated.",
@@ -7,6 +7,16 @@ window.TECT_HISTORY_PAGE_003 = {
   blocks: [
     { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history-page-002.html\">&larr; Newer</a> &middot; Page 3 / 8 &middot; <a href=\"history-archive-index.html\">archive index</a> &middot; <a href=\"history-page-004.html\">Older &rarr;</a></div>" },
     { type: "timeline", items: [
+        {
+          date: "2026-04-29",
+          title: "[Recurrence-prevention infrastructure — verify_website.py + POSTMORTEM_RECURRENCE_POLICY.md + CLAUDE.md §6.3.7 + post-mortem 2026-04-29 reference incident]",
+          body: "- **`Codes/tools/verify_website.py` (NEW, ~210 lines)**: completeness + correctness verifier. 6 check classes — JS syntax (regex `(?<!\\\\)href=\"` + `node --check` if available), broken download links (every `href=\"assets/X\"` resolves), missing HTML wrappers, stale `manifest.json`, stale auto-page source counts, empty `TECT_<NAME>.blocks: []` (escape-bug symptom). Exits 1 on any error; `--warn-only` to override; `--regen-manifest` for one-shot manifest rebuild."
+        },
+        {
+          date: "2026-04-29",
+          title: "[Hotfix — 3 bugs from prior commit: Results page empty (escape bug) + States Critical-path summary removed + Notes assets/math sync (330→397)]",
+          body: "`render_results_js v0.8` introduced per-run download links using `dl_links` variable concatenated into outer JS string. The link entries had `href=\\\"...\\\"` (single backslash-quote in Python source → literal `\"...\"` in rendered JS source), but when concatenated into the surrounding `'\"<p>...\" + dl_links + \"...\"<\\p>\"'` JS string, the inner unescaped `\"` characters terminated the JS string early, breaking parse and rendering the entire results.js silent. Fix: pre-escape with triple-backslash-quote in Python source (`'\\\\\\\\\\\\\"'`) so the rendered JS source contains the proper `\\\"` for embedded HTML attributes."
+        },
         {
           date: "2026-04-29",
           title: "[results.js v0.8 (download links + Honest-status table) + Codebase Older-versions page (code-old.html / code-old.js) + per-run files + assets refresh]",
@@ -146,16 +156,6 @@ window.TECT_HISTORY_PAGE_003 = {
           date: "2026-04-28",
           title: "[Math202 — H^1(CP^2, O) = 0 and Pic(CP^2) ≅ Z classification of U(1)_χ bundles]",
           body: "**Trigger**: First single-task dispatch under the new CLAUDE.md §15 Agent Dispatch Discipline (binding from 2026-04-28). Closes lemma L1 of the four-step flat-Cartan-forcing decomposition (the reviewer's Top-0 question from the 2026-04-28 review of Math191/192)."
-        },
-        {
-          date: "2026-04-28",
-          title: "[Math198 + Math199 + Math200 — TOE-Completeness Gap Audit + Math60-A Bulk Closure + GAP-1 RGE Scale-Coherence]",
-          body: "**Trigger**: Compliance repair mandate (CLAUDE.md §4, §3 atomic-write rule). Math198 and Math199 were archived to disk; Math200 (GAP-1 RGE scale-coherence) was missing. This entry stamps all three together in a single atomic commit."
-        },
-        {
-          date: "2026-04-28",
-          title: "[Math198 + Math199 — TOE-Completeness Gap Audit + Math60-A 55-Pair Bulk Closure]",
-          body: "**Trigger**: User mandate to audit the proof state against $S_1\\wedge S_2\\wedge S_3$ + 6-Stage TOE roadmap and add genuinely-missing theorem-level deliverables, without padding (applications phase to follow)."
         }
       ]
     },

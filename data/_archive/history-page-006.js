@@ -1,4 +1,4 @@
-// AUTO-GENERATED v0.3 page 6/8 — 2026-05-07 12:56 UTC
+// AUTO-GENERATED v0.3 page 6/8 — 2026-05-07 15:49 UTC
 window.TECT_HISTORY_PAGE_006 = {
   title: "History (page 6 of 8)",
   subtitle: "Chronological CHANGELOG mirror — auto-generated.",
@@ -7,6 +7,16 @@ window.TECT_HISTORY_PAGE_006 = {
   blocks: [
     { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history-page-005.html\">&larr; Newer</a> &middot; Page 6 / 8 &middot; <a href=\"history-archive-index.html\">archive index</a> &middot; <a href=\"history-page-007.html\">Older &rarr;</a></div>" },
     { type: "timeline", items: [
+        {
+          date: "2026-04-24",
+          title: "[Math80-Addendum-C-FULL-SO10-uniqueness-PROOF — Pillar 6 Q6c SO(10)-Uniqueness Theorem (OUTLINE → PROVED)]",
+          body: "Turn 6 Track C autonomous research: Pillar 6 (Generational structure / SM embedding) closure sprint, sub-task Q6c. Math80-Addendum-C-Q6c-SO10-uniqueness-theorem-outline (2026-04-24 earlier in same session) established a three-criterion elimination strategy but deferred full dimension-matching proofs for each candidate group. This deliverable provides the FULL THEOREM-grade proof with seven explicit elimination lemmas (SU(5), E_6, E_7, E_8, SU(6), Sp(4), and containment-failure verification) plus three positive-verification lemmas confirming SO(10) satisfies all three criteria (C1: BCC moduli equivariance, C2: PV-scheme closure, C3: single-chirality consistency), and mandatory devil's-advocate self-test per CLAUDE.md §6.3.1."
+        },
+        {
+          date: "2026-04-24",
+          title: "[Math82-AddH — 12-mode BCC ground-state Phase Z runbook + pre-registered Brazovskii predictions (Pillar 1 numerical-anchor upgrade pathway)]",
+          body: "Turn 6 Track A mandate (Math86 §Turn 6): produce the complete runbook and pre-registered theoretical predictions for the FULL 12-mode BCC ground-state Phase Z continuation. Math82-AddI (2026-04-24, earlier turn) provided this for the 4-mode subset (subset-4-cosine ansatz); Math82-AddH extends to the full 12-mode ansatz, which is the physically-natural ground state of the Brazovskii functional on the BCC cubic lattice and the target of all prior Phase Z numerical harnesses (Math82-AddF/G)."
+        },
         {
           date: "2026-04-24",
           title: "[Math86 — Next 5-turn priority plan (Turn 6–10 triple-track structure + Stage-2/3 sequencing + consolidation strategy)]",
@@ -146,16 +156,6 @@ window.TECT_HISTORY_PAGE_006 = {
           date: "2026-04-24",
           title: "[Math82 — Repo Cleanup Phase 2 (A + B + C): root orphan relocation + empty-folder removal + byte-equal mirror retirement]",
           body: "| Source | Target | Operation | |---|---|---| | `AUTONOMOUS_SESSION_REPORT_2026-04-21.md` | — | DELETE (duplicate of `Docs/status/` copy) | | `AUTONOMOUS_SESSION_REPORT_2026-04-24-ROUND4-PROOF-A.md` | `Docs/status/round-summaries/` | git mv | | `ROUND6_SESSION_SUMMARY.txt` | `Docs/status/round-summaries/` | git mv | | `ROUND7-PROOF-B-SESSION-SUMMARY.txt` | `Docs/status/round-summaries/` | git mv | | `TECT-AUTONOMOUS-SESSION-SUMMARY-2026-04-24.txt` | `Docs/status/round-summaries/` | git mv | | `TECT-KOREAN-SUMMARY-ROADMAP.txt` | `Docs/status/round-summaries/` | git mv | | `FINAL_SESSION_STATUS.txt` | `Docs/status/round-summaries/` | git mv | | `INDEX-ROUND7-DELIVERABLES.txt` | `Docs/status/round-summaries/` | git mv | | `KOREAN-STATUS-REPORT-ROUND7.txt` | `Docs/status/round-summaries/` | git mv | | `.round7-proof-c-executive-summary.txt` | `Docs/status/round-summaries/` | git mv | | `.round7-proof-c-traceability.txt` | `Docs/status/round-summaries/` | git mv | | `PASTE-READY-MATH60-S3-ROUND7-CHANGELOG.txt` | `Docs/math/paste-ready-archive/` | git mv | | `PASTE-READY-MATH75-Q3-PILLAR4-FINAL.txt` | `Docs/math/paste-ready-archive/` | git mv | | `PASTE-READY-PILLAR11-v6-SUMMARY.txt` | `"
-        },
-        {
-          date: "2026-04-24",
-          title: "[CLAUDE.md + UPDATE_POLICY §15 + Math81 retroactive archive — chat-archival rule binding from 2026-04-24]",
-          body: "1. **`CLAUDE.md` at repo root (NEW)** — master AI-collaborator protocol consolidating all 13 working rules in one binding document. Loaded by every new session. Contains: SRP-v1 mandatory prelude (§1), canonical-source hierarchy (§2), atomic-write rule (§3), chat-content auto-archival (§4, new), communication discipline (§5), audit discipline (§6 — honest scope, round-summary discipline, devil's advocate, 3-part traceability, theory-currency audit), pillar status semantics (§7), operational classification (§8 — UCFT/Partial TOE), manuscript discipline (§9 — manual-only), code manual discipline (§10), git discipline (§11), behaviour summary one-page contract (§12), references (§13)."
-        },
-        {
-          date: "2026-04-24",
-          title: "[Math80 — Round 10 Pillar 6 Q6a closure-strategy framework; website data sync to canonical state]",
-          body: "`Docs/math/TECT-Math80-Pillar6-Q6a-10-defect-moduli-strategy-framework.tex.txt` (NEW). First sub-task of the Round 10 Pillar 6 closure sprint. Addresses the audit-flagged conjectural 10-defect-moduli count in Math77-Q6a-Q6b-closure (the boxed term in the dimension chain $24 + 11 + 10 = 45 = \\dim \\mathrm{SO}(10)$)."
         }
       ]
     },

@@ -1,0 +1,236 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{hyperref,enumitem,booktabs,longtable,xcolor}
+\usepackage{listings}
+\lstset{basicstyle=\ttfamily\small,breaklines=true,frame=single,numbers=none}
+
+\title{TECT Math353-AddA \\ Mirror-First Restructure: Snapshot v2.1 Fix + Phase B/C Inventory Gap Closure}
+\author{Jusang Lee \\ \texttt{jtkor@outlook.com}}
+\date{2026-05-07}
+
+\begin{document}
+\maketitle
+
+\noindent\textbf{Status:} ACCEPTED 2026-05-07 (operator-prompted; immediate snapshot blocker + retroactive Phase B/C inventory completion).\\
+\textbf{Theory tag:} \texttt{Math353-AddA-Snapshot-v2.1-Fix-and-Phase-B-C-Inventory-2026-05-07}.\\
+\textbf{Type:} Addendum to \texttt{Math353} (CLAUDE.md \S 4.3 \texttt{Addendum-A} convention).\\
+\textbf{Triggers:} (i) \texttt{snapshot.ps1} step 5/8 \texttt{commit} step exited 1 with ``명령줄이 너무 깁니다'' (Windows CMD 8191-char argument-list limit) when invoking \texttt{bash Codes/scripts/sandbox\_commit.sh "<msg>" <file1> <file2> ...} with $\sim$60 changed files inline; (ii) operator audit observed that the parent Math353 plan failed to enumerate concrete Phase B/C deletion targets, the root-level orphan inventory, and the README.md rewrite scope discussed in the previous session's latter half.
+
+\section{Snapshot v2.1 fix (immediate blocker)}
+
+\subsection{Defect}
+
+\texttt{Codes/scripts/snapshot.ps1} step 5/8 (lines 429--438) builds a single bash command line by joining all file paths inline:
+\begin{lstlisting}
+$bashFiles = ($changedFiles | ForEach-Object { '"' + $_ + '"' }) -join ' '
+$bashCmd = "bash Codes/scripts/sandbox_commit.sh `"$msgEsc`" $bashFiles"
+& cmd /c $bashCmd
+\end{lstlisting}
+Windows \texttt{cmd /c} enforces an 8191-character argument-list limit (CMD.EXE legacy). With $\sim$60 files (typical post-Math353 commit including \texttt{Website/assets} mirror auto-regen), the joined command exceeds the limit and \texttt{cmd /c} returns ``명령줄이 너무 깁니다'' / ``The command line is too long''. Step 5/8 aborts with exit 1; the entire snapshot pipeline rolls back at the commit boundary.
+
+\subsection{Patch (v2.1, this commit)}
+
+Two-file change preserving the existing \texttt{sandbox\_commit.sh} guards (REPO\_LAYOUT \S 13 forbidden-pattern check, EOF sentinel self-integrity check, branch validation, maintainer signature):
+
+\paragraph{Patch 1 --- \texttt{sandbox\_commit.sh} v2.1.} Argument parser extended to accept \texttt{--files-from <listfile>} in addition to inline positional arguments. The listfile is read line by line; CRLF tails are stripped via the \texttt{\$\textbackslash r} parameter expansion; blank lines are skipped. Backward-compatible: positional file arguments still work unchanged.
+
+\paragraph{Patch 2 --- \texttt{snapshot.ps1} step 5/8.} Replaced the inline-argument build with a temp-file pattern:
+\begin{lstlisting}
+$stamp    = [DateTime]::UtcNow.ToString("yyyyMMddHHmmssfff")
+$listFile = Join-Path $env:TEMP ("snapshot_files_" + $stamp + ".txt")
+$msgFile  = Join-Path $env:TEMP ("snapshot_msg_"   + $stamp + ".txt")
+$changedFiles | Out-File -FilePath $listFile -Encoding utf8 -Force
+Set-Content -Path $msgFile -Value $Message -Encoding utf8 -Force -NoNewline
+$bashCmd  = "bash Codes/scripts/sandbox_commit.sh -F ""$msgFile"" --files-from ""$listFile"""
+& cmd /c $bashCmd
+# (try/finally cleanup of temp files preserved across success and failure paths)
+\end{lstlisting}
+The CMD command line is now bounded by two short paths plus the bash invocation header --- well under 8 KB regardless of file count. Both temp files are removed in a \texttt{finally} block.
+
+\subsection{Verification}
+
+\begin{itemize}[leftmargin=2em]
+\item \texttt{safe\_write.py --verify} on both patched files: \texttt{OK no defects}.
+\item CRLF line-ending count preserved (sandbox\_commit.sh: 138 $\to$ 154 = 138 + 16 new lines; snapshot.ps1: 609 $\to$ 619 = 609 + 10 new lines).
+\item \texttt{grep --files-from} returns 2 occurrences in each file (argument parser + caller usage).
+\item Sandbox cannot execute the PowerShell pipeline directly; operator-side retry is the canonical validation step.
+\end{itemize}
+
+\subsection{Operator retry (post-commit)}
+
+\begin{lstlisting}
+.\Codes\scripts\snapshot.ps1 -Message "Math353-AddA: snapshot v2.1 fix + Phase B/C inventory gap closure"
+\end{lstlisting}
+Step 5/8 should now complete with no CMD-limit error regardless of how many files the auto-regen plus inventory cleanup produce.
+
+\section{Phase B/C inventory gap closure}
+
+The parent Math353 plan committed mirror-first Phase B-revised B-$\alpha$/$\beta$/$\gamma$ but was silent on several concrete inventory targets that the previous session's latter half explicitly discussed (root-orphan folder dispositions, README rewrite scope, internal-ops policy file mirror-exclusion activation, \texttt{Codes/pde/*.old.*.py} archive retirement). This section enumerates them, assigns dispositions, and integrates them into Phase B-revised / Phase C-revised work breakdowns as new sub-steps.
+
+\subsection{Root-level orphan inventory (B-$\kappa$, this addendum)}
+
+\begin{longtable}{p{4.5cm}p{2.3cm}p{6cm}}
+\toprule
+Path & Disposition & Rationale \\
+\midrule
+\texttt{Backup/} & gitignore + mirror-exclude & Local pre-restructure backup folder. Already \texttt{.gitignore}'d but should be added to \texttt{exclude\_from\_mirror.v2\_candidates\_post\_cutover}. \\
+\texttt{outputs/} & gitignore + mirror-exclude & Operator scratch dir (e.g. \texttt{test\_Sh\_psi.npy} 2026-05-07 leftover). Add to \texttt{.gitignore} top level + \texttt{exclude\_from\_mirror}. \\
+\texttt{.tmp.driveupload/} & gitignore (active) & Google Drive sync staging. Already excluded per Math352 B-3 \texttt{.gitignore} extension; verify still active. \\
+\texttt{.pytest\_cache/} & gitignore (active) & pytest cache, already excluded; no action. \\
+\texttt{code/} (lowercase) & DELETE if present & Orphan from rolled-back lowercase migration v1.1 attempt; current scan shows it does not exist in canonical tree. If reappears, delete. \\
+\texttt{site/} (root scaffold) & REMOVE in B-$\zeta$ & 1982-byte \texttt{README.md} + \texttt{.nojekyll}; replaced by \texttt{Github/site/} after v2 cutover. \\
+\texttt{TECT\_Covers.png} (2.3 MB) & MOVE to \texttt{Website/assets/branding/} & Top-level branding asset; relocate so root contains only canonical docs + plugin. Update HTML cross-refs. \\
+\texttt{TECT\_Profile.png} (2.3 MB) & MOVE to \texttt{Website/assets/branding/} & Same. \\
+\texttt{TECT\_Profile\_S.png} (671 KB) & MOVE to \texttt{Website/assets/branding/} & Same. \\
+\texttt{tect-research.plugin} & KEEP at root & Plugin manifest for Cowork plugin marketplace; canonical root file (CLAUDE.md \S 13 four canonical exception list). \\
+\bottomrule
+\end{longtable}
+
+\subsection{Codes/pde/ archive retirement (B-$\lambda$, this addendum)}
+
+Two superseded files exist in the working tree but are excluded from integrity checks via filename pattern (Math352 B-4):
+\begin{itemize}[leftmargin=2em]
+\item \texttt{Codes/pde/continuation\_mu2\_v25.old.v2.6.6.py} --- superseded by v2.6.7 (Math352 record\_run integration). Disposition: tag git annotated \texttt{code-v2.6.6-continuation-mu2} then \texttt{git rm} the file.
+\item \texttt{Codes/pde/v24\_thresholds.py} --- pre-v2.5 thresholds module, no longer imported. Disposition: tag git annotated \texttt{code-v24-thresholds} then \texttt{git rm}.
+\end{itemize}
+
+\noindent Per CLAUDE.md \S 11 git discipline (Math352 \S 2.6 ``old code via git tags''): the canonical archive is the git-tagged commit, not a separate \texttt{deprecated/} folder. Both files retired in B-$\lambda$ via \texttt{Codes/scripts/retire\_old\_code.ps1} (new helper, deferred to follow-up session).
+
+\subsection{Activate mirror.json exclude\_from\_mirror.active\_v1\_0 (B-$\mu$, this addendum)}
+
+The current \texttt{Codes/config/mirror.json} v2 lists three internal-ops policy files as \texttt{v1\_1\_candidates}:
+\begin{itemize}[leftmargin=2em]
+\item \texttt{Website/assets/policy/POSTMORTEM\_RECURRENCE\_POLICY.md}
+\item \texttt{Website/assets/policy/GITHUB\_FIRST\_PUSH\_RUNBOOK.md}
+\item \texttt{Website/assets/policy/PHASE\_8\_TO\_14\_PLAN.md}
+\end{itemize}
+These have no scientific bearing for external readers and clutter the public mirror. B-$\mu$ moves them from \texttt{v1\_1\_candidates} to \texttt{active\_v1\_0}, takes effect at the next \texttt{github\_sync\_curate} run, and removes the three files from \texttt{Github/assets/policy/}.
+
+\subsection{README.md rewrite scope (C-$\beta$, this addendum)}
+
+CLAUDE.md \S 9 manuscript discipline reserves prose authoring to the operator. This addendum specifies the \emph{scope and structure} for the operator-authored rewrite, not the prose itself.
+
+\paragraph{Target file.} New repo-root \texttt{README.md} (currently absent at root; \texttt{Github/README.md} exists as auto-generated mirror artefact). Author the root \texttt{README.md}; the mirror tool produces \texttt{Github/README.md} as a downstream copy.
+
+\paragraph{Required sections.}
+\begin{enumerate}[leftmargin=2em]
+\item \textbf{One-line description.} Single sentence: ``\textit{Topological Energy Condensate Theory (TECT): a candidate Theory of Everything built on a two-axiom Brazovskii-universality foundation.}''
+\item \textbf{Current canonical-tier scoreboard summary.} 4 T7 / 2 T6 / 1 T5 / 3 T4 / 1 split (post-Math353), with link to \texttt{Docs/status/TOE-FACT-SHEET.md}. Updated by \texttt{propagate\_status.py} (Math352 automation).
+\item \textbf{How to run the pipeline (5 lines).} \texttt{Codes/scripts/snapshot.ps1} usage; pointer to \texttt{Docs/policy/SNAPSHOT\_POLICY.md} for full contract.
+\item \textbf{Repository layout.} Brief table mapping \texttt{Codes/} / \texttt{Docs/} / \texttt{Runs/} / \texttt{Website/} (canonical) and \texttt{Github/} (publish staging) per Math353 design principles.
+\item \textbf{Citation.} Pointer to \texttt{CITATION.cff}; verbatim BibTeX block.
+\item \textbf{License.} Pointer to \texttt{LICENSE} (CC BY 4.0).
+\item \textbf{Author + contact.} Jusang Lee, \texttt{jtkor@outlook.com}.
+\end{enumerate}
+
+\paragraph{Forbidden phrases.} ``rigorous'', ``unique'', ``valid'', ``production-ready'', ``first confirmed'', ``closes'', ``establishes'', ``proves'' (per CLAUDE.md \S 15.6 rule \#6 unless the canonical tier supports the claim). Substitutes: ``candidate'', ``conditional'', ``programme''.
+
+\subsection{GitHub Pages v2 cutover specifics (C-$\alpha$, this addendum)}
+
+When \texttt{v0\_compat\_disable\_renames} flips to \texttt{false} in B-$\delta$:
+\begin{itemize}[leftmargin=2em]
+\item GitHub repo settings $\to$ Pages $\to$ Source = ``Deploy from a branch'' $\to$ Branch = \texttt{main} $\to$ Folder = \texttt{/Github/site/}.
+\item \texttt{Github/site/.nojekyll} preserved (already exists in v0 scaffold; B-$\zeta$ deletes only the \emph{root} \texttt{site/} v0 placeholder).
+\item Verify CSS/asset paths in \texttt{Github/site/*.html} are relative (\texttt{href="data/X"}) not root-prefixed (\texttt{href="/data/X"}); B-$\beta$ \texttt{verify\_website.py} extension already enforces this for v0 \texttt{Github/}.
+\end{itemize}
+
+\subsection{Per-page provenance footer (C-$\epsilon$, this addendum)}
+
+Every HTML in \texttt{Github/site/*.html} gains a footer line in the existing \texttt{<footer>} block: ``Mirrored from \texttt{Contents/Website/<source>}; canonical: \texttt{<git-sha>}.'' Auto-emitted by \texttt{generate\_website.py} extension; deferred to C-$\epsilon$ implementation phase.
+
+\section{Updated Phase B-revised work breakdown}
+
+\begin{longtable}{p{1.5cm}p{6.5cm}p{1.3cm}p{2cm}}
+\toprule
+Step & Work item & Risk & Cost \\
+\midrule
+B-$\alpha$ & mirror.json v2 schema & LOW & 30 min ✓ \emph{done in Math353} \\
+B-$\beta$ & github\_sync\_curate.py v2 framework & MED & 2--3 h ✓ \emph{done in Math353} \\
+B-$\gamma$ & dry-run validation, golden-file diff & LOW & 30 min ✓ \emph{done in Math353} \\
+B-$\delta$ & snapshot.ps1 v2 wiring (toggle=false trial) & LOW & 15 min \\
+B-$\epsilon$ & verify\_website.py v1.1 path-resolution check & MED & 30 min \\
+B-$\zeta$ & root \texttt{site/} scaffold removal & LOW & 5 min \\
+B-$\eta$ & migrate\_to\_lowercase\_code.py final retirement (banner already inserted) & LOW & 5 min \\
+B-$\theta$ & REPO\_RESTRUCTURE\_ROADMAP.md v2 final rewrite & LOW & 10 min \\
+\textbf{B-$\iota$} & \textbf{Snapshot v2.1 CMD-limit fix} (this addendum) & LOW & 15 min ✓ \emph{done in this commit} \\
+\textbf{B-$\kappa$} & \textbf{Root orphan cleanup} (\texttt{Backup/} / \texttt{outputs/} / \texttt{.tmp.driveupload/} mirror-exclude; \texttt{TECT\_*.png} relocate to \texttt{Website/assets/branding/}; \texttt{code/} delete-if-present check in \texttt{cleanup\_root.ps1}) & MED & 1 h \\
+\textbf{B-$\lambda$} & \textbf{\texttt{Codes/pde/*.old.*.py} retirement} (git-tag + remove via \texttt{retire\_old\_code.ps1} new helper) & LOW & 30 min \\
+\textbf{B-$\mu$} & \textbf{Activate mirror.json::exclude\_from\_mirror.active\_v1\_0} (3 internal-ops policy files; remove from \texttt{Github/assets/policy/} on next curate) & LOW & 15 min \\
+\bottomrule
+\end{longtable}
+
+\section{Updated Phase C-revised work breakdown}
+
+\begin{longtable}{p{1.5cm}p{6.5cm}p{1.3cm}p{2cm}}
+\toprule
+Step & Work item & Risk & Cost \\
+\midrule
+C-$\alpha$ & GitHub Pages activation (settings $\to$ Pages $\to$ folder=\texttt{Github/site/}) & LOW & 5 min (operator) \\
+\textbf{C-$\beta$} & Root \texttt{README.md} rewrite per scope above (one-line desc + scoreboard summary + 5-line pipeline + layout + citation + license + contact); \emph{operator authors} per CLAUDE.md \S 9 & MED & 1 h \\
+C-$\gamma$ & BCC narrative softening (Math348 + Math350 reflected) & MED & 1--2 h \\
+C-$\delta$ & GitHub metadata refresh (description + topics) & LOW & 5 min (operator) \\
+C-$\epsilon$ & Per-page provenance footer (auto-emitted by generate\_website.py) & LOW & 30 min \\
+\bottomrule
+\end{longtable}
+
+\section{Devil's-advocate self-test (CLAUDE.md \S 6.3)}
+
+\paragraph{Objection $\alpha$.} ``B-$\kappa$ relocates 5+ MB of branding PNGs to \texttt{Website/assets/branding/}. This breaks any external link to the root-level images.''\\
+\textbf{Disposition:} VALID-WITH-MITIGATION. Mitigation (revised 2026-05-08 per reviewer comment): the prior wording referenced \texttt{.gitattributes export-ignore} as a redirect mechanism; this is incorrect --- \texttt{export-ignore} only excludes files from \texttt{git archive} output and provides no path redirection. The corrected backward-compatibility plan is a single-commit \emph{clean cut}: (i) move the three PNG files to \texttt{Website/assets/branding/}; (ii) sweep \texttt{Website/data/*.js} and \texttt{Website/*.html} for any reference to the old root paths and update them atomically; (iii) re-run \texttt{verify\_website.py} to confirm no broken links remain. External usage is presumed minimal (these are repo-internal branding assets; operator confirmed in prior session that the canonical home is \texttt{Github/site/} only). If external usage is later confirmed, a B-$\kappa.2$ deprecation window can be opened that retains stub copies at the old root paths for one snapshot cycle.
+
+\paragraph{Objection $\beta$.} ``B-$\lambda$ \texttt{git rm} of \texttt{*.old.*.py} loses code history searchability.''\\
+\textbf{Disposition:} DISMISSED. Annotated git tag \texttt{code-vN-<descriptor>} preserves full content + metadata; \texttt{git checkout <tag> -- <path>} retrieves it on demand. The \texttt{Codes/} working tree stays current; the historical artefact lives in git history exactly as designed by Math352 \S 2.6.
+
+\paragraph{Objection $\gamma$.} ``Operator may not retry the snapshot immediately; the working tree may accumulate further drift before B-$\delta$ ships.''\\
+\textbf{Disposition:} VALID-WITH-MITIGATION. Mitigation: this addendum is committed atomically with the snapshot fix \emph{before} any other work; operator's next \texttt{snapshot.ps1} invocation succeeds at step 5/8 regardless of intervening drift.
+
+\section{Quantitative sanity check (CLAUDE.md \S 6.3.4)}
+
+\begin{itemize}[leftmargin=2em]
+\item \textbf{Argument-list size}: pre-fix bash command for typical 60-file snapshot $\sim 9$ KB (over 8191-char limit); post-fix $\sim$120 chars (under by 70$\times$). PASS.
+\item \textbf{CRLF preservation}: sandbox\_commit.sh 138 $\to$ 154 (+16, matches new line count); snapshot.ps1 609 $\to$ 619 (+10). PASS.
+\item \textbf{Backward compatibility}: positional file arguments still work; existing callers unchanged. PASS.
+\item \textbf{Inventory completeness}: 10 root paths enumerated; 3 mirror-policy candidates promoted; 2 \texttt{*.old.*.py} archives identified; 7 README sections specified. Matches prior-session-discussed scope. PASS.
+\end{itemize}
+
+\section{Self-adversarial review (CLAUDE.md \S 6.3.5(a))}
+
+\begin{enumerate}[leftmargin=2em]
+\item \textbf{Concrete objection 1:} ``Why patch \texttt{snapshot.ps1} step 5/8 only, not also other CMD-bound invocations elsewhere in the pipeline?''\\
+\textbf{Disposition:} VALID-WITH-MITIGATION. Counter: step 5/8 is the only step that builds an argument list scaling with file count. Other steps (stamp, generate, verify, manifest, push, audit) take fixed-size argument sets. Mitigation: the \texttt{--files-from} pattern is now established and can be reused if any future step grows similarly.
+
+\item \textbf{Concrete objection 2:} ``B-$\kappa$ moves PNG files; this affects \texttt{Website/data/index.js} and similar wrapper data files that may reference them. Could break the website.''\\
+\textbf{Disposition:} VALID-WITH-MITIGATION. Mitigation: B-$\kappa$ implementation includes a sweep of \texttt{Website/data/*.js} and \texttt{Website/*.html} for \texttt{TECT\_Covers.png} / \texttt{TECT\_Profile.png} / \texttt{TECT\_Profile\_S.png} references and updates them atomically. \texttt{verify\_website.py} catches any miss.
+
+\item \textbf{Concrete objection 3:} ``Math353-AddA conflates a tactical bug fix (snapshot v2.1) with strategic inventory work; should be two separate notes.''\\
+\textbf{Disposition:} DISMISSED. Counter: both items share the operator trigger (the snapshot failure surfaced both the technical defect and the prior-session inventory gap). Atomic commit is appropriate; CLAUDE.md \S 4.3 \texttt{Addendum-A} convention supports multi-topic addenda when the topics share root cause (here: post-snapshot retry needs both fixes simultaneously).
+\end{enumerate}
+
+\section{Cross-references}
+
+\begin{itemize}[leftmargin=2em]
+\item \texttt{Docs/math/TECT-Math353-Mirror-First-Restructure-Strategy-Framework.tex.txt} --- parent note (ACCEPTED 2026-05-07).
+\item \texttt{Codes/scripts/snapshot.ps1} v2.1 (this commit) --- step 5/8 \texttt{--files-from} integration.
+\item \texttt{Codes/scripts/sandbox\_commit.sh} v2.1 (this commit) --- \texttt{--files-from} mode.
+\item \texttt{Codes/config/mirror.json} v2 --- \texttt{exclude\_from\_mirror} target list.
+\item \texttt{Docs/policy/REPO\_LAYOUT.md} \S 13 --- four canonical root files exception list (basis for B-$\kappa$ relocation decisions).
+\item \texttt{Docs/policy/SNAPSHOT\_POLICY.md} --- 8-step pipeline contract.
+\item Previous-session transcript: \texttt{local\_2de5ba0d-b3f3-423e-8c8c-19ddd1c7a114} (Phase A + B-1/2/3/4 + migration v1.1 attempt).
+\end{itemize}
+
+\section{Revision history}
+
+\begin{itemize}[leftmargin=2em]
+\item \textbf{2026-05-07}: ACCEPTED initial release.
+\item \textbf{2026-05-08 r1}: post-review fixes per reviewer comment:
+  (i) \texttt{snapshot.ps1} v2.1.1 --- UTF-8 no-BOM write via explicit \texttt{[System.IO.File]::WriteAllLines/WriteAllText} + \texttt{System.Text.UTF8Encoding(\$false)} instance, replacing PS-5.x-BOM-prone \texttt{Out-File -Encoding utf8} / \texttt{Set-Content -Encoding utf8}; (ii) \S 6 Objection $\alpha$ disposition reworded --- \texttt{.gitattributes export-ignore} characterised as a redirect mechanism was incorrect; replaced with single-commit clean-cut migration plus optional B-$\kappa.2$ deprecation-window contingency.
+\item \textbf{2026-05-08 r2}: \texttt{sandbox\_commit.sh} rewritten with LF-only line endings (was CRLF after r1 atomic\_write; \texttt{core.autocrlf=true} on Windows checked it out as CRLF and \texttt{git bash} parsing failed with \texttt{\$'\textbackslash r': command not found} on first operator retry of the v2.1 patch). \texttt{.gitattributes} extended with \texttt{*.sh text eol=lf} and \texttt{*.bash text eol=lf} rules to permanently enforce LF on all shell scripts regardless of \texttt{core.autocrlf}. \texttt{snapshot.ps1} kept as CRLF (PowerShell native; both endings work). \texttt{bash -n} syntax check on the rewritten script PASS. This is the canonical line-ending discipline for the snapshot pipeline going forward.
+\item \textbf{2026-05-08 r3}: \texttt{snapshot.ps1} step 5/8 path normalisation. After r2 LF fix, operator retry surfaced \texttt{Error: C:\textbackslash Users\textbackslash ...\textbackslash snapshot\_msg\_*.txt not found}. Root cause: \texttt{Join-Path \$env:TEMP ...} returns Windows-native paths (\texttt{C:\textbackslash Users\textbackslash ...}); when passed to \texttt{bash} via \texttt{cmd /c}, the \texttt{[[ -f "C:\textbackslash Users\textbackslash ..." ]]} test fails because \texttt{\textbackslash U}, \texttt{\textbackslash j}, etc. are interpreted as backslash escapes inside the bash test. \texttt{git-bash} on Windows accepts \texttt{C:/Users/...} (forward slashes) but not the native backslash form. Patched: \texttt{\$listFilePosix = \$listFile -replace '\textbackslash\textbackslash\textbackslash\textbackslash ', '/'} and the same for \texttt{\$msgFile} before the \texttt{bash} invocation. Snapshot v2.1.2.
+\item \textbf{2026-05-08 r4}: \texttt{snapshot.ps1} step 5/8 temp-file location moved from \texttt{\$env:TEMP} (Windows-native \texttt{C:\textbackslash Users\textbackslash ...} or \texttt{C:/Users/...}) to repo-root relative path (\texttt{.tmp\_snapshot\_\{files,msg\}\_<stamp>.txt}). On the operator's first r3 retry, even after backslash$\to$forward-slash conversion, \texttt{[[ -f "C:/Users/jtkor/..." ]]} in \texttt{git-bash} still reported the file as not found --- root cause likely git-bash mount-prefix translation differing across Windows configurations (\texttt{/c/} vs \texttt{C:/} resolution). Relative paths under \texttt{cwd} (repo root, where bash is invoked) bypass drive-letter and mount-prefix issues entirely. Defensive \texttt{Test-Path -LiteralPath} checks added post-write to fail early if PowerShell write itself silently failed. \texttt{.gitignore} extended with \texttt{.tmp\_snapshot\_files\_*.txt} / \texttt{.tmp\_snapshot\_msg\_*.txt} rules. Snapshot v2.1.3.
+\item \textbf{2026-05-08 r5}: \texttt{snapshot.ps1} pre-flight extended with \texttt{github\_sync\_config.json} \emph{auto-bootstrap}. After r4 made step 5/8 commit succeed, step 7/8 push failed at \texttt{publish.ps1 step 3/5} because \texttt{github\_sync\_push.py} requires \texttt{Codes/tools/github\_sync\_config.json} (gitignored) which the operator had not created. The new pre-flight block: (i) checks for \texttt{github\_sync\_config.json} existence; (ii) if missing, reads the template \texttt{github\_sync\_config.template.json}; (iii) runs \texttt{git remote get-url origin} to extract \texttt{username}, \texttt{repo}, and \texttt{remote\_url}; (iv) sets \texttt{auth.method} = \texttt{ssh} when remote starts with \texttt{git@}, else \texttt{https-token}; (v) strips self-documenting underscore fields from the template; (vi) writes the materialised config via \texttt{[System.IO.File]::WriteAllText} + \texttt{UTF8Encoding(\$false)}. The token itself is NEVER persisted to the JSON --- it flows through \texttt{\$env:GITHUB\_TOKEN} exposed by \texttt{publish.ps1} between steps 3-5 and removed in \texttt{finally}. New exit codes: 91 (\texttt{template missing}), 92 (\texttt{git remote query failed}), 93 (\texttt{bootstrap exception}). Snapshot v2.1.4. Operator can now run \texttt{snapshot.ps1 -Token "<PAT>"} on a fresh clone with no manual config step.
+\item \textbf{2026-05-08 r6}: r5 \texttt{git remote get-url origin} bootstrap queried the canonical repo's \texttt{.git/}, but the TECT architecture stores the GitHub remote in \texttt{Github/.git/} (the publish-side staging mirror is a separate git repository). Operator's first r5 retry fired \texttt{error: No such remote 'origin'}. Patched: multi-source remote URL detection in priority order --- (i) \texttt{-RemoteUrl} parameter (new, for first-time setup), (ii) \texttt{git remote get-url origin} (canonical .git), (iii) \texttt{git -C Github remote get-url origin} (publish-side .git). If all three sources fail, the error message lists three actionable options: pass \texttt{-RemoteUrl} inline, initialise \texttt{Github/.git/} with \texttt{git init + git remote add}, or hand-create the file from template. The auto-generated banner now also reports \texttt{remote source} (which path supplied the URL) and the URL itself for audit trail. Snapshot v2.1.5.
+\item \textbf{2026-05-08 r7}: r6 native git probes wrapped against PowerShell 7.4+ \texttt{\$PSNativeCommandUseErrorActionPreference} interaction with \texttt{\$ErrorActionPreference='Stop'}. PS 7.4+ defaults the former to \texttt{\$true}, which converts native command non-zero exit (\textit{including} \texttt{git remote get-url origin} when no origin exists) into a terminating exception even with \texttt{2>\$null} redirect; the catch block then short-circuits before the multi-source fallback chain can complete. Patched: temporarily downgrade both \texttt{\$ErrorActionPreference} (to \texttt{Continue}) and \texttt{\$PSNativeCommandUseErrorActionPreference} (to \texttt{\$false}) around the git probes, restore both in \texttt{finally}. Capture exit codes explicitly into \texttt{\$exit1}/\texttt{\$exit2}. The fall-back-from-canonical-to-\texttt{Github\textbackslash .git} chain now completes regardless of PS version. Error message bolstered to call out \texttt{-RemoteUrl} as the most likely operator-side cause. Snapshot v2.1.6.
+\end{itemize}
+
+\end{document}

@@ -908,9 +908,194 @@ def prune_stale_files(stats: CurateStats, *, dry_run: bool) -> None:
 # ---------------------------------------------------------------------
 # Section E. Top-level orchestration
 # ---------------------------------------------------------------------
+# ---------------------------------------------------------------------
+# Section C2. Mirror v2 framework (Math353 ACCEPTED 2026-05-07; B-beta)
+# ---------------------------------------------------------------------
+# These functions implement the directory-rename + content-path-rewrite
+# layer planned by Math353. They are INACTIVE on the v0_compat default
+# (mirror.json::v0_compat_disable_renames=true). When the operator flips
+# the toggle (B-delta, next session), the curate() flow dispatches to v2
+# paths. In B-beta (this session), only the --mirror-v2-preview CLI flag
+# exercises v2, and only in dry-run preview-log mode (no Github/ writes).
+# ---------------------------------------------------------------------
+
+def _load_mirror_v2_config() -> dict:
+    """Load the v2 fields from Codes/config/mirror.json.
+
+    Returns a dict with v2 directives. All fields default to the safe
+    v0-compat behaviour if the JSON is missing, malformed, or
+    schema_version < 2.
+    """
+    default = {
+        "v0_compat": True,
+        "renames": {},
+        "rewrites": [],
+        "rewrite_exts": [],
+        "page_serve_root": "site/",
+    }
+    if not MIRROR_CONFIG.exists():
+        return default
+    try:
+        cfg = json.loads(MIRROR_CONFIG.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return default
+    if int(cfg.get("schema_version", 0)) < 2:
+        return default
+    return {
+        "v0_compat": bool(cfg.get("v0_compat_disable_renames", True)),
+        "renames": dict(cfg.get("directory_renames", {}).get("rules", {})),
+        "rewrites": list(cfg.get("content_path_rewrites", {}).get("rules", [])),
+        "rewrite_exts": list(cfg.get("content_path_rewrites", {}).get("in_extensions", [])),
+        "page_serve_root": cfg.get("page_serve_root", {}).get("v2_post_cutover", "site/"),
+    }
+
+
+def _apply_directory_rename(local_rel: str, renames: dict) -> str:
+    """Map a local-tree relative POSIX path to the mirror-tree path.
+
+    Longest-prefix-first match. Returns input unchanged if no rule applies.
+    A rule 'Codes' -> 'code' rewrites prefix only at directory boundaries
+    (so 'CodesBackup/x' is NOT matched, only 'Codes/x' or exactly 'Codes').
+    """
+    if not renames:
+        return local_rel
+    norm = local_rel.replace("\\", "/")
+    sorted_keys = sorted(renames.keys(), key=lambda k: -len(k))
+    for k in sorted_keys:
+        bare = k.rstrip("/")
+        prefix = bare + "/"
+        if norm == bare:
+            return renames[k].rstrip("/")
+        if norm.startswith(prefix):
+            tail = norm[len(prefix):]
+            new_prefix = renames[k].rstrip("/")
+            return f"{new_prefix}/{tail}" if tail else new_prefix
+    return norm
+
+
+def _apply_content_rewrites(text: str, rules: list) -> Tuple[str, int]:
+    """Apply each (pattern, replacement) regex in order. Returns (new_text, n_total)."""
+    total = 0
+    out = text
+    for r in rules or []:
+        if not isinstance(r, dict):
+            continue
+        pat = r.get("pattern", "")
+        rep = r.get("replacement", "")
+        if not pat:
+            continue
+        try:
+            new_out, n = re.subn(pat, rep, out)
+        except re.error:
+            continue
+        total += n
+        out = new_out
+    return out, total
+
+
+def emit_v2_preview(mirror_cfg: dict, sources: list, log_path: Path) -> dict:
+    """Walk each source root, simulate v2 rename+rewrite, write preview log.
+
+    Performs NO write to Github/. Reads source files only (to count
+    rewrites). Writes only to `log_path`. Returns summary dict.
+    """
+    renames = mirror_cfg["renames"]
+    rules = mirror_cfg["rewrites"]
+    exts = set(mirror_cfg["rewrite_exts"])
+
+    lines = [
+        "# Mirror v2 rewrite preview (DRY-RUN ONLY)",
+        f"# Generated: {datetime.now(timezone.utc).isoformat()}",
+        f"# Math353 B-gamma; mirror.json::v0_compat_disable_renames = {mirror_cfg['v0_compat']}",
+        "# Format: <local_path>  ->  <mirror_path>  |  <N rewrites>  (-1 = unreadable)",
+        "",
+    ]
+    n_files = 0
+    n_renamed = 0
+    n_rewrites_total = 0
+    n_unreadable = 0
+
+    for src_root in sources:
+        if not src_root.exists():
+            continue
+        for fp in _walk_files(src_root):
+            try:
+                local_rel = fp.relative_to(REPO_ROOT).as_posix()
+            except ValueError:
+                continue
+            mirror_rel = _apply_directory_rename(local_rel, renames)
+            n_files += 1
+            if mirror_rel != local_rel:
+                n_renamed += 1
+            n_rewrites = 0
+            if any(local_rel.endswith(e) for e in exts):
+                try:
+                    text = fp.read_text(encoding="utf-8")
+                    _, n_rewrites = _apply_content_rewrites(text, rules)
+                except (OSError, UnicodeDecodeError):
+                    n_rewrites = -1
+                    n_unreadable += 1
+            if n_rewrites > 0:
+                n_rewrites_total += n_rewrites
+            lines.append(f"{local_rel}  ->  {mirror_rel}  |  {n_rewrites}")
+
+    log_path.parent.mkdir(parents=True, exist_ok=True)
+    log_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+    return {
+        "files": n_files,
+        "renamed": n_renamed,
+        "rewrites_total": n_rewrites_total,
+        "unreadable": n_unreadable,
+        "log_path": str(log_path.relative_to(REPO_ROOT)),
+    }
+
+
+# ---------------------------------------------------------------------
+# Section C2 end (Math353 v2 framework)
+# ---------------------------------------------------------------------
+
+
 def curate(args: argparse.Namespace) -> int:
     stats = CurateStats()
     dry_run = bool(args.check)
+
+    # Math353 v2 preview short-circuit. Walks local sources, simulates
+    # rename+rewrite, writes Docs/status/mirror-rewrite-preview.log,
+    # exits 0. No Github/ writes. Safe regardless of toggle state.
+    if getattr(args, "mirror_v2_preview", False):
+        mirror_cfg = _load_mirror_v2_config()
+        sources = [
+            REPO_ROOT / "Codes",
+            REPO_ROOT / "Docs",
+            REPO_ROOT / "Runs",
+            REPO_ROOT / "Website",
+        ]
+        log_path = REPO_ROOT / "Docs" / "status" / "mirror-rewrite-preview.log"
+        summary = emit_v2_preview(mirror_cfg, sources, log_path)
+        print("=" * 60)
+        print(" Math353 v2 mirror preview (DRY-RUN)")
+        print("=" * 60)
+        print(f"  Files scanned   : {summary['files']}")
+        print(f"  Renamed (path)  : {summary['renamed']}")
+        print(f"  Content rewrites: {summary['rewrites_total']}")
+        print(f"  Unreadable      : {summary['unreadable']}")
+        print(f"  Toggle (v0_compat_disable_renames) = {mirror_cfg['v0_compat']}")
+        print(f"  Log: {summary['log_path']}")
+        print()
+        print("This is a preview only; Github/ was NOT modified.")
+        return 0
+
+    # Math353 safety: if operator flips toggle to false WITHOUT going
+    # through the B-delta cutover review, refuse to write.
+    mirror_cfg_check = _load_mirror_v2_config()
+    if not mirror_cfg_check["v0_compat"] and not dry_run:
+        print("[ERROR] mirror.json::v0_compat_disable_renames=false detected, "
+              "but the v2 production cutover (Math353 Phase B-delta) has not "
+              "yet shipped. Run --mirror-v2-preview to view the v2 effect, "
+              "or restore v0_compat_disable_renames=true to proceed with v0 "
+              "publish.", file=sys.stderr)
+        return 9
 
     if args.clean and not dry_run:
         # Wipe Github/ except .git/ (which the push layer owns).
@@ -1014,6 +1199,10 @@ def main() -> int:
                    help="wipe Github/ (preserving .git/) before rebuilding")
     p.add_argument("-v", "--verbose", action="store_true",
                    help="list per-file additions / modifications / removals")
+    p.add_argument("--mirror-v2-preview", action="store_true",
+                   help="Math353 B-gamma: dry-run v2 mirror (rename+rewrite); "
+                        "emit Docs/status/mirror-rewrite-preview.log only. "
+                        "Does NOT write to Github/. Safe regardless of toggle.")
     args = p.parse_args()
     return curate(args)
 

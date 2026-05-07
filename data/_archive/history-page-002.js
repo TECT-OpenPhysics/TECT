@@ -1,4 +1,4 @@
-// AUTO-GENERATED v0.3 page 2/8 — 2026-05-07 12:56 UTC
+// AUTO-GENERATED v0.3 page 2/8 — 2026-05-07 15:49 UTC
 window.TECT_HISTORY_PAGE_002 = {
   title: "History (page 2 of 8)",
   subtitle: "Chronological CHANGELOG mirror — auto-generated.",
@@ -7,6 +7,16 @@ window.TECT_HISTORY_PAGE_002 = {
   blocks: [
     { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history.html\">&larr; Newer</a> &middot; Page 2 / 8 &middot; <a href=\"history-archive-index.html\">archive index</a> &middot; <a href=\"history-page-003.html\">Older &rarr;</a></div>" },
     { type: "timeline", items: [
+        {
+          date: "2026-05-01",
+          title: "[Theory] Math293: Pillar 6 false-negative taxonomy (three-class disjoint-exhaustive partition)",
+          body: "**Significance**: Turn 63 of 20-turn TECT defence programme (Phase 1 closure — Canonical Hygiene). Partitions Pillar 6 Phase-2 BCC computation failures (Math292 acceptance-criterion violations) into **exactly three exhaustive disjoint classes**: $\\mathcal{C}_1$ extraction structural failure (Math290 Bug A/B class) ⊔ $\\mathcal{C}_2$ trivial-saddle convergence (Math290 Bug C class) ⊔ $\\mathcal{C}_3$ genuine physical falsification. **Theorem 293.1 (T6 PROVED CONDITIONAL)**: the three-class partition is exhaustive and disjoint by construction; finite case enumeration on the $2^4=16$ failure-pattern combinations."
+        },
+        {
+          date: "2026-05-01",
+          title: "[Theory] Math292: Pillar 6 acceptance-criterion theorem shell (binding 4-gauge schema)",
+          body: "**Significance**: Turn 62 of 20-turn TECT defence programme (Phase 1 second note — Canonical Hygiene). Pre-registers binding **4-gauge acceptance schema**: a Phase-2 BCC computation produces a valid broken-phase data point iff $[f>0]\\wedge[\\Delta F<0]\\wedge[\\lambda_{\\min}^{\\rm transverse}\\ge 0]\\wedge[\\texttt{extraction\\_status}=\\texttt{OK}]$. **Theorem 292.1 (T6 PROVED CONDITIONAL)**: each gauge is necessary (independence proven empirically by Math290 first run failing all four), the four together are sufficient (proof via Brazovskii variational principle + Hessian-positivity criterion + shell-amplitude definition + wrapper-truthfulness)."
+        },
         {
           date: "2026-05-01",
           title: "[Theory] Math291: GAP-1 canonical $\\hbar$ formula reconciliation (errata for Math98 / Math110-AddI / Math261 / Math283)",
@@ -146,16 +156,6 @@ window.TECT_HISTORY_PAGE_002 = {
           date: "2026-04-29",
           title: "[Theory] Math231: Pillar 6 — Higgs Effective Scalar Potential Derivation — Closes Task #170",
           body: "**Significance**: Derives the effective Higgs potential V(Ψ) = m²|Ψ|² + λ|Ψ|⁴ directly from BCC Brazovskii dynamics. Establishes the electroweak-breaking scale |Ψ|_0 ~ 100 GeV from TECT microscopic parameters (κ_χ, κ_5, c, η). Completes Pillar 6 scalar-potential closure and enables Pillar 4 sub-task 3 (Math229) final promotion (pending continuum-limit verification, Task #115)."
-        },
-        {
-          date: "2026-04-29",
-          title: "[Recurrence-prevention infrastructure — verify_website.py + POSTMORTEM_RECURRENCE_POLICY.md + CLAUDE.md §6.3.7 + post-mortem 2026-04-29 reference incident]",
-          body: "- **`Codes/tools/verify_website.py` (NEW, ~210 lines)**: completeness + correctness verifier. 6 check classes — JS syntax (regex `(?<!\\\\)href=\"` + `node --check` if available), broken download links (every `href=\"assets/X\"` resolves), missing HTML wrappers, stale `manifest.json`, stale auto-page source counts, empty `TECT_<NAME>.blocks: []` (escape-bug symptom). Exits 1 on any error; `--warn-only` to override; `--regen-manifest` for one-shot manifest rebuild."
-        },
-        {
-          date: "2026-04-29",
-          title: "[Hotfix — 3 bugs from prior commit: Results page empty (escape bug) + States Critical-path summary removed + Notes assets/math sync (330→397)]",
-          body: "`render_results_js v0.8` introduced per-run download links using `dl_links` variable concatenated into outer JS string. The link entries had `href=\\\"...\\\"` (single backslash-quote in Python source → literal `\"...\"` in rendered JS source), but when concatenated into the surrounding `'\"<p>...\" + dl_links + \"...\"<\\p>\"'` JS string, the inner unescaped `\"` characters terminated the JS string early, breaking parse and rendering the entire results.js silent. Fix: pre-escape with triple-backslash-quote in Python source (`'\\\\\\\\\\\\\"'`) so the rendered JS source contains the proper `\\\"` for embedded HTML attributes."
         }
       ]
     },

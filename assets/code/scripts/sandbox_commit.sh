@@ -36,7 +36,23 @@ if [[ "$1" == "-F" ]]; then
 else
     MSG="$1"; shift
 fi
-FILES=("$@")
+# v2.1 (2026-05-07 Math353-AddA): support --files-from <listfile>
+# in addition to positional arguments. Bypasses Windows CMD 8191-char
+# limit when snapshot.ps1 has many changed files. Listfile may have
+# CRLF endings (handled below).
+FILES=()
+while [[ $# -gt 0 ]]; do
+    if [[ "$1" == "--files-from" ]]; then
+        LIST_FILE="$2"; shift 2
+        [[ -f "$LIST_FILE" ]] || { echo "Error: $LIST_FILE not found" >&2; exit 1; }
+        while IFS= read -r line; do
+            line="${line%$'\r'}"
+            [[ -n "$line" ]] && FILES+=("$line")
+        done < "$LIST_FILE"
+    else
+        FILES+=("$1"); shift
+    fi
+done
 [[ ${#FILES[@]} -eq 0 ]] && { echo "Error: no files" >&2; exit 4; }
 
 # -------------------- repo sanity + REPO_LAYOUT guard --------------------

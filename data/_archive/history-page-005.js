@@ -1,4 +1,4 @@
-// AUTO-GENERATED v0.3 page 5/8 — 2026-05-07 12:56 UTC
+// AUTO-GENERATED v0.3 page 5/8 — 2026-05-07 15:49 UTC
 window.TECT_HISTORY_PAGE_005 = {
   title: "History (page 5 of 8)",
   subtitle: "Chronological CHANGELOG mirror — auto-generated.",
@@ -7,6 +7,16 @@ window.TECT_HISTORY_PAGE_005 = {
   blocks: [
     { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history-page-004.html\">&larr; Newer</a> &middot; Page 5 / 8 &middot; <a href=\"history-archive-index.html\">archive index</a> &middot; <a href=\"history-page-006.html\">Older &rarr;</a></div>" },
     { type: "timeline", items: [
+        {
+          date: "2026-04-25",
+          title: "[Round 12 — Pillar 4/6 Instantiation + Stage-2-A 15-pair Extension: Math93-AddA (Pillar 4 → CONDITIONAL), Math80-AddE (Pillar 6 → CONDITIONAL), Math60-Stage2-A-AddB (20/55 pairs)]",
+          body: "**Status**: PROVED CONDITIONAL. - Integrates Q1-NEGATIVE (topological forcing ruled out), Q3-PROVED (Grassmannian stabiliser is $G_{\\text{SM}}$), Q2-CONDITIONAL (1-loop RG framework). - Pillar 4 (SM gauge group emergence) status: PARTIAL-ADVANCED → **PROVED CONDITIONAL** (gated on Task #122 RG-matching). - Gates: G1 (Q1 negative answer) PASS, G2 (RG convergence) PENDING, G3 (Q3 symplectic rigidity) PASS. - Devil's-advocate self-test: three objections (α/β/γ); all DISMISSED or documented with valid mitigation."
+        },
+        {
+          date: "2026-04-25",
+          title: "[Round 11 — Pillar Promotion Sprint I (Analytical Closures): Math82-H (Pillar 1 → CONDITIONAL), Math58-v8 (Pillar 11 → UNCONDITIONAL), Math97-AddE (non-locality analysis)]",
+          body: "**Status**: PROVED CONDITIONAL. - Analytical $m^{*2}$ derivation from Brazovskii shell-spectral-gap + one-loop self-energy: $m^{*2} = 9.005 \\pm 0.5$ (TECT units). - Class-II guarded-quotient gate (Math56-AddB) provides 4+ order-of-magnitude separation between trivial and BCC solutions. - Combined with universality-class stability (Math97), establishes Pillar 1 rigorously. - Pillar 1 status: PARTIAL-ADVANCED → **PROVED CONDITIONAL** (upgrade gated on Math55 Phase-2 numerical completion, Task #115). - Devil's-advocate self-test: three objections (α/β/γ); all DISMISSED or documented."
+        },
         {
           date: "2026-04-25",
           title: "[Rounds 5–10 — Math98 Phase-Transition Origin of Planck Constant: Complete Programme Execution (Kibble-Zurek, Volovik, Berry, IR Reconstruction, Onsager-Machlup, Synthesis)]",
@@ -146,16 +156,6 @@ window.TECT_HISTORY_PAGE_005 = {
           date: "2026-04-24",
           title: "[Math75-Q2-Addendum-A-RGE-completion — Full TECT BCC-defect β-function specification + RGE solver implementation (Pillar 4 Q2 closure, code + theorem)]",
           body: "Turn 6 Track B mandate (Math86 §Turn 6): complete the numerical RGE infrastructure for Pillar 4 Q2. Math75-Q2-Addendum-A (strategy draft) and Math75-Q2-RG-flow-derivation (1-loop symbolic) are both in place. Remaining tasks: (1) derive the three coupling constants $C_i$ from SO(10) symmetry; (2) implement the full TECT BCC-defect β-function in the RG solver; (3) pre-register falsification thresholds and numerical-result gates per CLAUDE.md §6.3.3; (4) complete the companion Math note with devil's-advocate audit §6.3.1."
-        },
-        {
-          date: "2026-04-24",
-          title: "[Math80-Addendum-C-FULL-SO10-uniqueness-PROOF — Pillar 6 Q6c SO(10)-Uniqueness Theorem (OUTLINE → PROVED)]",
-          body: "Turn 6 Track C autonomous research: Pillar 6 (Generational structure / SM embedding) closure sprint, sub-task Q6c. Math80-Addendum-C-Q6c-SO10-uniqueness-theorem-outline (2026-04-24 earlier in same session) established a three-criterion elimination strategy but deferred full dimension-matching proofs for each candidate group. This deliverable provides the FULL THEOREM-grade proof with seven explicit elimination lemmas (SU(5), E_6, E_7, E_8, SU(6), Sp(4), and containment-failure verification) plus three positive-verification lemmas confirming SO(10) satisfies all three criteria (C1: BCC moduli equivariance, C2: PV-scheme closure, C3: single-chirality consistency), and mandatory devil's-advocate self-test per CLAUDE.md §6.3.1."
-        },
-        {
-          date: "2026-04-24",
-          title: "[Math82-AddH — 12-mode BCC ground-state Phase Z runbook + pre-registered Brazovskii predictions (Pillar 1 numerical-anchor upgrade pathway)]",
-          body: "Turn 6 Track A mandate (Math86 §Turn 6): produce the complete runbook and pre-registered theoretical predictions for the FULL 12-mode BCC ground-state Phase Z continuation. Math82-AddI (2026-04-24, earlier turn) provided this for the 4-mode subset (subset-4-cosine ansatz); Math82-AddH extends to the full 12-mode ansatz, which is the physically-natural ground state of the Brazovskii functional on the BCC cubic lattice and the target of all prior Phase Z numerical harnesses (Math82-AddF/G)."
         }
       ]
     },

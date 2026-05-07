@@ -1,0 +1,244 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{hyperref,enumitem,booktabs,longtable,xcolor}
+\usepackage{listings}
+\lstset{basicstyle=\ttfamily\small,breaklines=true,frame=single,numbers=none}
+
+\title{TECT Math353 \\ Mirror-First Repository Restructure: Strategy Framework}
+\author{Jusang Lee \\ \texttt{jtkor@outlook.com}}
+\date{2026-05-07}
+
+\begin{document}
+\maketitle
+
+\noindent\textbf{Status:} ACCEPTED 2026-05-07 (operator approval recorded in chat; Phase B-revised B-$\alpha$/$\beta$/$\gamma$ executed in same atomic commit; B-$\delta$/$\epsilon$/$\zeta$/$\eta$/$\theta$ deferred to a follow-up session per the two-snapshot deprecation window).\\
+\textbf{Theory tag:} \texttt{Math353-Mirror-First-Restructure-Strategy-Framework-2026-05-07}.\\
+\textbf{Type:} Strategy framework (CLAUDE.md \S 4.1 mapping).\\
+\textbf{Predecessor:} \texttt{Docs/policy/REPO\_RESTRUCTURE\_ROADMAP.md} (2026-05-07, Math352 commit \texttt{42ebbfd}).\\
+\textbf{Supersedes upon approval:} Phase B-5/6/7 lowercase-rename plan (\texttt{REPO\_RESTRUCTURE\_ROADMAP.md} \S 2.1--\S 2.3); \texttt{Codes/scripts/migrate\_to\_lowercase\_code.py} v1.1 retired with banner.\\
+\textbf{Operator directive (2026-05-07):} ``Local \texttt{Codes/} rename is unnecessary; the mirror layer should perform directory rename and path rewrite at publish time. The \texttt{Github/} tree is the publish staging area; the \texttt{Website/} tree is the local source. They are not duplicates---\texttt{Github/site/} is the GitHub Pages serve target derived from \texttt{Website/}.''
+
+\section{Problem statement}
+
+The Math352 commit (2026-05-07) shipped \texttt{migrate\_to\_lowercase\_code.py} v1.1 as the planned mechanism for Phase B-5/6/7 (lowercase \texttt{code/} root). A first execution attempt failed; the rollback was clean and the script was iterated to v1.1 with Path-segment-pattern fixes and a \texttt{PROTECTED\_FILES} guard. Operator audit immediately following identified three structural objections to the lowercase-rename approach.
+
+\paragraph{Objection (a): Local rename is disruption-only.} Renaming \texttt{Codes/} to \texttt{code/} on the canonical tree breaks every in-flight numerical run (\texttt{RunRecorder} JSON paths), every Math-note Markdown citation (over 700 notes), every PowerShell snapshot script invocation, and every IDE bookmark. The benefit is purely ergonomic on the public-facing surface.
+
+\paragraph{Objection (b): \texttt{Github/} and \texttt{Website/} are not duplicates.} They are functionally distinct: \texttt{Website/} is the local data source for the site; \texttt{Github/} is the publish staging area into which \texttt{Website/} is mirrored as \texttt{Github/site/}, alongside curated subsets of \texttt{Codes/} and \texttt{Docs/}. The naming has obscured this layered architecture.
+
+\paragraph{Objection (c): Hard-coded paths are the actual durable problem.} Markdown citation paths, HTML \texttt{href}s, and JS \texttt{data-*} references inside content files are the long-tail issue. Renaming the directory does not solve them; it only relocates the breakage.
+
+The redesign (this Math note) reframes the entire restructure: \emph{do nothing locally; perform every rename and path rewrite at the mirror boundary}.
+
+\section{Design principles (5)}
+
+\begin{enumerate}[leftmargin=2em]
+\item \textbf{Single source of truth at local}: \texttt{Codes/}, \texttt{Docs/}, \texttt{Runs/}, \texttt{Website/} remain canonical. Zero local rename. Zero in-flight numerical-work disruption.
+\item \textbf{Single mapping table}: all directory renames, exclusions, and content-path rewrites live in \texttt{Codes/config/mirror.json} v2. The mirror tool reads from this; nothing else carries hard-coded path maps.
+\item \textbf{Idempotent mirror}: every snapshot reproduces the same \texttt{Github/} tree from the same local input. A single Boolean toggle (\texttt{v0\_compat\_disable\_renames}) reverts to v0 behaviour.
+\item \textbf{Path rewriting at the publish boundary}: Markdown links, HTML \texttt{href}, JS data refs are rewritten by the mirror tool at copy time. Local files retain local paths; mirrored files carry mirror paths. Local and public surfaces decouple cleanly.
+\item \textbf{GitHub Pages serves \texttt{Github/site/} only}: the publish surface is exactly one directory. \texttt{Website/} is local-only. \texttt{Github/code/} and \texttt{Github/docs/} are sibling reference mirrors but not Pages-served.
+\end{enumerate}
+
+\section{Target end-state}
+
+\subsection{Local tree (unchanged from current)}
+
+\begin{lstlisting}
+Contents/
+  CLAUDE.md, CHANGELOG.md, NAVIGATION.md, tect-research.plugin
+  Codes/                   # canonical code (no rename)
+    config/mirror.json     # v2 -- single source of truth for mirror layer
+    pde/, tools/, scripts/, supplementary/, deprecated/
+  Docs/                    # canonical math notes, policy, status (no rename)
+    math/, policy/, status/, manual/, postmortem/, papers/
+  Runs/                    # canonical numerical output (no rename)
+    seeds/, audit/, continuation/, logs/
+  Website/                 # canonical site source (no rename)
+    *.html, data/, assets/, data/_narrative/
+  Github/                  # publish staging -- fully reproducible from above
+    code/                  # Codes/ mirrored, lowercase
+      manual/              # Docs/manual/ mirrored
+      runs/                # selected Runs/ artefacts (large files excluded)
+    docs/                  # Docs/ mirrored (excl. manual)
+    site/                  # Website/ mirrored -- GitHub Pages serve root
+    README.md              # repo-root README (operator-authored, mirrored)
+\end{lstlisting}
+
+The root-level \texttt{site/} v0 placeholder (\texttt{README.md} 1982 bytes + \texttt{.nojekyll}) is removed; \texttt{Github/site/} is the only site directory.
+
+\subsection{Mirror config (\texttt{Codes/config/mirror.json} v2 schema)}
+
+\begin{lstlisting}
+{
+  "schema_version": 2,
+  "directory_renames": {
+    "Codes":       "code",
+    "Docs":        "docs",
+    "Docs/manual": "code/manual",
+    "Runs":        "code/runs",
+    "Website":     "site"
+  },
+  "exclude_from_mirror": [
+    "Backup/",
+    "Codes/deprecated/",
+    "Runs/seeds/*.npy",
+    "Runs/**/*.npz",
+    "Website/data/_narrative/*.draft.md"
+  ],
+  "content_path_rewrites": [
+    {
+      "in_extensions": [".md", ".tex.txt", ".js", ".html"],
+      "rules": [
+        {"pattern": "(?<![\\w/])Codes/",       "replacement": "code/"},
+        {"pattern": "(?<![\\w/])Docs/manual/", "replacement": "code/manual/"},
+        {"pattern": "(?<![\\w/])Docs/",        "replacement": "docs/"},
+        {"pattern": "(?<![\\w/])Runs/",        "replacement": "code/runs/"},
+        {"pattern": "(?<![\\w/])Website/",     "replacement": "site/"}
+      ]
+    }
+  ],
+  "page_serve_root": "site/",
+  "v0_compat_disable_renames": false
+}
+\end{lstlisting}
+
+Setting \texttt{v0\_compat\_disable\_renames: true} restores the pre-v2 mirror behaviour (1:1 copy, no rename, no rewrite). This is the single Boolean rollback toggle.
+
+\section{Phase B-revised work breakdown}
+
+\begin{longtable}{p{1.5cm}p{6.5cm}p{1.3cm}p{2cm}}
+\toprule
+Step & Work item & Risk & Cost \\
+\midrule
+B-$\alpha$ & \texttt{mirror.json} v2 schema (\texttt{directory\_renames} + \texttt{exclude\_from\_mirror} + \texttt{content\_path\_rewrites}); JSON-schema-validated. & LOW & 30 min \\
+B-$\beta$ & \texttt{github\_sync\_curate.py} v2: read mirror.json, apply directory rename + content rewrite by extension whitelist, idempotency preserved. & MED & 2--3 h \\
+B-$\gamma$ & Dry-run validation: golden-file diff against current \texttt{Github/} tree (frozen as tag \texttt{mirror-v0-golden-2026-05-07}). & LOW & 30 min \\
+B-$\delta$ & \texttt{snapshot.ps1} integration: v2 wired, exit-code contract preserved (0/10/.../99). & LOW & 15 min \\
+B-$\epsilon$ & \texttt{verify\_website.py} extension: validate every rewritten path in \texttt{Github/site/} resolves to an existing file in the mirror tree. & MED & 30 min \\
+B-$\zeta$ & Root-level \texttt{site/} scaffold removal (Phase B-1 v0 supersession by \texttt{Github/site/}). & LOW & 5 min \\
+B-$\eta$ & \texttt{migrate\_to\_lowercase\_code.py} retirement: header banner ``Superseded by Math353 mirror-first plan; local tree retains \texttt{Codes/} naming''; entry in \texttt{Codes/scripts/} README. & LOW & 5 min \\
+B-$\theta$ & \texttt{REPO\_RESTRUCTURE\_ROADMAP.md} v2 supersession: \S 2.1/2.2/2.3 marked \texttt{SUPERSEDED-BY-Math353}; mirror-first plan inserted. & LOW & 10 min \\
+\bottomrule
+\end{longtable}
+
+\textbf{Total Phase-B-revised cost:} 4--5 hours single-operator-session.\\
+\textbf{Rollback path}: any step is reversible by setting \texttt{v0\_compat\_disable\_renames: true} in mirror.json and re-running snapshot. The local canonical tree is never touched, so a full \texttt{git revert} on the Phase-B-revised commit is also safe.
+
+\section{Phase C-revised work breakdown}
+
+\begin{longtable}{p{1.5cm}p{6.5cm}p{1.3cm}p{2cm}}
+\toprule
+Step & Work item & Risk & Cost \\
+\midrule
+C-$\alpha$ & GitHub Pages activation: settings $\to$ Pages $\to$ branch=main, folder=\texttt{Github/site/}. & LOW & 5 min (operator) \\
+C-$\beta$ & Root \texttt{README.md}: 1-page operator quickstart + theory pointer; mirrored to \texttt{Github/README.md}. & MED & 1 h (operator authors per CLAUDE.md \S 9 manuscript discipline) \\
+C-$\gamma$ & BCC narrative softening: \texttt{refine\_continuum\_language.py} v2 reads \texttt{sweep\_rules.json}, applied to \texttt{Github/site/} content only (Math348 + Math350 reflected). & MED & 1--2 h \\
+C-$\delta$ & GitHub metadata refresh (description + topics + about). & LOW & 5 min (operator) \\
+C-$\epsilon$ & Per-page footer provenance stamp: ``Mirrored from \texttt{Contents/<source>}'' line in HTML \texttt{<footer>}. & LOW & 30 min \\
+\bottomrule
+\end{longtable}
+
+\section{Risk register}
+
+\begin{enumerate}[leftmargin=2em]
+\item \textbf{False-positive content rewrite}. The regex \texttt{(?<![\textbackslash w/])Codes/} could match a Python string literal \texttt{"Codes/foo"} and rewrite it to \texttt{"code/foo"}, breaking runtime imports. \emph{Mitigation:} (a) the rewrite applies only to extension whitelist (\texttt{.md}, \texttt{.tex.txt}, \texttt{.js}, \texttt{.html}); Python files (\texttt{.py}) are out of scope; (b) dry-run diff before first apply; (c) post-apply \texttt{verify\_website.py} confirms all hrefs resolve to existing mirror files.
+\item \textbf{Mirrored citation breakage}. A Math-note cite ``\texttt{Codes/pde/foo.py}'' rewritten to ``\texttt{code/pde/foo.py}'' must resolve in the mirror tree to \texttt{Github/code/pde/foo.py}. \emph{Mitigation:} \texttt{verify\_website.py} extension (B-$\epsilon$) walks every rewritten cite and asserts target-file existence in mirror; failure aborts snapshot.
+\item \textbf{In-flight numerical run break}. \emph{Risk: zero, by design.} Local \texttt{Runs/} is untouched; only the mirror copy of \texttt{Runs/} is renamed to \texttt{code/runs/}, and only inside \texttt{Github/}.
+\item \textbf{Mirror-tree size growth or leakage}. Mirroring \texttt{Codes/} may expose internal-only files. \emph{Mitigation:} \texttt{exclude\_from\_mirror} list (deprecated subdirs, \texttt{.npy} seeds, \texttt{.npz} run output, \texttt{*.draft.md} narrative).
+\item \textbf{Reverse compatibility loss}. External links to \texttt{tect.../Github/Codes/...} break post-rename. \emph{Mitigation:} \texttt{v0\_compat\_disable\_renames} default-true for one snapshot deprecation window; operator confirms external links; flip to false in second commit.
+\end{enumerate}
+
+\section{Devil's-advocate self-test (CLAUDE.md \S 6.3)}
+
+\paragraph{Objection $\alpha$.} ``The mirror tool acquires more responsibility (rename + rewrite + exclusion). Effective bug surface increases.''\\
+\textbf{Disposition:} VALID-WITH-MITIGATION. Counter: the responsibility was already there but distributed across hard-coded constants in 4+ files (\texttt{generate\_website.py}, \texttt{github\_sync\_curate.py}, \texttt{audit\_website\_freshness.py}, \texttt{verify\_website.py}). Consolidating into a single config + a single tool reduces effective bug surface. Mitigation: every rule in \texttt{mirror.json} has a unit test in \texttt{Codes/tools/test\_github\_sync\_curate.py} v2.
+
+\paragraph{Objection $\beta$.} ``Path rewriting can be subtly wrong (whitespace, code blocks in Markdown, escaped JS string literals). Risk of silent corruption.''\\
+\textbf{Disposition:} VALID-WITH-MITIGATION. Mitigation: (a) extension whitelist excludes \texttt{.py} where false-positives are most likely; (b) post-rewrite syntax check via \texttt{node --check} for JS, \texttt{markdown-it} parse for MD; (c) dry-run diff against golden file before first commit; (d) two-snapshot deprecation window before v2 default.
+
+\paragraph{Objection $\gamma$.} ``Two-stage publish (Local $\to$ Github $\to$ Pages) duplicates files in \texttt{Github/} permanently. Wasteful.''\\
+\textbf{Disposition:} DISMISSED. \texttt{Github/} is the publish-staging tree; it must exist as a snapshotted artefact for git history and external mirroring. The duplication is the publish boundary, not a pathological copy. Idempotency makes it free in practice.
+
+\section{Quantitative sanity check (CLAUDE.md \S 6.3.4)}
+
+\begin{enumerate}[leftmargin=2em]
+\item \textbf{Tree size}: \texttt{Codes/} 176 tracked files; \texttt{Docs/} $\sim$700 Math notes + policy + status; \texttt{Website/} $\sim$50 HTML/JS/assets. Mirrored size $\sim 1.0\times$ source after \texttt{exclude\_from\_mirror} pruning. PASS.
+\item \textbf{Path rewrite rule count}: 5 directory renames $\times$ 4 file extensions = 20 effective regex-application contexts. Manageable. PASS.
+\item \textbf{Operation count per snapshot}: $\sim$1{,}000 files copied + rewritten on full snapshot; $\sim$10--50 on incremental. Within current snapshot budget ($\sim$60 s). PASS.
+\item \textbf{Reversibility}: single Boolean toggle in \texttt{mirror.json}. Two-snapshot deprecation window provides operator-confirmation gate. PASS.
+\item \textbf{Disruption to local workflow}: zero. Numerical runs, IDE bookmarks, Math-note citations, snapshot scripts all unchanged. PASS.
+\end{enumerate}
+
+\section{Self-adversarial review (CLAUDE.md \S 6.3.5(a))}
+
+\begin{enumerate}[leftmargin=2em]
+\item \textbf{Concrete objection 1:} ``This proposal still requires a non-trivial code change (\texttt{github\_sync\_curate.py} v2). Why not stay with v0 1:1 mirror?''\\
+\textbf{Disposition:} VALID-WITH-MITIGATION. Counter: v0 mirror does not solve the \texttt{Codes/}/\texttt{code/} naming inconsistency between local (operator-side) and public (researcher-side) surfaces; the inconsistency was the original Phase B-5/6/7 motivation. Mitigation: phased rollout ($\beta$ shippable independently of $\gamma$/$\delta$); v0 toggle preserved for one snapshot cycle.
+
+\item \textbf{Concrete objection 2:} ``The path-rewrite rules might miss a subtle citation form (URL fragment, embedded JS template literal, HTML attribute other than \texttt{href}).''\\
+\textbf{Disposition:} VALID-WITH-MITIGATION. Mitigation: post-snapshot \texttt{verify\_website.py} link-check pass walks every \texttt{href}, \texttt{src}, \texttt{data-*}, and Markdown link reference; any miss is caught before \texttt{git push}. Two-snapshot deprecation window covers operator-side validation of edge cases.
+
+\item \textbf{Concrete objection 3:} ``This proposal does not address what happens when an external researcher clones \texttt{Github/} and tries to run \texttt{Github/code/scripts/snapshot.ps1}. Local-only operator scripts may not work in the mirror.''\\
+\textbf{Disposition:} DISMISSED-with-clarification. \texttt{Github/} is a read-only mirror for public consumption. Re-run requires the local canonical tree (\texttt{Contents/}). Mitigation: \texttt{Github/code/README.md} carries the banner ``This is a publish mirror. Operator scripts are reference-only; clone the canonical tree to re-run the pipeline.''
+\end{enumerate}
+
+\section{Migration plan (atomic, reversible)}
+
+\paragraph{Pre-flight.}
+\begin{enumerate}[leftmargin=2em]
+\item Confirm working tree clean (\texttt{git status --porcelain} empty).
+\item Tag current \texttt{Github/} as golden file: \texttt{git tag mirror-v0-golden-2026-05-07}.
+\item Operator approves Math353 (this note).
+\end{enumerate}
+
+\paragraph{Atomic commit sequence.}
+\begin{enumerate}[leftmargin=2em]
+\item B-$\alpha$/$\beta$: \texttt{mirror.json} v2 + \texttt{github\_sync\_curate.py} v2 + unit tests. \emph{Single commit.}
+\item B-$\gamma$: dry-run, diff against golden tag. If clean, proceed; if not, iterate $\beta$ until clean.
+\item B-$\delta$/$\epsilon$/$\zeta$/$\eta$/$\theta$: snapshot pipeline + verifier extension + retirements + ROADMAP supersession. \emph{Single commit.}
+\item Snapshot run end-to-end (\texttt{snapshot.ps1 -Message "Math353 mirror-first restructure landed"}). Validates whole pipeline.
+\end{enumerate}
+
+\paragraph{Two-snapshot deprecation window.}
+Before merging v2 mirror permanently, retain \texttt{v0\_compat\_disable\_renames: true} as default for one snapshot cycle. Operator confirms external links still work, internal verification is clean. Then flip to \texttt{false} as second commit.
+
+\paragraph{Rollback.} \texttt{v0\_compat\_disable\_renames: true} restores v0 mirror behaviour. \texttt{Github/} regenerates from local in next snapshot. Local tree untouched throughout.
+
+\section{Phase B-5/6/7 supersession}
+
+\begin{itemize}[leftmargin=2em]
+\item \texttt{Codes/scripts/migrate\_to\_lowercase\_code.py} v1.1 (committed at \texttt{68c15d0}): retired with header banner ``\texttt{SUPERSEDED 2026-05-07 by Math353 mirror-first plan; local tree retains \texttt{Codes/} naming. This script is reference-only and not invoked by any pipeline.}''
+\item \texttt{REPO\_RESTRUCTURE\_ROADMAP.md} \S 2.1/\S 2.2/\S 2.3: marked \texttt{[SUPERSEDED-BY-Math353]} block; replaced with mirror-first work breakdown above.
+\item Phase B-5/6/7 line items closed without execution. The \texttt{Github/} mirror redesign (Phase B-revised, this note) is the new completion path.
+\item Root-level \texttt{site/} v0 scaffold (1982-byte \texttt{README.md} + \texttt{.nojekyll}) removed in B-$\zeta$.
+\end{itemize}
+
+\section{Cross-references}
+
+\begin{itemize}[leftmargin=2em]
+\item \texttt{CLAUDE.md} \S 13 --- file-location discipline.
+\item \texttt{Docs/policy/REPO\_LAYOUT.md} --- canonical destination matrix.
+\item \texttt{Docs/policy/REPO\_RESTRUCTURE\_ROADMAP.md} --- superseded by this Math note upon approval (B-$\theta$).
+\item \texttt{Docs/policy/SNAPSHOT\_POLICY.md} \S 5 --- snapshot pipeline integration target (B-$\delta$).
+\item \texttt{Docs/policy/STATUS\_PROPAGATION\_POLICY.md} --- Phase A foundation, untouched by this proposal.
+\item \texttt{Codes/config/mirror.json} v0/v1.1 (current) $\to$ v2 (target).
+\item \texttt{Codes/tools/github\_sync\_curate.py} v1.1 (current) $\to$ v2 (target).
+\item \texttt{Codes/tools/verify\_website.py} v1.0 (current) $\to$ v1.1 (B-$\epsilon$ extension).
+\item \texttt{Codes/scripts/migrate\_to\_lowercase\_code.py} v1.1 --- retired by B-$\eta$.
+\item Math352 (\texttt{Docs/math/TECT-Math352-Status-Propagation-and-Tooling-Closure.tex.txt}) --- Phase A foundation; this note is the next layer above.
+\end{itemize}
+
+\section{Status and authorisation}
+
+\textbf{Math353 status:} ACCEPTED 2026-05-07. Operator approval recorded in chat (``I 실행''). Same-commit execution:
+\begin{enumerate}[leftmargin=2em]
+\item Atomic commit: Math353 (this note, ACCEPTED) + \texttt{REPO\_RESTRUCTURE\_ROADMAP.md} v2 supersession markers + CHANGELOG entry + retirement banner on \texttt{migrate\_to\_lowercase\_code.py} v1.1 + \texttt{mirror.json} v2 schema (B-$\alpha$) + \texttt{github\_sync\_curate.py} v2 framework (B-$\beta$, additive, default \texttt{v0\_compat\_disable\_renames: true} preserves v0 behaviour) + dry-run validation log (B-$\gamma$).
+\item Two-snapshot deprecation window active: default \texttt{v0\_compat\_disable\_renames: true}. v2 behaviour visible in dry-run only.
+\item Deferred to follow-up session: B-$\delta$ (snapshot pipeline final wiring), B-$\epsilon$ (verify\_website extension), B-$\zeta$ (root \texttt{site/} removal), B-$\eta$ (migrate script retirement, banner already inserted in this commit), B-$\theta$ (ROADMAP final v2 rewrite), and Phase C entirely.
+\end{enumerate}
+
+\textbf{Cutover gate.} Flipping \texttt{v0\_compat\_disable\_renames} to \texttt{false} (next session) requires: (i) operator review of B-$\gamma$ dry-run diff, (ii) one full snapshot pass with toggle still true (production-grade idempotency confirmation), (iii) explicit operator authorisation in chat. Until then, the public mirror surface is unchanged.
+
+\end{document}

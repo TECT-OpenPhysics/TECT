@@ -31,9 +31,11 @@ Round-trip validated end-to-end: `propagate_status.py --check` and `verify_websi
 
 ---
 
-## §2. What is DEFERRED (Phase B) — partial closure 2026-05-07
+## §2. What is DEFERRED (Phase B) — partial closure 2026-05-07; §2.1/2.2/2.3 SUPERSEDED-BY-Math353
 
-**2026-05-07 partial closure**: Phase B-1 (`/site` scaffold), Phase B-3 (`.gitignore` extension for `.tmp.driveupload/` + root orphan patterns), and Phase B-4 (Codes/deprecated/ audit — confirmed already cleaned, no `Codes/deprecated/` directory exists; one residual `*.old.*.py` archive in `Codes/pde/` excluded via integrity-tool filename pattern) are CLOSED. Phase B-2 (`github_sync_curate.py` v1.1 refactor to read `mirror.json`) is now LANDED in §2.4. Phase B-5/6/7 (full tree rename to lowercase `code/`, `Runs/` -> `code/runs/`, `Docs/manual/` -> `code/manual/`) remain deferred to a future session — and §2.2 / §2.3 are explicitly **gated on §2.1 completing first** (since the `code/` destination directory does not exist until then).
+**2026-05-07 partial closure**: Phase B-1 (`/site` scaffold), Phase B-3 (`.gitignore` extension for `.tmp.driveupload/` + root orphan patterns), and Phase B-4 (Codes/deprecated/ audit — confirmed already cleaned, no `Codes/deprecated/` directory exists; one residual `*.old.*.py` archive in `Codes/pde/` excluded via integrity-tool filename pattern) are CLOSED. Phase B-2 (`github_sync_curate.py` v1.1 refactor to read `mirror.json`) is now LANDED in §2.4.
+
+**2026-05-07 supersession (Math353)**: Phase B-5/6/7 (lowercase `code/` rename, `Runs/` -> `code/runs/`, `Docs/manual/` -> `code/manual/`) is **SUPERSEDED-BY-Math353** (`Docs/math/TECT-Math353-Mirror-First-Restructure-Strategy-Framework.tex.txt`). The lowercase-rename approach is REPLACED by a mirror-first plan: local tree retains `Codes/`, `Docs/`, `Runs/`, `Website/` naming; the rename + content-path-rewrite happens at the `github_sync_curate.py` v2 mirror boundary, not on the local canonical tree. See Math353 for full rationale, Phase B-revised work breakdown, and Phase C-revised. `Codes/scripts/migrate_to_lowercase_code.py` v1.1 retired with header banner. The original §2.1/2.2/2.3 text below is retained for audit history and is **NOT operative**.
 
 Phase B is the major repository structural refactor. v0 scaffolds are in place under `Codes/config/` (mirror.json, website_pages.json, sweep_rules.json). The full refactor is deferred because:
 
@@ -41,19 +43,38 @@ Phase B is the major repository structural refactor. v0 scaffolds are in place u
 2. `github_sync_curate.py` is large (~700 lines) and the v1 refactor (read from `Codes/config/mirror.json`) must preserve existing mirror behaviour exactly while changing only the source of the allowlist.
 3. The operator wants to validate the v0 scaffold semantics first.
 
-### §2.1 Repository tree restructure (deferred)
+### §2.1 Repository tree restructure — [SUPERSEDED-BY-Math353 2026-05-07] automated migration script LANDED then RETIRED 2026-05-07
 
-The intended end state per the 2026-05-07 plan was a 7-entry root: `CITATION.cff, LICENSE, README.md, CHANGELOG.md, code/, math/, papers/, status/, site/`. The current canonical root retains the longer list (`CLAUDE.md`, `Codes/`, `Docs/`, `Github/`, `Runs/`, `Website/`, `Backup/`, `tests/`, etc.). The rename `Codes/` -> `code/`, `Docs/math` -> `math/`, etc. requires:
+The intended end state per the 2026-05-07 plan was a lowercase-`code/`-rooted layout: `CITATION.cff, LICENSE, README.md, CHANGELOG.md, code/, math/, papers/, status/, site/`. The current canonical root still uses `Codes/`, `Docs/`, `Runs/`, etc.
 
-- Update every import path in every Python file (~30 drivers, ~25 tools).
-- Update every `cd Codes` / `python Codes/...` invocation across `*.ps1`, `*.bat`, `*.sh`.
-- Update `CLAUDE.md` §13 destination matrix, `REPO_LAYOUT.md`, all policy docs.
-- Update every Math-note path reference (`Docs/math/...`) in `EVIDENCE-INDEX.md`, `papers_math_dependencies.js`, every `.tex` `\cite{}` key.
-- Migrate git history (or accept a hard cut + new git tag).
+**Migration helper (committed in this Math352 commit)**: `Codes/scripts/migrate_to_lowercase_code.py` v1.0 automates the entire B-5/6/7 rename atomically:
 
-This is a multi-day operation. v1 plan: do it as a single atomic commit on a feature branch, then merge.
+- Phase 1: three `git mv` operations (`Codes/` -> `code/`, `Runs/` -> `code/runs/`, `Docs/manual/` -> `code/manual/`).
+- Phase 2: 2,022 cross-reference replacements across 223 files (Python imports, PowerShell paths, Markdown links, Math-note cite refs, JSON config), all via `safe_write.atomic_write` -> truncation-proof.
+- Pre-flight: refuses to run --apply if git working tree is dirty OR if `Runs/` has active driver locks / recent JSON activity.
+- Post-apply --verify: runs `check_file_integrity --strict` + `verify_website` + `propagate_status --check`; aborts with rollback hint if any fail.
+- Rollback path: `git restore --source=HEAD --staged --worktree .` (script writes only working tree; HEAD is always safe).
 
-### §2.2 `code/runs/` consolidation (deferred; gated on §2.1 lowercase rename)
+**Operator instructions** (when ready to migrate):
+
+```powershell
+# 1) Verify current tree is clean + committed
+git status
+
+# 2) Dry-run preview — shows the 2,022 replacement plan
+python -u Codes\scripts\migrate_to_lowercase_code.py
+
+# 3) Apply (in a dedicated session, no in-flight runs)
+python -u Codes\scripts\migrate_to_lowercase_code.py --apply --verify
+
+# 4) Commit + snapshot
+git -c user.email="jtkor@outlook.com" -c user.name="Jusang Lee" commit -m "Phase B-5/6/7: Codes/->code/ + Runs/->code/runs/ + Docs/manual/->code/manual/ atomic migration; 2,022 cross-refs updated"
+.\Codes\scripts\snapshot.ps1 -Message "Phase B-5/6/7 closure"
+```
+
+**Recommended timing**: run between numerical campaigns when no driver is writing to Runs/. The script is idempotent at the dry-run level (re-running prints the same plan), but --apply is destructive in the sense that paths in code stop working until the snapshot regenerates the Website mirror.
+
+### §2.2 `code/runs/` consolidation — [SUPERSEDED-BY-Math353 2026-05-07] (was: deferred; gated on §2.1 lowercase rename)
 
 The 2026-05-07 plan called for `Runs/` to become `code/runs/`. The current `Runs/` tree contains many large `.npy` files in `Runs/seeds/` and run output in `Runs/<class>/<run_id>/`. The consolidation:
 
@@ -63,7 +84,7 @@ The 2026-05-07 plan called for `Runs/` to become `code/runs/`. The current `Runs
 
 Risk: in-flight numerical runs that write to the old path will break. v1 plan: rename only between snapshot cycles, with a one-snapshot-cycle warning window where the old path emits a deprecation message.
 
-### §2.3 `Docs/manual/` -> `code/manual/` (deferred)
+### §2.3 `Docs/manual/` -> `code/manual/` — [SUPERSEDED-BY-Math353 2026-05-07] (was: deferred)
 
 Same risk profile as §2.2. The v1 plan is to move `Docs/manual/CODE_MANUAL.md` and friends into `code/manual/` so the operator-level documentation lives next to the code it documents. UPDATE_POLICY §13 references must be updated atomically.
 

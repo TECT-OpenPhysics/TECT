@@ -1,4 +1,4 @@
-// AUTO-GENERATED v0.3 page 7/8 — 2026-05-07 12:56 UTC
+// AUTO-GENERATED v0.3 page 7/8 — 2026-05-07 15:49 UTC
 window.TECT_HISTORY_PAGE_007 = {
   title: "History (page 7 of 8)",
   subtitle: "Chronological CHANGELOG mirror — auto-generated.",
@@ -7,6 +7,16 @@ window.TECT_HISTORY_PAGE_007 = {
   blocks: [
     { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history-page-006.html\">&larr; Newer</a> &middot; Page 7 / 8 &middot; <a href=\"history-archive-index.html\">archive index</a> &middot; <a href=\"history-page-008.html\">Older &rarr;</a></div>" },
     { type: "timeline", items: [
+        {
+          date: "2026-04-24",
+          title: "[CLAUDE.md + UPDATE_POLICY §15 + Math81 retroactive archive — chat-archival rule binding from 2026-04-24]",
+          body: "1. **`CLAUDE.md` at repo root (NEW)** — master AI-collaborator protocol consolidating all 13 working rules in one binding document. Loaded by every new session. Contains: SRP-v1 mandatory prelude (§1), canonical-source hierarchy (§2), atomic-write rule (§3), chat-content auto-archival (§4, new), communication discipline (§5), audit discipline (§6 — honest scope, round-summary discipline, devil's advocate, 3-part traceability, theory-currency audit), pillar status semantics (§7), operational classification (§8 — UCFT/Partial TOE), manuscript discipline (§9 — manual-only), code manual discipline (§10), git discipline (§11), behaviour summary one-page contract (§12), references (§13)."
+        },
+        {
+          date: "2026-04-24",
+          title: "[Math80 — Round 10 Pillar 6 Q6a closure-strategy framework; website data sync to canonical state]",
+          body: "`Docs/math/TECT-Math80-Pillar6-Q6a-10-defect-moduli-strategy-framework.tex.txt` (NEW). First sub-task of the Round 10 Pillar 6 closure sprint. Addresses the audit-flagged conjectural 10-defect-moduli count in Math77-Q6a-Q6b-closure (the boxed term in the dimension chain $24 + 11 + 10 = 45 = \\dim \\mathrm{SO}(10)$)."
+        },
         {
           date: "2026-04-24",
           title: "[Math79-Addendum-A — Pillar 10 R5 first-iteration extraction: pre-registered FAILURE; OPEN-NEGATIVE REFINED reinforced]",
@@ -146,16 +156,6 @@ window.TECT_HISTORY_PAGE_007 = {
           date: "2026-04-22",
           title: "[v2.6.1 lands Math66 v0.2 Path-A adjoint-JVP patch; Math69 independent Devil's-Advocate peer-review filed; B2 structurally closed]",
           body: "- **docs/math/TECT-Math69-Math66v02-PeerReview-DevilsAdvocate.tex.txt** (NEW) filed 2026-04-22. Independent referee-grade audit of Math66 v0.2. Four non-trivial objections formulated and resolved: - **§2 Obj.1 Wirtinger-convention collapse** — resolved via Eq. `m69-adjoint-identification`: `torch.autograd.grad(Re<v,F(Psi)>, Psi) = J(Psi)^\\dagger v` \\emph{exactly} in the real-Hilbert inner product (no factor-of-2 ambiguity). Identification is an unconditional theorem of real-linear analysis. - **§3 Obj.2 `_to_torch` dtype-coercion graph break** — resolved: `torch.Tensor.to` preserves autograd tracking in both (same-dtype, same-device) and (differing) branches. - **§4 Obj.3 Class-II $\\rho = |\\Psi|^2$ non-holomorphy** — resolved: PyTorch complex autograd is the real-linear Fréchet derivative (not C-linear); the non-holomorphic $\\rho, q_T$ are handled correctly. Residual $\\epsilon = 10^{-12}$ regularisation bounded below by Math56 Phase-0 gate G0 vacuum-rejection. - **§5 Obj.4 Gauge-covariance of $\\tfrac12(J+J^\\dagger)$** — resolved via Eq. `m69-sym-covariance` for the embedded $SU(2)$ stability subgroup. Residual full-$SU(3)$ promotion tracked as Pillar-7 task (not a B2 depend"
-        },
-        {
-          date: "2026-04-22",
-          title: "[Math66 v0.2 adjoint-JVP rigorous derivation filed; Math68 Addendum A §§A.5–A.6 n64 audit + selftest empirical records; B2 structural resolution unblocked at theory level]",
-          body: "- **docs/math/TECT-Math66-v02-AdjointJVP-RigorousDerivation.tex.txt** (NEW) filed 2026-04-22. Supersedes v0.1 \\textsc{Status} field per Math68 v0.1 Cor. `math68-math66-label`: promotes implementation spec from \\textsc{SKELETON-EXECUTABLE} to \\textsc{RIGOROUS-EXECUTABLE} by closing Blocker B2 at the structural level. Seven-section note: - **§1 Function-space setup** — $\\mathcal{H} = \\ell^2(\\mathbb{Z}_N^3;\\mathbb{C}^3)$ with Euclidean inner product (real Hilbert structure); residual decomposition Eq. `math66v02-residual-decomp` into 6 terms matching `real_backend_pt_bcc_mixed_v3.py` lines 490–495; block structure $\\mathcal{J} = \\mathcal{J}_{\\mathrm{H}} + \\mathcal{J}_{\\mathrm{cII}}$ (Eq. `math66v02-J-block`). - **§2 Wirtinger adjoint recipe** (Prop. `math66v02-wirtinger-adjoint`, Cor. `math66v02-recipe-block-diag`) — $\\mathcal{J}^\\dagger v = 2\\partial L_v/\\partial\\bar\\Psi$ with $L_v(\\Psi) = \\mathrm{Re}\\langle v, F(\\Psi)\\rangle$; critical corollary: B3 (cII mask) is NOT a dependency of B2 resolution. - **§3 Path A — torch-native residual re-plumbing** (Prop. `math66v02-pathA`) — exact six-line replacement block for `PDE/tect_newton_krylov.py:408-424`. Bypasses th"
-        },
-        {
-          date: "2026-04-22",
-          title: "[Math68 Addendum A §A.4 — user-verified post-repair pytest signature 1F / 3P / 1S; B5 + B1 cleared, B2 isolated as sole non-PASS cause; `\\w` SyntaxWarnings silenced]",
-          body: "- No new theory; empirical confirmation of the prediction in `TECT-Math68-Addendum-A-B5-B1-sandbox-repair.tex.txt` Eq. `math68-addA-pytest-post-B5`. Actual signature **1 FAIL / 3 PASS / 1 SKIP** is strictly stronger than the conservative prediction **1F / 2P / 2S**: `test_minres_fallback_indefinite` promotes from SKIP to PASS because HessianOperator instantiation with `use_symmetrised_cII=True` does not exercise the adjoint JVP path until `matvec` is invoked."
         }
       ]
     },

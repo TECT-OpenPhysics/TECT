@@ -3,7 +3,7 @@
 /* Loaded by toe.html so the TOE page always shows live Status data.    */
 window.TECT_STATUS_TIERS = {
   "schema": "tect-status-pillar-tiers-v1",
-  "generated": "2026-05-07T12:56:48Z",
+  "generated": "2026-05-07T15:49:31Z",
   "source": "Website/data/status.js (parse of 11-Pillar scoreboard table)",
   "pillars": [
     {
