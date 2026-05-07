@@ -105,6 +105,25 @@
 
 - **Backward-compatibility** (CLAUDE.md §11): the legacy `CHANGELOG.md` continues to be the omnibus change log; `STATUS-HISTORY.md` is the focused subset for tier changes only. The two are reconciled by the snapshot pipeline ([5] commit step).
 
+## 2026-05-07 (evening) — Math352 Status Propagation pipeline + States→Status rename
+
+### Entry 2026-05-07-05 ↺ WORDING — operational tooling closure (no pillar tier change)
+
+**Pillar**: n/a (this is an operational/infrastructure entry; recorded for traceability).
+**Transition**: no canonical tier label moves. The auto-propagation pipeline is now in place; future Stage-1 status changes are mechanically reflected in `status_pillar_tiers.js`, the `EVIDENCE-INDEX.md` zone, and the `paper-impact-report.md` advisory.
+
+**Canonical evidence**:
+- `Docs/math/TECT-Math352-Status-Propagation-and-Tooling-Closure.tex.txt` (full description of the four new tools, two new policies, States→Status rename, snapshot integration, and end-to-end verification report).
+- `Docs/policy/STATUS_PROPAGATION_POLICY.md` (binding policy).
+- `Docs/policy/MATH_NOTE_AND_PAPER_DISCIPLINE.md` (binding policy).
+- `Docs/policy/REPO_RESTRUCTURE_ROADMAP.md` (planning; deferred Phase B/C).
+
+**R-tag**: n/a.
+
+**Rationale**: The recurring failure mode "status change written to FACT-SHEET / STATUS-HISTORY but not propagated to website / papers" cost approximately 30 minutes of manual edit per change and risked stale claims in externally circulated paper drafts. The Phase A pipeline subsumes that overhead into the snapshot run. Future REFUTATION-style audits will automatically flag every paper whose cited Math notes have been refuted, blocking snapshot promotion via `paper_status_impact.py --check` until either revised or `[GRANDFATHER]` flagged. The rename States → Status removes a long-standing naming inconsistency with the rest of the canonical infrastructure (`STATUS-HISTORY.md`, `STATUS_NOMENCLATURE.md`, `status_history_tracker.py`, etc.).
+
+---
+
 ## 2026-05-07 (afternoon) — Math351 Phase 0 closure: Sh raw-ansatz non-comparable
 
 ### Entry 2026-05-07-04 ↺ WORDING — Pillar 1 deep-regime ground state

@@ -1618,7 +1618,7 @@ def render_history_archive_index(pages):
 
 
 # v0.5 (2026-04-27): MANUAL_OVERRIDE marker mechanism. A hand-curated
-# data file (e.g. index.js / theory.js / states.js / toe.js / papers.js
+# data file (e.g. index.js / theory.js / status.js / toe.js / papers.js
 # / site.js after the rev-3..rev-5 website restructure) contains the
 # string "@MANUAL_OVERRIDE" in a comment or docstring. write_or_check
 # detects this marker and skips regeneration with a [skipped] message,

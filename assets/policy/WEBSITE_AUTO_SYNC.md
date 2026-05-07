@@ -12,7 +12,7 @@ This document defines which website data files are auto-generated from canonical
 |---|---|---|---|---|
 | Overview | `data/index.js` | hand-curated | `@MANUAL_OVERRIDE` | manual edit + latest-status banner card |
 | Theory | `data/theory.js` | `_narrative/theory_*.md` + scorecard | `@MANUAL_OVERRIDE` (rendered via NARRATIVE_MAP) | manual narrative edit |
-| States | `data/states.js` | hand-curated | `@MANUAL_OVERRIDE` | manual edit + latest-status banner |
+| Status | `data/status.js` | hand-curated | `@MANUAL_OVERRIDE` | manual edit + latest-status banner |
 | Papers | `data/papers.js` | hand-curated | `@MANUAL_OVERRIDE` | manual edit + admission rule |
 | TOE | `data/toe.js` | hand-curated | `@MANUAL_OVERRIDE` | manual edit + latest-status banner |
 | Notes | `data/math-notes.js` | `Docs/math/TECT-Math*.tex.txt` | **AUTO** | `python Codes/tools/generate_website.py --math-notes` |

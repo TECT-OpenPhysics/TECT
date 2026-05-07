@@ -67,6 +67,25 @@ AUTO_SENTINEL_YAML = (
     "# Regenerate via: python -u Codes/tools/github_sync_curate.py\n\n"
 )
 
+# Mirror policy descriptor: Codes/config/mirror.json. Read at curate time;
+# operator-curated exclusions in `exclude_from_mirror.active_v1_0` are
+# pruned from Github/. Defaults to empty list -> current behaviour preserved.
+MIRROR_CONFIG = REPO_ROOT / "Codes" / "config" / "mirror.json"
+
+
+def _load_mirror_excludes() -> list[str]:
+    """Read Codes/config/mirror.json and return the active exclude list.
+    Returns empty list if the file is absent / malformed (fail-safe)."""
+    if not MIRROR_CONFIG.exists():
+        return []
+    try:
+        cfg = json.loads(MIRROR_CONFIG.read_text(encoding="utf-8"))
+        excl = cfg.get("exclude_from_mirror", {}).get("active_v1_0", [])
+        return [str(x) for x in excl if isinstance(x, str)]
+    except (OSError, json.JSONDecodeError):
+        return []
+
+
 # ---------------------------------------------------------------------
 # Section A. Stats & low-level filesystem helpers
 # ---------------------------------------------------------------------
@@ -218,7 +237,7 @@ def _parse_scorecard_summary() -> str:
 
 def _render_cross_framework_comparison_md() -> str:
     """The compact cross-framework comparison table (mirrored from
-    `Website/data/states.js` "Side-by-side comparison vs other frameworks
+    `Website/data/status.js` "Side-by-side comparison vs other frameworks
     (compact)" card) in GitHub-flavoured Markdown.
 
     Rendered as a single Markdown table with bold-tagged status verdicts
@@ -318,7 +337,7 @@ def _render_cross_framework_comparison_md() -> str:
         "3 closure path and an open quantum-consistency closure path. The "
         "live, interactive version of this comparison (with per-cell tooltips "
         "and the live cross-framework narrative) is at "
-        "[states.html](states.html) on the published site.\n\n"
+        "[status.html](status.html) on the published site.\n\n"
     )
     return out
 
@@ -541,7 +560,7 @@ def render_readme() -> str:
     # ---- Section 6: navigation ----
     out += "## How to navigate this repository\n\n"
     out += "- `index.html` — landing page (also navigable: `theory.html`, "
-    out += "`states.html`, `papers.html`, `toe.html`, `results.html`, "
+    out += "`status.html`, `papers.html`, `toe.html`, `results.html`, "
     out += "`history.html`, `records.html`, `math-notes.html`, `code.html`).\n"
     out += "- `data/` — the live JavaScript data layer that the pages render.\n"
     out += "- `assets/` — math notes (`assets/math/TECT-Math*.tex.txt`), code "
@@ -721,7 +740,7 @@ def render_navigation() -> str:
     out += "| Page | Source | Purpose |\n|---|---|---|\n"
     out += "| `index.html` | `data/index.js` | Landing + executive summary |\n"
     out += "| `theory.html` | `data/theory.js` | Theory overview, axioms, stage hierarchy |\n"
-    out += "| `states.html` | `data/states.js` | TECT-Status-Tier (T0–T7) per-pillar scorecard |\n"
+    out += "| `status.html` | `data/status.js` | TECT-Status-Tier (T0–T7) per-pillar scorecard |\n"
     out += "| `papers.html` | `data/papers.js` | Manuscript / paper drafts |\n"
     out += "| `toe.html` | `data/toe.js` | TOE candidate cross-framework comparison |\n"
     out += "| `results.html` | `data/results.js` | Numerical results inventory + Honest-status table |\n"
@@ -824,6 +843,22 @@ def prune_stale_files(stats: CurateStats, *, dry_run: bool) -> None:
     if not TARGET.exists():
         return
 
+    # v1.1 (2026-05-07): operator-curated exclusions from mirror.json.
+    # Files here are explicitly removed from Github/ on every curate, even
+    # if they exist in Website/. Empty list = current (pre-v1.1) behaviour.
+    mirror_excludes = set(_load_mirror_excludes())
+    if mirror_excludes:
+        # Translate "Website/assets/policy/X.md" to the Github-relative
+        # path "assets/policy/X.md" (curate strips the "Website/" prefix
+        # when copying — see copy_website_tree).
+        translated = set()
+        for src_path in mirror_excludes:
+            if src_path.startswith("Website/"):
+                translated.add(src_path[len("Website/"):])
+            else:
+                translated.add(src_path)
+        mirror_excludes = translated
+
     # Build the set of expected target paths.
     expected: set[str] = set()
     # 1) Auto-generated top-level files
@@ -843,10 +878,11 @@ def prune_stale_files(stats: CurateStats, *, dry_run: bool) -> None:
                 for fp in _walk_files(src):
                     expected.add(fp.relative_to(WEBSITE).as_posix())
 
-    # Walk Github/ and remove anything not in `expected`.
+    # Walk Github/ and remove anything not in `expected` OR matching the
+    # operator-curated exclude list (v1.1).
     for fp in _walk_files(TARGET):
         rel = fp.relative_to(TARGET).as_posix()
-        if rel not in expected:
+        if rel not in expected or rel in mirror_excludes:
             stats.removed.append(rel)
             if not dry_run:
                 try:

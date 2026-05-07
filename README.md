@@ -50,7 +50,7 @@ Compact comparison of TECT against three reference frameworks: the **Standard Mo
 | Falsifiable predictions | **3 pre-registered + Kibble–Zurek GW (Math172)** | **Many** | **Few** — energies inaccessible | **Few** — kinematic mostly |
 | Empirical agreement (current) | **Partial** — classical sector agrees; cosmology rescoped to Kibble–Zurek with PROVISIONAL GW prediction | **Excellent** within scope | **Untested** | **Untested** |
 
-*Reading the table*: TECT's distinguishing claim is **axiom-level parameter compression** -- fewer foundational inputs than the listed alternatives -- purchased at the cost of an active Pillar-4 sub-task 3 closure path and an open quantum-consistency closure path. The live, interactive version of this comparison (with per-cell tooltips and the live cross-framework narrative) is at [states.html](states.html) on the published site.
+*Reading the table*: TECT's distinguishing claim is **axiom-level parameter compression** -- fewer foundational inputs than the listed alternatives -- purchased at the cost of an active Pillar-4 sub-task 3 closure path and an open quantum-consistency closure path. The live, interactive version of this comparison (with per-cell tooltips and the live cross-framework narrative) is at [status.html](status.html) on the published site.
 
 Detailed per-pillar status: [docs/KEY_RESULTS.md](docs/KEY_RESULTS.md). The interactive site is published at [tect.kr](https://tect.kr); the GitHub mirror is browsable from the repository root by opening `index.html` directly.
 
@@ -73,7 +73,7 @@ The 11 emergence pillars and the $S_1 \wedge S_2 \wedge S_3$ qualification predi
 
 ## How to navigate this repository
 
-- `index.html` — landing page (also navigable: `theory.html`, `states.html`, `papers.html`, `toe.html`, `results.html`, `history.html`, `records.html`, `math-notes.html`, `code.html`).
+- `index.html` — landing page (also navigable: `theory.html`, `status.html`, `papers.html`, `toe.html`, `results.html`, `history.html`, `records.html`, `math-notes.html`, `code.html`).
 - `data/` — the live JavaScript data layer that the pages render.
 - `assets/` — math notes (`assets/math/TECT-Math*.tex.txt`), code mirror (`assets/code/`), policy snapshots, asset manifest.
 - `docs/` — curated standalone documents: KEY_RESULTS, NAVIGATION, POLICIES_INDEX.

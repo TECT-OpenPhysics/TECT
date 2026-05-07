@@ -47,15 +47,11 @@ for alpha in range(3):
     _, sa, _ = np.linalg.svd(A[:, mask], full_matrices=False)
     print(f'F{alpha}: rank={np.sum(sa > 1e-6*sa[0])}, s={np.round(sa, 6)}')
 
-
-_____________________
-
-PS C:\Dev\TECT2\Contents\PDE> python .\rank2_check.py
-shape: (3, 64, 64, 64)
-max|psi|: 0.5542384261235356
-Global SVD s = [3.14930e-01 2.98304e-01 7.00000e-06]
-Global rank  = 3
-F0: rank=3, s=[2.32692e-01 1.59302e-01 3.00000e-06]
-F1: rank=3, s=[1.90466e-01 1.13786e-01 2.00000e-06]
-F2: rank=3, s=[2.31566e-01 7.61290e-02 4.00000e-06]
-
+# Historical output (run on 2026-04-30, preserved here as context):
+#   shape: (3, 64, 64, 64)
+#   max|psi|: 0.5542384261235356
+#   Global SVD s = [3.14930e-01 2.98304e-01 7.00000e-06]
+#   Global rank  = 3
+#   F0: rank=3, s=[2.32692e-01 1.59302e-01 3.00000e-06]
+#   F1: rank=3, s=[1.90466e-01 1.13786e-01 2.00000e-06]
+#   F2: rank=3, s=[2.31566e-01 7.61290e-02 4.00000e-06]

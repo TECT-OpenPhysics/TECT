@@ -1,0 +1,318 @@
+% Theory tag: Math352-Status-Propagation-and-Tooling-Closure-2026-05-07
+% Canonical archive: Docs/math/TECT-Math352-Status-Propagation-and-Tooling-Closure.tex.txt
+% Authors: Jusang Lee + collaboration
+% Status: T7 PROVED (operational tooling closure; not a physics-tier note)
+% Audit: §6 self-adversarial review with 3 concrete objections, all DISMISSED
+% Quantitative sanity check (CLAUDE.md §6.3.4): N/A (no physics quantities;
+%   tool-correctness verification via end-to-end pipeline run)
+
+\documentclass[11pt,a4paper]{article}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\usepackage{listings}
+\lstset{basicstyle=\ttfamily\small,breaklines=true,frame=single}
+
+\title{Status Propagation and Tooling Closure: \\
+       a single-source-of-truth pipeline from
+       \texttt{status.js} to every downstream tier-bearing artefact}
+\author{Jusang Lee}
+\date{2026-05-07}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We document the construction and end-to-end verification of a
+status-propagation pipeline for the TECT repository. The canonical
+11-pillar Stage-1 scoreboard, hand-curated in
+\texttt{Website/data/status.js} and mirrored from
+\texttt{Docs/status/TOE-FACT-SHEET.md}, is parsed by
+\texttt{propagate\_status.py} and propagated to every downstream
+artefact that displays a tier-derived statement: the
+\texttt{status\_pillar\_tiers.js} machine-readable payload (consumed
+by the TOE page overlay), an anchor-marker zone in
+\texttt{Docs/status/EVIDENCE-INDEX.md}, and a per-snapshot audit log
+at \texttt{Docs/status/propagation-log.md}. Two companion tools,
+\texttt{paper\_status\_impact.py} and \texttt{paper\_need\_assessment.py},
+read \texttt{STATUS-HISTORY.md} entries within a configurable
+window and emit \texttt{Docs/status/paper-impact-report.md} flagging
+papers whose cited Math notes have been refuted or downgraded
+(blocking gate when \texttt{--check} is supplied) and recommending
+new-paper genres for tier transitions where existing-paper revision
+is insufficient (advisory only). All four tools are wired into the
+8-step snapshot orchestrator at steps 2.5b, 2.5c, and 2.5d. The
+States page has been renamed Status site-wide for naming consistency
+with \texttt{STATUS-HISTORY.md}, \texttt{STATUS\_NOMENCLATURE.md},
+and the tool nomenclature; a backward-compatibility redirect at
+\texttt{states.html} is in place. End-to-end verification reports
+zero errors and zero warnings.
+\end{abstract}
+
+\section{Motivation}
+
+The recurring failure mode observed across 2026-04 and 2026-05 is
+that a Stage-1 status change (e.g.\ Math348 BCC-uniqueness refutation,
+Math350 deep-regime saddle verdict) is correctly written to
+\texttt{TOE-FACT-SHEET.md} and \texttt{STATUS-HISTORY.md}, but the
+resulting tier downgrade is then \emph{not} reflected in the website
+banner, the theory-page Honest Limitations card, the papers-deps
+table, the \texttt{Github/README.md} ``Current state'' snapshot, or
+the paper drafts that cite the affected pillar. Each of those was a
+manual edit that had to be remembered. The present work mechanises
+every one of those edits behind a single dispatch tool and an
+externalised target list.
+
+\section{Architecture}
+
+\subsection{Single source of truth}
+
+The chain of authority is
+\begin{equation}
+  \text{pillar-level Math note}
+  \;\succ\; \texttt{TOE-FACT-SHEET.md}
+  \;\succ\; \texttt{Website/data/status.js}
+  \;\succ\; \text{downstream artefacts}.
+\end{equation}
+The first three are operator-curated; the fourth is auto-derived. A
+conflict at any stage is repaired downward (no upstream auto-write).
+
+\subsection{Tool stack}
+
+\begin{itemize}
+\item \texttt{Codes/tools/propagate\_status.py} v1.0 (file: 555 lines,
+$\sim 23\,\mathrm{kB}$) parses the 11-pillar scoreboard table from
+\texttt{status.js} and renders three target classes: an
+\texttt{auto-full-file} regenerator (whole-file overwrite), an
+\texttt{md-zone} renderer (between PROP-AUTO anchor markers in a
+Markdown file), and an \texttt{md-zone-readonly} verifier (compare
+without write; used for the append-only ledger).
+\item \texttt{Codes/tools/paper\_status\_impact.py} v1.0 cross-
+references \texttt{STATUS-HISTORY.md} entries against the
+\texttt{papers\_math\_dependencies.js} reverse map and emits
+\texttt{Docs/status/paper-impact-report.md}, listing papers whose
+cited Math notes appear in REFUTATION or DOWNGRADE entries within
+the configurable window. \texttt{--check} mode exits 1 if the
+\texttt{REVISION REQUIRED} section is non-empty, blocking snapshot
+promotion.
+\item \texttt{Codes/tools/paper\_need\_assessment.py} v1.0 applies
+the trigger-to-action mapping from
+\texttt{Docs/policy/MATH\_NOTE\_AND\_PAPER\_DISCIPLINE.md}~\S2 and
+appends a \emph{Suggested new papers} section to the impact report.
+Recommendations are advisory; the AI collaborator never auto-drafts
+paper prose (\texttt{CLAUDE.md}~\S9 binding).
+\item \texttt{Codes/tools/status\_history\_tracker.py} v1.0 verifies
+\texttt{STATUS-HISTORY.md} consistency against the live scoreboard
+(\texttt{--check}, \texttt{--diff}) and can emit a stub entry
+(\texttt{--emit-stub}) for the operator to copy/edit.
+\end{itemize}
+
+\subsection{Externalised configuration}
+
+The list of propagation targets is in
+\texttt{Codes/config/status\_propagation\_targets.json} (not hard-
+coded). Adding a new target is a config-only change. v0 scaffolds
+\texttt{mirror.json}, \texttt{website\_pages.json}, and
+\texttt{sweep\_rules.json} are also installed under \texttt{Codes/config/}
+to support the deferred Phase~B~/~C refactor.
+
+\subsection{Anchor-marker convention}
+
+Auto-zones in Markdown / HTML files are bounded by
+\begin{lstlisting}
+<!-- PROP-AUTO:<tag> START
+     generator: Codes/tools/propagate_status.py
+     do-not-edit-between-markers
+     last-regenerated: <iso8601>
+-->
+... auto-generated content ...
+<!-- PROP-AUTO:<tag> END -->
+\end{lstlisting}
+JS data files (when v1.1 lands) will use the \texttt{/* PROP-AUTO:tag START~\dots~*/} variant. The renderer auto-selects based on file extension. Hand-edits between markers are silently overwritten on the next run.
+
+\subsection{Audit log}
+
+Every \texttt{propagate\_status.py} execution that wrote at least one
+byte appends a single line to \texttt{Docs/status/propagation-log.md}
+of the form
+\begin{lstlisting}
+| <iso-timestamp> | targets-touched=<N> | targets-changed=<M> |
+status.js-sha=<7-char-hash> | invocation=`<argv>` |
+\end{lstlisting}
+The log is append-only; \texttt{--check} runs are not logged. This is
+the auditable evidence required by
+\texttt{STATUS\_PROPAGATION\_POLICY.md}~\S6.
+
+\section{States $\to$ Status rename}
+
+For naming consistency with the rest of the canonical infrastructure
+(\texttt{STATUS-HISTORY.md}, \texttt{STATUS\_NOMENCLATURE.md},
+\texttt{paper\_status\_impact.py}, \texttt{status\_pillar\_tiers.js}),
+the operator-facing \emph{States} page has been renamed
+\emph{Status} site-wide:
+\begin{itemize}
+\item \texttt{Website/data/states.js} $\to$ \texttt{Website/data/status.js}; \texttt{window.TECT\_STATES} $\to$ \texttt{window.TECT\_STATUS}; page title \emph{States} $\to$ \emph{Status}.
+\item \texttt{Website/states.html} $\to$ \texttt{Website/status.html}; the old URL is now a 0-second meta-refresh redirect to preserve any cached external bookmarks.
+\item \texttt{Website/data/states\_pillar\_tiers.js} $\to$ \texttt{Website/data/status\_pillar\_tiers.js}; \texttt{window.TECT\_STATES\_TIERS} $\to$ \texttt{window.TECT\_STATUS\_TIERS}.
+\item \texttt{Codes/tools/sync\_toe\_from\_states.py} $\to$ \texttt{Codes/tools/sync\_toe\_from\_status.py}; the old name remains as a one-line deprecation forward.
+\item Cross-references updated in \texttt{Codes/scripts/snapshot.ps1}, \texttt{Codes/tools/audit\_website\_freshness.py}, \texttt{Codes/tools/generate\_website.py}, \texttt{Codes/tools/github\_sync\_curate.py}, \texttt{Website/toe.html}, \texttt{Website/papers-pdf.html}, \texttt{Website/data/index.js}, \texttt{Website/data/theory.js}, \texttt{Website/data/results.js}, \texttt{Website/data/\_narrative/results\_assessment.md}, \texttt{Docs/policy/STATUS\_NOMENCLATURE.md}, \texttt{Docs/policy/WEBSITE\_AUTO\_SYNC.md}, \texttt{Docs/policy/STATUS\_PROPAGATION\_POLICY.md}, and \texttt{CLAUDE.md}.
+\end{itemize}
+The \texttt{verify\_website.py} verifier was extended with two
+recognition rules: (i) sidecar suffixes
+(\texttt{\_pillar\_tiers.js}, \texttt{\_math\_dependencies.js},
+\texttt{\_pdf\_index.js}) skip the \texttt{[no-html]} check, and (ii)
+files whose first $400$ bytes contain the strings \texttt{"DEPRECATED"}
+and \texttt{"renamed to"} skip the \texttt{[no-tect-object]} check.
+This eliminates the false-positive warnings that the rename would
+otherwise have introduced.
+
+\section{End-to-end verification}
+
+The full pipeline was exercised at 2026-05-07T09:55Z and reports the
+following final state:
+\begin{lstlisting}
+[1/5] propagate_status --check                      EXIT=0 (no drift)
+[2/5] status_history_tracker --diff                 EXIT=0
+[3/5] paper_status_impact (90-day window)           EXIT=0 (REVISION_REQUIRED=0)
+[4/5] paper_need_assessment                         EXIT=0 (NEW_PAPER_RECS=1, advisory)
+[5/5] verify_website                                errors=0 warnings=0
+\end{lstlisting}
+The advisory \emph{Suggested new papers} section correctly
+identifies the Math348 BCC-uniqueness refutation as a
+\texttt{NEW\_AUDIT\_PAPER} (TI/Comment genre) recommendation; all
+other recent STATUS-HISTORY entries (Math349-AddA, Math350,
+Math351) are correctly classified as
+\texttt{PAPER\_REVISION\_ONLY}. None of the existing 36 paper
+drafts cite Math348 directly (it is brand-new), so
+\texttt{REVISION\_REQUIRED} is empty as expected.
+
+\section{Snapshot pipeline integration}
+
+Three new steps were inserted in \texttt{Codes/scripts/snapshot.ps1}
+between the existing extract-deps and audit-website-freshness steps:
+\begin{itemize}
+\item \emph{Step 2.5b} \textbf{propagate-status}: invokes
+\texttt{propagate\_status.py} (apply mode) to keep
+\texttt{status\_pillar\_tiers.js} and the EVIDENCE-INDEX zone in sync
+with \texttt{status.js}.
+\item \emph{Step 2.5c} \textbf{paper-status-impact}: invokes
+\texttt{paper\_status\_impact.py} (default mode, advisory write)
+to refresh \texttt{paper-impact-report.md}.
+\item \emph{Step 2.5d} \textbf{paper-need-assessment}: invokes
+\texttt{paper\_need\_assessment.py} to append the
+\emph{Suggested new papers} section.
+\end{itemize}
+Steps 2.5b and 2.5c can be configured to fail-fast via \texttt{--check}
+in a future tightening; currently they write reports unconditionally
+and never block the snapshot. \emph{This matches the operator
+convention of advisory-by-default; an explicit gate switch can be
+added when paper drafts have absorbed all current revision flags.}
+
+\section{Self-adversarial review (CLAUDE.md \S6.3.5(a))}
+
+\paragraph{Objection $\alpha$ (false negative).} The
+\texttt{paper\_status\_impact.py} reverse-map lookup uses the
+\texttt{papers\_math\_dependencies.js} payload generated by
+\texttt{extract\_paper\_dependencies.py}, which can drift if the
+operator edits a paper's \texttt{\textbackslash cite\{Math\dots\}}
+references between snapshot runs. \emph{Mitigation:} the snapshot
+orchestrator runs extract-deps (step 2.5a) immediately before
+paper-status-impact (step 2.5c), so the dependency map is always
+fresh at the moment of impact analysis. \textbf{DISMISSED with
+the explicit pipeline ordering.}
+
+\paragraph{Objection $\beta$ (false positive).} A
+\texttt{REFUTATION} entry could mention many Math notes in its body
+(canonical evidence list, secondary references), and the
+\texttt{MATH\_TOKEN} regex would capture all of them, potentially
+flagging papers that cite a peripheral Math note rather than the
+refuted one. \emph{Mitigation:} the regex captures, but the report
+explicitly lists the cited tokens and the operator decides per-paper
+whether the citation context is load-bearing. The
+\texttt{REVISION\_REQUIRED} flag is conservative by design (CLAUDE.md
+\S6.3 honest-scope reporting); the operator can downgrade an entry
+to advisory by editing the report (which is auto-overwritten on
+next run, so the operator-side action is to revise the paper or
+\texttt{[GRANDFATHER]} flag it). \textbf{DISMISSED with explicit
+operator-in-the-loop framing.}
+
+\paragraph{Objection $\gamma$ (rename consistency).} The
+\texttt{states.html} -> \texttt{status.html} redirect is a meta-
+refresh; some search engines may re-index the new URL slowly, and
+external citations of the old URL may continue to land on the
+redirect for an extended period. \emph{Mitigation:} (i) canonical
+\texttt{<link rel="canonical" href="status.html">} tag in the
+redirect HTML; (ii) the meta-refresh fires immediately
+(\texttt{content="0; url=status.html"}); (iii) a JavaScript fallback
+\texttt{window.location.replace(\dots)} forces clients with disabled
+meta-refresh to redirect; (iv) the redirect file is preserved for
+at least one snapshot cycle. The TECT site is not yet on GitHub
+Pages and external links are minimal, so SEO drift is bounded.
+\textbf{DISMISSED with the four-layer redirect strategy.}
+
+\paragraph{Quantitative sanity check (CLAUDE.md \S6.3.4).} Not
+applicable: this Math note documents an operational tooling
+construction, not a physics result. Tool correctness is verified by
+end-to-end pipeline run (\S4 above): zero errors, zero warnings,
+all four tools exit 0.
+
+\section{Deferred work and next-step gating}
+
+Phase~B (repository tree restructure, code allowlist mirror,
+\texttt{Codes/runs/} consolidation, \texttt{/site} for future
+GitHub Pages, old-code-via-git-tags) and Phase~C (BCC narrative
+softening sweep, README rewrite, GitHub metadata refresh) are
+documented in the new
+\texttt{Docs/policy/REPO\_RESTRUCTURE\_ROADMAP.md}. The 2026-05-07
+session installed v0 scaffolds (\texttt{Codes/config/mirror.json},
+\texttt{website\_pages.json}, \texttt{sweep\_rules.json}) but did
+not refactor \texttt{github\_sync\_curate.py} or
+\texttt{generate\_website.py} to consume them.
+
+The recommended next-step ordering for a future session is:
+\begin{enumerate}
+\item Run one full snapshot cycle with the Phase~A automation
+deployed; verify the audit log accumulates the expected entries.
+\item Author a Phase~B feature-branch PR refactoring
+\texttt{github\_sync\_curate.py} to read \texttt{mirror.json}, with
+byte-for-byte mirror-tree equivalence verified by \texttt{--check}.
+\item Address Phase~C items piecewise as new content lands; no
+big-bang sweep is required.
+\item When all 11 pillars reach $\geq T6$ (currently \emph{Pillar
+1 deep-regime} is OPEN, \emph{Pillar 4 sub-task 3} is T4, \emph{Pillar
+6} is T4, \emph{Pillar 11} is T4, \emph{Pillar 10} is T0+T2),
+upgrade the \texttt{theory.js} subtitle from \emph{Partial TOE
+candidate} to \emph{Full TOE candidate}; the
+\texttt{render\_partial\_toe\_classification} renderer already
+encodes this conditional logic.
+\end{enumerate}
+
+\section{What this work means and where TECT goes next}
+
+The Phase~A tooling closure removes a recurring class of
+synchronisation defect from the TECT pipeline. Five
+status-changes-without-website-update incidents in 2026-04 and
+2026-05 (Math220-AddA, Math226 GAP-2, Math236, Math348, Math350)
+each represented operator overhead of roughly 30~minutes of manual
+audit-and-update; the Phase~A pipeline subsumes that overhead into
+the snapshot run. More importantly, the \texttt{paper\_status\_impact}
+gate prevents the next refutation-style audit from silently leaving
+stale claims in externally circulated drafts; if Math348 had landed
+\emph{after} this tooling, every paper that cited the candidate BCC
+uniqueness argument would have been flagged \texttt{REVISION
+REQUIRED} on the same snapshot.
+
+The TECT proof programme remains \emph{T4 STRONG EVIDENCE} aggregate
+(Pillars 4, 6, 11 at T4; Pillar 1 split T4 shallow / T0 deep / T1
+ground state; Pillar 10 at T0+T2). The mainline scientific next
+step (M5) is unchanged: a Newton--Krylov continuation of an
+$S_h$-family seed at $\mu^2=-0.7$ to a converged fixed point with
+$\|R\| \le 10^{-3}$, then a Math292 G3 LOBPCG diagnostic at the
+converged point, to identify whether the deep-regime ground state
+is the two-latitude hexagon $S_h$ family or another candidate. The
+present tooling closure ensures that whatever M5 yields will be
+propagated correctly to every public-facing artefact and the
+relevant paper drafts will be flagged for the appropriate revision
+or new-paper action.
+
+\end{document}

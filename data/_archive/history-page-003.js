@@ -1,4 +1,4 @@
-// AUTO-GENERATED v0.3 page 3/8 — 2026-05-07 08:31 UTC
+// AUTO-GENERATED v0.3 page 3/8 — 2026-05-07 12:56 UTC
 window.TECT_HISTORY_PAGE_003 = {
   title: "History (page 3 of 8)",
   subtitle: "Chronological CHANGELOG mirror — auto-generated.",
@@ -7,6 +7,11 @@ window.TECT_HISTORY_PAGE_003 = {
   blocks: [
     { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history-page-002.html\">&larr; Newer</a> &middot; Page 3 / 8 &middot; <a href=\"history-archive-index.html\">archive index</a> &middot; <a href=\"history-page-004.html\">Older &rarr;</a></div>" },
     { type: "timeline", items: [
+        {
+          date: "2026-04-29",
+          title: "[results.js v0.8 (download links + Honest-status table) + Codebase Older-versions page (code-old.html / code-old.js) + per-run files + assets refresh]",
+          body: "- **`Website/data/_narrative/results_assessment.md` rewritten as a 10-row markdown table** — replaces previous nested-paragraph nararative. Each row: Pillar/scope, Quantity, Numerical value, Status (TECT-Status-Tier T0–T7), Source Math note, Date. Covers Pillar 1 ($m^{*2}$), Pillar 11 ($\\Lambda$ 4-sector), Pillar 6 ($M_{\\rm GUT}$), Pillar 10 R5 (refuted), Pillar 10 aggregate (T0+T2), Math82-H phase 2 (NO_CONVERGENCE), Math222 skeleton (T7), Lemma A, Lemma B, Phase Z deep-endpoint. - **`Website/assets/runs/<run_id>/`**: per-run files copied (MANIFEST.md, RESULT.md, run_diagnostics.json, Psi_final.npy, Psi_checkpoint.npy as available). Total 9 runs / 20 files / ~9 MB. New post-2026-04-29 runs will auto-add files via the pattern. - **`generate_website.py` v0.7 → v0.8**: `render_results_js` per-run card now includes a `Downloads:` line with one `<a download>` link per available file (MANIFEST.md, RESULT.md, run_diagnostics.json, Psi_final.npy, Psi_checkpoint.npy). Links resolve to `Website/assets/runs/<run_id>/<file>`. - **`render_code_old_js()` (NEW v0.8)**: scans `Codes/` recursively for `*.old.v*` backup pattern; copies each backup to `Website/assets/code-old/<original-relpath>`; "
+        },
         {
           date: "2026-04-29",
           title: "[results.js v0.7 (CLI commands + reflow) + assets refresh + CODE_BACKUP_POLICY.md NEW + backup_code.sh helper + retroactive v2.6.6 backup]",
@@ -151,11 +156,6 @@ window.TECT_HISTORY_PAGE_003 = {
           date: "2026-04-28",
           title: "[Math198 + Math199 — TOE-Completeness Gap Audit + Math60-A 55-Pair Bulk Closure]",
           body: "**Trigger**: User mandate to audit the proof state against $S_1\\wedge S_2\\wedge S_3$ + 6-Stage TOE roadmap and add genuinely-missing theorem-level deliverables, without padding (applications phase to follow)."
-        },
-        {
-          date: "2026-04-27",
-          title: "[Math195 — A2 Axiom Reducibility Analysis: Rigorous Reduction to Boundary Condition]",
-          body: "**Task**: Q-2026-04-27-A2-axiom-reducibility (Task #146, NEW). Discharge user's epistemological mandate: Is axiom A2 (ultra-high-energy isotropic initial state) derivable from A0+A1 alone, or is it irreducible?"
         }
       ]
     },

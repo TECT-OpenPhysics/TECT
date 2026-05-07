@@ -1,4 +1,4 @@
-// AUTO-GENERATED v0.3 page 6/8 — 2026-05-07 08:31 UTC
+// AUTO-GENERATED v0.3 page 6/8 — 2026-05-07 12:56 UTC
 window.TECT_HISTORY_PAGE_006 = {
   title: "History (page 6 of 8)",
   subtitle: "Chronological CHANGELOG mirror — auto-generated.",
@@ -7,6 +7,11 @@ window.TECT_HISTORY_PAGE_006 = {
   blocks: [
     { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history-page-005.html\">&larr; Newer</a> &middot; Page 6 / 8 &middot; <a href=\"history-archive-index.html\">archive index</a> &middot; <a href=\"history-page-007.html\">Older &rarr;</a></div>" },
     { type: "timeline", items: [
+        {
+          date: "2026-04-24",
+          title: "[Math86 — Next 5-turn priority plan (Turn 6–10 triple-track structure + Stage-2/3 sequencing + consolidation strategy)]",
+          body: "Turn 5 Track C autonomous research: TECT has reached a critical junction. 8 of 11 Stage-1 pillars are at least PARTIAL; Stage-2-E (falsifiability package) is sealed. The next 5-turn session (Turns 6–10) is explicitly planned and sequenced to target Stage-2 global closure (especially B, D, E sub-theorems) and Stage-3 external falsifiability (F1 gauge-coupling ratio). Math86 specifies the exact turn-by-turn roadmap with explicit parallel triple-track execution (Track A: Pillar 1 numerics; Track B: Pillars 4+6 RGE; Track C: Stage-2 theory) and mandatory consolidation turn (Turn 8)."
+        },
         {
           date: "2026-04-24",
           title: "[Math81 — Stage-1 11-pillar scorecard recomputation post-Turn-4 (Pillar 10: OPEN-NEGATIVE REFINED → CLOSED-AS-NO-GO; Pillar 11: NOT ADDRESSED → PROVED CONDITIONAL; net PROVED count: 4 unconditional + ",
@@ -151,11 +156,6 @@ window.TECT_HISTORY_PAGE_006 = {
           date: "2026-04-24",
           title: "[Math80 — Round 10 Pillar 6 Q6a closure-strategy framework; website data sync to canonical state]",
           body: "`Docs/math/TECT-Math80-Pillar6-Q6a-10-defect-moduli-strategy-framework.tex.txt` (NEW). First sub-task of the Round 10 Pillar 6 closure sprint. Addresses the audit-flagged conjectural 10-defect-moduli count in Math77-Q6a-Q6b-closure (the boxed term in the dimension chain $24 + 11 + 10 = 45 = \\dim \\mathrm{SO}(10)$)."
-        },
-        {
-          date: "2026-04-24",
-          title: "[Math79-Addendum-A — Pillar 10 R5 first-iteration extraction: pre-registered FAILURE; OPEN-NEGATIVE REFINED reinforced]",
-          body: "`Docs/math/TECT-Math79-Addendum-A-R5-first-iteration-FAILURE.tex.txt` (NEW). `Codes/supplementary/Math79_R5_chi_star_extraction.py` (NEW). `Codes/supplementary/Math79_R5_chi_star_results.json` (NEW, run output)."
         }
       ]
     },

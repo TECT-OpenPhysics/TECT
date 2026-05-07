@@ -29,7 +29,7 @@ window.TECT_SITE = {
   nav: [
     { id: "index",      label: "Overview", href: "index.html" },
     { id: "theory",     label: "Theory",   href: "theory.html" },
-    { id: "states",     label: "States",   href: "states.html" },
+    { id: "status",     label: "Status",   href: "status.html" },
     { id: "papers",     label: "Papers",   href: "papers.html" },
     { id: "toe",        label: "TOE",      href: "toe.html" },
     { id: "math-notes", label: "Notes",    href: "math-notes.html" },

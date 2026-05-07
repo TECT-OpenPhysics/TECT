@@ -33,7 +33,7 @@ OUT_MD    = REPO_ROOT / "Docs" / "status" / "WEBSITE-FRESHNESS-AUDIT.md"
 KNOWN_AUTO_GENERATORS = {
     "papers_pdf_index.js":         "Codes/tools/publish_papers.py",
     "papers_math_dependencies.js": "Codes/tools/extract_paper_dependencies.py",
-    "states_pillar_tiers.js":      "Codes/tools/sync_toe_from_states.py",
+    "status_pillar_tiers.js":      "Codes/tools/sync_toe_from_status.py",
     "code.js":                     "Codes/tools/generate_website.py",
     "code-old.js":                 "Codes/tools/generate_website.py",
     "history.js":                  "Codes/tools/generate_website.py",
@@ -46,7 +46,7 @@ KNOWN_AUTO_GENERATORS = {
 KNOWN_MANUAL = {
     "index.js":   "Landing-page narrative (hand-curated)",
     "site.js":    "Site chrome / navigation menu (hand-curated)",
-    "states.js":  "Source-of-truth for 11-pillar T-tier scoreboard",
+    "status.js":  "Source-of-truth for 11-pillar T-tier scoreboard",
     "theory.js":  "Theoretical-framework narrative",
     "papers.js":  "Curated proof-archive index (paper-by-paper)",
     "toe.js":     "6-Stage TOE roadmap narrative (overlay auto-synced)",
@@ -144,7 +144,7 @@ def main() -> int:
     lines.append("| Tool | Output | Step |")
     lines.append("|---|---|---|")
     lines.append("| `Codes/tools/generate_website.py` | `code.js`, `code-old.js`, `history.js`, `math-notes.js`, `records.js`, `results.js` | step 2 |")
-    lines.append("| `Codes/tools/sync_toe_from_states.py` | `states_pillar_tiers.js` + `toe.html` overlay | step 2.4 |")
+    lines.append("| `Codes/tools/sync_toe_from_status.py` | `status_pillar_tiers.js` + `toe.html` overlay | step 2.4 |")
     lines.append("| `Codes/tools/extract_paper_dependencies.py` | `papers_math_dependencies.js` + `Docs/status/PAPER-MATH-DEPENDENCIES.md` | step 2.5a |")
     lines.append("| `Codes/tools/publish_papers.py` | `papers_pdf_index.js` + `Github/assets/papers/` | step 2.5b |")
     lines.append("| `Codes/tools/audit_website_freshness.py` (this) | `Docs/status/WEBSITE-FRESHNESS-AUDIT.md` | step 2.6 |")

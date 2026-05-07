@@ -346,7 +346,7 @@ routes (4 Math59 + 3 Math59-v3 + R5-first-iteration). The general
 no-go theorem remains conjectural but is increasingly well-supported
 empirically.
 
-Stage-1 scorecard summary (TECT-Status-Tier, post-2026-04-29 migration): 4 × **T7** (Pillars 5, 7, 8, 9), 2 × **T6** (Pillars 1, 2), 1 × **T5** with $N=1$ (Pillar 3), 3 × **T4** (Pillars 4, 6, 11), 1 × **T0+T2** (Pillar 10: classical no-go T0 + phase-transition origin programme T2). For full scorecard with conditional inputs per pillar, see `Docs/status/TOE-FACT-SHEET.md` (migration pending) and `Website/data/states.js` (already migrated). Pillar 4 is the unique critical blocker: sub-task 2 is **T6 conditional on Lemmas A (Math221-AddC: T6 sign-only / T3 full) + B (Math220-AddB: T3) + E_3' (Math218-AddA: T2)**.
+Stage-1 scorecard summary (TECT-Status-Tier, post-2026-04-29 migration): 4 × **T7** (Pillars 5, 7, 8, 9), 2 × **T6** (Pillars 1, 2), 1 × **T5** with $N=1$ (Pillar 3), 3 × **T4** (Pillars 4, 6, 11), 1 × **T0+T2** (Pillar 10: classical no-go T0 + phase-transition origin programme T2). For full scorecard with conditional inputs per pillar, see `Docs/status/TOE-FACT-SHEET.md` (migration pending) and `Website/data/status.js` (already migrated; renamed from `states.js` 2026-05-07 for naming consistency with `STATUS-HISTORY.md` / `STATUS_NOMENCLATURE.md`). Pillar 4 is the unique critical blocker: sub-task 2 is **T6 conditional on Lemmas A (Math221-AddC: T6 sign-only / T3 full) + B (Math220-AddB: T3) + E_3' (Math218-AddA: T2)**.
 
 ---
 
@@ -387,6 +387,59 @@ notes from autonomous Round 5–9) demonstrated the failure mode this
 discipline prevents.
 
 ---
+
+## 11.5. AI-collaborator file-write discipline (binding from 2026-05-07)
+
+**Trigger**: 2026-05-07 session — repeat truncation defects (snapshot.ps1 line 595, propagate_status.py lines 530/533, verify_website.py line 384, status.js line 29078, plus 6 NUL-padding incidents). Every defect was a partial write left behind by a non-atomic Edit/Write tool invocation that was interrupted mid-stream by a system-reminder or harness flush.
+
+**Root cause**: the Edit and Write tools used by the AI collaborator perform a non-atomic OS-level `write()`. When interrupted, the file is left in a half-written state (truncated tail or trailing NUL padding). The original file is gone; the partial file replaces it. There is no observable "either old-or-new" state.
+
+**Binding rule (post-2026-05-07)**: for ANY non-trivial file operation (file size > ~5 kB, or file involves PowerShell / JSON / multi-page Python), the AI collaborator MUST use atomic-write helpers in `Codes/scripts/safe_write.py` instead of the Edit/Write tools. The helpers:
+
+- write to a temp file in the SAME directory,
+- `fsync` the content,
+- atomically rename via `os.replace()` (POSIX atomic rename + Windows `MoveFileEx`),
+
+so that interrupts cannot leave a half-written file. If the rename fails the original file is unchanged.
+
+**Approved invocation pattern (Bash + Python heredoc)**:
+```bash
+python3 <<'EOF'
+import sys
+sys.path.insert(0, 'Codes/scripts')
+from safe_write import atomic_write, atomic_replace_in_file
+atomic_write(path, content)
+# OR
+atomic_replace_in_file(path, old, new)
+EOF
+```
+
+**Approved CLI invocation**:
+```bash
+python3 Codes/scripts/safe_write.py PATH --replace OLD NEW
+python3 Codes/scripts/safe_write.py PATH < content_via_stdin
+```
+
+**When Edit/Write tools ARE acceptable**:
+- new file < 100 lines, single-shot Write,
+- single-line Edit replacement < 200 chars,
+- followed by `python3 Codes/scripts/safe_write.py --verify PATH` to confirm no truncation.
+
+**Mandatory post-write verification**: every non-trivial write MUST be followed (in the same Bash block) by:
+```
+python3 Codes/scripts/safe_write.py --verify PATH
+```
+which checks for NUL padding + Python/JSON parse error + (TODO) PowerShell brace balance. Exit code 1 means the write is corrupted; the AI collaborator must repair before continuing.
+
+**Snapshot pipeline coverage**: `snapshot.ps1` step 0.5 (`integrity-check`) runs `Codes/tools/check_file_integrity.py --strict` over the whole tree before any commit, so any defect that slipped past the per-write `--verify` is caught before the commit.
+
+**Failure mode if not followed**: a truncated file silently replaces a working file in the canonical tree, then propagates to Github/ via snapshot, then to the public mirror. The 2026-05-07 session demonstrated this happens within seconds of the first interrupted Edit. Without this rule, the integrity-check Step 0.5 is the only line of defence; with this rule, defects are prevented at the source.
+
+**Cross-references**:
+- `Codes/scripts/safe_write.py` — atomic-write helper (this rule's implementation).
+- `Codes/tools/check_file_integrity.py` — pre-commit verifier (Step 0.5 in snapshot.ps1).
+- `Docs/policy/POSTMORTEM_RECURRENCE_POLICY.md` — recurrence-protection policy.
+- `Docs/math/TECT-Math352-Status-Propagation-and-Tooling-Closure.tex.txt` §3 — list of incidents this rule retrofits to prevent.
 
 ## 12. Behaviour summary (one-page contract)
 
@@ -659,9 +712,4 @@ The following session classes do NOT incur snapshot debt:
 - `Docs/status/INDEX.md` — entry-point ledger map
 - `Docs/status/TOE-FACT-SHEET.md` — Stage-1/2/3 scorecard
 - `Docs/status/snapshot-log.md` — append-only snapshot audit log
-- `Docs/manual/CODE_MANUAL.md` — operator-level code reference
-
----
-
-**This file is binding for all AI collaborators. Violations are
-audit-rollback events.**
+- `Docs/manual/CODE_MANUAL.md` — operator-leve

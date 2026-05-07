@@ -1,4 +1,4 @@
-// AUTO-GENERATED v0.3 page 2/8 — 2026-05-07 08:31 UTC
+// AUTO-GENERATED v0.3 page 2/8 — 2026-05-07 12:56 UTC
 window.TECT_HISTORY_PAGE_002 = {
   title: "History (page 2 of 8)",
   subtitle: "Chronological CHANGELOG mirror — auto-generated.",
@@ -7,6 +7,11 @@ window.TECT_HISTORY_PAGE_002 = {
   blocks: [
     { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history.html\">&larr; Newer</a> &middot; Page 2 / 8 &middot; <a href=\"history-archive-index.html\">archive index</a> &middot; <a href=\"history-page-003.html\">Older &rarr;</a></div>" },
     { type: "timeline", items: [
+        {
+          date: "2026-05-01",
+          title: "[Theory] Math291: GAP-1 canonical $\\hbar$ formula reconciliation (errata for Math98 / Math110-AddI / Math261 / Math283)",
+          body: "**Significance**: Turn 61 of 20-turn TECT defence programme (Turns 61–80, Phase 1 Canonical Hygiene). Direct dimensional audit of the GAP-1 archive uncovers **three distinct closed-form expressions** for $\\hbar_{\\rm TECT}$ co-existing in the canonical record: Formula A $=c^5 a_{\\rm BCC}/(16\\pi G)$ (Math110-AddI, Math261, Math283 §3 line 95 / §10), Formula B $=c^3 a_{\\rm BCC}^2/(16\\pi G)$ (Math286 H1.G1), Formula C $=c^3 a_{\\rm BCC}/(16\\pi G)$ (Math283 §3 line 161 misprint). SI dimensional check: $[\\hbar^A]=\\mathrm{W\\cdot m}$ (power × length), $[\\hbar^C]=\\mathrm{kg\\cdot m\\,s^{-1}}$ (momentum), only $[\\hbar^B]=\\mathrm{J\\cdot s}$ (action). **Formula B is the unique dimensionally admissible expression.**"
+        },
         {
           date: "2026-05-01",
           title: "[Theory] Math290 + [Code] Math236-wrapper v2.0: F-Pillar6 first-run audit (wrapper bug triad + trivial-saddle diagnosis)",
@@ -151,11 +156,6 @@ window.TECT_HISTORY_PAGE_002 = {
           date: "2026-04-29",
           title: "[Hotfix — 3 bugs from prior commit: Results page empty (escape bug) + States Critical-path summary removed + Notes assets/math sync (330→397)]",
           body: "`render_results_js v0.8` introduced per-run download links using `dl_links` variable concatenated into outer JS string. The link entries had `href=\\\"...\\\"` (single backslash-quote in Python source → literal `\"...\"` in rendered JS source), but when concatenated into the surrounding `'\"<p>...\" + dl_links + \"...\"<\\p>\"'` JS string, the inner unescaped `\"` characters terminated the JS string early, breaking parse and rendering the entire results.js silent. Fix: pre-escape with triple-backslash-quote in Python source (`'\\\\\\\\\\\\\"'`) so the rendered JS source contains the proper `\\\"` for embedded HTML attributes."
-        },
-        {
-          date: "2026-04-29",
-          title: "[results.js v0.8 (download links + Honest-status table) + Codebase Older-versions page (code-old.html / code-old.js) + per-run files + assets refresh]",
-          body: "- **`Website/data/_narrative/results_assessment.md` rewritten as a 10-row markdown table** — replaces previous nested-paragraph nararative. Each row: Pillar/scope, Quantity, Numerical value, Status (TECT-Status-Tier T0–T7), Source Math note, Date. Covers Pillar 1 ($m^{*2}$), Pillar 11 ($\\Lambda$ 4-sector), Pillar 6 ($M_{\\rm GUT}$), Pillar 10 R5 (refuted), Pillar 10 aggregate (T0+T2), Math82-H phase 2 (NO_CONVERGENCE), Math222 skeleton (T7), Lemma A, Lemma B, Phase Z deep-endpoint. - **`Website/assets/runs/<run_id>/`**: per-run files copied (MANIFEST.md, RESULT.md, run_diagnostics.json, Psi_final.npy, Psi_checkpoint.npy as available). Total 9 runs / 20 files / ~9 MB. New post-2026-04-29 runs will auto-add files via the pattern. - **`generate_website.py` v0.7 → v0.8**: `render_results_js` per-run card now includes a `Downloads:` line with one `<a download>` link per available file (MANIFEST.md, RESULT.md, run_diagnostics.json, Psi_final.npy, Psi_checkpoint.npy). Links resolve to `Website/assets/runs/<run_id>/<file>`. - **`render_code_old_js()` (NEW v0.8)**: scans `Codes/` recursively for `*.old.v*` backup pattern; copies each backup to `Website/assets/code-old/<original-relpath>`; "
         }
       ]
     },

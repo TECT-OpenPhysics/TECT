@@ -12,16 +12,19 @@ TECT operates under a small set of explicit, binding policies documented in the 
 | `GIT_TAG_POLICY.md` | TECT git tag policy |
 | `GITHUB_FIRST_PUSH_RUNBOOK.md` | GitHub-mediated tect.kr deployment — operator runbook |
 | `GITHUB_SYNC_POLICY.md` | GitHub-publish Sync Policy |
+| `MATH_NOTE_AND_PAPER_DISCIPLINE.md` | Math-Note and Paper Discipline |
 | `NUMERICAL_RUN_RECORDING.md` | Numerical-Run Recording Policy |
 | `OUTPUT_LANGUAGE_POLICY.md` | Output-Language Policy (binding from 2026-04-29) |
 | `PHASE_8_TO_14_PLAN.md` | PHASE_8_TO_14_PLAN.md — Next 20-Turn Programme (Math311–330) |
 | `POSTMORTEM_RECURRENCE_POLICY.md` | Post-Mortem & Recurrence-Prevention Policy |
 | `RECORDS_CUTOFF.md` | TECT Records Cutoff |
 | `REPO_LAYOUT.md` | TECT Repository Layout Policy |
+| `REPO_RESTRUCTURE_ROADMAP.md` | Repository Restructure Roadmap (Phase B / C) |
 | `RESULT_TEMPLATE.md` | Per-run RESULT.md template |
 | `RETRO_MANIFEST_NOTE.md` | WITHDRAWN |
 | `SNAPSHOT_POLICY.md` | SNAPSHOT_POLICY.md — TECT Repository Snapshot Discipline |
 | `STATUS_NOMENCLATURE.md` | TECT Status Nomenclature — Standard 8-Tier Schema |
+| `STATUS_PROPAGATION_POLICY.md` | Status Propagation Policy |
 | `TECT-Pillar1-Traceability-Chain.md` | TECT Pillar 1 Traceability Chain: BCC Ground-State Uniqueness |
 | `UPDATE_POLICY.md` | TECT Update Policy |
 | `WEBSITE_AUTO_SYNC.md` | Website Auto-Sync Policy |

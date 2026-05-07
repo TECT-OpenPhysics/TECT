@@ -12,6 +12,73 @@ Each entry is grouped by **[Theory] / [Code] / [Results] / [Docs] / [Infrastruct
 
 ---
 
+## [Infrastructure + Docs + Code] Math352: Status propagation pipeline + States→Status rename + Phase A automation closure — 2026-05-07
+
+**Theory tag**: `Math352-Status-Propagation-and-Tooling-Closure-2026-05-07`
+**R-tag**: n/a (operational tooling closure; no physics tier change)
+
+**Summary**: Installed an end-to-end status-propagation automation pipeline so that the canonical 11-pillar Stage-1 scoreboard (`Website/data/status.js`, hand-curated; mirrored from `Docs/status/TOE-FACT-SHEET.md`) automatically synchronises to every downstream tier-bearing artefact during snapshot. Renamed the operator-facing **States** page to **Status** site-wide for naming consistency with `STATUS-HISTORY.md`, `STATUS_NOMENCLATURE.md`, and the tool nomenclature. Backward-compatibility redirect at `states.html` preserved.
+
+**New tools** (Codes/tools/):
+- `propagate_status.py` v1.0 (~555 lines): single-source-of-truth dispatcher; renders status_pillar_tiers.js (full-file) + EVIDENCE-INDEX.md zone (anchor-marker bounded). Idempotent (timestamp-aware compare). Modes: `--check` / apply / `--init` / `--targets`.
+- `paper_status_impact.py` v1.0: cross-references STATUS-HISTORY.md entries against papers_math_dependencies.js reverse map; emits `Docs/status/paper-impact-report.md` flagging REVISION-REQUIRED papers (REFUTATION/DOWNGRADE classes); blocks snapshot via `--check` if non-empty.
+- `paper_need_assessment.py` v1.0: applies trigger-to-action mapping from `MATH_NOTE_AND_PAPER_DISCIPLINE.md` §2; appends "Suggested new papers" advisory section. Never blocks snapshot. AI does NOT auto-draft (CLAUDE.md §9).
+- `status_history_tracker.py` v1.0: verifies STATUS-HISTORY.md vs status.js scoreboard; modes `--check` / `--diff` / `--emit-stub`.
+
+**New policies** (Docs/policy/):
+- `STATUS_PROPAGATION_POLICY.md` (binding 2026-05-07): single-source-of-truth contract, page-coverage matrix, anchor-marker convention, audit log discipline, paper-impact gate, recurrence-protection guarantees.
+- `MATH_NOTE_AND_PAPER_DISCIPLINE.md` (binding 2026-05-07): paper genres (MAIN/AUX/TI/EPOCH), trigger-to-action mapping (T6→T0 ⇒ NEW_AUDIT_PAPER; T1→T7 ⇒ NEW_CONSOLIDATION_PAPER; etc.), naming conventions for new papers, manual-authorship rule restatement.
+- `REPO_RESTRUCTURE_ROADMAP.md` (planning, binding 2026-05-07): records deferred Phase B (repo tree restructure, code allowlist mirror, /site for GitHub Pages, old-code-via-git-tags) and Phase C (BCC narrative softening sweep, README rewrite, GitHub metadata refresh) work for next session.
+
+**Externalised configuration** (Codes/config/, v0 scaffolds):
+- `status_propagation_targets.json` — active (drives propagate_status.py).
+- `mirror.json` — scaffold for v1 github_sync_curate.py refactor.
+- `website_pages.json` — scaffold for v1 generate_website.py refactor.
+- `sweep_rules.json` — scaffold for v1 refine_continuum_language.py refactor.
+
+**States → Status rename** (site-wide):
+- `Website/data/states.js` → `Website/data/status.js`; `window.TECT_STATES` → `window.TECT_STATUS`; page title "States" → "Status".
+- `Website/states.html` → `Website/status.html` with 0-second meta-refresh redirect at the old URL (canonical `<link rel="canonical">` + JS fallback).
+- `Website/data/states_pillar_tiers.js` → `Website/data/status_pillar_tiers.js`; `window.TECT_STATES_TIERS` → `window.TECT_STATUS_TIERS`.
+- `Codes/tools/sync_toe_from_states.py` → `Codes/tools/sync_toe_from_status.py` (old name retained as deprecation forward).
+- Cross-references updated in: `Codes/scripts/snapshot.ps1`, `Codes/tools/{audit_website_freshness,generate_website,github_sync_curate}.py`, `Website/{toe,papers-pdf}.html`, `Website/data/{index,theory,results}.js`, `Website/data/_narrative/results_assessment.md`, `Docs/policy/{STATUS_NOMENCLATURE,WEBSITE_AUTO_SYNC,STATUS_PROPAGATION_POLICY}.md`, `CLAUDE.md`.
+- `verify_website.py` extended with sidecar-suffix and deprecation-stub recognition rules.
+
+**Snapshot pipeline integration**: three new steps in `Codes/scripts/snapshot.ps1` between extract-deps and audit-website-freshness — Step 2.5b propagate-status, Step 2.5c paper-status-impact, Step 2.5d paper-need-assessment.
+
+**End-to-end verification** (final pass, 2026-05-07T10:11Z):
+- `propagate_status.py --check`: exit 0 (no drift; status_pillar_tiers.js + EVIDENCE-INDEX.md in sync).
+- `paper_status_impact.py --check`: exit 0 (REVISION_REQUIRED=0).
+- `paper_need_assessment.py`: exit 0 (NEW_PAPER_RECS=1, advisory; identifies Math348 as NEW_AUDIT_PAPER recommendation).
+- `verify_website.py`: errors=0 warnings=0.
+- `status_history_tracker.py --check`: exit 0 (no drift; Pillar 1 latest entry within window).
+
+**Files written**:
+- `Docs/math/TECT-Math352-Status-Propagation-and-Tooling-Closure.tex.txt` (canonical Math note)
+- `Codes/tools/propagate_status.py`, `paper_status_impact.py`, `paper_need_assessment.py`, `status_history_tracker.py`
+- `Codes/tools/sync_toe_from_status.py` (renamed from sync_toe_from_states.py)
+- `Codes/config/status_propagation_targets.json`, `mirror.json`, `website_pages.json`, `sweep_rules.json`
+- `Docs/policy/STATUS_PROPAGATION_POLICY.md`, `MATH_NOTE_AND_PAPER_DISCIPLINE.md`, `REPO_RESTRUCTURE_ROADMAP.md`
+- `Docs/status/propagation-log.md` (audit log; first entry recorded)
+- `Docs/status/paper-impact-report.md` (auto-generated)
+- `Docs/status/EVIDENCE-INDEX.md` (PROP-AUTO zone added)
+- `Website/data/status.js`, `status_pillar_tiers.js`, `status.html` (renamed/updated)
+- `Website/data/states.js`, `states_pillar_tiers.js`, `states.html` (deprecation stubs / redirect)
+- `Website/data/{index,theory,results,site}.js`, `Website/{toe,papers-pdf}.html` (cross-reference updates)
+- `Codes/scripts/snapshot.ps1` (3 new step blocks)
+- `Codes/tools/verify_website.py` (sidecar + deprecation-stub recognition)
+- `CLAUDE.md` (cross-reference updated)
+- `Website/data/math-notes.js` (auto-regenerated to include Math352)
+- `Website/assets/manifest.json` (auto-regenerated)
+
+**Self-adversarial review (CLAUDE.md §6.3.5(a))**: Math352 §6 — 3 concrete objections (false negative via stale dep map, false positive via peripheral citation, rename SEO drift) all DISMISSED with explicit mitigations.
+
+**Quantitative sanity check (CLAUDE.md §6.3.4)**: N/A (operational tooling closure; tool correctness verified via end-to-end pipeline = zero errors / zero warnings).
+
+**Pillar status**: unchanged. The mainline scientific next step (M5: Newton-Krylov continuation of $S_h$ seed at $\mu^2=-0.7$) is unaffected; this commit closes the operational layer beneath the physics work.
+
+---
+
 ## [Negative Result] Math351 Phase 0 closure: Sh raw-ansatz non-comparable to BCC continuation — 2026-05-07
 
 **R-tag**: `R-2026-05-07-Math351-Sh-Raw-Ansatz-Non-Comparable`

@@ -1,4 +1,4 @@
-// AUTO-GENERATED v0.3 page 7/8 — 2026-05-07 08:31 UTC
+// AUTO-GENERATED v0.3 page 7/8 — 2026-05-07 12:56 UTC
 window.TECT_HISTORY_PAGE_007 = {
   title: "History (page 7 of 8)",
   subtitle: "Chronological CHANGELOG mirror — auto-generated.",
@@ -7,6 +7,11 @@ window.TECT_HISTORY_PAGE_007 = {
   blocks: [
     { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history-page-006.html\">&larr; Newer</a> &middot; Page 7 / 8 &middot; <a href=\"history-archive-index.html\">archive index</a> &middot; <a href=\"history-page-008.html\">Older &rarr;</a></div>" },
     { type: "timeline", items: [
+        {
+          date: "2026-04-24",
+          title: "[Math79-Addendum-A — Pillar 10 R5 first-iteration extraction: pre-registered FAILURE; OPEN-NEGATIVE REFINED reinforced]",
+          body: "`Docs/math/TECT-Math79-Addendum-A-R5-first-iteration-FAILURE.tex.txt` (NEW). `Codes/supplementary/Math79_R5_chi_star_extraction.py` (NEW). `Codes/supplementary/Math79_R5_chi_star_results.json` (NEW, run output)."
+        },
         {
           date: "2026-04-24",
           title: "[Math79 — Pillar 10 R5 framework: residual-matching audit; four canonical channels fixed]",
@@ -151,11 +156,6 @@ window.TECT_HISTORY_PAGE_007 = {
           date: "2026-04-22",
           title: "[Math68 Addendum A §A.4 — user-verified post-repair pytest signature 1F / 3P / 1S; B5 + B1 cleared, B2 isolated as sole non-PASS cause; `\\w` SyntaxWarnings silenced]",
           body: "- No new theory; empirical confirmation of the prediction in `TECT-Math68-Addendum-A-B5-B1-sandbox-repair.tex.txt` Eq. `math68-addA-pytest-post-B5`. Actual signature **1 FAIL / 3 PASS / 1 SKIP** is strictly stronger than the conservative prediction **1F / 2P / 2S**: `test_minres_fallback_indefinite` promotes from SKIP to PASS because HessianOperator instantiation with `use_symmetrised_cII=True` does not exercise the adjoint JVP path until `matvec` is invoked."
-        },
-        {
-          date: "2026-04-22",
-          title: "[Math68 v0.1 PI-level audit + Math66 status retraction + five blockers B1--B5 filed — Task #104 reclassified \"partial live integration; executable closure OPEN\"]",
-          body: "- `docs/math/TECT-Math68-v26-PhaseD-Integration-Audit.tex.txt` **v0.1 (NEW)**, filed 2026-04-22. Three PI-level judgments frozen in LaTeX: - **§1 Updated critical-path priority chain** (Eq. `math68-priority-chain`, 8 stages): (i) v2.6.0 Phase D live integration + B1--B5 repair; (ii) Math66 §8 U1--U4 + R1--R2 verification; (iii) Math64 D5 $a_{\\mathrm{cII}}(N)$ scaling; (iv) Pillar 1 / Phase 4 continuum closure; (v) Math67 Global Closure Theorem assembly; (vi) 11-pillar TOE scorecard update; (vii) cII variational-parent search (research track, non-critical); (viii) Path-Y sector rewrite (research track, non-critical). - **§2 Math66 status retraction** (Prop. `math68-math66-status`, Cor. `math68-math66-label`): Math66 v0.1 header label \"THEOREM v0.1, complete\" is over-claim under peer-review standards; corrected to \"OPERATIONAL THEOREM / IMPLEMENTATION SPECIFICATION v0.1\" with four-status block {path-selection: CLOSED / implementation-spec: CLOSED / rigorous mathematical: OPEN to v0.2 / execution-verification: OPEN (pytest 2F/1S/2P on 2026-04-22)}. Header edit applied to Math66 source 2026-04-22. - **§3 Task #104 integration audit** (Prop. `math68-B1-fix` through `math68-B5-fix`)"
         }
       ]
     },

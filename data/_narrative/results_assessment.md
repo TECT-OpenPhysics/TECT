@@ -1,4 +1,4 @@
-**Honest-status assessment.** Every measured quantity below carries an explicit confidence label (TECT-Status-Tier T0–T7, defined on the [States](states.html) page) and a result-tag traceable to a code fingerprint and run manifest. Retracted results live in the append-only `Docs/status/NEGATIVE-RESULTS.md` ledger and are **not** removed from this page.
+**Honest-status assessment.** Every measured quantity below carries an explicit confidence label (TECT-Status-Tier T0–T7, defined on the [Status](status.html) page) and a result-tag traceable to a code fingerprint and run manifest. Retracted results live in the append-only `Docs/status/NEGATIVE-RESULTS.md` ledger and are **not** removed from this page.
 
 ---
 
@@ -66,7 +66,7 @@ CLI command + downloadable artefacts: see the per-run card on this page.
 
 ### Reading guide
 
-- **TECT-Status-Tier (T0–T7)** definitions, per-tier mandatory artefacts, and forbidden-phrase list: [States](states.html).
+- **TECT-Status-Tier (T0–T7)** definitions, per-tier mandatory artefacts, and forbidden-phrase list: [Status](status.html).
 - **Per-run CLI commands + download links**: per-run cards above (click a Run ID in the summary table to expand).
 - **Full append-only retraction ledger**: [Records](records.html).
 - **Older code versions** (re-run any past numerical result with the matching driver version): [Codebase → Older Versions](code-old.html).

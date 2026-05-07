@@ -1,4 +1,4 @@
-// AUTO-GENERATED v0.3 page 5/8 — 2026-05-07 08:31 UTC
+// AUTO-GENERATED v0.3 page 5/8 — 2026-05-07 12:56 UTC
 window.TECT_HISTORY_PAGE_005 = {
   title: "History (page 5 of 8)",
   subtitle: "Chronological CHANGELOG mirror — auto-generated.",
@@ -7,6 +7,11 @@ window.TECT_HISTORY_PAGE_005 = {
   blocks: [
     { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history-page-004.html\">&larr; Newer</a> &middot; Page 5 / 8 &middot; <a href=\"history-archive-index.html\">archive index</a> &middot; <a href=\"history-page-006.html\">Older &rarr;</a></div>" },
     { type: "timeline", items: [
+        {
+          date: "2026-04-25",
+          title: "[Rounds 5–10 — Math98 Phase-Transition Origin of Planck Constant: Complete Programme Execution (Kibble-Zurek, Volovik, Berry, IR Reconstruction, Onsager-Machlup, Synthesis)]",
+          body: "**Status**: PROVED CONDITIONAL. - Derived $\\tau_{\\rm PT}$ from Brazovskii critical exponents ($\\nu = 1/2$, $z = 2$). - Result: $\\tau_{\\rm PT} \\approx 5.6 \\times a_{\\rm BCC}/c_T$ (TECT units). - Gate F2 ($0.1 \\le \\tau_{\\rm PT}/(a_{\\rm BCC}/c_T) \\le 10$): **PASS**. - Devil's-advocate self-test: four objections; three DISMISSED, one VALID-WITH-DOC (cosmology coupling queued Q-2026-04-25-Math98-AddA-cosmology-coupling)."
+        },
         {
           date: "2026-04-25",
           title: "[Round 4 — IR Bound Rigor + Cross-Pillar Consistency + BCC Symmetry Algebra: Math_IR_Bound-v4-L6-suppression, Math60-Stage2-F, Math96, Round-3-4-Audit]",
@@ -151,11 +156,6 @@ window.TECT_HISTORY_PAGE_005 = {
           date: "2026-04-24",
           title: "[Math82-AddH — 12-mode BCC ground-state Phase Z runbook + pre-registered Brazovskii predictions (Pillar 1 numerical-anchor upgrade pathway)]",
           body: "Turn 6 Track A mandate (Math86 §Turn 6): produce the complete runbook and pre-registered theoretical predictions for the FULL 12-mode BCC ground-state Phase Z continuation. Math82-AddI (2026-04-24, earlier turn) provided this for the 4-mode subset (subset-4-cosine ansatz); Math82-AddH extends to the full 12-mode ansatz, which is the physically-natural ground state of the Brazovskii functional on the BCC cubic lattice and the target of all prior Phase Z numerical harnesses (Math82-AddF/G)."
-        },
-        {
-          date: "2026-04-24",
-          title: "[Math86 — Next 5-turn priority plan (Turn 6–10 triple-track structure + Stage-2/3 sequencing + consolidation strategy)]",
-          body: "Turn 5 Track C autonomous research: TECT has reached a critical junction. 8 of 11 Stage-1 pillars are at least PARTIAL; Stage-2-E (falsifiability package) is sealed. The next 5-turn session (Turns 6–10) is explicitly planned and sequenced to target Stage-2 global closure (especially B, D, E sub-theorems) and Stage-3 external falsifiability (F1 gauge-coupling ratio). Math86 specifies the exact turn-by-turn roadmap with explicit parallel triple-track execution (Track A: Pillar 1 numerics; Track B: Pillars 4+6 RGE; Track C: Stage-2 theory) and mandatory consolidation turn (Turn 8)."
         }
       ]
     },

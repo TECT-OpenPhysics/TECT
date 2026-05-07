@@ -122,9 +122,24 @@ def check_download_links() -> None:
 # Check 3: HTML wrapper present for each data/*.js page.
 # ---------------------------------------------------------------------
 def check_html_wrappers() -> None:
+    # Sidecar scripts (loaded as siblings inside another page) and
+    # deprecation stubs do not require their own HTML wrapper.
     skip = {"site.js", "_archive", "_narrative", "version_index.json"}
+    sidecar_suffixes = (
+        "_pillar_tiers.js",      # status_pillar_tiers.js, states_pillar_tiers.js
+        "_math_dependencies.js", # papers_math_dependencies.js
+        "_pdf_index.js",         # papers_pdf_index.js
+    )
     for js in sorted(DATA.glob("*.js")):
         if js.name in skip:
+            continue
+        if any(js.name.endswith(s) for s in sidecar_suffixes):
+            continue
+        try:
+            head = js.read_text(encoding="utf-8", errors="replace")[:400]
+        except OSError:
+            head = ""
+        if "DEPRECATED" in head and "renamed to" in head:
             continue
         # Map page name: page.js → page.html (special: math-notes.js → math-notes.html)
         page = js.stem  # e.g. "results"
@@ -294,7 +309,13 @@ def check_empty_tect_objects() -> None:
         if js.name in ("site.js", "version_index.json"):
             continue
         text = js.read_text(encoding="utf-8", errors="replace")
-        m = re.search(r"window\.TECT_[A-Z_]+\s*=\s*(\{.*?\});?\s*$", text, re.DOTALL)
+        # Skip deprecation stubs (intentional no-op files kept for back-compat)
+        if "DEPRECATED" in text[:400] and "renamed to" in text[:400]:
+            continue
+        # Accept files that end with `};` plus arbitrary trailing whitespace
+        # OR `};` plus another sibling object/comment after it (sidecar safe).
+        m = re.search(r"window\.TECT_[A-Z_]+\s*=\s*(\{.*\})\s*;?\s*\Z",
+                      text, re.DOTALL)
         if not m:
             warnings.append(f"[no-tect-object] {js.name}: no `window.TECT_<NAME> = {{...}}` found")
             continue

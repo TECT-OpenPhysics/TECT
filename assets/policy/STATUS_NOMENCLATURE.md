@@ -136,7 +136,7 @@ The `TOE-FACT-SHEET.md` 11-pillar scoreboard MUST use only T0–T7 labels going 
 
 ## §6. Website mandatory display
 
-The `Website/states.html` (rendered from `Website/data/states.js`) MUST display:
+The `Website/status.html` (rendered from `Website/data/status.js`) MUST display:
 
 1. **The 8-tier definition table** (this §1 above) at the top of the page.
 2. **Per-pillar status** with explicit T-tier label (no legacy labels).
@@ -163,7 +163,7 @@ The reviewer (or self-adversarial review per CLAUDE.md §6.3.5(a)) MUST flag any
 - `Docs/status/TOE-FACT-SHEET.md` — pillar scoreboard (to be re-labelled per §5)
 - `Docs/status/NEGATIVE-RESULTS.md` — T0 entries
 - `Docs/status/OPEN-QUESTIONS.md` — T1, T2, T3 entries with separate tracking
-- `Website/data/states.js` — website mandatory display per §6
+- `Website/data/status.js` — website mandatory display per §6
 - `Docs/policy/UPDATE_POLICY.md` — atomic-write rule for label migration
 
 ---

@@ -197,6 +197,14 @@ $githubCommitUrl = $null
 $auditWarnings = 0
 
 try {
+    # ---- Step 0.5 / 8: file-integrity guard (NUL padding + truncation) ----
+    # NOTE (2026-05-07): catches the recurring failure modes documented
+    # in Math352 (Write-tool NUL padding, Edit-tool mid-line truncation).
+    # Runs --strict so any defect aborts the snapshot before commit.
+    # Repair via: python -u Codes/tools/check_file_integrity.py --fix
+    Invoke-Step 1 'integrity-check' 'python -u Codes\tools\check_file_integrity.py --strict' 5
+    $stepResults['integrity-check'] = 'PASS'
+
     # ---- Step 1 / 8: stamp version headers ---------------------------
     Invoke-Step 1 'stamp' 'python -u Codes\pde\stamp_version_headers.py' 10
     $stepResults['stamp'] = 'PASS'
@@ -212,16 +220,16 @@ try {
     Invoke-Step 2 'generate' 'python -u Codes\tools\generate_website.py --publish' 20
     $stepResults['generate'] = 'PASS'
 
-    # ---- Step 2.4 / 8: sync-toe-from-states -------------------------
-    # NOTE (2026-05-06): States page (states.js, hand-curated) is the
-    # single source of truth for the 11-pillar canonical T-tier
-    # scoreboard. TOE page (toe.js, hand-curated) carried 6-Stage
-    # narrative which drifted from States. This step parses the
-    # pillar-tier table from states.js and emits states_pillar_tiers.js
+    # ---- Step 2.4 / 8: sync-toe-from-status -------------------------
+    # NOTE (2026-05-07, post-rename): Status page (status.js, hand-curated;
+    # renamed from states.js) is the single source of truth for the
+    # 11-pillar canonical T-tier scoreboard. TOE page (toe.js, hand-curated)
+    # carried 6-Stage narrative which drifted from Status. This step parses
+    # the pillar-tier table from status.js and emits status_pillar_tiers.js
     # + injects an auto-derived overlay into toe.html so the TOE page
-    # always shows live States data.
-    Invoke-Step 2 'sync-toe-from-states' 'python -u Codes\tools\sync_toe_from_states.py' 20
-    $stepResults['sync-toe-from-states'] = 'PASS'
+    # always shows live Status data.
+    Invoke-Step 2 'sync-toe-from-status' 'python -u Codes\tools\sync_toe_from_status.py' 20
+    $stepResults['sync-toe-from-status'] = 'PASS'
 
     # ---- Step 2.5a / 8: extract-paper-dependencies ------------------
     # NOTE (2026-05-06): scans every paper TeX for `% Canonical archive:`
@@ -233,6 +241,36 @@ try {
     # gates the snapshot pipeline (use --no-fail to override).
     Invoke-Step 2 'extract-deps' 'python -u Codes\tools\extract_paper_dependencies.py' 20
     $stepResults['extract-deps'] = 'PASS'
+
+    # ---- Step 2.5b / 8: propagate-status ----------------------------
+    # NOTE (2026-05-07): propagates the canonical 11-pillar Stage-1
+    # scoreboard from Website/data/status.js to status_pillar_tiers.js
+    # (whole-file regen, parallel to the older sync_toe_from_status step
+    # which still runs to inject the toe.html overlay) and to the
+    # PROP-AUTO marker zones in EVIDENCE-INDEX.md. Governed by
+    # Docs/policy/STATUS_PROPAGATION_POLICY.md (binding 2026-05-07).
+    # Idempotent: timestamp-aware compare reports no-drift on reruns.
+    Invoke-Step 2 'propagate-status' 'python -u Codes\tools\propagate_status.py' 20
+    $stepResults['propagate-status'] = 'PASS'
+
+    # ---- Step 2.5c / 8: paper-status-impact -------------------------
+    # NOTE (2026-05-07): cross-references recent STATUS-HISTORY.md
+    # entries against the paper -> Math-note dependency map and emits
+    # Docs/status/paper-impact-report.md flagging any paper whose
+    # cited Math notes have been refuted or downgraded. Default mode
+    # (no --check) writes the report unconditionally; the report is
+    # always advisory unless an operator wires --check elsewhere.
+    Invoke-Step 2 'paper-status-impact' 'python -u Codes\tools\paper_status_impact.py' 20
+    $stepResults['paper-status-impact'] = 'PASS'
+
+    # ---- Step 2.5d / 8: paper-need-assessment -----------------------
+    # NOTE (2026-05-07): emits a "Suggested new papers" section appended
+    # to paper-impact-report.md per MATH_NOTE_AND_PAPER_DISCIPLINE.md §2.
+    # Recommendations are always advisory and never block the snapshot.
+    # The AI collaborator does NOT auto-draft any paper prose
+    # (CLAUDE.md §9 binding); the operator decides each recommendation.
+    Invoke-Step 2 'paper-need-assessment' 'python -u Codes\tools\paper_need_assessment.py' 20
+    $stepResults['paper-need-assessment'] = 'PASS'
 
     # ---- Step 2.6 / 8: website-freshness audit ---------------------
     Invoke-Step 2 'audit-website-freshness' 'python -u Codes\tools\audit_website_freshness.py' 20
@@ -561,7 +599,11 @@ catch {
     if ($_.Exception.Message -match 'commit')   { exit 50 }
     if ($_.Exception.Message -match 'curate')   { exit 60 }
     if ($_.Exception.Message -match 'push')     { exit 70 }
+    if ($_.Exception.Message -match 'integrity-check') { exit 5 }
     if ($_.Exception.Message -match 'audit')    { exit 80 }
     if ($_.Exception.Message -match 'precondition') { exit 90 }
+    if ($_.Exception.Message -match 'propagate')    { exit 95 }
+    if ($_.Exception.Message -match 'paper-status') { exit 96 }
+    if ($_.Exception.Message -match 'paper-need')   { exit 97 }
     exit 99
 }

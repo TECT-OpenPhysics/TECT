@@ -1,4 +1,4 @@
-// AUTO-GENERATED v0.3 page 4/8 — 2026-05-07 08:31 UTC
+// AUTO-GENERATED v0.3 page 4/8 — 2026-05-07 12:56 UTC
 window.TECT_HISTORY_PAGE_004 = {
   title: "History (page 4 of 8)",
   subtitle: "Chronological CHANGELOG mirror — auto-generated.",
@@ -7,6 +7,11 @@ window.TECT_HISTORY_PAGE_004 = {
   blocks: [
     { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history-page-003.html\">&larr; Newer</a> &middot; Page 4 / 8 &middot; <a href=\"history-archive-index.html\">archive index</a> &middot; <a href=\"history-page-005.html\">Older &rarr;</a></div>" },
     { type: "timeline", items: [
+        {
+          date: "2026-04-27",
+          title: "[Math195 — A2 Axiom Reducibility Analysis: Rigorous Reduction to Boundary Condition]",
+          body: "**Task**: Q-2026-04-27-A2-axiom-reducibility (Task #146, NEW). Discharge user's epistemological mandate: Is axiom A2 (ultra-high-energy isotropic initial state) derivable from A0+A1 alone, or is it irreducible?"
+        },
         {
           date: "2026-04-27",
           title: "[Math184 — Round-R5 Cross-Turn Audit of Math181 \"Scenario B Rescue\": Verdict UNPROVEN / DOWNGRADED to STRONG CLOSURE DRAFT]",
@@ -151,11 +156,6 @@ window.TECT_HISTORY_PAGE_004 = {
           date: "2026-04-25",
           title: "[Round 11 — Pillar Promotion Sprint I (Analytical Closures): Math82-H (Pillar 1 → CONDITIONAL), Math58-v8 (Pillar 11 → UNCONDITIONAL), Math97-AddE (non-locality analysis)]",
           body: "**Status**: PROVED CONDITIONAL. - Analytical $m^{*2}$ derivation from Brazovskii shell-spectral-gap + one-loop self-energy: $m^{*2} = 9.005 \\pm 0.5$ (TECT units). - Class-II guarded-quotient gate (Math56-AddB) provides 4+ order-of-magnitude separation between trivial and BCC solutions. - Combined with universality-class stability (Math97), establishes Pillar 1 rigorously. - Pillar 1 status: PARTIAL-ADVANCED → **PROVED CONDITIONAL** (upgrade gated on Math55 Phase-2 numerical completion, Task #115). - Devil's-advocate self-test: three objections (α/β/γ); all DISMISSED or documented."
-        },
-        {
-          date: "2026-04-25",
-          title: "[Rounds 5–10 — Math98 Phase-Transition Origin of Planck Constant: Complete Programme Execution (Kibble-Zurek, Volovik, Berry, IR Reconstruction, Onsager-Machlup, Synthesis)]",
-          body: "**Status**: PROVED CONDITIONAL. - Derived $\\tau_{\\rm PT}$ from Brazovskii critical exponents ($\\nu = 1/2$, $z = 2$). - Result: $\\tau_{\\rm PT} \\approx 5.6 \\times a_{\\rm BCC}/c_T$ (TECT units). - Gate F2 ($0.1 \\le \\tau_{\\rm PT}/(a_{\\rm BCC}/c_T) \\le 10$): **PASS**. - Devil's-advocate self-test: four objections; three DISMISSED, one VALID-WITH-DOC (cosmology coupling queued Q-2026-04-25-Math98-AddA-cosmology-coupling)."
         }
       ]
     },

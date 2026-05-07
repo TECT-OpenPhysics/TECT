@@ -11,7 +11,7 @@ Open any `*.html` file at the repository root, or visit the GitHub Pages URL onc
 |---|---|---|
 | `index.html` | `data/index.js` | Landing + executive summary |
 | `theory.html` | `data/theory.js` | Theory overview, axioms, stage hierarchy |
-| `states.html` | `data/states.js` | TECT-Status-Tier (T0–T7) per-pillar scorecard |
+| `status.html` | `data/status.js` | TECT-Status-Tier (T0–T7) per-pillar scorecard |
 | `papers.html` | `data/papers.js` | Manuscript / paper drafts |
 | `toe.html` | `data/toe.js` | TOE candidate cross-framework comparison |
 | `results.html` | `data/results.js` | Numerical results inventory + Honest-status table |

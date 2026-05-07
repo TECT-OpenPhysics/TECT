@@ -22,6 +22,30 @@ are structural and exempt from staleness.
 the row must be updated in the same commit. A broken `code` path
 in this file is a policy violation (UPDATE_POLICY §10.2).
 
+<!-- PROP-AUTO:evidence-pillar-tiers START
+     generator: Codes/tools/propagate_status.py
+     do-not-edit-between-markers
+     last-regenerated: 2026-05-07T09:55:29Z
+-->
+
+**Per-pillar canonical tier (auto-synced 2026-05-07)**:
+
+| # | Pillar | Tier |
+|---|---|---|
+| 1 | BCC condensate uniqueness | T6 |
+| 2 | Lorentz invariance + emergent metric | T6 |
+| 3 | Diffeomorphism invariance | T5 (N=1) |
+| 4 | Gauge group emergence (sub-task 1: SO(10) bundle, 2: flat-Cartan forcing, 3: SO(10)→GSM) | T4 aggregate (sub-task 1: T6, 2: T6 conditional on Lemmas A+B, 3: T6 conditional on Pillar 6) |
+| 5 | Standard-model fermion content | T7 |
+| 6 | GUT unification (SO(10)) | T4 |
+| 7 | Spin-statistics | T7 |
+| 8 | Equivalence principle | T7 |
+| 9 | Geodesic motion | T7 |
+| 10 | Quantum completion (ℏ emergence) | T0 (classical no-go) + T2 (phase-transition origin) |
+| 11 | Cosmological observables | T4 |
+
+<!-- PROP-AUTO:evidence-pillar-tiers END -->
+
 ---
 
 ## 1. Foundational claims
@@ -116,4 +140,4 @@ in this file is a policy violation (UPDATE_POLICY §10.2).
 
 - **Math288** (2026-05-01 Turn 59): Task #156 Pillar 4 Σ₀ = ℙ¹×ℙ¹ realization computational-readiness assessment. **T3 PROOF SKETCH** (defect-mass formula §4 rigorous; full Task #156 numerical closure deferred to computational dispatch). Mathematical specification: $E_8 \supset SO(10) \times SU(4)_F$ gauge bundle on $\Sigma_0$ with $c_2(E)=16$ (Math270 topological certificate); HYM PDE system; DUY existence guarantee (Math253). **§4 NEW ANALYTICAL CONTENT — Proposition 4.3.1 Bogomolov-type eigenvalue bound**: $\mu_{\rm defect}^2 \geq C_{\rm geo} \cdot c_2(E)/\mathrm{vol}(\Sigma_0) \cdot |\det F_{A^*}|^{1/2}$. Numerical-driver architecture proposed (§3): Newton-Krylov on HYM residual, $N \in \{32, 64, 128\}$ scan, split-bundle initial ansatz, eigenvalue extraction (analogous to Math236/Math66 v0.2 Path-A). Falsification gate F-GAP4-DEFECT-MASS: $\mu_{\rm defect} \in (10^{13}, 10^{17})$ GeV, deadline 2026-05-14 hard. Critical-path scenarios: A (PASS, 60%) Pillar 4 T6→T7, Stage-2 T3→T6; B (FAIL, 25%) Math246 Routes B/C/D activate; C (DEFER, 15%) extended schedule. Cited-canonical-fact spot-check: 7 sources disk-verified (Math270, Math174, Math162, Math253, Math110-AddI, Math279, Math236). Quantitative sanity: dimensional PASS, magnitude PASS-with-caveat, limit-case PASS, sign-direction PASS, reproducibility PASS. Devil's-advocate (3): α eigenvalue-bound heuristic VALID-WITH-MITIGATION, β solver-choice DISMISSED, γ timeline UPHELD-bounded. Self-adversarial (3): 1 non-theorem DISMISSED, 2 should-be-addendum VALID-WITH-MITIGATION, 3 DEFER-risk UPHELD.
 
-- **Math286** (2026-05-01 Turn 57): Stage-2 final-form consolidation (canonical archive, status-consolidation per CLAUDE.md §4.1). **CANONICAL ARCHIVE VERDICT: Stage-2 composite tier T3 PROOF SKETCH ADVANCING — Complete hypothesis-set enumeration (18 hypotheses total, explicit tier per gate). Cascade-risk bounded by Pillar 4 H1.1 T6 (triply audited) + Math270 topological cert (base-manifold-independent). Five falsification gates pre-registered (F-GAP1, F-GAP4-DEFECT-MASS, F-GAP4
+- **Math286** (2026-05-01 Turn 57): Stage-2 final-form consolidation (canonical archive, status-consolidation per CLAUDE.md §4.1). **CANONICAL ARCHIVE VERDICT: Stage-2 composite tier T3 PROOF SKETCH ADVANCING — Complete hypothesis-set enumeration (18 hypotheses total,

@@ -39,7 +39,7 @@ window.TECT_INDEX = {
           "<li><code>Math194</code> — BCC uniqueness PROVED among 9 crystallographic competitors.</li>" +
           "<li><code>Math195</code> — A2 axiom-reduction theorem; effective TECT axiom count = 2.</li>" +
         "</ul>" +
-        "<p>For the full quantum-theory proof-status table see <a href=\"states.html\">States</a>.</p>"
+        "<p>For the full quantum-theory proof-status table see <a href=\"status.html\">Status</a>.</p>"
       }]
     },
     {
