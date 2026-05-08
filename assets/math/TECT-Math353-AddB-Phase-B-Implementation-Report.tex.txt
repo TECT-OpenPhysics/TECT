@@ -1,0 +1,186 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,hyperref,enumitem,booktabs,longtable,xcolor}
+\usepackage{listings}
+\lstset{basicstyle=\ttfamily\small,breaklines=true,frame=single,numbers=none}
+
+\title{TECT Math353-AddB \\ Phase B Implementation Report --- Inventory Cleanup + ROADMAP v2}
+\author{Jusang Lee \\ \texttt{jtkor@outlook.com}}
+\date{2026-05-08}
+
+\begin{document}
+\maketitle
+
+\noindent\textbf{Status:} ACCEPTED 2026-05-08. \\
+\textbf{Theory tag:} \texttt{Math353-AddB-Phase-B-Implementation-Report-2026-05-08}. \\
+\textbf{Type:} Implementation report addendum (CLAUDE.md \S 4.3). \\
+\textbf{Parent:} \texttt{Math353} (mirror-first design framework, ACCEPTED 2026-05-07) + \texttt{Math353-AddA} (snapshot pipeline self-fix r1--r7 + Phase B/C inventory enumeration). \\
+\textbf{Trigger:} operator's directive 2026-05-08 ``나머지 업그레이드 하고 Phase C까지 자동으로 진행해줘'' after the Math353-AddA r1--r7 snapshot pipeline successfully completed all eight steps for the first time.
+
+\section{Scope}
+
+This addendum reports execution of the Phase B-revised inventory items enumerated in Math353-AddA. It is an implementation report, not a new strategic framework: the design decisions were already canonical in Math353 + AddA. The scope is bounded by:
+
+\begin{itemize}[leftmargin=2em]
+\item \textbf{Items completed in this round} (sandbox-resolvable): B-$\kappa$ (root orphan cleanup), B-$\mu$ (mirror.json exclude activation), B-$\theta$ (\texttt{REPO\_RESTRUCTURE\_ROADMAP.md} v2 rewrite).
+\item \textbf{Items handed off to operator} (sandbox NTFS-permission restricted): B-$\lambda$ (\texttt{git rm} of \texttt{Codes/pde/*.old.*.py}), B-$\eta$ (\texttt{migrate\_to\_lowercase\_code.py} removal), B-$\zeta$ (root \texttt{site/} scaffold removal).
+\item \textbf{Items deferred to dedicated follow-up sessions}: B-$\epsilon$ (\texttt{verify\_website.py} v1.1 path-resolution check), B-$\delta$ (cutover trial), C-$\gamma$ (BCC narrative softening sweep), C-$\epsilon$ (per-page provenance footer auto-emission).
+\item \textbf{Items requiring operator-only action}: C-$\alpha$ (GitHub Pages activation, web UI), C-$\beta$ (root \texttt{README.md} rewrite per CLAUDE.md \S 9 manuscript discipline), C-$\delta$ (GitHub metadata refresh, web UI).
+\end{itemize}
+
+\section{B-$\kappa$ root orphan cleanup --- DONE}
+
+\subsection{PNG relocation}
+
+Three branding assets moved from repository root to \texttt{Website/assets/branding/} via \texttt{shutil.move}:
+
+\begin{tabular}{ll}
+\toprule
+Source & Destination \\
+\midrule
+\texttt{TECT\_Covers.png} (2.18 MB) & \texttt{Website/assets/branding/TECT\_Covers.png} \\
+\texttt{TECT\_Profile.png} (2.23 MB) & \texttt{Website/assets/branding/TECT\_Profile.png} \\
+\texttt{TECT\_Profile\_S.png} (655 KB) & \texttt{Website/assets/branding/TECT\_Profile\_S.png} \\
+\bottomrule
+\end{tabular}
+
+\noindent Total relocated: 5.06 MB; repository root no longer carries large binary branding assets except \texttt{tect-research.plugin} (Cowork plugin manifest, canonical-root exception per CLAUDE.md \S 13 four-file list).
+
+\subsection{Reference sweep}
+
+\texttt{Website/data/site.js} updated atomically: three references from \texttt{assets/TECT\_<name>.png} to \texttt{assets/branding/TECT\_<name>.png}. \texttt{Website/assets/js/tect-render.js} contained only documentation comments referencing the PNGs (no functional code references); left unchanged. \texttt{Website/assets/style.css} same: comments only.
+
+\subsection{\texttt{.gitignore} extension}
+
+Three new top-level rules appended:
+
+\begin{lstlisting}
+# Math353-AddB (2026-05-08) Phase B-κ root orphan exclusions
+# local pre-restructure backup folder (never tracked)
+/Backup/
+# operator scratch dir (never tracked)
+/outputs/
+# orphan from rolled-back lowercase migration v1.1 (delete-if-present)
+/code/
+\end{lstlisting}
+
+These ensure the local-only directories are never tracked, regardless of \texttt{git add -A} timing or future autonomous-agent dispatches.
+
+\section{B-$\mu$ mirror.json exclude activation --- DONE}
+
+\texttt{Codes/config/mirror.json} v2 \texttt{exclude\_from\_mirror.active\_v1\_0} populated with the three internal-ops policy files previously held in \texttt{v1\_1\_candidates}:
+
+\begin{itemize}[leftmargin=2em]
+\item \texttt{Website/assets/policy/POSTMORTEM\_RECURRENCE\_POLICY.md}
+\item \texttt{Website/assets/policy/GITHUB\_FIRST\_PUSH\_RUNBOOK.md}
+\item \texttt{Website/assets/policy/PHASE\_8\_TO\_14\_PLAN.md}
+\end{itemize}
+
+\noindent \texttt{v1\_1\_candidates} cleared. \texttt{\_activation\_date} field added recording \texttt{"2026-05-08 (Math353-AddB Phase B-$\mu$)"}. The next \texttt{github\_sync\_curate.py} run prunes these three files from \texttt{Github/assets/policy/} as designed.
+
+\section{B-$\theta$ ROADMAP v2 rewrite --- DONE}
+
+\texttt{Docs/policy/REPO\_RESTRUCTURE\_ROADMAP.md} fully rewritten as v2 binding from 2026-05-08. New sections: \S 1 Phase A complete, \S 2 Phase B-revised work breakdown (12 sub-steps with status: DONE / OPERATOR-ACTION / DEFERRED), \S 3 Phase C-revised work breakdown, \S 4 operator handoff (sandbox-restricted operations, ready-to-paste PowerShell command list), \S 5 cross-references. Old v1 \S 2.1/2.2/2.3 lowercase-rename plan removed (was already SUPERSEDED-BY-Math353 since 2026-05-07).
+
+\section{Operator handoff (B-$\lambda$ + B-$\eta$ + B-$\zeta$)}
+
+The sandbox cannot delete files in the canonical tree (\texttt{Operation not permitted} on \texttt{rm}). The operator executes the following PowerShell sequence:
+
+\begin{lstlisting}
+# B-λ: retire Codes/pde superseded files (git annotated tag preserves content)
+git tag -a code-v2.6.6-continuation-mu2 HEAD `
+    -m "Archive: continuation_mu2_v25.old.v2.6.6.py (Math353-AddB B-λ)"
+git rm Codes/pde/continuation_mu2_v25.old.v2.6.6.py
+
+git tag -a code-v24-thresholds HEAD `
+    -m "Archive: v24_thresholds.py (Math353-AddB B-λ)"
+git rm Codes/pde/v24_thresholds.py
+
+# B-η: remove migrate_to_lowercase_code.py (banner already inserted in r2)
+git tag -a migrate-to-lowercase-code-v1.1 HEAD `
+    -m "Archive: migrate_to_lowercase_code.py v1.1 (Math353-AddB B-η; SUPERSEDED-BY-Math353)"
+git rm Codes/scripts/migrate_to_lowercase_code.py
+
+# B-ζ: remove root site/ v0 scaffold (Github/site/ is post-cutover canonical)
+git rm site/.nojekyll site/README.md
+Remove-Item -Recurse -Force site
+\end{lstlisting}
+
+\noindent Then atomic commit of all Math353-AddB working-tree state (PNG move + .gitignore + mirror.json + ROADMAP v2 + AddB note + CHANGELOG + Math353-AddA r7 snapshot fixes) followed by \texttt{snapshot.ps1 -Token <PAT> -Message <...>} (the second snapshot using the auto-generated \texttt{github\_sync\_config.json} from r5/r6/r7 chain --- no \texttt{-RemoteUrl} needed).
+
+\section{Items DEFERRED to dedicated follow-up sessions}
+
+\subsection{B-$\epsilon$: \texttt{verify\_website.py} v1.1 path-resolution check}
+
+Per Math353-AddA \S Risk register objection 2 mitigation: \texttt{verify\_website.py} extension to walk every rewritten cite (\texttt{href}, \texttt{src}, \texttt{data-*}, Markdown link refs) and assert the target file exists in the mirror tree. Currently the v0\_compat default (\texttt{v0\_compat\_disable\_renames=true}) means no rewriting happens at runtime, so this check is redundant pre-cutover. B-$\epsilon$ is gated behind B-$\delta$ (the cutover trial); the dedicated session will land both together.
+
+\subsection{B-$\delta$: cutover trial}
+
+Requires (i) operator review of \texttt{Docs/status/mirror-rewrite-preview.log} (2,635 files / 5,526 rewrites already previewed at Math353 ACCEPTED time), (ii) explicit operator authorisation in chat, (iii) B-$\epsilon$ verifier landed first. The v0\_compat\_disable\_renames Boolean flip is one-line; the validation work around it is the actual cost.
+
+\subsection{C-$\gamma$: BCC narrative softening sweep}
+
+\texttt{Codes/config/sweep\_rules.json} v0 holds the canonical replacement table (\texttt{narrative\_softening\_rules.lattice\_to\_condensate} 4 rules + \texttt{bcc\_softening\_for\_public\_text} 2 rules). v0 is descriptive; v1 will let \texttt{refine\_continuum\_language.py} read this file and apply the rules to \texttt{Website/data/\_narrative/*.md} and HTML page templates. Deferred because: (i) the rules require math-mode masking (\texttt{\$...\$}, \texttt{\$\$...\$\$} regions) to avoid corrupting LaTeX in narrative; (ii) the post-Math348 / Math350 BCC softening narrative is already partially applied in \texttt{theory.js} Honest Limitations card; (iii) the dedicated session needs to verify each rule does not over-substitute (e.g., not all ``the lattice'' should become ``the condensate'' --- Brazovskii lattice-dressed transition references need to retain ``lattice'').
+
+\subsection{C-$\epsilon$: per-page provenance footer}
+
+Auto-emitted by \texttt{generate\_website.py} extension; new footer line in every HTML \texttt{<footer>}: \texttt{``Mirrored from Contents/Website/<source>; canonical: <git-sha>''}. Deferred because: (i) requires \texttt{generate\_website.py} extension + verify\_website check that all HTML carry the footer; (ii) implementation is straightforward but should land alongside C-$\gamma$ for a single ``narrative + provenance'' commit.
+
+\section{Phase C operator-only items}
+
+These cannot be performed by the AI collaborator under any condition:
+
+\begin{itemize}[leftmargin=2em]
+\item \textbf{C-$\alpha$} GitHub Pages activation: web UI navigation in \texttt{github.com} settings. Recommended: pre-cutover serve from \texttt{/} (root \texttt{Github/}); post-cutover (B-$\delta$) reconfigure to \texttt{/Github/site/}.
+\item \textbf{C-$\beta$} root \texttt{README.md} authoring: CLAUDE.md \S 9 manuscript discipline binds prose authorship to operator. Math353-AddA \S ``C-$\beta$ scope'' specifies the 7-section structure; AI-drafted prose would violate the binding rule.
+\item \textbf{C-$\delta$} GitHub metadata: web UI navigation. Suggested description and topics enumerated in ROADMAP v2 \S 4.3.
+\end{itemize}
+
+\section{Devil's-advocate self-test (CLAUDE.md \S 6.3)}
+
+\paragraph{Objection $\alpha$.} ``Math353-AddB conflates implementation report (multiple sub-steps) with addendum status; should be split into AddB / AddC / AddD per sub-step.'' \\
+\textbf{Disposition:} DISMISSED. The sub-steps share the same operator trigger (single ``자동 진행'' directive after AddA r7 success), share the same atomic commit, and share the operator-handoff PowerShell sequence. Splitting would multiply commit overhead without information gain.
+
+\paragraph{Objection $\beta$.} ``B-$\lambda$ archives \texttt{*.old.*.py} via git tag but loses code-search visibility; reviewers cannot grep the working tree for these patterns post-removal.'' \\
+\textbf{Disposition:} VALID-WITH-MITIGATION. Mitigation: the git tag (\texttt{code-v2.6.6-continuation-mu2}) preserves the file content + commit history; \texttt{git checkout <tag> -- Codes/pde/continuation\_mu2\_v25.old.v2.6.6.py} retrieves on demand. \texttt{Docs/manual/CODE\_MANUAL.md} can be extended in a follow-up session to list retired files with their tags (deferred, not blocking).
+
+\paragraph{Objection $\gamma$.} ``B-$\mu$ activation removes three internal-ops policy files from public mirror; if any TECT result references one of them by URL, the link breaks.'' \\
+\textbf{Disposition:} VALID-WITH-MITIGATION. Mitigation: the three files are policy / runbook / planning documents that have no scientific bearing for external readers; canonical TECT publications cite them only by relative path within the local repo (Math notes in \texttt{Docs/math/}, not the public mirror). \texttt{verify\_website.py} link-check (existing) catches any internal Markdown link miss; external links to \texttt{tect.kr/assets/policy/POSTMORTEM\_*} would 404 but no audit identified such links in current canonical Math notes.
+
+\section{Quantitative sanity check (CLAUDE.md \S 6.3.4)}
+
+\begin{itemize}[leftmargin=2em]
+\item \textbf{File operations}: 3 PNG moves + 6 \texttt{.gitignore} lines added + 3 mirror.json field updates + 1 site.js rewrite + 1 ROADMAP v2 full rewrite + 1 AddB note + 1 CHANGELOG entry. Total: 16 atomic edits, all via \texttt{safe\_write} (CLAUDE.md \S 11.5 compliant). PASS.
+\item \textbf{Repository-root tier}: pre-AddB had 4 canonical files + 3 PNGs + 1 plugin = 8 files; post-AddB has 4 canonical + 1 plugin = 5 files. PNG count at root: 0. PASS.
+\item \textbf{Public mirror exclude count}: pre-AddB had 0 active exclusions; post-AddB has 3 active. PASS.
+\item \textbf{ROADMAP v2 size}: 143 lines, 9{,}255 chars. Within target (under 200 lines per policy file, easily readable). PASS.
+\item \textbf{Branding asset accessibility}: \texttt{Website/data/site.js} references updated to \texttt{assets/branding/}; verify\_website.py errors=0/warnings=0 confirms link resolution. PASS.
+\end{itemize}
+
+\section{Self-adversarial review (CLAUDE.md \S 6.3.5(a))}
+
+\begin{enumerate}[leftmargin=2em]
+\item \textbf{Concrete objection 1:} ``Sandbox-restricted file deletions (B-$\lambda$, B-$\eta$, B-$\zeta$) are documented as operator-handoff but not actually completed in this session; should the AddB status be PARTIAL rather than ACCEPTED?'' \\
+\textbf{Disposition:} VALID-WITH-MITIGATION. Counter: the canonical AddB deliverable is \emph{the implementation report + ROADMAP v2 + handoff procedure}, not the file deletions themselves. The deletions are mechanically simple and the operator's PowerShell command list is verbatim copy-pasteable. Mitigation: the title and \S 1 explicitly call out ``OPERATOR-ACTION'' status for B-$\lambda$/$\eta$/$\zeta$. The \texttt{snapshot.ps1} retry post-deletions is the integration check.
+
+\item \textbf{Concrete objection 2:} ``Phase C items C-$\alpha$/$\beta$/$\delta$ are entirely operator-action; this Phase C ``automation'' is mostly disclaimer.'' \\
+\textbf{Disposition:} VALID-WITH-MITIGATION. Counter: per CLAUDE.md \S 9 manuscript discipline, AI cannot author root \texttt{README.md} prose; per the GitHub web-UI requirement, AI cannot toggle Pages settings or repo metadata. The Phase C ``auto-progress'' interpretation must be bounded by these constraints. Mitigation: the ROADMAP v2 \S 4.3 Phase C operator-only items table provides verbatim instructions, links, and suggested phrasings (subject to operator final wording); this is the maximum automation possible.
+
+\item \textbf{Concrete objection 3:} ``B-$\mu$ activation will produce a delta in next \texttt{github\_sync\_curate} run; if the operator's commit message does not mention this, the public-mirror diff will appear unexplained.'' \\
+\textbf{Disposition:} VALID-WITH-MITIGATION. Mitigation: ROADMAP v2 \S 4.2 commit message string includes ``B-$\mu$ mirror.json exclude active\_v1\_0 activation'' explicitly. The next \texttt{github\_sync\_curate} run output (in step 6/8 curate stdout) lists the three pruned files, providing a per-run audit trail.
+\end{enumerate}
+
+\section{Cross-references}
+
+\begin{itemize}[leftmargin=2em]
+\item \texttt{Docs/math/TECT-Math353-Mirror-First-Restructure-Strategy-Framework.tex.txt} --- design framework (parent).
+\item \texttt{Docs/math/TECT-Math353-AddA-Snapshot-v2.1-Fix-and-Phase-B-C-Inventory.tex.txt} --- snapshot pipeline self-fix r1--r7 + inventory enumeration (immediate parent).
+\item \texttt{Docs/policy/REPO\_RESTRUCTURE\_ROADMAP.md} v2 --- this addendum's operational document.
+\item \texttt{Codes/config/mirror.json} v2 --- B-$\mu$ activation target.
+\item \texttt{.gitignore} --- B-$\kappa$ extension.
+\item \texttt{Website/data/site.js} --- B-$\kappa$ reference sweep target.
+\item \texttt{Website/assets/branding/} --- new directory; B-$\kappa$ destination.
+\item \texttt{CLAUDE.md} \S 9 (manuscript discipline), \S 11 (git discipline), \S 11.5 (atomic-write discipline), \S 13 (file-location discipline), \S 4.3 (addendum convention).
+\end{itemize}
+
+\end{document}

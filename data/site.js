@@ -13,7 +13,7 @@ window.TECT_SITE = {
     top:    "",
     bottom: "<div class=\"site-license wrap\">" +
               "<div class=\"footer-profile\">" +
-                "<img src=\"assets/TECT_Profile_S.png\" alt=\"TECT\" loading=\"lazy\">" +
+                "<img src=\"assets/branding/TECT_Profile_S.png\" alt=\"TECT\" loading=\"lazy\">" +
               "</div>" +
               "<p class=\"site-license-line\"><strong>Open Physics Independent Research</strong></p>" +
               "<p class=\"site-license-line muted\">" +
@@ -44,13 +44,13 @@ window.TECT_SITE = {
   },
 
   hero: {
-    src:  "assets/TECT_Covers.png",
+    src:  "assets/branding/TECT_Covers.png",
     alt:  "TECT - Topological Energy Condensate Theory",
     href: "index.html"
   },
 
   profile: {
-    src: "assets/TECT_Profile_S.png",
+    src: "assets/branding/TECT_Profile_S.png",
     alt: "TECT"
   }
 };

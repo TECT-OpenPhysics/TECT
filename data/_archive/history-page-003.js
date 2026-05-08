@@ -1,12 +1,17 @@
-// AUTO-GENERATED v0.3 page 3/8 — 2026-05-07 15:49 UTC
+// AUTO-GENERATED v0.3 page 3/9 — 2026-05-08 00:45 UTC
 window.TECT_HISTORY_PAGE_003 = {
-  title: "History (page 3 of 8)",
+  title: "History (page 3 of 9)",
   subtitle: "Chronological CHANGELOG mirror — auto-generated.",
-  lastUpdated: "2026-05-07 (auto)",
-  pagination: {"page": 3, "total": 8, "newer": "history-page-002.html", "older": "history-page-004.html", "archiveIndex": "history-archive-index.html"},
+  lastUpdated: "2026-05-08 (auto)",
+  pagination: {"page": 3, "total": 9, "newer": "history-page-002.html", "older": "history-page-004.html", "archiveIndex": "history-archive-index.html"},
   blocks: [
-    { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history-page-002.html\">&larr; Newer</a> &middot; Page 3 / 8 &middot; <a href=\"history-archive-index.html\">archive index</a> &middot; <a href=\"history-page-004.html\">Older &rarr;</a></div>" },
+    { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history-page-002.html\">&larr; Newer</a> &middot; Page 3 / 9 &middot; <a href=\"history-archive-index.html\">archive index</a> &middot; <a href=\"history-page-004.html\">Older &rarr;</a></div>" },
     { type: "timeline", items: [
+        {
+          date: "2026-04-29",
+          title: "[Theory] Math231: Pillar 6 — Higgs Effective Scalar Potential Derivation — Closes Task #170",
+          body: "**Significance**: Derives the effective Higgs potential V(Ψ) = m²|Ψ|² + λ|Ψ|⁴ directly from BCC Brazovskii dynamics. Establishes the electroweak-breaking scale |Ψ|_0 ~ 100 GeV from TECT microscopic parameters (κ_χ, κ_5, c, η). Completes Pillar 6 scalar-potential closure and enables Pillar 4 sub-task 3 (Math229) final promotion (pending continuum-limit verification, Task #115)."
+        },
         {
           date: "2026-04-29",
           title: "[Recurrence-prevention infrastructure — verify_website.py + POSTMORTEM_RECURRENCE_POLICY.md + CLAUDE.md §6.3.7 + post-mortem 2026-04-29 reference incident]",
@@ -151,14 +156,9 @@ window.TECT_HISTORY_PAGE_003 = {
           date: "2026-04-28",
           title: "[Math202 v1.1 — reviewer audit ACCEPT WITH MINOR REVISIONS applied]",
           body: "**Trigger**: 2026-04-28 reviewer audit of Math202 (lemma L1) returned **ACCEPT WITH MINOR REVISIONS**. Three textual revisions applied in this commit; the central proof and verdict are unchanged."
-        },
-        {
-          date: "2026-04-28",
-          title: "[Math202 — H^1(CP^2, O) = 0 and Pic(CP^2) ≅ Z classification of U(1)_χ bundles]",
-          body: "**Trigger**: First single-task dispatch under the new CLAUDE.md §15 Agent Dispatch Discipline (binding from 2026-04-28). Closes lemma L1 of the four-step flat-Cartan-forcing decomposition (the reviewer's Top-0 question from the 2026-04-28 review of Math191/192)."
         }
       ]
     },
-    { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history-page-002.html\">&larr; Newer</a> &middot; Page 3 / 8 &middot; <a href=\"history-archive-index.html\">archive index</a> &middot; <a href=\"history-page-004.html\">Older &rarr;</a></div>" }
+    { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history-page-002.html\">&larr; Newer</a> &middot; Page 3 / 9 &middot; <a href=\"history-archive-index.html\">archive index</a> &middot; <a href=\"history-page-004.html\">Older &rarr;</a></div>" }
   ]
 };

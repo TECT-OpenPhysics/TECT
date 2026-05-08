@@ -1,12 +1,17 @@
-// AUTO-GENERATED v0.3 page 7/8 — 2026-05-07 15:49 UTC
+// AUTO-GENERATED v0.3 page 7/9 — 2026-05-08 00:45 UTC
 window.TECT_HISTORY_PAGE_007 = {
-  title: "History (page 7 of 8)",
+  title: "History (page 7 of 9)",
   subtitle: "Chronological CHANGELOG mirror — auto-generated.",
-  lastUpdated: "2026-05-07 (auto)",
-  pagination: {"page": 7, "total": 8, "newer": "history-page-006.html", "older": "history-page-008.html", "archiveIndex": "history-archive-index.html"},
+  lastUpdated: "2026-05-08 (auto)",
+  pagination: {"page": 7, "total": 9, "newer": "history-page-006.html", "older": "history-page-008.html", "archiveIndex": "history-archive-index.html"},
   blocks: [
-    { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history-page-006.html\">&larr; Newer</a> &middot; Page 7 / 8 &middot; <a href=\"history-archive-index.html\">archive index</a> &middot; <a href=\"history-page-008.html\">Older &rarr;</a></div>" },
+    { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history-page-006.html\">&larr; Newer</a> &middot; Page 7 / 9 &middot; <a href=\"history-archive-index.html\">archive index</a> &middot; <a href=\"history-page-008.html\">Older &rarr;</a></div>" },
     { type: "timeline", items: [
+        {
+          date: "2026-04-24",
+          title: "[Math82 — Repo Cleanup Phase 2 (A + B + C): root orphan relocation + empty-folder removal + byte-equal mirror retirement]",
+          body: "| Source | Target | Operation | |---|---|---| | `AUTONOMOUS_SESSION_REPORT_2026-04-21.md` | — | DELETE (duplicate of `Docs/status/` copy) | | `AUTONOMOUS_SESSION_REPORT_2026-04-24-ROUND4-PROOF-A.md` | `Docs/status/round-summaries/` | git mv | | `ROUND6_SESSION_SUMMARY.txt` | `Docs/status/round-summaries/` | git mv | | `ROUND7-PROOF-B-SESSION-SUMMARY.txt` | `Docs/status/round-summaries/` | git mv | | `TECT-AUTONOMOUS-SESSION-SUMMARY-2026-04-24.txt` | `Docs/status/round-summaries/` | git mv | | `TECT-KOREAN-SUMMARY-ROADMAP.txt` | `Docs/status/round-summaries/` | git mv | | `FINAL_SESSION_STATUS.txt` | `Docs/status/round-summaries/` | git mv | | `INDEX-ROUND7-DELIVERABLES.txt` | `Docs/status/round-summaries/` | git mv | | `KOREAN-STATUS-REPORT-ROUND7.txt` | `Docs/status/round-summaries/` | git mv | | `.round7-proof-c-executive-summary.txt` | `Docs/status/round-summaries/` | git mv | | `.round7-proof-c-traceability.txt` | `Docs/status/round-summaries/` | git mv | | `PASTE-READY-MATH60-S3-ROUND7-CHANGELOG.txt` | `Docs/math/paste-ready-archive/` | git mv | | `PASTE-READY-MATH75-Q3-PILLAR4-FINAL.txt` | `Docs/math/paste-ready-archive/` | git mv | | `PASTE-READY-PILLAR11-v6-SUMMARY.txt` | `"
+        },
         {
           date: "2026-04-24",
           title: "[CLAUDE.md + UPDATE_POLICY §15 + Math81 retroactive archive — chat-archival rule binding from 2026-04-24]",
@@ -151,14 +156,9 @@ window.TECT_HISTORY_PAGE_007 = {
           date: "2026-04-22",
           title: "[v2.6.1 pytest 0F/5P/0S — executable closure of Newton-Krylov v2.6.1; B2 empirically closed; Task #104 CLOSED]",
           body: "- **docs/math/TECT-Math68-Addendum-A-B5-B1-sandbox-repair.tex.txt §A.7** appended. - Prop. `math68-addA-v261-closure` records the executable closure: pytest on the user's Windows box (Python 3.12.10, pytest 9.0.3) returned the target signature Eq. `math68-addA-v261-signature`: $\\mathbf{0F / 5P / 0S}$ in 2.67 s. - **Triple closure of B2** now certified: (i) theoretical (Math66 v0.2 Thm. `math66v02-Hermiticity`), (ii) peer-reviewed (Math69 ACCEPT), (iii) executable (this pytest run). - Per-test transition table: `test_symmetrised_jvp_hermiticity` FAIL→PASS, `test_pcg_routing_spd` SKIP→PASS, others retained PASS. U1 upgraded from SKIP-tolerant to hard numerical certificate on the Hermiticity contract $\\|\\tilde{\\mathcal{J}}_\\mathrm{cII} v - \\tilde{\\mathcal{J}}_\\mathrm{cII}^\\dagger v\\|/\\|\\tilde{\\mathcal{J}}_\\mathrm{cII} v\\| \\leq 10^{-13}$."
-        },
-        {
-          date: "2026-04-22",
-          title: "[v2.6.1 lands Math66 v0.2 Path-A adjoint-JVP patch; Math69 independent Devil's-Advocate peer-review filed; B2 structurally closed]",
-          body: "- **docs/math/TECT-Math69-Math66v02-PeerReview-DevilsAdvocate.tex.txt** (NEW) filed 2026-04-22. Independent referee-grade audit of Math66 v0.2. Four non-trivial objections formulated and resolved: - **§2 Obj.1 Wirtinger-convention collapse** — resolved via Eq. `m69-adjoint-identification`: `torch.autograd.grad(Re<v,F(Psi)>, Psi) = J(Psi)^\\dagger v` \\emph{exactly} in the real-Hilbert inner product (no factor-of-2 ambiguity). Identification is an unconditional theorem of real-linear analysis. - **§3 Obj.2 `_to_torch` dtype-coercion graph break** — resolved: `torch.Tensor.to` preserves autograd tracking in both (same-dtype, same-device) and (differing) branches. - **§4 Obj.3 Class-II $\\rho = |\\Psi|^2$ non-holomorphy** — resolved: PyTorch complex autograd is the real-linear Fréchet derivative (not C-linear); the non-holomorphic $\\rho, q_T$ are handled correctly. Residual $\\epsilon = 10^{-12}$ regularisation bounded below by Math56 Phase-0 gate G0 vacuum-rejection. - **§5 Obj.4 Gauge-covariance of $\\tfrac12(J+J^\\dagger)$** — resolved via Eq. `m69-sym-covariance` for the embedded $SU(2)$ stability subgroup. Residual full-$SU(3)$ promotion tracked as Pillar-7 task (not a B2 depend"
         }
       ]
     },
-    { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history-page-006.html\">&larr; Newer</a> &middot; Page 7 / 8 &middot; <a href=\"history-archive-index.html\">archive index</a> &middot; <a href=\"history-page-008.html\">Older &rarr;</a></div>" }
+    { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history-page-006.html\">&larr; Newer</a> &middot; Page 7 / 9 &middot; <a href=\"history-archive-index.html\">archive index</a> &middot; <a href=\"history-page-008.html\">Older &rarr;</a></div>" }
   ]
 };

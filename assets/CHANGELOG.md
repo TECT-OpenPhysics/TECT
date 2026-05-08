@@ -11,6 +11,52 @@ The format is adapted from [Keep a Changelog](https://keepachangelog.com/en/1.1.
 Each entry is grouped by **[Theory] / [Code] / [Results] / [Docs] / [Infrastructure]**.
 
 ---
+## [Infrastructure + Policy] Math353-AddB: Phase B inventory cleanup (B-κ + B-μ + B-θ DONE; B-λ + B-η + B-ζ operator-handoff) — 2026-05-08
+
+**Theory tag**: `Math353-AddB-Phase-B-Implementation-Report-2026-05-08`
+**Type**: Implementation report addendum (CLAUDE.md §4.3).
+**Trigger**: operator's directive 2026-05-08 to "automatically progress through Phase C" after Math353-AddA r1-r7 snapshot pipeline first successful 8/8 completion.
+
+**Sandbox-completed (this commit)**:
+- **B-κ root orphan cleanup**: TECT_Covers.png + TECT_Profile.png + TECT_Profile_S.png moved from repo root (5.06 MB total) to `Website/assets/branding/`; `Website/data/site.js` references rewritten to `assets/branding/...`; `.gitignore` extended with `/Backup/`, `/outputs/`, `/code/` rules.
+- **B-μ mirror.json exclude activation**: 3 internal-ops policy files (POSTMORTEM_RECURRENCE_POLICY.md, GITHUB_FIRST_PUSH_RUNBOOK.md, PHASE_8_TO_14_PLAN.md) moved from `v1_1_candidates` to `active_v1_0`; `_activation_date` field added.
+- **B-θ ROADMAP v2 rewrite**: `Docs/policy/REPO_RESTRUCTURE_ROADMAP.md` fully rewritten as v2 binding from 2026-05-08; 143 lines, §1 Phase A complete + §2 Phase B-revised 12-step status table + §3 Phase C-revised + §4 operator handoff (verbatim PowerShell command list) + §5 cross-references.
+
+**Operator-handoff (sandbox NTFS-permission restricted)**:
+- **B-λ**: `git tag -a code-v2.6.6-continuation-mu2` + `git rm Codes/pde/continuation_mu2_v25.old.v2.6.6.py`; same pattern for `Codes/pde/v24_thresholds.py` (tag `code-v24-thresholds`).
+- **B-η**: `git tag -a migrate-to-lowercase-code-v1.1` + `git rm Codes/scripts/migrate_to_lowercase_code.py` (banner already inserted in r2).
+- **B-ζ**: `git rm site/.nojekyll site/README.md` + `Remove-Item -Recurse -Force site` (root v0 scaffold).
+- All three operations enumerated in ROADMAP v2 §4.1 with copy-pasteable PowerShell.
+
+**Deferred to dedicated follow-up sessions** (not blocking):
+- B-ε `verify_website.py` v1.1 path-resolution check (gated behind B-δ cutover).
+- B-δ cutover trial (`v0_compat_disable_renames: false` flip; gated behind B-ε + operator review of `mirror-rewrite-preview.log`).
+- C-γ BCC narrative softening sweep (requires math-mode masking; manual per-rule verification).
+- C-ε per-page provenance footer (auto-emit by `generate_website.py` extension).
+
+**Operator-only Phase C items** (web UI / authoring):
+- C-α GitHub Pages activation (Settings → Pages → folder=`/` pre-cutover or `/Github/site/` post-B-δ).
+- C-β root `README.md` rewrite per Math353-AddA §"C-β scope" 7-section spec (CLAUDE.md §9 manuscript discipline binds prose to operator).
+- C-δ GitHub repo description + topics refresh.
+
+**Files written**:
+- `Docs/math/TECT-Math353-AddB-Phase-B-Implementation-Report.tex.txt` (new; ACCEPTED).
+- `Docs/policy/REPO_RESTRUCTURE_ROADMAP.md` (v1→v2 full rewrite).
+- `Codes/config/mirror.json` (B-μ activation).
+- `.gitignore` (B-κ extension).
+- `Website/data/site.js` (B-κ PNG reference rewrite).
+- `Website/assets/branding/{TECT_Covers,TECT_Profile,TECT_Profile_S}.png` (B-κ moves).
+- `CHANGELOG.md` (this entry).
+
+**Self-adversarial review (CLAUDE.md §6.3.5(a))**: AddB §10 — 3 concrete objections (sandbox-restricted operations status; Phase C operator-action ratio; B-μ public-mirror diff explanation), all VALID-WITH-MITIGATION with explicit mitigations.
+
+**Quantitative sanity check (CLAUDE.md §6.3.4)**: 16 atomic edits via safe_write; root file count 8→5; mirror exclude 0→3 active; ROADMAP 143 lines; verify_website 0/0 — 5/5 PASS.
+
+**Pillar status**: unchanged.
+
+---
+
+
 ## [Infrastructure + Policy] Math353-AddA: Snapshot v2.1 fix (CMD 8191-char limit) + Phase B/C inventory gap closure — 2026-05-07
 
 **Theory tag**: `Math353-AddA-Snapshot-v2.1-Fix-and-Phase-B-C-Inventory-2026-05-07`

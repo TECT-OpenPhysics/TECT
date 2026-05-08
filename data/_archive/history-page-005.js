@@ -1,12 +1,17 @@
-// AUTO-GENERATED v0.3 page 5/8 — 2026-05-07 15:49 UTC
+// AUTO-GENERATED v0.3 page 5/9 — 2026-05-08 00:45 UTC
 window.TECT_HISTORY_PAGE_005 = {
-  title: "History (page 5 of 8)",
+  title: "History (page 5 of 9)",
   subtitle: "Chronological CHANGELOG mirror — auto-generated.",
-  lastUpdated: "2026-05-07 (auto)",
-  pagination: {"page": 5, "total": 8, "newer": "history-page-004.html", "older": "history-page-006.html", "archiveIndex": "history-archive-index.html"},
+  lastUpdated: "2026-05-08 (auto)",
+  pagination: {"page": 5, "total": 9, "newer": "history-page-004.html", "older": "history-page-006.html", "archiveIndex": "history-archive-index.html"},
   blocks: [
-    { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history-page-004.html\">&larr; Newer</a> &middot; Page 5 / 8 &middot; <a href=\"history-archive-index.html\">archive index</a> &middot; <a href=\"history-page-006.html\">Older &rarr;</a></div>" },
+    { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history-page-004.html\">&larr; Newer</a> &middot; Page 5 / 9 &middot; <a href=\"history-archive-index.html\">archive index</a> &middot; <a href=\"history-page-006.html\">Older &rarr;</a></div>" },
     { type: "timeline", items: [
+        {
+          date: "2026-04-25",
+          title: "[Round 16 — Math98 Coefficient C + Falsification Design + Stage-2-D Metastable Extension: Math98-AddK (adiabatic coefficient; PARTIAL-ADV), Math98-AddL (pre-registered falsification tests; STRONG CLOS",
+          body: "**Status**: PARTIAL-ADVANCED. - Four-pathway consensus extraction: Kibble-Zurek, Volovik, Berry, Onsager-Machlup all converge on $\\bar{C} = 1.54 \\pm 0.07$. - Theorem 3.1 (uniqueness of C): CONJECTURE with strong structural support; rigorous proof via Duistermaat-Heckman pending (Task #123). - Adiabatic-invariant formula: $\\hbar = C \\cdot \\eta_{\\rm top} \\rho_{\\rm cond} a_{\\rm BCC}^3 \\tau_{\\rm PT}$ with universal coefficient $C \\in [1.38, 1.76]$ (2-sigma). - Devil's-advocate self-test: three objections; all DISMISSED or documented with valid mitigation."
+        },
         {
           date: "2026-04-25",
           title: "[Round 12 — Pillar 4/6 Instantiation + Stage-2-A 15-pair Extension: Math93-AddA (Pillar 4 → CONDITIONAL), Math80-AddE (Pillar 6 → CONDITIONAL), Math60-Stage2-A-AddB (20/55 pairs)]",
@@ -151,14 +156,9 @@ window.TECT_HISTORY_PAGE_005 = {
           date: "2026-04-24",
           title: "[Math75-Q3-Addendum-B-orbifold-singular-strata-closure — Sjamaar-Lerman stratification and isotropy-type matching (Pillar 4 Q3 STRONG CLOSURE DRAFT → PROVED CONDITIONAL)]",
           body: "Turn 7 Track B mandate: complete orbifold singular-strata analysis for Pillar 4 Q3. Math75-Q3-Addendum-A (2026-04-24 Turn 4 Track A) resolved O1 and O2 but left O3 PARTIAL, deferring singular-strata matching to this turn. Core task: apply Sjamaar-Lerman (1991) stratification theorem, enumerate isotropy subgroups of $G_{\\mathrm{SM}}$, prove stratum-by-stratum symplectomorphism via equivariant lift, and close Pillar 4 Q3 to PROVED CONDITIONAL."
-        },
-        {
-          date: "2026-04-24",
-          title: "[Math75-Q2-Addendum-A-RGE-completion — Full TECT BCC-defect β-function specification + RGE solver implementation (Pillar 4 Q2 closure, code + theorem)]",
-          body: "Turn 6 Track B mandate (Math86 §Turn 6): complete the numerical RGE infrastructure for Pillar 4 Q2. Math75-Q2-Addendum-A (strategy draft) and Math75-Q2-RG-flow-derivation (1-loop symbolic) are both in place. Remaining tasks: (1) derive the three coupling constants $C_i$ from SO(10) symmetry; (2) implement the full TECT BCC-defect β-function in the RG solver; (3) pre-register falsification thresholds and numerical-result gates per CLAUDE.md §6.3.3; (4) complete the companion Math note with devil's-advocate audit §6.3.1."
         }
       ]
     },
-    { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history-page-004.html\">&larr; Newer</a> &middot; Page 5 / 8 &middot; <a href=\"history-archive-index.html\">archive index</a> &middot; <a href=\"history-page-006.html\">Older &rarr;</a></div>" }
+    { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history-page-004.html\">&larr; Newer</a> &middot; Page 5 / 9 &middot; <a href=\"history-archive-index.html\">archive index</a> &middot; <a href=\"history-page-006.html\">Older &rarr;</a></div>" }
   ]
 };

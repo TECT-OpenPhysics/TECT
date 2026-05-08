@@ -19,7 +19,7 @@ TECT operates under a small set of explicit, binding policies documented in the 
 | `POSTMORTEM_RECURRENCE_POLICY.md` | Post-Mortem & Recurrence-Prevention Policy |
 | `RECORDS_CUTOFF.md` | TECT Records Cutoff |
 | `REPO_LAYOUT.md` | TECT Repository Layout Policy |
-| `REPO_RESTRUCTURE_ROADMAP.md` | Repository Restructure Roadmap (Phase B / C) |
+| `REPO_RESTRUCTURE_ROADMAP.md` | Repository Restructure Roadmap (v2 — post-Math353-AddB closure) |
 | `RESULT_TEMPLATE.md` | Per-run RESULT.md template |
 | `RETRO_MANIFEST_NOTE.md` | WITHDRAWN |
 | `SNAPSHOT_POLICY.md` | SNAPSHOT_POLICY.md — TECT Repository Snapshot Discipline |

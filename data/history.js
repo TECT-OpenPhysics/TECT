@@ -1,12 +1,17 @@
-// AUTO-GENERATED v0.3 page 1/8 — 2026-05-07 15:49 UTC
+// AUTO-GENERATED v0.3 page 1/9 — 2026-05-08 00:45 UTC
 window.TECT_HISTORY = {
-  title: "History (page 1 of 8)",
+  title: "History (page 1 of 9)",
   subtitle: "Chronological CHANGELOG mirror — auto-generated.",
-  lastUpdated: "2026-05-07 (auto)",
-  pagination: {"page": 1, "total": 8, "newer": null, "older": "history-page-002.html", "archiveIndex": "history-archive-index.html"},
+  lastUpdated: "2026-05-08 (auto)",
+  pagination: {"page": 1, "total": 9, "newer": null, "older": "history-page-002.html", "archiveIndex": "history-archive-index.html"},
   blocks: [
-    { type: "html", content: "<div class=\"pagination-nav\">Page 1 / 8 &middot; <a href=\"history-archive-index.html\">archive index</a> &middot; <a href=\"history-page-002.html\">Older &rarr;</a></div>" },
+    { type: "html", content: "<div class=\"pagination-nav\">Page 1 / 9 &middot; <a href=\"history-archive-index.html\">archive index</a> &middot; <a href=\"history-page-002.html\">Older &rarr;</a></div>" },
     { type: "timeline", items: [
+        {
+          date: "2026-05-08",
+          title: "[Infrastructure + Policy] Math353-AddB: Phase B inventory cleanup (B-κ + B-μ + B-θ DONE; B-λ + B-η + B-ζ operator-handoff)",
+          body: "**Theory tag**: `Math353-AddB-Phase-B-Implementation-Report-2026-05-08` **Type**: Implementation report addendum (CLAUDE.md §4.3). **Trigger**: operator's directive 2026-05-08 to \"automatically progress through Phase C\" after Math353-AddA r1-r7 snapshot pipeline first successful 8/8 completion."
+        },
         {
           date: "2026-05-07",
           title: "[Infrastructure + Policy] Math353-AddA: Snapshot v2.1 fix (CMD 8191-char limit) + Phase B/C inventory gap closure",
@@ -151,14 +156,9 @@ window.TECT_HISTORY = {
           date: "2026-05-01",
           title: "[Theory] Math295: Phase 1 cross-turn second-order audit (Math291+292+293), OUTCOME A",
           body: "**Significance**: Turn 65 of 20-turn TECT defence programme (Phase 2 — independent CLAUDE.md §6.3.2 cross-turn audit of Phase 1 closure). **AUDIT VERDICT (Math295.1, T7 PROVED): OUTCOME A — all three Phase 1 deliverables PASS independent second-order audit.** Math291 (ℏ formula reconciliation), Math292 (acceptance criterion), Math293 (false-negative taxonomy) all retain T6 PROVED CONDITIONAL with no tier downgrade. Phase 1 closure CERTIFIED."
-        },
-        {
-          date: "2026-05-01",
-          title: "[Theory] Math294: Striped-seed theoretical justification (Brazovskii basin-of-attraction theorem)",
-          body: "**Significance**: Turn 64 of 20-turn TECT defence programme (Phase 2 first note — Pillar 6 Numerical-Theory Bridge). Provides theoretical justification for the Math290 §6 striped-seed re-seed prescription. **Theorem 294.1 (T6 PROVED CONDITIONAL)**: basin-of-attraction separation between trivial vacuum and Brazovskii BCC broken-phase minimum is $\\Delta f_{\\rm basin}\\ge\\sqrt{(|\\mu^2|-\\gamma q_0^4)/\\lambda}/\\sqrt{N_{\\rm shell}}\\approx 0.14$ at $\\mu^2=-0.7$, $N=16$. Random-seed shell-mode amplitude is $\\sigma_f^{\\rm random}\\sim A_0\\,N^{-3/2}\\sqrt{N_{\\rm shell}}\\approx 2.7\\times 10^{-2}$ ($5\\sigma$ below basin gap). Striped seed achieves $f^{(0)}\\approx A_0/4.9\\approx 0.10$ deterministically (Proposition 294.2 lattice-corrected), at the basin edge for $A_0=0.5$ — explains Math290 borderline behaviour."
         }
       ]
     },
-    { type: "html", content: "<div class=\"pagination-nav\">Page 1 / 8 &middot; <a href=\"history-archive-index.html\">archive index</a> &middot; <a href=\"history-page-002.html\">Older &rarr;</a></div>" }
+    { type: "html", content: "<div class=\"pagination-nav\">Page 1 / 9 &middot; <a href=\"history-archive-index.html\">archive index</a> &middot; <a href=\"history-page-002.html\">Older &rarr;</a></div>" }
   ]
 };

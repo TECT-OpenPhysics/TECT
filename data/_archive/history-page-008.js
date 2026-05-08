@@ -1,12 +1,17 @@
-// AUTO-GENERATED v0.3 page 8/8 — 2026-05-07 15:49 UTC
+// AUTO-GENERATED v0.3 page 8/9 — 2026-05-08 00:45 UTC
 window.TECT_HISTORY_PAGE_008 = {
-  title: "History (page 8 of 8)",
+  title: "History (page 8 of 9)",
   subtitle: "Chronological CHANGELOG mirror — auto-generated.",
-  lastUpdated: "2026-05-07 (auto)",
-  pagination: {"page": 8, "total": 8, "newer": "history-page-007.html", "older": null, "archiveIndex": "history-archive-index.html"},
+  lastUpdated: "2026-05-08 (auto)",
+  pagination: {"page": 8, "total": 9, "newer": "history-page-007.html", "older": "history-page-009.html", "archiveIndex": "history-archive-index.html"},
   blocks: [
-    { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history-page-007.html\">&larr; Newer</a> &middot; Page 8 / 8 &middot; <a href=\"history-archive-index.html\">archive index</a></div>" },
+    { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history-page-007.html\">&larr; Newer</a> &middot; Page 8 / 9 &middot; <a href=\"history-archive-index.html\">archive index</a> &middot; <a href=\"history-page-009.html\">Older &rarr;</a></div>" },
     { type: "timeline", items: [
+        {
+          date: "2026-04-22",
+          title: "[v2.6.1 lands Math66 v0.2 Path-A adjoint-JVP patch; Math69 independent Devil's-Advocate peer-review filed; B2 structurally closed]",
+          body: "- **docs/math/TECT-Math69-Math66v02-PeerReview-DevilsAdvocate.tex.txt** (NEW) filed 2026-04-22. Independent referee-grade audit of Math66 v0.2. Four non-trivial objections formulated and resolved: - **§2 Obj.1 Wirtinger-convention collapse** — resolved via Eq. `m69-adjoint-identification`: `torch.autograd.grad(Re<v,F(Psi)>, Psi) = J(Psi)^\\dagger v` \\emph{exactly} in the real-Hilbert inner product (no factor-of-2 ambiguity). Identification is an unconditional theorem of real-linear analysis. - **§3 Obj.2 `_to_torch` dtype-coercion graph break** — resolved: `torch.Tensor.to` preserves autograd tracking in both (same-dtype, same-device) and (differing) branches. - **§4 Obj.3 Class-II $\\rho = |\\Psi|^2$ non-holomorphy** — resolved: PyTorch complex autograd is the real-linear Fréchet derivative (not C-linear); the non-holomorphic $\\rho, q_T$ are handled correctly. Residual $\\epsilon = 10^{-12}$ regularisation bounded below by Math56 Phase-0 gate G0 vacuum-rejection. - **§5 Obj.4 Gauge-covariance of $\\tfrac12(J+J^\\dagger)$** — resolved via Eq. `m69-sym-covariance` for the embedded $SU(2)$ stability subgroup. Residual full-$SU(3)$ promotion tracked as Pillar-7 task (not a B2 depend"
+        },
         {
           date: "2026-04-22",
           title: "[Math66 v0.2 adjoint-JVP rigorous derivation filed; Math68 Addendum A §§A.5–A.6 n64 audit + selftest empirical records; B2 structural resolution unblocked at theory level]",
@@ -151,14 +156,9 @@ window.TECT_HISTORY_PAGE_008 = {
           date: "2026-04-22",
           title: "[Newton-Krylov v2.5 solver redesign (Math63) sealed; diagnostic pending local execution]",
           body: "**Trigger**: Failure manifest R-2026-04-21-002 (v2.4 continuation failure at μ²=-1.0) — inner GMRES saturates at tCG=15000 for Newton iter ≥5, ρ_lin≈0.6, η_EW locks at 0.5. Root cause: unpreconditioned GMRES cannot resolve Brazovskii ill-conditioning (κ≈1000 at shell |**k**|=q₀)."
-        },
-        {
-          date: "2026-04-21",
-          title: "[Math61 Stage-2-E falsifiability pre-registration sealed; Task #54 PyTorch blocker]",
-          body: "**Trigger**: Autonomous two-objective session (user directive, Korean, 2026-04-21): (Objective 1) seal Math61 pre-registration for Stage-2-E $G_E$ gate closure; (Objective 2) execute Math55 continuation Task #54 to $\\mu^2_{\\rm target}=5\\times 10^{-3}$."
         }
       ]
     },
-    { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history-page-007.html\">&larr; Newer</a> &middot; Page 8 / 8 &middot; <a href=\"history-archive-index.html\">archive index</a></div>" }
+    { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history-page-007.html\">&larr; Newer</a> &middot; Page 8 / 9 &middot; <a href=\"history-archive-index.html\">archive index</a> &middot; <a href=\"history-page-009.html\">Older &rarr;</a></div>" }
   ]
 };

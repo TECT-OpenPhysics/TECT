@@ -1,12 +1,17 @@
-// AUTO-GENERATED v0.3 page 2/8 — 2026-05-07 15:49 UTC
+// AUTO-GENERATED v0.3 page 2/9 — 2026-05-08 00:45 UTC
 window.TECT_HISTORY_PAGE_002 = {
-  title: "History (page 2 of 8)",
+  title: "History (page 2 of 9)",
   subtitle: "Chronological CHANGELOG mirror — auto-generated.",
-  lastUpdated: "2026-05-07 (auto)",
-  pagination: {"page": 2, "total": 8, "newer": "history.html", "older": "history-page-003.html", "archiveIndex": "history-archive-index.html"},
+  lastUpdated: "2026-05-08 (auto)",
+  pagination: {"page": 2, "total": 9, "newer": "history.html", "older": "history-page-003.html", "archiveIndex": "history-archive-index.html"},
   blocks: [
-    { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history.html\">&larr; Newer</a> &middot; Page 2 / 8 &middot; <a href=\"history-archive-index.html\">archive index</a> &middot; <a href=\"history-page-003.html\">Older &rarr;</a></div>" },
+    { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history.html\">&larr; Newer</a> &middot; Page 2 / 9 &middot; <a href=\"history-archive-index.html\">archive index</a> &middot; <a href=\"history-page-003.html\">Older &rarr;</a></div>" },
     { type: "timeline", items: [
+        {
+          date: "2026-05-01",
+          title: "[Theory] Math294: Striped-seed theoretical justification (Brazovskii basin-of-attraction theorem)",
+          body: "**Significance**: Turn 64 of 20-turn TECT defence programme (Phase 2 first note — Pillar 6 Numerical-Theory Bridge). Provides theoretical justification for the Math290 §6 striped-seed re-seed prescription. **Theorem 294.1 (T6 PROVED CONDITIONAL)**: basin-of-attraction separation between trivial vacuum and Brazovskii BCC broken-phase minimum is $\\Delta f_{\\rm basin}\\ge\\sqrt{(|\\mu^2|-\\gamma q_0^4)/\\lambda}/\\sqrt{N_{\\rm shell}}\\approx 0.14$ at $\\mu^2=-0.7$, $N=16$. Random-seed shell-mode amplitude is $\\sigma_f^{\\rm random}\\sim A_0\\,N^{-3/2}\\sqrt{N_{\\rm shell}}\\approx 2.7\\times 10^{-2}$ ($5\\sigma$ below basin gap). Striped seed achieves $f^{(0)}\\approx A_0/4.9\\approx 0.10$ deterministically (Proposition 294.2 lattice-corrected), at the basin edge for $A_0=0.5$ — explains Math290 borderline behaviour."
+        },
         {
           date: "2026-05-01",
           title: "[Theory] Math293: Pillar 6 false-negative taxonomy (three-class disjoint-exhaustive partition)",
@@ -151,14 +156,9 @@ window.TECT_HISTORY_PAGE_002 = {
           date: "2026-04-30",
           title: "[Theory] Math263: Turn 34 — H4 Closure — $O_h$ Embedding in Spin(10) Analytical Verification",
           body: "**Significance**: Turn 34 analytical closure of H4 (cubic-point-group embedding) via explicit Frobenius reciprocity computation. **Main result**: **T6 PROVED CONDITIONAL on hypothesis set $\\mathcal{H}_4 = \\{H_{4.1}, H_{4.2}, H_{4.3}, H_{4.4}, H_{4.5}, H_{4.6}\\}$** (all textbook-standard or previously proved in TECT). **Theorem 263.1**: The SO(10) spinor **$\\mathbf{16}$** decomposes uniquely under the cubic-symmetry embedding $O_h \\subset \\mathrm{SO}(3) \\subset \\mathrm{SO}(10)$ as $\\mathbf{16}|_{O_h} = 2T_1 \\oplus 2T_2 \\oplus 2A_2 \\oplus 2A_1$ (dimension: $6+6+2+2=16$ ✓; Frobenius reciprocity yields integer multiplicities; character orthogonality verified). This analytically completes Math252 (Turn 23, T3 PROOF SKETCH, which deferred Frobenius reciprocity to supplementary code). **Route A composite impact**: H4 now T6 PROVED CONDITIONAL. Route A hypothesis set $\\mathcal{H}_A = \\{H_1, \\ldots, H_7\\}$ now at **6/7 T6 PROVED CONDITIONAL + 1/7 T2 CONJECTURE** (H7 numerical). **Automatic Route A T4→T6 upgrade trigger**: Upon H7 numerical closure (expected 2026-05-14 hard deadline, Task #156a.1.b)."
-        },
-        {
-          date: "2026-04-29",
-          title: "[Theory] Math231: Pillar 6 — Higgs Effective Scalar Potential Derivation — Closes Task #170",
-          body: "**Significance**: Derives the effective Higgs potential V(Ψ) = m²|Ψ|² + λ|Ψ|⁴ directly from BCC Brazovskii dynamics. Establishes the electroweak-breaking scale |Ψ|_0 ~ 100 GeV from TECT microscopic parameters (κ_χ, κ_5, c, η). Completes Pillar 6 scalar-potential closure and enables Pillar 4 sub-task 3 (Math229) final promotion (pending continuum-limit verification, Task #115)."
         }
       ]
     },
-    { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history.html\">&larr; Newer</a> &middot; Page 2 / 8 &middot; <a href=\"history-archive-index.html\">archive index</a> &middot; <a href=\"history-page-003.html\">Older &rarr;</a></div>" }
+    { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history.html\">&larr; Newer</a> &middot; Page 2 / 9 &middot; <a href=\"history-archive-index.html\">archive index</a> &middot; <a href=\"history-page-003.html\">Older &rarr;</a></div>" }
   ]
 };
