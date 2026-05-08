@@ -1,4 +1,4 @@
-// AUTO-GENERATED v0.3 page 3/9 — 2026-05-08 03:24 UTC
+// AUTO-GENERATED v0.3 page 3/9 — 2026-05-08 03:35 UTC
 window.TECT_HISTORY_PAGE_003 = {
   title: "History (page 3 of 9)",
   subtitle: "Chronological CHANGELOG mirror — auto-generated.",
@@ -7,6 +7,11 @@ window.TECT_HISTORY_PAGE_003 = {
   blocks: [
     { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history-page-002.html\">&larr; Newer</a> &middot; Page 3 / 9 &middot; <a href=\"history-archive-index.html\">archive index</a> &middot; <a href=\"history-page-004.html\">Older &rarr;</a></div>" },
     { type: "timeline", items: [
+        {
+          date: "2026-04-30",
+          title: "[Theory] Math268: Turn 39 — Pillar 4 Atomic-Tier T6 Promotion + Stage-1 Reassessment",
+          body: "**Significance**: Turn 39 consolidation note (CLAUDE.md §6.3.5(c) BINDING) formally promoting Pillar 4 atomic tier from T3 PROOF SKETCH (Math265) to **T6 PROVED CONDITIONAL** via application of composite-tier rule min(T6 sub-task 1, T6 sub-task 2, T6 sub-task 3) = T6. **HISTORIC MILESTONE**: This is the **first time Pillar 4 achieves T6 in a complete composite** (all three sub-tasks at T6). **Main results**: (i) Pillar 4 atomic tier T6 PROVED CONDITIONAL on cumulative hypothesis set $\\mathcal{H}_{\\text{atomic}} = \\{H_{1.1}, \\ldots, H_{3.3}\\}$ (13 hypotheses, all T6+ or textbook-standard). (ii) Stage-1 scorecard advanced: 8/11 pillars at T6+ (Pillars 1, 2, **4 NEW**, 5, 7, 8, 9, 11); 1/11 at T5 (Pillar 3); 2/11 at T4 (Pillars 6, 10). (iii) Stage-1 predicate ($S_1$) remains PARTIAL but advances to PARTIAL-ADVANCING status. (iv) **New critical-path gate identified**: Pillar 6 (Higgs mechanism, T4 → T6) due 2026-05-29 now the unique atomic blocker for $S_1$ SEALED. (v) Pillar 4 T6 promotion **immediately unlocks GAP-2 and GAP-3 unconditional-closure pathways** in Stage-2 quantum-consistency gates."
+        },
         {
           date: "2026-04-30",
           title: "[Audit] Math267: Turn 38 — Cross-Turn Audit of Math266 (Sub-Task 3 T6 Claim) — Audit-Confirmed",
@@ -151,11 +156,6 @@ window.TECT_HISTORY_PAGE_003 = {
           date: "2026-04-28",
           title: "[Math200-Addendum-A — RGE convention/sign sanity check (reviewer items 1-3 closure)]",
           body: "**Trigger**: Discharge of reviewer items 1-3 from AUDIT-2026-04-28-Math200-Proxy-Defect (single-turn §15 dispatch following Math205)."
-        },
-        {
-          date: "2026-04-28",
-          title: "[Math205 — Flat-Cartan atlas conditional uniqueness (synthesis L1+L2+L3)]",
-          body: "**Trigger**: Synthesis of Math202 + Math203 + Math204 closing the four-step flat-Cartan-forcing decomposition. Final single-turn dispatch in the §15 sequential L1→L2→L3→synthesis chain."
         }
       ]
     },

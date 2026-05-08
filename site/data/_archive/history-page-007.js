@@ -1,4 +1,4 @@
-// AUTO-GENERATED v0.3 page 7/9 — 2026-05-08 03:24 UTC
+// AUTO-GENERATED v0.3 page 7/9 — 2026-05-08 03:35 UTC
 window.TECT_HISTORY_PAGE_007 = {
   title: "History (page 7 of 9)",
   subtitle: "Chronological CHANGELOG mirror — auto-generated.",
@@ -7,6 +7,11 @@ window.TECT_HISTORY_PAGE_007 = {
   blocks: [
     { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history-page-006.html\">&larr; Newer</a> &middot; Page 7 / 9 &middot; <a href=\"history-archive-index.html\">archive index</a> &middot; <a href=\"history-page-008.html\">Older &rarr;</a></div>" },
     { type: "timeline", items: [
+        {
+          date: "2026-04-24",
+          title: "[Math82-Addendum-B — Phase Z BCC analytic seed runbook + driver --load-psi flag (v2.6.5)]",
+          body: "1. **`Codes/pde/bcc_analytic_seed.py` (NEW, ~230 lines)** — standalone BCC analytic seed builder + CLI. Constructs $\\Psi_{\\mathrm{BCC}}(x) = A_{\\mathrm{BCC}} \\sum_{j=1}^{6} \\cos(Q_0 \\mathbf{q}_j \\cdot x)$ with Brazovskii saddle-point amplitude $A_{\\mathrm{BCC}} = \\sqrt{|\\mu^2|/(15\\gamma)}$, distributed across the 3 family channels via locked direction $\\mathbf{z}_0 = (1,1,1)/\\sqrt{3}$. Output: `(3, N, N, N)` complex128 .npy file ready for `--load-psi`."
+        },
         {
           date: "2026-04-24",
           title: "[Math77-Q6b-Addendum-A — pure-SM 1-loop unification baseline FALSIFIED; Q6b conjecture as-stated requires intermediate-scale BCC-defect content]",
@@ -151,11 +156,6 @@ window.TECT_HISTORY_PAGE_007 = {
           date: "2026-04-23",
           title: "[Math74 Addendum-A — post-upload status update: Math73/74 are no longer doc-only closures; B2 code-level resolved and B3 code-level landed; Task #54 reclassified to code-unblocked / awaiting live endp",
           body: "- **docs/math/TECT-Math74-Addendum-A-Post-Upload-Status-Update.tex.txt** filed (NEW, 7 subsections). - §§A.1–A.2 record that the uploaded `PDE/tect_newton_krylov.py` (v2.6.2) and `PDE/continuation_mu2_v25.py` (v2.6.3) now carry the Math66 v0.2 Path-A torch-native adjoint-JVP, the Math73 `CiiProjector` API (`FullProjector`, `ChannelProjector`), the single-`newton_solve` `run_one_point_v25`, the Phase 2 / Phase 3 live wiring, and the sixteen-field `continuation_mu2_v25_endpoint/1.0` emission block. Eq. `math74-addA-B2B3-code-level`: **B2 is code-level resolved, B3 is code-level landed**. - §A.3 books three strictly non-blocking residual items $R^{\\prime}_{1}, R^{\\prime}_{2}, R^{\\prime}_{3}$: (i) B1 name-map shim `{pcg→cg, fgmres→gmres, minres→gmres}` is *operationally* closed rather than *elegantly* closed (a native indefinite-symmetric `minres` implementation is booked as future cleanup); (ii) `NewtonStep.eta_ew` remains a placeholder $0.5$ because `tect_newton_krylov.NewtonStepRecord` does not surface an inexact-Newton forcing sequence directly; (iii) the Math63 §2D acceptance gate (Newton $\\le 8$, $t_{\\mathrm{CG}} \\le 300$, $\\rho_{\\mathrm{lin}} \\le 0.05$ at $\\mu^2=-1.0$)"
-        },
-        {
-          date: "2026-04-23",
-          title: "[Math74 — `continuation_mu2_v25.py` v2.5.7 skeleton retired; v2.6.3 live driver lands with real Phase-D wire-through, Phase 2/3 integration, and endpoint JSON contract; driver-side blocker of Task #54",
-          body: "- **docs/math/TECT-Math74-v2p6p3-Continuation-Driver-Live-Wire.tex.txt** filed (NEW, 7 sections). - §2 records the v2.5.7 structural obstruction in formal form: Prop. `math74-v257-obstruction` establishes that for every input, `ContinuationPoint.converged` returns identically `False` at v2.5.7. The proof is two-line: the driver's outer `for newton_iter in range(max_newton)` loop called `tect_newton_krylov.newton_solve(max_newton=50, ...)` in its body while simultaneously hard-coding `NewtonStep.residual_norm = float(\"nan\")`. The subsequent convergence test `newton_step.residual_norm < tol_newton` evaluates to `NaN < tol_newton`, which by IEEE 754-2019 §5.11 is `False` for every finite tolerance. The assignment `result.converged = True` on the true branch is unreachable. - §3 presents the rigorous resolution $\\mathrm{rop}_{2.6.3}$: a single `newton_solve` invocation per $\\mu^2$ point with full Newton loop delegated to the solver core, convergence propagated via $$\\texttt{result.converged} := \\mathrm{isfinite}(H[-1][\"\\mathrm{grad\\_norm}\"]) \\wedge (H[-1][\"\\mathrm{grad\\_norm}\"] < \\mathrm{tol}_{\\mathrm{newton}}),$$ bit-identically matching the internal criterion of `new"
         }
       ]
     },

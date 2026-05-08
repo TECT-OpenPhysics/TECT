@@ -1,4 +1,4 @@
-// AUTO-GENERATED v0.3 page 4/9 — 2026-05-08 03:24 UTC
+// AUTO-GENERATED v0.3 page 4/9 — 2026-05-08 03:35 UTC
 window.TECT_HISTORY_PAGE_004 = {
   title: "History (page 4 of 9)",
   subtitle: "Chronological CHANGELOG mirror — auto-generated.",
@@ -7,6 +7,11 @@ window.TECT_HISTORY_PAGE_004 = {
   blocks: [
     { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history-page-003.html\">&larr; Newer</a> &middot; Page 4 / 9 &middot; <a href=\"history-archive-index.html\">archive index</a> &middot; <a href=\"history-page-005.html\">Older &rarr;</a></div>" },
     { type: "timeline", items: [
+        {
+          date: "2026-04-28",
+          title: "[Math205 — Flat-Cartan atlas conditional uniqueness (synthesis L1+L2+L3)]",
+          body: "**Trigger**: Synthesis of Math202 + Math203 + Math204 closing the four-step flat-Cartan-forcing decomposition. Final single-turn dispatch in the §15 sequential L1→L2→L3→synthesis chain."
+        },
         {
           date: "2026-04-28",
           title: "[Math204 — SU(5) cocycle Cartan-only forcing via π₃ lift through SO(10)/SU(5)]",
@@ -151,11 +156,6 @@ window.TECT_HISTORY_PAGE_004 = {
           date: "2026-04-26",
           title: "[Round 21 — Math110 AddA/D Verification Programme (Round R1): Fierz-Pauli Coefficient + eta_top Reconciliation]",
           body: "**Status**: PROVED CONDITIONAL (gate F4 PASS). - Rigorous derivation of Fierz-Pauli kinetic term from TECT elastic Lagrangian. - Matching with linearized Einstein-Hilbert action at TT gauge yields coefficient $\\mu a_{\\rm BCC}^2 = c^3/(16\\pi G)$. - Factor-of-$16\\pi$ verified within standard GR conventions (Carroll, Wald textbooks). - RG-running effects (factor-of-2 enhancement from UV to IR) documented and accounted for. - **Gate F4 status**: PASS (coefficient within factor-2 tolerance; no deviation). - Numerical prediction confirmed: $a_{\\rm BCC} = 4\\sqrt{\\pi}\\ell_{\\rm P} \\approx 7.09\\ell_{\\rm P}$. - Devil's-advocate self-test (§6.3.1): three objections (α/β/γ); all DISMISSED or VALID-with-scope."
-        },
-        {
-          date: "2026-04-25",
-          title: "[Round 20 — FINAL SYNTHESIS: Math109 (Final Rigor Synthesis Rounds 17–20; PROVED; capstone)]",
-          body: "**Status**: PROVED UNCONDITIONAL (meta-synthesis). - Complete summary of Rounds 17–20 and integration with earlier rounds. - Final Stage-1 scorecard: 4 PROVED UNCOND + 4 PROVED COND + 1 CLOSED@1-loop + 1 CLOSED-NO-GO + 1 additional PROVED = **All 11 pillars resolved**. - Final Stage-2 scorecard: All five sub-theorems A–E meet closure gates. **$S_2$ SEALED**. - TOE qualification: $S_1 \\land S_2$ satisfied. **Operational classification: UCFT + Partial TOE**. - Cumulative metrics: 30 new Math notes (Rounds 1–20), ~12,000–14,000 lines LaTeX, 18 formal theorems, 34 lemmas, ~150 propositions, 27 falsification gates. - Honest scope statement: TECT derives all non-quantum physics from BCC axiom; $\\hbar$ external (like $G$ in Newton or $c$ in Einstein). - Recommended next priorities: Numerical completions (Tasks #115–#132), manuscript authorship, Stage-3 experimental partnerships. - Devil's-advocate final audit: Three objections enumerated (all dismissed)."
         }
       ]
     },

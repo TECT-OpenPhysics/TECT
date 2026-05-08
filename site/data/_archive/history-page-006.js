@@ -1,4 +1,4 @@
-// AUTO-GENERATED v0.3 page 6/9 — 2026-05-08 03:24 UTC
+// AUTO-GENERATED v0.3 page 6/9 — 2026-05-08 03:35 UTC
 window.TECT_HISTORY_PAGE_006 = {
   title: "History (page 6 of 9)",
   subtitle: "Chronological CHANGELOG mirror — auto-generated.",
@@ -7,6 +7,11 @@ window.TECT_HISTORY_PAGE_006 = {
   blocks: [
     { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history-page-005.html\">&larr; Newer</a> &middot; Page 6 / 9 &middot; <a href=\"history-archive-index.html\">archive index</a> &middot; <a href=\"history-page-007.html\">Older &rarr;</a></div>" },
     { type: "timeline", items: [
+        {
+          date: "2026-04-24",
+          title: "[Math77-Q6b-Addendum-C — Pati-Salam RGE Finalisation: Candidate Selection Rule and PROVED CONDITIONAL Status]",
+          body: "Pillar 6 Q6b closure sprint (Turn 8 Track A). Math77-Q6b-Addendum-B provided a 349-candidate Pati-Salam two-step RGE scan. Math80-Addendum-C-FULL established SO(10)-uniqueness as PROVED. Task: apply selection criteria (SR1-SR4) to reduce 349 candidates to 1, execute devil's-advocate self-test per CLAUDE.md §6.3.1, and promote Q6b to PROVED CONDITIONAL."
+        },
         {
           date: "2026-04-24",
           title: "[Math87 — Cross-Turn Second-Order Audit of Turns 5 + 6 Deliverables (CLAUDE.md §6.3.2 Mandatory)]",
@@ -151,11 +156,6 @@ window.TECT_HISTORY_PAGE_006 = {
           date: "2026-04-24",
           title: "[Math82-Addendum-C — Phase E + F: PDE/ fully retired; canonical layout achieved]",
           body: "The Phase Z continuation run uses `Codes\\pde\\continuation_mu2_v25.py` (post-correction from earlier `PDE\\continuation_mu2_v25.py` request) and `Codes\\pde\\config_template_brazovskii.json`. Neither path includes `PDE\\`. The script does not touch `Codes\\pde\\` or `Runs\\continuation\\math55_endpoint_N32_Lbcc7_phaseZ_2026-04-24\\`. Therefore PDE/ retirement during the run is safe."
-        },
-        {
-          date: "2026-04-24",
-          title: "[Math82-Addendum-B — Phase Z BCC analytic seed runbook + driver --load-psi flag (v2.6.5)]",
-          body: "1. **`Codes/pde/bcc_analytic_seed.py` (NEW, ~230 lines)** — standalone BCC analytic seed builder + CLI. Constructs $\\Psi_{\\mathrm{BCC}}(x) = A_{\\mathrm{BCC}} \\sum_{j=1}^{6} \\cos(Q_0 \\mathbf{q}_j \\cdot x)$ with Brazovskii saddle-point amplitude $A_{\\mathrm{BCC}} = \\sqrt{|\\mu^2|/(15\\gamma)}$, distributed across the 3 family channels via locked direction $\\mathbf{z}_0 = (1,1,1)/\\sqrt{3}$. Output: `(3, N, N, N)` complex128 .npy file ready for `--load-psi`."
         }
       ]
     },

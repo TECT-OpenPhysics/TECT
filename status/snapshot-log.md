@@ -7,6 +7,20 @@ This file is the append-only audit log of every snapshot orchestrator run. Lates
 The snapshot orchestrator brings all four TECT mirror trees into a coherent state via the binding 8-step pipeline. See `SNAPSHOT_POLICY.md` for the full definition, trigger conditions, and exit-code contract.
 
 ---
+## 2026-05-08T03:24:26 UTC -- b87dc3d -- Math353-AddF: v3 mirror cleanup — pde operational excluded, paper PDF flattened, site/assets minimised, docs/ disabled
+- stamp : PASS
+- generate : PASS
+- verify : PASS
+- manifest : PASS
+- commit : PASS (b87dc3d)
+- curate : PASS
+- push : PASS (https://github.com/TECT-OpenPhysics/TECT/commit/e9af6ad1fcb24d077248f1e02ba59f7504ecc156)
+- audit : PASS (clean)
+- Elapsed: 67.8 s
+- GitHub: https://github.com/TECT-OpenPhysics/TECT/commit/e9af6ad1fcb24d077248f1e02ba59f7504ecc156
+
+---
+
 ## 2026-05-08T02:39:13 UTC -- 09e788e -- Math353-AddE: v3 cutover — Github/ re-organised to theory-only mirror structure
 - stamp : PASS
 - generate : PASS
@@ -293,6 +307,7 @@ The snapshot orchestrator brings all four TECT mirror trees into a coherent stat
 - GitHub: https://github.com/TECT-OpenPhysics/TECT/commit/b83758bd0a94c3b2b97ff9f09a0ef6c8cb736de2
 
 ---
+
 
 
 

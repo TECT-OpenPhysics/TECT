@@ -1,4 +1,4 @@
-// AUTO-GENERATED v0.3 page 2/9 — 2026-05-08 03:24 UTC
+// AUTO-GENERATED v0.3 page 2/9 — 2026-05-08 03:35 UTC
 window.TECT_HISTORY_PAGE_002 = {
   title: "History (page 2 of 9)",
   subtitle: "Chronological CHANGELOG mirror — auto-generated.",
@@ -7,6 +7,11 @@ window.TECT_HISTORY_PAGE_002 = {
   blocks: [
     { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history.html\">&larr; Newer</a> &middot; Page 2 / 9 &middot; <a href=\"history-archive-index.html\">archive index</a> &middot; <a href=\"history-page-003.html\">Older &rarr;</a></div>" },
     { type: "timeline", items: [
+        {
+          date: "2026-05-01",
+          title: "[Infrastructure + Code] Snapshot orchestrator + policy + CLAUDE.md §16 trigger phrases",
+          body: "**Significance**: Operator request to eliminate manual per-step propagation of canonical changes to the four mirror trees (Docs/Codes canonical, Website/data, Website/assets, Github/). Establishes a single-command snapshot pipeline + binding policy + AI trigger phrases so that future sessions can synchronise all trees with a one-line invocation. Replaces the ad-hoc per-session manual instructions to \"update Website + GitHub\" with a deterministic 8-step pipeline."
+        },
         {
           date: "2026-05-01",
           title: "[Theory + Results] Math294-AddA: Empirical marginal-basin confirmation at $A_0=0.5$ + trust-region overshoot failure mode",
@@ -151,11 +156,6 @@ window.TECT_HISTORY_PAGE_002 = {
           date: "2026-05-01",
           title: "[Defense] Math270: Turn 41 — Cross-Base Coherence Defense Against Attack #1",
           body: "**Significance**: Turn 41 (Start of 20-turn defence programme, Turns 41–60) addresses the highest-risk attack vector from external hostile-reviewer assessment (2026-05-01): **cross-base coherence** of the Pillar 4 atomic-tier T6 promotion. **Attack statement**: Pillar 4 atomic tier combines sub-task 1 (proved on $\\mathbb{CP}^2$), sub-task 2 (proved on $\\Sigma_0 = \\mathbb{P}^1 \\times \\mathbb{P}^1$), and sub-task 3 (claimed base-independent). Does a single coherent geometric realization exist where all three simultaneously close? **Main result**: **Attack #1 MITIGATED via Defenses B + A + Theorems 270.1–270.2.** Pillar 4 atomic-tier T6 PROVED CONDITIONAL status is \\textbf{RETAINED}."
-        },
-        {
-          date: "2026-04-30",
-          title: "[Theory] Math268: Turn 39 — Pillar 4 Atomic-Tier T6 Promotion + Stage-1 Reassessment",
-          body: "**Significance**: Turn 39 consolidation note (CLAUDE.md §6.3.5(c) BINDING) formally promoting Pillar 4 atomic tier from T3 PROOF SKETCH (Math265) to **T6 PROVED CONDITIONAL** via application of composite-tier rule min(T6 sub-task 1, T6 sub-task 2, T6 sub-task 3) = T6. **HISTORIC MILESTONE**: This is the **first time Pillar 4 achieves T6 in a complete composite** (all three sub-tasks at T6). **Main results**: (i) Pillar 4 atomic tier T6 PROVED CONDITIONAL on cumulative hypothesis set $\\mathcal{H}_{\\text{atomic}} = \\{H_{1.1}, \\ldots, H_{3.3}\\}$ (13 hypotheses, all T6+ or textbook-standard). (ii) Stage-1 scorecard advanced: 8/11 pillars at T6+ (Pillars 1, 2, **4 NEW**, 5, 7, 8, 9, 11); 1/11 at T5 (Pillar 3); 2/11 at T4 (Pillars 6, 10). (iii) Stage-1 predicate ($S_1$) remains PARTIAL but advances to PARTIAL-ADVANCING status. (iv) **New critical-path gate identified**: Pillar 6 (Higgs mechanism, T4 → T6) due 2026-05-29 now the unique atomic blocker for $S_1$ SEALED. (v) Pillar 4 T6 promotion **immediately unlocks GAP-2 and GAP-3 unconditional-closure pathways** in Stage-2 quantum-consistency gates."
         }
       ]
     },

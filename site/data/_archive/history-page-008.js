@@ -1,4 +1,4 @@
-// AUTO-GENERATED v0.3 page 8/9 — 2026-05-08 03:24 UTC
+// AUTO-GENERATED v0.3 page 8/9 — 2026-05-08 03:35 UTC
 window.TECT_HISTORY_PAGE_008 = {
   title: "History (page 8 of 9)",
   subtitle: "Chronological CHANGELOG mirror — auto-generated.",
@@ -7,6 +7,11 @@ window.TECT_HISTORY_PAGE_008 = {
   blocks: [
     { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history-page-007.html\">&larr; Newer</a> &middot; Page 8 / 9 &middot; <a href=\"history-archive-index.html\">archive index</a> &middot; <a href=\"history-page-009.html\">Older &rarr;</a></div>" },
     { type: "timeline", items: [
+        {
+          date: "2026-04-23",
+          title: "[Math74 — `continuation_mu2_v25.py` v2.5.7 skeleton retired; v2.6.3 live driver lands with real Phase-D wire-through, Phase 2/3 integration, and endpoint JSON contract; driver-side blocker of Task #54",
+          body: "- **docs/math/TECT-Math74-v2p6p3-Continuation-Driver-Live-Wire.tex.txt** filed (NEW, 7 sections). - §2 records the v2.5.7 structural obstruction in formal form: Prop. `math74-v257-obstruction` establishes that for every input, `ContinuationPoint.converged` returns identically `False` at v2.5.7. The proof is two-line: the driver's outer `for newton_iter in range(max_newton)` loop called `tect_newton_krylov.newton_solve(max_newton=50, ...)` in its body while simultaneously hard-coding `NewtonStep.residual_norm = float(\"nan\")`. The subsequent convergence test `newton_step.residual_norm < tol_newton` evaluates to `NaN < tol_newton`, which by IEEE 754-2019 §5.11 is `False` for every finite tolerance. The assignment `result.converged = True` on the true branch is unreachable. - §3 presents the rigorous resolution $\\mathrm{rop}_{2.6.3}$: a single `newton_solve` invocation per $\\mu^2$ point with full Newton loop delegated to the solver core, convergence propagated via $$\\texttt{result.converged} := \\mathrm{isfinite}(H[-1][\"\\mathrm{grad\\_norm}\"]) \\wedge (H[-1][\"\\mathrm{grad\\_norm}\"] < \\mathrm{tol}_{\\mathrm{newton}}),$$ bit-identically matching the internal criterion of `new"
+        },
         {
           date: "2026-04-23",
           title: "[Math73 — Task #114 (B3) closed at the structural level: Boolean-mask selective cII symmetrisation is Hermiticity-incompatible; v2.6.2 CiiProjector API introduced]",
@@ -151,11 +156,6 @@ window.TECT_HISTORY_PAGE_008 = {
           date: "2026-04-22",
           title: "[check_jacobian_symmetry _self_test backend-coherence correction (v1.2)]",
           body: "**Trigger**: First run of the v1.1 self-test via `python tools\\check_jacobian_symmetry.py --selftest` raised `TypeError: unsupported operand type(s) for @: 'numpy.ndarray' and 'Tensor'` at Case 1."
-        },
-        {
-          date: "2026-04-22",
-          title: "[tools namespace-package fix + check_jacobian_symmetry --selftest — v2.5 diagnostic stage [3/4] unblocked]",
-          body: "**Trigger**: Second local run of `scripts/run_v25_diagnostic.ps1` (commit `badd11d`, after the v1.2 BZ-preconditioner patch): stage [2/4] passes cleanly, stage [3/4] fails with `ModuleNotFoundError: No module named 'tools'` on `python -m tools.check_jacobian_symmetry --selftest`, even though the sibling call `python -m PDE.bz_preconditioner` in the same stage succeeds."
         }
       ]
     },
