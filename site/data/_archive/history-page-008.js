@@ -1,164 +1,164 @@
-// AUTO-GENERATED v0.3 page 8/9 — 2026-05-08 07:55 UTC
+// AUTO-GENERATED v0.3 page 8/9 — frozen at 2026-05-07
 window.TECT_HISTORY_PAGE_008 = {
   title: "History (page 8 of 9)",
   subtitle: "Chronological CHANGELOG mirror — auto-generated.",
-  lastUpdated: "2026-05-08 (auto)",
-  pagination: {"page": 8, "total": 9, "newer": "history-page-007.html", "older": "history-page-009.html", "archiveIndex": "history-archive-index.html"},
+  lastUpdated: "2026-05-07 (archived)",
+  pagination: {"page": 8, "total": 9, "newer": "../history.html", "older": "page-007.html", "archiveIndex": "history-archive-index.html"},
   blocks: [
-    { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history-page-007.html\">&larr; Newer</a> &middot; Page 8 / 9 &middot; <a href=\"history-archive-index.html\">archive index</a> &middot; <a href=\"history-page-009.html\">Older &rarr;</a></div>" },
+    { type: "html", content: "<div class=\"pagination-nav\"><a href=\"../history.html\">&larr; Newer</a> &middot; Page 8 / 9 &middot; <a href=\"archive-index.html\">archive index</a> &middot; <a href=\"page-007.html\">Older &rarr;</a></div>" },
     { type: "timeline", items: [
         {
-          date: "2026-04-23",
-          title: "[Math74 — `continuation_mu2_v25.py` v2.5.7 skeleton retired; v2.6.3 live driver lands with real Phase-D wire-through, Phase 2/3 integration, and endpoint JSON contract; driver-side blocker of Task #54",
-          body: "- **docs/math/TECT-Math74-v2p6p3-Continuation-Driver-Live-Wire.tex.txt** filed (NEW, 7 sections). - §2 records the v2.5.7 structural obstruction in formal form: Prop. `math74-v257-obstruction` establishes that for every input, `ContinuationPoint.converged` returns identically `False` at v2.5.7. The proof is two-line: the driver's outer `for newton_iter in range(max_newton)` loop called `tect_newton_krylov.newton_solve(max_newton=50, ...)` in its body while simultaneously hard-coding `NewtonStep.residual_norm = float(\"nan\")`. The subsequent convergence test `newton_step.residual_norm < tol_newton` evaluates to `NaN < tol_newton`, which by IEEE 754-2019 §5.11 is `False` for every finite tolerance. The assignment `result.converged = True` on the true branch is unreachable. - §3 presents the rigorous resolution $\\mathrm{rop}_{2.6.3}$: a single `newton_solve` invocation per $\\mu^2$ point with full Newton loop delegated to the solver core, convergence propagated via $$\\texttt{result.converged} := \\mathrm{isfinite}(H[-1][\"\\mathrm{grad\\_norm}\"]) \\wedge (H[-1][\"\\mathrm{grad\\_norm}\"] < \\mathrm{tol}_{\\mathrm{newton}}),$$ bit-identically matching the internal criterion of `new"
+          date: "2026-05-07",
+          title: "[Infrastructure + Policy] Math353-AddA: Snapshot v2.1 fix (CMD 8191-char limit) + Phase B/C inventory gap closure",
+          body: "**Snapshot v2.1 patches** (this commit): - `Codes/scripts/sandbox_commit.sh` (v2.1): argument parser extended to accept `--files-from <listfile>` in addition to inline positional arguments. CRLF preserved (138→154 line-ending count = +16 new lines). Backward-compatible with existing callers. - `Codes/scripts/snapshot.ps1` (v2.1): step 5/8 commit-step rewritten to write file list and message to `$env:TEMP\\snapshot_*_<stamp>.txt`, then invoke `bash Codes/scripts/sandbox_commit.sh -F \"<msgfile>\" --files-from \"<listfile>\"`. CMD command line bounded by two short paths (~120 chars) regardless of file count. `try/finally` cleanup of temp files preserved across both success and failure paths. CRLF preserved (609→619 = +10 new lines). - AST/safe-write verification PASS on both files; `grep --files-from` returns 2 occurrences each (parser + caller)."
         },
         {
-          date: "2026-04-23",
-          title: "[Math73 — Task #114 (B3) closed at the structural level: Boolean-mask selective cII symmetrisation is Hermiticity-incompatible; v2.6.2 CiiProjector API introduced]",
-          body: "- **docs/math/TECT-Math73-Task114-cII-Projector-Mask-v2p6p2.tex.txt** filed. - §1–§2 Rigorous definition of the pointwise complex-orthogonal cII channel projector $P_{\\mathrm{cII}}(\\Psi)\\,\\xi(x) := \\xi(x) - \\langle\\Psi(x),\\xi(x)\\rangle_{\\mathbb{C}^3}/(|\\Psi(x)|^2 + \\epsilon)\\cdot\\Psi(x)$ (Def. `math73-proj`). Lem. `math73-proj-properties` proves (a) $P^2 = P$, (b) $P^\\dagger = P$, (c) $P\\Psi = 0$ up to $\\mathcal{O}(\\epsilon/|\\Psi|^2)$, (d) $\\mathrm{channel}_T(\\Psi) = P(T\\Psi)$ as an exact backend-code identity (`real_backend_pt_bcc_mixed_v3.py:458`). - §3 Thm. `math73-sym-incompat` (CORE NEGATIVE RESULT): the v2.6.0/v2.6.1 Boolean-mask-selective symmetrisation formula $\\widetilde{\\mathcal{J}}_M = \\mathcal{J} + \\tfrac{1}{2} M(\\mathcal{J}^\\dagger - \\mathcal{J})$ is self-adjoint iff $(I - M)A = 0$ and $A(I - M) = 0$, where $A = \\tfrac{1}{2}(\\mathcal{J} - \\mathcal{J}^\\dagger) \\ne 0$. Cor. `math73-M-eq-I`: under Math63 §2A.3's full-rank cII anti-Hermitian signal, the only Hermiticity-preserving diagonal mask is $M = I$. The original Task #114 deliverable (\"replace the all-True dummy with a real cII channel-projector mask\") is therefore mathematically "
+          date: "2026-05-07",
+          title: "[Infrastructure + Policy] Math353: Mirror-first restructure strategy framework + Phase B-revised B-α/β/γ executed",
+          body: "**Theory tag**: `Math353-Mirror-First-Restructure-Strategy-Framework-2026-05-07` **R-tag**: n/a (operational + policy; no physics tier change) **Supersedes**: `REPO_RESTRUCTURE_ROADMAP.md` §2.1/§2.2/§2.3 (lowercase-rename plan); `Codes/scripts/migrate_to_lowercase_code.py` v1.1 (retired with header banner)."
         },
         {
-          date: "2026-04-22",
-          title: "[Math70 — N=64 continuum audit 2026-04-22T22:22Z: HOLLOW-RUN forensic. B2 resolved as live blocker; next blocker = real continuum-physics audit]",
-          body: "- **docs/math/TECT-Math70-N64-ContinuumAudit-HollowRun-Forensics.tex.txt** filed. - §0 Updated live verdict: B2 is no longer a live execution blocker on the present Path-X route (Eq. `m70-s0-b2-verdict`). Integration status upgrades from *partial live integration only* to *an effectively landed executable Phase-D path*. Next question shifts from **\"does it run?\"** to **\"what continuum physics does it actually certify?\"** (Eq. `m70-s0-next-question`). - §1 Evidence: JSON payload records `converged=false, sigma_V=null, kappa=null, newton_steps=0` for all three grids despite the solver printing `>>> Converged at step 4` (Eq. `m70-json-evidence`). - §2 Physical interpretation: Newton trajectory is bit-identical across $N\\in\\{32,64,128\\}$ (Eq. `m70-trajectory`) $\\Leftrightarrow$ iterates stay in the $k=0$ subspace of the BCC spectral Laplacian. Rigorous proof under `_brazovskii_linear_term_t` + `_shell_bias_term_t` Fourier diagonality; the converged $\\Psi_\\star$ is the **trivial homogeneous vacuum**, not the BCC condensate. - §3 Defect register D1–D5: - **D1** homogeneous seed `Psi_init = np.ones((3,N,N,N)) * 0.5` (audit line 215) — never leaves $k=0$. - **D2** return-tuple co"
+          date: "2026-05-07",
+          title: "[Infrastructure + Docs + Code] Math352: Status propagation pipeline + States→Status rename + Phase A automation closure",
+          body: "**Theory tag**: `Math352-Status-Propagation-and-Tooling-Closure-2026-05-07` **R-tag**: n/a (operational tooling closure; no physics tier change)"
         },
         {
-          date: "2026-04-22",
-          title: "[v2.6.1 pytest 0F/5P/0S — executable closure of Newton-Krylov v2.6.1; B2 empirically closed; Task #104 CLOSED]",
-          body: "- **docs/math/TECT-Math68-Addendum-A-B5-B1-sandbox-repair.tex.txt §A.7** appended. - Prop. `math68-addA-v261-closure` records the executable closure: pytest on the user's Windows box (Python 3.12.10, pytest 9.0.3) returned the target signature Eq. `math68-addA-v261-signature`: $\\mathbf{0F / 5P / 0S}$ in 2.67 s. - **Triple closure of B2** now certified: (i) theoretical (Math66 v0.2 Thm. `math66v02-Hermiticity`), (ii) peer-reviewed (Math69 ACCEPT), (iii) executable (this pytest run). - Per-test transition table: `test_symmetrised_jvp_hermiticity` FAIL→PASS, `test_pcg_routing_spd` SKIP→PASS, others retained PASS. U1 upgraded from SKIP-tolerant to hard numerical certificate on the Hermiticity contract $\\|\\tilde{\\mathcal{J}}_\\mathrm{cII} v - \\tilde{\\mathcal{J}}_\\mathrm{cII}^\\dagger v\\|/\\|\\tilde{\\mathcal{J}}_\\mathrm{cII} v\\| \\leq 10^{-13}$."
+          date: "2026-05-07",
+          title: "[Negative Result] Math351 Phase 0 closure: Sh raw-ansatz non-comparable to BCC continuation",
+          body: "**R-tag**: `R-2026-05-07-Math351-Sh-Raw-Ansatz-Non-Comparable` **Theory tag**: `Math351-Sh-Raw-Ansatz-Lanczos-Phase0-Closure-2026-05-07`"
         },
         {
-          date: "2026-04-22",
-          title: "[v2.6.1 lands Math66 v0.2 Path-A adjoint-JVP patch; Math69 independent Devil's-Advocate peer-review filed; B2 structurally closed]",
-          body: "- **docs/math/TECT-Math69-Math66v02-PeerReview-DevilsAdvocate.tex.txt** (NEW) filed 2026-04-22. Independent referee-grade audit of Math66 v0.2. Four non-trivial objections formulated and resolved: - **§2 Obj.1 Wirtinger-convention collapse** — resolved via Eq. `m69-adjoint-identification`: `torch.autograd.grad(Re<v,F(Psi)>, Psi) = J(Psi)^\\dagger v` \\emph{exactly} in the real-Hilbert inner product (no factor-of-2 ambiguity). Identification is an unconditional theorem of real-linear analysis. - **§3 Obj.2 `_to_torch` dtype-coercion graph break** — resolved: `torch.Tensor.to` preserves autograd tracking in both (same-dtype, same-device) and (differing) branches. - **§4 Obj.3 Class-II $\\rho = |\\Psi|^2$ non-holomorphy** — resolved: PyTorch complex autograd is the real-linear Fréchet derivative (not C-linear); the non-holomorphic $\\rho, q_T$ are handled correctly. Residual $\\epsilon = 10^{-12}$ regularisation bounded below by Math56 Phase-0 gate G0 vacuum-rejection. - **§5 Obj.4 Gauge-covariance of $\\tfrac12(J+J^\\dagger)$** — resolved via Eq. `m69-sym-covariance` for the embedded $SU(2)$ stability subgroup. Residual full-$SU(3)$ promotion tracked as Pillar-7 task (not a B2 depend"
+          date: "2026-05-07",
+          title: "[Negative Result + Audit] Math350 (deep-regime BCC saddle) + Math349-AddA (Mechanism re-prioritisation)",
+          body: "**R-tag**: `R-2026-05-07-Math350-DeepRegime-BCC-Saddle` **Theory tags**: `Math350-Math292-G3-N32-DeepRegime-Saddle-2026-05-07`, `Math349-AddA-User-Audit-Acknowledgment-and-Math350-Reprioritisation-2026-05-07`"
         },
         {
-          date: "2026-04-22",
-          title: "[Math66 v0.2 adjoint-JVP rigorous derivation filed; Math68 Addendum A §§A.5–A.6 n64 audit + selftest empirical records; B2 structural resolution unblocked at theory level]",
-          body: "- **docs/math/TECT-Math66-v02-AdjointJVP-RigorousDerivation.tex.txt** (NEW) filed 2026-04-22. Supersedes v0.1 \\textsc{Status} field per Math68 v0.1 Cor. `math68-math66-label`: promotes implementation spec from \\textsc{SKELETON-EXECUTABLE} to \\textsc{RIGOROUS-EXECUTABLE} by closing Blocker B2 at the structural level. Seven-section note: - **§1 Function-space setup** — $\\mathcal{H} = \\ell^2(\\mathbb{Z}_N^3;\\mathbb{C}^3)$ with Euclidean inner product (real Hilbert structure); residual decomposition Eq. `math66v02-residual-decomp` into 6 terms matching `real_backend_pt_bcc_mixed_v3.py` lines 490–495; block structure $\\mathcal{J} = \\mathcal{J}_{\\mathrm{H}} + \\mathcal{J}_{\\mathrm{cII}}$ (Eq. `math66v02-J-block`). - **§2 Wirtinger adjoint recipe** (Prop. `math66v02-wirtinger-adjoint`, Cor. `math66v02-recipe-block-diag`) — $\\mathcal{J}^\\dagger v = 2\\partial L_v/\\partial\\bar\\Psi$ with $L_v(\\Psi) = \\mathrm{Re}\\langle v, F(\\Psi)\\rangle$; critical corollary: B3 (cII mask) is NOT a dependency of B2 resolution. - **§3 Path A — torch-native residual re-plumbing** (Prop. `math66v02-pathA`) — exact six-line replacement block for `PDE/tect_newton_krylov.py:408-424`. Bypasses th"
+          date: "2026-05-06",
+          title: "[Audit] Math320 hostile-audit acknowledgment + status downgrade (AUDIT-2026-05-06-Math320-FourDefects, T6 → T4)",
+          body: "**Theory tag**: `Math320-AddA-Hostile-Audit-Acknowledgment-Status-Downgrade-2026-05-06`"
         },
         {
-          date: "2026-04-22",
-          title: "[Math68 Addendum A §A.4 — user-verified post-repair pytest signature 1F / 3P / 1S; B5 + B1 cleared, B2 isolated as sole non-PASS cause; `\\w` SyntaxWarnings silenced]",
-          body: "- No new theory; empirical confirmation of the prediction in `TECT-Math68-Addendum-A-B5-B1-sandbox-repair.tex.txt` Eq. `math68-addA-pytest-post-B5`. Actual signature **1 FAIL / 3 PASS / 1 SKIP** is strictly stronger than the conservative prediction **1F / 2P / 2S**: `test_minres_fallback_indefinite` promotes from SKIP to PASS because HessianOperator instantiation with `use_symmetrised_cII=True` does not exercise the adjoint JVP path until `matvec` is invoked."
+          date: "2026-05-06",
+          title: "[Theory] Math320 — Rigorous closure of the Global 12-Star Optimality Theorem (BCC selection T4 → T6 PROVED CONDITIONAL)",
+          body: "**Theory tag**: `Math320-BCC-Global-12-Star-Optimality-Closure-2026-05-06`"
         },
         {
-          date: "2026-04-22",
-          title: "[Math68 v0.1 PI-level audit + Math66 status retraction + five blockers B1--B5 filed — Task #104 reclassified \"partial live integration; executable closure OPEN\"]",
-          body: "- `docs/math/TECT-Math68-v26-PhaseD-Integration-Audit.tex.txt` **v0.1 (NEW)**, filed 2026-04-22. Three PI-level judgments frozen in LaTeX: - **§1 Updated critical-path priority chain** (Eq. `math68-priority-chain`, 8 stages): (i) v2.6.0 Phase D live integration + B1--B5 repair; (ii) Math66 §8 U1--U4 + R1--R2 verification; (iii) Math64 D5 $a_{\\mathrm{cII}}(N)$ scaling; (iv) Pillar 1 / Phase 4 continuum closure; (v) Math67 Global Closure Theorem assembly; (vi) 11-pillar TOE scorecard update; (vii) cII variational-parent search (research track, non-critical); (viii) Path-Y sector rewrite (research track, non-critical). - **§2 Math66 status retraction** (Prop. `math68-math66-status`, Cor. `math68-math66-label`): Math66 v0.1 header label \"THEOREM v0.1, complete\" is over-claim under peer-review standards; corrected to \"OPERATIONAL THEOREM / IMPLEMENTATION SPECIFICATION v0.1\" with four-status block {path-selection: CLOSED / implementation-spec: CLOSED / rigorous mathematical: OPEN to v0.2 / execution-verification: OPEN (pytest 2F/1S/2P on 2026-04-22)}. Header edit applied to Math66 source 2026-04-22. - **§3 Task #104 integration audit** (Prop. `math68-B1-fix` through `math68-B5-fix`)"
+          date: "2026-05-02",
+          title: "[Audit] Wave-7 auxiliary + epoch paper-draft over-claim correction (Math314, AUDIT-2026-05-02-Wave7-Aux-Epoch-Overclaim)",
+          body: "**Trigger**: Hostile-referee audit by maintainer on the four Wave-6/Wave-7 drafts produced by the parallel autonomous-research dispatch of 2026-05-02."
         },
         {
-          date: "2026-04-22",
-          title: "[tect_newton_krylov v2.6.0 + continuation_mu2_v25 Phase D wiring + test_v26_phase_d.py — Task #104 Block 3: Math66 Path-X implementation sealed; Phase D operational]",
-          body: "- No new theory. v2.6.0 implementation faithfully follows Math66 v0.1 §2–§8 (operator surgery, preconditioner placement, spectral-gap preservation, convergence theorems, API contract, verification plan)."
+          date: "2026-05-02",
+          title: "[Audit] Wave-7 Epoch series 03-12 over-claim correction (Math314-AddA, same tag AUDIT-2026-05-02-Wave7-Aux-Epoch-Overclaim)",
+          body: "**Trigger**: Hostile-referee audit by maintainer extended to the remaining 10 Epoch papers (Epoch-03 through Epoch-12) of the Wave-7 mass-DRAFT closure batch."
         },
         {
-          date: "2026-04-22",
-          title: "[Math66 Path-X v0.1 + Tool v1.4 + Autonomous Block 1–2 closure — operator surgery operationalized; Case-0 classifier sealed; Task #111 half-1/half-2 completed]",
-          body: "- `docs/math/TECT-Math66-cII-OperatorSurgery-PathX.tex.txt` **v0.1 (NEW)**, filed 2026-04-22. Complete operational specification for Math65 Cor. `math65-math66-mandate` Path-X mandate: - §1 Motivation: legitimacy of in-solver Hermitian projection via Thm. `math64-full-sympd` ($\\rho_{\\mathrm{FULL}} = 1.62 \\times 10^{-10}$ at Machine Precision); - §2 Construction of $\\widetilde{\\mathcal{J}}_{\\mathrm{cII}}(\\Psi) := \\tfrac{1}{2}(\\mathcal{J}_{\\mathrm{cII}} + \\mathcal{J}_{\\mathrm{cII}}^{\\dagger})$ with Lem. `math66-hermiticity` and Lem. `math66-residual-reduction`; - §3 Preconditioner placement: in Newton--Krylov inner loop (PCG); Operation count: one extra adjoint JVP per Krylov step, $O(N\\log N)$; - §4 Spectral-gap preservation (Lem. `math66-spectral-gap`) via Bendixson inequality; real eigenvalues of $\\widetilde{\\mathcal{J}}_{\\mathrm{cII}}$ bounded from below by real eigenvalues of $\\mathcal{J}_{\\mathrm{cII}}$ minus anti-Hermitian residual; - §5 Full-operator consistency (Thm. `math66-full-consistency`): condition-number preservation to Machine Precision, $\\kappa(\\widetilde{\\mathcal{J}}_{\\mathrm{FULL}}) / \\kappa(\\mathcal{J}_{\\mathrm{FULL}}) \\in [1 - 10^{-9},"
+          date: "2026-05-02",
+          title: "[Audit] Wave-2 Top-impact (TI-1..4) MATHEMATICAL DEFECTS audit (Math314-AddB, same tag AUDIT-2026-05-02-Wave7-Aux-Epoch-Overclaim)",
+          body: "**Trigger**: Hostile-referee audit by maintainer extended to the four Wave-2 Top-impact papers (Paper-TI-1 through Paper-TI-4), with HIGHER severity findings than the prior Aux/Epoch wording over-claims."
         },
         {
-          date: "2026-04-22",
-          title: "[Math65 v0.1.2 → v0.1.3 + Runs R-2026-04-22-005 and R-2026-04-22-006 — triangulation completed; branch (I) Class Insufficiency sealed; Math66 operator surgery mandatory; Path (X) in-solver symmetrisat",
-          body: "- `docs/math/TECT-Math65-cII-EulerLagrange-Rewrite.tex.txt` v0.1.2 → **v0.1.3**. New §7 \"Sealed verdict: runs R-2026-04-22-005 and R-2026-04-22-006 and the branch-(I) selection\" with: - Boxed Eqs. `math65-run-A-norms` and `math65-run-B-norms` recording the run triples $(\\lVert F^{\\mathrm{impl}}\\rVert, \\lVert F^{\\mathrm{grad}(X)}\\rVert, \\Delta^{(X)})$ and $(r^{\\mathrm{impl}}_X, r^{\\mathrm{grad}}_X)$ for $X \\in \\{A, B\\}$; - Eq. `math65-polarization` (polarisation identity) and Eq. `math65-cos-triangulation` with $\\cos\\theta^{(A)} \\approx -1.27\\times 10^{-2}$, $\\cos\\theta^{(B)} \\approx -7.93\\times 10^{-3}$, $\\cos\\theta^{(C)} \\approx -1.55\\times 10^{-3}$, demonstrating that all three candidate gradients are $L^{2}$-orthogonal to $F_{\\mathrm{cII}}^{\\mathrm{impl}}$ across magnitude ratios $\\lVert F^{\\mathrm{grad}(X)}\\rVert / \\lVert F^{\\mathrm{impl}}\\rVert \\in \\{0.05, 55.7, 83.6\\}$; - Remark `math65-A-false-rescue` identifying the $r^{\\mathrm{impl}}_A = 1.0013$ Case-2 signature as a **magnitude artefact** forced by $\\lVert F^{\\mathrm{grad}(A)}\\rVert \\ll \\lVert F^{\\mathrm{impl}}\\rVert$; the true directional verdict is orthogonality; - Prop. `mat"
+          date: "2026-05-02",
+          title: "[Audit + Policy] Wave 1/3/4/5 Pillar-paper audit (Math314-AddC, same tag) + CLAUDE.md §15.6 rule #7 permanent addition",
+          body: "**Trigger**: Hostile-referee audit by maintainer extended to the remaining 10 Wave 1/3/4/5 papers (Paper-00..08 + Paper-07-ext) to complete the Wave 1-7 audit pass."
         },
         {
-          date: "2026-04-22",
-          title: "[Math65 v0.1.1 → v0.1.2 + Run R-2026-04-22-004 — decisive test executed on candidate C; Case 2* structural class mismatch; triangulation on A, B mandated (Task #110)]",
-          body: "- `docs/math/TECT-Math65-cII-EulerLagrange-Rewrite.tex.txt` v0.1.1 → **v0.1.2**. New §5 \"Candidate $C$ post-run analysis (R-2026-04-22-004)\" records the raw triple $(\\lVert F^{\\mathrm{impl}}\\rVert_{F}, \\lVert F^{\\mathrm{grad}(C)}\\rVert_{F}, \\Delta_{\\mathrm{cII}}^{(C)}) = (1.265\\times 10^{-4}, 1.057\\times 10^{-2}, 1.057\\times 10^{-2})$ with $(r^{\\mathrm{impl}}_C, r^{\\mathrm{grad}}_C) = (83.59, 1.00009)$. Remark `math65-C-orthogonality` pins $\\mathrm{Re}\\langle F^{\\mathrm{impl}},F^{\\mathrm{grad}(C)}\\rangle \\approx -2\\times 10^{-9}$ and $\\cos\\angle = -1.5\\times 10^{-3}$ via the polarisation identity; candidate $C$'s gradient is near-$L^{2}$-orthogonal to $F^{\\mathrm{impl}}$, ruling out the \"variational parent modulo small anti-Hermitian defect\" reading. Remark `math65-C-magnitude` establishes the $\\Delta_{\\mathrm{cII}}^{(C)}/a_{\\mathrm{cII}} \\approx 2.4\\times 10^{4}$ magnitude stratification, re-labelling this as **Case 2* (structural class mismatch)** rather than the \"comparable-to-$a_{\\mathrm{cII}}$\" Case 2 originally envisaged by Prop. `math64-cii-surgery-gate`(2). New §6 \"Triangulation mandate (T-A, T-B) and measure audit (M1--M3)\" with Def. `"
+          date: "2026-05-02",
+          title: "[Cleanup + Policy] Per-paper file-type policy: 27 Paper-NN.md mirror files DEPRECATED",
+          body: "**Trigger**: Operator question on whether Paper-NN.md mirror files (in addition to .tex and README.md per directory) should be kept-and-updated or deleted, after the Math314 family closure made the .tex content the canonical source."
         },
         {
-          date: "2026-04-22",
-          title: "[check_jacobian_blocks v1.3.1 + cII_energy_candidates v0.1.1 — Tools/tools case-collision hardening (Task #101/#110 follow-up)]",
-          body: "- `Tools/check_jacobian_blocks.py` v1.3 → **v1.3.1**. Defect: first live execution on Windows after the Task #101 rename (`Tools/` → `tools/`) raised `ModuleNotFoundError: No module named 'Tools'` at line 886 inside `run_decisive_cII_test()`, where the lazy import `from Tools import cII_energy_candidates` hard-coded a case-sensitive package prefix. Python 3.12 `FileFinder` is case-sensitive, whereas Windows NTFS is case-insensitive, so the hard-coded casing is fragile. Fix: (i) sys.path bootstrap now prepends `_THIS_FILE_DIR` in addition to `_PDE_DIR` and `_REPO_ROOT_DIR`, so sibling tool modules are directly importable; (ii) the lazy import now reads `import cII_energy_candidates as _cand_mod` (bare sibling form, case-agnostic); (iii) the CLI example in the module docstring and the argparse help text have been updated to `--cII-energy-module cII_energy_candidates:E_cII_C` (no package prefix). - `Tools/cII_energy_candidates.py` v0.1 → **v0.1.1**. Mirror fix in `_self_test()`: the spec-form round-trip exercises `resolve_candidate(\"cII_energy_candidates:E_cII_C\")` instead of the previous capital-T form, aligning the self-test with the case-agnostic import contract."
+          date: "2026-05-02",
+          title: "[Audit] Wave 1/4/5 Cosmology + GAP-cluster paper audit (Math314-AddD, same tag AUDIT-2026-05-02-Wave7-Aux-Epoch-Overclaim) — Math314 family CLOSURE",
+          body: "**Trigger**: Hostile-referee audit by maintainer COMPLETED for the remaining 8 Wave 1/4/5 papers (Paper-09..16). This is the final batch of the four-stage Math314 audit cycle and contains the most severe findings: one PHYSICS ERROR (Paper-15 RHN hypercharge), one INTERNAL NUMERICAL CONTRADICTION (Paper-11 fails own falsification gate), one PHENOMENOLOGY MISMATCH (Paper-16 PTA-band off by 7 orders), and 5 over-claim wording corrections."
         },
         {
-          date: "2026-04-22",
-          title: "[Math65 v0.1 (NEW, SKELETON) + check_jacobian_blocks v1.2.1 → v1.3 + cII_energy_candidates v0.1 (NEW) — decisive cII grad-vs-impl test scaffolding (Task #110)]",
-          body: "- `docs/math/TECT-Math65-cII-EulerLagrange-Rewrite.tex.txt` **v0.1 (NEW, SKELETON)**. Pre-surgery theoretical scaffold for the Math64 §6 decisive diagnostic. Contents: (§1) Frame, scope, **critical finding** — the executable backend implements $F_{\\mathrm{cII}}^{\\mathrm{impl}}$ directly as a projected-divergence residual with NO pre-existing scalar $E_{\\mathrm{cII}}[\\Psi]$ in the module; consequently the decisive test $\\Delta_{\\mathrm{cII}} = \\lVert F_{\\mathrm{cII}}^{\\mathrm{impl}} - F_{\\mathrm{cII}}^{\\mathrm{grad}}\\rVert_{F}$ cannot be evaluated until Math65 supplies a candidate. (§2) Three candidate functionals **$E_{\\mathrm{cII}}^{(A)}, E_{\\mathrm{cII}}^{(B)}, E_{\\mathrm{cII}}^{(C)}$**, with propositions `math65-A-status` (INCOMPLETE parent), `math65-B-status` (density-normalised; candidate anti-Hermitian artefact), `math65-C-status` (CANONICAL EL-consistent projected-current parent). (§3) **Helmholtz-Hodge obstruction analysis** — Proposition `math65-hodge` establishes the identity $a_{\\mathrm{cII}}(\\Psi) \\ge c_{0}\\sum_{T}\\lVert \\nabla\\times\\mathbf{V}_{T}(\\Psi)\\rVert_{L^{2}}$, mapping the $4.357\\times 10^{-7}$ anti-Hermitian mass to an $L^{2}$-curl cha"
+          date: "2026-05-02",
+          title: "[Audit + Policy] Wave 1/3/4/5 Pillar-paper audit (Math314-AddC, same tag) + CLAUDE.md §15.6 rule #7 permanent addition",
+          body: "**Trigger**: Hostile-referee audit by maintainer extended to the remaining 10 Wave 1/3/4/5 papers (Paper-00..08 + Paper-07-ext) to complete the Wave 1-7 audit pass."
         },
         {
-          date: "2026-04-22",
-          title: "[Math63 v1.6 → v1.7 + Math64 v1.0 → v1.1 — §2A.3 post-closure verdict: FULL SYM-PD + decisive cII grad-vs-impl gate (Task #109)]",
-          body: "- `docs/math/TECT-Math63-Solver-Redesign-v2.5.tex.txt` v1.6 → v1.7. Header Status extended to \"§2A.3 Stage $\\alpha$ CLOSED — Corollary 2A.3 promoted to window-level; solver-routing verdict refined — FULL SYM-PD $\\Rightarrow$ default PCG; decisive grad-vs-impl cII test mandated\". New v1.6 → v1.7 changelog block in the header documents the PI read-out of R-2026-04-22-003: (a) at the full-operator level the §2A.1 \\emph{relative} ratio $\\rho_{\\mathrm{FULL}} = \\mathrm{antisym}/\\lVert\\mathcal{J}\\rVert_{F} \\approx 1.62\\times 10^{-10}$ at every $\\mu^{2}\\in\\mathcal{W}$ under the cII-on configuration, which lies eight decades below the §2A.1 classification threshold $\\tau_{\\mathrm{rel}} = 10^{-8}$; the scale explanation is $\\lVert\\mathcal{J}_{\\mathrm{FULL}}\\rVert_{F}\\approx 2.7\\times 10^{+3}$ at the thermal seed, so the absolute anti-Hermitian mass $4.357\\times 10^{-7}$ is block-structural at cII but operationally inert at the full-operator level. (b) The Math64 §5 resolutions (X)/(Y)/(Z) are premature until the anti-Hermitian signature is distinguished between an assembly bug in the current projected-divergence implementation vs a design defect in the scalar Class-I"
+          date: "2026-05-02",
+          title: "[Audit] Wave-2 Top-impact (TI-1..4) MATHEMATICAL DEFECTS audit (Math314-AddB, same tag AUDIT-2026-05-02-Wave7-Aux-Epoch-Overclaim)",
+          body: "**Dispatch architecture** (per CLAUDE.md §15.7 — sequential per Wave, parallel between Waves): - 7 parallel agents (one per Wave; Wave 7 split into 7a Epoch 1-6 and 7b Epoch 7-12 due to volume), each instructed to (i) draft each assigned paper as PRL REVTeX 4.2 with `Paper-NN.tex`, `Paper-NN.md`, `README.md`, `references.bib`; (ii) base content on canonical Math notes already on disk; (iii) NOT modify `PAPERS_STATUS_REGISTRY.md` (parent-only update); (iv) report success/failure with file inventory."
         },
         {
-          date: "2026-04-22",
-          title: "[Math63 v1.5 → v1.6 + Math64 v1.0 (NEW) — §2A.3 Stage α CLOSED: Corollary 2A.3 promoted to window-level (Task #109)]",
-          body: "- `docs/math/TECT-Math63-Solver-Redesign-v2.5.tex.txt` v1.5 → v1.6. Header Status updated to \"§§2A.1/2A.2/2A.3 addenda; §2A.3 Stage $\\alpha$ CLOSED — Corollary 2A.3 promoted to window-level\". Header changelog gains a v1.5 → v1.6 block documenting the Trigger (live Stage $\\alpha$ four-configuration sweep on user local machine, R-2026-04-22-003), Evidence (four per-config aggregate tables at $\\mu^{2}\\in\\{-1.0,-0.8,-0.6,-0.4,-0.2,-0.1\\}$; $a_{\\alpha_A} = a_{\\alpha_B} = 4.35668\\times 10^{-7}$ bit-identical to ten decimal places under FD and `torch.func.jvp` backends; $a_{\\alpha_D}(\\mathrm{FULL}) = 1.421\\times 10^{-14}$ under structural cII ablation, two decades below the $10^{-12}$ threshold), and Decision (promote Corollary 2A.3 from single-state to window-level; close Stage $\\alpha$; reformulate §2D gate as absolute bound; file Math64 companion audit note). - New §2A.3 subsubsection **\"Stage $\\alpha$ CLOSED: sole-carrier claim promoted to window-level under two backends and structural ablation (2026-04-22)\"** with: boxed Eq. `math63-2A3-stage-alpha-result` tabulating $(\\alpha_A, \\alpha_B, \\alpha_C, \\alpha_D) = (4.3567\\times 10^{-7}, 4.3567\\times 10^{-7}, 1.421"
+          date: "2026-05-01",
+          title: "[Infrastructure + Track] Papers Track Rev 3: revert Stage-2 sub-paper splitting per operator clarification",
+          body: "**Reverted**: - Paper 12-C (Quantum observables) — REMOVED; content remains within unified Paper 12 Stage-2 synthesis - Paper 12-D (Observable map global injectivity) — REMOVED; content remains within unified Paper 12 Stage-2 synthesis"
         },
         {
-          date: "2026-04-22",
-          title: "[check_jacobian_blocks v1.2 → v1.2.1 — argparse negative-list CLI usability hotfix (Task #109)]",
-          body: "- `Tools/check_jacobian_blocks.py` v1.2 → v1.2.1. Python's `argparse` refuses to accept a value that begins with `-` (e.g. `-1.0,-0.8,-0.6,-0.4,-0.2,-0.1`) as the argument of a string-typed option when given in the space-separated form `--mu2-list <neg-csv>`, because argparse cannot disambiguate between \"option-value that happens to look negative\" and \"an unknown optional flag\". The R-2026-04-22 Stage $\\alpha$ driver invocation `python Tools/check_jacobian_blocks.py --backend fd --mu2-list -1.0,-0.8,-0.6,-0.4,-0.2,-0.1` hit exactly this failure: `error: argument --mu2-list: expected one argument`. - **Fix** (v1.2.1): new helper `_glue_negative_list_value(argv, option_name)` preprocesses `sys.argv[1:]` inside `main()` before `parser.parse_args(...)` runs. A token matching `option_name` (currently only `--mu2-list`) whose immediate successor looks like a negative numerical value (`startswith(\"-\")` and contains a digit, a comma, or `.digit`) is folded into the equals-sign form `option_name=<value>` as a single token. All other token patterns, including already-equals-sign-formatted invocations and positive-numerical CSVs, are left untouched. - **Verification**: AST-parse clean;"
+          date: "2026-05-01",
+          title: "[Infrastructure + Track] Papers Track Rev 2: comprehensive coverage check + lifecycle management + Top-impact stand-alones",
+          body: "**Significance**: Operator review feedback on Papers Track Rev 1: refine plan to (a) remove Paper 17 (audit discipline = methodology, not physics), (b) add Top-impact stand-alone papers for anchor theorems not in Pillar papers, (c) add lifecycle management for ongoing-proof / theory-update sync, (d) comprehensive coverage check of all TECT physics claims."
         },
         {
-          date: "2026-04-22",
-          title: "[Math63 v1.4 → v1.5 + check_jacobian_blocks v1.1 → v1.2 — §2A.3 Stage α plan sealed (autograd / multi-mu2 / cII-off extension) (Task #109)]",
-          body: "- `Tools/check_jacobian_blocks.py` v1.1 → v1.2. Three orthogonal CLI flags added: - **`--backend {fd,autograd}`** routes the cII Jacobian-vector product through either the pre-existing central-finite-difference path at $\\varepsilon_{\\mathrm{classII\\_hess}} = 5\\times 10^{-7}$ (matching `backend.hessian_vec`) or a forward-mode JVP via `torch.func.jvp`, with `torch.autograd.functional.jvp` as graceful fallback for PyTorch $<2.0$. The autograd path evaluates $(d/dt)|_{t=0}F_{\\mathrm{cII}}(\\Psi + t\\,v) = A(\\Psi)v + B(\\Psi)\\overline{v}$ exactly on `complex128`, removing the central-FD $\\mathcal{O}(\\varepsilon^{2})\\sim 10^{-13}$ truncation floor and the $\\mathcal{O}(\\varepsilon^{-1}u_{\\mathrm{round}})\\sim 2\\times 10^{-10}$ cancellation noise that v1.1 carried. - **`--mu2-list CSV`** replaces the single `--mu2 VALUE` driver with a loop over a list of continuation points, each with its own fresh thermal BCC seed via `math56_constants.build_seed_bcc`. The canonical Stage $\\alpha$ list mirrors the original R-2026-04-22 signal window: $\\mu^{2} \\in \\{-1.0, -0.8, -0.6, -0.4, -0.2, -0.1\\}$. - **`--cII-off`** zeros $\\{\\alpha_{X}, \\beta_{X}, c_{JJ}, c_{JK}\\}$ in a `params"
+          date: "2026-05-01",
+          title: "[Infrastructure + Track] Papers Track inception: PRL-style manuscript assembly for 33 papers (Paper 0–17 + 7-ext + Auxiliary 1–2 + Epoch 1–12)",
+          body: "**Significance**: New separate research track parallel to the 20-turn theoretical-defence programme. User instruction: convert the Website Papers section catalogue (Paper 0–17, Auxiliary 1–2, Epoch 1–12 = 33 entries per `Website/data/papers.js` rev 4) into individually downloadable PRL-style manuscript-grade LaTeX papers organized under `Docs/papers/`."
         },
         {
-          date: "2026-04-22",
-          title: "[Math63 v1.3 → v1.4 — §2A.3 Step (D1) live execution: S1 empirically confirmed, F_cII isolated as sole carrier of the anti-Hermitian component (Task #109)]",
-          body: "- **Step (D1) live sweep executed** on user local machine via `Tools/check_jacobian_blocks.py` v1.1 with `(N, μ², n_probes, σ, seed) = (32, -0.5, 5, 10^{-2}, 42)` on `PDE/config_template_brazovskii.json`. Per-block relative antisymmetry $\\operatorname{antisym}/\\lVert\\mathcal{J}_X\\rVert_F$: - $F_{\\mathrm{bra}}$: $3.97\\times 10^{-18}$ ($\\lVert\\mathcal{J}\\rVert_F = 2.69\\times 10^{+3}$), SYM-PD. - $F_{\\mathrm{fam}}$: $1.23\\times 10^{-18}$ ($\\lVert\\mathcal{J}\\rVert_F = 4.41\\times 10^{-2}$), SYM-PD. - $F_{\\mathrm{lock}}$: $3.54\\times 10^{-18}$ ($\\lVert\\mathcal{J}\\rVert_F = 1.23\\times 10^{-1}$), SYM-PD. - $F_{\\mathrm{shell}}$: $0$ ($\\lVert\\mathcal{J}\\rVert_F = 0$, dormant: $\\eta_{\\mathrm{shell}} = 0$ in config). - $F_{\\mathrm{nl}}$: $4.60\\times 10^{-18}$ ($\\lVert\\mathcal{J}\\rVert_F = 2.30\\times 10^{-4}$), SYM-IND. - $F_{\\mathrm{cII}}$: **$5.84\\times 10^{-3}$** ($\\lVert\\mathcal{J}\\rVert_F = 7.46\\times 10^{-5}$), **ASYM** (exceeds threshold $10^{-8}$ by factor $5.84\\times 10^{+5}$). - FULL: $1.62\\times 10^{-10}$ ($\\lVert\\mathcal{J}\\rVert_F = 2.69\\times 10^{+3}$), SYM-PD (below threshold on the thermal seed). - **Absolute anti-Hermitian norm isol"
+          date: "2026-05-01",
+          title: "[Theory] Math317–319: Phase 10 Verification Programme (analytical re-derivation + numerical reproducibility + external-tool verification protocols)",
+          body: "**Significance**: Turns 87-89 of next 20-turn arc (Phase 10 opener-to-closure per PHASE_8_TO_14_PLAN.md §4). User Option B execution: pursue verification programme NOW in parallel with verdict-period waiting (per §10 \"Phase 10-14 can begin in parallel with Phase 8-9 once verdict framework is stable\"). Math314-316 reserved for Phase 9 verdict-conditional Stage-1 promotion attempt."
         },
         {
-          date: "2026-04-22",
-          title: "[check_jacobian_blocks v1.0 → v1.1 — sys.path bootstrap hotfix for Step (D1) live execution (Task #109)]",
-          body: "- `Tools/check_jacobian_blocks.py` v1.0 → v1.1. First live invocation aborted at `_build_seed()` line 499 with `ModuleNotFoundError: No module named 'math56_constants'`. Root cause: v1.0 relied on ambient `sys.path`, but `math56_constants.py` and `real_backend_pt_bcc_mixed_v3.py` both live in `Contents/PDE/`, which is not on `sys.path` when the script is launched from `Contents/` via `python Tools/check_jacobian_blocks.py ...`. This is the exact analogue of the `continuation_mu2_v25.py` v2.5.0 → v2.5.1 fix (Task #100) and belongs to the same class of import-bootstrap errors that the v2.0 probe tool already resolved. Fix: insert a `sys.path` bootstrap block immediately after the stdlib imports (lines 105–122 of v1.1) that uses `os.path.abspath(__file__)` as the anchor to compute `_THIS_FILE_DIR = .../Contents/Tools`, `_REPO_ROOT_DIR = .../Contents`, `_PDE_DIR = .../Contents/PDE`, and prepends both `_PDE_DIR` and `_REPO_ROOT_DIR` to `sys.path` if not already present. Both `from math56_constants import build_seed_bcc` and `importlib.import_module('real_backend_pt_bcc_mixed_v3')` now resolve deterministically regardless of launch directory. Patch is import-time only; the probe logic, W"
+          date: "2026-05-01",
+          title: "[Theory] Math311–313: Phase 8 verdict-consumption shells (F-GAP4 / F-GAP1 / F-Pillar6)",
+          body: "**Significance**: Turns 81-83 of next 20-turn arc (Phase 8 opener-to-closure per PHASE_8_TO_14_PLAN.md). Verdict-consumption framework shells prepared in advance of 2026-05-14 / 05-22 / 05-29 verdict arrivals. Each shell specifies the canonical-record update for every possible verdict outcome — operational determinism replaces ad-hoc post-verdict reaction."
         },
         {
-          date: "2026-04-22",
-          title: "[check_jacobian_blocks v1.0 — Math63 §2A.3 BCC Jacobian Residual Anti-Hermitian Component Diagnostic, Step (D1) landing (Task #109)]",
-          body: "- `Tools/check_jacobian_blocks.py` v1.0 **created** (~460 lines). Sibling to `Tools/check_jacobian_symmetry.py` v2.0 (which is retained unchanged as the full-residual reference); does **not** supersede it. Implements Step (D1) of the Math63 §2A.3 diagnostic plan: the operator-level block decomposition probe. Six additive residual blocks of `real_backend_pt_bcc_mixed_v3.residual()` are probed **in isolation** under the v2.0 complex-Hermitian protocol (real-self-adjoint criterion $\\operatorname{Re}\\langle u, \\mathcal{J}v\\rangle = \\operatorname{Re}\\langle \\mathcal{J}u, v\\rangle$, complex $\\mathcal{CN}(0,I)$ probes, `torch.vdot`/`np.vdot` sesquilinear inner product, threshold $\\operatorname{antisym}/\\lVert J\\rVert < 10^{-8}$). - Block registry: `{\"bra\"=F_bra, \"fam\"=F_fam, \"lock\"=F_lock, \"shell\"=F_shell, \"nl\"=F_nl, \"cII\"=F_cII}` following the additive decomposition `F = F_bra + F_fam + F_lock + F_shell + F_nl + F_cII` (Definition 2A.3-1 of Math63 v1.3). - `F_nl` (quartic + sextic) uses the **analytical Wirtinger JVP** from Lemma 2A.3-2, not a finite-difference approximation: `delta_rho = 2·Re(Ψ* · v)`, `dq = λ(ρ·v + δρ·Ψ)`, `ds = γ(ρ²·v + 2ρ·δρ·Ψ)`. Reference for"
+          date: "2026-05-01",
+          title: "[Audit] Math310-AddA: Pillar 6 N=16 wording correction (self-adversarial UPHELD, AUDIT-2026-05-01-Math310-N16-Wording)",
+          body: "**Trigger**: External hostile-referee audit flagged Math310 §1 \"Pillar 6 = T4 with one valid broken-phase data point achieved (N=16, F=−324.94)\" as over-claim relative to raw N=16 Phase 2 Lanczos output ($\\lambda_0 = -8.51$, \"stable = False\"). Math292 4-gauge requires $\\lambda_{\\min}^{\\rm transverse} \\ge -10^{-3}$ simultaneously; raw $\\lambda_0$ FAIL → $\\mathcal A_{\\rm valid}$ PENDING transverse-projection patch (Math82-H Lemma 5, Q-2026-05-01-Math292-Hessian-Transverse-Slice)."
         },
         {
-          date: "2026-04-22",
-          title: "[continuation_mu2_v25 v2.5.7 + tect_newton_krylov minor — Math63 §2A.2 Exception-Handling Policy (Task #108)]",
-          body: "- `PDE/continuation_mu2_v25.py` v2.5.6 → v2.5.7. Three broad `except Exception` branches on the Math63 v2.5 live-execution path narrowed in accordance with Math63 §2A.2 addendum. Module header bumped and full Trigger/Evidence(A-D)/Decision(P1-P5)/Retires/Math-note block inserted. - **Line 299 (import fallback)**: `except Exception as _probe_err:` → `except (ImportError, ModuleNotFoundError) as _probe_err:`. Rationale: a `SyntaxError`, `NameError`, `TypeError`, or `AttributeError` raised from inside `tools.check_jacobian_symmetry` is a programming defect, not a missing-module condition, and must propagate rather than silently disable §2A routing. - **Line 488 (`probe_jacobian_cached`, the Layer-5 culprit)**: split into two branches per §2A.2 dichotomy. `except (AttributeError, TypeError, NameError, ImportError): raise` forecloses the concealment path that let `backend.residual_bcc` and the complex→real cast survive four releases each. `except (RuntimeError, ValueError, ArithmeticError, MemoryError, np.linalg.LinAlgError) as e:` retains graceful degradation for CUDA OOM / numerical overflow / singular-Jacobian conditions but now logs `type(e).__name__: str(e)` to stderr **uncondition"
+          date: "2026-05-01",
+          title: "[Theory] Math300–310: Phase 4+5+6+7 closure (Pillar 4 realization + residual + H5 + hostile-referee Round 2 + 20-turn final synthesis)",
+          body: "**Significance**: Completes Turns 70–80 of the 20-turn TECT defence + closure programme (Math291–310). Single CHANGELOG entry for batched 11 notes per the multi-note efficiency convention."
         },
         {
-          date: "2026-04-22",
-          title: "[check_jacobian_symmetry v2.0 — complex-Hermitian probe (Math63 §2A.1 addendum)]",
-          body: "**Trigger**: The v2.5.5 shape-contract fix landed and the subsequent live Stage $[4/4]$ diagnostic run (`R-2026-04-22-001`) emitted"
+          date: "2026-05-01",
+          title: "[Theory] Math299: GAP-1 matching-functional theoretical closure (Phase 3 consolidation, Math296+297+298)",
+          body: "**Significance**: Turn 69 of 20-turn TECT defence programme (**Phase 3 closure** — GAP-1 matching-functional theoretical pathway). CLAUDE.md §6.3.5(c) final-consolidation note for Phase 3. **Theorem 299.1 (T6 PROVED CONDITIONAL)**: GAP-1 composite tier promotes T4 → T6 upon joint satisfaction of (C1) Math297 F-Math297-aBCC-precision Outcome A or B + (C2) Math298 F-Math298-Sector Outcome U or S$_{i^*=3}$ (QCD-dominant) + (C3) 1-loop ansatz residual within F-GAP1 band at boundary region."
         },
         {
-          date: "2026-04-22",
-          title: "[continuation_mu2_v25 seed shape fix — build_seed_bcc factory (v2.5.5)]",
-          body: "**Trigger**: The v2.5.4 attribute-name fix (`residual_bcc` $\\to$ `residual`) landed and the subsequent live Stage $[4/4]$ run printed a *new* error at every fifth Newton iteration of every one of the six $\\mu^{2}$ points:"
+          date: "2026-05-01",
+          title: "[Theory] Math298: GAP-1 hidden SM-loop coupling interpretation (3-sector decomposition)",
+          body: "**Significance**: Turn 68 of 20-turn TECT defence programme (Phase 3 second note — GAP-1 matching-functional pathway). Addresses Math296 universal-embedding objection (α). **Theorem 298.1 (T6 PROVED CONDITIONAL)**: empirical 1-loop residual $\\delta_{\\rm emp}(\\mu)$ admits unique 3-sector decomposition $\\delta_{\\rm emp}(\\mu) = \\sum_i c_i b_i g_i^2(M_Z) \\ln(\\mu/M_Z)/(16\\pi^2)$ via least-squares regression at $N_\\mu \\ge 4$ scales; sector weights $(c_1, c_2, c_3)$ for U(1)$_Y$ / SU(2)$_L$ / SU(3)$_c$ identify whether universal-embedding holds or sector-asymmetric breaking signals."
         },
         {
-          date: "2026-04-22",
-          title: "[continuation_mu2_v25 Math63 §2A probe wiring (v2.5.4)]",
-          body: "**Trigger**: End-to-end execution of the v2.5.3 driver terminated *correctly* with `Status: SKELETON_ONLY`, exit code $10$, and the honest MANIFEST per-point table — i.e. the honest-reporting contract from v2.5.3 worked as specified. The same clean run, however, surfaced a previously silenced defect visible at every Newton iteration of every one of the six $\\mu^{2}$ points:"
+          date: "2026-05-01",
+          title: "[Theory] Math297: GAP-1 continuum-limit error budget (Phase 3 opener)",
+          body: "**Significance**: Turn 67 of 20-turn TECT defence programme (Phase 3 opener — GAP-1 matching-functional theoretical closure). Quantifies Math82-H precision required for F-GAP1 structural-tier closure. **Theorem 297.1 (T6 PROVED CONDITIONAL)**: F-GAP1 budget $|\\delta\\hbar/\\hbar| < 10^{-3}$ translates via $\\hbar \\propto a^2$ propagation to $|\\delta a_{\\rm BCC}/a_{\\rm BCC}| < 5\\times 10^{-4}$."
         },
         {
-          date: "2026-04-22",
-          title: "[continuation_mu2_v25 TypeError fix + honest skeleton-mode status (v2.5.3)]",
-          body: "**Trigger**: With the $\\texttt{Tools/}\\to\\texttt{tools/}$ rename (v2.5.1 plumbing) and the UTF-8 pin (v2.5.2) in place, Stage $[4/4]$ of `run_v25_diagnostic.ps1` finally reached the Newton loop. `[Point 1/6]$ $\\mu^{2}=-1.000000\\mathrm{e}{+00}$ aborted immediately with `ERROR: ContinuationPoint.__init__() missing 1 required positional argument: 'converged'` and the handoff script then mis-reported `*** v2.5 DIAGNOSTIC: PASS ***` because Python exited $0$. A run with *zero* real Newton steps thus looked indistinguishable from a fully-converged 6-point sweep."
+          date: "2026-05-01",
+          title: "[Infrastructure + Code] Snapshot orchestrator + policy + CLAUDE.md §16 trigger phrases",
+          body: "**Significance**: Operator request to eliminate manual per-step propagation of canonical changes to the four mirror trees (Docs/Codes canonical, Website/data, Website/assets, Github/). Establishes a single-command snapshot pipeline + binding policy + AI trigger phrases so that future sessions can synchronise all trees with a one-line invocation. Replaces the ad-hoc per-session manual instructions to \"update Website + GitHub\" with a deterministic 8-step pipeline."
         },
         {
-          date: "2026-04-22",
-          title: "[continuation_mu2_v25 UTF-8 locale hardening (v2.5.2)]",
-          body: "**Trigger**: After the user-side `Tools/` → `tools/` rename landed, the v2.5.1 diagnostic finally reached Stage [4/4] and the 6-point sweep actually started. The Math56 constants self-check passed; however `python PDE/continuation_mu2_v25.py` then aborted with `UnicodeDecodeError: 'cp949' codec can't decode byte 0xe2 in position 971: illegal multibyte sequence` at `base_params = json.load(f)`."
+          date: "2026-05-01",
+          title: "[Theory + Results] Math294-AddA: Empirical marginal-basin confirmation at $A_0=0.5$ + trust-region overshoot failure mode",
+          body: "**Significance**: First striped-seed Phase-2 BCC run after Math290/292/293/294 closure (parameters $\\mu^2=-0.7$, $N=16$, $A_0=0.5$, deterministic striped seed, bare `continuation_mu2_v25.py` driver, wall time 1.02h). **Two distinct conclusions**:"
         },
         {
-          date: "2026-04-22",
-          title: "[Root-cause resolution: `tools/` ↔ `Tools/` case collision on Windows/Python 3.12]",
-          body: "**Trigger**: While static-smoke-testing the v2.5.1 `sys.path` fix, the in-sandbox import `from tools.check_jacobian_symmetry import probe_symmetry` *still* failed with `ModuleNotFoundError`, even though both `tools/` and `tools/__init__.py` were confirmed on disk. Escalated to root-cause investigation."
+          date: "2026-05-01",
+          title: "[Theory] Math296: $\\gamma_\\hbar$ ansatz first-principles derivation (1-loop SM matching)",
+          body: "**Significance**: Turn 66 of 20-turn TECT defence programme (**Phase 2 closure** — Pillar 6 numerical-theory bridge + GAP-1 hygiene followups). Closes the Math287 VALID-WITH-MITIGATION audit on the linear-log ansatz arbitrariness. **Theorem 296.1 (T6 PROVED CONDITIONAL)**: under (i) Math200-AddB structural-layer non-running and (ii) standard 1-loop SM β-functions Machacek-Vaughn 1983, the matching functional in $\\mu\\in[M_Z, M_X]$ takes the unique 1-loop form $\\gamma_\\hbar^{(1)}(\\mu) = \\alpha_\\hbar^{(1)}\\ln(\\mu/M_Z)$ with $\\alpha_\\hbar^{(1)} = (16\\pi^2)^{-1}\\sum_i b_i g_i^2(M_Z) \\approx -0.0706$ (GUT-normalised, $\\{b_1,b_2,b_3\\}=\\{41/10,-19/6,-7\\}$). The linear-log form is forced by 1-loop perturbation theory; not an ad-hoc ansatz."
         },
         {
-          date: "2026-04-22",
-          title: "[continuation_mu2_v25 symmetry-probe import fix + run_v25_diagnostic.ps1 CLI contract (v2.5.1)]",
-          body: "**Trigger**: First full-path local run of `scripts/run_v25_diagnostic.ps1` (after the v1.2 BZ-preconditioner and v1.2 self-test patches) reached Stage [3/4] with all three self-tests green, but Stage [4/4] aborted at `python PDE/continuation_mu2_v25.py ...` with exit code $2$ and two distinct defects: 1. `WARNING: check_jacobian_symmetry not found.` — Math63 §2A symmetry-probe-driven solver routing was silently bypassed, degrading v2.5 to a plain FGMRES solver (specification deviation). 2. `continuation_mu2_v25.py: error: unrecognized arguments: --mu2_list -1.0,-0.8,-0.6,-0.4,-0.2,-0.1` — caller/callee CLI contract mismatch."
+          date: "2026-05-01",
+          title: "[Theory] Math295: Phase 1 cross-turn second-order audit (Math291+292+293), OUTCOME A",
+          body: "**Significance**: Turn 65 of 20-turn TECT defence programme (Phase 2 — independent CLAUDE.md §6.3.2 cross-turn audit of Phase 1 closure). **AUDIT VERDICT (Math295.1, T7 PROVED): OUTCOME A — all three Phase 1 deliverables PASS independent second-order audit.** Math291 (ℏ formula reconciliation), Math292 (acceptance criterion), Math293 (false-negative taxonomy) all retain T6 PROVED CONDITIONAL with no tier downgrade. Phase 1 closure CERTIFIED."
         },
         {
-          date: "2026-04-22",
-          title: "[check_jacobian_symmetry _self_test backend-coherence correction (v1.2)]",
-          body: "**Trigger**: First run of the v1.1 self-test via `python tools\\check_jacobian_symmetry.py --selftest` raised `TypeError: unsupported operand type(s) for @: 'numpy.ndarray' and 'Tensor'` at Case 1."
+          date: "2026-05-01",
+          title: "[Theory] Math294: Striped-seed theoretical justification (Brazovskii basin-of-attraction theorem)",
+          body: "**Significance**: Turn 64 of 20-turn TECT defence programme (Phase 2 first note — Pillar 6 Numerical-Theory Bridge). Provides theoretical justification for the Math290 §6 striped-seed re-seed prescription. **Theorem 294.1 (T6 PROVED CONDITIONAL)**: basin-of-attraction separation between trivial vacuum and Brazovskii BCC broken-phase minimum is $\\Delta f_{\\rm basin}\\ge\\sqrt{(|\\mu^2|-\\gamma q_0^4)/\\lambda}/\\sqrt{N_{\\rm shell}}\\approx 0.14$ at $\\mu^2=-0.7$, $N=16$. Random-seed shell-mode amplitude is $\\sigma_f^{\\rm random}\\sim A_0\\,N^{-3/2}\\sqrt{N_{\\rm shell}}\\approx 2.7\\times 10^{-2}$ ($5\\sigma$ below basin gap). Striped seed achieves $f^{(0)}\\approx A_0/4.9\\approx 0.10$ deterministically (Proposition 294.2 lattice-corrected), at the basin edge for $A_0=0.5$ — explains Math290 borderline behaviour."
         }
       ]
     },
-    { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history-page-007.html\">&larr; Newer</a> &middot; Page 8 / 9 &middot; <a href=\"history-archive-index.html\">archive index</a> &middot; <a href=\"history-page-009.html\">Older &rarr;</a></div>" }
+    { type: "html", content: "<div class=\"pagination-nav\"><a href=\"../history.html\">&larr; Newer</a> &middot; Page 8 / 9 &middot; <a href=\"archive-index.html\">archive index</a> &middot; <a href=\"page-007.html\">Older &rarr;</a></div>" }
   ]
 };

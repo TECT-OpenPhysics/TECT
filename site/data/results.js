@@ -124,19 +124,6 @@ window.TECT_RESULTS = {
       "<tr><td>F-GAP1 ($\\hbar$ matching)</td><td>2026-05-22</td><td>$|\\hbar_{\\rm TECT} - \\hbar_{\\rm obs}|/\\hbar_{\\rm obs} < 10^{-3}$</td><td>Tasks #147 (2-loop RGE) + #148 (matching functional) pending</td></tr>" +
       "<tr><td>F-Pillar6</td><td>2026-05-29 (HARD)</td><td>$m_h \\in [124, 126]$ GeV via numerical Higgs scalar potential closure</td><td>Math290 first run NOT consumed (wrapper bug triad + trivial saddle); striped-seed re-run protocol active</td></tr>" +
       "</tbody></table>"
-    }] },
-
-    // ---- Pointers ----
-    { type: "card", title: "Where to read further", blocks: [{ type: "html", content:
-      "<ul>" +
-      "<li><a href=\"../note/\"><code>note/</code></a> — full Math note archive (TECT-Math01.tex.txt onwards). Each pillar's anchor results are inlined in the relevant Math note (e.g., Pillar 1 → Math82-AddD; Pillar 4 → Math162, Math268, Math288).</li>" +
-      "<li><a href=\"../paper/\"><code>paper/</code></a> — published / draft papers (Auxiliary, Epoch, Top-Impact, Paper series). PDFs only, flat structure.</li>" +
-      "<li><a href=\"../status/TOE-FACT-SHEET.md\"><code>status/TOE-FACT-SHEET.md</code></a> — canonical 11-pillar scoreboard with full evidence chains.</li>" +
-      "<li><a href=\"../status/EVIDENCE-INDEX.md\"><code>status/EVIDENCE-INDEX.md</code></a> — claim → evidence cross-reference.</li>" +
-      "<li><a href=\"../status/OPEN-QUESTIONS.md\"><code>status/OPEN-QUESTIONS.md</code></a> — active research items.</li>" +
-      "<li><a href=\"../status/NEGATIVE-RESULTS.md\"><code>status/NEGATIVE-RESULTS.md</code></a> — retracted claims, falsified hypotheses.</li>" +
-      "</ul>" +
-      "<p><em>Raw run directories</em> (Newton-Krylov continuation logs, Hessian eigenvalue traces, etc.) are local-only per operator directive; the canonical numerical results are inlined above and in the cited Math notes.</p>"
     }] }
 
   ]
