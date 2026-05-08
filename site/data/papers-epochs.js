@@ -1,7 +1,7 @@
 window.TECT_PAPERS_EPOCHS = {
-  title: "Epochs",
-  subtitle: "Epoch-track papers documenting intermediate-closure progress.",
+  title: "Epoch Series",
+  subtitle: "Epoch-track papers documenting intermediate closure and cross-era mathematical scaffolding.",
   blocks: [
-    { type: "html", content: "<a href=\"papers.html\" style=\"color:#2266aa;margin-bottom:1em;display:inline-block;\">← Back to Papers overview</a><div id=\"papers-grid\"></div>" }
+    { type: "html", content: "<div id=\"papers-container\"><\\/div>" }
   ]
 };

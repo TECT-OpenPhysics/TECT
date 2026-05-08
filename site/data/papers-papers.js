@@ -1,7 +1,7 @@
 window.TECT_PAPERS_PAPERS = {
   title: "Pillar Papers",
-  subtitle: "Wave 1-7 main proof papers, one per pillar and GAP-track.",
+  subtitle: "Main-track papers covering the eleven emergence pillars, Stage-2 global closure, and four quantum-completion gates.",
   blocks: [
-    { type: "html", content: "<a href=\"papers.html\" style=\"color:#2266aa;margin-bottom:1em;display:inline-block;\">← Back to Papers overview</a><div id=\"papers-grid\"></div>" }
+    { type: "html", content: "<div id=\"papers-container\"><\\/div>" }
   ]
 };

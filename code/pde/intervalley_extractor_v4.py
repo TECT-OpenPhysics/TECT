@@ -722,13 +722,18 @@ def print_certificate(results: List[PairResult], eta_par: float, eta_trans: floa
     g3s = r"\checkmark" if any_g3 else r"\times"
     print()
     print(r"\begin{align}")
+    # Py<3.12 compatibility: backslashes cannot appear inside f-string expression
+    # parts, so extract LaTeX `\\` line-break + leq/gt comparators to constants.
+    LATEX_LINEBREAK = r" \\"
+    cmp_g2 = ">" if any_g2 else r"\leq"
+    cmp_g3 = ">" if any_g3 else r"\leq"
     print(rf"  &\text{{Gate 2 (cross-patch longitudinal):}}\quad "
           rf"\ell_{{\parallel}}^{{\mathrm{{cross}}}} = {max_ell_par:.4e} "
-          rf"\ {'>' if any_g2 else r'\leq'}\ \eta_{{\parallel}} = {eta_par} "
-          rf"\quad {g2s} \\")
+          rf"\ {cmp_g2}\ \eta_{{\parallel}} = {eta_par} "
+          rf"\quad {g2s}" + LATEX_LINEBREAK)
     print(rf"  &\text{{Gate 3 (cross-patch transverse):}}\quad "
           rf"\ell_{{\perp}}^{{\mathrm{{cross}}}} = {max_ell_trans:.4e} "
-          rf"\ {'>' if any_g3 else r'\leq'}\ \eta_T = {eta_trans} "
+          rf"\ {cmp_g3}\ \eta_T = {eta_trans} "
           rf"\quad {g3s}")
     print(r"\end{align}")
 
