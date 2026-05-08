@@ -3,7 +3,7 @@
 /* Mirror: Github/assets/papers/                                   */
 window.TECT_PAPERS_PDF_INDEX = {
   "schema": "tect-papers-pdf-index-v1.1",
-  "generated": "2026-05-08T09:01:15+00:00",
+  "generated": "2026-05-08T15:44:53+00:00",
   "publicBase": "assets/papers",
   "categories": [
     {

@@ -31,78 +31,34 @@ Detailed per-pillar status, evidence chains, Math note links, and falsification 
 
 ---
 
-## Foundational axioms (Math195)
+_A candidate Theory of Everything built on an effectively two-axiom foundation (Math195): one physics axiom — a $\mathbb Z_2$-symmetric continuum order parameter $\Psi$ at the Brazovskii weak-crystallisation point — and one cosmological axiom (the cooling history $T(t)$). The BCC condensate emerges as the energetically selected ordered phase of that universality class; it is a derivation, not an assumption. Every law of physics in scope must follow as a mathematical or thermodynamic necessity from these two inputs._
 
-Per `TECT-Math195` (effective-axiom reduction analysis):
+## What is TECT?
 
-- **A0** (BCC condensate dynamics): Brazovskii free energy $F[\Psi] = \int [\frac{1}{2}|\nabla\Psi|^2 + \frac{1}{2}\mu^2|\Psi|^2 + \frac{1}{2}\gamma(\Delta + q_0^2)^2|\Psi|^2 + \frac{1}{4}\lambda|\Psi|^4] d^3x$ governing a vector order parameter $\Psi:\mathbb{R}^3 \to \mathbb{C}^n$ with TDGL Model-A kinetics.
-- **A1** (cosmological cooling history): a monotone temperature trajectory $T(t)$ that drives the system through the BCC freeze-out transition (Math97 Brazovskii universality class).
-- **A2** (boundary condition): a Cauchy boundary condition at $t \to -\infty$, *reducible* to A0 + A1 dynamics with an external cosmological-evolution input. Effective core axiom count: **2 + 1 = 3 hierarchically structured**, with the two-axiom core $\{A0, A1\}$ load-bearing for the bulk of the theorem chain.
+**TECT** proposes that the Standard Model, General Relativity, and the quantum and cosmological structure of nature all emerge as low-energy consequences of a single object: the order parameter $\Psi$ of an emergent three-dimensional BCC topological condensate, governed by the Brazovskii free energy $\mathcal F[\Psi]$ on its first-order locked branch. Particles are defect excitations of the condensate, gauge fields are Berry connections on the emergent band structure, gravity is a long-wavelength elastic response, and quantum mechanics is the thermodynamic language of fluctuations around the locked vacuum.
 
-All other inputs (gauge group, fermion generations, Higgs potential coefficients, $\hbar$, $G$ at low-energy precision) are derived emergently rather than postulated.
+## Latest state snapshot (2026-04-27)
 
-## Key emergent results (theorem-level)
+**Headline**: TECT remains a Partial TOE candidate. Classical sector strong; quantum-completion sector strengthening but not sealed. Pillar 4 sub-task 2 is now PROVED CONDITIONAL (Scenario B confirmed via Math191+Math192).
 
-| Result | Formula / mechanism | Tier | Canonical source |
-|---|---|---|---|
-| Mass gap $m^*$ | Single-mode Math56 cone, BCC ground-state uniqueness (Pillar 1) | T7 PROVED | `Math01-v2`, `Math82-AddG/H` |
-| Kinematic Lorentz | $|c_T - c|/c \le 4.8\times 10^{-4}$ (Pillar 2) | T6 PROVED CONDITIONAL | `Math_IR_Bound-v4-thm-v4-2-final` |
-| Emergent graviton | Spin-2 mode at 1-loop (Pillar 3) | T5 CLOSED@1-loop | `Pillar-3` notes |
-| SO(10) gauge group | $\mathrm{Stab}_{O_h}(\mathbf{T}_{1g}) \cap \mathrm{Stab}_{\mathrm{SO}(10)}(\mathbf{10}_{\rm vec}) = G_{\rm SM}$ (Pillar 4 atomic) | T6 PROVED CONDITIONAL | `Math270`, `Math279` |
-| Planck constant | $\hbar_{\rm TECT} = c^3 a_{\rm BCC}^2/(16\pi G)$ (Pillar 4 GAP-1) | T6 PROVED CONDITIONAL | `Math291` (errata for Math110-AddI) |
-| Cosmological constant | Four-sector cancellation (Pillar 11) | T6 PROVED CONDITIONAL | `Math58-v7` |
-| Three pre-registered | Lorentz $\|\kappa^{(c)}\| \in [1.5,5.5]\times 10^{-4}$; Eötvös $\|\eta_{\mathrm{EP}}\| \in [2,8]\times 10^{-13}$; GW/CMB $Z_h \in [0.575, 0.875]$ (Math60-E) | SEALED | `Math61-v1.0` |
+## Comparison vs other candidate frameworks (compact)
 
-## Side-by-side comparison vs other frameworks (compact)
-
-Compact comparison of TECT against three reference frameworks: the **Standard Model (SM)**, **Superstring / M-theory**, and **Loop Quantum Gravity (LQG)**. Status reflects the publicly stated state of each programme as of 2026 spring; entries for non-TECT frameworks are summary-grade and meant for orientation, not adjudication.
-
-| Axis | **TECT** | Standard Model | Superstring / M | Loop Quantum Gravity |
-|---|---|---|---|---|
-| Foundational axioms | **2** (A0 BCC condensate with TDGL kinetics; A1 cosmological cooling history $T(t)$); Math195 | ~26 parameters + chosen gauge group + 3 generations | 5–10 (10/11-dim spacetime, branes, compactification, flux, SUSY, vacuum) | 4–5 (spin-network kinematics, holonomy/flux algebra, dynamics, semiclassical limit) |
-| Predicts SM gauge group | **PROVED CONDITIONAL** — Math80-AddA + Math162 + Math191/192: $\mathrm{Stab}_{\mathrm{SU}(5)}\,\mathrm{Gr}(2,5)=G_{\rm SM}$ | **No** — gauge group postulated | **Partial** — landscape of vacua | **No** — gauge content imported |
-| Predicts gravity | **Yes** — emergent spin-2 graviton at 1-loop (Pillar 3 CLOSED@1-loop) | **No** | **Yes** — closed-string graviton mode | **Yes** — quantises GR by construction |
-| Predicts $\hbar$ | **CONDITIONAL (weak)** — Math110-AddI: $\hbar=c^{3} a_{\rm BCC}^{2}/(16\pi G)$ | **No** — input constant | **No** | **No** |
-| Predicts cosmological constant | **PROVED CONDITIONAL** — Math58-v7 four-sector cancellation chain (Pillar 11 NEAR-CLOSURE) | **No** | **No** — landscape predictability | **No** |
-| Quantum-consistent | **Partial** — anomaly cancellation conditional on Pillar 4; BRST FP determinant computed | **Yes** — by construction | **Yes** (perturbative) | **Partial** — kinematics yes, dynamics open |
-| Falsifiable predictions | **3 pre-registered + Kibble–Zurek GW (Math172)** | **Many** | **Few** — energies inaccessible | **Few** — kinematic mostly |
-| Empirical agreement (current) | **Partial** — classical sector agrees; cosmology rescoped to Kibble–Zurek with PROVISIONAL GW prediction | **Excellent** within scope | **Untested** | **Untested** |
-
-*Reading the table*: TECT's distinguishing claim is **axiom-level parameter compression** -- fewer foundational inputs than the listed alternatives -- purchased at the cost of an active Pillar-4 sub-task 3 closure path and an open quantum-consistency closure path. The live, interactive version of this comparison (with per-cell tooltips and the live cross-framework narrative) is at [status.html](site/status.html) on the published site.
-
-Detailed per-pillar status: [`status/TOE-FACT-SHEET.md`](status/TOE-FACT-SHEET.md). The interactive site is published at [tect.kr](https://tect.kr); the GitHub mirror is browsable from the repository root by opening `index.html` directly.
-
-## TOE — 6-Stage Roadmap (canonical, construction-order)
-
-The 11 emergence pillars and the $S_1 \wedge S_2 \wedge S_3$ qualification predicate are re-arranged into a **6-Stage roadmap** that traces the natural construction order from BCC condensate to TOE: classical gravity emergence → quantum gravity extension → $\hbar$ generation → SM integration → QFT unification → TOE completion. Each Stage groups multiple Pillars and gates; status reflects the post-Math310 (Turn 80, 2026-05-01) state with the AUDIT-2026-05-01-Math310-N16-Wording correction applied. This 6-Stage view is the canonical presentational re-mapping mirrored from [toe.html](site/toe.html) on the live site.
-
-| Stage | Goal | Pillars / gates included | Status (2026-05-01) | Anchor results |
-|---|---|---|---|---|
-| **1** | Classical gravity emergence (BCC → GR) | Pillar 3 (gravity), 8 (Lorentz), 9 (EP), 2 (inertia/IR bound) | **COMPLETED ✓** (3+8+9 PROVED, 2 PROVED CONDITIONAL) | Math41/45/46c ($\kappa_G^2 = Y q_0^2$, TT-purity); Math110-AddH ($c_T = c$); Math_IR_Bound-v4 (interval cert $J_1 \in [+5.99\!\times\!10^{-2}, +1.51\!\times\!10^{-1}]$); Math_EP-rigorous-v3.1 (MPD bound) |
-| **2** | Quantum gravity extension (1-loop and beyond) | Pillar 3 multi-loop, 7 (per-gen consistency), GAP-2 (BRST) | **PARTIAL-ADVANCED → STRONGER post-R7-8** (1-loop CLOSED; GAP-2 promoted to T6 PROVED CONDITIONAL via Math280; 2-loop + non-perturbative OUTLINE) | Math60-C-AddD (3 quantum observables QO1-3 closed form); Math120-125 (asymptotic-safety OUTLINE); Math160 + Math280 (BRST FP determinant T6 PROVED CONDITIONAL on Pillar 4 H1.1); Math47-48 (Ward); Math49b/c-v3 (Witten + mod-2 spectral flow) |
-| **3** | Planck constant ($\hbar$) generation | Pillar 10 ($\hbar$ origin), GAP-1 ($\hbar$ matching) | **PARTIAL-ADVANCED → STRONGER post-Math291** (master formula RECONCILED to canonical Formula B; matter-side substantiated; GAP-1 = T4 with explicit T6 promotion path via Math299 joint event) | Math79-AddB (classical no-go theorem); Math98-AddA-E (KZ quench, Volovik shell, Berry, Onsager-Machlup); **Math291** (corrected master $\hbar_{\rm TECT} = c^3 a_{\rm BCC}^2/(16\pi G)$, Formula A errata); Math163 (boson-loop subdominance $R \approx 0.12$); Math296 ($\gamma_\hbar^{(1)}$ first-principles); Math297 (continuum-limit error budget); Math298 (3-sector decomposition); Math299 (joint-event T4 → T6 condition) |
-| **4** | Standard Model integration (SM + GUT) | Pillars 4 (gauge), 5 (chirality), 6 (Higgs), 7 (per-gen consistency), 11 ($\Lambda$); GAP-3 (anomaly) | **NEAR-CLOSURE post-R8 + 20-turn defence (Math270-310)** (Pillar 4 atomic = T6 PROVED CONDITIONAL via Math270 + Math279; Math302 $H_{\rm task}$ carve-out two-component record; GAP-3 = T6 PROVED CONDITIONAL via Math281; Pillar 6 first $\Delta F < 0$ broken-energy data point achieved at N=16, Math292 $\mathcal A_{\rm valid}$ pending transverse projection per Math310-AddA) | Math80-AddA + Math162 + Math191/192 (Pillar 4 sub-task 1 + 2 PROVED CONDITIONAL); Math157 + Math281 (SO(10) $\mathbf{16}$ anomaly six coefficients exact zero); Math229 (sub-task 3 Cartan forcing); Math242 (cubic-sublattice ladder); Math270 + Math279 (atomic defence + final restatement); Math305 ($\Sigma_0$ Cech atlas); Math288 + Math300 (defect-mass F-GAP4-DEFECT-MASS verdict template); Math58-v7 (Pillar 11 $\Lambda$ four-sector cancellation); Math10-14 (chirality) |
-| **5** | Quantisation and QFT unification | Pillar 1 (mass gap), Stage-2 Math60-A..E sub-theorems, GAP-1/2/3/4 collectively | **PARTIAL → STRENGTHENED post-R8** (5/5 Math60 sub-theorems SEALED; 3/4 quantum gates promoted to T6 PROVED CONDITIONAL; Stage-2 composite = T3 PROOF SKETCH via min-rule; T6 promotion gated on Math307 joint event) | Math82-AddF (Pillar 1 numerical anchor $m^{*2}_{\rm num} = +4.247\!\times\!10^{-2}$); Math60-A meta-consistency (Math83); Math60-B parameter compression $4.75\times$ vs SM 19; Math60-C-AddD QO1-3 closed form; Math60-D global injectivity; Math60-E falsifiability (3 pre-registered + Math172); Math292 (4-gauge acceptance criterion); Math293 (3-class false-negative taxonomy); Math301 (min-rule explanatory); Math307 (Stage-2 promotion path) |
-| **6** | TOE completion ($S_1 \wedge S_2 \wedge S_3$ unconditional) | All 11 Pillars + S1, S2, S3 final closure | **PARTIAL → on track** (theoretical layer ACHIEVABLE in remaining Phase 8-14 of next 20-turn arc Math311-330; phenomenological layer gated on SKA / IPTA-2 2028-2030) | Math60 spec ($\mathrm{TOE} := S_1 \wedge S_2 \wedge S_3$); Math193 (self-containment 3-layer analysis); Math195 (A2 axiom reduction → effective **2-axiom theory**: 1 physics + 1 cosmological); Math190 + Math269 + Math289 + Math310 (autonomous-arc final syntheses); Math172 + Math196 (Stage-3 PROVISIONAL prediction $\Omega_{\rm GW} \sim 10^{-15}$ at PTA, observable by SKA / IPTA-2 2028-2030); internal Phase 8-14 planning roadmap (local-only) (next-20-turn closure roadmap) |
-
-**Effective axiom count post-Math195**: TECT = **1 physics axiom (A0 BCC condensate) + 1 cosmological axiom (cooling $T(t)$)**. Comparable to Einstein GR (1-2 + 1-2 = 2-4); strictly fewer than SM (~7), LQG (~5-6), String/M (~6-11).
-
-**One-glance synthesis**: Stages 1-4 are well-advanced (1 COMPLETED ✓, 2/3 PARTIAL-ADVANCED-STRONGER, 4 NEAR-CLOSURE with two-component (T6, realization PENDING) record). Stage 5 is PARTIAL but reducible (Stage-2 composite T3 → T6 promotion via Math307 joint event). Stage 6 (final TOE qualification) is on a clear trajectory: theoretical-layer self-completion ACHIEVABLE in 20 more autonomous turns (Math311-330, see internal Phase 8-14 planning roadmap (local-only)); phenomenological-layer self-completion gated on SKA (calendar-dependent, not mathematics-dependent). The five active falsification gates carry hard deadlines spanning 2026-05-14 to 05-29 and pre-registered failure-mode taxonomies.
+One-glance positioning of TECT against three reference frameworks: the **Standard Model (SM)**, **Superstring / M-theory**, and **Loop Quantum Gravity (LQG)**. &quot;Predicts&quot; means the framework derives the listed item from its axioms rather than postulating it externally.
 
 ## How to navigate this repository
 
-- `index.html` — landing page (also navigable: `theory.html`, `status.html`, `papers.html`, `toe.html`, `results.html`, `history.html`, `records.html`, `math-notes.html`, `code.html`).
-- `data/` — the live JavaScript data layer that the pages render.
-- `assets/` — math notes (`assets/math/TECT-Math*.tex.txt`), code mirror (`assets/code/`), policy snapshots, asset manifest.
-- `docs/` — curated standalone documents: KEY_RESULTS, NAVIGATION, POLICIES_INDEX.
-- `CHANGELOG.md` — full chronological change log (root of the main repository; mirrors are auto-generated from this file).
-- `CITATION.cff` — citation metadata (auto-generated).
+- `note/` — TECT Math notes (proof-level derivations).
+- `paper/` — papers and supplementary material.
+- `code/` — numerical implementation (PDE solvers, supplementary).
+- `status/` — canonical scoreboard (TOE-FACT-SHEET, OPEN-QUESTIONS, NEGATIVE-RESULTS).
+- `site/` — website source mirror.
+- `CHANGELOG.md` — full chronological change log.
 
 All artefacts in this repository are written in English per the [output-language policy](status/policy/OUTPUT_LANGUAGE_POLICY.md).
 
 ## License & maintainer
 
-- License: **Creative Commons Attribution 4.0 International (CC BY 4.0)** -- see `LICENSE` for the verbatim legal code and the required attribution string. SPDX: `CC-BY-4.0`.
+- License: **Creative Commons Attribution 4.0 International (CC BY 4.0)** -- see `LICENSE` for the verbatim legal code. SPDX: `CC-BY-4.0`.
 - Maintainer: Jusang Lee (`jtkor@outlook.com`).
 - Issues / contributions: open an Issue on GitHub or contact via email.
 - Citation: see `CITATION.cff`.
