@@ -1,0 +1,423 @@
+% =====================================================================
+% Paper 07 — Per-generation quantum consistency: IDEA / MECHANISM NOTE
+%   on Ward + Einstein--Hilbert + Witten + mod-2 framework
+%   (NOT a current theorem paper; external use FORBIDDEN at present
+%    canonical tier per Math314-AddC audit; full theorem-level rewrite
+%    tracked under Q-2026-05-02-Pillar7-Three-Generation-Rewrite)
+% Status: [DRAFT] [REWRITE_REQUIRED] [EXTERNAL_USE_FORBIDDEN]
+% AUDIT-FLAG: AUDIT-2026-05-02-Wave7-Aux-Epoch-Overclaim
+%   (Math314-AddC extension covering Wave 4/5 papers Paper-06..08).
+% Rev 4 (2026-05-06): full body rewrite as mechanism note.
+%   Specific corrections applied throughout the body:
+%   (a) Introduction wording "the unique solution is three generations"
+%       removed; replaced by an honest framing: TECT identifies the
+%       SM three-generation chiral spectrum as anomaly-cancellation-
+%       consistent within SO(10), but does NOT prove that exactly
+%       three generations are forced.
+%   (b) Theorem statement no longer asserts "exactly three generations
+%       are required by quantum consistency"; it is recast as a
+%       four-condition consistency-conjunction conjecture (Math47 Ward
+%       identity + Math48 nonlinear EH coupling + Witten SU(2) global
+%       + Math49c mod-2 spectral flow), with the generation-count
+%       question explicitly identified as canonical Pillar-7 T1 OPEN.
+%   (c) Proof "Step 2 (Nonlinear EH coupling)" removed: the formula
+%       A_grav = sum_f Q_f^3 (sum of electric charges cubed) is NOT a
+%       gravitational anomaly coefficient. The actual mixed
+%       gravitational anomaly is Tr(U(1)_Y) (one power of Y, not three
+%       powers of Q), which vanishes per generation in the SM
+%       independent of N_g (see Paper-07-ext for the canonical
+%       cancellation). The Math48 nonlinear EH content is recast as a
+%       per-generation Ward-current preservation under coupling to a
+%       fluctuating background metric, NOT a forcing condition on N_g.
+%   (d) "Step 3 (Witten SU(2) anomaly)" rewritten precisely. Witten's
+%       theorem is a Z_2 statement on the chiral SU(2)_L doublet
+%       count modulo 2; it does NOT distinguish N_g = 1 from N_g = 3,
+%       since both give an even total doublet count (4 doublets per
+%       generation x N_g). The mis-attribution "the coefficient is
+%       zero iff N_g = 3" is corrected.
+%   (e) "Step 4 (Mod-2 spectral flow)" rewritten precisely. The
+%       parity formula (-1)^{N_g(N_g-1)/2} appearing in the earlier
+%       draft is non-standard and not tied to any TECT canonical
+%       construction. It is replaced by a faithful summary of
+%       Math49c-v3's mod-2 spectral-flow construction: the chiral
+%       Dirac operator on the BCC shell admits an integer-valued
+%       Atiyah-Singer index whose mod-2 reduction must be even for
+%       quantization consistency; the question of whether this index
+%       picks out N_g = 3 is part of Math49c-v3 sub-task and remains
+%       Pillar-7 T1 OPEN.
+%   (f) "Closure" paragraph recast: the four conditions are necessary
+%       per-generation consistency conditions; together they are not
+%       known to be sufficient to FORCE N_g = 3.
+%   (g) Discussion "result is PROVED (T7)" REMOVED. The honest tier
+%       is T2 CONJECTURE for the three-generation-forcing claim, with
+%       four-condition mechanism summary as the canonical content of
+%       this paper.
+% Compile: bash _shared/build-paper.sh Paper-07-Pillar7-Quantum-Consistency/Paper-07
+% Canonical archive: Math47, Math48, Math49b-v3, Math49c-v3,
+%                    Math314-AddC, Paper-07-ext (anomaly-cancellation
+%                    auxiliary)
+% =====================================================================
+% --- TECT canonical preamble (see _shared/tect-preamble.tex) ----------
+\input{../_shared/tect-preamble.tex}
+
+\begin{document}
+
+\title{An idea / mechanism note on per-generation chiral consistency
+from combined Ward, Einstein--Hilbert, Witten, and mod-$2$ constraints
+in TECT \\
+\normalsize{\textit{(IDEA / MECHANISM NOTE; NOT a current theorem
+paper. External use FORBIDDEN at the present canonical tier per
+Math314-AddC audit. Full theorem-level rewrite tracked under
+\texttt{Q-2026-05-02-Pillar7-Three-Generation-Rewrite}.)}}}
+
+\author{Jusang Lee}
+\email{jtkor@outlook.com}
+\affiliation{Independent researcher, Republic of Korea}
+
+\date{\today}
+
+\begin{abstract}
+This document is an idea / mechanism note outlining a candidate
+framework for per-generation chiral consistency in the Topological
+Energy Condensate Theory (TECT) combining four independent
+consistency audits: (1) global Ward identities at each generation
+(Math47); (2) preservation of those Ward currents under nonlinear
+coupling to a fluctuating background metric (Math48); (3) the Witten
+$\mathrm{SU}(2)_L$ global anomaly mod-$2$ constraint
+(Math49b-v3, after \cite{Witten1982}); and (4) the mod-$2$
+spectral-flow constraint on the chiral-fermion Dirac operator
+(Math49c-v3). \emph{Honest scope and audit-flag (Math314-AddC).} The
+present note does \emph{not} establish that the four conditions
+together force the SM three-generation count: each is a per-generation
+consistency \emph{requirement}, not a uniqueness theorem. The
+generation-count question --- ``why exactly three?''  --- remains the
+canonical Pillar~7 \textbf{T1 \textsc{open}} problem in TECT. The
+correction history is recorded in the file header (Rev~4, 2026-05-06).
+The companion paper~Paper-07-ext records the symbolic-exact
+cancellation of the five SM perturbative gauge anomalies and the
+$\mathrm{Tr}(\mathrm{U}(1)_Y)$ gravitational mixed anomaly per
+generation; that result is independent of $N_g$ and is the canonical
+SO(10) anomaly-cancellation audit of the TECT Pillar~4 embedding.
+External use of this note is FORBIDDEN at the present canonical tier;
+a full theorem-level rewrite of any three-generation-forcing claim is
+tracked under
+\texttt{Q-2026-05-02-Pillar7-Three-Generation-Rewrite}.
+\end{abstract}
+
+\maketitle
+
+% =====================================================================
+\section{Introduction}\label{sec:intro}
+% =====================================================================
+The existence of exactly three SM fermion generations is one of the
+deepest empirical puzzles of the Standard Model. No first-principles
+derivation has been universally accepted; the count $N_g = 3$ remains a
+phenomenological input. TECT formulates the question in a constructive
+form --- can the topological-condensate vacuum be required, by some
+combination of field-theoretic consistency conditions, to admit only
+$N_g = 3$? --- and answers it, at the present canonical tier, in the
+\emph{negative}: the per-generation consistency audits identified here
+are necessary, but they are not collectively known to be sufficient.
+
+The present mechanism note assembles the four audit conditions that, in
+combination, are the natural starting point for any future
+three-generation-forcing argument inside TECT. They are: the global
+Ward identity per generation (\S\ref{sec:ward}), the preservation of
+that Ward current under nonlinear coupling to a fluctuating background
+metric (\S\ref{sec:eh}), the Witten $\mathrm{SU}(2)_L$ global anomaly
+mod-$2$ constraint (\S\ref{sec:witten}), and the mod-$2$ spectral-flow
+constraint on the chiral-fermion Dirac operator (\S\ref{sec:mod2}).
+None of them, individually or jointly, is known to force $N_g = 3$ at
+the level of the present construction.
+
+The paper is therefore positioned as an idea / mechanism note on
+\emph{which audits} a future theorem-level construction must pass; it
+is not, and does not claim to be, the theorem-level construction
+itself.
+
+% =====================================================================
+\section{Setting and main claim (recast as conjecture)}\label{sec:setup}
+% =====================================================================
+For each generation $g$ of the SM, define the chiral fermion content
+in the standard $\mathrm{SU}(3)_c\times \mathrm{SU}(2)_L\times
+\mathrm{U}(1)_Y$ representation:
+\begin{equation}\label{eq:sm-content}
+  Q_L^g \in (\mathbf{3},\mathbf{2})_{1/6},\quad
+  u_R^{c,g}\in (\overline{\mathbf{3}},\mathbf{1})_{-2/3},\quad
+  d_R^{c,g}\in (\overline{\mathbf{3}},\mathbf{1})_{1/3},\quad
+  L_L^g\in (\mathbf{1},\mathbf{2})_{-1/2},\quad
+  e_R^{c,g}\in (\mathbf{1},\mathbf{1})_{1},
+\end{equation}
+together with the right-handed neutrino singlet
+$\nu_R^{c,g}\in (\mathbf{1},\mathbf{1})_0$ (the RHN; SM hypercharge
+$Y=0$) when SO(10) is the embedding GUT. The global Ward current of
+generation $g$ for any conserved $\mathrm{U}(1)$ flavour symmetry $X$
+is $j^{\mu}_{X,g}=\overline{\Psi}^g\gamma^{\mu}X\Psi^g$, satisfying
+$\partial_\mu j^{\mu}_{X,g}=0$ at the classical level; quantum
+corrections modify this only via gauge anomalies, which are audited in
+the companion paper Paper-07-ext.
+
+\begin{conjecture}[Per-generation quantum-consistency four-condition
+audit; \textbf{T2 \textsc{conjecture}}]\label{conj:main}
+For each generation $g\in\{1,\dots,N_g\}$ of the SM matter content
+\eqref{eq:sm-content}, the following four conditions are
+\emph{necessary} for quantum consistency of the per-generation chiral
+sector:
+\begin{itemize}
+  \item[(\textbf{Ward-$g$})] global Ward identity per Math47 (see
+    \S\ref{sec:ward}): $\partial_\mu j^{\mu}_{X,g} = 0$ for every
+    classically conserved global $\mathrm{U}(1)_X$ symmetry, modulo
+    the gauge anomalies that cancel between generations as audited in
+    Paper-07-ext;
+  \item[(\textbf{EH-$g$})] preservation of the Ward current
+    $j^{\mu}_{X,g}$ under nonlinear coupling to a fluctuating
+    background metric, per the one-loop Math48 audit
+    (\S\ref{sec:eh});
+  \item[(\textbf{Witten-tot})] the \emph{total} chiral
+    $\mathrm{SU}(2)_L$ doublet count of the theory is even, per the
+    Witten $\mathrm{SU}(2)$ global anomaly (Math49b-v3 +
+    \cite{Witten1982}; \S\ref{sec:witten});
+  \item[(\textbf{Mod-2-$g$})] the mod-$2$ spectral-flow index of the
+    chiral Dirac operator on the BCC shell, per the Math49c-v3
+    audit (\S\ref{sec:mod2}), is even for each generation.
+\end{itemize}
+The four-condition conjunction
+$(\text{Ward-}g)\wedge(\text{EH-}g)\wedge
+(\text{Witten-tot})\wedge(\text{Mod-2-}g)$ is necessary for the
+per-generation chiral sector to admit a well-defined quantum
+extension.
+
+\textbf{Honest scope.} The conjunction is \emph{not} known to be
+\emph{sufficient} to force the value of $N_g$. The generation-count
+question --- ``does the four-condition conjunction admit solutions
+only at $N_g = 3$?'' --- is the canonical Pillar~7 \textbf{T1
+\textsc{open}} problem and is the subject of the rewrite obligation
+\texttt{Q-2026-05-02-Pillar7-Three-Generation-Rewrite}.
+\end{conjecture}
+
+\begin{remark}[On the difference from the earlier draft]\label{rmk:diff}
+Earlier drafts of this paper asserted that the conjunction
+\emph{forces} $N_g = 3$ at \textbf{T7 \textsc{proved}}. That assertion
+is withdrawn in Rev~4 because (i) the Witten $\mathrm{SU}(2)$ global
+anomaly is even for $N_g\in\{1,2,3,\dots\}$ (the per-generation
+doublet count is $4$, always even), and therefore does not
+discriminate $N_g = 3$; (ii) the formula
+$A_{\mathrm{grav}}=\sum_f Q_f^3$ used in the earlier ``Step 2'' is
+\emph{not} the SM gravitational anomaly coefficient (the actual mixed
+gravitational anomaly is $\mathrm{Tr}(\mathrm{U}(1)_Y)$, with one
+power of $Y$, which vanishes per generation independent of $N_g$;
+this is the canonical SO(10) audit of Paper-07-ext); (iii) the
+mod-$2$ parity expression $(-1)^{N_g(N_g-1)/2}$ in the earlier
+``Step 4'' is non-standard and not tied to any canonical TECT
+construction. The corrected statement is recorded in
+Conjecture~\ref{conj:main}.
+\end{remark}
+
+% =====================================================================
+\section{Audit~1 --- per-generation Ward identity (Math47)}
+\label{sec:ward}
+% =====================================================================
+Math47 establishes that, for the SM coupled to the TECT background
+condensate, the global Ward identity for any classically conserved
+$\mathrm{U}(1)_X$ flavour current of generation $g$ is preserved at
+all loop orders, provided the gauge-anomaly cancellation conditions
+of Paper-07-ext are satisfied for the full chiral spectrum. The
+precise theorem is the per-generation independence statement: the
+Ward current $j^{\mu}_{X,g}$ does not mix with $j^{\mu}_{X,g'}$ for
+$g\neq g'$ at tree level, and the loop-level mixing is governed by
+the same gauge-anomaly trace formulas audited in Paper-07-ext.
+
+\begin{remark}[What Math47 does \emph{not} establish]
+\label{rmk:math47-limits}
+Math47 does not by itself force any particular value of $N_g$: the
+per-generation Ward identity holds at every $g$ \emph{individually},
+and the gauge-anomaly cancellation it depends on is, per
+the six-coefficient table (eq.~6 of Paper-07-ext), $N_g$-independent.
+\end{remark}
+
+% =====================================================================
+\section{Audit~2 --- preservation under nonlinear EH coupling
+(Math48)}\label{sec:eh}
+% =====================================================================
+When the SM matter is coupled to a fluctuating background metric in
+the linearised regime $g_{\mu\nu} = \eta_{\mu\nu} + h_{\mu\nu}$, the
+mixed gravitational anomaly potentially obstructs the conservation of
+each Ward current. Math48 establishes, at one-loop, the nonlinear
+preservation of $\partial_\mu j^{\mu}_{X,g} = 0$ provided the
+gravitational mixed anomaly $\mathrm{Tr}(\mathrm{U}(1)_X)$ vanishes
+for every gauged $X$. For $X = Y$ (the SM hypercharge), this
+condition is the audit-target of Paper-07-ext, where it is proven
+symbolically exact zero per generation
+\eqref{eq:trY-zero-7ext-ref}; for $X = B-L$ (the SO(10) extension),
+it is closed by the RHN.
+
+\begin{remark}[Removal of the non-standard $A_{\mathrm{grav}} = \sum_f
+Q_f^3$ formula]\label{rmk:remove-Q3}
+The earlier draft (Rev~3) introduced the formula
+$A_{\mathrm{grav}} = \sum_f Q_f^3$ (sum over fermions of the cube of
+the electric charge $Q$) as the ``gravitational anomaly coefficient''.
+This is incorrect: the gravitational mixed anomaly in four dimensions
+is the trace $\mathrm{Tr}(\mathrm{U}(1)_X)$ for the gauged Abelian
+charge $X$ (one power, not three), arising from the
+graviton--graviton--gauge-boson triangle. The pure-gauge anomaly
+$\mathrm{Tr}(\mathrm{U}(1)_X^3)$ (three powers) is a
+\emph{separate} coefficient, and for $X = Q$ (electric charge) is the
+non-canonical combination of $\mathrm{U}(1)_Y$ and SU(2)$_L$
+contributions which is normally evaluated only in the broken
+electroweak phase below the Higgs vev. The earlier draft conflated
+these two coefficients. In Rev~4 the formula is removed and the audit
+is the standard $\mathrm{Tr}(\mathrm{U}(1)_Y)$ as recorded in
+Paper-07-ext, equation~\eqref{eq:trY-zero-7ext-ref}.
+\end{remark}
+
+A local stub of the canonical identity, proved as
+in the six-coefficient table of the companion paper~Paper-07-ext, is
+recorded here for self-contained citation:
+\begin{equation}\label{eq:trY-zero-7ext-ref}
+  \mathrm{Tr}(\mathrm{U}(1)_Y) \;=\; 0 \quad\text{per generation}
+  \qquad\text{[symbolic identity, proven in Paper-07-ext]}.
+\end{equation}
+
+% =====================================================================
+\section{Audit~3 --- Witten $\mathrm{SU}(2)_L$ global anomaly
+(Math49b-v3, after Witten 1982)}\label{sec:witten}
+% =====================================================================
+Witten \cite{Witten1982} proved that a four-dimensional chiral gauge
+theory with gauge group $\mathrm{SU}(2)$ is consistent at the
+non-perturbative level only if the total number of chiral
+$\mathrm{SU}(2)$ doublets is even. The argument uses
+$\pi_4(\mathrm{SU}(2)) = \mathbb{Z}_2$: a homotopically nontrivial
+$\mathrm{SU}(2)$ gauge transformation generates a sign in the
+fermionic path-integral measure that vanishes only if the total
+doublet count is even.
+
+For the SM at $N_g$ generations, the chiral $\mathrm{SU}(2)_L$
+doublets per generation are: the three quark doublets (one per
+colour) of $Q_L$, plus the lepton doublet $L_L$. The total per-generation
+doublet count is therefore $3+1 = 4$, which is even. The total over
+$N_g$ generations is $4 N_g$, which is even for every positive
+integer $N_g$.
+
+\begin{remark}[Witten does not discriminate $N_g = 3$]
+\label{rmk:witten-noselect}
+The Witten $\mathrm{SU}(2)_L$ global anomaly is satisfied for every
+$N_g\geq 1$. It does not discriminate $N_g = 1$ from $N_g = 3$. The
+earlier draft assertion that ``the coefficient is zero iff
+$N_g = 3$'' is corrected in Rev~4: the coefficient (the
+$\mathbb{Z}_2$ class) is zero for every $N_g$.
+\end{remark}
+
+% =====================================================================
+\section{Audit~4 --- mod-$2$ spectral flow on the BCC shell
+(Math49c-v3)}\label{sec:mod2}
+% =====================================================================
+Math49c-v3 examines the chiral Dirac operator on the BCC shell of the
+TECT condensate vacuum. Its integer-valued Atiyah--Singer index, per
+generation, is given by a topological-charge sum on the shell;
+quantum consistency of the chiral path integral requires the
+mod-$2$ reduction of this index to be even (so that the fermionic
+Pfaffian is well-defined as a real-valued square root of the chiral
+Dirac determinant).
+
+\begin{remark}[Mod-$2$ does not, in the present construction, force
+$N_g = 3$]\label{rmk:mod2-noselect}
+The mod-$2$ spectral-flow index of Math49c-v3 is, in the present
+canonical construction, an integer that is even for the SM SU(5)
+content of $\overline{\mathbf{5}}\oplus \mathbf{10}$ per generation;
+this is consistent with $N_g = 1, 2, 3, \dots$\ alike. A construction
+in which the index parity is sensitive to $N_g$ is conceivable but is
+not part of the present Math49c-v3 archive; if completed, it would
+be the central technical step of any future
+three-generation-forcing theorem.
+\end{remark}
+
+% =====================================================================
+\section{Closure and honest verdict}\label{sec:closure}
+% =====================================================================
+The four audits above are individually closed at \textbf{T6
+\textsc{proved conditional}} or stronger (Ward, EH, Witten, mod-$2$
+each rest on textbook or Math47/Math48/Math49b-v3/Math49c-v3
+canonical archive). \emph{Their conjunction is necessary} for the
+per-generation chiral sector to admit a well-defined quantum
+extension.
+
+\textbf{The conjunction is not known to be sufficient to force the SM
+generation count.} Specifically:
+\begin{itemize}
+  \item Witten $\mathrm{SU}(2)_L$ is satisfied for every $N_g\geq 1$;
+  \item Mod-$2$ spectral flow, in the present Math49c-v3 construction,
+    is satisfied for every $N_g$ for which the chiral SU(5) content
+    sums to an even index --- which is the case for every $N_g$;
+  \item Ward and EH are per-generation conditions that hold
+    individually for each $g\in\{1,\dots,N_g\}$ and are
+    $N_g$-independent;
+  \item the perturbative SM gauge anomalies and
+    $\mathrm{Tr}(\mathrm{U}(1)_Y)$ gravitational anomaly cancel
+    \emph{per generation} (Paper-07-ext, equation
+    \eqref{eq:trY-zero-7ext-ref} and the six-coefficient table of
+    that paper), again $N_g$-independent.
+\end{itemize}
+
+The honest verdict is therefore that the four-condition consistency
+audit, combined with the Paper-07-ext anomaly cancellation, fixes
+$N_g$ to be a positive integer (each generation must satisfy the
+audit) but \emph{does not} fix $N_g = 3$. The phenomenological value
+$N_g = 3$ remains the empirical input, and the Pillar~7 question
+``why exactly three?''  is canonical \textbf{T1 \textsc{open}} in
+TECT, tracked under
+\texttt{Q-2026-05-02-Pillar7-Three-Generation-Rewrite}.
+
+% =====================================================================
+\section{Discussion and outlook}\label{sec:discussion}
+% =====================================================================
+The mechanism note recorded here serves three purposes within the
+TECT Pillar~7 programme:
+\begin{enumerate}
+  \item to enumerate the necessary per-generation consistency audits
+    that any future three-generation-forcing theorem must pass;
+  \item to record the Math314-AddC corrections to the earlier
+    over-claims (Rev~3 had asserted $N_g = 3$ forced at \textbf{T7
+    \textsc{proved}}, an over-claim now retracted);
+  \item to provide a clean target for the
+    \texttt{Q-2026-05-02-Pillar7-Three-Generation-Rewrite} obligation,
+    which would supply a fifth condition (a TECT-internal
+    construction sensitive to $N_g$) sufficient to force $N_g = 3$
+    in conjunction with the four conditions above.
+\end{enumerate}
+The fifth condition, if ever constructed, would most likely arise
+from the BCC shell topology --- the integer-valued index of the
+Math49c-v3 chiral Dirac operator restricted to the three-band shell
+spectrum (Math234), whose three-fold degeneracy might be tied to a
+TECT-internal Chern number or flux quantum. Such a construction is a
+canonical Pillar~7 T1 OPEN item and is not part of the present note.
+
+% =====================================================================
+\begin{thebibliography}{99}
+\bibitem{Witten1982} E.~Witten, ``An $\mathrm{SU}(2)$ anomaly,''
+  Phys.\ Lett.\ B \textbf{117}, 324 (1982).
+\bibitem{Math47} TECT internal note Math47,
+  ``Per-generation Ward identity in the SM coupled to TECT
+  condensate,'' TECT canonical archive.
+\bibitem{Math48} TECT internal note Math48,
+  ``Nonlinear EH coupling and Ward-current preservation at one-loop,''
+  TECT canonical archive.
+\bibitem{Math49bv3} TECT internal note Math49b-v3,
+  ``Witten $\mathrm{SU}(2)_L$ global anomaly audit for the TECT
+  chiral spectrum,'' TECT canonical archive.
+\bibitem{Math49cv3} TECT internal note Math49c-v3,
+  ``Mod-$2$ spectral flow on the BCC shell chiral Dirac operator,''
+  TECT canonical archive.
+\bibitem{Math314AddC} TECT internal note Math314-AddC,
+  ``Hostile-referee audit of Wave-4/5 papers Paper-06..08; rewrite
+  obligation Q-2026-05-02-Pillar7-Three-Generation-Rewrite,''
+  TECT canonical archive.
+\end{thebibliography}
+
+\begin{acknowledgments}
+The author thanks the Math314-AddC hostile-referee audit (2026-05-02)
+for catching the Rev~3 over-claims corrected in Rev~4. This work is
+part of TECT, canonical archive at
+\url{https://github.com/TECT-OpenPhysics/TECT}.
+\end{acknowledgments}
+
+\end{document}

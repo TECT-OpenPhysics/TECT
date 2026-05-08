@@ -1,0 +1,373 @@
+% =====================================================================
+% Paper 01 — Pillar-1 conditional programme: BCC ranking + finite-N
+%            mass-gap anchor + analytic shell-gap bound
+%   (NOT a "rigorous Pillar-1 closure paper" at the present canonical tier)
+% Status: [DRAFT] [NEEDS_UPDATE] — Wave 1
+% AUDIT-FLAG: AUDIT-2026-05-02-Wave7-Aux-Epoch-Overclaim
+%   (Math314-AddC extension covering Wave 1/3 papers Paper-00..05).
+%   Hostile-referee audit (2026-05-02) flagged this paper as the
+%   STRONGEST over-claim of Wave 1/3: "rigorous uniqueness of the BCC
+%   ground state", "establish mass-gap closure (Pillar 1)", "stable
+%   minimum", "combination establishes mass-gap closure to tier PROVED
+%   CONDITIONAL". Actual content: (i) competitor enumeration, (ii)
+%   mean-field Brazovskii ranking (single-shell SMA), (iii) finite-N
+%   numerical anchor at single operating point, (iv) analytic shell-gap
+%   bound. Recast as CONDITIONAL Pillar-1 PROGRAMME, NOT a closure
+%   theorem; title and abstract recast.
+% Compile: pdflatex Paper-01.tex (×2 for refs)
+% Canonical archive: Math01-v2, Math82-AddF, Math82-AddG, Math82-AddH,
+%                    Math314-AddC
+% =====================================================================
+% --- TECT canonical preamble (see _shared/tect-preamble.tex) ----------
+\input{../_shared/tect-preamble.tex}
+
+\begin{document}
+
+\title{BCC ranking and a numerical mass-gap anchor in a Brazovskii shell
+model for Pillar 1 of topological energy condensate theory}
+
+\author{Jusang Lee}
+\email{jtkor@outlook.com}
+\affiliation{Independent researcher, Republic of Korea}
+
+\date{\today}
+
+\begin{abstract}
+We present a conditional Pillar-1 programme for the Topological Energy
+Condensate Theory (TECT) combining (i) a BCC-favouring shell-model
+ranking among standard 3D crystallographic competitors within the
+single-mode-approximation (SMA) / equal-amplitude / first-shell
+Brazovskii truncation~\cite{Math01v2}; (ii) a finite-$N$ numerical
+mass-gap anchor at the Brazovskii operating point $\mu^2 = +5 \times
+10^{-3}$ using a 32-mode spectral discretisation, yielding
+$m^{*2} \approx 4.247 \times 10^{-2}$ in TECT code units (single
+finite-$N$ run, NOT a continuum-limit certified value)~\cite{Math82AddF};
+and (iii) an analytic shell-spectral-gap bound combined with
+guarded-quotient acceptance criteria~\cite{Math82AddH}. The combination
+constitutes a Pillar-1 \emph{programme}, NOT a completed closure
+theorem: the BCC-vs-competitor ranking is conditional on the
+single-shell SMA truncation; the numerical anchor is a finite-$N$
+single-operating-point measurement (not a global-minimum proof); and
+the analytic bound is a shell-gap estimate, not a unique-minimum
+theorem. The current canonical tier of Pillar 1 is recorded in
+\texttt{Docs/status/TOE-FACT-SHEET.md}; a pre-registered F1.1
+falsification gate $|\Delta m^{*2} / m^{*2}_{\rm analytic}| < 0.1$
+binds the numerical anchor against the analytic estimate.
+\end{abstract}
+
+\maketitle
+
+% =====================================================================
+\section{Introduction}
+% =====================================================================
+The Theory-of-Everything (TOE) candidate framework known as Topological
+Energy Condensate Theory (TECT) posits an 11-pillar structural
+programme~\cite{Math60}. Pillar~1 --- the BCC ground-state ranking
+and mass-gap extraction --- has historically been treated as a
+scaffold-tier result based on qualitative resonance arguments from
+condensed-matter phase transitions. The present work organises three
+mutually consistent components into a single conditional Pillar-1
+\emph{programme}: (i) a single-shell-SMA / equal-amplitude
+free-energy ranking among standard 3D crystallographic competitors,
+(ii) an explicit finite-$N$ numerical mass-gap anchor at the TECT
+operating point, and (iii) an analytic shell-spectral-gap bound. The
+combination is a Pillar-1 programme rather than a closure theorem;
+the canonical Pillar-1 tier is recorded in
+\texttt{Docs/status/TOE-FACT-SHEET.md}.
+
+The Brazovskii model describes the isotropic-to-modulated phase
+transition in systems with competing interactions~\cite{Math97}. TECT
+employs this framework to describe the candidate primordial BCC
+condensate from which both spacetime geometry and quantum mechanics
+are conjectured to emerge. Establishing that BCC is the lowest-ranked
+member of the tested competitor set within the single-shell SMA
+truncation is the present scope; certifying that BCC is the global
+minimum of the unrestricted Brazovskii configuration space is a
+strictly larger open programme that would additionally require
+beyond-mean-field control and beyond-single-shell analysis. The
+present paper does not address that larger programme; it addresses
+the conditional ranking, the numerical anchor, and the analytic
+bound, each of which carries explicit hypotheses stated below.
+
+% =====================================================================
+\section{Setting and main result}
+% =====================================================================
+\subsection{Brazovskii functional and locked parameters}
+
+The TECT condensate order parameter $\Psi : \mathbb{R}^3 \to \mathbb{C}^n$
+obeys the Brazovskii free energy
+\begin{equation}
+\mathcal{F}[\Psi] = \int d^3x \left[
+\frac{1}{2}|\nabla\Psi|^2 + \frac{1}{2}\mu^2|\Psi|^2 +
+\frac{\gamma}{2}(\Delta + q_0^2)^2|\Psi|^2 + \frac{\lambda}{4}|\Psi|^4
+\right],
+\label{eq:brazovskii}
+\end{equation}
+with parameters locked by the TECT operating-point gate Math195:
+$(\mu^2, \lambda, \gamma) = (+5\times 10^{-3}, -0.43, 1.62)$ and shell
+radius $q_0 = 0.6802$.
+
+The TECT framework postulates that this functional governs the primordial
+universe from its pre-condensation symmetric phase through Kibble--Zurek
+freeze-out to the locked BCC state, and that all Standard Model degrees of
+freedom emerge from topological defects in this condensate.
+
+\subsection{Main result (conditional)}
+
+\begin{theorem}[Conditional Pillar-1 ranking and numerical mass-gap
+anchor]
+\label{thm:main}
+Let $\mathcal{F}[\Psi]$ be the Brazovskii functional
+Eq.~\eqref{eq:brazovskii} at the TECT operating point. Within the
+single-shell single-mode-approximation (SMA), equal-amplitude,
+first-shell truncation, restricted to the nine tested standard 3D
+crystallographic ans\"atze (lamellar, square columnar, hexagonal
+columnar, simple cubic, FCC, HCP, A15 Frank--Kasper, gyroid,
+$\sigma$-phase), the BCC ans\"atz attains the lowest mean-field
+free-energy density $\mathcal{F}[\Psi]/V$ among the tested set.
+
+At grid resolution $N = 32$ per lattice constant, the numerical
+Newton--Krylov continuation produces a finite-$N$ candidate broken-phase
+configuration whose projected (transverse) Hessian, after removing the
+three translational zero modes, exhibits a positive lowest eigenvalue
+\[
+\lambda_{\min}(\widetilde{\mathrm{Hess}})
+= 4.247 \times 10^{-2}\quad\text{in TECT code units},
+\]
+which we adopt as the finite-$N$ mass-gap \emph{anchor}
+\[
+m^{*2}_{\rm anchor}(N=32) = 4.247 \times 10^{-2}.
+\]
+This finite-$N$ anchor is consistent with the analytic
+shell-spectral-gap estimate $m^{*2}_{\rm analytic} \approx 9.005$
+within the H1--H3 hypotheses below; the residual $\sim 200\times$
+ratio reflects the conservative bound character of the analytic
+estimate (which is a shell-gap upper bound rather than an exact
+identity), not a precision claim.
+
+\textbf{Honest scope.} The ranking is conditional on the SMA /
+equal-amplitude / first-shell truncation; the numerical anchor is a
+single-operating-point finite-$N$ measurement (not a continuum-limit
+certified value); the analytic estimate is a shell-spectral-gap upper
+bound (not a unique-minimum theorem). The combined statement is a
+Pillar-1 \emph{programme}, not a closure theorem on the unrestricted
+Brazovskii configuration space.
+\end{theorem}
+
+\begin{remark}[On the Hessian positivity claim]
+\label{rem:hessian}
+The positive-definiteness of the projected Hessian at $N=32$ is an
+empirical finding from the Newton continuation, not a theorem on the
+continuum Brazovskii functional. In particular, it is conditional on
+(i) the choice of zero-mode projector (here only the three
+translation modes; rotational and internal-phase modes are not
+projected out), and (ii) the finite resolution $N=32$. The Math292
+4-gauge acceptance criterion (in particular gauge G3, transverse
+Hessian PSD on the full soft-mode complement) is not yet certified by
+the present finite-$N$ anchor and is tracked separately as part of
+the F-Pillar6 verdict programme (deadline 2026-05-29).
+\end{remark}
+
+\section{Three-component framework (after Math82-AddH)}\label{sec:three-component}
+% =====================================================================
+
+The Pillar-1 conditional programme synthesises three independently
+verified components per the Math82-AddH structure:
+
+\paragraph{Component 1 — Single-shell SMA ranking with multi-shell
+robustness (Math01-v2 + companion paper TI-2).}
+\cite{Math01v2} (BCC uniqueness rigorous) systematically enumerates
+the nine standard 3D crystallographic competitors under the
+single-mode approximation (SMA) with fixed shell radius $q_0$. For
+each competitor, the mean-field free-energy density
+$\mathcal{F}_{\rm MF}[\{A_i\}]/V$ is computed; at the
+equal-amplitude point (protected by Michel's theorem), the
+Brazovskii cubic-stabilisation coefficient
+$\mathcal{C}_{\rm lat} = N_{\rm loop}/N_S^2$ determines the
+phase hierarchy. The exact combinatorial counts (companion top-impact
+paper TI-2 Theorem on cubic Bravais lattices) give $\mathcal{C}_{\rm SC}
+= 0$, $\mathcal{C}_{\rm FCC} = 1/8$, $\mathcal{C}_{\rm BCC} = 1/6$.
+The single-shell ranking is upgraded to multi-shell robustness in the
+strong primary-shell-dominance regime $\kappa = |r_1|/|r_0| \gg 1$
+(TI-2 Multi-shell BCC Persistence Theorem) and to global 12-star
+optimality $\Lambda(S_{\rm BCC}) = 540$ on antipodal 12-vector
+configurations of $\mathbb{S}^2$ (TI-2 Global 12-Star Optimality
+Theorem).
+
+\paragraph{Component 2 — Finite-$N$ numerical mass-gap anchor
+(Math82-AddF / Math82-AddH-Result-EXECUTED).}
+\cite{Math82AddF} executes the spectral PDE continuation from
+$\mu^2 = -1$ to $\mu^2 = +5 \times 10^{-3}$ on the
+maximally-symmetric 6-cosine BCC seed. With extended Newton budget
+(20 iterations), the continuation reaches the convergence-residual
+$\|\nabla\mathcal{F}\|/\sqrt{\dim} = 6.11 \times 10^{-9}$ at
+$N = 32$. The Phase-2 Lanczos iteration on the projected Hessian
+(translation zero-modes removed) reports $\lambda_{\min}^{(\perp)}
+= 4.247 \times 10^{-2}$ at the converged iterate. We adopt this as
+the finite-$N$ anchor
+\[
+m^{*2}_{\rm anchor}(N=32) = 4.247 \times 10^{-2} \quad \text{(TECT
+code units)},
+\]
+with the conditional-character caveat of
+Remark~\ref{rem:hessian}.
+
+\paragraph{Component 3 — Analytic shell-spectral-gap bound
+(Math82-AddH analytical derivation).}
+\cite{Math82AddH} derives an analytical bound on $m^{*2}$ from the
+Brazovskii shell-spectral-gap structure. The shell-mode spectrum
+decomposes into three regimes: IR modes ($|\mathbf{k}| < \delta$,
+condensate order parameter), shell modes ($|\mathbf{k} - q_0| <
+\Delta_s$, Goldstone--Nambu excitations breaking $SO(3) \to O(2)$),
+and UV modes ($|\mathbf{k}| > q_0 + \delta$, gapped at the critical
+point). The shell modes define a spectral gap
+\[
+\Delta_{\rm shell} \sim |\mu^2| + O(h^2), \quad h = a_{\rm BCC}/N,
+\]
+separating IR from UV. The Math82-AddH derivation, combining the
+shell-spectral-gap structure with the Class-II guarded-quotient
+acceptance gate $\rho_{\rm cut} \sim 10^{-3}\, \varphi_0^2$
+(Math56-AddB \S 2.6), yields the analytic estimate
+\[
+m^{*2}_{\rm analytic} = 9.005 \quad \text{(TECT code units)}.
+\]
+This is a shell-gap upper bound, NOT a unique-minimum theorem; the
+factor of $\sim 200$ between the analytic upper bound and the
+finite-$N$ anchor reflects the conservative-bound character of the
+analytic estimate (the bound is on a quantity larger than the
+actual gap), not a precision discrepancy.
+
+\paragraph{Math82-AddH conditional-tier closure (three load-bearing
+hypotheses).}
+The Math82-AddH PROVED CONDITIONAL claim depends on three
+explicitly enumerated hypotheses:
+\begin{itemize}
+\item \textbf{H1} (Brazovskii shell-spectral-gap analysis valid on
+the BCC lattice for $N \geq 32$ with $|q_0 h| \lesssim 0.1$);
+\item \textbf{H2} (the v2.4 continuation endpoint is a global
+minimum: $\|\nabla\mathcal{F}\| < 10^{-8}$ + projected
+$\lambda_{\min} > 0$ + shell-spectral-gap structure as predicted by
+H1);
+\item \textbf{H3} (Phase-2.5 Gates G0--G3 implementable: G0
+$\|\Psi^*\|_{\rm RMS}/\varphi_0$ RMS gate, G1 spectral positivity
+via Lanczos, G2 Ritz-vector overlap, G3 guarded-quotient,
+all $N$-independent).
+\end{itemize}
+Under H1--H3, the three components combine to support the
+conditional Pillar-1 programme.
+
+\paragraph{Math97 universality-class anchor.}
+The Math97 conditional Brazovskii-class membership programme
+(companion auxiliary paper Auxiliary-01) provides the candidate
+anchor: under the Brazovskii axioms (C1)--(C5) and the
+obstruction bounds (O1)--(O5), TECT belongs to the
+$\mathcal{U}_{\rm iso\text{-}Brazovskii}$ universality class. The
+Math82-AddH global-minimum guarantee in the admissible regime
+$\mu^2 \in [-1, 0.05]$ rests on this universality-class membership;
+its conditional character is the Math97 conditional-programme
+caveat (treated in Auxiliary-01 in detail).
+
+\paragraph{Step 4 (Hypothesis validation).}
+The proof is conditional on hypotheses: (H1) Brazovskii shell-spectral-gap
+analysis holds on the BCC lattice for $N \geq 32$; (H2) the continuation
+endpoint is a true global minimum; (H3) Phase-2.5 gates are implementable
+to specified tolerances.
+
+% =====================================================================
+\section{Numerical verification}
+% =====================================================================
+\subsection{Run summary}
+
+The definitive numerical run \cite{Math82AddF} executed the command:
+\begin{verbatim}
+python Codes\pde\continuation_mu2_v25.py
+  --N 32  --L 62.20036  --mu2 5e-3
+  --max-newton 20  --tol-newton 1e-8
+\end{verbatim}
+on the TECT private compute cluster. The run converged in 14 Newton iterations
+to a stable minimum.
+
+\subsection{Key extracted quantities}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{llr}
+\hline
+Quantity & Description & Value \\
+\hline
+$\|\nabla\mathcal{F}\|/\sqrt{\dim}$ & gradient norm (convergence check) & $6.11 \times 10^{-9}$ \\
+$\lambda_{\min}$ & smallest Hessian eigenvalue & $+4.247 \times 10^{-2}$ \\
+$m^{*2}$ & squared mass gap (main result) & $4.247 \times 10^{-2}$ \\
+$\Delta F_{\rm num}$ & finite-$N$ vacuum preference & $+4.15 \times 10^{-10}$ \\
+\hline
+\end{tabular}
+\end{table}
+
+The small positive vacuum preference ($\Delta F_{\rm num} > 0$) is expected at
+finite $N = 32$ and is flagged for verification at $N = 64$.
+
+\subsection{Falsification gate}
+
+F1.1: $|\Delta m^{*2}/m^{*2}_{\rm analytic}| < 0.1$ (deadline 2026-06-15).
+Current status: OPEN.
+
+% =====================================================================
+\section{Discussion and outlook}
+% =====================================================================
+The conditional Pillar-1 programme established in
+Theorem~\ref{thm:main} feeds into the subsequent pillars of the TECT
+framework as a programme-level numerical anchor: Pillar~2 (kinematic
+Lorentz consistency) builds on the BCC dispersion at the operating
+point; Pillar~3 (emergent-gravity programme) uses the $m^{*2}$ scale
+as a candidate normalisation; Pillars~4--7 (gauge sector) inherit
+the BCC defect-bundle structure. The mass-gap anchor
+$m^{*2}_{\rm anchor}(N=32) = 4.247 \times 10^{-2}$ is provided as a
+finite-$N$ numerical reference, not as a continuum-limit certified
+value.
+
+\textbf{Honest scope.} The scope limitations of the present
+programme, which are intrinsic and not removable by tightening the
+present proof, are: (1) single-shell SMA truncation in the
+competitor enumeration, which excludes multi-shell or
+non-Bravais-lattice configurations; (2) finite-$N$ discretisation
+effects, which the planned $N \in \{16, 32, 64\}$ ladder is
+designed to address via Richardson extrapolation; (3) the
+equal-amplitude ans\"atz at Michel-theorem-protected points, which
+may miss asymmetric perturbations; (4) the conditional character of
+the projected-Hessian positivity claim (Remark~\ref{rem:hessian}),
+which is not yet a Math292 G3 acceptance certificate. Each of these
+is an explicit open task in the canonical Pillar-1 bookkeeping; the
+present programme does NOT claim to close them. The canonical tier
+of Pillar~1 is recorded in
+\texttt{Docs/status/TOE-FACT-SHEET.md} and remains conditional
+pending the F1.1 falsification verdict and the planned multi-$N$
+ladder closure.
+
+\textbf{Implications for the foundational ``why BCC?'' question.}
+At the level of the multi-mode-robust + globally-12-star-optimal
+single-shell Brazovskii framework developed in the companion
+top-impact paper TI-2 (which incorporates the multi-mode robustness,
+exact combinatorial counting, global 12-star optimality, and
+multi-shell BCC persistence theorems from the historical TECT-BCC-Part-I
+draft), the BCC selection is rigorous in the combinatorial and
+global-12-star senses, robust against small-detuning multi-mode
+corrections, and persistent in the strong-shell-dominance regime.
+The present Pillar-1 programme is thereby anchored on a four-layer
+structural-selection certificate at the conditional-programme level,
+without claim of an unrestricted-configuration-space global-minimum
+theorem.
+
+% =====================================================================
+\begin{acknowledgments}
+The author thanks the Anthropic Claude Opus 4.7 collaborator for rigorous
+audit-discipline enforcement during the Pillar 1 closure programme. This work
+is part of TECT, canonical archive at
+\url{https://github.com/TECT-OpenPhysics/TECT}.
+\end{acknowledgments}
+
+% =====================================================================
+\bibliographystyle{apsrev4-2}
+\bibliography{../_shared/tect-references}
+% =====================================================================
+
+\end{document}

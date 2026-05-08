@@ -1,0 +1,192 @@
+% =====================================================================
+% TECT canonical LaTeX preamble (revtex4-2 / single-column / theorem-safe)
+% =====================================================================
+% Maintainer: Jusang Lee (jtkor@outlook.com)
+% Binding from: 2026-05-06
+% Purpose: a single source-of-truth preamble for every TECT paper
+% (Paper-00 .. Paper-10 + Auxiliary notes). Designed to (a) eliminate
+% font-corruption on pdflatex (T1 fontenc + lmodern), (b) make
+% theorem-heavy mathematical-physics content render cleanly in a
+% single-column layout (PRD class option, NOT PRL two-column), (c)
+% provide consistent theorem numbering across all TECT papers via
+% amsthm with a shared counter set, (d) make hyperref + cleveref
+% cross-references resolve cleanly with the standard two-pass
+% pdflatex compile.
+%
+% Usage in each Paper-NN.tex:
+%   \input{../_shared/tect-preamble.tex}
+%   \begin{document}
+%   ...
+%   \end{document}
+%
+% Build (every paper): `pdflatex Paper-NN && pdflatex Paper-NN`
+% (the second pass resolves \ref{} / \cref{} forward references).
+% A bash/PowerShell wrapper that automates this is at
+% Docs/papers/papers/_shared/build-paper.sh / build-paper.ps1.
+% =====================================================================
+
+% ---- Document class --------------------------------------------------
+% PRD class option of revtex4-2 with [reprint,onecolumn] gives the same
+% APS heading / by-line / abstract style as PRL but in a wider single
+% column that handles long display equations and theorem environments
+% without column-break artefacts. nofootinbib keeps citations out of
+% footnotes. The 11pt option restores standard font metrics; with T1
+% fontenc + lmodern this gives non-bitmap glyphs.
+\documentclass[%
+  aps,prd,reprint,onecolumn,nofootinbib,11pt,%
+  amsmath,amssymb,floatfix,longbibliography%
+]{revtex4-2}
+
+% ---- Encoding & fonts ------------------------------------------------
+\usepackage[T1]{fontenc}        % proper 8-bit font encoding (no font corruption)
+\usepackage[utf8]{inputenc}     % allow UTF-8 source
+\usepackage{lmodern}            % scalable Latin Modern (replaces bitmap CM)
+\usepackage{textcomp}           % extra text symbols
+\usepackage{microtype}          % subtle kerning improvements
+
+% ---- UTF-8 → LaTeX character mappings --------------------------------
+% Maps the Unicode characters that occur in TECT body text (legacy from
+% the chat-content auto-archival rule, CLAUDE.md §4) to LaTeX-safe
+% commands. Without these declarations, T1+inputenc rejects the chars
+% with "Unicode character X not set up for use with LaTeX".
+% Adding declarations centrally (here) is preferable to per-file edits.
+\DeclareUnicodeCharacter{00A7}{\S}              % §  (section sign)
+\DeclareUnicodeCharacter{00B2}{\ensuremath{^{2}}}        % ²
+\DeclareUnicodeCharacter{00B3}{\ensuremath{^{3}}}        % ³
+\DeclareUnicodeCharacter{00B5}{\ensuremath{\mu}}         % µ (micro)
+\DeclareUnicodeCharacter{00B7}{\ensuremath{\cdot}}       % · (middle dot)
+\DeclareUnicodeCharacter{00D7}{\ensuremath{\times}}      % ×
+\DeclareUnicodeCharacter{00E4}{\"a}             % ä
+\DeclareUnicodeCharacter{00E9}{\'e}             % é
+\DeclareUnicodeCharacter{00F6}{\"o}             % ö
+\DeclareUnicodeCharacter{00FC}{\"u}             % ü
+\DeclareUnicodeCharacter{010C}{\v{C}}           % Č
+\DeclareUnicodeCharacter{010D}{\v{c}}           % č
+\DeclareUnicodeCharacter{0394}{\ensuremath{\Delta}}      % Δ
+\DeclareUnicodeCharacter{03A3}{\ensuremath{\Sigma}}      % Σ
+\DeclareUnicodeCharacter{03A9}{\ensuremath{\Omega}}      % Ω
+\DeclareUnicodeCharacter{03B1}{\ensuremath{\alpha}}      % α
+\DeclareUnicodeCharacter{03B2}{\ensuremath{\beta}}       % β
+\DeclareUnicodeCharacter{03B3}{\ensuremath{\gamma}}      % γ
+\DeclareUnicodeCharacter{03B4}{\ensuremath{\delta}}      % δ
+\DeclareUnicodeCharacter{03B5}{\ensuremath{\varepsilon}} % ε
+\DeclareUnicodeCharacter{03BA}{\ensuremath{\kappa}}      % κ
+\DeclareUnicodeCharacter{03BB}{\ensuremath{\lambda}}     % λ
+\DeclareUnicodeCharacter{03BC}{\ensuremath{\mu}}         % μ
+\DeclareUnicodeCharacter{03BD}{\ensuremath{\nu}}         % ν
+\DeclareUnicodeCharacter{03C0}{\ensuremath{\pi}}         % π
+\DeclareUnicodeCharacter{03C1}{\ensuremath{\rho}}        % ρ
+\DeclareUnicodeCharacter{03C3}{\ensuremath{\sigma}}      % σ
+\DeclareUnicodeCharacter{03C4}{\ensuremath{\tau}}        % τ
+\DeclareUnicodeCharacter{03C6}{\ensuremath{\varphi}}     % φ
+\DeclareUnicodeCharacter{03C7}{\ensuremath{\chi}}        % χ
+\DeclareUnicodeCharacter{03C8}{\ensuremath{\psi}}        % ψ
+\DeclareUnicodeCharacter{03C9}{\ensuremath{\omega}}      % ω
+\DeclareUnicodeCharacter{2013}{--}              % – (en dash)
+\DeclareUnicodeCharacter{2014}{---}             % — (em dash)
+\DeclareUnicodeCharacter{2018}{`}               % ‘
+\DeclareUnicodeCharacter{2019}{'}               % ’
+\DeclareUnicodeCharacter{201C}{``}              % “
+\DeclareUnicodeCharacter{201D}{''}              % ”
+\DeclareUnicodeCharacter{2070}{\ensuremath{^{0}}}        % ⁰
+\DeclareUnicodeCharacter{2071}{\ensuremath{^{i}}}        % ⁱ
+\DeclareUnicodeCharacter{2122}{\textsuperscript{TM}}     % ™
+\DeclareUnicodeCharacter{2126}{\ensuremath{\Omega}}      % Ω (ohm sign)
+\DeclareUnicodeCharacter{210F}{\ensuremath{\hbar}}       % ℏ
+\DeclareUnicodeCharacter{2115}{\ensuremath{\mathbb{N}}}  % ℕ
+\DeclareUnicodeCharacter{2102}{\ensuremath{\mathbb{C}}}  % ℂ
+\DeclareUnicodeCharacter{211D}{\ensuremath{\mathbb{R}}}  % ℝ
+\DeclareUnicodeCharacter{2124}{\ensuremath{\mathbb{Z}}}  % ℤ
+\DeclareUnicodeCharacter{211A}{\ensuremath{\mathbb{Q}}}  % ℚ
+\DeclareUnicodeCharacter{2192}{\ensuremath{\to}}         % →
+\DeclareUnicodeCharacter{21D2}{\ensuremath{\Rightarrow}} % ⇒
+\DeclareUnicodeCharacter{2200}{\ensuremath{\forall}}     % ∀
+\DeclareUnicodeCharacter{2203}{\ensuremath{\exists}}     % ∃
+\DeclareUnicodeCharacter{2208}{\ensuremath{\in}}         % ∈
+\DeclareUnicodeCharacter{2209}{\ensuremath{\notin}}      % ∉
+\DeclareUnicodeCharacter{2227}{\ensuremath{\wedge}}      % ∧
+\DeclareUnicodeCharacter{2228}{\ensuremath{\vee}}        % ∨
+\DeclareUnicodeCharacter{2229}{\ensuremath{\cap}}        % ∩
+\DeclareUnicodeCharacter{222A}{\ensuremath{\cup}}        % ∪
+\DeclareUnicodeCharacter{2245}{\ensuremath{\cong}}       % ≅
+\DeclareUnicodeCharacter{2248}{\ensuremath{\approx}}     % ≈
+\DeclareUnicodeCharacter{2260}{\ensuremath{\neq}}        % ≠
+\DeclareUnicodeCharacter{2264}{\ensuremath{\leq}}        % ≤
+\DeclareUnicodeCharacter{2265}{\ensuremath{\geq}}        % ≥
+\DeclareUnicodeCharacter{22C5}{\ensuremath{\cdot}}       % ⋅
+\DeclareUnicodeCharacter{2295}{\ensuremath{\oplus}}      % ⊕
+\DeclareUnicodeCharacter{2297}{\ensuremath{\otimes}}     % ⊗
+
+% ---- Mathematics & symbols ------------------------------------------
+\usepackage{amsmath,amssymb,bm,mathrsfs,mathtools}
+\usepackage{amsthm}             % theorem environments (load BEFORE hyperref)
+
+% ---- Theorem environments (shared counter set, TECT canonical) -------
+% All theorems / lemmas / propositions / corollaries / remarks share a
+% single counter so cross-references read consistently across a paper.
+% Definitions get a separate counter (definitions are numbered in their
+% own sequence by editorial convention).
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{hypothesis}[theorem]{Hypothesis}
+
+% ---- Tables / floats / graphics --------------------------------------
+\usepackage{booktabs}           % \toprule / \midrule / \bottomrule
+\usepackage{array}
+\usepackage{graphicx}
+\usepackage{enumitem}           % \begin{itemize}[leftmargin=...] options
+\usepackage{hyphenat}           % \hyp{} for breakable hyphens in \texttt
+\usepackage{seqsplit}           % \seqsplit{} for long unbreakable strings
+\sloppy                         % allow stretchier inter-word spacing to
+                                % reduce overfull \hbox warnings on long URLs
+                                % and long \texttt tokens (paragraph-level).
+\emergencystretch=3em           % last-resort hbox stretch budget
+
+% ---- Cross-references (hyperref last among the standard packages,
+%      cleveref AFTER hyperref) ----------------------------------------
+\usepackage[%
+  colorlinks=true,%
+  linkcolor=blue,%
+  citecolor=blue,%
+  urlcolor=blue,%
+  breaklinks=true,%
+  bookmarks=true,%
+  bookmarksnumbered=true%
+]{hyperref}
+\usepackage[capitalise,nameinlink]{cleveref}
+
+% ---- TECT-canonical author block macros -----------------------------
+% (defined here so every paper has the same author / affiliation style)
+\newcommand{\tectauthor}{%
+  \author{Jusang Lee}%
+  \email{jtkor@outlook.com}%
+  \affiliation{Independent researcher, Republic of Korea}%
+}
+
+% ---- TECT-canonical archive footer ----------------------------------
+\newcommand{\tectarchivefooter}{%
+  \par\medskip
+  \noindent\small\textit{Canonical archive}:
+  \url{https://github.com/TECT-OpenPhysics/TECT}.\par%
+}
+
+% ---- TECT TODO / AUDIT-FLAG / HONEST-SCOPE inline marks --------------
+% Used in drafts to highlight pending audit items without disturbing
+% the body text style. Suppress via \tectsuppressmarks (define empty).
+\providecommand{\tectauditflag}[1]{\textcolor{red}{\textbf{[AUDIT-FLAG: #1]}}}
+\providecommand{\tecttodo}[1]{\textcolor{orange}{\textbf{[TODO: #1]}}}
+\providecommand{\tecthonestscope}[1]{\textit{Honest scope: #1.}}
+
+% =====================================================================
+% End of TECT canonical preamble
+% =====================================================================
