@@ -3,7 +3,7 @@
 /* Mirror: Github/assets/papers/                                   */
 window.TECT_PAPERS_PDF_INDEX = {
   "schema": "tect-papers-pdf-index-v1.1",
-  "generated": "2026-05-08T06:56:45+00:00",
+  "generated": "2026-05-08T07:32:36+00:00",
   "publicBase": "assets/papers",
   "categories": [
     {
@@ -18,7 +18,34 @@ window.TECT_PAPERS_PDF_INDEX = {
           "category": "papers",
           "url": "assets/papers/papers/Paper-00.pdf",
           "bytes": 390574,
-          "kb": 381.4
+          "kb": 381.4,
+          "description": "We present the canonical TECT structural derivation of the Planck constant $\\hbar$ as a frozen-in adiabatic invariant of a Brazovskii-type body-centred-cubic (BCC) topological condensate. The construction combines the candidate condensate elastic modulus $\\rho_{\\rm cond} = c^4 / (16\\pi G a_{\\rm BCC}^2)$ (Math110-AddG, from the BCC continuum elastic theory) with the freeze-out time-scale $\\tau_{\\rm",
+          "math_notes": [
+            "Math110-AddB",
+            "Math110-AddG",
+            "Math110-AddH",
+            "Math110-AddI",
+            "Math115",
+            "Math195",
+            "Math261",
+            "Math283",
+            "Math286",
+            "Math291",
+            "Math296",
+            "Math297",
+            "Math298",
+            "Math299",
+            "Math300",
+            "Math302",
+            "Math307",
+            "Math310",
+            "Math311",
+            "Math312",
+            "Math314",
+            "Math79-AddB",
+            "Math97",
+            "Math98-AddA"
+          ]
         },
         {
           "stem": "Paper-01",
@@ -27,7 +54,17 @@ window.TECT_PAPERS_PDF_INDEX = {
           "category": "papers",
           "url": "assets/papers/papers/Paper-01.pdf",
           "bytes": 346301,
-          "kb": 338.2
+          "kb": 338.2,
+          "description": "We present a conditional Pillar-1 programme for the Topological Energy Condensate Theory (TECT) combining (i) a BCC-favouring shell-model ranking among standard 3D crystallographic competitors within the single-mode-approximation (SMA) / equal-amplitude / first-shell Brazovskii truncation~; (ii) a finite-$N$ numerical mass-gap anchor at the Brazovskii operating point $\\mu^2 = +5 \\times 10^{-3}$ us",
+          "math_notes": [
+            "Math01-v2",
+            "Math195",
+            "Math292",
+            "Math314-AddC",
+            "Math56-AddB",
+            "Math60",
+            "Math97"
+          ]
         },
         {
           "stem": "Paper-02",
@@ -36,7 +73,17 @@ window.TECT_PAPERS_PDF_INDEX = {
           "category": "papers",
           "url": "assets/papers/papers/Paper-02.pdf",
           "bytes": 301605,
-          "kb": 294.5
+          "kb": 294.5,
+          "description": "We derive a conditional consistency bound on the deviation of the transverse phonon speed $c_T$ from the speed of light $c$ in a Brazovskii-type topological condensate. Under the H-suppression hypothesis and the effective Lorentz-consistency requirement on the BCC kinematic structure, the transverse-phonon-speed mismatch is bounded by \\[ \\left|\\frac{c_T - c}{c}\\right| \\;\\lesssim\\; 4.8 \\times 10^{-",
+          "math_notes": [
+            "Math110-AddG",
+            "Math115",
+            "Math221",
+            "Math314-AddC",
+            "Math57-AddA",
+            "Math57-v2",
+            "Math97"
+          ]
         },
         {
           "stem": "Paper-03",
@@ -45,7 +92,23 @@ window.TECT_PAPERS_PDF_INDEX = {
           "category": "papers",
           "url": "assets/papers/papers/Paper-03.pdf",
           "bytes": 386604,
-          "kb": 377.5
+          "kb": 377.5,
+          "description": "We present the Pillar-3 emergent-gravity programme of the Topological Energy Condensate Theory (TECT). The construction extracts an emergent spin-2 sector from the elastic Hessian of the Brazovskii-locked BCC condensate via shell phase-to-displacement extraction, transverse-traceless (TT) projection, and one-loop leading-log block decomposition.",
+          "math_notes": [
+            "Math110-AddA",
+            "Math110-AddG",
+            "Math291",
+            "Math314",
+            "Math314-AddD",
+            "Math40",
+            "Math41",
+            "Math43",
+            "Math44",
+            "Math45",
+            "Math46",
+            "Math47",
+            "Math48"
+          ]
         },
         {
           "stem": "Paper-04",
@@ -54,7 +117,52 @@ window.TECT_PAPERS_PDF_INDEX = {
           "category": "papers",
           "url": "assets/papers/papers/Paper-04.pdf",
           "bytes": 413400,
-          "kb": 403.7
+          "kb": 403.7,
+          "description": "We present the Pillar-4 atomic theorem of the Topological Energy Condensate Theory (TECT): the emergence of an $\\mathrm{SU}(5) \\times \\mathrm{U}(1)$ gauge structure from the topological-defect sector of the BCC condensate, formulated on the canonical Kähler base $\\Sigma_0 = \\mathbb{P}^1 \\times \\mathbb{P}^1$. The result is the conjunction of three sub-task theorems: (i) existence and properties of ",
+          "math_notes": [
+            "Math110-AddI",
+            "Math162",
+            "Math164",
+            "Math170",
+            "Math174",
+            "Math229",
+            "Math238",
+            "Math239",
+            "Math246",
+            "Math248",
+            "Math250",
+            "Math253",
+            "Math257",
+            "Math260",
+            "Math261",
+            "Math263",
+            "Math265",
+            "Math266",
+            "Math267",
+            "Math268",
+            "Math269",
+            "Math270",
+            "Math272",
+            "Math273",
+            "Math274",
+            "Math275",
+            "Math276",
+            "Math277",
+            "Math278",
+            "Math279",
+            "Math280",
+            "Math281",
+            "Math286",
+            "Math288",
+            "Math300",
+            "Math302",
+            "Math305",
+            "Math307",
+            "Math310",
+            "Math311",
+            "Math314",
+            "Math314-AddD"
+          ]
         },
         {
           "stem": "Paper-05",
@@ -63,7 +171,20 @@ window.TECT_PAPERS_PDF_INDEX = {
           "category": "papers",
           "url": "assets/papers/papers/Paper-05.pdf",
           "bytes": 329526,
-          "kb": 321.8
+          "kb": 321.8,
+          "description": "We present the Pillar-5 chirality programme of the Topological Energy Condensate Theory (TECT). The candidate mechanism combines five layered results from the Math10--14 + Math171-AddA canonical archive: (i) Math10 shell-genericity --- once the Bragg mass is tuned away, emergent Dirac propagation is generic in the symmetry-allowed tensor space (Single-Channel and Two-Channel Genericity Theorems + ",
+          "math_notes": [
+            "Math10",
+            "Math11",
+            "Math12",
+            "Math13",
+            "Math14",
+            "Math171-AddA",
+            "Math233",
+            "Math305",
+            "Math314",
+            "Math314-AddD"
+          ]
         },
         {
           "stem": "Paper-06",
@@ -72,7 +193,22 @@ window.TECT_PAPERS_PDF_INDEX = {
           "category": "papers",
           "url": "assets/papers/papers/Paper-06.pdf",
           "bytes": 396047,
-          "kb": 386.8
+          "kb": 386.8,
+          "description": "We present a candidate electroweak-bridge programme exploring the embedding of the BCC shell structure of the topological condensate into the Standard-Model three-generation $+$ Higgs-doublet sector within Topological Energy Condensate Theory (TECT). Using the continuum-limit-scan protocol (Math235), we evaluate the candidate electroweak-bridge projector $\\mathcal{P}_{\\mathrm{EW}}$ from the $12$-d",
+          "math_notes": [
+            "Math234",
+            "Math235",
+            "Math236",
+            "Math290",
+            "Math292",
+            "Math293",
+            "Math294",
+            "Math294-AddA",
+            "Math310-AddA",
+            "Math313",
+            "Math314-AddC",
+            "Math315"
+          ]
         },
         {
           "stem": "Paper-07-ext",
@@ -81,7 +217,15 @@ window.TECT_PAPERS_PDF_INDEX = {
           "category": "papers",
           "url": "assets/papers/papers/Paper-07-ext.pdf",
           "bytes": 364983,
-          "kb": 356.4
+          "kb": 356.4,
+          "description": "Within the SO(10) grand-unification framework as employed by the Topological Energy Condensate Theory (TECT) Pillar~4 candidate embedding (Math157), we audit the per-generation cancellation of all Standard-Model perturbative gauge anomalies and of the mixed gravitational $\\mathrm{U}(1)_Y$ anomaly. The five perturbative coefficients \\[   \\mathrm{Tr}(\\mathrm{U}(1)_Y^3),\\quad   \\mathrm{Tr}(\\mathrm{SU",
+          "math_notes": [
+            "Math157",
+            "Math157-AddD",
+            "Math229",
+            "Math314-AddC",
+            "Math319"
+          ]
         },
         {
           "stem": "Paper-07",
@@ -90,7 +234,14 @@ window.TECT_PAPERS_PDF_INDEX = {
           "category": "papers",
           "url": "assets/papers/papers/Paper-07.pdf",
           "bytes": 365852,
-          "kb": 357.3
+          "kb": 357.3,
+          "description": "This document is an idea / mechanism note outlining a candidate framework for per-generation chiral consistency in the Topological Energy Condensate Theory (TECT) combining four independent consistency audits: (1) global Ward identities at each generation (Math47); (2) preservation of those Ward currents under nonlinear coupling to a fluctuating background metric (Math48); (3) the Witten $\\mathrm{",
+          "math_notes": [
+            "Math234",
+            "Math314-AddC",
+            "Math47",
+            "Math48"
+          ]
         },
         {
           "stem": "Paper-08",
@@ -99,7 +250,12 @@ window.TECT_PAPERS_PDF_INDEX = {
           "category": "papers",
           "url": "assets/papers/papers/Paper-08.pdf",
           "bytes": 342326,
-          "kb": 334.3
+          "kb": 334.3,
+          "description": "We compute a finite-lattice deterministic-enclosure bound on the Lorentz-violation parameter $J_1$ (deviation of the lattice light-cone structure from naive Lorentz invariance) on a shell-adaptive BCC lattice with $N = 256$ sites per dimension within the Topological Energy Condensate Theory (TECT). Using rigorous interval arithmetic (\\texttt{mpmath} library, arbitrary precision) to account for all",
+          "math_notes": [
+            "Math314-AddC",
+            "Math319"
+          ]
         },
         {
           "stem": "Paper-09",
@@ -108,7 +264,11 @@ window.TECT_PAPERS_PDF_INDEX = {
           "category": "papers",
           "url": "assets/papers/papers/Paper-09.pdf",
           "bytes": 315480,
-          "kb": 308.1
+          "kb": 308.1,
+          "description": "We derive a consistency bound on the deviation of spinning-particle trajectories from geodesic universality within the Topological Energy Condensate Theory (TECT) framework, where gravity emerges from phonon interactions (Pillar 3). Using the Mathisson--Papapetrou--Dixon (MPD) equation for spinning particles in the emergent curved background, the centre-of-mass deviation between the MPD trajectory",
+          "math_notes": [
+            "Math314-AddD"
+          ]
         },
         {
           "stem": "Paper-10",
@@ -117,7 +277,25 @@ window.TECT_PAPERS_PDF_INDEX = {
           "category": "papers",
           "url": "assets/papers/papers/Paper-10.pdf",
           "bytes": 350073,
-          "kb": 341.9
+          "kb": 341.9,
+          "description": "We revisit the derivation of Planck's constant $\\hbar$ within the Topological Energy Condensate Theory (TECT), addressing the classical dimensional-analysis no-go theorem established in Math79-AddB. The no-go theorem proves that $\\hbar$ cannot emerge from classical Brazovskii condensate physics via any dimensionless combination of the coupling constants, lattice spacing, and order-parameter amplit",
+          "math_notes": [
+            "Math110-AddG",
+            "Math110-AddH",
+            "Math110-AddI",
+            "Math163",
+            "Math191",
+            "Math196",
+            "Math291",
+            "Math297",
+            "Math299",
+            "Math310",
+            "Math312",
+            "Math314-AddD",
+            "Math79-AddB",
+            "Math98-AddA",
+            "Math98-AddB"
+          ]
         },
         {
           "stem": "Paper-11",
@@ -126,7 +304,17 @@ window.TECT_PAPERS_PDF_INDEX = {
           "category": "papers",
           "url": "assets/papers/papers/Paper-11.pdf",
           "bytes": 376988,
-          "kb": 368.2
+          "kb": 368.2,
+          "description": "We outline a candidate four-sector cancellation programme for the cosmological constant within the Topological Energy Condensate Theory (TECT). The BCC topological condensate is decomposed into four candidate independent sectors: (i) the BCC order-parameter self-interaction energy, (ii) the monopole sector (captured by the topological Chern class $c_2$), (iii) the Dirac-fermion zero-mode sector, a",
+          "math_notes": [
+            "Math191",
+            "Math314-AddD",
+            "Math58-v3",
+            "Math58-v4",
+            "Math58-v6",
+            "Math58-v7",
+            "Math58-v8"
+          ]
         },
         {
           "stem": "Paper-12",
@@ -135,7 +323,19 @@ window.TECT_PAPERS_PDF_INDEX = {
           "category": "papers",
           "url": "assets/papers/papers/Paper-12.pdf",
           "bytes": 337573,
-          "kb": 329.7
+          "kb": 329.7,
+          "description": "This document is preserved as a historical Stage-2 synthesis draft (Math60-A..E old packaging) for the Topological Energy Condensate Theory (TECT). External use is FORBIDDEN at the present canonical tier per the Math314-AddD audit, because the original abstract / introduction wording (``Stage-2 global closure theorem'' / ``quantum completion'' / ``structural integrity established'') is incompatibl",
+          "math_notes": [
+            "Math270",
+            "Math299",
+            "Math307",
+            "Math310",
+            "Math311",
+            "Math312",
+            "Math313",
+            "Math314-AddD",
+            "Math60"
+          ]
         },
         {
           "stem": "Paper-13",
@@ -144,7 +344,18 @@ window.TECT_PAPERS_PDF_INDEX = {
           "category": "papers",
           "url": "assets/papers/papers/Paper-13.pdf",
           "bytes": 356427,
-          "kb": 348.1
+          "kb": 348.1,
+          "description": "We present a candidate independent one-loop route for GAP-1 ($\\hbar$ matching) within the Topological Energy Condensate Theory (TECT), orthogonal to the cosmic-origin structural derivation (Paper 0 / Paper 10) which yields the canonical Math291 formula $\\hbar_{\\rm TECT} = c^3 a_{\\rm BCC}^2 / (16\\pi G)$. The candidate running function for the effective-action $\\hbar$ from the Planck scale to the el",
+          "math_notes": [
+            "Math291",
+            "Math296",
+            "Math297",
+            "Math298",
+            "Math299",
+            "Math310",
+            "Math312",
+            "Math314-AddD"
+          ]
         },
         {
           "stem": "Paper-14",
@@ -153,7 +364,16 @@ window.TECT_PAPERS_PDF_INDEX = {
           "category": "papers",
           "url": "assets/papers/papers/Paper-14.pdf",
           "bytes": 319378,
-          "kb": 311.9
+          "kb": 311.9,
+          "description": "We present a candidate BRST gauge-fixing and Faddeev--Popov closure note for the GAP-2 quantum-completion gate in the Topological Energy Condensate Theory (TECT) defect sector. The construction combines (a) the standard BRST / Faddeev--Popov path-integral measure for the gauge field in covariant gauge (textbook QFT input) and (b) a candidate TECT-specific Berry-phase correction inherited from Math",
+          "math_notes": [
+            "Math160",
+            "Math280",
+            "Math307",
+            "Math310",
+            "Math314-AddD",
+            "Math80"
+          ]
         },
         {
           "stem": "Paper-15",
@@ -162,7 +382,20 @@ window.TECT_PAPERS_PDF_INDEX = {
           "category": "papers",
           "url": "assets/papers/papers/Paper-15.pdf",
           "bytes": 300563,
-          "kb": 293.5
+          "kb": 293.5,
+          "description": "GAP-3 (SO(10) anomaly cancellation) is examined from the quantum-gates perspective: under the SO(10) embedding (Math157) derived from the BCC condensate, the spinor representation $\\mathbf{16}$ contains the precise SM fermion content required for \\emph{symbolically exact} cancellation of the five SM perturbative gauge anomalies and the mixed gravitational $\\mathrm{Tr}(\\mathrm{U}(1)_Y)$ anomaly per",
+          "math_notes": [
+            "Math157",
+            "Math281",
+            "Math307",
+            "Math310",
+            "Math311",
+            "Math312",
+            "Math314",
+            "Math314-AddD",
+            "Math319",
+            "Math60"
+          ]
         },
         {
           "stem": "Paper-16",
@@ -171,7 +404,19 @@ window.TECT_PAPERS_PDF_INDEX = {
           "category": "papers",
           "url": "assets/papers/papers/Paper-16.pdf",
           "bytes": 366310,
-          "kb": 357.7
+          "kb": 357.7,
+          "description": "This document is a PROVISIONAL Kibble--Zurek (KZ) cosmology programme note for the Topological Energy Condensate Theory (TECT). The KZ mechanism applied to the BCC topological condensate freeze-out generates a spectrum of topological defects (candidate monopoles, vortices, BCC domain walls) whose gravitational-wave signature is sharply peaked at a frequency corresponding to the condensate shell wa",
+          "math_notes": [
+            "Math156",
+            "Math159",
+            "Math172",
+            "Math196",
+            "Math300",
+            "Math307",
+            "Math310",
+            "Math311",
+            "Math314-AddD"
+          ]
         }
       ]
     },
@@ -187,7 +432,15 @@ window.TECT_PAPERS_PDF_INDEX = {
           "category": "auxiliary",
           "url": "assets/papers/auxiliary/Auxiliary-01.pdf",
           "bytes": 318746,
-          "kb": 311.3
+          "kb": 311.3,
+          "description": "We argue that the minimal microscopic TECT core lies in the Brazovskii-type shell-forming class, and we formulate a conditional Brazovskii-universality programme for the body-centred-cubic (BCC) topological condensate of the Topological Energy Condensate Theory (TECT). Five structural axioms (C1--C5) define the candidate class membership, and five obstruction bounds (O1--O5) are stated as conditio",
+          "math_notes": [
+            "Math236",
+            "Math97",
+            "Math97-AddA",
+            "Math97-AddB",
+            "Math97-AddC"
+          ]
         },
         {
           "stem": "Auxiliary-02",
@@ -196,7 +449,25 @@ window.TECT_PAPERS_PDF_INDEX = {
           "category": "auxiliary",
           "url": "assets/papers/auxiliary/Auxiliary-02.pdf",
           "bytes": 345504,
-          "kb": 337.4
+          "kb": 337.4,
+          "description": "We present the numerical infrastructure for solving the TECT Brazovskii shell free-energy functional on a three-dimensional lattice. The core solver is a matrix-free trust-region Newton-Krylov method with Eisenstat-Walker adaptive forcing, GMRES/PCG hybrid Krylov acceleration, and projected Hessian spectral audit (Math66 v0.2 Path-A).",
+          "math_notes": [
+            "Math236",
+            "Math290",
+            "Math292",
+            "Math293",
+            "Math294",
+            "Math294-AddA",
+            "Math310-AddA",
+            "Math313",
+            "Math314",
+            "Math314-AddD",
+            "Math315",
+            "Math66",
+            "Math68",
+            "Math73",
+            "Math74"
+          ]
         }
       ]
     },
@@ -212,7 +483,15 @@ window.TECT_PAPERS_PDF_INDEX = {
           "category": "top_impact",
           "url": "assets/papers/top_impact/Paper-TI-1.pdf",
           "bytes": 294194,
-          "kb": 287.3
+          "kb": 287.3,
+          "description": "Detailed description pending. See PDF for full content.",
+          "math_notes": [
+            "Math171",
+            "Math171-AddA",
+            "Math302",
+            "Math305",
+            "Math314-AddB"
+          ]
         },
         {
           "stem": "Paper-TI-2",
@@ -221,7 +500,13 @@ window.TECT_PAPERS_PDF_INDEX = {
           "category": "top_impact",
           "url": "assets/papers/top_impact/Paper-TI-2.pdf",
           "bytes": 429785,
-          "kb": 419.7
+          "kb": 419.7,
+          "description": "Detailed description pending. See PDF for full content.",
+          "math_notes": [
+            "Math194",
+            "Math314-AddB",
+            "Math314-AddD"
+          ]
         },
         {
           "stem": "Paper-TI-3",
@@ -230,7 +515,12 @@ window.TECT_PAPERS_PDF_INDEX = {
           "category": "top_impact",
           "url": "assets/papers/top_impact/Paper-TI-3.pdf",
           "bytes": 256741,
-          "kb": 250.7
+          "kb": 250.7,
+          "description": "Detailed description pending. See PDF for full content.",
+          "math_notes": [
+            "Math195",
+            "Math314-AddB"
+          ]
         },
         {
           "stem": "Paper-TI-4",
@@ -239,7 +529,14 @@ window.TECT_PAPERS_PDF_INDEX = {
           "category": "top_impact",
           "url": "assets/papers/top_impact/Paper-TI-4.pdf",
           "bytes": 289904,
-          "kb": 283.1
+          "kb": 283.1,
+          "description": "Detailed description pending. See PDF for full content.",
+          "math_notes": [
+            "Math202",
+            "Math302",
+            "Math305",
+            "Math314-AddB"
+          ]
         }
       ]
     },
@@ -255,7 +552,20 @@ window.TECT_PAPERS_PDF_INDEX = {
           "category": "epochs",
           "url": "assets/papers/epochs/Epoch-01.pdf",
           "bytes": 261792,
-          "kb": 255.7
+          "kb": 255.7,
+          "description": "This paper is an EPOCH RETROSPECTIVE compiling the internal theorem programme established by the Math01--09 archive of the Topological Energy Condensate Theory (TECT) during the foundation period 2026-04-09 to 04-10. The Math01--09 archive recorded a candidate proof that the Body-Centred Cubic (BCC) lattice is the single-shell minimum of the order-parameter free energy under the Brazovskii mechani",
+          "math_notes": [
+            "Math01",
+            "Math02",
+            "Math03",
+            "Math04",
+            "Math05",
+            "Math06",
+            "Math07",
+            "Math08",
+            "Math09",
+            "Math194"
+          ]
         },
         {
           "stem": "Epoch-02",
@@ -264,7 +574,20 @@ window.TECT_PAPERS_PDF_INDEX = {
           "category": "epochs",
           "url": "assets/papers/epochs/Epoch-02.pdf",
           "bytes": 261139,
-          "kb": 255.0
+          "kb": 255.0,
+          "description": "This paper is an EPOCH RETROSPECTIVE compiling the internal theorem programme established by the Math10--17 archive of the Topological Energy Condensate Theory (TECT) during the chirality-and-Clifford period 2026-04-11 to 04-13. The Math10--17 archive recorded a candidate index-theoretic argument for chirality emerging from opposite-valley pairing in the BCC condensate momentum-space structure, to",
+          "math_notes": [
+            "Math10",
+            "Math11",
+            "Math12",
+            "Math13",
+            "Math14",
+            "Math15",
+            "Math16",
+            "Math17",
+            "Math171-AddA",
+            "Math233"
+          ]
         },
         {
           "stem": "Epoch-03",
@@ -273,7 +596,17 @@ window.TECT_PAPERS_PDF_INDEX = {
           "category": "epochs",
           "url": "assets/papers/epochs/Epoch-03.pdf",
           "bytes": 294872,
-          "kb": 288.0
+          "kb": 288.0,
+          "description": "This paper is an EPOCH RETROSPECTIVE compiling the internal theorem programme established by the Math18--23 archive of the Topological Energy Condensate Theory (TECT) during the Dirac-node and CKM exploration period 2026-04-14 to 04-15. We formulate a Dirac-node programme on the BCC Brillouin-zone boundary and show that a valley-mixing toy model can reproduce a Cabibbo-scale mixing angle at leadin",
+          "math_notes": [
+            "Math171-AddA",
+            "Math18",
+            "Math19",
+            "Math20",
+            "Math21",
+            "Math22",
+            "Math23"
+          ]
         },
         {
           "stem": "Epoch-04",
@@ -282,7 +615,22 @@ window.TECT_PAPERS_PDF_INDEX = {
           "category": "epochs",
           "url": "assets/papers/epochs/Epoch-04.pdf",
           "bytes": 232822,
-          "kb": 227.4
+          "kb": 227.4,
+          "description": "This paper is an EPOCH RETROSPECTIVE compiling the internal theorem programme established by the Math24--35 archive of the Topological Energy Condensate Theory (TECT) during the pair-kernel decomposition period 2026-04-16 to 04-17. We propose a four-class organising scheme for pair-kernel interactions in the BCC condensate and audit its adequacy as a working decomposition for the Brazovskii critic",
+          "math_notes": [
+            "Math24",
+            "Math25",
+            "Math26",
+            "Math27",
+            "Math28",
+            "Math29",
+            "Math30",
+            "Math31",
+            "Math32",
+            "Math33",
+            "Math34",
+            "Math35"
+          ]
         },
         {
           "stem": "Epoch-05",
@@ -291,7 +639,21 @@ window.TECT_PAPERS_PDF_INDEX = {
           "category": "epochs",
           "url": "assets/papers/epochs/Epoch-05.pdf",
           "bytes": 294542,
-          "kb": 287.6
+          "kb": 287.6,
+          "description": "This document is an INTERNAL EPOCH SKETCH compiling the internal theorem programme established by the Math36--48 archive of the Topological Energy Condensate Theory (TECT) during 2026-04-18 to 04-20. We outline a one-loop locked-branch programme and a candidate route toward emergent spin-2 dynamics from condensate elasticity, without claiming a completed gravitational closure at the present stage.",
+          "math_notes": [
+            "Math36",
+            "Math37",
+            "Math38",
+            "Math40",
+            "Math41",
+            "Math42",
+            "Math43",
+            "Math44",
+            "Math45",
+            "Math47",
+            "Math48"
+          ]
         },
         {
           "stem": "Epoch-06",
@@ -300,7 +662,14 @@ window.TECT_PAPERS_PDF_INDEX = {
           "category": "epochs",
           "url": "assets/papers/epochs/Epoch-06.pdf",
           "bytes": 290707,
-          "kb": 283.9
+          "kb": 283.9,
+          "description": "We formulate a conditional Stage-2 global-closure programme for TECT, organising five sub-problems and their verification gates, rather than claiming a completed Stage-2 closure at the present stage. The Math60 specification (and its A--E sub-theorem decomposition) introduces (A) a meta-consistency programme for the BCC $\\to$ Standard Model mapping under pillar-permutation reorderings; (B) a param",
+          "math_notes": [
+            "Math307",
+            "Math310",
+            "Math60",
+            "Math61"
+          ]
         },
         {
           "stem": "Epoch-07",
@@ -309,7 +678,22 @@ window.TECT_PAPERS_PDF_INDEX = {
           "category": "epochs",
           "url": "assets/papers/epochs/Epoch-07.pdf",
           "bytes": 261292,
-          "kb": 255.2
+          "kb": 255.2,
+          "description": "This paper is an EPOCH RETROSPECTIVE compiling the internal theorem programme established by the Math70--84 archive of the Topological Energy Condensate Theory (TECT) during 2026-04-22 to 04-23. This epoch consolidates the then-current advancement of Pillars 4--7 and records the first stage-wide scorecard, without claiming that the later Math270--313 defence and verdict cycles were already complet",
+          "math_notes": [
+            "Math171-AddA",
+            "Math302",
+            "Math47",
+            "Math48",
+            "Math54",
+            "Math60",
+            "Math75",
+            "Math76",
+            "Math77",
+            "Math78",
+            "Math80",
+            "Math80-AddE"
+          ]
         },
         {
           "stem": "Epoch-08",
@@ -318,7 +702,32 @@ window.TECT_PAPERS_PDF_INDEX = {
           "category": "epochs",
           "url": "assets/papers/epochs/Epoch-08.pdf",
           "bytes": 336310,
-          "kb": 328.4
+          "kb": 328.4,
+          "description": "This paper is an EPOCH RETROSPECTIVE compiling the internal theorem programme established by the Math85--150 archive of the Topological Energy Condensate Theory (TECT) during 2026-04-25 to 04-26. The Math85--150 archive recorded the candidate quantum-mechanical infrastructure (Hilbert space, Fock structure, canonical commutation relations, path-integral formalism) and its candidate coupling to the",
+          "math_notes": [
+            "Math109",
+            "Math110-AddG",
+            "Math110-AddH",
+            "Math110-AddI",
+            "Math141",
+            "Math142",
+            "Math143",
+            "Math144",
+            "Math145",
+            "Math146",
+            "Math149",
+            "Math158",
+            "Math195",
+            "Math291",
+            "Math296",
+            "Math297",
+            "Math57",
+            "Math97",
+            "Math97-AddA",
+            "Math97-AddB",
+            "Math97-AddC",
+            "Math98-AddA"
+          ]
         },
         {
           "stem": "Epoch-09",
@@ -327,7 +736,32 @@ window.TECT_PAPERS_PDF_INDEX = {
           "category": "epochs",
           "url": "assets/papers/epochs/Epoch-09.pdf",
           "bytes": 281720,
-          "kb": 275.1
+          "kb": 275.1,
+          "description": "This paper is an EPOCH RETROSPECTIVE compiling the internal theorem programme established by the Math156--170 archive of the Topological Energy Condensate Theory (TECT) during 2026-04-26 (research Rounds 1--2). The Math156--170 archive established the GAP-1/2/3/4 quantum-completion programme (with pre-registered falsification gates) and the Pillar~4 atlas via a three-patch \\v{C}ech-cocycle constru",
+          "math_notes": [
+            "Math110-AddI",
+            "Math149",
+            "Math151",
+            "Math157",
+            "Math157-AddD",
+            "Math158",
+            "Math159",
+            "Math160",
+            "Math161",
+            "Math162",
+            "Math164",
+            "Math165",
+            "Math166",
+            "Math167",
+            "Math169",
+            "Math170",
+            "Math171-AddA",
+            "Math172",
+            "Math194",
+            "Math209",
+            "Math307",
+            "Math310"
+          ]
         },
         {
           "stem": "Epoch-10",
@@ -336,7 +770,19 @@ window.TECT_PAPERS_PDF_INDEX = {
           "category": "epochs",
           "url": "assets/papers/epochs/Epoch-10.pdf",
           "bytes": 273603,
-          "kb": 267.2
+          "kb": 267.2,
+          "description": "This paper is an EPOCH RETROSPECTIVE preserving the honest second-order audit narrative recorded in the Math171--180 archive of the Topological Energy Condensate Theory (TECT) during 2026-04-26 (research Rounds 3--4). The Math171--180 archive performed a second-order audit of the Pillar~4 defect-bundle index calculation, discovering a degree-arithmetic error in the prior HRR application and correc",
+          "math_notes": [
+            "Math167",
+            "Math171",
+            "Math171-AddA",
+            "Math173",
+            "Math174",
+            "Math176",
+            "Math177",
+            "Math180",
+            "Math302"
+          ]
         },
         {
           "stem": "Epoch-11",
@@ -345,7 +791,35 @@ window.TECT_PAPERS_PDF_INDEX = {
           "category": "epochs",
           "url": "assets/papers/epochs/Epoch-11.pdf",
           "bytes": 297469,
-          "kb": 290.5
+          "kb": 290.5,
+          "description": "This document is INTERNAL ARCHIVE ONLY at the present canonical tier. It records an intermediate consolidation snapshot taken on 2026-04-27 (research Rounds 7--8, Math179--198 archive) that was subsequently SUPERSEDED by the flat-Cartan audit rollbacks of Epoch~12 (Math199--209): the Math203--205 canonical-realisation forcing claims for Pillar~4 sub-task~2 were falsified, and the present canonical",
+          "math_notes": [
+            "Math110-AddH",
+            "Math159",
+            "Math162",
+            "Math167",
+            "Math174",
+            "Math190",
+            "Math191",
+            "Math192",
+            "Math193",
+            "Math194",
+            "Math195",
+            "Math196",
+            "Math197",
+            "Math198",
+            "Math199",
+            "Math209",
+            "Math296",
+            "Math297",
+            "Math307",
+            "Math310",
+            "Math60",
+            "Math61",
+            "Math75",
+            "Math78",
+            "Math80"
+          ]
         },
         {
           "stem": "Epoch-12",
@@ -354,7 +828,20 @@ window.TECT_PAPERS_PDF_INDEX = {
           "category": "epochs",
           "url": "assets/papers/epochs/Epoch-12.pdf",
           "bytes": 269935,
-          "kb": 263.6
+          "kb": 263.6,
+          "description": "During 2026-04-28 (research Rounds 9-14, the flat-Cartan forcing audit cluster), the TECT programme discovers, documents, and corrects several over-claims in the Pillar 4 realisation-forcing programme. The initial claim (Math203) that \"canonical Cartan-only choice forces $c_1 = 0$ uniquely\" is FALSIFIED by Math209 explicit-transition verification (Type B equivariance violation invalidates the forc",
+          "math_notes": [
+            "Math196",
+            "Math200",
+            "Math202",
+            "Math203",
+            "Math204",
+            "Math205",
+            "Math207",
+            "Math208",
+            "Math209",
+            "Math296"
+          ]
         }
       ]
     }
