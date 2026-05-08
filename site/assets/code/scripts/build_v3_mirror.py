@@ -124,6 +124,16 @@ def matches_dir_prefix(rel_posix: str, prefixes: list) -> bool:
 def passes_subtree_allowlist(local_rel: str, mirror_rel: str, cfg: dict) -> tuple[bool, str]:
     """Apply per-subtree allowlists. Return (keep, reason)."""
 
+    # Codes/pde -> code/pde/  (excluded if matches exclude_pde_pattern)
+    if local_rel.startswith("Codes/pde/"):
+        import re as _re_pde
+        pat = cfg.get("exclude_pde_pattern", "")
+        if pat:
+            fname = Path(local_rel).name
+            if _re_pde.search(pat, fname):
+                return False, f"exclude_pde_pattern ({fname})"
+        return True, "pde theory code"
+
     # Codes/supplementary -> code/  (filtered by keep_supplementary_pattern)
     if local_rel.startswith("Codes/supplementary/"):
         pat = cfg.get("keep_supplementary_pattern", "")
@@ -180,15 +190,18 @@ def passes_subtree_allowlist(local_rel: str, mirror_rel: str, cfg: dict) -> tupl
             return True, "policy whitelist (status/policy/)"
         return False, f"keep_policy_files filter ({sub})"
 
-    # Docs/papers/<subdir>/  (filtered by keep_paper_subdirs)
+    # Docs/papers/<subdir>/  (filtered by keep_paper_subdirs + paper_flatten_pdf_only)
     if local_rel.startswith("Docs/papers/"):
         keep = set(cfg.get("keep_paper_subdirs", []))
         sub = local_rel[len("Docs/papers/"):]
         first_seg = sub.split("/")[0] if "/" in sub else sub
-        # Allow subdir/* if first_seg in keep; root-level files excluded
-        if "/" in sub and first_seg in keep:
-            return True, f"keep_paper_subdirs ({first_seg})"
-        return False, f"keep_paper_subdirs filter ({sub})"
+        if not ("/" in sub and first_seg in keep):
+            return False, f"keep_paper_subdirs filter ({sub})"
+        # Paper flatten: PDF-only at top level, other paper-internal files excluded
+        if cfg.get("paper_flatten_pdf_only", False):
+            if not local_rel.endswith(".pdf"):
+                return False, f"paper_flatten_pdf_only (non-PDF: {Path(local_rel).name})"
+        return True, f"keep_paper_subdirs ({first_seg})"
 
     # Docs/math, Website -> default: pass through
     return True, "default pass-through"
@@ -252,6 +265,14 @@ def walk_and_classify(cfg: dict) -> dict:
 
             # 2) directory_renames longest-prefix-first
             renamed = apply_rename(local_rel, rules)
+
+            # 2.5) Paper flatten: paper/<subdir>/<paper-id>/<paper-id>.pdf -> paper/<paper-id>.pdf
+            if (renamed and renamed.startswith("paper/") and
+                cfg.get("paper_flatten_pdf_only", False) and
+                local_rel.endswith(".pdf")):
+                # Extract just the PDF filename and put it at paper/ top level
+                pdf_name = Path(renamed).name
+                renamed = f"paper/{pdf_name}"
 
             # 3) Docs/policy/ -> manually map to status/policy/<file>
             if renamed is None and local_rel.startswith("Docs/policy/"):

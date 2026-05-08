@@ -1,4 +1,4 @@
-// AUTO-GENERATED v0.3 page 6/9 — 2026-05-08 02:38 UTC
+// AUTO-GENERATED v0.3 page 6/9 — 2026-05-08 03:24 UTC
 window.TECT_HISTORY_PAGE_006 = {
   title: "History (page 6 of 9)",
   subtitle: "Chronological CHANGELOG mirror — auto-generated.",
@@ -7,6 +7,11 @@ window.TECT_HISTORY_PAGE_006 = {
   blocks: [
     { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history-page-005.html\">&larr; Newer</a> &middot; Page 6 / 9 &middot; <a href=\"history-archive-index.html\">archive index</a> &middot; <a href=\"history-page-007.html\">Older &rarr;</a></div>" },
     { type: "timeline", items: [
+        {
+          date: "2026-04-24",
+          title: "[Math87 — Cross-Turn Second-Order Audit of Turns 5 + 6 Deliverables (CLAUDE.md §6.3.2 Mandatory)]",
+          body: "Per CLAUDE.md §6.3.2 (cross-turn second-order audit), every two consecutive research turns must include at least one audit track reviewing the previous turn's deliverables for hidden defects. This is Turn 7 Track C, auditing Turns 5 and 6."
+        },
         {
           date: "2026-04-24",
           title: "[Math82-Addendum-I-Addendum-A — Cold-start scan multi-replica statistical analysis framework + Codes/supplementary/Math82_I_coldstart_analysis.py]",
@@ -151,11 +156,6 @@ window.TECT_HISTORY_PAGE_006 = {
           date: "2026-04-24",
           title: "[Math82-Addendum-B — Phase Z BCC analytic seed runbook + driver --load-psi flag (v2.6.5)]",
           body: "1. **`Codes/pde/bcc_analytic_seed.py` (NEW, ~230 lines)** — standalone BCC analytic seed builder + CLI. Constructs $\\Psi_{\\mathrm{BCC}}(x) = A_{\\mathrm{BCC}} \\sum_{j=1}^{6} \\cos(Q_0 \\mathbf{q}_j \\cdot x)$ with Brazovskii saddle-point amplitude $A_{\\mathrm{BCC}} = \\sqrt{|\\mu^2|/(15\\gamma)}$, distributed across the 3 family channels via locked direction $\\mathbf{z}_0 = (1,1,1)/\\sqrt{3}$. Output: `(3, N, N, N)` complex128 .npy file ready for `--load-psi`."
-        },
-        {
-          date: "2026-04-24",
-          title: "[Math77-Q6b-Addendum-A — pure-SM 1-loop unification baseline FALSIFIED; Q6b conjecture as-stated requires intermediate-scale BCC-defect content]",
-          body: "Standard 1-loop SM gauge-coupling RGE in GUT normalization with PDG 2024 initial conditions at $M_Z = 91.1876$ GeV: - $\\alpha_1^{-1}(M_Z) = 59.020$, $\\alpha_2^{-1}(M_Z) = 29.585$, $\\alpha_3^{-1}(M_Z) = 8.446$ - $b_1 = +41/10$, $b_2 = -19/6$, $b_3 = -7$ - Solve $\\alpha_i^{-1}(\\mu) = \\alpha_i^{-1}(M_Z) - (b_i/2\\pi) \\ln(\\mu/M_Z)$"
         }
       ]
     },

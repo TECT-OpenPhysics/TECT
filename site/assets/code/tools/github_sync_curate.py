@@ -845,9 +845,15 @@ def _v3_prune(stats: CurateStats, *, dry_run: bool) -> None:
     cls, _cfg = _v3_classify()
     expected = set(m for _, m, _ in cls["mirror"])
     # Auto-gen root files (rendered separately by curate top-level)
-    expected.update({"README.md", "CITATION.cff", "LICENSE", ".gitignore",
-                     ".nojekyll", "docs/KEY_RESULTS.md", "docs/NAVIGATION.md",
-                     "docs/POLICIES_INDEX.md"})
+    # Auto-generated root files (always emitted)
+    expected.update({"README.md", "CITATION.cff", "LICENSE", ".gitignore", ".nojekyll"})
+    # docs/ auto-gen files only if v3_disable_auto_docs is False
+    try:
+        _cfg2 = json.loads(MIRROR_CONFIG.read_text(encoding="utf-8"))
+        if not bool(_cfg2.get("v3_disable_auto_docs", False)):
+            expected.update({"docs/KEY_RESULTS.md", "docs/NAVIGATION.md", "docs/POLICIES_INDEX.md"})
+    except (OSError, json.JSONDecodeError):
+        pass
     if not TARGET.exists():
         return
     for fp in _walk_files(TARGET):
@@ -1234,15 +1240,24 @@ def curate(args: argparse.Namespace) -> int:
     _write_text_idempotent(TARGET / ".nojekyll", render_nojekyll(),
                            stats, ".nojekyll", dry_run=dry_run)
 
-    # E2) Auto-generated docs/
-    print("[2/5] docs/KEY_RESULTS + NAVIGATION + POLICIES_INDEX …")
-    _ensure_dir(TARGET_DOCS) if not dry_run else None
-    _write_text_idempotent(TARGET_DOCS / "KEY_RESULTS.md", render_key_results(),
-                           stats, "docs/KEY_RESULTS.md", dry_run=dry_run)
-    _write_text_idempotent(TARGET_DOCS / "NAVIGATION.md", render_navigation(),
-                           stats, "docs/NAVIGATION.md", dry_run=dry_run)
-    _write_text_idempotent(TARGET_DOCS / "POLICIES_INDEX.md", render_policies_index(),
-                           stats, "docs/POLICIES_INDEX.md", dry_run=dry_run)
+    # E2) Auto-generated docs/  (skipped in v3 mode per operator 2026-05-08)
+    skip_auto_docs = False
+    try:
+        _cfg_skip = json.loads(MIRROR_CONFIG.read_text(encoding="utf-8"))
+        skip_auto_docs = bool(_cfg_skip.get("v3_disable_auto_docs", False)) and bool(_cfg_skip.get("active_v3_publish", False))
+    except (OSError, json.JSONDecodeError):
+        pass
+    if skip_auto_docs:
+        print("[2/5] docs/ auto-gen SKIPPED (v3_disable_auto_docs=true)")
+    else:
+        print("[2/5] docs/KEY_RESULTS + NAVIGATION + POLICIES_INDEX …")
+        _ensure_dir(TARGET_DOCS) if not dry_run else None
+        _write_text_idempotent(TARGET_DOCS / "KEY_RESULTS.md", render_key_results(),
+                               stats, "docs/KEY_RESULTS.md", dry_run=dry_run)
+        _write_text_idempotent(TARGET_DOCS / "NAVIGATION.md", render_navigation(),
+                               stats, "docs/NAVIGATION.md", dry_run=dry_run)
+        _write_text_idempotent(TARGET_DOCS / "POLICIES_INDEX.md", render_policies_index(),
+                               stats, "docs/POLICIES_INDEX.md", dry_run=dry_run)
 
     # E3) Mirror Website/
     print("[3/5] Mirror Website/*.html + data/ + assets/ …")

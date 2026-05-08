@@ -26,3 +26,4 @@ Governed by `Docs/policy/STATUS_PROPAGATION_POLICY.md` §6.
 | 2026-05-08T00:43:12Z | targets-touched=3 | targets-changed=1 | status.js-sha=88e6180 | invocation=`Codes/tools/propagate_status.py` |
 | 2026-05-08T00:45:47Z | targets-touched=3 | targets-changed=1 | status.js-sha=88e6180 | invocation=`Codes\tools\propagate_status.py` |
 | 2026-05-08T00:55:55Z | targets-touched=3 | targets-changed=0 | status.js-sha=88e6180 | invocation=`Codes/tools/propagate_status.py` |
+| 2026-05-08T02:38:34Z | targets-touched=3 | targets-changed=1 | status.js-sha=88e6180 | invocation=`Codes\tools\propagate_status.py` |

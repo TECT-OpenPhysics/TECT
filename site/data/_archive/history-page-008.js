@@ -1,4 +1,4 @@
-// AUTO-GENERATED v0.3 page 8/9 — 2026-05-08 02:38 UTC
+// AUTO-GENERATED v0.3 page 8/9 — 2026-05-08 03:24 UTC
 window.TECT_HISTORY_PAGE_008 = {
   title: "History (page 8 of 9)",
   subtitle: "Chronological CHANGELOG mirror — auto-generated.",
@@ -7,6 +7,11 @@ window.TECT_HISTORY_PAGE_008 = {
   blocks: [
     { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history-page-007.html\">&larr; Newer</a> &middot; Page 8 / 9 &middot; <a href=\"history-archive-index.html\">archive index</a> &middot; <a href=\"history-page-009.html\">Older &rarr;</a></div>" },
     { type: "timeline", items: [
+        {
+          date: "2026-04-23",
+          title: "[Math73 — Task #114 (B3) closed at the structural level: Boolean-mask selective cII symmetrisation is Hermiticity-incompatible; v2.6.2 CiiProjector API introduced]",
+          body: "- **docs/math/TECT-Math73-Task114-cII-Projector-Mask-v2p6p2.tex.txt** filed. - §1–§2 Rigorous definition of the pointwise complex-orthogonal cII channel projector $P_{\\mathrm{cII}}(\\Psi)\\,\\xi(x) := \\xi(x) - \\langle\\Psi(x),\\xi(x)\\rangle_{\\mathbb{C}^3}/(|\\Psi(x)|^2 + \\epsilon)\\cdot\\Psi(x)$ (Def. `math73-proj`). Lem. `math73-proj-properties` proves (a) $P^2 = P$, (b) $P^\\dagger = P$, (c) $P\\Psi = 0$ up to $\\mathcal{O}(\\epsilon/|\\Psi|^2)$, (d) $\\mathrm{channel}_T(\\Psi) = P(T\\Psi)$ as an exact backend-code identity (`real_backend_pt_bcc_mixed_v3.py:458`). - §3 Thm. `math73-sym-incompat` (CORE NEGATIVE RESULT): the v2.6.0/v2.6.1 Boolean-mask-selective symmetrisation formula $\\widetilde{\\mathcal{J}}_M = \\mathcal{J} + \\tfrac{1}{2} M(\\mathcal{J}^\\dagger - \\mathcal{J})$ is self-adjoint iff $(I - M)A = 0$ and $A(I - M) = 0$, where $A = \\tfrac{1}{2}(\\mathcal{J} - \\mathcal{J}^\\dagger) \\ne 0$. Cor. `math73-M-eq-I`: under Math63 §2A.3's full-rank cII anti-Hermitian signal, the only Hermiticity-preserving diagonal mask is $M = I$. The original Task #114 deliverable (\"replace the all-True dummy with a real cII channel-projector mask\") is therefore mathematically "
+        },
         {
           date: "2026-04-22",
           title: "[Math70 — N=64 continuum audit 2026-04-22T22:22Z: HOLLOW-RUN forensic. B2 resolved as live blocker; next blocker = real continuum-physics audit]",
@@ -151,11 +156,6 @@ window.TECT_HISTORY_PAGE_008 = {
           date: "2026-04-22",
           title: "[tools namespace-package fix + check_jacobian_symmetry --selftest — v2.5 diagnostic stage [3/4] unblocked]",
           body: "**Trigger**: Second local run of `scripts/run_v25_diagnostic.ps1` (commit `badd11d`, after the v1.2 BZ-preconditioner patch): stage [2/4] passes cleanly, stage [3/4] fails with `ModuleNotFoundError: No module named 'tools'` on `python -m tools.check_jacobian_symmetry --selftest`, even though the sibling call `python -m PDE.bz_preconditioner` in the same stage succeeds."
-        },
-        {
-          date: "2026-04-22",
-          title: "[bz_preconditioner scaling self-test — two-step correction to an upper-bound-only regression check]",
-          body: "**Trigger (v1.1)**: First local diagnostic run (R-2026-04-22-001 launch, commit `badd11d`) failed the O(N log N) scaling assertion at step [2/4] of `scripts/run_v25_diagnostic.ps1`."
         }
       ]
     },

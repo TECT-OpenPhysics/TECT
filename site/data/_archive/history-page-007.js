@@ -1,4 +1,4 @@
-// AUTO-GENERATED v0.3 page 7/9 — 2026-05-08 02:38 UTC
+// AUTO-GENERATED v0.3 page 7/9 — 2026-05-08 03:24 UTC
 window.TECT_HISTORY_PAGE_007 = {
   title: "History (page 7 of 9)",
   subtitle: "Chronological CHANGELOG mirror — auto-generated.",
@@ -7,6 +7,11 @@ window.TECT_HISTORY_PAGE_007 = {
   blocks: [
     { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history-page-006.html\">&larr; Newer</a> &middot; Page 7 / 9 &middot; <a href=\"history-archive-index.html\">archive index</a> &middot; <a href=\"history-page-008.html\">Older &rarr;</a></div>" },
     { type: "timeline", items: [
+        {
+          date: "2026-04-24",
+          title: "[Math77-Q6b-Addendum-A — pure-SM 1-loop unification baseline FALSIFIED; Q6b conjecture as-stated requires intermediate-scale BCC-defect content]",
+          body: "Standard 1-loop SM gauge-coupling RGE in GUT normalization with PDG 2024 initial conditions at $M_Z = 91.1876$ GeV: - $\\alpha_1^{-1}(M_Z) = 59.020$, $\\alpha_2^{-1}(M_Z) = 29.585$, $\\alpha_3^{-1}(M_Z) = 8.446$ - $b_1 = +41/10$, $b_2 = -19/6$, $b_3 = -7$ - Solve $\\alpha_i^{-1}(\\mu) = \\alpha_i^{-1}(M_Z) - (b_i/2\\pi) \\ln(\\mu/M_Z)$"
+        },
         {
           date: "2026-04-24",
           title: "[Math80-Addendum-A — Pillar 6 Q6a 10-defect-moduli Lie-algebraic THEOREM via Strategy 2 + 3 combined]",
@@ -151,11 +156,6 @@ window.TECT_HISTORY_PAGE_007 = {
           date: "2026-04-23",
           title: "[Math74 — `continuation_mu2_v25.py` v2.5.7 skeleton retired; v2.6.3 live driver lands with real Phase-D wire-through, Phase 2/3 integration, and endpoint JSON contract; driver-side blocker of Task #54",
           body: "- **docs/math/TECT-Math74-v2p6p3-Continuation-Driver-Live-Wire.tex.txt** filed (NEW, 7 sections). - §2 records the v2.5.7 structural obstruction in formal form: Prop. `math74-v257-obstruction` establishes that for every input, `ContinuationPoint.converged` returns identically `False` at v2.5.7. The proof is two-line: the driver's outer `for newton_iter in range(max_newton)` loop called `tect_newton_krylov.newton_solve(max_newton=50, ...)` in its body while simultaneously hard-coding `NewtonStep.residual_norm = float(\"nan\")`. The subsequent convergence test `newton_step.residual_norm < tol_newton` evaluates to `NaN < tol_newton`, which by IEEE 754-2019 §5.11 is `False` for every finite tolerance. The assignment `result.converged = True` on the true branch is unreachable. - §3 presents the rigorous resolution $\\mathrm{rop}_{2.6.3}$: a single `newton_solve` invocation per $\\mu^2$ point with full Newton loop delegated to the solver core, convergence propagated via $$\\texttt{result.converged} := \\mathrm{isfinite}(H[-1][\"\\mathrm{grad\\_norm}\"]) \\wedge (H[-1][\"\\mathrm{grad\\_norm}\"] < \\mathrm{tol}_{\\mathrm{newton}}),$$ bit-identically matching the internal criterion of `new"
-        },
-        {
-          date: "2026-04-23",
-          title: "[Math73 — Task #114 (B3) closed at the structural level: Boolean-mask selective cII symmetrisation is Hermiticity-incompatible; v2.6.2 CiiProjector API introduced]",
-          body: "- **docs/math/TECT-Math73-Task114-cII-Projector-Mask-v2p6p2.tex.txt** filed. - §1–§2 Rigorous definition of the pointwise complex-orthogonal cII channel projector $P_{\\mathrm{cII}}(\\Psi)\\,\\xi(x) := \\xi(x) - \\langle\\Psi(x),\\xi(x)\\rangle_{\\mathbb{C}^3}/(|\\Psi(x)|^2 + \\epsilon)\\cdot\\Psi(x)$ (Def. `math73-proj`). Lem. `math73-proj-properties` proves (a) $P^2 = P$, (b) $P^\\dagger = P$, (c) $P\\Psi = 0$ up to $\\mathcal{O}(\\epsilon/|\\Psi|^2)$, (d) $\\mathrm{channel}_T(\\Psi) = P(T\\Psi)$ as an exact backend-code identity (`real_backend_pt_bcc_mixed_v3.py:458`). - §3 Thm. `math73-sym-incompat` (CORE NEGATIVE RESULT): the v2.6.0/v2.6.1 Boolean-mask-selective symmetrisation formula $\\widetilde{\\mathcal{J}}_M = \\mathcal{J} + \\tfrac{1}{2} M(\\mathcal{J}^\\dagger - \\mathcal{J})$ is self-adjoint iff $(I - M)A = 0$ and $A(I - M) = 0$, where $A = \\tfrac{1}{2}(\\mathcal{J} - \\mathcal{J}^\\dagger) \\ne 0$. Cor. `math73-M-eq-I`: under Math63 §2A.3's full-rank cII anti-Hermitian signal, the only Hermiticity-preserving diagonal mask is $M = I$. The original Task #114 deliverable (\"replace the all-True dummy with a real cII channel-projector mask\") is therefore mathematically "
         }
       ]
     },

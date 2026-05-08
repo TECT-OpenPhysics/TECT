@@ -1,4 +1,4 @@
-// AUTO-GENERATED v0.3 page 4/9 — 2026-05-08 02:38 UTC
+// AUTO-GENERATED v0.3 page 4/9 — 2026-05-08 03:24 UTC
 window.TECT_HISTORY_PAGE_004 = {
   title: "History (page 4 of 9)",
   subtitle: "Chronological CHANGELOG mirror — auto-generated.",
@@ -7,6 +7,11 @@ window.TECT_HISTORY_PAGE_004 = {
   blocks: [
     { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history-page-003.html\">&larr; Newer</a> &middot; Page 4 / 9 &middot; <a href=\"history-archive-index.html\">archive index</a> &middot; <a href=\"history-page-005.html\">Older &rarr;</a></div>" },
     { type: "timeline", items: [
+        {
+          date: "2026-04-28",
+          title: "[Math204 — SU(5) cocycle Cartan-only forcing via π₃ lift through SO(10)/SU(5)]",
+          body: "**Trigger**: Lemma L3 of the four-step flat-Cartan-forcing decomposition; CLAUDE.md §15 single-turn dispatch following Math203 acceptance."
+        },
         {
           date: "2026-04-28",
           title: "[Math203 — BCC inversion equivariance forces c_1(U(1)_χ) = 0 on the Math162/167 CP² base]",
@@ -151,11 +156,6 @@ window.TECT_HISTORY_PAGE_004 = {
           date: "2026-04-25",
           title: "[Round 20 — FINAL SYNTHESIS: Math109 (Final Rigor Synthesis Rounds 17–20; PROVED; capstone)]",
           body: "**Status**: PROVED UNCONDITIONAL (meta-synthesis). - Complete summary of Rounds 17–20 and integration with earlier rounds. - Final Stage-1 scorecard: 4 PROVED UNCOND + 4 PROVED COND + 1 CLOSED@1-loop + 1 CLOSED-NO-GO + 1 additional PROVED = **All 11 pillars resolved**. - Final Stage-2 scorecard: All five sub-theorems A–E meet closure gates. **$S_2$ SEALED**. - TOE qualification: $S_1 \\land S_2$ satisfied. **Operational classification: UCFT + Partial TOE**. - Cumulative metrics: 30 new Math notes (Rounds 1–20), ~12,000–14,000 lines LaTeX, 18 formal theorems, 34 lemmas, ~150 propositions, 27 falsification gates. - Honest scope statement: TECT derives all non-quantum physics from BCC axiom; $\\hbar$ external (like $G$ in Newton or $c$ in Einstein). - Recommended next priorities: Numerical completions (Tasks #115–#132), manuscript authorship, Stage-3 experimental partnerships. - Devil's-advocate final audit: Three objections enumerated (all dismissed)."
-        },
-        {
-          date: "2026-04-25",
-          title: "[Round 19 — Second-Order Audit of Rounds 15–18: Round-15-18-second-order-audit (AUDIT-PASS; mandatory cross-turn verification per CLAUDE.md §6.3.2)]",
-          body: "**Status**: AUDIT-PASS. - Systematic review of all 12 notes from Rounds 15–18 (Math93–Math108). - Devil's-advocate verification: all three objections enumerated and resolved for each note. - Falsification-gate matrix: 7/9 gates PASS or PENDING-WITH-CLEAR-CLOSURE. - Cascading risk analysis: **ZERO retroactive downgrades**. All pillars, $S_1$, and $S_2$ remain SEALED and robust. - Certification: Approved for continuation to Round 20."
         }
       ]
     },

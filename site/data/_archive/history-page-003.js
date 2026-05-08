@@ -1,4 +1,4 @@
-// AUTO-GENERATED v0.3 page 3/9 — 2026-05-08 02:38 UTC
+// AUTO-GENERATED v0.3 page 3/9 — 2026-05-08 03:24 UTC
 window.TECT_HISTORY_PAGE_003 = {
   title: "History (page 3 of 9)",
   subtitle: "Chronological CHANGELOG mirror — auto-generated.",
@@ -7,6 +7,11 @@ window.TECT_HISTORY_PAGE_003 = {
   blocks: [
     { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history-page-002.html\">&larr; Newer</a> &middot; Page 3 / 9 &middot; <a href=\"history-archive-index.html\">archive index</a> &middot; <a href=\"history-page-004.html\">Older &rarr;</a></div>" },
     { type: "timeline", items: [
+        {
+          date: "2026-04-30",
+          title: "[Audit] Math267: Turn 38 — Cross-Turn Audit of Math266 (Sub-Task 3 T6 Claim) — Audit-Confirmed",
+          body: "**Significance**: Turn 38 binding cross-turn audit (CLAUDE.md §6.3.2) of Turn 37's Math266 Pillar 4 sub-task 3 T6 claim. **Main verdict**: **AUDIT-CONFIRMED**. Sub-task 3 T6 PROVED CONDITIONAL status is mathematically sound and appropriately scoped. **Key findings**: (i) Route A (Math229, algebraic Cartan forcing) is T6 PROVED CONDITIONAL on textbook hypotheses, sufficient for sub-task 3's canonical scope (determine breaking pattern group-theoretically). (ii) Math174's $c_2(E) = -40$ falsification on CP² **does not propagate** to Σ₀ due to different $H^2(\\Sigma_0) = \\mathbb{Z}^2$ cohomology structure. (iii) No circularity detected in sub-task 2 ← sub-task 3 dependency chain; Math229 does not cite sub-task 3 outputs. (iv) All 7 cited sources disk-verified; all quantitative sanity checks pass; all devil's-advocate and self-adversarial objections addressed. **Consequence**: Pillar 4 atomic-tier promotion from T3 PROOF SKETCH (Math265) to **T6 PROVED CONDITIONAL** is audit-eligible for Turn 39 commit."
+        },
         {
           date: "2026-04-30",
           title: "[Theory] Math266: Turn 37 — Pillar 4 Sub-Task 3 Closure via Dual-Route Framework — SO(10) → SU(5)×U(1)_χ Breaking Chain on Σ₀",
@@ -151,11 +156,6 @@ window.TECT_HISTORY_PAGE_003 = {
           date: "2026-04-28",
           title: "[Math205 — Flat-Cartan atlas conditional uniqueness (synthesis L1+L2+L3)]",
           body: "**Trigger**: Synthesis of Math202 + Math203 + Math204 closing the four-step flat-Cartan-forcing decomposition. Final single-turn dispatch in the §15 sequential L1→L2→L3→synthesis chain."
-        },
-        {
-          date: "2026-04-28",
-          title: "[Math204 — SU(5) cocycle Cartan-only forcing via π₃ lift through SO(10)/SU(5)]",
-          body: "**Trigger**: Lemma L3 of the four-step flat-Cartan-forcing decomposition; CLAUDE.md §15 single-turn dispatch following Math203 acceptance."
         }
       ]
     },

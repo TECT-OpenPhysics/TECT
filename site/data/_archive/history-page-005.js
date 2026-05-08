@@ -1,4 +1,4 @@
-// AUTO-GENERATED v0.3 page 5/9 — 2026-05-08 02:38 UTC
+// AUTO-GENERATED v0.3 page 5/9 — 2026-05-08 03:24 UTC
 window.TECT_HISTORY_PAGE_005 = {
   title: "History (page 5 of 9)",
   subtitle: "Chronological CHANGELOG mirror — auto-generated.",
@@ -7,6 +7,11 @@ window.TECT_HISTORY_PAGE_005 = {
   blocks: [
     { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history-page-004.html\">&larr; Newer</a> &middot; Page 5 / 9 &middot; <a href=\"history-archive-index.html\">archive index</a> &middot; <a href=\"history-page-006.html\">Older &rarr;</a></div>" },
     { type: "timeline", items: [
+        {
+          date: "2026-04-25",
+          title: "[Round 19 — Second-Order Audit of Rounds 15–18: Round-15-18-second-order-audit (AUDIT-PASS; mandatory cross-turn verification per CLAUDE.md §6.3.2)]",
+          body: "**Status**: AUDIT-PASS. - Systematic review of all 12 notes from Rounds 15–18 (Math93–Math108). - Devil's-advocate verification: all three objections enumerated and resolved for each note. - Falsification-gate matrix: 7/9 gates PASS or PENDING-WITH-CLEAR-CLOSURE. - Cascading risk analysis: **ZERO retroactive downgrades**. All pillars, $S_1$, and $S_2$ remain SEALED and robust. - Certification: Approved for continuation to Round 20."
+        },
         {
           date: "2026-04-25",
           title: "[Round 18 — Foundation Deepening Triple: Math106 (BCC bundle topology; PARTIAL-ADV), Math107 (Brazovskii scope theorem; PARTIAL-ADV), Math108 (PV scheme 2-loop consistency; CLOSED@1-LOOP)]",
@@ -151,11 +156,6 @@ window.TECT_HISTORY_PAGE_005 = {
           date: "2026-04-24",
           title: "[Math77-Q6b-Addendum-C — Pati-Salam RGE Finalisation: Candidate Selection Rule and PROVED CONDITIONAL Status]",
           body: "Pillar 6 Q6b closure sprint (Turn 8 Track A). Math77-Q6b-Addendum-B provided a 349-candidate Pati-Salam two-step RGE scan. Math80-Addendum-C-FULL established SO(10)-uniqueness as PROVED. Task: apply selection criteria (SR1-SR4) to reduce 349 candidates to 1, execute devil's-advocate self-test per CLAUDE.md §6.3.1, and promote Q6b to PROVED CONDITIONAL."
-        },
-        {
-          date: "2026-04-24",
-          title: "[Math87 — Cross-Turn Second-Order Audit of Turns 5 + 6 Deliverables (CLAUDE.md §6.3.2 Mandatory)]",
-          body: "Per CLAUDE.md §6.3.2 (cross-turn second-order audit), every two consecutive research turns must include at least one audit track reviewing the previous turn's deliverables for hidden defects. This is Turn 7 Track C, auditing Turns 5 and 6."
         }
       ]
     },

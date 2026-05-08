@@ -1,4 +1,4 @@
-// AUTO-GENERATED v0.3 page 9/9 — 2026-05-08 02:38 UTC
+// AUTO-GENERATED v0.3 page 9/9 — 2026-05-08 03:24 UTC
 window.TECT_HISTORY_PAGE_009 = {
   title: "History (page 9 of 9)",
   subtitle: "Chronological CHANGELOG mirror — auto-generated.",
@@ -7,6 +7,11 @@ window.TECT_HISTORY_PAGE_009 = {
   blocks: [
     { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history-page-008.html\">&larr; Newer</a> &middot; Page 9 / 9 &middot; <a href=\"history-archive-index.html\">archive index</a></div>" },
     { type: "timeline", items: [
+        {
+          date: "2026-04-22",
+          title: "[bz_preconditioner scaling self-test — two-step correction to an upper-bound-only regression check]",
+          body: "**Trigger (v1.1)**: First local diagnostic run (R-2026-04-22-001 launch, commit `badd11d`) failed the O(N log N) scaling assertion at step [2/4] of `scripts/run_v25_diagnostic.ps1`."
+        },
         {
           date: "2026-04-22",
           title: "[Theory-currency audit on v2.5 solver bundle — 2 pre-existing assertion defects repaired; MU2_TARGET/Q0_PHYSICAL surfaced as explicit constants]",
