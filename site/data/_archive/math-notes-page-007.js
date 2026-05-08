@@ -6,7 +6,7 @@ window.TECT_MATH_NOTES_PAGE_007 = {
   subtitle: "Proof-level derivations. Auto-paginated by Math NN; this page covers a fixed slice of the archive.",
   pagination: {"page": 7, "total": 11, "newer": "page-008.html", "older": "page-006.html", "archiveIndex": "archive-index.html"},
   blocks: [
-    { type: "html", content: "<div class=\"pagination-nav\"><a href=\"page-008.html\">&larr; Newer</a> &middot; Page 7 / 11 &middot; <a href=\"archive-index.html\">archive index</a> &middot; <a href=\"page-006.html\">Older &rarr;</a></div>" },
+    { type: "html", content: "<div class=\"pagination-nav\"><a href=\"page-008.html\">&larr; Newer</a> &middot; Page 7 / 11 &middot; <a href=\"page-006.html\">Older &rarr;</a></div>" },
     {
       type: "card",
       title: "Math notes (page 7 of 11, archived; 50 entries)",
@@ -69,6 +69,6 @@ window.TECT_MATH_NOTES_PAGE_007 = {
         }
       ]
     },
-    { type: "html", content: "<div class=\"pagination-nav\"><a href=\"page-008.html\">&larr; Newer</a> &middot; Page 7 / 11 &middot; <a href=\"archive-index.html\">archive index</a> &middot; <a href=\"page-006.html\">Older &rarr;</a></div>" }
+    { type: "html", content: "<div class=\"pagination-nav\"><a href=\"page-008.html\">&larr; Newer</a> &middot; Page 7 / 11 &middot; <a href=\"page-006.html\">Older &rarr;</a></div>" }
   ]
 };

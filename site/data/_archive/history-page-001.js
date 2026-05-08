@@ -5,7 +5,7 @@ window.TECT_HISTORY_PAGE_001 = {
   lastUpdated: "2026-04-22 (archived)",
   pagination: {"page": 1, "total": 9, "newer": "page-002.html", "older": null, "archiveIndex": "history-archive-index.html"},
   blocks: [
-    { type: "html", content: "<div class=\"pagination-nav\"><a href=\"page-002.html\">&larr; Newer</a> &middot; Page 1 / 9 &middot; <a href=\"archive-index.html\">archive index</a></div>" },
+    { type: "html", content: "<div class=\"pagination-nav\"><a href=\"page-002.html\">&larr; Newer</a> &middot; Page 1 / 9</div>" },
     { type: "timeline", items: [
         {
           date: "2026-04-22",
@@ -159,6 +159,6 @@ window.TECT_HISTORY_PAGE_001 = {
         }
       ]
     },
-    { type: "html", content: "<div class=\"pagination-nav\"><a href=\"page-002.html\">&larr; Newer</a> &middot; Page 1 / 9 &middot; <a href=\"archive-index.html\">archive index</a></div>" }
+    { type: "html", content: "<div class=\"pagination-nav\"><a href=\"page-002.html\">&larr; Newer</a> &middot; Page 1 / 9</div>" }
   ]
 };

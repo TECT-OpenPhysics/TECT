@@ -1,11 +1,11 @@
-// AUTO-GENERATED v0.3 page 9/9 — 2026-05-08 16:10 UTC
+// AUTO-GENERATED v0.3 page 9/9 — 2026-05-08 16:34 UTC
 window.TECT_HISTORY = {
   title: "History (page 9 of 9)",
   subtitle: "Chronological CHANGELOG mirror — auto-generated.",
   lastUpdated: "2026-05-08 (auto)",
   pagination: {"page": 9, "total": 9, "newer": null, "older": "history/page-008.html", "archiveIndex": "history-archive-index.html"},
   blocks: [
-    { type: "html", content: "<div class=\"pagination-nav\">Page 9 / 9 &middot; <a href=\"history/archive-index.html\">archive index</a> &middot; <a href=\"history/page-008.html\">Older &rarr;</a></div>" },
+    { type: "html", content: "<div class=\"pagination-nav\">Page 9 / 9 &middot; <a href=\"history/page-008.html\">Older &rarr;</a></div>" },
     { type: "timeline", items: [
         {
           date: "2026-05-08",
@@ -34,6 +34,6 @@ window.TECT_HISTORY = {
         }
       ]
     },
-    { type: "html", content: "<div class=\"pagination-nav\">Page 9 / 9 &middot; <a href=\"history/archive-index.html\">archive index</a> &middot; <a href=\"history/page-008.html\">Older &rarr;</a></div>" }
+    { type: "html", content: "<div class=\"pagination-nav\">Page 9 / 9 &middot; <a href=\"history/page-008.html\">Older &rarr;</a></div>" }
   ]
 };

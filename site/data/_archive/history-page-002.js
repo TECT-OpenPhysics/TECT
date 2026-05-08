@@ -5,7 +5,7 @@ window.TECT_HISTORY_PAGE_002 = {
   lastUpdated: "2026-04-24 (archived)",
   pagination: {"page": 2, "total": 9, "newer": "page-003.html", "older": "page-001.html", "archiveIndex": "history-archive-index.html"},
   blocks: [
-    { type: "html", content: "<div class=\"pagination-nav\"><a href=\"page-003.html\">&larr; Newer</a> &middot; Page 2 / 9 &middot; <a href=\"archive-index.html\">archive index</a> &middot; <a href=\"page-001.html\">Older &rarr;</a></div>" },
+    { type: "html", content: "<div class=\"pagination-nav\"><a href=\"page-003.html\">&larr; Newer</a> &middot; Page 2 / 9 &middot; <a href=\"page-001.html\">Older &rarr;</a></div>" },
     { type: "timeline", items: [
         {
           date: "2026-04-24",
@@ -159,6 +159,6 @@ window.TECT_HISTORY_PAGE_002 = {
         }
       ]
     },
-    { type: "html", content: "<div class=\"pagination-nav\"><a href=\"page-003.html\">&larr; Newer</a> &middot; Page 2 / 9 &middot; <a href=\"archive-index.html\">archive index</a> &middot; <a href=\"page-001.html\">Older &rarr;</a></div>" }
+    { type: "html", content: "<div class=\"pagination-nav\"><a href=\"page-003.html\">&larr; Newer</a> &middot; Page 2 / 9 &middot; <a href=\"page-001.html\">Older &rarr;</a></div>" }
   ]
 };
