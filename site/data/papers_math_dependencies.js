@@ -2,7 +2,7 @@
 /* Source: Docs/papers/{papers,auxiliary,top_impact,epochs}/*.tex            */
 window.TECT_PAPERS_DEPS = {
   "schema": "tect-papers-math-deps-v1",
-  "generated": "2026-05-08T04:19:26+00:00",
+  "generated": "2026-05-08T05:21:35+00:00",
   "papers": [
     {
       "stem": "Auxiliary-01",

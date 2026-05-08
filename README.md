@@ -31,12 +31,6 @@ Detailed per-pillar status, evidence chains, Math note links, and falsification 
 
 ---
 
-## What is TECT?
-
-TECT is a research programme that derives the Standard Model (SM) gauge structure, general relativity (GR), and the quantum constants of nature ($\hbar$, $\Lambda$) as **low-energy consequences of a single primordial three-dimensional body-centred-cubic (BCC) topological condensate** of an O(n) order parameter. The condensate is governed by Brazovskii-type free-energy dynamics; the BCC ground state breaks rotational symmetry to the cubic point group $O_h$ but preserves CP and translation. Pillar-by-pillar emergence theorems (Pillars 1–11) show that mass, kinematic Lorentz invariance, gravity, gauge structure, fermion content, Higgs mechanism, electroweak breaking, QCD confinement, the cosmological constant, the no-classical-$\hbar$ no-go theorem, and chirality each arise from the same underlying lattice condensate without additional structural input.
-
-The framework is graded against an explicit **TOE qualification predicate** $\mathrm{TOE} := S_1 \wedge S_2 \wedge S_3$ (per `Math60-TOE-Global-Closure-Spec`), extended below to a six-stage roadmap that includes cosmological extension, external verification, and publication acceptance. All claims are pinned to specific Math notes (`Docs/math/TECT-Math<NN>-*.tex.txt`) with explicit T0–T7 tier labels (per [STATUS_NOMENCLATURE.md](status/policy/STATUS_NOMENCLATURE.md)).
-
 ## Foundational axioms (Math195)
 
 Per `TECT-Math195` (effective-axiom reduction analysis):
