@@ -53,13 +53,11 @@
    * Convert a Math note ID (e.g., "Math82-AddD") to a GitHub blob URL
    */
   function mathNoteUrl(mathId) {
-    // Map "Math82-AddD" -> "TECT-Math82-Addendum-D" or similar
-    // For now, construct a search-friendly link
-    var filename = 'TECT-' + mathId.replace('-', '-').replace(/AddD/, 'Addendum-D')
-      .replace(/AddC/, 'Addendum-C').replace(/AddB/, 'Addendum-B')
-      .replace(/AddA/, 'Addendum-A');
-    // Use a wildcard search on GitHub
-    return 'https://github.com/TECT-OpenPhysics/TECT/search?q=' + encodeURIComponent(mathId) + '&type=code';
+    // GitHub file finder pre-filtered by Math note ID. The user can
+    // press Enter on the highlighted result to open the file.
+    // Works regardless of the full filename slug.
+    return 'https://github.com/TECT-OpenPhysics/TECT/find/main?q=' +
+      encodeURIComponent(mathId);
   }
 
   /**
@@ -91,22 +89,26 @@
         '</div>\n';
     }
 
-    // Build PDF buttons
+    // Build PDF buttons.
+    // Public mirror layout (mirror.json v3 + paper_flatten_pdf_only=true):
+    //   Docs/papers/<cat>/<stem>/<stem>.pdf  ->  paper/<stem>.pdf
+    // So the canonical GitHub URLs are uniformly paper/<stem>.pdf.
     var pdfButtonsHtml = '<div class="paper-card-buttons">\n';
-    
-    // Download button (use raw GitHub URL)
-    var downloadUrl = paper.url.replace('/blob/', '/raw/').replace(/\/main\//, '/main/');
-    pdfButtonsHtml += '  <a class="btn btn-download" href="' + escapeHtml(downloadUrl) + '" download>\n' +
+
+    var stem = paper.stem || '';
+    var ghBlob = 'https://github.com/TECT-OpenPhysics/TECT/blob/main/paper/' + stem + '.pdf';
+    var ghRaw  = 'https://github.com/TECT-OpenPhysics/TECT/raw/main/paper/' + stem + '.pdf';
+
+    // Download button (raw GitHub URL — direct PDF download)
+    pdfButtonsHtml += '  <a class="btn btn-download" href="' + escapeHtml(ghRaw) + '" download>\n' +
       '    <span>⬇ Download</span> <span class="file-size">(' + escapeHtml(paper.kb) + ' KB)</span>\n' +
       '  </a>\n';
-    
-    // View button (GitHub viewer)
-    var viewUrl = 'https://github.com/TECT-OpenPhysics/TECT/blob/main/papers/' +
-      escapeHtml(paper.url.split('papers/')[1]);
-    pdfButtonsHtml += '  <a class="btn btn-view" href="' + escapeHtml(viewUrl) + '" target="_blank">\n' +
+
+    // View button (GitHub blob viewer — renders PDF inline)
+    pdfButtonsHtml += '  <a class="btn btn-view" href="' + escapeHtml(ghBlob) + '" target="_blank">\n' +
       '    <span>📄 View on GitHub</span>\n' +
       '  </a>\n';
-    
+
     pdfButtonsHtml += '</div>\n';
 
     var html = '<div class="paper-card">\n' +
@@ -198,28 +200,104 @@
       return;
     }
 
-    var categories = ['papers', 'auxiliary', 'epochs', 'top_impact'];
-    var counts = {};
+    var categories = ['papers', 'top_impact', 'auxiliary', 'epochs'];
+
+    // Category-specific metadata: icon + accent color + tier breakdown.
+    var meta = {
+      'papers': {
+        icon: '⛰',
+        accent: '#1a4d88',
+        bg: 'linear-gradient(135deg, #f4f8fc 0%, #e8f0fa 100%)',
+        order: 1,
+        tagline: 'Eleven emergence pillars'
+      },
+      'top_impact': {
+        icon: '★',
+        accent: '#b88112',
+        bg: 'linear-gradient(135deg, #fdf8ed 0%, #f7eed4 100%)',
+        order: 2,
+        tagline: 'High-leverage results'
+      },
+      'auxiliary': {
+        icon: '⚙',
+        accent: '#3e7a4a',
+        bg: 'linear-gradient(135deg, #f4faf6 0%, #e6f1eb 100%)',
+        order: 3,
+        tagline: 'Supporting calculations'
+      },
+      'epochs': {
+        icon: '⌛',
+        accent: '#7a4a8e',
+        bg: 'linear-gradient(135deg, #f9f4fc 0%, #efe4f7 100%)',
+        order: 4,
+        tagline: 'Intermediate-closure progress'
+      }
+    };
+
+    // Build per-category {count, tierBreakdown[]}
+    var stats = {};
     categories.forEach(function (cat) {
-      counts[cat] = papers.filter(function (p) { return p.category === cat; }).length;
+      var papersInCat = papers.filter(function (p) { return p.category === cat; });
+      var tiers = {};
+      papersInCat.forEach(function (p) {
+        var t = p.tier || '?';
+        tiers[t] = (tiers[t] || 0) + 1;
+      });
+      stats[cat] = { count: papersInCat.length, tiers: tiers };
     });
 
+    var totalPapers = papers.length;
+
     var html = '<div class="papers-landing">\n' +
-      '<p class="pdf-summary">TECT papers are organized in four publication tracks.</p>\n' +
+      '<div class="papers-landing-hero">\n' +
+      '<h2 style="margin: 0 0 0.4em 0; font-size: 1.5em;">TECT papers</h2>\n' +
+      '<p class="pdf-summary" style="margin: 0;">' + totalPapers +
+      ' papers organised in four publication tracks. ' +
+      'Click any track to browse its papers with abstracts, Math-note dependencies, ' +
+      'and direct PDF download.</p>\n' +
+      '</div>\n' +
       '<div class="landing-grid">\n';
 
     categories.forEach(function (cat) {
-      var count = counts[cat];
+      var s = stats[cat];
+      var m = meta[cat];
       var pageFile = (cat === 'papers') ? 'papers-papers.html' : ('papers-' + cat + '.html');
-      
-      html += '<div class="landing-card">\n' +
-        '<h3>' + escapeHtml(categoryLabel(cat)) + '</h3>\n' +
-        '<p>' + escapeHtml(categoryDescr(cat)) + '</p>\n' +
-        '<p style="margin-top: 0.8em; font-size: 0.95em; color: #666;">' +
-        '<strong>' + count + '</strong> paper' + (count !== 1 ? 's' : '') +
-        '</p>\n' +
-        '<a href="' + escapeHtml(pageFile) + '" style="display: inline-block; margin-top: 0.8em; padding: 0.5em 1em; background: #2266aa; color: white; text-decoration: none; border-radius: 4px; font-size: 0.9em;">View all →</a>\n' +
-        '</div>\n';
+
+      // Tier mini-badges (sorted T7..T0)
+      var tierKeys = Object.keys(s.tiers).sort(function (a, b) { return b.localeCompare(a); });
+      var tierBadges = '';
+      tierKeys.forEach(function (t) {
+        var cls = 'tier-' + (t.match(/^T[0-7]$/) ? t : 'q');
+        tierBadges += '<span class="tier-badge ' + cls + '" ' +
+          'style="font-size: 0.72em; padding: 0.15em 0.45em; min-width: 2.4em;" ' +
+          'title="' + escapeHtml(s.tiers[t]) + ' paper(s) at tier ' + escapeHtml(t) + '">' +
+          escapeHtml(t) + ' ×' + s.tiers[t] + '</span>\n';
+      });
+
+      html += '<a class="landing-card-link" href="' + escapeHtml(pageFile) + '" ' +
+        'style="text-decoration: none; color: inherit; display: block;">\n' +
+        '<div class="landing-card" ' +
+        'style="background: ' + m.bg + '; border-left: 4px solid ' + m.accent + '; ' +
+        'transition: box-shadow 0.2s, transform 0.2s;" ' +
+        'onmouseover="this.style.boxShadow=\'0 4px 16px rgba(0,0,0,0.10)\';this.style.transform=\'translateY(-2px)\';" ' +
+        'onmouseout="this.style.boxShadow=\'\';this.style.transform=\'\';">' +
+        '<div style="display: flex; align-items: center; gap: 0.7em; margin-bottom: 0.4em;">' +
+        '<span style="font-size: 1.6em; color: ' + m.accent + ';">' + m.icon + '</span>' +
+        '<h3 style="margin: 0; font-size: 1.15em; color: ' + m.accent + ';">' +
+        escapeHtml(categoryLabel(cat)) + '</h3>' +
+        '<span style="margin-left: auto; font-weight: 700; color: ' + m.accent + '; ' +
+        'font-size: 1.4em;">' + s.count + '</span>' +
+        '</div>\n' +
+        '<p style="margin: 0 0 0.5em 0; font-size: 0.86em; font-weight: 500; color: ' + m.accent + ';">' +
+        escapeHtml(m.tagline) + '</p>\n' +
+        '<p style="margin: 0; color: #555; font-size: 0.92em; line-height: 1.5;">' +
+        escapeHtml(categoryDescr(cat)) + '</p>\n' +
+        '<div style="margin-top: 0.9em; display: flex; flex-wrap: wrap; gap: 0.35em;">' +
+        tierBadges + '</div>\n' +
+        '<div style="margin-top: 0.9em; padding-top: 0.7em; border-top: 1px solid rgba(0,0,0,0.06); ' +
+        'color: ' + m.accent + '; font-weight: 500; font-size: 0.92em;">' +
+        'Browse all ' + s.count + ' →</div>\n' +
+        '</div></a>\n';
     });
 
     html += '</div>\n</div>\n';
