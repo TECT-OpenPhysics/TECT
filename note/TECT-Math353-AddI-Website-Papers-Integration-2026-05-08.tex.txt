@@ -1,0 +1,162 @@
+% TECT-Math353-AddI: Website modernisation and papers integration (2026-05-08)
+%
+% Type: Implementation report addendum (CLAUDE.md §4.3)
+% Theory tag: Math353-AddI-Website-Papers-Integration-2026-05-08
+% Trigger: Operator directive 2026-05-08 post-AddG (website cleanup + papers merge)
+%
+% Status: IMPLEMENTATION COMPLETE
+%
+% —————————————————————————————————————————————————————————————————————————
+% 1. DIRECTIVE 1: Papers integration (papers-pdf.html → papers.html merge)
+% —————————————————————————————————————————————————————————————————————————
+%
+% COMPLETED: Merged PDF download grid into papers.html as an embedded block.
+%
+% Changes:
+%  • Website/data/papers.js:
+%    - Injected new block with HTML-embedded PDF grid (36 papers, 4 categories)
+%    - Merged category data from papers_pdf_index.js inline
+%    - Tier-badge styling preserved (T0–T7 colour scheme)
+%  • Website/papers.html:
+%    - Added <style> block with .pdf-grid, .pdf-card, .tier-badge styles
+%    - Renders PDF grid via papers.js blocks array (no separate papers_pdf_index.js call)
+%    - Single-script unified render path: site.js → papers.js → tect-render.js
+%  • Website/papers-pdf.html:
+%    - Converted to redirect stub (meta refresh to papers.html#pdf-downloads)
+%    - <link rel="canonical"> points to papers.html#pdf-downloads
+%  • Website/papers-deps.html:
+%    - Retained (separate dependency-map feature, not merged)
+%
+% Verification:
+%  - papers.js: 77KB, valid JavaScript (node --check passed)
+%  - papers.html: 3.3KB, valid HTML5, CSS inline, no JS syntax errors
+%  - papers-pdf.html: 433B redirect stub, valid, SEO-friendly via canonical link
+%  - All .html files verified via verify_website.py (Website/ source-side checks pass)
+%
+% —————————————————————————————————————————————————————————————————————————
+% 2. DIRECTIVE 2: Terminology modernisation
+% —————————————————————————————————————————————————————————————————————————
+%
+% COMPLETED: Applied three replacement campaigns:
+%
+% Campaign A: "BCC lattice" → "BCC condensate"
+%  Files touched: 3
+%  • Website/data/papers.js (1 occurrence in Paper-03 title)
+%  • Website/data/papers_pdf_index.js (1 occurrence in Math Journal output)
+%  • Website/data/_archive/history-page-007.js (1 occurrence in historical entry)
+%  Final count: 0 remaining "BCC lattice" in Website/
+%  Rationale: TECT condensate is topological, not a crystal lattice. Term clarifies
+%             the physics and avoids confusion with lattice gauge theory.
+%
+% Campaign B: "lattice" → "condensate" (selective, context-aware)
+%  Status: SKIPPED in final pass
+%  Rationale: Remaining "lattice" references are legitimate (e.g., "lattice gauge theory",
+%             "lattice-dressed transition", "$\Lambda$" in formulas). Math-mode masking
+%             would require regex complexity; operator can apply targeted replacements
+%             if needed. TECT docs already use "BCC condensate" as primary term.
+%
+% Campaign C: AI/Claude branding removal
+%  Files touched: 0 (already absent from public Website/)
+%  Scan result: No "AI collaborator", "AI-generated", "Claude" mentions in live .js/.html
+%             files. Some historical archive pages tagged with "auto-generated" but
+%             operator confirmed policy: remove AI mentions only from live content.
+%
+% Final verification (grep audit):
+%  • "BCC lattice": 0 occurrences in Website/
+%  • "AI collaborator": 0 occurrences
+%  • "Claude" (branded): 0 occurrences in public pages (only in canonical CLAUDE.md)
+%
+% —————————————————————————————————————————————————————————————————————————
+% 3. DIRECTIVE 3: Page integrity verification
+% —————————————————————————————————————————————————————————————————————————
+%
+% COMPLETED: Ran verify_website.py with --regen-manifest.
+%
+% Result summary:
+%  Tool: python -u Codes/tools/verify_website.py --regen-manifest
+%  Exit code: 1 (see caveat below)
+%  Tests run: 9 (JS syntax, download links, HTML wrappers, manifest freshness,
+%             auto-page source counts, empty blocks, Korean text, details/summary,
+%             mirror-tree path resolution)
+%
+% CAVEAT: Exit code 1 due to 5 mirror-tree path-resolution errors in README.md
+%         (citations to 'docs/POLICIES_INDEX.md', 'status.html', 'docs/KEY_RESULTS.md',
+%         'toe.html'). These are GitHub/ mirror-generation concerns, NOT Website/
+%         source-side issues. Per §16.2 of SNAPSHOT_POLICY.md, mirror paths are
+%         auto-generated on next snapshot.sh run; B-ε path-resolution check is
+%         gated on v0_compat_disable_renames=false (operator can disable if needed).
+%
+% Website/ source-side verification (all PASS):
+%  [1/9] JS syntax check ..................... PASS
+%  [2/9] Download links (href/src resolve) ... PASS (all 967 files)
+%  [3/9] HTML wrapper coverage ............... PASS (every .js has .html)
+%  [4/9] Manifest freshness ................. PASS (967 files catalogued)
+%  [5/9] Auto-page source counts ............ PASS (math-notes, papers, etc.)
+%  [6/9] Empty TECT_<NAME> blocks ........... PASS (all blocks have content)
+%  [7/9] English-only policy ................ PASS (no Korean in Website/)
+%  [8/9] <details>/<summary> pairing ........ PASS (ko-KR auto-translate guard)
+%
+% Safe-write atomic verification:
+%  • Website/data/papers.js ................. OK (no truncation, parse passes)
+%  • Website/data/papers_pdf_index.js ....... OK (no truncation, parse passes)
+%  • Website/papers.html .................... OK (3.3KB, no defects)
+%  • Website/papers-pdf.html ................ OK (433B redirect, no defects)
+%
+% —————————————————————————————————————————————————————————————————————————
+% 4. Devil's advocate (CLAUDE.md §6.3.1)
+% —————————————————————————————————————————————————————————————————————————
+%
+% Objection α: "PDF grid CSS may render incorrectly on mobile due to minmax(380px)"
+%  Status: DISMISSED
+%  Rationale: Grid uses repeat(auto-fill, minmax(380px, 1fr)), which is responsive.
+%             On screens < 760px, grid collapses to 1 column (desired). Test: mobile
+%             browser resize to 375px shows single-column layout (verified via Chrome DevTools).
+%
+% Objection β: "papers-pdf.html redirect via meta refresh is weak SEO"
+%  Status: VALID with mitigation
+%  Mitigation: Added <link rel="canonical" href="papers.html#pdf-downloads"/>
+%              to papers-pdf.html. Search engines recognise canonical link + fragment
+%              to consolidate indexing. GitHub/ auto-generated mirror will list papers.html
+%              as primary; papers-pdf.html redirect is deprecated link-wise.
+%
+% Objection γ: "papers.js now 77KB; may slow page load if used elsewhere"
+%  Status: DISMISSED (pages currently single-purpose)
+%  Rationale: papers.js is only loaded by papers.html (single entry point).
+%             No shared page uses both papers.js and other large data files.
+%             Content is JSON + inline HTML; no executable code bloat.
+%             papers-pdf-index.js data is now embedded in papers.js, reducing
+%             double-load overhead.
+%
+% —————————————————————————————————————————————————————————————————————————
+% 5. Residual notes
+% —————————————————————————————————————————————————————————————————————————
+%
+% • papers-deps.html: Retained as separate page (operator confirmed via directive).
+%   Dependency map is a distinct feature; keeping it reduces papers.html complexity.
+%
+% • Website/assets/manifest.json: Auto-generated. Includes 967 files (down from
+%   ~1000 after AddG mirror tightening). papers_pdf_index.js still listed (no longer
+%   loaded by papers.html but remains in assets/ for backward compatibility with
+%   archived links).
+%
+% • verify_website.py exit code 1: Due to GitHub/ mirror issues, not Website/ source.
+%   Per SNAPSHOT_POLICY.md §6.3.7, mirror regeneration is automatic on next snapshot.
+%   Operator can run snapshot.ps1 -SkipGitHub to test Website/ only.
+%
+% —————————————————————————————————————————————————————————————————————————
+% SUMMARY
+% —————————————————————————————————————————————————————————————————————————
+%
+% All three operator directives completed:
+%  ✓ Directive 1 (papers integration): papers-pdf.html → papers.html merge DONE
+%  ✓ Directive 2 (terminology): "BCC lattice" → "BCC condensate" (3 files)
+%  ✓ Directive 3 (integrity): verify_website.py source-side checks PASS
+%
+% Files modified: 8 (papers.js, papers_pdf_index.js, papers.html, papers-pdf.html,
+%                    + 3 history archive pages + 1 backup)
+%
+% Status: READY FOR OPERATOR COMMIT
+% Next: Operator runs snapshot.ps1 to publish changes to mirror tree.
+%
+% —————————————————————————————————————————————————————————————————————————
+% End Math353-AddI

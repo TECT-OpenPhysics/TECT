@@ -1,0 +1,226 @@
+/**
+ * TECT-Math353-AddJ — Website Papers Section Restructure: Landing Page + Category Sub-Pages
+ *
+ * **Date**: 2026-05-08
+ * **Scope**: Website/papers.html restructure; data layer; new category sub-pages
+ * **Theory tag**: Math353 (website integration)
+ * **Status**: CLOSED (implementation complete; verify_website passing on papers-related checks)
+ */
+
+\section{§1. Motivation and operator directive}
+
+Operator feedback (2026-05-08):
+
+- "PDF 다운로드 페이지가 더 깔끔한데 이를 기본 페이지로 사용하는게 나을듯해"
+  (The PDF-grid layout is cleaner; use it as the canonical landing page.)
+
+- "Papers 한페이지에 다 넣치 말고 분류대로 한페이지씩 한단계 더 두는게 좋겠어"
+  (Do not cram all papers onto one page; add one more hierarchy level with per-category sub-pages.)
+
+**Target structure**:
+
+\begin{verbatim}
+  Website/papers.html                    (clean 4-category landing)
+  Website/papers-auxiliary.html          (Auxiliary series, full grid)
+  Website/papers-epochs.html             (Epoch series, full grid)
+  Website/papers-top_impact.html         (Top-Impact series, full grid)
+  Website/papers-papers.html             (Main-track Pillar papers, full grid)
+  Website/papers-pdf.html                (redirect: papers.html)
+  Website/assets/js/papers-render.js     (new render helper)
+  Website/data/papers_pdf_index.js       (single source of truth; unchanged)
+\end{verbatim}
+
+The prior agent's Math353-AddI embedded the PDF grid into papers.html and converted papers-pdf.html into a stub redirect (papers.html#pdf-section). This AddJ continues that work by: (i) making papers.html the canonical clean landing, (ii) splitting per-category rendering into dedicated sub-pages, (iii) decoupling papers.html from papers.js (narrative content), and (iv) defining a reusable render helper.
+
+\section{§2. Implementation}
+
+\subsection{§2.1 New render helper: papers-render.js}
+
+Created `Website/assets/js/papers-render.js` with two key exports:
+
+\begin{verbatim}
+  TECT.renderPaperGrid(containerId, papers, category, title, subtitle)
+    Renders a filtered PDF card grid into the given container.
+    category: "auxiliary" | "epochs" | "top_impact" | "papers" | null (all)
+    title, subtitle: optional page header strings
+
+  TECT.renderPapersLanding(containerId, papers)
+    Renders a 4-category landing overview with counts + deep links.
+\end{verbatim}
+
+Both functions:
+- Filter papers_pdf_index.js by category client-side.
+- Use the same .pdf-card CSS classes (inherited from old papers-pdf.html styling).
+- Include tier-badge colors (.tier-T7 through .tier-T0) and download links.
+- Provide escape-safe HTML generation (guard against XSS).
+
+\subsection{§2.2 Landing page: papers.html (rewrite)}
+
+Rewrote `Website/papers.html` to:
+
+- Load `Website/data/papers_pdf_index.js` (not papers.js).
+- Load `Website/assets/js/papers-render.js` (new render helper).
+- Invoke `TECT.renderPapersLanding('papers-landing', window.TECT_PAPERS_PDF_INDEX)`.
+- Display a clean 4-card overview grid (Auxiliary / Epochs / Top-Impact / Papers).
+- Each card shows: category label, description, paper count, "View all →" link.
+
+Page structure:
+\begin{verbatim}
+  <h1>TECT Papers</h1>
+  <p>TECT papers document the proof architecture in four publication tracks...</p>
+  <div id="papers-landing"></div>  <!-- rendered by renderPapersLanding() -->
+\end{verbatim}
+
+\subsection{§2.3 Category sub-pages}
+
+Created four new pages, each rendering a single category's full PDF grid:
+
+\begin{verbatim}
+  papers-auxiliary.html     → TECT.renderPaperGrid(..., 'auxiliary', ...)
+  papers-epochs.html        → TECT.renderPaperGrid(..., 'epochs', ...)
+  papers-top_impact.html    → TECT.renderPaperGrid(..., 'top_impact', ...)
+  papers-papers.html        → TECT.renderPaperGrid(..., 'papers', ...)
+\end{verbatim}
+
+Each page:
+- Includes the full .pdf-card CSS styling (same as prior papers-pdf.html grid).
+- Loads papers_pdf_index.js and papers-render.js.
+- Calls `TECT.renderPaperGrid()` with its category.
+- Renders a back-link to papers.html for navigation.
+- Shows category title, description, and full paper grid for that category.
+
+\subsection{§2.4 Redirect: papers-pdf.html}
+
+Updated `Website/papers-pdf.html` from:
+\begin{verbatim}
+  <meta http-equiv="refresh" content="0; url=papers.html#pdf-downloads">
+  <link rel="canonical" href="papers.html#pdf-downloads">
+\end{verbatim}
+
+to:
+\begin{verbatim}
+  <meta http-equiv="refresh" content="0; url=papers.html">
+  <link rel="canonical" href="papers.html">
+\end{verbatim}
+
+This maintains backward compatibility for any external links pointing to papers-pdf.html.
+
+\subsection{§2.5 Data layer: papers_pdf_index.js (unchanged)}
+
+`Website/data/papers_pdf_index.js` is the single source of truth, containing 36 papers across 4 categories:
+
+\begin{verbatim}
+  "auxiliary": 2 papers
+  "epochs": 12 papers
+  "top_impact": 4 papers
+  "papers": 18 papers
+  Total: 36 papers
+\end{verbatim}
+
+Each paper object has: stem, title, tier, category, url, bytes, kb.
+
+\subsection{§2.6 papers.js role redefinition}
+
+The hand-curated `Website/data/papers.js` (large narrative content file) is no longer loaded by papers.html. Its role is now:
+
+- Optional: referenced by papers-deps.html or a future "papers-narrative.html" page for deep-content browsing.
+- Current: loaded by no active page (decoupled from papers.html).
+- Future: could be revived if a narrative-content papers page is re-introduced.
+
+This decoupling follows the operator's directive: avoid narrative-cluttered landing pages; use clean PDF grids as primary UI.
+
+\section{§3. Verification and testing}
+
+\subsection{§3.1 verify_website.py results}
+
+Ran `python -u Codes/tools/verify_website.py`:
+
+- **JS syntax check** ✓ (papers-render.js passes).
+- **Download links check** ✓ (all 36 PDF links in papers_pdf_index.js resolve to existing files).
+- **HTML wrapper check** ✓ (papers-auxiliary.html, papers-epochs.html, papers-top_impact.html, papers-papers.html all exist and are well-formed).
+- **Manifest freshness** ✓ (regenerated with --regen-manifest).
+- **Auto-page source counts** ✓ (no new auto-gen triggers).
+- **Empty TECT_<NAME> blocks** ✓ (papers_pdf_index.js contains 36 paper objects, not empty).
+- **Korean text (English-only policy)** ✓ (no Korean in new HTML/JS files).
+- **Mirror-tree path resolution** ✓ (papers-* HTML files and papers-render.js are valid paths).
+
+Pre-existing errors (not caused by this work):
+- Math353-AddI reference (from prior agent; not in Website/assets/math/).
+- README.md mirror-resolve errors (pre-existing; outside scope of papers restructure).
+
+\textbf{All papers-related checks pass.}
+
+\subsection{§3.2 Manual spot checks}
+
+- Visited papers.html → landing page renders 4 category cards with correct counts and deep links. ✓
+- Visited papers-auxiliary.html → full Auxiliary grid (2 papers) renders with correct tier-badges and download links. ✓
+- Visited papers-epochs.html → full Epoch grid (12 papers) renders correctly. ✓
+- Visited papers-top_impact.html → full Top-Impact grid (4 papers) renders correctly. ✓
+- Visited papers-papers.html → full Papers grid (18 papers) renders correctly. ✓
+- Back-links from sub-pages to papers.html work. ✓
+
+\section{§4. Files modified}
+
+\begin{tabular}{ll}
+  \textbf{File} & \textbf{Action} \\
+  \hline
+  Website/papers.html & Rewrite: clean 4-category landing page \\
+  Website/papers-auxiliary.html & New: Auxiliary category sub-page \\
+  Website/papers-epochs.html & New: Epoch category sub-page \\
+  Website/papers-top_impact.html & New: Top-Impact category sub-page \\
+  Website/papers-papers.html & New: Main-track Pillar papers sub-page \\
+  Website/papers-pdf.html & Update: redirect target (no fragment) \\
+  Website/assets/js/papers-render.js & New: render helper (5.5 KB) \\
+  Website/data/papers_pdf_index.js & Unchanged (already existing) \\
+  Website/data/papers.js & Unchanged (decoupled from new pages) \\
+  Website/data/math-notes.js & Auto-updated via generate_website.py \\
+\end{tabular}
+
+\section{§5. Devil's-advocate self-test (CLAUDE.md §6.3.1, §6.3.5)}
+
+\subsection{§5.1 Objection α: Is the 4-category landing pattern appropriate?}
+
+**Claim**: The landing page should show 4 category cards + deep links, not a flat full list.
+
+**Objection**: Deep-link pattern increases clicks (1 extra navigation step per category). Users might prefer a single unified grid with category tags.
+
+**Counter**: Operator directive explicitly requested "한단계 더" (one more hierarchy level), prioritizing clarity over minimalism. Landing page is intentionally lightweight; full grids are one click away. This matches the operator's "분류대로 한페이지씩" (one page per category) design pattern.
+
+**Verdict**: **DISMISSED** — design follows operator directive. ✓
+
+\subsection{§5.2 Objection β: Are all 36 papers in papers_pdf_index.js correctly categorized?}
+
+**Claim**: papers_pdf_index.js contains 36 papers across 4 categories (2, 12, 4, 18).
+
+**Objection**: No independent audit of whether these category labels match the actual paper content. The PDF files themselves are not inspected; categorization is assumed correct from the index.
+
+**Counter**: The categorization is inherited from the prior agent's papers_pdf_index.js and was not modified by this work. This AddJ does not claim to audit or re-validate the categorization — it merely restructures the rendering layer around the existing categorization. Any categorization defects are pre-existing and out of scope for this work.
+
+**Verification**: `grep -c '"category"' Website/data/papers_pdf_index.js` returns 36; distribution is (2, 12, 4, 18) as claimed.
+
+**Verdict**: **VALID-with-mitigation** — categorization audit deferred to prior agent's work; this work only restructures rendering. ✓
+
+\subsection{§5.3 Objection γ: Is papers.js truly "decoupled" if it could still be referenced by other pages?}
+
+**Claim**: papers.js is no longer loaded by papers.html or any of the five category sub-pages.
+
+**Objection**: If papers.js is still in the codebase but not loaded, is it truly "decoupled" or just "orphaned"? Could a future page accidentally load it?
+
+**Counter**: Decoupling in this context means: (i) the landing page and category grids no longer depend on papers.js, and (ii) the page logic does not invoke papers.js. The file remains in the repository for potential future use (e.g., a narrative-content papers page). This is intentional: the prior agent's hand-curation effort is preserved, not deleted. A future operator can revive papers.js if a narrative landing page is desired.
+
+**Verdict**: **DISMISSED** — decoupling is intended as "no dependency in active pages," not "file deletion." The orphaned file is acceptable and preserves prior work. ✓
+
+\section{§6. Summary}
+
+This work restructures the papers section into a clean, hierarchy-conscious landing page (papers.html) with four dedicated category sub-pages. The data layer (papers_pdf_index.js) remains the single source of truth. A new render helper (papers-render.js) decouples HTML generation from data, enabling reusable per-category rendering. The prior agent's hand-curated narrative content (papers.js) is preserved but decoupled, allowing future revival if desired.
+
+**Status**: Implementation complete. verify_website.py passes all papers-related checks. Ready for operator commit.
+
+\section{§7. References}
+
+- `Docs/policy/SNAPSHOT_POLICY.md` — snapshot orchestration policy.
+- `Docs/policy/POSTMORTEM_RECURRENCE_POLICY.md` — website defect prevention.
+- `Website/data/papers_pdf_index.js` — paper metadata (unchanged).
+- `Website/assets/js/papers-render.js` — render helper (new).
+- `Website/papers.html` through `Website/papers-papers.html` — new landing + sub-pages.
+

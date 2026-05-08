@@ -7,11 +7,35 @@ _Last curated: 2026-05-08 (UTC) -- auto-generated mirror of the canonical resear
 
 ---
 
+## Stage-1 Pillar Scoreboard
+
+**Aggregate $S_1$ qualification**: 4 × T7 PROVED + 2 × T6 PROVED CONDITIONAL + 1 × T5 CLOSED@1-loop + 3 × T4 STRONG EVIDENCE + 1 × T0/T2 hybrid. Until all 11 pillars reach $\geq$ T6, $S_1$ is PARTIAL.
+
+| # | Pillar (subject) | Canonical tier | Conditional inputs |
+|---|---|---|---|
+| 1 | BCC condensate uniqueness (mass $m^*$) | **T6 PROVED CONDITIONAL** | Math60-Stage 1 hypothesis list (regime-split: shallow T4, deep T0 post-Math350) |
+| 2 | Lorentz invariance + emergent metric | **T6 PROVED CONDITIONAL** | matter-coupling hierarchy |
+| 3 | Diffeomorphism invariance / gravity | **T5 CLOSED@1-loop** | higher-loop pending |
+| 4 | Gauge group emergence ($U(1)\times SU(2)\times SU(3)$) | **T4 aggregate** (atomic T6 post-Math268) | sub-task 1 T6, sub-task 2 T6 conditional on Lemmas A+B, sub-task 3 T6 conditional on Pillar 6 |
+| 5 | Standard-model fermion content (chirality) | **T7 PROVED** | — |
+| 6 | GUT unification (SO(10)) / Higgs mechanism | **T4 STRONG EVIDENCE** | Higgs scalar potential closure (Task #170; F-Pillar6 gate 2026-05-29) |
+| 7 | Spin-statistics / quantum consistency | **T7 PROVED** | — |
+| 8 | Equivalence principle / Lorentz emergence | **T7 PROVED** | — |
+| 9 | Geodesic motion | **T7 PROVED** | — |
+| 10 | Quantum completion ($\hbar$ origin) | **T0 + T2 hybrid** | classical no-go (T0) + phase-transition origin programme (T2) |
+| 11 | Cosmological observables ($\Lambda$ / dark energy) | **T4 STRONG EVIDENCE** | numerical BCC solution (Task #115) |
+
+Detailed per-pillar status, evidence chains, Math note links, and falsification gates: [`status/TOE-FACT-SHEET.md`](status/TOE-FACT-SHEET.md). Forbidden phrases ("essentially proved", "almost closed", etc.) are not used anywhere in this repo; the canonical T0--T7 tiers are the single source of truth.
+
+**Critical-path falsification gates** (per Math289 / Math353-AddE): F-GAP4-DEFECT-MASS (2026-05-14 hard), F-GAP1 $\hbar$ matching (2026-05-22), F-Pillar6 (2026-05-29). See [`status/OPEN-QUESTIONS.md`](status/OPEN-QUESTIONS.md) for active items.
+
+---
+
 ## What is TECT?
 
 TECT is a research programme that derives the Standard Model (SM) gauge structure, general relativity (GR), and the quantum constants of nature ($\hbar$, $\Lambda$) as **low-energy consequences of a single primordial three-dimensional body-centred-cubic (BCC) topological condensate** of an O(n) order parameter. The condensate is governed by Brazovskii-type free-energy dynamics; the BCC ground state breaks rotational symmetry to the cubic point group $O_h$ but preserves CP and translation. Pillar-by-pillar emergence theorems (Pillars 1–11) show that mass, kinematic Lorentz invariance, gravity, gauge structure, fermion content, Higgs mechanism, electroweak breaking, QCD confinement, the cosmological constant, the no-classical-$\hbar$ no-go theorem, and chirality each arise from the same underlying lattice condensate without additional structural input.
 
-The framework is graded against an explicit **TOE qualification predicate** $\mathrm{TOE} := S_1 \wedge S_2 \wedge S_3$ (per `Math60-TOE-Global-Closure-Spec`), extended below to a six-stage roadmap that includes cosmological extension, external verification, and publication acceptance. All claims are pinned to specific Math notes (`Docs/math/TECT-Math<NN>-*.tex.txt`) with explicit T0–T7 tier labels (per [STATUS_NOMENCLATURE.md](docs/POLICIES_INDEX.md)).
+The framework is graded against an explicit **TOE qualification predicate** $\mathrm{TOE} := S_1 \wedge S_2 \wedge S_3$ (per `Math60-TOE-Global-Closure-Spec`), extended below to a six-stage roadmap that includes cosmological extension, external verification, and publication acceptance. All claims are pinned to specific Math notes (`Docs/math/TECT-Math<NN>-*.tex.txt`) with explicit T0–T7 tier labels (per [STATUS_NOMENCLATURE.md](status/policy/STATUS_NOMENCLATURE.md)).
 
 ## Foundational axioms (Math195)
 
@@ -50,13 +74,13 @@ Compact comparison of TECT against three reference frameworks: the **Standard Mo
 | Falsifiable predictions | **3 pre-registered + Kibble–Zurek GW (Math172)** | **Many** | **Few** — energies inaccessible | **Few** — kinematic mostly |
 | Empirical agreement (current) | **Partial** — classical sector agrees; cosmology rescoped to Kibble–Zurek with PROVISIONAL GW prediction | **Excellent** within scope | **Untested** | **Untested** |
 
-*Reading the table*: TECT's distinguishing claim is **axiom-level parameter compression** -- fewer foundational inputs than the listed alternatives -- purchased at the cost of an active Pillar-4 sub-task 3 closure path and an open quantum-consistency closure path. The live, interactive version of this comparison (with per-cell tooltips and the live cross-framework narrative) is at [status.html](status.html) on the published site.
+*Reading the table*: TECT's distinguishing claim is **axiom-level parameter compression** -- fewer foundational inputs than the listed alternatives -- purchased at the cost of an active Pillar-4 sub-task 3 closure path and an open quantum-consistency closure path. The live, interactive version of this comparison (with per-cell tooltips and the live cross-framework narrative) is at [status.html](site/status.html) on the published site.
 
-Detailed per-pillar status: [docs/KEY_RESULTS.md](docs/KEY_RESULTS.md). The interactive site is published at [tect.kr](https://tect.kr); the GitHub mirror is browsable from the repository root by opening `index.html` directly.
+Detailed per-pillar status: [`status/TOE-FACT-SHEET.md`](status/TOE-FACT-SHEET.md). The interactive site is published at [tect.kr](https://tect.kr); the GitHub mirror is browsable from the repository root by opening `index.html` directly.
 
 ## TOE — 6-Stage Roadmap (canonical, construction-order)
 
-The 11 emergence pillars and the $S_1 \wedge S_2 \wedge S_3$ qualification predicate are re-arranged into a **6-Stage roadmap** that traces the natural construction order from BCC condensate to TOE: classical gravity emergence → quantum gravity extension → $\hbar$ generation → SM integration → QFT unification → TOE completion. Each Stage groups multiple Pillars and gates; status reflects the post-Math310 (Turn 80, 2026-05-01) state with the AUDIT-2026-05-01-Math310-N16-Wording correction applied. This 6-Stage view is the canonical presentational re-mapping mirrored from [toe.html](toe.html) on the live site.
+The 11 emergence pillars and the $S_1 \wedge S_2 \wedge S_3$ qualification predicate are re-arranged into a **6-Stage roadmap** that traces the natural construction order from BCC condensate to TOE: classical gravity emergence → quantum gravity extension → $\hbar$ generation → SM integration → QFT unification → TOE completion. Each Stage groups multiple Pillars and gates; status reflects the post-Math310 (Turn 80, 2026-05-01) state with the AUDIT-2026-05-01-Math310-N16-Wording correction applied. This 6-Stage view is the canonical presentational re-mapping mirrored from [toe.html](site/toe.html) on the live site.
 
 | Stage | Goal | Pillars / gates included | Status (2026-05-01) | Anchor results |
 |---|---|---|---|---|
@@ -65,11 +89,11 @@ The 11 emergence pillars and the $S_1 \wedge S_2 \wedge S_3$ qualification predi
 | **3** | Planck constant ($\hbar$) generation | Pillar 10 ($\hbar$ origin), GAP-1 ($\hbar$ matching) | **PARTIAL-ADVANCED → STRONGER post-Math291** (master formula RECONCILED to canonical Formula B; matter-side substantiated; GAP-1 = T4 with explicit T6 promotion path via Math299 joint event) | Math79-AddB (classical no-go theorem); Math98-AddA-E (KZ quench, Volovik shell, Berry, Onsager-Machlup); **Math291** (corrected master $\hbar_{\rm TECT} = c^3 a_{\rm BCC}^2/(16\pi G)$, Formula A errata); Math163 (boson-loop subdominance $R \approx 0.12$); Math296 ($\gamma_\hbar^{(1)}$ first-principles); Math297 (continuum-limit error budget); Math298 (3-sector decomposition); Math299 (joint-event T4 → T6 condition) |
 | **4** | Standard Model integration (SM + GUT) | Pillars 4 (gauge), 5 (chirality), 6 (Higgs), 7 (per-gen consistency), 11 ($\Lambda$); GAP-3 (anomaly) | **NEAR-CLOSURE post-R8 + 20-turn defence (Math270-310)** (Pillar 4 atomic = T6 PROVED CONDITIONAL via Math270 + Math279; Math302 $H_{\rm task}$ carve-out two-component record; GAP-3 = T6 PROVED CONDITIONAL via Math281; Pillar 6 first $\Delta F < 0$ broken-energy data point achieved at N=16, Math292 $\mathcal A_{\rm valid}$ pending transverse projection per Math310-AddA) | Math80-AddA + Math162 + Math191/192 (Pillar 4 sub-task 1 + 2 PROVED CONDITIONAL); Math157 + Math281 (SO(10) $\mathbf{16}$ anomaly six coefficients exact zero); Math229 (sub-task 3 Cartan forcing); Math242 (cubic-sublattice ladder); Math270 + Math279 (atomic defence + final restatement); Math305 ($\Sigma_0$ Cech atlas); Math288 + Math300 (defect-mass F-GAP4-DEFECT-MASS verdict template); Math58-v7 (Pillar 11 $\Lambda$ four-sector cancellation); Math10-14 (chirality) |
 | **5** | Quantisation and QFT unification | Pillar 1 (mass gap), Stage-2 Math60-A..E sub-theorems, GAP-1/2/3/4 collectively | **PARTIAL → STRENGTHENED post-R8** (5/5 Math60 sub-theorems SEALED; 3/4 quantum gates promoted to T6 PROVED CONDITIONAL; Stage-2 composite = T3 PROOF SKETCH via min-rule; T6 promotion gated on Math307 joint event) | Math82-AddF (Pillar 1 numerical anchor $m^{*2}_{\rm num} = +4.247\!\times\!10^{-2}$); Math60-A meta-consistency (Math83); Math60-B parameter compression $4.75\times$ vs SM 19; Math60-C-AddD QO1-3 closed form; Math60-D global injectivity; Math60-E falsifiability (3 pre-registered + Math172); Math292 (4-gauge acceptance criterion); Math293 (3-class false-negative taxonomy); Math301 (min-rule explanatory); Math307 (Stage-2 promotion path) |
-| **6** | TOE completion ($S_1 \wedge S_2 \wedge S_3$ unconditional) | All 11 Pillars + S1, S2, S3 final closure | **PARTIAL → on track** (theoretical layer ACHIEVABLE in remaining Phase 8-14 of next 20-turn arc Math311-330; phenomenological layer gated on SKA / IPTA-2 2028-2030) | Math60 spec ($\mathrm{TOE} := S_1 \wedge S_2 \wedge S_3$); Math193 (self-containment 3-layer analysis); Math195 (A2 axiom reduction → effective **2-axiom theory**: 1 physics + 1 cosmological); Math190 + Math269 + Math289 + Math310 (autonomous-arc final syntheses); Math172 + Math196 (Stage-3 PROVISIONAL prediction $\Omega_{\rm GW} \sim 10^{-15}$ at PTA, observable by SKA / IPTA-2 2028-2030); [`docs/PHASE_8_TO_14_PLAN.md`](docs/PHASE_8_TO_14_PLAN.md) (next-20-turn closure roadmap) |
+| **6** | TOE completion ($S_1 \wedge S_2 \wedge S_3$ unconditional) | All 11 Pillars + S1, S2, S3 final closure | **PARTIAL → on track** (theoretical layer ACHIEVABLE in remaining Phase 8-14 of next 20-turn arc Math311-330; phenomenological layer gated on SKA / IPTA-2 2028-2030) | Math60 spec ($\mathrm{TOE} := S_1 \wedge S_2 \wedge S_3$); Math193 (self-containment 3-layer analysis); Math195 (A2 axiom reduction → effective **2-axiom theory**: 1 physics + 1 cosmological); Math190 + Math269 + Math289 + Math310 (autonomous-arc final syntheses); Math172 + Math196 (Stage-3 PROVISIONAL prediction $\Omega_{\rm GW} \sim 10^{-15}$ at PTA, observable by SKA / IPTA-2 2028-2030); internal Phase 8-14 planning roadmap (local-only) (next-20-turn closure roadmap) |
 
 **Effective axiom count post-Math195**: TECT = **1 physics axiom (A0 BCC condensate) + 1 cosmological axiom (cooling $T(t)$)**. Comparable to Einstein GR (1-2 + 1-2 = 2-4); strictly fewer than SM (~7), LQG (~5-6), String/M (~6-11).
 
-**One-glance synthesis**: Stages 1-4 are well-advanced (1 COMPLETED ✓, 2/3 PARTIAL-ADVANCED-STRONGER, 4 NEAR-CLOSURE with two-component (T6, realization PENDING) record). Stage 5 is PARTIAL but reducible (Stage-2 composite T3 → T6 promotion via Math307 joint event). Stage 6 (final TOE qualification) is on a clear trajectory: theoretical-layer self-completion ACHIEVABLE in 20 more autonomous turns (Math311-330, see [`docs/PHASE_8_TO_14_PLAN.md`](docs/PHASE_8_TO_14_PLAN.md)); phenomenological-layer self-completion gated on SKA (calendar-dependent, not mathematics-dependent). The five active falsification gates carry hard deadlines spanning 2026-05-14 to 05-29 and pre-registered failure-mode taxonomies.
+**One-glance synthesis**: Stages 1-4 are well-advanced (1 COMPLETED ✓, 2/3 PARTIAL-ADVANCED-STRONGER, 4 NEAR-CLOSURE with two-component (T6, realization PENDING) record). Stage 5 is PARTIAL but reducible (Stage-2 composite T3 → T6 promotion via Math307 joint event). Stage 6 (final TOE qualification) is on a clear trajectory: theoretical-layer self-completion ACHIEVABLE in 20 more autonomous turns (Math311-330, see internal Phase 8-14 planning roadmap (local-only)); phenomenological-layer self-completion gated on SKA (calendar-dependent, not mathematics-dependent). The five active falsification gates carry hard deadlines spanning 2026-05-14 to 05-29 and pre-registered failure-mode taxonomies.
 
 ## How to navigate this repository
 
@@ -80,7 +104,7 @@ The 11 emergence pillars and the $S_1 \wedge S_2 \wedge S_3$ qualification predi
 - `CHANGELOG.md` — full chronological change log (root of the main repository; mirrors are auto-generated from this file).
 - `CITATION.cff` — citation metadata (auto-generated).
 
-All artefacts in this repository are written in English per the [output-language policy](docs/POLICIES_INDEX.md).
+All artefacts in this repository are written in English per the [output-language policy](status/policy/OUTPUT_LANGUAGE_POLICY.md).
 
 ## License & maintainer
 
