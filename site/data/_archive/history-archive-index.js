@@ -1,4 +1,4 @@
-// AUTO-GENERATED v0.3 history archive index — 2026-05-08 15:44 UTC
+// AUTO-GENERATED v0.3 history archive index — 2026-05-08 16:10 UTC
 window.TECT_HISTORY_ARCHIVE_INDEX = {
   title: "History Archive Index",
   subtitle: "All history pages (newest first). Each contains up to 30 CHANGELOG entries.",

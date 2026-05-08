@@ -37,13 +37,46 @@ _A candidate Theory of Everything built on an effectively two-axiom foundation (
 
 **TECT** proposes that the Standard Model, General Relativity, and the quantum and cosmological structure of nature all emerge as low-energy consequences of a single object: the order parameter $\Psi$ of an emergent three-dimensional BCC topological condensate, governed by the Brazovskii free energy $\mathcal F[\Psi]$ on its first-order locked branch. Particles are defect excitations of the condensate, gauge fields are Berry connections on the emergent band structure, gravity is a long-wavelength elastic response, and quantum mechanics is the thermodynamic language of fluctuations around the locked vacuum.
 
+The framework distinguishing claim is **axiom minimality**: after the Math195 reduction, two foundational axioms (one physics + one cosmological), against the much larger publicly stated input lists of SM, GR, GUT, String, LQG, and Wolfram Physics. The price of this minimalism is that essentially every empirical observation must be *derived* rather than postulated.
+
+The BCC ordering itself is a **derivation**, not an assumption. TECT postulates only a $\mathbb Z_2$-symmetric continuum field with a Brazovskii spectral minimum on the shell $|\mathbf k|=q_0$; the BCC condensate emerges as the energetically selected ordered phase of that universality class — the first-order weak-crystallisation outcome that Brazovskii (1975) showed is the most generic instability of a symmetric continuum order parameter with a finite-momentum minimum. The Theory page makes this emergence explicit. The framework design principle is &quot;minimum assumption + maximally reasonable initial datum&quot;, never *ad hoc* fitting.
+
+This site presents TECT *as it actually stands*. Proved parts are clearly marked as proved, conditional parts as conditional, retracted parts as retracted. Every status claim links to its evidence file in `Docs/math/` and every numerical result carries a unique $R$-tag tied to a code fingerprint. The append-only [History](https://tect.kr/history.html) page records every retraction.
+
 ## Latest state snapshot (2026-04-27)
 
 **Headline**: TECT remains a Partial TOE candidate. Classical sector strong; quantum-completion sector strengthening but not sealed. Pillar 4 sub-task 2 is now PROVED CONDITIONAL (Scenario B confirmed via Math191+Math192).
 
+| Predicate | State | Critical task |
+|---|---|---|
+| $S_1$ — eleven pillars | PARTIAL | Pillar 4 sub-tasks 1 + 2 PROVED CONDITIONAL; sub-task 3 STRONG DRAFT. |
+| $S_2$ — Global Closure + 4 quantum gates | PARTIAL | GAP-2 + GAP-3 unconditional unblock once Pillar 4 sub-task 3 closes. |
+| $S_3$ — external phenomenology | PROVISIONAL prediction | Math172 Kibble–Zurek GW $\Omega_{\rm GW}\sim 10^{-15}$ at PTA, observable by SKA 2028–2030. |
+**Most recent advances**:
+
+- `Math157` — rigorous SO(10) $\mathbf{16}$ anomaly cancellation via group-theoretic trace.
+- `Math171-AddA` — corrected Hirzebruch–Riemann–Roch formula $\mathrm{ind}(D_E^c) = 16 - \mu$.
+- `Math191 + Math192` — Pillar 4 sub-task 2 RESCUED via Scenario B.
+- `Math194` — BCC uniqueness PROVED among 9 crystallographic competitors.
+- `Math195` — A2 axiom-reduction theorem; effective TECT axiom count = 2.
+
+For the full quantum-theory proof-status table see [Status](https://tect.kr/status.html).
+
 ## Comparison vs other candidate frameworks (compact)
 
 One-glance positioning of TECT against three reference frameworks: the **Standard Model (SM)**, **Superstring / M-theory**, and **Loop Quantum Gravity (LQG)**. &quot;Predicts&quot; means the framework derives the listed item from its axioms rather than postulating it externally.
+
+| Axis | TECT | Standard Model | Superstring / M | Loop Quantum Gravity |
+|---|---|---|---|---|
+| Foundational axioms | **2** ($\mathbb Z_2$-symmetric Brazovskii continuum + cooling history $T(t)$); BCC ordering derived; Math195 | ~26 parameters + chosen gauge group + 3 generations | 5–10 (10/11-dim spacetime, branes, compactification, flux, SUSY, vacuum) | 4–5 (spin-network kinematics, holonomy/flux algebra, dynamics, semiclassical limit) |
+| Predicts SM gauge group | PROVED CONDITIONAL — Math80-AddA + Math162 + Math191/192 | No — postulated | Landscape — no unique selection | No — gauge content imported |
+| Predicts gravity | Yes — emergent spin-2 graviton (Pillar 3 CLOSED@1-loop) | No | Yes — closed-string graviton mode | Yes — quantises GR by construction |
+| Predicts $\hbar$ | CONDITIONAL — $\hbar = c^3 a_{\rm BCC}^2/(16\pi G)$ (Math110-AddI) | No | No | No |
+| Predicts $\Lambda$ | CONDITIONAL — Math58-v7 four-sector cancellation | No | No | No |
+| Quantum-consistent | Partial — anomaly cancellation conditional on Pillar 4 | Yes | Yes (perturbative) | Partial |
+| Falsifiable predictions | 3 pre-registered + KZ GW (Math172) | Many | Few | Few |
+| Empirical agreement | Partial — classical sector agrees | Excellent within scope | Untested | Untested |
+*Reading the table*: TECT distinguishing claim is parameter compression — the smallest published foundational input list among comparable candidates.
 
 ## How to navigate this repository
 
