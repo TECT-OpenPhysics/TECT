@@ -23,6 +23,30 @@ approach.
 
 ## R — Retracted results
 
+### R-2026-05-09-Math372-Sign-Error-Claim-Retraction
+
+**Date**: 2026-05-09 (same day as Math372 creation; retracted within hours of source-code verification).
+**Theory tag**: Math373 (`Docs/math/TECT-Math373-Math372-Sign-Error-Claim-RETRACTION-and-Canonical-Free-Energy-Restoration.tex.txt`)
+**Type**: R-retracted. Retracted note: Math372.
+
+**Retracted claim**: That the locked Math82 parameter $\lambda = -0.43$ is a sign error and must be flipped to $+0.43$ for the BCC condensate to be a local minimum of the Brazovskii free energy.
+
+**Why retracted**: Math372 analysed a TOY free energy (the form encoded in `Codes/supplementary/Math369_simple_BCC_hessian.py` and `Math370_full_BCC_hessian_FFT.py`) that omits the canonical sextic stabiliser $\gamma\Psi^6/3$ and misinterprets $\gamma$ as a gradient coefficient instead of a sextic coefficient. The canonical TECT Brazovskii free energy, source-grounded in `Codes/pde/real_backend_pt_bcc_mixed_v3.py:532-602` (`shell_free_energy`), is
+
+$$\mathcal{F}[\Psi]=\int d^3r\left[\tfrac{r}{2}\Psi^2+\tfrac{Z}{2}|\nabla\Psi|^2+\tfrac{Y}{2}|\Delta\Psi|^2+\tfrac{\lambda}{2}\Psi^4+\tfrac{\gamma}{3}\Psi^6\right]$$
+
+with locked $(\mu^2,\lambda,\gamma,Y,Z,q_0)=(+0.26,-0.43,+1.62,1.0,-0.9252754126,0.6801747616)$ and $r=\mu^2+Yq_0^4=0.4740$. The canonical form is bounded below for $\gamma>0$ regardless of $\lambda$ sign; $\lambda<0$ encodes the first-order Brazovskii transition, $\gamma>0$ stabilises the condensate. No sign flip is required.
+
+**Cascade also AUDIT-FLAGGED**: Math369, Math370, Math371 — all three operated on the toy free energy and therefore tell us nothing about the canonical TECT theory. Their results should not be cited.
+
+**What still stands**: The operator audit verdict (Math369 acceptance) downgrading Pillar 4 sub-task 2 from T6 to T2 is INDEPENDENT of the Math369–372 retraction. The audit's grounds were Math358/359 expected-only output, Math363 deferred numerics, and Math365/366/368 closure overclaim — none depended on the toy-form computation. Pillar 4 sub-task 2 status remains T2 CONJECTURE.
+
+**Corrective action (Math374, queued)**: Implement the canonical Brazovskii Hessian using the production `shell_free_energy` backend or a faithful reimplementation including BOTH quartic and sextic terms, evaluate at the canonical BCC stationary point $\phi_0 \approx 0.266$ (per `bcc_analytic_seed.py`), and Lanczos-extract the lowest 50 eigenvalues at $N=32$. Pre-registered success criterion: $\lambda_{\min} \geq -10^{-6}|\lambda_{50}|$ with at least 3 Goldstone-zero modes. Pre-registered falsification criterion: any $\lambda < -10^{-3}|\lambda_{50}|$ with non-Goldstone Ritz overlap $>0.5$ refutes the canonical-form BCC local-minimum claim.
+
+**Follow-up tracking**: `Q-2026-05-09-Supplementary-Hamiltonian-Audit` (audit all `Codes/supplementary/Math*.py` for canonical-vs-toy Hamiltonian consistency).
+
+---
+
 ### AUDIT-2026-05-02-Wave7-Aux-Epoch-Overclaim
 
 **Date**: 2026-05-02 (within 1 day of Math310-AddA wording correction).

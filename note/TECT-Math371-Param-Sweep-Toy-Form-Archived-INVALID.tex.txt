@@ -1,0 +1,101 @@
+% =====================================================================
+% TECT Math Note 371 — (mu^2, lambda) parameter sweep (TOY-FORM)
+% Created    : 2026-05-09
+% Status     : T0 INVALID (audit-flagged per Math373; toy free energy)
+% Linked     : Codes/supplementary/Math371_BCC_param_sweep.py
+%              (script header now carries AUDIT-FLAGGED INVALID banner),
+%              Math369/370 (predecessor toys), Math373 (RETRACTION),
+%              Math374 (corrective)
+% =====================================================================
+
+\section*{Math371 --- $(\mu^2,\lambda)$ parameter sweep for BCC stability + defect-suppression (TOY-FORM)}
+
+\subsection*{0. Status}
+
+\textbf{T0 INVALID (AUDIT-FLAGGED 2026-05-09 per Math373).} The
+sweep used the same toy free energy as Math369/370, which omits
+the canonical sextic stabiliser. The conclusion that
+\textit{``0 of 400 cells satisfy stability + defect-free''} is a
+property of the toy form, not of canonical TECT. Do not cite.
+Corrective sweep is queued under Math374's framework (full
+$(\mu^2,\lambda,\gamma)$ scan with sextic included).
+
+\subsection*{1. Original intent}
+
+Within the toy 12-mode Hessian model, scan the $(\mu^2,\lambda)$
+plane to (Q1) identify the regime where BCC is a local minimum
+(Hessian positive-semidefinite) and (Q2) within that regime
+identify parameters where Kibble--Zurek defect production is
+below a cosmological threshold. The aim was to determine whether
+Lemma E$_3'$ Mechanism (III) might be a parameter-only solution
+or whether non-parameter physics (quantum tunnelling, dark-matter
+coupling, modified cosmology) is required.
+
+\subsection*{2. Implemented (toy) computation}
+
+For each $(\mu^2,\lambda)$ grid point: (i) compute the simplest
+12-mode equal-amp Hessian using
+$A_0^2=|\mu^2|/|\lambda c_4|$ (the
+$|\cdot|$ wrapper masks the no-real-stationary-point pathology
+documented in Math373 \S2), (ii) evaluate eigenvalues, (iii)
+estimate Kibble--Zurek $n_{\rm defect}\sim\hat\xi^{-3}$ with
+$\hat\xi\sim(\gamma q_0^2+\mu^2)^{-1/2}\tau_Q^{0.26}$, (iv) flag
+``Pillar 4 feasible'' if BCC is local-min AND $n_{\rm defect}<10^{-3}$.
+
+\subsection*{3. Numerical output (recorded for archive only)}
+
+200 of 400 cells flagged ``BCC local-min'' under the toy formula
+with the masking $|\cdot|$. 0 of 400 cells satisfied both
+conditions. Within the toy formulation the verdict was
+``Mechanism (III) MUST be a non-parameter solution.''
+
+\textbf{Why the verdict is invalid}: the toy form does not have a
+real stationary point in the canonical $(\mu^2<0, \lambda<0)$
+quadrant; the Hessian eigenvalue computation at the masked
+fictitious point is therefore not a local-min test of anything
+physical. The KZ heuristic is independent of the Hessian defect
+but uses the same wrong $\gamma$-as-gradient-coefficient identification.
+
+\subsection*{4. What the canonical sweep should look like (Math374 framework)}
+
+Under the canonical free energy
+$\mathcal{F}=\int[(r/2)\Psi^2+(Z/2)|\nabla\Psi|^2+(Y/2)|\Delta\Psi|^2
++(\lambda/2)\Psi^4+(\gamma/3)\Psi^6]$ with
+$(r,Z,Y,q_0)=(\mu^2+Yq_0^4,-2Yq_0^2,1,0.6802)$, the BCC
+stability condition is captured by the 1-mode reduction
+$a x^2 + b x + c = 0$ with $a=\gamma K_6$, $b=\lambda K_4$,
+$c=\mu^2/2$, $x=\phi_0^2$. A real positive root with the local-min
+sign of the second derivative requires $\mu^2 \le b^2/(4a) =
+\lambda^2 K_4^2/(2\gamma K_6) \approx 0.023$ (with locked
+$(\lambda,\gamma,K_4,K_6)$). The first-order transition occurs
+at $F(\phi_0^2_{\rm BCC})=0$ which numerically lies near
+$\mu^2 \approx 0.018$. Below this, BCC is the global minimum.
+Math374 will execute this sweep with the correct Hamiltonian and
+recompute the KZ defect estimate using the correct Brazovskii
+shell stiffness $Z, Y$ (not the misidentified $\gamma$).
+
+\subsection*{5. Disposition}
+
+\begin{itemize}
+\item Code header carries the AUDIT-FLAGGED INVALID banner.
+\item Output JSON has \texttt{audit\_status: "INVALID per Math373"}.
+\item This note records the failure for chronological audit.
+\item Math374 framework will produce the corrected sweep when
+  executed at multiple $\mu^2$ values.
+\item Lemma E$_3'$ Mechanism (III) status: \emph{still open}; the
+  toy verdict ``Mechanism (III) must be non-parameter'' is withdrawn
+  pending the Math374 canonical sweep result.
+\end{itemize}
+
+\subsection*{6. Cross-references}
+
+\begin{itemize}
+\item \texttt{Codes/supplementary/Math371\_BCC\_param\_sweep.py}.
+\item Math369/370 (predecessor toys, also INVALID).
+\item Math373 (RETRACTION + canonical restoration).
+\item Math374 (corrective canonical script).
+\item Lemma E$_3'$ status tracked in \texttt{pillar\_status.json}
+  Pillar 4 \texttt{conditional\_on} array.
+\end{itemize}
+
+% --- end of Math371 ---

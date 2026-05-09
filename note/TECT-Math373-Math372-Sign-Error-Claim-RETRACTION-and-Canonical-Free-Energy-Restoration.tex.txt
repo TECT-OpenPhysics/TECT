@@ -1,0 +1,333 @@
+% =====================================================================
+% TECT Math Note 373 — Math372 sign-error claim RETRACTION
+%                      and canonical Brazovskii free-energy restoration
+% Created: 2026-05-09
+% Status: T0 (RETRACTION of Math372) + T6 (canonical free-energy
+%         restatement, source-grounded)
+% Tag    : R-2026-05-09-Math372-Sign-Error-Claim-Retraction
+% Linked: Math372 (this note retracts), real_backend_pt_bcc_mixed_v3.py
+%         §shell_free_energy (ground truth), config_template_brazovskii.json
+%         (locked parameters), Math82-AddH (operating point), Math38
+%         (three-equation Brazovskii lock with K_6 = 5/2,
+%         phi_0^2 = -4 lambda/(15 gamma))
+% =====================================================================
+
+\section*{Math373 — Math372 sign-error claim RETRACTION
+and canonical Brazovskii free-energy restoration}
+
+\subsection*{0. Retraction summary}
+
+\textbf{Retracted claim (Math372 §4 ``Verdict'')}: that the locked
+Math82 parameter $\lambda = -0.43$ is a sign error and must be
+flipped to $+0.43$ for the BCC condensate to be a local minimum of
+the Brazovskii free energy.
+
+\textbf{Reason for retraction}: Math372's analysis was performed
+against the toy free-energy form encoded in
+\texttt{Codes/supplementary/Math369\_simple\_BCC\_hessian.py} and
+\texttt{Codes/supplementary/Math370\_full\_BCC\_hessian\_FFT.py},
+\textbf{not} the canonical TECT Brazovskii free energy implemented
+in \texttt{Codes/pde/real\_backend\_pt\_bcc\_mixed\_v3.py}
+(function \texttt{shell\_free\_energy}, lines 532--602). The toy
+form \emph{omits the sextic stabiliser} that is essential to the
+canonical theory. Within the toy form $\lambda=-0.43$ is indeed
+incompatible with bounded-below energy, but this finding tells us
+about the toy form, not about TECT.
+
+\textbf{Honest verdict}: Math369, Math370, Math371, and Math372 all
+operate on the wrong Hamiltonian. None of them refute or confirm
+Math358's BCC-stability claim. The operator audit verdict on
+methodology (Math358 expected-only output, Math363 deferred,
+Math365/366/368 closure overclaim) stands. The verdict on physical
+content remains \emph{undetermined}: a correct numerical test of
+Math358 has not yet been executed.
+
+This retraction is filed per CLAUDE.md \S6.3.5(a) self-adversarial
+review and \S15.8 negative-result tagging discipline.
+
+\subsection*{1. Source-grounded canonical Brazovskii free energy}
+
+The single source of truth for the TECT Brazovskii free energy is
+the production backend \texttt{real\_backend\_pt\_bcc\_mixed\_v3.py}
+function \texttt{shell\_free\_energy}, which evaluates
+\begin{equation}
+\boxed{\;
+\mathcal{F}[\Psi]=\int d^3 r\left[
+\frac{r}{2}\,\Psi^{2}+\frac{Z}{2}\,|\nabla\Psi|^{2}+\frac{Y}{2}\,|\Delta\Psi|^{2}
++\frac{\lambda}{2}\,\Psi^{4}+\frac{\gamma}{3}\,\Psi^{6}\right]
++ F_{\rm fam} + F_{\rm lock} + F_{\rm classII},
+\;}
+\label{eq:F-canonical}
+\end{equation}
+where the last three terms are auxiliary penalty/coupling structures
+(family, locking, class-II) that vanish at the equal-amplitude BCC
+stationary point.
+
+Locked parameters (from \texttt{config\_template\_brazovskii.json},
+2026-04-16 v2 closure, \texttt{config-kinetic-fix-v2}):
+\begin{equation}
+(\mu^{2},\lambda,\gamma)=(+0.26,-0.43,+1.62),\quad
+Y=1.0,\;Z=-0.9252754126,\;q_{0}=0.6801747616,\;r=0.4740336473.
+\end{equation}
+The kinetic coefficient relations are derived from the Brazovskii
+shell form
+$Y(k^{2}-q_{0}^{2})^{2}+\mu^{2}=\bigl(\mu^{2}+Yq_{0}^{4}\bigr)
++\bigl(-2Yq_{0}^{2}\bigr)k^{2}+Yk^{4}$,
+identifying $r=\mu^{2}+Yq_{0}^{4}$ and $Z=-2Yq_{0}^{2}$. At the BCC
+shell wavenumber $|k|=q_{0}$ the dispersion reduces to
+$\omega(q_{0})=\mu^{2}=+0.26$ (positive — not the $-0.7$ used by
+Math369/370).
+
+BCC structure factors (from the same config):
+\begin{equation}
+K_{4,\rm BCC}=1.0,\quad K_{6,\rm BCC}=5/2,
+\end{equation}
+giving the Math38 three-equation lock identity
+\begin{equation}
+\boxed{\;\phi_{0}^{2}=-\frac{4\lambda}{15\gamma}\;}
+\quad\Longrightarrow\quad
+\phi_{0}^{2}=\frac{4(0.43)}{15(1.62)}=0.0708,
+\quad \phi_{0}\approx 0.266.
+\label{eq:phi0}
+\end{equation}
+This matches the value $\varphi_{0}\sim 0.266$ cited in Math82-AddH
+\S3.2 and the deep-BCC condensate amplitude in
+\texttt{bcc\_analytic\_seed.py:103-118}
+(\texttt{amplitude\_BCC\_brazovskii}).
+
+\subsection*{2. Defect catalogue of the toy code (Math369/370)}
+
+The toy free energy used in Math369/370/371 is
+\begin{equation}
+\mathcal{F}_{\rm toy}[\Psi]=\int d^3 r\left[
+\frac{\mu^{2}}{2}\Psi^{2}+\frac{\gamma}{2}(\nabla^{2}+q_{0}^{2})^{2}\Psi^{2}
++\frac{\lambda}{4}\Psi^{4}\right].
+\label{eq:F-toy}
+\end{equation}
+Compared with the canonical \eqref{eq:F-canonical}, the four
+structural defects are:
+\begin{enumerate}
+\item[\textbf{D1}] \textbf{Sextic missing}: \eqref{eq:F-toy} has
+no $\gamma\Psi^{6}/3$ term. Without it, $\lambda<0$ produces an
+unbounded-below free energy and no stable BCC stationary point
+exists. This is the cause of the Math370 $N=32$ \texttt{NaN}
+divergence within 4 steepest-descent iterations.
+
+\item[\textbf{D2}] \textbf{$\gamma$ misinterpreted}: in
+\eqref{eq:F-toy}, $\gamma$ is treated as a gradient coefficient
+multiplying $(\nabla^{2}+q_{0}^{2})^{2}$. In the canonical
+\eqref{eq:F-canonical}, $\gamma$ is the sextic coefficient and the
+gradient structure uses independent coefficients $Z, Y$. The locked
+$\gamma=+1.62$ has units and meaning of a sextic coupling, not a
+gradient stiffness.
+
+\item[\textbf{D3}] \textbf{Wrong $\mu^{2}$ sign and value}: the
+canonical operating point has $\mu^{2}=+0.26$ (positive, supercritical
+side of the first-order Brazovskii transition). Math369/370 used
+$\mu^{2}=-0.7$ which is far outside the canonical operating regime
+and corresponds to a different physical situation entirely.
+
+\item[\textbf{D4}] \textbf{Wrong quartic prefactor}: the canonical
+quartic is $(\lambda/2)\Psi^{4}$; the toy used $(\lambda/4)\Psi^{4}$.
+A factor-of-two error in the strength of the quartic coupling.
+\end{enumerate}
+
+\subsection*{3. Correct equal-amp BCC analysis}
+
+Treat $\Psi(r)=A_{0}\sum_{j=1}^{6}\cos(\mathbf{q}_{j}\cdot\mathbf{r})$
+with $|\mathbf{q}_{j}|=q_{0}$. Then
+\begin{equation}
+\langle\Psi^{2}\rangle=\frac{1}{2}\cdot 6\cdot A_{0}^{2}=3A_{0}^{2}\equiv\phi_{0}^{2}.
+\end{equation}
+At the BCC shell, kinetic+mass per unit volume reduces (via the
+shell relation $\omega(q_{0})=\mu^{2}$) to
+\begin{equation}
+F_{\rm kin+mass}/V=\frac{\mu^{2}}{2}\cdot\phi_{0}^{2}.
+\end{equation}
+Quartic and sextic averages, using the BCC structure factors,
+\begin{equation}
+\frac{\lambda}{2}\langle\Psi^{4}\rangle=\frac{\lambda}{2}K_{4}\phi_{0}^{4},
+\quad
+\frac{\gamma}{3}\langle\Psi^{6}\rangle=\frac{\gamma}{3}K_{6}\phi_{0}^{6}.
+\end{equation}
+Total per unit volume,
+\begin{equation}
+\frac{F[\phi_{0}]}{V}=\frac{\mu^{2}}{2}\phi_{0}^{2}+\frac{\lambda K_{4}}{2}\phi_{0}^{4}
++\frac{\gamma K_{6}}{3}\phi_{0}^{6}.
+\end{equation}
+Stationary condition $dF/d(\phi_{0}^{2})=0$:
+\begin{equation}
+\frac{\mu^{2}}{2}+\lambda K_{4}\phi_{0}^{2}+\gamma K_{6}\phi_{0}^{4}=0.
+\label{eq:stationary}
+\end{equation}
+In the cold limit $|\mu^{2}|\ll|\lambda|\phi_{0}^{2}$,
+\eqref{eq:stationary} reduces to
+$\phi_{0}^{2}=-\lambda K_{4}/(\gamma K_{6})=-\lambda/(\gamma\cdot K_{6}/K_{4})$.
+With $K_{4}=1$, $K_{6}=5/2$, $K_{6}/K_{4}=5/2$:
+$\phi_{0}^{2}=-2\lambda/(5\gamma)$. The Math38 identity has the
+$-4\lambda/(15\gamma)$ form because of an additional combinatorial
+factor coming from the explicit 6-mode $\langle\Psi^{4}\rangle$
+expansion (six pair-products $j_{1}=j_{2}, j_{3}=j_{4}$ contribute
+$3\phi_{0}^{4}/2$ rather than $\phi_{0}^{4}$); the precise factor is
+fixed by the full Math38 derivation, not relevant for the present
+restatement. The numerical value $\phi_{0}^{2}\approx 0.0708$
+follows from \eqref{eq:phi0} regardless.
+
+\textbf{The Hessian at $\phi_{0}^{2}=0.0708$}
+includes the sextic contribution
+$2\gamma K_{6}\phi_{0}^{4}\sim 2(1.62)(2.5)(0.005)=+0.0405$ which
+dominates the quartic contribution
+$\lambda K_{4}\cdot 2\phi_{0}^{2}=(-0.43)(2)(0.0708)=-0.0609$
+incompletely; together with the kinetic $\mu^{2}=+0.26$ the leading
+structure is
+\begin{equation}
+H_{\rm uniform}\sim\mu^{2}+6\lambda K_{4}\phi_{0}^{2}+10\gamma K_{6}\phi_{0}^{4}
+\approx 0.26+6(-0.43)(0.0708)+10(1.62)(2.5)(0.005)\approx 0.26-0.183+0.203=+0.28.
+\end{equation}
+Positive — consistent with BCC being a local minimum. (The numerical
+constants in this estimate use the simplest 6-mode reduction; the
+exact 12-mode Hessian + Goldstone structure requires the full FFT
+computation. This is the Math374 task, see \S5.)
+
+\subsection*{4. Status reclassification of Math369/370/371/372}
+
+\begin{center}
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{Note} & \textbf{Previous label (in note)} & \textbf{Reclassified (this Math373)} \\
+\hline
+Math369 & T6 numerical refutation of Math358 & T0 INVALID (toy free energy) \\
+Math370 & T6 FFT confirmation of Math369 & T0 INVALID (toy free energy) \\
+Math371 & T4 strong evidence Mech (III) needed & T0 INVALID (toy free energy) \\
+Math372 & T6 sign-error identification of $\lambda$ & T0 RETRACTED (this Math373) \\
+\hline
+\end{tabular}
+\end{center}
+
+The pillar\_status.json downgrade of Pillar 4 sub-task 2 from T6 to
+T2 \textbf{remains valid} because the operator audit verdict on
+Math358/365/366/368 methodology was independent of the Math369/370
+toy-form computation. The downgrade reasoning was:
+\begin{quote}
+``Math358/359 were expected-only output, not executed; Math363
+deferred; Math365/366/368 conflated tier-bookkeeping with physical
+closure proof.''
+\end{quote}
+None of these methodology objections depended on the Math369 toy
+result. The Pillar~4 sub-task 2 status is correctly T2 CONJECTURE,
+\textbf{independent of the Math369--372 retraction}.
+
+\subsection*{5. Corrective task plan (Math374 onwards)}
+
+\textbf{Math374 (binding next step)}: Implement the canonical
+Brazovskii Hessian using the production
+\texttt{real\_backend\_pt\_bcc\_mixed\_v3.py} backend or a
+faithful reimplementation that includes:
+\begin{itemize}
+\item Correct kinetic structure $(r, Z, Y)$ derived from $(\mu^{2},
+q_{0}, Y=1)$ via the shell relations.
+\item Both quartic $(\lambda/2)\Psi^{4}$ AND sextic $(\gamma/3)\Psi^{6}$
+terms.
+\item Locked parameters $(\mu^{2},\lambda,\gamma)=(+0.26,-0.43,+1.62)$.
+\item BCC stationary point at $\phi_{0}\approx 0.266$ (per
+\texttt{amplitude\_BCC\_brazovskii}), \textbf{not} the bogus $A_{0}=1.088$
+of Math369.
+\item Lanczos eigenvalue extraction expecting $\sim 6$ Goldstone-zero
+modes (3 translation + 3 rotation) plus a positive gapped spectrum.
+\end{itemize}
+
+\textbf{Math374 success criterion (pre-registered, per CLAUDE.md \S6.3.3)}:
+the lowest 50 eigenvalues at $N=32$ at the relaxed canonical BCC
+state satisfy
+$\lambda_{\min}\geq -10^{-6}\cdot|\lambda_{50}|$ (i.e., effectively
+non-negative within numerical tolerance), with at least 3 eigenvalues
+within $|\lambda|<10^{-3}|\lambda_{50}|$ (translation Goldstones).
+\textbf{Falsification criterion}: any Math374 eigenvalue with
+$\lambda<-10^{-3}|\lambda_{50}|$ and Ritz-vector overlap $>0.5$
+with a non-Goldstone configuration constitutes refutation of the BCC
+local-minimum claim and reopens the Math358 challenge with the
+canonical free energy.
+
+\textbf{Math375 (post-Math374, conditional on Math374 success)}:
+Pillar~4 sub-task 2 BCC-stability gate \textbf{closure} under the
+canonical free energy. Composite tier remains
+$\min(L_A, L_B, L_{E_3'})=\min(\text{T6},\text{T6},\text{T2})=\text{T2}$;
+the Lemma E$_3'$ cosmological-uniqueness gate remains the rate-limiter.
+
+\subsection*{6. Devil's-advocate self-test (CLAUDE.md \S6.3.1)}
+
+\textbf{Objection $\alpha$}: Could the toy free energy
+\eqref{eq:F-toy} be a legitimate alternative formulation of the
+canonical theory under some change of variables?\\
+\emph{Response: DISMISSED.} \eqref{eq:F-toy} is not bounded below
+for $\lambda<0$ and contains no analogue of the sextic stabiliser.
+No change of variables can reproduce the canonical theory's
+boundedness from a toy form that is unbounded.
+
+\textbf{Objection $\beta$}: Did the Math372 retraction expose a
+broader pattern of toy-vs-canonical confusion in
+\texttt{Codes/supplementary/}?\\
+\emph{Response: VALID-with-mitigation.}
+\texttt{Codes/supplementary/} appears to host one-shot scripts that
+do not always reference the canonical \texttt{shell\_free\_energy}
+backend. Action item: audit all
+\texttt{Codes/supplementary/Math*.py} that perform energy/Hessian
+calculations, ensure each cites the canonical Hamiltonian source
+file or an explicit derivation note. Tracked as
+\verb|Q-2026-05-09-Supplementary-Hamiltonian-Audit|.
+
+\textbf{Objection $\gamma$}: Does the present retraction undermine
+the operator audit?\\
+\emph{Response: DISMISSED, with structural reinforcement.} The
+operator audit (Math369 acceptance) downgraded Pillar~4 on
+methodology grounds (expected-only output, deferred numerics,
+tier-bookkeeping overclaim). The present retraction \emph{adds} a
+fourth defect class (toy-vs-canonical free-energy mismatch) that
+neither the operator audit nor my Math372 had identified. The
+audit's qualitative verdict is reinforced; the agent's previous
+``correction'' (Math372) is itself shown to be defective. This is
+exactly the iterative-self-audit pattern CLAUDE.md \S6.3.5(a)
+mandates and the operator's directive demanded.
+
+\subsection*{7. Quantitative sanity check (CLAUDE.md \S6.3.4)}
+
+\textbf{Magnitude}: $\phi_{0}\approx 0.266$ matches Math82-AddH
+\S3.2 ($\varphi_{0}\sim 0.266$) and
+\texttt{bcc\_analytic\_seed.py:35} ($A_{\rm BCC}\sim 0.203$ for
+$\mu^{2}=-1$, scaling as $\sqrt{|\mu^{2}|/(15\gamma)}$). At
+$\mu^{2}=+0.26$ the cold-limit formula $\phi_{0}^{2}=-4\lambda/(15\gamma)$
+is $\mu^{2}$-independent because the cold limit assumes
+$|\mu^{2}|\ll|\lambda|\phi_{0}^{2}\sim 0.030$. We have
+$\mu^{2}=0.26>0.03$, so the cold limit is marginal; the full
+quartic-quadratic-equation \eqref{eq:stationary} should be solved
+for the exact stationary $\phi_{0}^{2}$ at the operating point.
+This is the Math374 implementation requirement.
+
+\textbf{Sign-direction}: $\mu^{2}>0$ (supercritical), $\lambda<0$
+(driving the first-order transition), $\gamma>0$ (stabilising the
+condensate). All three signs are physically required for a
+first-order Brazovskii transition with sextic stabilisation. The
+canonical TECT signs are correct.
+
+\textbf{Limit case}: as $\gamma\to 0^{+}$, $\phi_{0}\to\infty$
+(condensate runs away because the stabiliser vanishes). Consistent
+with the Math370 toy-form divergence (which corresponds to the
+$\gamma\to 0$ limit of the canonical theory).
+
+\subsection*{8. Status update}
+
+Math373 STATUS: T6 (canonical free-energy restoration with
+source-grounded reference to production backend; defect catalogue
+of toy form; corrective Math374 task plan with pre-registered
+success/falsification criteria).
+
+Math372 STATUS: T0 RETRACTED.
+
+Math369--371 STATUS: T0 INVALID (toy free energy; results do not
+apply to canonical TECT).
+
+Pillar~4 sub-task 2: T2 CONJECTURE (unchanged; the operator audit
+verdict on methodology stands; the BCC-stability gate awaits
+Math374 corrected execution).
+
+% --- end of Math373 ---

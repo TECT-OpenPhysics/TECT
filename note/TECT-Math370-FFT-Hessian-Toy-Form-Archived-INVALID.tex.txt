@@ -1,0 +1,101 @@
+% =====================================================================
+% TECT Math Note 370 — Full FFT-based Brazovskii BCC Hessian (TOY-FORM)
+% Created    : 2026-05-09
+% Status     : T0 INVALID (audit-flagged per Math373; toy free energy)
+% Linked     : Codes/supplementary/Math370_full_BCC_hessian_FFT.py
+%              (script header now carries AUDIT-FLAGGED INVALID banner),
+%              Math369 (predecessor 12-mode toy), Math373 (RETRACTION),
+%              Math374 (corrective canonical replacement)
+% =====================================================================
+
+\section*{Math370 --- FFT-based Brazovskii BCC Hessian on $N\times N\times N$ grid}
+
+\subsection*{0. Status}
+
+\textbf{T0 INVALID (AUDIT-FLAGGED 2026-05-09 per Math373).} The free
+energy implemented in
+\texttt{Codes/supplementary/Math370\_full\_BCC\_hessian\_FFT.py}
+omits the canonical sextic stabiliser $\gamma\Psi^6/3$, misinterprets
+$\gamma$ as a gradient coefficient, uses the wrong $\mu^2$ value,
+and uses the wrong quartic prefactor. The script's eigenvalue
+output therefore tells us nothing about the canonical TECT theory.
+This note is preserved as a chronological record of the failure
+mode; it must NOT be cited as physical evidence. The corrective
+implementation is Math374.
+
+\subsection*{1. Original intent}
+
+Replace the 12-mode equal-amplitude shortcut of Math369 with a real
+FFT-based Brazovskii Hessian on a periodic $N\times N\times N$
+grid, hoping to either confirm or refute Math358's
+``BCC = local minimum'' claim with full lattice resolution.
+
+\subsection*{2. Implemented (toy) free energy}
+
+\begin{equation}
+\mathcal{F}_{\rm toy}[\Psi]=\int d^3r\left[
+\frac{\mu^2}{2}\Psi^2+\frac{\gamma}{2}(\nabla^2+q_0^2)^2\Psi^2
++\frac{\lambda}{4}\Psi^4\right]
+\label{eq:F-toy}
+\end{equation}
+with $(\mu^2,\gamma,\lambda)=(-0.7,1.62,-0.43)$. \eqref{eq:F-toy}
+is unbounded below for $\lambda<0$ (no sextic stabiliser); the
+$N=32$ steepest-descent run diverges to \texttt{NaN} within 4
+iterations. The $N=16$ run with no relaxation produced 30 negative
+Hessian eigenvalues at the un-relaxed BCC ansatz with $A_0=1.0$,
+which is itself not a stationary point of \eqref{eq:F-toy} (and
+\eqref{eq:F-toy} has no stationary point for the chosen sign
+combination, see Math373 \S2).
+
+\subsection*{3. Numerical output (recorded for archive only)}
+
+\begin{itemize}
+\item $N=16$, no relaxation, 30 lowest eigenvalues all negative
+  ($\sim -19$ to $-20$).
+\item $N=32$, 200 steepest-descent iterations: \texttt{NaN}
+  divergence at iter 4.
+\end{itemize}
+Both outputs are artefacts of the missing sextic, not properties
+of canonical TECT.
+
+\subsection*{4. Why this happened}
+
+Math370 was written within the same session as Math369 and inherited
+the same toy free-energy form without canonical-source verification.
+The error pattern is the four-defect catalogue documented in
+Math373 \S2 (D1 sextic missing, D2 $\gamma$ misinterpreted, D3 wrong
+$\mu^2$, D4 quartic prefactor). The error escaped detection because:
+(i) no automatic checker compares supplementary scripts against
+\texttt{Codes/pde/real\_backend\_pt\_bcc\_mixed\_v3.py:shell\_free\_energy};
+(ii) the operator audit verdict (Math369 acceptance) accepted the
+toy result as supportive evidence; (iii) the agent's first
+``correction'' (Math372) deepened the error by proposing a sign flip
+that addressed a symptom of D1 rather than the root cause.
+
+\subsection*{5. Disposition}
+
+\begin{itemize}
+\item Code header now carries \verb|!!! AUDIT-FLAGGED INVALID !!!| banner.
+\item This note records the failure for future audit reference.
+\item Result JSON files in \texttt{Runs/math370/} retain
+  \texttt{audit\_status: "INVALID per Math373"} field.
+\item \verb|Q-2026-05-09-Supplementary-Hamiltonian-Audit| (OPEN-QUESTIONS
+  Active) tracks the systematic re-audit of all
+  \texttt{Codes/supplementary/Math*.py} for canonical-vs-toy mismatch.
+\end{itemize}
+
+\subsection*{6. Cross-references}
+
+\begin{itemize}
+\item \texttt{Codes/supplementary/Math370\_full\_BCC\_hessian\_FFT.py}
+  (the audit-flagged script).
+\item \texttt{Codes/pde/real\_backend\_pt\_bcc\_mixed\_v3.py:532--602}
+  (canonical \texttt{shell\_free\_energy}).
+\item Math369 (predecessor 12-mode toy, also INVALID).
+\item Math372 (sign-error claim, RETRACTED).
+\item Math373 (RETRACTION + canonical free-energy restoration).
+\item Math374 (corrective canonical-form Hessian implementation).
+\item NEGATIVE-RESULTS \verb|R-2026-05-09-Math372-Sign-Error-Claim-Retraction|.
+\end{itemize}
+
+% --- end of Math370 ---

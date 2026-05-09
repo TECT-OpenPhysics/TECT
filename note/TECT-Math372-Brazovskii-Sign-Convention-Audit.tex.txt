@@ -1,0 +1,244 @@
+% =====================================================================
+% TECT Math Note 372 — Brazovskii sign-convention audit:
+%                      λ sign error revealed by FFT Hessian computation
+% Created: 2026-05-09
+% Status: T0 RETRACTED — see TECT-Math373 (R-2026-05-09-Math372-
+%         Sign-Error-Claim-Retraction). The "λ sign error" diagnosis
+%         in this note is INCORRECT. The actual defect is that
+%         Math369/370/371 used a TOY free energy that omits the sextic
+%         stabiliser γΨ⁶/3 of the canonical TECT Brazovskii action. The
+%         locked λ = -0.43 is consistent with first-order Brazovskii
+%         transition stabilised by γ > 0; no sign change is required.
+%         Reading this note WITHOUT Math373 is dangerous; the sign-flip
+%         prescription below is REJECTED.
+% Linked: Math82 (locked-parameter source), Math358/Math369/Math370
+%         (eigenvalue tests — themselves invalid per Math373),
+%         Math373 (this note's retraction), CLAUDE.md §6.3.4 + §6.3.5(a)
+% =====================================================================
+%
+% AUDIT-FLAGGED RETRACTION BANNER (CLAUDE.md §15.8):
+%   The verdict in §4 ("Resolution A: flip λ to +0.43") is WITHDRAWN.
+%   The eigenvalue calculation in §3 is correct under the toy free energy
+%   used by Math369/370 but the toy free energy is itself not the
+%   canonical TECT Brazovskii action. See Math373 for the canonical
+%   form (sextic γΨ⁶/3 included) and the correct corrective plan
+%   (Math374 task with pre-registered success/falsification criteria).
+% =====================================================================
+
+\section*{Math372 — Brazovskii sign-convention audit:
+$\lambda$ sign error revealed by full FFT Hessian computation}
+
+\subsection*{1. Discovery context}
+
+Math370 (full Brazovskii Hessian via FFT on an $N\times N\times N$
+periodic grid) was executed at the locked Math82 parameter set
+$(\mu^2,\gamma,\lambda)=(-0.7,1.62,-0.43)$ to verify or refute
+Math358's claim that BCC is a local minimum. The numerical run
+produced two diagnostic signatures:
+
+\begin{enumerate}
+\item[(i)] $N=16$, no relaxation: 30 negative eigenvalues at the
+un-relaxed 12-mode BCC ansatz with $A_0=1.0$ (Math370 default
+initialisation).
+\item[(ii)] $N=32$ with 200 steepest-descent iterations: divergence
+to \texttt{NaN} within 4 iterations as $F[\Psi]\to-\infty$ and
+$\|\Psi\|_\infty\to\infty$.
+\end{enumerate}
+
+The (ii) divergence is the smoking-gun signature of a structural
+defect, not a numerical accident.
+
+\subsection*{2. Analytical reduction}
+
+The Brazovskii free-energy density encoded in
+\texttt{Math369\_simple\_BCC\_hessian.py} and
+\texttt{Math370\_full\_BCC\_hessian\_FFT.py} is
+\begin{equation}
+\mathcal{F}[\Psi]=\int d^3 r\left[
+\frac{\mu^2}{2}\Psi^2+\frac{\gamma}{2}(\nabla^2+q_0^2)^2\Psi^2
++\frac{\lambda}{4}\Psi^4\right].
+\label{eq:F}
+\end{equation}
+For \eqref{eq:F} to be bounded below, $\lambda>0$ is mandatory.
+With $\lambda<0$, $\mathcal{F}[\Psi]\to-\infty$ along any direction
+with $\Psi\not\equiv 0$, exactly matching the Math370 $N=32$
+divergence.
+
+The equal-amplitude BCC stationary point in the 12-mode subspace,
+$\Psi=A_0\sum_{i=1}^{12}\cos(\mathbf{q}_i\cdot\mathbf{r})$ with
+$|\mathbf{q}_i|=q_0$, satisfies
+\begin{equation}
+\frac{d}{dA}\left[\mu^2 A^2+\lambda c_{4,\rm BCC}A^4\right]=0
+\Longrightarrow
+A_0^2=-\frac{\mu^2}{\lambda c_{4,\rm BCC}},\qquad c_{4,\rm BCC}=\tfrac{11}{8}.
+\label{eq:A0}
+\end{equation}
+A real $A_0$ requires $-\mu^2/(\lambda c_{4,\rm BCC})>0$, i.e.\ $\mu^2$
+and $\lambda$ must have \emph{opposite} signs. The locked
+$(\mu^2,\lambda)=(-0.7,-0.43)$ has both negative, so
+$-\mu^2/(\lambda c_{4,\rm BCC})=-1.184<0$ and
+\textbf{no real equal-amplitude BCC stationary point exists}.
+
+Math369 wrote
+\begin{equation}
+A_0^2=\frac{|\mu^2|}{|\lambda|\cdot c_{4,\rm BCC}}
+\end{equation}
+which masked the sign defect by taking absolute values, so the
+``$A_0^2=1.184$'' output of Math369 corresponds to a fictitious
+stationary point on the wrong branch.
+
+\subsection*{3. Hessian eigenvalue prediction}
+
+In the 12-mode equal-amp ansatz, the Hessian has the structure
+\begin{equation}
+H_{ij}=\delta_{ij}\bigl(\mu^2+3\lambda c_4 A_0^2\bigr)+
+(1-\delta_{ij})\bigl(\lambda c_4 A_0^2\bigr),
+\end{equation}
+which by the standard 1+(N-1) decomposition has eigenvalues
+\begin{equation}
+\boxed{
+\lambda^{(\rm uniform)}=\mu^2+14\lambda c_4 A_0^2,\quad
+\lambda^{(\rm orth)}=\mu^2+2\lambda c_4 A_0^2\;\;(\text{mult. }11).
+}
+\end{equation}
+Substituting $A_0^2=-\mu^2/(\lambda c_4)$ from \eqref{eq:A0}:
+\begin{equation}
+\lambda^{(\rm uniform)}=-13\mu^2,\qquad
+\lambda^{(\rm orth)}=-\mu^2.
+\end{equation}
+For BCC to be a local minimum, both must be positive, i.e.\
+$\mu^2<0$ (already locked).
+
+\paragraph{Numerical verification.}
+\begin{center}
+\begin{tabular}{lcc}
+\hline
+Configuration & $\lambda^{(\rm uniform)}$ & $\lambda^{(\rm orth)}$ ($\times 11$) \\
+\hline
+Code as-is: $(\mu^2,\lambda)=(-0.7,-0.43)$, $A_0^2=+1.184$ via abs &
+$-10.5$ & $-2.10$ \\
+Corrected: $(\mu^2,\lambda)=(-0.7,+0.43)$, $A_0^2=+1.184$ &
+$+9.10$ & $+0.70$ \\
+\hline
+\end{tabular}
+\end{center}
+The first row matches the Math369 sweep output exactly
+(${\lambda_1=-10.5}$, ${\lambda_{2..12}=-2.10}$). The second row would
+yield 12 positive eigenvalues — \textbf{BCC is a local minimum at the
+corrected sign}.
+
+\subsection*{4. Verdict and resolution paths}
+
+\textbf{Resolution A (recommended).} Flip the locked $\lambda$ to
+$+0.43$. This makes \eqref{eq:F} bounded below, gives a real BCC
+stationary point at $A_0^2=+1.184$, and yields all-positive Hessian
+eigenvalues. Math82 must be revised and downstream consumers
+(Math97 Goldstone spectrum, $m^{*2}$ extraction) re-checked.
+
+\textbf{Resolution B (notationally hazardous).} Interpret the locked
+$\lambda<0$ as $-|\lambda|$ in a convention where the integrand is
+$-(\lambda/4)\Psi^4$ rather than $(\lambda/4)\Psi^4$. Code must be
+patched; not recommended due to convention-confusion risk.
+
+\subsection*{5. Implications for Pillar~4 and the operator audit}
+
+The operator audit (Math369 acceptance, 2026-05-09) downgraded
+Pillar~4 sub-task~2 to T2 on the basis that the BCC was numerically a
+saddle. The present analysis shows the saddle classification was
+\emph{correct under the buggy sign but artefactual for the physical
+theory}. The audit verdict on \textbf{methodology}
+(Math358/359 expected-only output, Math363 deferred) stands. The
+verdict on \textbf{physical content} is now reclassified:
+\begin{quote}
+``BCC is a saddle in the as-encoded code; with the corrected
+$\lambda$ sign, BCC is a local minimum and Math358's qualitative
+claim is recoverable. The audit-mandated re-derivation under
+$\lambda=+0.43$ must complete before any T6 reassertion.''
+\end{quote}
+
+The Pillar~4 sub-task~2 status remains T2 CONJECTURE pending:
+\begin{enumerate}
+\item Math82 sign-convention audit (open as
+\verb|Q-2026-05-09-Math82-Sign-Cascade|).
+\item Re-execution of Math369 single-point and Math370 FFT-based
+Hessian at $\lambda=+0.43$, expecting all-positive eigenvalues
+($+9.10$ and $+0.70$ in the 12-mode reduction; $\sim+\mu^*{}^{2}$
+positive gap in the FFT spectrum).
+\item Re-derivation of $m^{*2}$ under the corrected sign with
+comparison against the historic numerical value $m^{*2}\approx 0.0985$
+(Math82).
+\item Lemma E$_3'$ cosmological defect-suppression gate remains
+independently open.
+\end{enumerate}
+
+\subsection*{6. Devil's-advocate self-test (CLAUDE.md \S6.3.1)}
+
+\textbf{Objection $\alpha$.} Math82 may internally use a different
+convention, and the codes mis-translated rather than the theory
+being wrong.\\
+\emph{Response: VALID-with-mitigation.} Math82 must be re-examined.
+Either way the code is currently inconsistent with a bounded-below
+free energy, so a correction is mandatory.
+
+\textbf{Objection $\beta$.} Could the Math370 $N=32$ divergence be a
+step-size artefact rather than an unbounded-below indicator?\\
+\emph{Response: DISMISSED.} Exponential divergence within 4
+steepest-descent iterations from a moderate-norm initial state is
+incompatible with a step-size cause. The Math369 \emph{analytical}
+formula independently shows $-\mu^2/(\lambda c_4)<0$ for
+$(\mu^2,\lambda)<0$, which is sign-independent of any numerical step.
+
+\textbf{Objection $\gamma$.} Does Resolution A force a cascade
+recomputation of all Math82-derived quantities?\\
+\emph{Response: UPHELD.} $m^{*2}$, BCC ground-state energy, the
+Brazovskii Goldstone spectrum (Math97), and any RGE flow that used
+the locked $\lambda$ value all require sign-checked recomputation.
+Tracked as \verb|Q-2026-05-09-Math82-Sign-Cascade|.
+
+\subsection*{7. Quantitative sanity check (CLAUDE.md \S6.3.4)}
+
+\textbf{Sign-direction physics.} For an ordered phase ($\mu^2<0$) the
+Landau--Ginzburg quartic must stabilise the order, hence the
+coefficient of $\Psi^4/4$ must be positive. This is a single-line
+sign check that the original Math82 derivation should have included.
+
+\textbf{Limit case.} As $|\mu^2|\to 0^-$ at fixed $\lambda>0$,
+$A_0^2\to 0^+$ and both eigenvalue families
+$\to 0$ continuously: BCC merges with disordered state in a
+second-order transition. The Resolution-A behaviour is physical.
+
+\textbf{Magnitude.} At $(\mu^2,\lambda,c_4)=(-0.7,+0.43,11/8)$,
+$\lambda^{(\rm uniform)}=+9.10\sim O(10)$ and
+$\lambda^{(\rm orth)}=+0.70\sim O(1)$, both positive and of natural
+order; consistent with a genuine local minimum.
+
+\subsection*{8. Status update and next-cycle plan}
+
+Math372 STATUS: T6 (analytical sign-error identification with
+explicit eigenvalue calculation, sign-direction sanity check,
+devil's-advocate self-test passed).
+
+Immediate next-cycle items:
+\begin{enumerate}
+\item Patch \texttt{Math369\_simple\_BCC\_hessian.py} default
+\verb|--lam=+0.43| with backward-compat \verb|--lam-sign=auto|.
+\item Patch \texttt{Math370\_full\_BCC\_hessian\_FFT.py} default
+\verb|--lam=+0.43| AND default \verb|--A0=sqrt(-mu2/(lam*c4))|
+(currently hard-coded $A_0=1$, structurally wrong).
+\item Re-run Math369 single-point + Math370 $N\in\{16,32,64\}$ at
+corrected sign, expecting $\sim$6 zero eigenvalues
+(3 translation $\oplus$ 3 rotation Goldstones) plus all-positive
+gapped spectrum.
+\item Open \verb|Q-2026-05-09-Math82-Sign-Cascade| in
+\texttt{OPEN-QUESTIONS.md} and link to this note.
+\item Write Math373 reporting the re-execution result; if 12
+eigenvalues are all positive (or all positive plus Goldstones), the
+Pillar~4 sub-task~2 BCC-stability gate is closed under
+$\lambda=+0.43$, and the audit-required re-derivation can begin.
+\end{enumerate}
+
+The composite Pillar~4 status remains T2 (gated by Lemma~E$_3'$)
+even after Math373 closure of the BCC-stability gate, since
+Lemma~E$_3'$ is a separate cosmological-uniqueness obstruction.
+
+% --- end of Math372 ---

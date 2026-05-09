@@ -1,0 +1,358 @@
+==================================================================
+   TECT-Math357: Hessian Stability Framework for BCC Vacuum
+                      Turn 4 of 20-turn Programme
+
+   Foundation for Lemma E_3' Cosmological Uniqueness Closure
+   Date: 2026-05-09
+   Classification: ANALYTICAL FRAMEWORK / STABILITY ANALYSIS
+==================================================================
+
+Theory tag    : Math357-Hessian-Stability-BCC-Vacuum-Turn4
+Date          : 2026-05-09
+Status        : STRONG DRAFT (framework complete; eigenvalue computation deferred to Turn 5)
+Significance  : Establishes mathematical structure for verifying BCC is a
+                LOCAL minimum of the Brazovskii free energy. A necessary
+                (but not sufficient) condition for E_3' global uniqueness.
+                This Turn lays out the operator, boundary conditions, and
+                classification of eigenmodes (Goldstone vs. massive).
+Dispatch      : Turn 4 of 20-turn Lemma E_3' closure programme
+Owner         : TECT Collaboration autonomous agent
+Dependencies  : Math82 (Brazovskii ground state), Math220-AddB (stiffness),
+                Math38 (BCC Hessian matrix structure)
+
+==================================================================
+
+§ 1. PROBLEM STATEMENT AND STRATEGY
+==================================================================
+
+**Critical question** (from Math218-AddA §2.4):
+
+Does the BCC condensate vacuum $\Psi_{\rm min}(x)$ represent a LOCAL
+MINIMUM of the Brazovskii free energy functional:
+
+$$\mathcal{F}[\Psi] = \int d^3x\left[\,\mu^2|\Psi|^2 +
+  Z|\nabla\Psi|^2 + Y|\nabla^2\Psi|^2 +
+  \lambda|\Psi|^4 + \gamma|\Psi|^6\,\right]?$$
+
+**Why this matters for E_3'**:
+
+If the Hessian (second variation) has a NEGATIVE eigenvalue in the
+bulk (away from Goldstone and rotational zero-modes), then
+$\Psi_{\rm min}$ is a saddle point, not a minimum. This would mean:
+
+(a) The BCC condensate is dynamically unstable.
+(b) Small perturbations grow and lead to other minima.
+(c) The universe could cool through $T_c$ and NOT settle into the BCC
+    vacuum, contradicting E_3'.
+
+**Strategy (4 Turns)**:
+
+Turn 4 (this): Define Hessian operator, identify Goldstone/rotation modes,
+              classify remaining spectrum as "massive".
+Turn 5: Compute lowest 20 eigenvalues numerically (Lanczos).
+Turn 6: Verify all non-Goldstone eigenvalues are positive (stability confirmed).
+Turn 7: If stable locally, test whether it's global minimum against competitors.
+
+==================================================================
+
+§ 2. HESSIAN OPERATOR DEFINITION
+==================================================================
+
+**Definition**: The Hessian (second functional derivative) at the ground
+state $\Psi_{\rm min}$ is:
+
+$$\hat{\Delta}_{\rm Hess} := \frac{\delta^2 \mathcal{F}}{\delta\Psi\delta\Psi^*}
+\bigg|_{\Psi_{\rm min}}.$$
+
+**Explicit form** (Einstein summation over Cartesian indices):
+
+Let $\Psi(x) = |\Psi_{\rm min}| e^{i\phi(x)}$ be a perturbation of the
+ground state (decomposed into radial $|\Psi|$ and angular $\phi(x)$ parts).
+The BCC ground state $\Psi_{\rm min}$ is a real-valued 12-component
+strain field living in $(q_0, q_1, q_2, \ldots)$ space (reciprocal lattice).
+
+For simplicity, work in the effective 2D projection (major BCC channels):
+$$\Psi(x) = \Psi_0 + \delta\Psi(x),$$
+where $\Psi_0 = |\Psi_{\rm min}| e^{i\phi_0}$ (static, uniform) and
+$\delta\Psi(x)$ is a small fluctuation.
+
+**Functional Taylor expansion**:
+
+$$\mathcal{F}[\Psi_0 + \delta\Psi] = \mathcal{F}[\Psi_0] +
+\int d^3x\, \left(\frac{\delta\mathcal{F}}{\delta\Psi^*}\bigg|_0 \delta\Psi^*
++ \text{c.c.}\right) +
+\int d^3x\,d^3y\, \delta\Psi^*(x)\,K(x,y)\,\delta\Psi(y) + O((\delta\Psi)^3).$$
+
+At the minimum, the first-order term vanishes. The second-order kernel
+is the Hessian operator:
+
+$$K(x,y) = \frac{\delta^2\mathcal{F}}{\delta\Psi^*(x)\delta\Psi(y)}
+\bigg|_{\Psi_{\rm min}}.$$
+
+**Explicit Hessian** (Brazovskii free energy):
+
+$$K(x,y) = \left[\, \mu^2 \delta^3(x-y) - Z\nabla_x^2\delta^3(x-y)
++ Y\nabla_x^4\delta^3(x-y) + \text{(quartic + sextic)}\,\right].$$
+
+Quartic and sextic terms contribute only at points where $|\Psi_{\rm min}|
+\neq 0$ (i.e., inside the condensate core). For spatially homogeneous
+perturbations (Fourier modes), the Hessian becomes:
+
+$$K(k) := \mu^2 + Z k^2 + Y k^4 + \lambda_{\rm eff} + \gamma_{\rm eff},$$
+
+where $\lambda_{\rm eff}$ and $\gamma_{\rm eff}$ are effective coefficients
+determined by the ground-state configuration.
+
+**For the BCC ground state** (12-mode, multi-component order parameter):
+
+The Hessian is a $12 \times 12$ matrix in mode space:
+
+$$H_{\alpha\beta}(k) = \delta_{\alpha\beta}\left(\mu^2 + Z k^2 + Y k^4\right)
++ \lambda_{\alpha\beta}\,|\Psi_{\rm min}|^2 + \gamma_{\alpha\beta}^{(4)}
++ \text{(off-diagonal coupling terms from symmetry breaking)}.$$
+
+==================================================================
+
+§ 3. GOLDSTONE AND ROTATIONAL ZERO-MODES
+==================================================================
+
+**Symmetry considerations**:
+
+The BCC condensate breaks the original $O(3)$ spatial rotation symmetry.
+The unbroken symmetry is a subgroup $G_{\rm unbroken}$ depending on the
+condensate orientation.
+
+**Goldstone modes** (zero-energy cost):
+
+For each broken generator, there is one zero-mode. By Goldstone's theorem:
+
+1. **Phase rotation** $\Psi \to e^{i\theta} \Psi$ is unbroken (axial
+   symmetry). No Goldstone mode.
+
+2. **Spatial translation** $\Psi(x) \to \Psi(x - a)$ is unbroken. The
+   derivative $\partial_i \Psi$ is a zero-mode. This gives **3 Goldstone
+   modes** (one per spatial direction).
+
+3. **Rotation of the BCC lattice** about an axis aligned with one of the
+   condensate stripes: this breaking depends on the orientation. For the
+   "standard" BCC (12-mode, N=8 cubic unit cell), there are **N_{\rm rot}**
+   rotational zero-modes, where $N_{\rm rot}$ is the number of internal
+   rotational degrees of freedom not fixed by lattice symmetry.
+
+   For a 12-mode BCC: $N_{\rm rot} \sim 3$ (rotation about the principal axes
+   that don't align with lattice directions).
+
+**Total zero-modes expected**: $3 + 3 = 6$ (translational + rotational).
+
+(This is a consistency check: the number of zero-eigenvalues of the
+Hessian must equal the codimension of the symmetry-breaking.)
+
+==================================================================
+
+§ 4. CLASSIFICATION OF THE MASSIVE SPECTRUM
+==================================================================
+
+**Definition**: Massive modes are Hessian eigenmodes with eigenvalue
+$\lambda_i > 0$.
+
+**Classification scheme**:
+
+| Mode type | Energy range | Physical meaning |
+|---|---|---|
+| **Goldstone** | $\lambda = 0$ | Long-wavelength translational/rotational freedom |
+| **Soft mode** | $0 < \lambda \lesssim 0.01$ (Brazovskii units) | Near-critical fluctuation; may couple to Kibble-Zurek defect production |
+| **Elastic/phonon** | $\lambda \sim 0.01 - 0.1$ | Sound-wave-like excitations (propagating strain waves) |
+| **Gapped** | $\lambda > 0.1$ | Fully gapped, short-range excitations; stable |
+
+**Critical question for stability**:
+
+Are ALL massive modes positive ($\lambda_i > 0$ for $i > 6$)?
+
+If YES: BCC is a **local minimum** → move to Turn 5 (eigenvalue computation).
+If NO: BCC is a **saddle point** → Lemma E_3' FALSIFIED by vacuum instability.
+
+==================================================================
+
+§ 5. STRUCTURE OF THE HESSIAN MATRIX (FINITE-VOLUME APPROXIMATION)
+==================================================================
+
+**Discretisation**: On a lattice of size $L \times L \times L$ with
+lattice constant $a = 2\pi q_0^{-1} \approx 0.3$ nm, the Hessian in
+real space is:
+
+$$H_{\mathbf{n},\alpha; \mathbf{m},\beta} := \frac{\delta^2\mathcal{F}}{
+\delta\Psi(\mathbf{n},\alpha) \delta\Psi^*(\mathbf{m},\beta)}
+\bigg|_{\Psi_{\rm min}},$$
+
+where $\mathbf{n}, \mathbf{m}$ are lattice site indices and
+$\alpha, \beta \in \{1, \ldots, 12\}$ are the BCC order-parameter
+components (reciprocal lattice basis).
+
+**Matrix dimension**:
+- Number of lattice sites: $N_{\rm sites} = (L/a)^3$
+- For $L = 10$ nm (typical simulation volume), $N_{\rm sites} \sim 40^3 \sim 64000$
+- With 12 order-parameter components: total Hessian size ~ $768000 \times 768000$
+- **Computational cost**: Full eigendecomposition is intractable.
+
+**Approximation strategy** (Lanczos + Lowe-Parrinello):
+
+Use Krylov-subspace iterative methods to extract the lowest $k \sim 30$ eigenvalues
+and eigenvectors. The Lanczos algorithm does NOT require forming the full matrix
+explicitly; instead, it uses matrix-vector products $H \cdot v$.
+
+**Matrix-vector product** ($O(N)$ operation):
+
+Given a fluctuation vector $v = (\delta\Psi(\mathbf{n}_1, 1), \ldots,
+\delta\Psi(\mathbf{n}_{N_{\rm sites}}, 12))$, compute $H \cdot v$ by:
+
+(a) Fourier transform $v \to \hat{v}(k)$ (FFT, cost $O(N \log N)$)
+(b) Multiply in Fourier space by $\mu^2 + Z k^2 + Y k^4$ (cost $O(N)$)
+(c) Transform back (IFFT, cost $O(N \log N)$)
+(d) Add nonlinear correction from $\lambda_{\alpha\beta}|\Psi_{\rm min}|^2$ term (cost $O(N)$)
+
+**Total per Lanczos step**: $O(N \log N)$, feasible for $N \sim 10^5 - 10^6$.
+
+==================================================================
+
+§ 6. BOUNDARY CONDITIONS AND PERIODICITY
+==================================================================
+
+**Imposed structure** (to match Math82 numerical setup):
+
+- **Periodic boundary conditions**: $\Psi(\mathbf{x} + L\mathbf{e}_i) = \Psi(\mathbf{x})$
+  for each direction $\mathbf{e}_i \in \{\mathbf{x}, \mathbf{y}, \mathbf{z}\}$.
+
+- **BCC unit cell**: Supercell of size $2L \times 2L \times 2L$ containing
+  the full 12-mode pattern (or multiples thereof for larger systems).
+
+- **Ground state $\Psi_{\rm min}$**: Read from Math82 numerical solution
+  (either $N=16, 32, 64$ system sizes; details in Turn 5).
+
+**Consequence for Goldstone modes**:
+
+Under periodic BC, the three translational Goldstone modes are:
+
+$$\psi_i(x) = \partial_i \Psi_{\rm min}(x), \quad i \in \{x, y, z\}.$$
+
+These are eigenfunctions with $\lambda = 0$ (by construction, since
+$\partial_i \Psi_{\rm min}$ satisfies the Euler-Lagrange equation
+automatically).
+
+**Practical check**:
+
+When we run Lanczos in Turn 5, we must verify that the lowest 3-6 eigenvalues
+are indeed $\lambda \approx 0$ (within numerical tolerance $\sim 10^{-10}$ in
+Brazovskii units), and the corresponding eigenvectors are proportional to
+$\nabla \Psi_{\rm min}$ and $\mathbf{R} \Psi_{\rm min}$ (rotations).
+
+==================================================================
+
+§ 7. DEVIL'S-ADVOCATE SELF-TEST (CLAUDE.md §6.3.1)
+==================================================================
+
+**Objection α: "The Hessian stability is a local, not global, criterion.
+Even if all eigenvalues are positive, there could be OTHER lower minima
+elsewhere in configuration space."**
+
+**Response (DISMISSED)**: True, but logically sequential. Stability (local
+minimum) is a PREREQUISITE for global uniqueness. If the Hessian has a
+negative eigenvalue, the BCC state is NOT even a local minimum, and the
+global question is moot. Turn 4-6 tests the local criterion first. Turn 7
+will cross-check with global competitors (Math60-D, Math194 state enumeration).
+
+---
+
+**Objection β: "The 12-mode BCC is not the ONLY vacuum of Brazovskii theory.
+There are also body-centered-cubic variants (BCC', BCC'', etc.) with different
+symmetry breaking. How do we know BCC is the ground state, not a saddle or
+higher-energy minimum?"**
+
+**Response (VALID-with-mitigation)**: Math82 and Math220-AddB already establish
+that BCC has the LOWEST free energy among all candidates in the Brazovskii
+phase space. The Hessian analysis here ASSUMES BCC is the putative global
+minimum and tests whether it's locally stable. If Hessian is negative,
+the assumption is contradicted (Math82 must be re-audited). If Hessian
+is positive, it's consistent with Math82's claim. The cross-check in
+Turn 7 (alternative proofs) will harden this.
+
+---
+
+**Objection γ: "Perturbations around $\Psi_{\rm min}$ are assumed small.
+But Kibble-Zurek defect production during phase transition might involve
+LARGE field fluctuations that exit the quadratic regime. The Hessian is
+irrelevant for large-amplitude dynamics."**
+
+**Response (VALID-with-mitigation)**: True. The Hessian stability tells us
+the vacuum is stable against SMALL perturbations. During the cosmological
+phase transition (rapid cooling), the order parameter evolves via:
+
+$$\frac{\partial \Psi}{\partial t} = -\Gamma \frac{\delta\mathcal{F}}{\delta\Psi^*}$$
+
+(Langevin TDGL dynamics). If $\Psi_{\rm min}$ is a global minimum AND all
+wavy perturbations decay (Hessian positive), then the system will eventually
+settle to $\Psi_{\rm min}$ even after large transient excursions. However,
+the TIME to reach $\Psi_{\rm min}$ depends on the barrier heights and
+damping $\Gamma$ — not just the Hessian. Turn 6-8 will address the
+Kibble-Zurek quench more directly via explicit defect-production estimates.
+
+==================================================================
+
+§ 8. NUMERICAL ANCHOR: EXPECTED RANGE OF EIGENVALUES
+==================================================================
+
+**From prior art** (Math82, Math220-AddB):
+
+The Brazovskii gap $m^{*2} \approx 0.314$ (Brazovskii units).
+
+The elastic moduli are $Z, Y > 0$ with $Z \sim O(0.01)$, $Y \sim O(0.0001)$.
+
+**Expected spectrum**:
+
+| Eigenvalue range | Count | Physical origin |
+|---|---|---|
+| $\lambda = 0$ | 6 | Goldstone (3 trans.) + rotational (3) |
+| $0 < \lambda \lesssim 0.01$ | ~3 | Near-critical soft modes (if any) |
+| $0.01 < \lambda \lesssim 0.1$ | ~10 | Phonon-like elastic excitations |
+| $\lambda > 0.1$ | ~remaining | Gapped, short-range (stable) |
+
+**Target for Turn 5**: Compute full Lanczos spectrum up to at least 30 modes.
+Verify (i) exactly 6 zero-eigenvalues with right structure, (ii) no negative
+eigenvalues, (iii) lowest massive mode has $\lambda_{\rm min}^{\rm massive} > 0$.
+
+**Falsification criterion** (pre-registered per CLAUDE.md §6.3.3):
+
+If $\lambda_{\rm min}^{\rm massive} < -10^{-3}$ (Brazovskii units), then the
+Hessian has a negative eigenvalue → BCC is a saddle point → Lemma E_3'
+FALSIFIED (vacuum instability incompatible with unique cosmological history).
+
+==================================================================
+
+§ 9. ROADMAP TO TURNS 5-6
+==================================================================
+
+**Turn 5 (Math358)**:
+- Implement Lanczos eigenvalue solver in Python
+- Load BCC ground state $\Psi_{\rm min}$ from Math82 checkpoint (N=16 initial)
+- Compute lowest 30 eigenvalues
+- Check for 6 zero-modes
+- Identify soft modes
+
+**Turn 6 (Math359)**:
+- Verify all non-Goldstone eigenvalues > 0
+- Estimate Kibble-Zurek defect production rate (from soft-mode susceptibility)
+- Determine whether soft modes catalyse defect creation
+
+**Outcome gates Turn 7-8**: Global-minimum search and final E_3' verdict.
+
+==================================================================
+
+\section*{REFERENCES}
+
+Math82:      Brazovskii spectral gap ground-state characterization
+Math220-AddB: Stiffness constant-bound theorem (Lemma B)
+Math221-AddC: Charge-table closure (Lemma A, Math355 audit)
+Math218-AddA: E_3' cosmological defect inventory (current blocker)
+Math60-D:     Alternative state enumeration (global competitors)
+Math38:       Original Hessian operator setup (early work, pre-cutoff)
+
+==================================================================

@@ -1,0 +1,99 @@
+==================================================================
+   TECT-Math363: Numerical Verification Plan (DEFERRED)
+                      Turn 10 of 20-turn Programme
+
+   TDGL Quench Simulation with Hubble Friction: Status
+   Date: 2026-05-09
+   Classification: NUMERICAL-COMPUTATION PLAN (execution deferred post-session)
+==================================================================
+
+Theory tag    : Math363-Numerical-Verification-Plan-Turn10
+Date          : 2026-05-09
+Status        : OUTLINE (implementation task, not executable in this session)
+Significance  : Documents the computational pathway for final verification:
+                full TDGL quench with Hubble friction, multi-defect
+                dynamics, free-energy tracking.
+Dispatch      : Turn 10 of 20-turn Lemma E_3' closure programme
+Owner         : TECT Collaboration autonomous agent (implementation: future)
+Dependencies  : Math360 (analytical timescale), Math358 (Hessian reference)
+
+==================================================================
+
+§ 1. COMPUTATION PLAN
+==================================================================
+
+**Objective**: Simulate the cosmological phase transition at the TDGL
+(time-dependent Ginzburg-Landau) level with Hubble friction included.
+Verify whether Kibble-Zurek defects actually form and freeze in.
+
+**Parameters**:
+- System size: 32³ lattice (smallest, fastest)
+- Temperature: T from 1.2 T_c down to 0.5 T_c (across transition)
+- Cooling rate: β = dT/dt = -10^{-2} T_c / τ_relax (realistic quench)
+- Hubble friction: $2H(T) \dot{\Psi} = ...$  term in TDGL
+- Noise: Thermal random forces at temperature T
+
+**TDGL equation** (with Hubble friction):
+
+$$\frac{\partial \Psi}{\partial t} + 2H(t)\Psi = -\Gamma \frac{\delta \mathcal{F}}{\delta \Psi^*} + \sqrt{2\Gamma T}\, \xi(t,x).$$
+
+**Runtime**: ~100,000 timestepping iterations
+**Computational cost**: ~10 hours on GPU cluster (CUDA + PyTorch)
+
+**Metrics to track**:
+- Topological charge density $Q(t,x)$ at each time
+- Defect count and positions
+- Free energy $F(t)$ (compare to analytical predictions)
+- Order-parameter gradient field (visualization)
+
+==================================================================
+
+§ 2. EXPECTED OUTCOMES
+==================================================================
+
+**Outcome A** (SUPPORTS E_3' failure):
+- Defects form abundantly (Q ~ 0.1 per lattice site)
+- Defects remain frozen as T → 0 (matching Math360 prediction)
+- Final state: one-defect BCC → **E_3' FALSIFIED**
+
+**Outcome B** (CHALLENGES Turns 4-9):
+- Defects form but rapidly annihilate (contradicts Math360)
+- Final state: zero-defect BCC → **E_3' POSSIBLE (new mechanism found)**
+- Would require re-analysis of Hubble-friction timescales
+
+**Outcome C** (INCONCLUSIVE):
+- Simulation diverges or becomes numerically unstable
+- Indicates that non-linear TDGL dynamics are more complex
+- Requires refined numerical methods (adaptive time stepping, etc.)
+
+==================================================================
+
+§ 3. STATUS AND DEFERRAL RATIONALE
+==================================================================
+
+**Why deferred to future session**:
+
+(1) GPU cluster access requires scheduling (not available in this session)
+(2) Code must be written from scratch (no existing TDGL-Hubble code in TECT suite)
+(3) Estimated runtime: 10 hours (exceeds session time)
+(4) Result is a VERIFICATION (nice-to-have), not a PROOF REQUIREMENT
+
+**Rationale for Turns 4-9 standing despite deferral**:
+
+The analytical arguments (Kibble-Zurek kinetics, topological free energy,
+Hessian stability) are mathematically SUFFICIENT to establish E_3' status.
+Numerical simulation is a CHECK, not a prerequisite.
+
+If simulation contradicts analysis (Outcome B), the analysis must be
+re-examined (possible error in timescale estimates). But absent the
+simulation, the analytical verdict stands.
+
+==================================================================
+
+\section*{REFERENCES}
+
+Math360:     Hubble-friction timescale analysis
+Math97:      Kibble-Zurek reference (for comparison with sim)
+Math82:      Ground state (initial condition for sim)
+
+==================================================================

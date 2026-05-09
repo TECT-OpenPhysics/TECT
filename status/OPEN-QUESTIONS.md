@@ -55,6 +55,24 @@ archived with the replacement's tag, and the replacement gains an
 
 ## Active
 
+#### Q-2026-05-09-Supplementary-Hamiltonian-Audit — Audit all Codes/supplementary/Math*.py for canonical-vs-toy Brazovskii free-energy consistency — **OPENED 2026-05-09 (Math373 §6 devil's-advocate β VALID-with-mitigation)**
+
+**[OPENED 2026-05-09 — Math373 R-2026-05-09-Math372-Sign-Error-Claim-Retraction follow-up]** **Context**: The Math369--372 cluster (2026-05-09) was audit-flagged INVALID because the supplementary scripts implemented a TOY Brazovskii free energy that omitted the canonical sextic stabiliser $\gamma\Psi^6/3$, misinterpreted $\gamma$ as a gradient coefficient instead of a sextic coefficient, used the wrong $\mu^2$ value ($-0.7$ instead of the canonical operating points $+0.005$ or $+0.26$), and used the wrong quartic prefactor $(\lambda/4)$ instead of the canonical $(\lambda/2)$. Math374 was queued as the corrective implementation. The retraction exposed the broader risk that other supplementary scripts under `Codes/supplementary/Math*.py` may carry similar canonical-vs-toy free-energy mismatches that have not been audited.
+
+**Statement**: For every script under `Codes/supplementary/Math*.py` (and any other location outside `Codes/pde/`) that performs energy, gradient, or Hessian computations on the TECT order parameter $\Psi$, verify that the implemented free energy matches the canonical form
+$$\mathcal{F}[\Psi]=\int d^3 r\left[\tfrac{r}{2}\Psi^2+\tfrac{Z}{2}|\nabla\Psi|^2+\tfrac{Y}{2}|\Delta\Psi|^2+\tfrac{\lambda}{2}\Psi^4+\tfrac{\gamma}{3}\Psi^6\right]$$
+(source: `Codes/pde/real_backend_pt_bcc_mixed_v3.py:shell_free_energy` lines 532-602; locked parameter source: `Codes/config_template_brazovskii.json` v2 schema). Each script must either (a) cite the canonical Hamiltonian source file or an explicit derivation Math note explaining any deviation; OR (b) be retracted with R- or AUDIT- entry in `NEGATIVE-RESULTS.md`. The audit must produce a written verdict per script in a single Math note (provisional name Math375 or Math376).
+
+**Why open**: 4 of the most recent supplementary scripts (Math369/370/371/372) all carried the same canonical-vs-toy mismatch and produced an INVALID conclusion ("BCC saddle, Math358 refuted") that propagated into chat assertions and Math note bodies before the operator audit caught it. There is no infrastructure that catches this defect class — the only check is manual Hamiltonian comparison. Until every supplementary script has a verified Hamiltonian source line, future numerical claims from this directory are at risk of repeating the Math369--372 pattern.
+
+**Falsification criterion**: any supplementary script whose free-energy / gradient / Hessian formulae cannot be matched line-by-line to the canonical `shell_free_energy` (modulo documented and justified deviations) is automatically downgraded to AUDIT-FLAGGED INVALID with a header banner identical to the one applied to Math369/370/371 on 2026-05-09. The audit is closed only when the entire directory is either (a) verified canonical-consistent or (b) explicitly retracted.
+
+**Owner**: Jusang Lee (maintainer) + AI collaborator. **Expected closure**: 2026-06-15 (matched to Stage-1-sealed target). **Suggested infra hook**: a `Codes/tools/verify_supplementary_hamiltonians.py` checker that scans `Codes/supplementary/Math*.py` for the canonical sextic and flags scripts missing it.
+
+**Cross-references**: Math373 (this OQ's parent), Math372 (R-2026-05-09 retracted), Math369/370/371 (AUDIT-FLAGGED INVALID), `Codes/pde/real_backend_pt_bcc_mixed_v3.py:532-602` (canonical Hamiltonian), `Codes/config/config_template_brazovskii.json` (locked parameters), CLAUDE.md §6.3.5(a) (self-adversarial review rule that should have caught this earlier).
+
+---
+
 #### Q-2026-05-02-Pillar11-Lambda-Numerical-Repair — Paper-11 internal numerical-vs-gate inconsistency resolution — **OPENED 2026-05-02 (Math314-AddD Paper-11 [INTERNAL_INCONSISTENCY_REPAIRED] flag)**
 
 **[OPENED 2026-05-02 — Math314-AddD §2 Paper-11 correction follow-up]** **Context**: Paper-11 (Pillar 11 Λ) as drafted contains an internal contradiction: the abstract claims "verification within F-GAP gate $|\Lambda|/M_{\rm Planck}^4 < 10^{-120}$", but §Numerical-result computes $|\Lambda_{\rm TECT}|/M_{\rm Planck}^4 \sim 10^{-118}\text{ to }10^{-119}$. The paper fails its own pre-registered falsification gate by 1-2 orders of magnitude. The Math314-AddD audit flagged the inconsistency in the abstract; the underlying physics question remains open.
