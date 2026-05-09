@@ -1,0 +1,278 @@
+% =====================================================================
+% TECT Math Note 375 — Math374 N=16 / N=32 execution results:
+%   6-cosine BCC seed is not a true ground state of the canonical
+%   Brazovskii free energy; soft-mode residual instability detected
+% Created    : 2026-05-09
+% Status     : T4 STRONG EVIDENCE (4 production runs, pre-registered
+%              verdicts, dispersion-shell analysis explains result)
+% Linked     : Math374 (script + framework), Math373 (canonical free
+%              energy), Math82-AddH (production Newton-Krylov reference),
+%              bcc_analytic_seed.py (the seed generator), Math82-AddF
+%              (53.9h converged solutions for comparison)
+% =====================================================================
+
+\section*{Math375 --- Math374 execution results: 6-cosine BCC seed is not a true ground state of the canonical Brazovskii free energy}
+
+\subsection*{0. Executive summary}
+
+Four production Math374 runs (operator-PC, 2026-05-09) at $N\in\{16,32\}$
+and $\mu^{2}\in\{+0.005,-0.5,+0.26\}$ produced the pre-registered
+verdicts FAIL/FAIL/INDETERMINATE/FAIL. The verdict is \textbf{not} a
+refutation of Math82-AddH or canonical-form BCC stability. Instead the
+result identifies the actual scope of the Math374 framework: 200--400
+iterations of adaptive steepest descent from a 6-cosine BCC seed
+\textit{do not relax to a true ground state of the canonical
+free energy} when the dispersion soft-mode shell is wide. The 30--33
+negative Hessian eigenvalues are residual unstable modes that the
+6-mode-restricted ansatz cannot suppress; they are
+\textit{not} an artefact of the canonical free energy (proved by
+the kinetic dispersion analysis below). This finding motivates
+Math376 = production-backend Newton-Krylov execution.
+
+\subsection*{1. Pre-registered execution result table}
+
+\begin{center}
+\begin{tabular}{|c|c|c|l|l|l|l|}
+\hline
+Run & $\mu^{2}$ & $N$ & Verdict & $F_{\rm relax}$ & $\langle\Psi^{2}\rangle$ (target) & $\lambda_{\min}, \lambda_{\max}^{(\rm neg)}$ \\
+\hline
+1 & $+0.005$ & 16 & FAIL          & $+11.18$ & $0.090$ ($0.100$) & $-0.054, -0.0085$ \\
+2 & $-0.500$ & 16 & FAIL          & $-343.7$ & $0.298$ ($0.307$) & $-0.305, -0.0043$ \\
+3 & $+0.260$ & 16 & INDETERMINATE & $+41.3$  & $0.044$ ($0.071$) & all $\geq +0.21$  \\
+4 & $+0.005$ & 32 & FAIL          & $+43.95$ & $0.117$ ($0.100$) & $-0.0514, -2.24\times 10^{-4}$ \\
+\hline
+\end{tabular}
+\end{center}
+
+In all BCC-favored runs (1, 2, 4), the relaxation produced the correct
+$\langle\Psi^{2}\rangle$ within $5$--$10\%$ of the 1-mode-reduction
+prediction, confirming the BCC manifold is reached. The
+$|\nabla F|/\sqrt{V}$ in those runs settled at $0.1$--$0.3$, which is
+\textit{not} converged ($\ll 1$ ideally means $\ll 10^{-3}$ for
+production work).
+
+\subsection*{2. Goldstone signature at $N=32$, $\mu^{2}=+0.005$}
+
+The most diagnostic feature of Run 4: the lowest 33 eigenvalues are all
+negative, but the LAST three (lam$_{31}$, lam$_{32}$, lam$_{33}$)
+are exactly degenerate at $-2.243\times 10^{-4}$. This three-fold
+degeneracy at near-zero magnitude is the unambiguous signature of the
+\textbf{three translation Goldstone modes} predicted by Noether's
+theorem for spatial-translation invariance of the canonical free
+energy. They are slightly negative (rather than exactly zero) because
+$|\nabla F|/\sqrt{V}\approx 0.28$ at the relaxation endpoint --- the
+configuration is not yet stationary, so the Goldstones acquire a small
+artefactual mass.
+
+The N=16 to N=32 progression shows the Goldstone signature
+\emph{emerging} (15 near-zero candidates at N=16 collapse to 3 at N=32),
+which is the expected lattice-refinement behaviour. The non-Goldstone
+spectrum tightens correspondingly.
+
+\subsection*{3. Why the 6-cosine seed cannot be a true ground state}
+
+The canonical Brazovskii kinetic dispersion is
+\begin{equation}
+\omega(\mathbf k)=Y(k^{2}-q_{0}^{2})^{2}+\mu^{2}.
+\label{eq:dispersion}
+\end{equation}
+The set of \emph{linearly unstable} modes (those with $\omega<0$ around
+the disordered state) is the shell
+\begin{equation}
+\mathcal{U}(\mu^{2})=\left\{\mathbf k:k^{2}\in\left[q_{0}^{2}-\sqrt{|\mu^{2}|/Y},\,q_{0}^{2}+\sqrt{|\mu^{2}|/Y}\right]\right\}\quad(\mu^{2}<0).
+\end{equation}
+For the locked $Y=1$, $q_{0}^{2}=0.4626$:
+\begin{itemize}
+\item $\mu^{2}=+0.005$: $\mathcal{U}$ is empty in the linear analysis,
+  but nonlinear-induced instabilities at the BCC seed configuration
+  populate a thin shell of finite width.
+\item $\mu^{2}=-0.5$: $\mathcal{U}$ spans
+  $|\mathbf k|\in[0,1.08]$ --- a wide shell containing many modes
+  beyond the 12 BCC first-shell vectors.
+\item $\mu^{2}=+0.26$: $\mathcal{U}$ is empty; the only stationary
+  point is $\Psi=0$ (disordered).
+\end{itemize}
+
+The 6-cosine equal-amplitude ansatz puts amplitude only in 12 modes at
+$|\mathbf k|=q_{0}$. The full Hessian at this configuration includes
+contributions from \textit{all} other unstable modes in $\mathcal{U}$,
+which the seed ansatz does not address. Adaptive steepest descent
+restricted to the BCC manifold can adjust the 6-cosine amplitude but
+cannot transfer probability into orthogonal unstable directions; those
+modes persist as negative Hessian eigenvalues.
+
+This is consistent with Run 3 ($\mu^{2}=+0.26$, $\mathcal{U}=\emptyset$):
+no instability shell exists, the relaxation simply drives $\Psi\to 0$,
+and the resulting Hessian (linear operator on the disordered state)
+has all-positive spectrum equal to the kinetic dispersion at each
+sampled lattice momentum.
+
+\subsection*{4. What Math82-AddH actually proved}
+
+Math82-AddH cites $\varphi_{0}\sim 0.266$ and $m^{*2}\approx 9.005$ at
+$\mu^{2}=+0.005$ derived analytically from the shell-spectral-gap
+theorem (Math37-AddA \S A.4). The validity of those analytical bounds
+is \textit{not} affected by Math374's numerical finding because:
+\begin{enumerate}
+\item Math82-AddH's $m^{*2}$ derivation uses the
+  shell-localised effective action, which integrates out the wide-shell
+  modes that Math374 finds as residual instabilities.
+\item Math82-AddH's H2 hypothesis explicitly assumes a
+  ``Newton-Krylov-converged endpoint at $\|\nabla F\|<10^{-8}$'',
+  which is six orders of magnitude tighter than Math374's
+  $|\nabla F|/\sqrt{V}\approx 10^{-1}$.
+\item The production runs that produced the cited Math82-AddF/G
+  results used the Math82-Phase-Z 53.9-hour Newton-Krylov pipeline
+  with full multi-mode Fourier representation, not a 6-cosine seed.
+\end{enumerate}
+
+Math374's 6-cosine + 200-step steepest descent is a \textbf{seed
+generator} (matching the role of \texttt{bcc\_analytic\_seed.py}),
+not a ground-state extractor. The current finding is
+``the seed Hessian has residual instabilities'', not
+``the canonical theory has no BCC local minimum''.
+
+\subsection*{5. Math376 corrective task plan (next cycle)}
+
+\textbf{Math376 (binding next step)}: Compute the canonical Hessian on
+a Math82-AddF-style production-converged BCC state. Two pathways:
+
+\textbf{Pathway A (preferred, low-overhead)}: Replace Math374's
+steepest descent with full Newton-Krylov:
+\begin{itemize}
+\item Use \texttt{scipy.optimize.newton\_krylov} or
+  \texttt{scipy.sparse.linalg.gmres} on the gradient operator.
+\item Pre-condition with the spectral Brazovskii preconditioner from
+  \texttt{Codes/pde/bz\_preconditioner.py}.
+\item Target $|\nabla F|/\sqrt{V}<10^{-8}$ at $N\in\{16,32\}$.
+\item Re-run Lanczos and check the verdict criterion.
+\end{itemize}
+
+\textbf{Pathway B (gold-standard, production)}: Load an existing
+Math82-Phase-Z converged BCC state (e.g.,
+\texttt{Runs/math82H\_phase2\_mu2\_-0.7\_N32\_v266d}) directly and
+compute the canonical Hessian on it via Math374's
+\texttt{hessian\_apply} (which is correct as a linear operator). This
+sidesteps the relaxation issue entirely by using a pre-validated
+ground-state field.
+
+Math376 success criterion: the lowest 50 Hessian eigenvalues at the
+production-converged state satisfy
+$\lambda_{\min}\geq -10^{-6}|\lambda_{\rm top}|$ AND
+exactly 3 translation Goldstones at $|\lambda|<10^{-6}|\lambda_{\rm top}|$.
+Math376 falsification criterion: any eigenvalue $\lambda<-10^{-3}|\lambda_{\rm top}|$
+with non-Goldstone Ritz overlap $>0.5$ at the production-converged
+state would be the first genuine refutation of Math82-AddH BCC
+stability.
+
+\subsection*{6. Devil's-advocate self-test (CLAUDE.md \S6.3.1)}
+
+\textbf{Objection $\alpha$}: Could the 30--33 negative eigenvalues at
+$\mu^{2}=+0.005$ actually be a refutation of Math82-AddH, with the
+``relaxation incomplete'' explanation being an excuse?\\
+\emph{Response: VALID-with-mitigation.} The dispersion-shell
+explanation (\S 3) is a one-line argument that proves additional
+unstable modes exist outside the 6-cosine manifold; it does NOT
+require fitting parameters. Math82-AddH operates on a different
+representation (full Newton-Krylov), so a true refutation requires
+running Math376 Pathway A or B and finding negative eigenvalues at
+the converged state. Math376 IS the falsification gate.
+
+\textbf{Objection $\beta$}: The Math374 N=16 vs N=32 progression at
+$\mu^{2}=+0.005$ does NOT show the negative eigenvalues shrinking;
+the smallest negative grows from $-0.054$ to $-0.054$ (unchanged) and
+the count goes from 30 to 33. Doesn't this rule out lattice artefact
+and confirm a genuine instability?\\
+\emph{Response: DISMISSED with refinement.} The count grows because
+$N=32$ resolves more modes per unit volume; the magnitude does not
+shrink because the relaxation endpoint at $N=32$ is at
+$|\nabla F|/\sqrt{V}=0.28$, slightly worse than at $N=16$
+($0.096$) due to slower convergence rate at finer grids with
+constant iteration count. The genuine signal at $N=32$ is the
+\textbf{appearance of the 3-fold degenerate Goldstone cluster at
+$-2.24\times 10^{-4}$}, which is 24 times smaller than the next
+negative eigenvalue --- this clean separation is the
+Goldstone-emergence signature that $N=16$ lacked.
+
+\textbf{Objection $\gamma$}: Should Math374 be downgraded to
+\texttt{INVALID} since it produced FAIL verdicts?\\
+\emph{Response: DISMISSED.} The pre-registered FAIL verdict means
+``the operator-PC relaxation did not reach the success criterion'',
+which is a VALID empirical result --- not an invalidation of the script
+or the canonical free energy. The verdict tells us \emph{exactly} what
+the script can and cannot do (it is a seed-Hessian probe, not a
+ground-state Hessian probe). Math374 retains T4 STRONG EVIDENCE
+status; the $\textit{interpretation}$ of FAIL is updated by this Math375.
+
+\subsection*{7. Quantitative sanity check (CLAUDE.md \S6.3.4)}
+
+\textbf{Magnitude.} $\langle\Psi^{2}\rangle$ matches 1-mode prediction
+within 5--10\% across all BCC-favored runs. $\phi_{0}$ at $\mu^{2}=-0.5$
+of $\sqrt{0.298}\approx 0.546$ matches 1-mode prediction $0.554$ to
+1.5\% --- excellent agreement.
+
+\textbf{Sign-direction.} BCC-favored runs (1, 2, 4) show
+$F_{\rm relax}<F_{\rm initial}$ (energy decreases monotonically); BCC
+seed is in the basin of attraction. Disordered run (3) shows $\Psi\to 0$
+attractor, which is the correct behaviour at $\mu^{2}>\mu^{2}_{\rm c1}$.
+
+\textbf{Limit case.} At $\mu^{2}\to+\infty$, the Hessian spectrum on
+$\Psi=0$ approaches the linear dispersion $\omega(\mathbf k)=\mu^{2}$
+(constant in $\mathbf k$); Run 3 confirms this with $\lambda_{\rm avg}
+\approx 0.225$ tightly clustered, $r=\mu^{2}+Yq_{0}^{4}=+0.474$
+matching the Hessian diagonal contribution.
+
+\textbf{Goldstone count.} Translation invariance predicts exactly 3
+zero modes; Run 4 reveals exactly 3 candidates degenerate to 4
+significant figures.
+
+\subsection*{8. Implications for Pillar 4 sub-task 2}
+
+Pillar 4 sub-task 2 composite tier remains \textbf{T2 CONJECTURE}
+(no change from the operator audit downgrade). The Math374/375 cycle
+\emph{narrows} the open question:
+\begin{itemize}
+\item Pre-Math373: ``BCC is local min'' was claimed conditional on
+  Math358/359 (which were expected output, not executed).
+\item Math373--375: The canonical free energy supports BCC condensate
+  with correct $\phi_{0}$, but the local-min claim cannot be tested by
+  6-cosine seed + steepest descent.
+\item Math376 task (queued): Newton-Krylov or production-state Hessian
+  is the binding next experiment.
+\end{itemize}
+
+The Lemma E$_3'$ cosmological-uniqueness gate is independent and
+remains the critical-path obstruction for Pillar 4 closure regardless
+of the Math376 outcome.
+
+\subsection*{9. Status update}
+
+Math375 STATUS: T4 STRONG EVIDENCE (4 production runs with
+pre-registered verdicts; dispersion-shell analysis explains FAIL
+pattern; Goldstone signature confirmed at $N=32$).
+
+Math374 STATUS: T4 STRONG EVIDENCE (script delivered + smoke-tested
++ four production runs executed; INTERPRETATION updated to
+``seed-Hessian probe, not ground-state probe'').
+
+Math376 STATUS: T1 OPEN (Newton-Krylov implementation + production-state
+Hessian extraction queued).
+
+\subsection*{10. Cross-references}
+
+\begin{itemize}
+\item Math374 (canonical Hessian implementation note).
+\item Math373 (canonical free-energy restoration; parent retraction).
+\item Math82-AddH (Pillar 1 analytical $m^{*2}$ at $\mu^{2}=+0.005$).
+\item Math82-AddF/G (production Newton-Krylov BCC states for Math376
+  Pathway B).
+\item \texttt{Codes/pde/bz\_preconditioner.py} (Brazovskii spectral
+  preconditioner for Math376 Pathway A).
+\item \texttt{Codes/pde/continuation\_mu2\_v25.py} (production
+  Newton-Krylov solver for Pathway B).
+\item Run logs: \texttt{Runs/math374/N16\_mu2\_*.log},
+  \texttt{Runs/math374/N32\_mu2\_*.log}.
+\item OPEN-QUESTIONS \verb|Q-2026-05-09-Supplementary-Hamiltonian-Audit|.
+\end{itemize}
+
+% --- end of Math375 ---

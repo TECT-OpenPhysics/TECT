@@ -1,4 +1,4 @@
-// AUTO-GENERATED v0.3 page 9/9 — 2026-05-09 02:44 UTC
+// AUTO-GENERATED v0.3 page 9/9 — 2026-05-09 02:55 UTC
 window.TECT_HISTORY = {
   title: "History (page 9 of 9)",
   subtitle: "Chronological CHANGELOG mirror — auto-generated.",
@@ -7,6 +7,11 @@ window.TECT_HISTORY = {
   blocks: [
     { type: "html", content: "<div class=\"pagination-nav\">Page 9 / 9 &middot; <a href=\"history/page-008.html\">Older &rarr;</a></div>" },
     { type: "timeline", items: [
+        {
+          date: "2026-05-09",
+          title: "[Theory/Numerical] Math375: Math374 Production Runs (N=16/N=32) — 6-cosine seed is not a true ground state",
+          body: "**Theory tag**: `Math375-Math374-Execution-Results-and-Seed-vs-Ground-State-Distinction-2026-05-09`"
+        },
         {
           date: "2026-05-09",
           title: "[Theory/Audit] Math373 + Math374: Math372 Sign-Error Claim RETRACTION + Canonical Brazovskii Free-Energy Restoration + Corrective Hessian Code",
