@@ -4,9 +4,9 @@
 window.TECT_MATH_NOTES_PAGE_005 = {
   title: "Math notes (page 5 of 12)",
   subtitle: "Proof-level derivations. Auto-paginated by Math NN; this page covers a fixed slice of the archive.",
-  pagination: {"page": 5, "total": 12, "newer": "page-006.html", "older": "page-004.html", "archiveIndex": "archive-index.html"},
+  pagination: {"page": 5, "total": 12, "newer": "math-notes-page-006.html", "older": "math-notes-page-004.html", "archiveIndex": null},
   blocks: [
-    { type: "html", content: "<div class=\"pagination-nav\"><a href=\"page-006.html\">&larr; Newer</a> &middot; Page 5 / 12 &middot; <a href=\"page-004.html\">Older &rarr;</a></div>" },
+    { type: "html", content: "<div class=\"pagination-nav\"><a href=\"math-notes-page-006.html\">&larr; Newer</a> &middot; Page 5 / 12 &middot; <a href=\"math-notes-page-004.html\">Older &rarr;</a></div>" },
     {
       type: "card",
       title: "Math notes (page 5 of 12, archived; 50 entries)",
@@ -14,9 +14,6 @@ window.TECT_MATH_NOTES_PAGE_005 = {
         {
           type: "list",
           items: [
-            "<code>TECT-Math57-AddA-Pillar2-Shell-Isotropy.tex.txt</code> (2026-04-21) &mdash; Addendum A to Math57: Brazovskii Shell SO(3) Isotropy Certificate <span class=\"tag tag-ok\">STRENGTHENED CONDITIONAL -- shell SO(3) isotropy PROVED at 1-loop;</span> <a href=\"https://github.com/TECT-OpenPhysics/TECT/blob/main/note/TECT-Math57-AddA-Pillar2-Shell-Isotropy.tex.txt\" target=\"_blank\" class=\"view-link\">[view]</a> <a href=\"https://raw.githubusercontent.com/TECT-OpenPhysics/TECT/main/note/TECT-Math57-AddA-Pillar2-Shell-Isotropy.tex.txt\" download class=\"download-link\">[↓ download]</a>",
-            "<code>TECT-Math57-v2-Pillar2-Inertia-RG.tex.txt</code> (2026-04-21) &mdash; Full Callan--Symanzik RG Analysis of the Kinetic-Energy Operator <a href=\"https://github.com/TECT-OpenPhysics/TECT/blob/main/note/TECT-Math57-v2-Pillar2-Inertia-RG.tex.txt\" target=\"_blank\" class=\"view-link\">[view]</a> <a href=\"https://raw.githubusercontent.com/TECT-OpenPhysics/TECT/main/note/TECT-Math57-v2-Pillar2-Inertia-RG.tex.txt\" download class=\"download-link\">[↓ download]</a>",
-            "<code>TECT-Math58-v2-Pillar11-CosmConst-skeleton.tex.txt</code> (2026-04-21) &mdash; Vacuum-Energy Residue and the Topological Origin of the <span class=\"tag tag-design\">SKELETON (pending Task #54 v2.4 continuation endpoint).</span> <a href=\"https://github.com/TECT-OpenPhysics/TECT/blob/main/note/TECT-Math58-v2-Pillar11-CosmConst-skeleton.tex.txt\" target=\"_blank\" class=\"view-link\">[view]</a> <a href=\"https://raw.githubusercontent.com/TECT-OpenPhysics/TECT/main/note/TECT-Math58-v2-Pillar11-CosmConst-skeleton.tex.txt\" download class=\"download-link\">[↓ download]</a>",
             "<code>TECT-Math_IR_Bound-v4-shell-adaptive.tex.txt</code> (2026-04-21) &mdash; Shell-adaptive Interval Certificate for the 1-loop <a href=\"https://github.com/TECT-OpenPhysics/TECT/blob/main/note/TECT-Math_IR_Bound-v4-shell-adaptive.tex.txt\" target=\"_blank\" class=\"view-link\">[view]</a> <a href=\"https://raw.githubusercontent.com/TECT-OpenPhysics/TECT/main/note/TECT-Math_IR_Bound-v4-shell-adaptive.tex.txt\" download class=\"download-link\">[↓ download]</a>",
             "<code>TECT-Math_IR_Bound-v4-thm-v4-1.tex.txt</code> (2026-04-21) &mdash; TECT-Math\\_IR\\_Bound-v4 (Theorem v4-1 execution, Rev v3.1): <span class=\"tag tag-ok\">PROVED UNCONDITIONALLY (Theorem v4-1 analytic +</span> <a href=\"https://github.com/TECT-OpenPhysics/TECT/blob/main/note/TECT-Math_IR_Bound-v4-thm-v4-1.tex.txt\" target=\"_blank\" class=\"view-link\">[view]</a> <a href=\"https://raw.githubusercontent.com/TECT-OpenPhysics/TECT/main/note/TECT-Math_IR_Bound-v4-thm-v4-1.tex.txt\" download class=\"download-link\">[↓ download]</a>",
             "<code>TECT-Math49-rigorous-v2.tex.txt</code> (2026-04-20) &mdash; HRR Computation of chi(Gr(2,5), E_L) via Bott Equivariant <span class=\"tag tag-design\">RIGOROUS v2 of TECT-Math49. Supersedes Math49-rigorous-v1</span> <a href=\"https://github.com/TECT-OpenPhysics/TECT/blob/main/note/TECT-Math49-rigorous-v2.tex.txt\" target=\"_blank\" class=\"view-link\">[view]</a> <a href=\"https://raw.githubusercontent.com/TECT-OpenPhysics/TECT/main/note/TECT-Math49-rigorous-v2.tex.txt\" download class=\"download-link\">[↓ download]</a>",
@@ -63,12 +60,15 @@ window.TECT_MATH_NOTES_PAGE_005 = {
             "<code>TECT-Math40.tex.txt</code> (2026-04-15) &mdash; Math40-RG-kinetic-2026-04-15 <a href=\"https://github.com/TECT-OpenPhysics/TECT/blob/main/note/TECT-Math40.tex.txt\" target=\"_blank\" class=\"view-link\">[view]</a> <a href=\"https://raw.githubusercontent.com/TECT-OpenPhysics/TECT/main/note/TECT-Math40.tex.txt\" download class=\"download-link\">[↓ download]</a>",
             "<code>TECT-Math41.tex.txt</code> (2026-04-15) &mdash; Math41-EW+gravity-candidate-2026-04-15 <a href=\"https://github.com/TECT-OpenPhysics/TECT/blob/main/note/TECT-Math41.tex.txt\" target=\"_blank\" class=\"view-link\">[view]</a> <a href=\"https://raw.githubusercontent.com/TECT-OpenPhysics/TECT/main/note/TECT-Math41.tex.txt\" download class=\"download-link\">[↓ download]</a>",
             "<code>TECT-Math42.tex.txt</code> (2026-04-15) &mdash; Math42-ClassII-UV-2026-04-15 <a href=\"https://github.com/TECT-OpenPhysics/TECT/blob/main/note/TECT-Math42.tex.txt\" target=\"_blank\" class=\"view-link\">[view]</a> <a href=\"https://raw.githubusercontent.com/TECT-OpenPhysics/TECT/main/note/TECT-Math42.tex.txt\" download class=\"download-link\">[↓ download]</a>",
-            "<code>TECT-Math01.tex.txt</code>  &mdash; Topological Energy Condensate Theory (TECT): 1 - BCC <a href=\"https://github.com/TECT-OpenPhysics/TECT/blob/main/note/TECT-Math01.tex.txt\" target=\"_blank\" class=\"view-link\">[view]</a> <a href=\"https://raw.githubusercontent.com/TECT-OpenPhysics/TECT/main/note/TECT-Math01.tex.txt\" download class=\"download-link\">[↓ download]</a>"
+            "<code>TECT-Math01.tex.txt</code>  &mdash; Topological Energy Condensate Theory (TECT): 1 - BCC <a href=\"https://github.com/TECT-OpenPhysics/TECT/blob/main/note/TECT-Math01.tex.txt\" target=\"_blank\" class=\"view-link\">[view]</a> <a href=\"https://raw.githubusercontent.com/TECT-OpenPhysics/TECT/main/note/TECT-Math01.tex.txt\" download class=\"download-link\">[↓ download]</a>",
+            "<code>TECT-Math02.tex.txt</code>  &mdash; Fluctuation-Induced BCC Selection in $\\mathbb{Z <a href=\"https://github.com/TECT-OpenPhysics/TECT/blob/main/note/TECT-Math02.tex.txt\" target=\"_blank\" class=\"view-link\">[view]</a> <a href=\"https://raw.githubusercontent.com/TECT-OpenPhysics/TECT/main/note/TECT-Math02.tex.txt\" download class=\"download-link\">[↓ download]</a>",
+            "<code>TECT-Math03.tex.txt</code>  &mdash; Fluctuation-Induced BCC Selection in $\\mathbb{Z <a href=\"https://github.com/TECT-OpenPhysics/TECT/blob/main/note/TECT-Math03.tex.txt\" target=\"_blank\" class=\"view-link\">[view]</a> <a href=\"https://raw.githubusercontent.com/TECT-OpenPhysics/TECT/main/note/TECT-Math03.tex.txt\" download class=\"download-link\">[↓ download]</a>",
+            "<code>TECT-Math04.tex.txt</code>  &mdash; Structure Selection Theorem <a href=\"https://github.com/TECT-OpenPhysics/TECT/blob/main/note/TECT-Math04.tex.txt\" target=\"_blank\" class=\"view-link\">[view]</a> <a href=\"https://raw.githubusercontent.com/TECT-OpenPhysics/TECT/main/note/TECT-Math04.tex.txt\" download class=\"download-link\">[↓ download]</a>"
           ],
           class: "tight"
         }
       ]
     },
-    { type: "html", content: "<div class=\"pagination-nav\"><a href=\"page-006.html\">&larr; Newer</a> &middot; Page 5 / 12 &middot; <a href=\"page-004.html\">Older &rarr;</a></div>" }
+    { type: "html", content: "<div class=\"pagination-nav\"><a href=\"math-notes-page-006.html\">&larr; Newer</a> &middot; Page 5 / 12 &middot; <a href=\"math-notes-page-004.html\">Older &rarr;</a></div>" }
   ]
 };

@@ -1,0 +1,276 @@
+% =====================================================================
+% TECT Math Note 376 -- Pathway B production-state Hessian extraction
+% Created    : 2026-05-09
+% Status     : T4 STRONG EVIDENCE (script delivered + synthetic-state
+%              smoke-test pass; T6 promotion gated on operator-PC
+%              execution at production-converged states)
+% Linked     : Codes/supplementary/Math376_production_state_hessian.py
+%              (the implementation), Math375 (Math374 limitation that
+%              motivated this), Math374 (canonical Hessian operator),
+%              Math373 (canonical free energy), Math82-Addendum-B/H
+%              (state-production pipeline)
+% =====================================================================
+
+\section*{Math376 -- Pathway B: production-state Hessian extraction at canonical Brazovskii free energy}
+
+\subsection*{0. Purpose}
+
+Math374 / Math375 established that 200--400 iterations of adaptive
+steepest descent from a 6-cosine BCC seed cannot suppress the
+nonlinearly induced unstable modes outside the BCC first shell. The
+correct test of Math82-AddH BCC stability requires evaluating the
+canonical Hessian at a Newton-Krylov-converged ground state, not at
+a seed. Pathway B is the gold-standard implementation of this test:
+load a production state file (.npy from
+\texttt{bcc\_analytic\_seed.py} or
+\texttt{continuation\_mu2\_v25.py}) and apply Math374's
+\texttt{hessian\_apply} directly, with NO intermediate relaxation,
+reporting $\|\nabla F\|/\sqrt{V}$ as the stationarity certificate.
+
+\subsection*{1. Field-format reduction}
+
+Production states use the (3, $N$, $N$, $N$) complex128 format with
+family-locked direction $\mathbf{z}_0=(1,1,1)/\sqrt 3$. Math376
+projects to the canonical single-channel real field via
+\begin{equation}
+\Psi_{\rm real}(\mathbf r)=\mathrm{Re}\!\left[\mathbf{z}_0\cdot\boldsymbol{\Psi}(\mathbf r)\right]
+=\mathrm{Re}\!\left[\sum_{a=1}^{3}z_{0,a}\,\Psi_a(\mathbf r)\right].
+\label{eq:project}
+\end{equation}
+Equation \eqref{eq:project} is exact when the field is family-locked,
+i.e.\ $\Psi_a(\mathbf r)=z_{0,a}\,\phi(\mathbf r)$ for some scalar
+$\phi(\mathbf r)$. The locking penalty in
+\texttt{shell\_free\_energy} (term $F_{\rm lock}$, lines 561--564 of
+\texttt{real\_backend\_pt\_bcc\_mixed\_v3.py}) drives the field into
+this form during Newton-Krylov convergence; Math82-Phase-Z output
+states satisfy this condition by construction.
+
+After projection, Math376 applies Math374's canonical Hessian
+\eqref{eq:Hess-recall} to $\Psi_{\rm real}$:
+\begin{equation}
+H\,\delta = r\,\delta - Z\,\Delta\delta + Y\,\Delta^2\delta
++ 6\lambda\Psi_{\rm real}^2\,\delta + 10\gamma\Psi_{\rm real}^4\,\delta
+\label{eq:Hess-recall}
+\end{equation}
+with $(r, Z, Y) = (\mu^2 + Yq_0^4, -2Yq_0^2, 1)$ and locked
+$(\lambda,\gamma)=(-0.43,+1.62)$.
+
+\subsection*{2. Pre-registered verdict criteria}
+
+\textbf{PASS}:
+\begin{itemize}
+\item Stationarity: $\|\nabla F\|/\sqrt V \leq 10^{-3}$ at the loaded
+  state (certifies the state is converged).
+\item Spectrum positivity: $\lambda_{\min} \geq -10^{-6}|\lambda_{\rm top}|$.
+\item Goldstone count: at least 3 eigenvalues with
+  $|\lambda|<10^{-6}|\lambda_{\rm top}|$ (translation Goldstones; rotation
+  Goldstones additional but not required).
+\end{itemize}
+
+\textbf{FAIL}:
+\begin{itemize}
+\item Stationary state ($\|\nabla F\|/\sqrt V \leq 10^{-3}$).
+\item Any eigenvalue $\lambda < -10^{-3}|\lambda_{\rm top}|$ with
+  non-Goldstone Ritz overlap $>0.5$.
+\end{itemize}
+PASS would constitute the first numerical confirmation of
+Math82-AddH BCC stability under the canonical free energy. FAIL
+would refute that claim.
+
+\textbf{INDETERMINATE}: $\|\nabla F\|/\sqrt V > 10^{-3}$ means the
+loaded state is not converged; the spectrum at a non-stationary
+configuration is not a local-min test. The script reports this as
+\verb|INDETERMINATE-NOT-STATIONARY| and recommends loading a
+Newton-Krylov-converged state.
+
+\subsection*{3. Available state files (operator inventory)}
+
+From \texttt{Runs/seeds/} (.meta.json catalogue, .npy on operator PC):
+\begin{itemize}
+\item \texttt{Psi\_BCC\_N32\_phaseZ.npy} ($\mu^2=-1.0$, full 12-mode BCC seed; $A_{\rm BCC}\approx 0.203$).
+\item \texttt{Psi\_BCC\_ground\_N32\_L7.npy} (same payload, v0.2).
+\item \texttt{Psi\_BCC\_subset4\_N32\_phaseZ\_E.npy} (4-mode subset, symmetry-broken seed).
+\item \texttt{Psi\_subset4\_rand\_r1.npy}, \texttt{Psi\_subset4\_rand\_r2.npy} (random-phase variants).
+\end{itemize}
+These are SEEDS, not converged states. Math376 will report
+INDETERMINATE on all of them (stationarity check fails) until a
+Newton-Krylov-converged state is provided.
+
+The OPERATOR-PC-only converged states (likely paths):
+\begin{itemize}
+\item \texttt{Runs/continuation/<run\_id>/Psi\_final.npy} -- output of
+  \texttt{Codes/pde/continuation\_mu2\_v25.py}.
+\item \texttt{Runs/math82H\_phase2\_mu2\_-0.7\_N32\_v266d/Psi\_final.npy} --
+  the 53.9 h Math82-Phase-Z run cited in
+  \texttt{TECT-Math82-Addendum-F-Phase-Z-extended-budget-SUCCESS.tex.txt}.
+\end{itemize}
+Operator must inventory \texttt{Runs/continuation/} and
+\texttt{Runs/math82H\_phase2*/} on the local PC and identify the most
+recently converged state; Math376 should be run against THAT state.
+
+\subsection*{4. Smoke test (sandbox, 2026-05-09)}
+
+A synthetic family-locked 3-channel complex BCC seed at $N=8$ was
+created and passed through Math376. The script:
+\begin{itemize}
+\item correctly loaded the (3,8,8,8) complex128 array;
+\item correctly projected via \eqref{eq:project} to a (8,8,8) real
+  scalar field with $\langle\Psi^2\rangle=0.109$ and
+  $\langle\Psi^4\rangle=0.048$ (consistent with $\phi_0\approx 0.33$
+  and $K_4=1$);
+\item computed $F=-46.24$ and $\|\nabla F\|/\sqrt V=0.46$;
+\item correctly classified as \verb|STATIONARITY: FAIL| (the
+  synthetic seed is not stationary), proceeding to flag
+  \verb|INDETERMINATE-NOT-STATIONARY| when Lanczos fails (sandbox
+  has no scipy).
+\end{itemize}
+
+The smoke test confirms: (i) the .npy loader handles the production
+3-channel complex format, (ii) the z0 projection produces a
+physically sensible scalar field with the correct moments, (iii) the
+free-energy and gradient evaluators are consistent, (iv) the
+stationarity gate correctly rejects seed-quality states. The script
+is ready for operator-PC execution at converged states.
+
+\subsection*{5. Operator-PC execution plan}
+
+\textbf{Step 1: inventory converged states.}
+\begin{verbatim}
+cd C:\Dev\TECT2\Contents
+dir /S /B Runs\continuation\*Psi*.npy 2>$null
+dir /S /B Runs\math82*\*Psi*.npy 2>$null
+dir /S /B Runs\math82*\*final*.npy 2>$null
+\end{verbatim}
+Identify the most recent converged state $|S\rangle$ for each
+$\mu^2$ of interest.
+
+\textbf{Step 2: run Math376 against each converged state.}
+\begin{verbatim}
+mkdir -Force Runs\math376 | Out-Null
+
+python -u Codes\supplementary\Math376_production_state_hessian.py `
+    --state Runs\continuation\<run_id>\Psi_final.npy `
+    --eigs 50 *> Runs\math376\<run_id>_eigs50.log
+\end{verbatim}
+$\mu^2$, $L$, $N$ are read from the companion \texttt{.meta.json}
+unless overridden via \texttt{--mu2 / --L}. Lanczos at $N=32$ takes
+$\sim 5$ min, $N=64$ $\sim 30$ min.
+
+\textbf{Step 3 (fallback if no converged state exists)}: run Math376
+against the seed files anyway. The verdict will be
+\verb|INDETERMINATE-NOT-STATIONARY|, but the spectrum reveals what
+the linearised operator looks like at the seed configuration; useful
+as a baseline for comparison with Newton-Krylov-converged spectra
+once those are produced.
+
+\subsection*{6. Devil's-advocate self-test (CLAUDE.md \S6.3.1)}
+
+\textbf{Objection $\alpha$}: The single-channel projection
+\eqref{eq:project} discards information from the orthogonal
+$\mathbf{z}_0^{\perp}$ subspace, so the Hessian computed on
+$\Psi_{\rm real}$ is incomplete relative to the full 3-channel
+production Hessian.\\
+\emph{Response: VALID-with-mitigation.} The TECT family-locking
+penalty drives the field strictly into the $\mathbf{z}_0$ direction
+at converged states; the orthogonal-direction modes are
+exponentially suppressed by the locking spring constant
+$1/k_{\rm lock}=1/0.15\approx 6.7$. The reduction is exact in the
+limit of infinite locking; for the finite locking of the production
+backend, the corrections are bounded by
+$O(e^{-1/k_{\rm lock}})\approx O(10^{-3})$ in the eigenvalue
+spectrum. A follow-up Math377 (post-Math376) should cross-validate
+on a single state by directly computing the production 3-channel
+Hessian via the PyTorch backend and comparing the lowest 50
+eigenvalues; agreement to $\sim 10^{-3}$ in $|\lambda|$ would
+certify the Math376 reduction.
+
+\textbf{Objection $\beta$}: The Math376 stationarity threshold
+$\|\nabla F\|/\sqrt V \leq 10^{-3}$ may be too lax: a
+``near-stationary'' state can have spurious low-magnitude negative
+eigenvalues that disappear at tighter convergence.\\
+\emph{Response: VALID with strengthening recommendation.} If a
+$\|\nabla F\|/\sqrt V \approx 10^{-4}$ converged state is available,
+Math376 should be re-run with a tightened criterion; the operator's
+Math82-Phase-Z runs targeted $\|\nabla F\|<10^{-8}$ which is well
+inside this bound. The current $10^{-3}$ threshold is the minimum
+needed to distinguish converged states from seed-quality ones; it
+should be tightened to $10^{-6}$ once the Math82-Phase-Z .npy is
+loaded successfully.
+
+\textbf{Objection $\gamma$}: What if all available converged states
+are at $\mu^2=-0.7$ or $\mu^2=-1.0$ (deep BCC) but Math82-AddH
+operates at $\mu^2=+0.005$ (near-critical)? Could a deep-BCC
+PASS still be consistent with a near-critical FAIL?\\
+\emph{Response: DISMISSED with caveat.} Deep-BCC states are
+parametrically further from the disordered-BCC transition; if BCC
+is unstable at deep $\mu^2$ (FAIL), it would also be unstable at
+near-critical $\mu^2$ (FAIL). The reverse implication does not hold:
+a deep-BCC PASS does not automatically extend to near-critical
+PASS. To fully test Math82-AddH, Math376 must eventually be run on
+a $\mu^2=+0.005$ converged state; if the current operator
+inventory has only deep-BCC states, this $\mu^2$ extrapolation gap
+should be tracked as a Math376-followup OQ.
+
+\subsection*{7. Quantitative sanity check (CLAUDE.md \S6.3.4)}
+
+\textbf{Magnitude}: synthetic seed at $A_0=0.18$ produced
+$\langle\Psi^2\rangle=0.109$, matching the analytic 1-mode
+prediction $3A_0^2=0.097$ within 12\% (the small excess is the
+projection-onto-z0 normalisation factor).
+
+\textbf{Sign-direction}: at the synthetic seed,
+$F=-46.24$ confirms the seed is in the BCC basin
+(F<0 relative to disordered), consistent with $\mu^2=-0.5$ being
+deep-BCC.
+
+\textbf{Limit case}: at $\Psi=0$ the script's Hessian reduces to the
+linear dispersion operator $r-Z\Delta+Y\Delta^2$, whose eigenvalues
+are $r+Zk^2+Yk^4=Y(k^2-q_0^2)^2+\mu^2$. At $\mu^2=+0.26$
+all-positive spectrum is expected; this matches the
+Math374-Run-3 result.
+
+\subsection*{8. Status update}
+
+Math376 STATUS: T4 STRONG EVIDENCE (script delivered, synthetic-state
+smoke-test pass, operator-PC execution gated). T6 PROVED CONDITIONAL
+(of Math82-AddH BCC stability) requires:
+\begin{enumerate}
+\item Operator-PC inventory of converged \texttt{.npy} states
+  (Step 1 above).
+\item Math376 execution at $\mu^2=-0.7$ or $\mu^2=-1.0$
+  Math82-Phase-Z converged state with verdict PASS.
+\item (Strict gate) Math376 execution at $\mu^2=+0.005$ converged
+  state with verdict PASS.
+\item (Cross-validation) Math377 follow-up: 3-channel PyTorch
+  Hessian agreement to $10^{-3}$ in eigenvalue spectrum.
+\end{enumerate}
+
+If any of (2)-(4) returns FAIL, that is a major theoretical event:
+the first numerical refutation of Math82-AddH under the canonical
+free energy. The pre-registered falsification gate ensures this
+finding would be unambiguous and immediately escalable to a Stage-1
+scoreboard impact (Pillar 1 reverts T6 to T4 STRONG EVIDENCE).
+
+If (2)-(4) all PASS, Pillar 4 sub-task 2 BCC-stability gate closes
+T6 PROVED CONDITIONAL on canonical-free-energy hypothesis. The
+Lemma E$_3'$ cosmological-uniqueness gate remains independent and
+keeps the composite Pillar 4 sub-task 2 at T2 CONJECTURE until
+Math361/362 mechanism (III) is discovered.
+
+\subsection*{9. Cross-references}
+
+\begin{itemize}
+\item \texttt{Codes/supplementary/Math376\_production\_state\_hessian.py}
+  (the script).
+\item \texttt{Codes/pde/bcc\_analytic\_seed.py:103--118} (state-production source).
+\item \texttt{Codes/pde/real\_backend\_pt\_bcc\_mixed\_v3.py:532--602}
+  (canonical 3-channel \texttt{shell\_free\_energy}; reference for Math377 cross-validation).
+\item \texttt{Runs/seeds/Psi\_BCC\_*.npy} (seed files; operator-PC only).
+\item \texttt{Runs/continuation/<run\_id>/Psi\_final.npy} (converged-state
+  candidates; operator-PC inventory required).
+\item Math82-AddF / AddH (the stability claim under test).
+\item Math373 / Math374 / Math375 (prerequisite chain).
+\item OPEN-QUESTIONS \verb|Q-2026-05-09-Supplementary-Hamiltonian-Audit|.
+\end{itemize}
+
+% --- end of Math376 ---

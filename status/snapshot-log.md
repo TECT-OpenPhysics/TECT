@@ -7,6 +7,20 @@ This file is the append-only audit log of every snapshot orchestrator run. Lates
 The snapshot orchestrator brings all four TECT mirror trees into a coherent state via the binding 8-step pipeline. See `SNAPSHOT_POLICY.md` for the full definition, trigger conditions, and exit-code contract.
 
 ---
+## 2026-05-09T02:56:09 UTC -- b9bedf1 -- Math373/374/375: canonical Brazovskii free-energy restoration + Math374 seed-Hessian production runs + Math375 dispersion-shell explanation; CLAUDE.md §11.5 strengthened with 3-layer integrity defence; Math376 (Newton-Krylov) queued
+- stamp : PASS
+- generate : PASS
+- verify : PASS
+- manifest : PASS
+- commit : PASS (b9bedf1)
+- curate : PASS
+- push : PASS (https://github.com/TECT-OpenPhysics/TECT/commit/4f3f3502436ca602914194d30277787653a5261a)
+- audit : PASS (clean)
+- Elapsed: 143.9 s
+- GitHub: https://github.com/TECT-OpenPhysics/TECT/commit/4f3f3502436ca602914194d30277787653a5261a
+
+---
+
 ## 2026-05-09T02:44:53 UTC -- cb7b52e -- Math373/374 retraction & corrective Hessian; CLAUDE.md §11.5 strengthened — universal atomic_write + 3-layer integrity defence (scan_recent_writes + pre-commit hook)
 - stamp : PASS
 - generate : PASS
@@ -461,6 +475,7 @@ The snapshot orchestrator brings all four TECT mirror trees into a coherent stat
 - GitHub: https://github.com/TECT-OpenPhysics/TECT/commit/b83758bd0a94c3b2b97ff9f09a0ef6c8cb736de2
 
 ---
+
 
 
 

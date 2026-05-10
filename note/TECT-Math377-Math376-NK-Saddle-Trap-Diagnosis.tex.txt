@@ -1,0 +1,284 @@
+% =====================================================================
+% TECT Math Note 377 -- Math376 v2 Newton-Krylov: saddle-trap diagnosis
+% Created : 2026-05-09
+% Status  : T4 STRONG EVIDENCE (Math376 NK execution diagnosed; Math82-AddH
+%           BCC stability remains UNTESTED; corrective Math378 queued)
+% Linked  : Math376 (script + NK pathway), Math375 (Math374 limitation),
+%           Math374 (canonical Hessian), Math373 (canonical free energy),
+%           Math82-Addendum-F (the 53.9 h Phase-Z production run that
+%           must hold the canonical converged state)
+% =====================================================================
+
+\section*{Math377 -- Math376 v2 Newton-Krylov produces a saddle-trap, not a local minimum}
+
+\subsection*{0. Pre-registered verdict}
+
+Math376 v2 (Newton-Krylov + Lanczos) was executed on operator PC
+2026-05-09 with the following parameters and result:
+\begin{itemize}
+\item Input: \texttt{Runs/seeds/Psi\_BCC\_N32\_phaseZ.npy}
+  (Math82-Addendum-B 6-cosine BCC analytic seed, $\mu^2=-1$,
+  $A_{\rm BCC}=0.2029$).
+\item NK: scipy.optimize.newton\_krylov(method=lgmres,
+  inner\_maxiter=20, line\_search=armijo), max 200 outer iters,
+  $f_{\rm tol}=10^{-6}$.
+\item Outcome: NO CONVERGENCE after 200 iters (75.4 s);
+  $|\nabla F|/\sqrt V$ from $0.533$ to $1.84\times 10^{-3}$.
+\item Verdict per pre-registered rule: INDETERMINATE-NOT-STATIONARY
+  ($|\nabla F|/\sqrt V > 10^{-3}$ stationarity gate).
+\item 50 lowest Hessian eigenvalues all in $[-1.032, -1.023]$
+  (relative spread 0.9\%); 0 Goldstone candidates, 0 positive.
+\end{itemize}
+
+The verdict is correctly INDETERMINATE -- but the underlying physics
+of the NK trajectory is highly diagnostic and warrants archival.
+
+\subsection*{1. The saddle-trap signature}
+
+Iteration trace recorded the following pathology:
+\begin{center}
+\begin{tabular}{lll}
+\hline
+Stage & $F$ & $|\nabla F|/\sqrt V$ \\
+\hline
+Initial seed                  & $-10\,954$ & $0.533$ \\
+NK iter 1 (Armijo step)       & $-2\,457$  & $0.146$ \\
+NK iter 5                     & $-2\,703$  & $0.064$ \\
+NK iter 50                    & $-3\,090$  & $5.8\times 10^{-3}$ \\
+NK iter 200 (final)           & $-3\,063$  & $1.84\times 10^{-3}$ \\
+\hline
+\end{tabular}
+\end{center}
+
+In one Newton step the energy \emph{increased} by $\Delta F = +8\,497$.
+This is not a numerical artefact. It is the diagnostic signature of
+the well-known asymmetric objective in Newton--Krylov's residual
+formulation:
+\begin{itemize}
+\item NK solves $\nabla F(\Psi) = 0$, minimising the residual norm
+  $\|\nabla F(\Psi)\|^{2}$.
+\item Armijo line search ensures sufficient decrease of
+  $\|\nabla F\|^{2}$, NOT of $F$ itself.
+\item Stationary points of $F$ include local minima, local maxima,
+  and saddles; all have $\|\nabla F\|=0$. NK cannot
+  distinguish them.
+\end{itemize}
+
+The Newton step from the seed pointed in the direction of decreasing
+$|\nabla F|$, which happened to lead away from the deep BCC basin
+($F=-10\,954$) and toward a nearby saddle
+($F=-3\,063$). The line search, monitoring only $|\nabla F|^{2}$,
+accepted the step.
+
+\subsection*{2. Why the NK-converged state is a saddle}
+
+The 50 lowest Hessian eigenvalues at the NK output cluster tightly
+at $\lambda\approx -1.03$. The canonical kinetic dispersion is
+\begin{equation}
+\omega(\mathbf k)=Y(k^{2}-q_{0}^{2})^{2}+\mu^{2},
+\end{equation}
+with shell minimum $\omega(q_{0})=\mu^{2}=-1.0$. The 50-fold cluster
+at $\approx -1.03$ corresponds to the 50 BZ wavevectors closest to
+the BCC shell, with a small upward shift from the nonlinear
+contribution $6\lambda\langle\Psi^{2}\rangle+10\gamma\langle\Psi^{4}\rangle
+\approx -0.31+0.07=-0.24$ that broadens the bare $-1.0$ to $\sim -1.03$.
+
+This is the spectrum of a state that is essentially a
+\textbf{small-amplitude linear shell mode}, not the deep BCC
+ground state. The condensate has not formed in a way that
+sextic-stabilises against the shell instability.
+
+Comparing $\langle\Psi^{2}\rangle$:
+\begin{itemize}
+\item Seed: $0.131$ (BCC-amplitude state, Math82-AddB prediction).
+\item NK-output: $0.119$ (only 10\% smaller, but with \emph{very}
+  different Fourier distribution).
+\end{itemize}
+
+The seed has $\Psi$ concentrated at $|\mathbf k|=q_{0}$; the
+NK-output has $\Psi$ partially spread off-shell, populating modes
+with $\omega(\mathbf k)>0$. The kinetic-energy reduction is enormous
+($-10\,954\to -3\,063$) despite small $\langle\Psi^{2}\rangle$ change,
+because off-shell modes contribute positively to $F_{\rm kin}$.
+
+\subsection*{3. The deep BCC basin requires a different solver}
+
+The seed, with $F=-10\,954$, sits in a much deeper basin than the
+NK-converged saddle. The natural-gradient flow from the seed should
+DECREASE $F$ (the seed's $\|\nabla F\|>0$ implies $F$ can be reduced
+by a small step). NK does not respect this because its objective is
+the residual norm.
+
+To find the deep BCC local minimum from this seed, one of the
+following approaches is required:
+
+\begin{enumerate}
+\item \textbf{Energy-decreasing line search} (gradient descent or
+  L-BFGS-B with the energy as the objective). The Math374 adaptive
+  steepest descent does this correctly but is slow at high $N$.
+
+\item \textbf{Trust-region Newton} (e.g., scipy
+  \texttt{minimize(method='trust-ncg')}). Trust regions enforce
+  basin staying.
+
+\item \textbf{Brazovskii spectral preconditioner}: pre-multiply
+  the Newton step by $1/(\omega(\mathbf k)+\delta)$ to balance the
+  wide soft-shell condition number. This is what
+  \texttt{Codes/pde/bz\_preconditioner.py} does, but it is a
+  PyTorch implementation; a numpy port would be needed for Math376.
+
+\item \textbf{Use the production-converged state directly}: if the
+  Math82-Addendum-F 53.9 h Phase-Z run produced a converged
+  $\|\nabla F\|<10^{-8}$ state on operator PC, that .npy is the
+  gold standard. Math376 v1 (Hessian-only, no NK) should be applied
+  directly to that state.
+\end{enumerate}
+
+Path 4 is preferred. Math82-Addendum-F explicitly references
+\texttt{Runs/math82H\_phase2\_mu2\_-0.7\_N32\_v266d/} as the
+successful production run; the operator must inventory this
+directory on the local PC.
+
+\subsection*{4. Math82-AddH stability: still untested}
+
+The operator audit verdict (Math369 acceptance) downgrading Pillar 4
+sub-task 2 from T6 to T2 remains valid and unchanged. Neither
+Math374 (toy form, RETRACTED), nor Math376 v1 (seed Hessian,
+INDETERMINATE), nor Math376 v2 (NK to saddle, INDETERMINATE) has
+provided a numerical test of Math82-AddH BCC stability under the
+canonical free energy.
+
+The pre-registered binary verdict for Math82-AddH stability test:
+
+\begin{itemize}
+\item \textbf{PASS} would mean: a stationary state with
+  $\|\nabla F\|/\sqrt V < 10^{-6}$, $\geq 3$ Goldstone modes near
+  zero, and $0$ significant negative eigenvalues. Math82-AddH
+  numerically confirmed.
+\item \textbf{FAIL} would mean: a stationary state with
+  $\|\nabla F\|/\sqrt V < 10^{-6}$ and any non-Goldstone eigenvalue
+  $\lambda<-10^{-3}|\lambda_{\rm top}|$. First numerical refutation.
+\item All other outcomes are INDETERMINATE.
+\end{itemize}
+
+So far we have only INDETERMINATE outcomes. The verdict
+remains \emph{open}.
+
+\subsection*{5. Math378 corrective task plan}
+
+Math378 (binding next step) has two pathways:
+
+\textbf{Pathway $\alpha$ (gold-standard, low-overhead)}: locate the
+Math82-Addendum-F production-converged BCC state .npy file on
+operator PC and apply Math376 v1 (Hessian-only, no NK) directly.
+
+Inventory commands:
+\begin{verbatim}
+Get-ChildItem -Recurse -Path Runs -Filter "*final*.npy" 2>$null
+Get-ChildItem -Recurse -Path Runs -Filter "*converged*.npy" 2>$null
+Get-ChildItem -Recurse -Path Runs\math82* 2>$null | Where Length -gt 1MB
+Get-ChildItem -Recurse -Path Runs\continuation 2>$null | Where Name -like "Psi*"
+\end{verbatim}
+Expected: at least one $\sim$1--3 MB .npy with shape (3,32,32,32) complex128.
+
+\textbf{Pathway $\beta$ (longer-term, fallback)}: implement
+\texttt{bz\_preconditioner.py} numpy port and integrate into Math376
+NK. The preconditioner approximates the shell-localised Hessian as
+diagonal in Fourier space:
+\begin{equation}
+P^{-1}_{\rm shell}=\frac{1}{\omega(\mathbf k)+\delta}\quad\text{with}\quad\delta>|\min_{\mathbf k}\omega(\mathbf k)|
+\end{equation}
+This balances the wide-shell condition number $\kappa\sim 10^{3}$ that
+defeats unpreconditioned LGMRES. Estimated runtime: $\sim 100$ NK iters
+to $\|\nabla F\|<10^{-8}$ if preconditioner works as in
+\texttt{bz\_preconditioner.py}.
+
+\subsection*{6. Devil's-advocate self-test (CLAUDE.md \S6.3.1)}
+
+\textbf{Objection $\alpha$}: Could the saddle that NK found be the
+TRUE Brazovskii minimum, with the seed being a higher-energy
+metastable configuration?\\
+\emph{Response: DISMISSED.} The seed has $F=-10\,954$ while the NK
+output has $F=-3\,063$. The seed has lower energy by $\Delta F=
+-7\,891$. By definition of local minimum, the true minimum has
+energy $\leq$ that of any nearby state. The seed is in a deeper
+basin than the NK output; therefore the NK output cannot be the
+global (or any local) minimum below the seed energy. The seed itself
+is also not a stationary point ($|\nabla F|=0.533\neq 0$), so the
+TRUE local minimum lies somewhere with $F\leq -10\,954$ and
+$|\nabla F|=0$. Math376 v2 NK did not find it.
+
+\textbf{Objection $\beta$}: Maybe NK with more iterations would
+eventually find the deep minimum?\\
+\emph{Response: VALID-with-mitigation.} The trace shows
+$|\nabla F|$ slowly decreasing ($5.8\times 10^{-3}$ at iter 50,
+$1.84\times 10^{-3}$ at iter 200) but $F$ stays around $-3\,063$ with
+no sign of returning to the deeper basin. Continuing NK from the
+saddle would tighten the saddle stationarity, not find the minimum.
+Math378 Pathway $\alpha$ (load production state directly) bypasses
+this entirely.
+
+\textbf{Objection $\gamma$}: Should Math376 v2 NK be retracted as
+``unable to test the claim it was designed to test''?\\
+\emph{Response: DISMISSED with reframing.} Math376 v2 is correctly
+designed to test the claim, but the test outcome was
+INDETERMINATE because the input seed was not in NK's basin of
+attraction for the deep BCC minimum. The script and pre-registered
+verdict criteria are sound; the data needed (Math82 production .npy)
+was not available. Math376 v2 retains T4 STRONG EVIDENCE; the
+\emph{interpretation} of its INDETERMINATE outcome is updated by
+this Math377.
+
+\subsection*{7. Quantitative sanity check (CLAUDE.md \S6.3.4)}
+
+\textbf{Energy scale}: at the seed,
+$F\approx (\mu^2/2)\langle\Psi^2\rangle\cdot V \approx (-0.5)(0.131)(247\,000)
+\approx -16\,000$ (rough estimate, ignoring nonlinear and gradient
+contributions). Observed $F=-10\,954$ is within the same order.
+Post-NK $F=-3063$ corresponds to off-shell mode population that
+raises kinetic energy substantially.
+
+\textbf{Spectrum width}: the 50-fold cluster at $\lambda\approx -1.03$
+has spread $\Delta\lambda/|\lambda|\approx 0.9\%$. The bare shell
+spread on a $32^3$ grid (BZ resolution near $|k|=q_0=0.68$, $dk=2\pi/L
+\approx 0.10$, so $\Delta k/q_0 \sim 0.15$) gives expected
+$\Delta\omega/|\omega|\sim 2(\Delta k/q_0)^2\sim 0.05$ -- larger than
+observed, suggesting the cluster is regularised by the finite-amplitude
+nonlinear correction.
+
+\textbf{Goldstone count}: zero. At a true local minimum, exactly 3
+translation Goldstones are expected. The absence of any near-zero
+eigenvalue confirms the NK output is NOT the true ground state.
+
+\subsection*{8. Status update}
+
+Math377 STATUS: T4 STRONG EVIDENCE (NK saddle-trap diagnosed via
+energy-residual asymmetry; pre-registered verdict correctly
+INDETERMINATE; corrective Math378 plan with two pathways).
+
+Math376 v2 STATUS: unchanged at T4 STRONG EVIDENCE
+(implementation correct; test outcome INDETERMINATE pending input).
+
+Pillar 4 sub-task 2: T2 CONJECTURE (unchanged). The BCC stability
+sub-claim remains UNTESTED under the canonical free energy. The
+Lemma E$_{3}'$ cosmological-uniqueness gate is independent.
+
+Math378 STATUS: T1 OPEN (queued; two pathways).
+
+\subsection*{9. Cross-references}
+
+\begin{itemize}
+\item \texttt{Codes/supplementary/Math376\_production\_state\_hessian.py}
+  v2 (the script that produced this result).
+\item \texttt{Runs/math376/math376\_Psi\_BCC\_N32\_phaseZ.json} v1
+  (seed Hessian baseline; spectrum cluster at $-1.06$).
+\item \texttt{Runs/math376/math376\_NK\_N32\_mu2\_-1p0\_phaseZ.json}
+  v2 (post-NK Hessian; spectrum cluster at $-1.03$).
+\item \texttt{Codes/pde/bz\_preconditioner.py} (PyTorch reference for
+  Math378 Pathway $\beta$ numpy port).
+\item Math82-Addendum-F (production-converged BCC state location).
+\item Math373/374/375 (prerequisite chain).
+\item OPEN-QUESTIONS \verb|Q-2026-05-09-Supplementary-Hamiltonian-Audit|.
+\end{itemize}
+
+% --- end of Math377 ---

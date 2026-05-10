@@ -1,12 +1,17 @@
-// AUTO-GENERATED v0.3 page 9/9 — 2026-05-09 02:55 UTC
+// AUTO-GENERATED v0.3 page 9/9 — 2026-05-10 04:09 UTC
 window.TECT_HISTORY = {
   title: "History (page 9 of 9)",
   subtitle: "Chronological CHANGELOG mirror — auto-generated.",
-  lastUpdated: "2026-05-09 (auto)",
-  pagination: {"page": 9, "total": 9, "newer": null, "older": "history/page-008.html", "archiveIndex": "history-archive-index.html"},
+  lastUpdated: "2026-05-10 (auto)",
+  pagination: {"page": 9, "total": 9, "newer": null, "older": "history-page-008.html", "archiveIndex": null},
   blocks: [
-    { type: "html", content: "<div class=\"pagination-nav\">Page 9 / 9 &middot; <a href=\"history/page-008.html\">Older &rarr;</a></div>" },
+    { type: "html", content: "<div class=\"pagination-nav\">Page 9 / 9 &middot; <a href=\"history-page-008.html\">Older &rarr;</a></div>" },
     { type: "timeline", items: [
+        {
+          date: "2026-05-09",
+          title: "[Theory/Numerical/MAJOR] Math378: L-BFGS-B PASS — first numerical confirmation of Math82-AddH BCC stability under canonical Brazovskii free energy",
+          body: "**Theory tag**: `Math378-LBFGSB-PASS-Math82-AddH-Numerical-Confirmation-2026-05-09` **Classification**: MAJOR THEORETICAL VICTORY (first PASS in the Math373-378 cascade)"
+        },
         {
           date: "2026-05-09",
           title: "[Theory/Numerical] Math375: Math374 Production Runs (N=16/N=32) — 6-cosine seed is not a true ground state",
@@ -79,6 +84,6 @@ window.TECT_HISTORY = {
         }
       ]
     },
-    { type: "html", content: "<div class=\"pagination-nav\">Page 9 / 9 &middot; <a href=\"history/page-008.html\">Older &rarr;</a></div>" }
+    { type: "html", content: "<div class=\"pagination-nav\">Page 9 / 9 &middot; <a href=\"history-page-008.html\">Older &rarr;</a></div>" }
   ]
 };

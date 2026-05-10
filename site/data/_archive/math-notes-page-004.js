@@ -4,9 +4,9 @@
 window.TECT_MATH_NOTES_PAGE_004 = {
   title: "Math notes (page 4 of 12)",
   subtitle: "Proof-level derivations. Auto-paginated by Math NN; this page covers a fixed slice of the archive.",
-  pagination: {"page": 4, "total": 12, "newer": "page-005.html", "older": "page-003.html", "archiveIndex": "archive-index.html"},
+  pagination: {"page": 4, "total": 12, "newer": "math-notes-page-005.html", "older": "math-notes-page-003.html", "archiveIndex": null},
   blocks: [
-    { type: "html", content: "<div class=\"pagination-nav\"><a href=\"page-005.html\">&larr; Newer</a> &middot; Page 4 / 12 &middot; <a href=\"page-003.html\">Older &rarr;</a></div>" },
+    { type: "html", content: "<div class=\"pagination-nav\"><a href=\"math-notes-page-005.html\">&larr; Newer</a> &middot; Page 4 / 12 &middot; <a href=\"math-notes-page-003.html\">Older &rarr;</a></div>" },
     {
       type: "card",
       title: "Math notes (page 4 of 12, archived; 50 entries)",
@@ -14,9 +14,6 @@ window.TECT_MATH_NOTES_PAGE_004 = {
         {
           type: "list",
           items: [
-            "<code>TECT-Math02.tex.txt</code>  &mdash; Fluctuation-Induced BCC Selection in $\\mathbb{Z <a href=\"https://github.com/TECT-OpenPhysics/TECT/blob/main/note/TECT-Math02.tex.txt\" target=\"_blank\" class=\"view-link\">[view]</a> <a href=\"https://raw.githubusercontent.com/TECT-OpenPhysics/TECT/main/note/TECT-Math02.tex.txt\" download class=\"download-link\">[↓ download]</a>",
-            "<code>TECT-Math03.tex.txt</code>  &mdash; Fluctuation-Induced BCC Selection in $\\mathbb{Z <a href=\"https://github.com/TECT-OpenPhysics/TECT/blob/main/note/TECT-Math03.tex.txt\" target=\"_blank\" class=\"view-link\">[view]</a> <a href=\"https://raw.githubusercontent.com/TECT-OpenPhysics/TECT/main/note/TECT-Math03.tex.txt\" download class=\"download-link\">[↓ download]</a>",
-            "<code>TECT-Math04.tex.txt</code>  &mdash; Structure Selection Theorem <a href=\"https://github.com/TECT-OpenPhysics/TECT/blob/main/note/TECT-Math04.tex.txt\" target=\"_blank\" class=\"view-link\">[view]</a> <a href=\"https://raw.githubusercontent.com/TECT-OpenPhysics/TECT/main/note/TECT-Math04.tex.txt\" download class=\"download-link\">[↓ download]</a>",
             "<code>TECT-Math05.tex.txt</code>  &mdash; Structure Selection Theorem <a href=\"https://github.com/TECT-OpenPhysics/TECT/blob/main/note/TECT-Math05.tex.txt\" target=\"_blank\" class=\"view-link\">[view]</a> <a href=\"https://raw.githubusercontent.com/TECT-OpenPhysics/TECT/main/note/TECT-Math05.tex.txt\" download class=\"download-link\">[↓ download]</a>",
             "<code>TECT-Math06.tex.txt</code>  &mdash; Topological Energy Condensate Theory (TECT): →→→→ 1 <a href=\"https://github.com/TECT-OpenPhysics/TECT/blob/main/note/TECT-Math06.tex.txt\" target=\"_blank\" class=\"view-link\">[view]</a> <a href=\"https://raw.githubusercontent.com/TECT-OpenPhysics/TECT/main/note/TECT-Math06.tex.txt\" download class=\"download-link\">[↓ download]</a>",
             "<code>TECT-Math07.tex.txt</code>  &mdash; Topological Energy Condensate Theory (TECT): 2 <a href=\"https://github.com/TECT-OpenPhysics/TECT/blob/main/note/TECT-Math07.tex.txt\" target=\"_blank\" class=\"view-link\">[view]</a> <a href=\"https://raw.githubusercontent.com/TECT-OpenPhysics/TECT/main/note/TECT-Math07.tex.txt\" download class=\"download-link\">[↓ download]</a>",
@@ -63,12 +60,15 @@ window.TECT_MATH_NOTES_PAGE_004 = {
             "<code>TECT-Math208-Audit-Rollback-Math203-207-cluster.tex.txt</code>  &mdash; TECT-Math208-Audit-Rollback-Math203-207-cluster.tex.txt <a href=\"https://github.com/TECT-OpenPhysics/TECT/blob/main/note/TECT-Math208-Audit-Rollback-Math203-207-cluster.tex.txt\" target=\"_blank\" class=\"view-link\">[view]</a> <a href=\"https://raw.githubusercontent.com/TECT-OpenPhysics/TECT/main/note/TECT-Math208-Audit-Rollback-Math203-207-cluster.tex.txt\" download class=\"download-link\">[↓ download]</a>",
             "<code>TECT-Math209-Addendum-A-Scope-Caveat-and-M1-Priming.tex.txt</code>  &mdash; TECT-Math209-Addendum-A-Scope-Caveat-and-M1-Priming.tex.txt <a href=\"https://github.com/TECT-OpenPhysics/TECT/blob/main/note/TECT-Math209-Addendum-A-Scope-Caveat-and-M1-Priming.tex.txt\" target=\"_blank\" class=\"view-link\">[view]</a> <a href=\"https://raw.githubusercontent.com/TECT-OpenPhysics/TECT/main/note/TECT-Math209-Addendum-A-Scope-Caveat-and-M1-Priming.tex.txt\" download class=\"download-link\">[↓ download]</a>",
             "<code>TECT-Math209-RR1b-bundle-lift-type-Type-B-confirmed.tex.txt</code>  &mdash; TECT-Math209-RR1b-bundle-lift-type-Type-B-confirmed.tex.txt <a href=\"https://github.com/TECT-OpenPhysics/TECT/blob/main/note/TECT-Math209-RR1b-bundle-lift-type-Type-B-confirmed.tex.txt\" target=\"_blank\" class=\"view-link\">[view]</a> <a href=\"https://raw.githubusercontent.com/TECT-OpenPhysics/TECT/main/note/TECT-Math209-RR1b-bundle-lift-type-Type-B-confirmed.tex.txt\" download class=\"download-link\">[↓ download]</a>",
-            "<code>TECT-Math21.tex.txt</code>  &mdash; Topological Energy Condensate Theory (TECT): 21 <a href=\"https://github.com/TECT-OpenPhysics/TECT/blob/main/note/TECT-Math21.tex.txt\" target=\"_blank\" class=\"view-link\">[view]</a> <a href=\"https://raw.githubusercontent.com/TECT-OpenPhysics/TECT/main/note/TECT-Math21.tex.txt\" download class=\"download-link\">[↓ download]</a>"
+            "<code>TECT-Math21.tex.txt</code>  &mdash; Topological Energy Condensate Theory (TECT): 21 <a href=\"https://github.com/TECT-OpenPhysics/TECT/blob/main/note/TECT-Math21.tex.txt\" target=\"_blank\" class=\"view-link\">[view]</a> <a href=\"https://raw.githubusercontent.com/TECT-OpenPhysics/TECT/main/note/TECT-Math21.tex.txt\" download class=\"download-link\">[↓ download]</a>",
+            "<code>TECT-Math210-M1-direct-microscopic-c1-U1chi-from-Math162-atlas.tex.txt</code>  &mdash; TECT-Math210-M1-direct-microscopic-c1-U1chi-from-Math162-atlas.tex.txt <a href=\"https://github.com/TECT-OpenPhysics/TECT/blob/main/note/TECT-Math210-M1-direct-microscopic-c1-U1chi-from-Math162-atlas.tex.txt\" target=\"_blank\" class=\"view-link\">[view]</a> <a href=\"https://raw.githubusercontent.com/TECT-OpenPhysics/TECT/main/note/TECT-Math210-M1-direct-microscopic-c1-U1chi-from-Math162-atlas.tex.txt\" download class=\"download-link\">[↓ download]</a>",
+            "<code>TECT-Math211-BCC-12-vector-SU5-U1chi-decomposition.tex.txt</code>  &mdash; TECT-Math211-BCC-12-vector-SU5-U1chi-decomposition.tex.txt <a href=\"https://github.com/TECT-OpenPhysics/TECT/blob/main/note/TECT-Math211-BCC-12-vector-SU5-U1chi-decomposition.tex.txt\" target=\"_blank\" class=\"view-link\">[view]</a> <a href=\"https://raw.githubusercontent.com/TECT-OpenPhysics/TECT/main/note/TECT-Math211-BCC-12-vector-SU5-U1chi-decomposition.tex.txt\" download class=\"download-link\">[↓ download]</a>",
+            "<code>TECT-Math212-Index-Theorem-Forces-c1-Zero.tex.txt</code>  &mdash; TECT-Math212-Index-Theorem-Forces-c1-Zero.tex.txt <a href=\"https://github.com/TECT-OpenPhysics/TECT/blob/main/note/TECT-Math212-Index-Theorem-Forces-c1-Zero.tex.txt\" target=\"_blank\" class=\"view-link\">[view]</a> <a href=\"https://raw.githubusercontent.com/TECT-OpenPhysics/TECT/main/note/TECT-Math212-Index-Theorem-Forces-c1-Zero.tex.txt\" download class=\"download-link\">[↓ download]</a>"
           ],
           class: "tight"
         }
       ]
     },
-    { type: "html", content: "<div class=\"pagination-nav\"><a href=\"page-005.html\">&larr; Newer</a> &middot; Page 4 / 12 &middot; <a href=\"page-003.html\">Older &rarr;</a></div>" }
+    { type: "html", content: "<div class=\"pagination-nav\"><a href=\"math-notes-page-005.html\">&larr; Newer</a> &middot; Page 4 / 12 &middot; <a href=\"math-notes-page-003.html\">Older &rarr;</a></div>" }
   ]
 };
