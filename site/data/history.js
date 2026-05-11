@@ -1,12 +1,32 @@
-// AUTO-GENERATED v0.3 page 9/9 — 2026-05-10 04:09 UTC
+// AUTO-GENERATED v0.3 page 9/9 — 2026-05-11 00:17 UTC
 window.TECT_HISTORY = {
   title: "History (page 9 of 9)",
   subtitle: "Chronological CHANGELOG mirror — auto-generated.",
-  lastUpdated: "2026-05-10 (auto)",
+  lastUpdated: "2026-05-11 (auto)",
   pagination: {"page": 9, "total": 9, "newer": null, "older": "history-page-008.html", "archiveIndex": null},
   blocks: [
     { type: "html", content: "<div class=\"pagination-nav\">Page 9 / 9 &middot; <a href=\"history-page-008.html\">Older &rarr;</a></div>" },
     { type: "timeline", items: [
+        {
+          date: "2026-05-11",
+          title: "[Theory/Audit/RG-AUDIT] Math385-Math389: Lemma E_3' four-RG audit programme — RG1/RG2 closed (no relief), RG3 partial relief (insufficient), RG4 structural reclassification (net zero)",
+          body: "**Theory tag**: `Math385-Math389-Lemma-E3-Four-RG-Audit-Programme-2026-05-11` **Classification**: AUDIT PROGRAMME (5 Math notes + 1 second-order audit AddA; honest verdict ``no Stage-1 score change'')"
+        },
+        {
+          date: "2026-05-11",
+          title: "[Theory/Audit/MAJOR] Math385-390 cascade: Lemma E_3' four-RG audit + Goldstone-interpretation refutation + N=128 spectrum-positivity PASS",
+          body: "**Theory tag**: `Math385-390-Lemma-E3-RG-Audit-and-Goldstone-Refutation-Cascade-2026-05-11` **Classification**: MAJOR HONEST CASCADE (6 new notes; nuanced verdict; operator-calibrated outcomes)"
+        },
+        {
+          date: "2026-05-10",
+          title: "[Theory/Audit/CALIBRATION] Math381: Operator strict-scorecard calibration — Math379/380 honest downgrade",
+          body: "**Theory tag**: `Math381-Operator-Strict-Scorecard-Calibration-2026-05-10` **Classification**: AUDIT CALIBRATION (binding scorecard; supersedes Math379/380 status fields)"
+        },
+        {
+          date: "2026-05-10",
+          title: "[Theory/Numerical/MAJOR] Math379 + Math380: Math82-AddH BCC stability fully verified across continuation range; bcc_analytic_seed.py amplitude bug fixed",
+          body: "**Theory tag**: `Math379-Math380-Math82-AddH-Full-Continuation-Verification-2026-05-10` **Classification**: MAJOR THEORETICAL CLOSURE (Math82-AddH H2 hypothesis numerically confirmed end-to-end)"
+        },
         {
           date: "2026-05-09",
           title: "[Theory/Numerical/MAJOR] Math378: L-BFGS-B PASS — first numerical confirmation of Math82-AddH BCC stability under canonical Brazovskii free energy",

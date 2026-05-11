@@ -7,6 +7,20 @@ This file is the append-only audit log of every snapshot orchestrator run. Lates
 The snapshot orchestrator brings all four TECT mirror trees into a coherent state via the binding 8-step pipeline. See `SNAPSHOT_POLICY.md` for the full definition, trigger conditions, and exit-code contract.
 
 ---
+## 2026-05-10T04:09:52 UTC -- 84ab6a1 -- Math378 PASS: first numerical confirmation of Math82-AddH BCC stability under canonical Brazovskii free energy (L-BFGS-B, 7s/441 iter, F=-41474, 6 finite-N Goldstones + 44 positive eigenvalues); Pillar 4 BCC-stability sub-claim T2->T6
+- stamp : PASS
+- generate : PASS
+- verify : PASS
+- manifest : PASS
+- commit : PASS (84ab6a1)
+- curate : PASS
+- push : PASS (https://github.com/TECT-OpenPhysics/TECT/commit/e949105e0c44712b0ce534755cc57d1b3c3dcbbf)
+- audit : PASS (clean)
+- Elapsed: 140.7 s
+- GitHub: https://github.com/TECT-OpenPhysics/TECT/commit/e949105e0c44712b0ce534755cc57d1b3c3dcbbf
+
+---
+
 ## 2026-05-09T02:56:09 UTC -- b9bedf1 -- Math373/374/375: canonical Brazovskii free-energy restoration + Math374 seed-Hessian production runs + Math375 dispersion-shell explanation; CLAUDE.md §11.5 strengthened with 3-layer integrity defence; Math376 (Newton-Krylov) queued
 - stamp : PASS
 - generate : PASS
@@ -475,6 +489,7 @@ The snapshot orchestrator brings all four TECT mirror trees into a coherent stat
 - GitHub: https://github.com/TECT-OpenPhysics/TECT/commit/b83758bd0a94c3b2b97ff9f09a0ef6c8cb736de2
 
 ---
+
 
 
 

@@ -1,6 +1,25 @@
 #!/usr/bin/env python3
 # =====================================================================
-# Math376_production_state_hessian.py  v3 (2026-05-09)
+# Math376_production_state_hessian.py  v3.1 (2026-05-10)
+#
+# !!! REDUCED-MODEL WARNING (Math381 operator audit 2026-05-10) !!!
+# Despite "production-state" in the filename, this script computes a
+# REDUCED-MODEL Hessian, NOT the full 3-channel production
+# shell_free_energy. The reduction is:
+#   (1) Project the (3, N, N, N) complex production field onto the
+#       family-locked direction z0 = (1,1,1)/sqrt(3) to get a single
+#       real scalar Psi(x) of shape (N, N, N).
+#   (2) Use the canonical Brazovskii free energy
+#       F = int [r/2 Psi^2 + Z/2 |grad Psi|^2 + Y/2 |Lap Psi|^2
+#                + lam/2 Psi^4 + gam/3 Psi^6]
+#       NOT the production shell_free_energy (which has additional
+#       family/lock/classII penalty terms; see real_backend_pt_bcc_
+#       mixed_v3.py:532-602).
+# This reduction is exact in the family-locked limit (penalty
+# 1/k_lock = 1/0.15 ~ 6.7 in production; corrections O(e^{-1/k_lock})
+# ~ 10^-3). Math381 cross-validation Math382 will measure the actual
+# error on a single state. Until Math382 completes, results from
+# this script are CONDITIONAL on the reduction being acceptable.
 #
 # v3 change: ADD --solver option {l-bfgs-b, newton-krylov, none}.
 # Default switched to 'l-bfgs-b' because Math377 diagnosed NK as
@@ -153,8 +172,13 @@ def converge_lbfgsb(Psi, grid, params, max_iters, f_tol, verbose=True):
         print("    L-BFGS-B: max_iters = {}, f_tol = {:.0e} (gradient inf-norm)".format(
             max_iters, f_tol))
     t0 = time.time()
-    # gtol in L-BFGS-B is |grad|_inf; we want |grad|_2/sqrt(V) < f_tol,
-    # so set gtol to f_tol * something. Use sqrt(V)*f_tol as a generous proxy.
+    # Note (Math381 audit): scipy L-BFGS-B's gtol applies the L_inf norm
+    # of the projected gradient, NOT our reported L_2/sqrt(V).
+    # |g|_inf <= |g|_2 always, but |g|_inf can be much smaller than
+    # |g|_2/sqrt(V) when components are spread (typical for our Hessian).
+    # We pass f_tol as gtol; this is conservative for spread gradients.
+    # The post-hoc |grad F|/sqrt(V) printout is the binding stationarity
+    # certificate, NOT scipy's success flag.
     res = minimize(
         F_value, Psi.ravel(),
         jac=F_grad,
@@ -225,6 +249,9 @@ def converge_newton_krylov(Psi, grid, params, max_iters, f_tol,
     try:
         sol = newton_krylov(
             F_residual, Psi.ravel(), method="lgmres",
+            # Note (Math381 audit): NK's f_tol is L_2 norm of residual;
+            # external |grad F|/sqrt(V) reporting is L_2/sqrt(V).
+            # Conversion f_tol_NK = (target |grad|/sqrt(V)) * sqrt(V) keeps consistent.
             f_tol=f_tol * sqrtV, maxiter=max_iters,
             inner_maxiter=inner_maxiter, line_search="armijo",
             callback=callback, verbose=False,
@@ -445,7 +472,9 @@ def main():
         np.save(npy_out, Psi_for_hessian)
         print("  Converged state saved: {}".format(npy_out))
     result = {
-        "kind": "Math376-production-state-hessian-v3",
+        "kind": "Math376-production-state-hessian-v3.1",
+        "reduced_model": True,
+        "reduced_model_note": "z0-projected single-channel reduction of full 3-channel production; canonical Brazovskii F WITHOUT family/lock/classII penalties; Math381 audit binding; Math382 cross-validation queued",
         "generated": datetime.now(timezone.utc).isoformat(),
         "state_path": str(state_path),
         "state_meta": meta,

@@ -13,8 +13,8 @@
 # === TECT VERSION HEADER END ===
 # =====================================================================
 # bcc_analytic_seed.py
-# Theory tag:  Math82-Addendum-B-Phase-Z-BCC-analytic-seed-2026-04-24
-# Module version: v0.1
+# Theory tag:  Math380-Math353-AddX2-amplitude-fix-2026-05-10
+# Module version: v0.3 (was v0.1; bumped by amplitude bug fix)
 # Purpose:     Construct the BCC analytic seed for the Math55 deep-endpoint
 #              continuation run, replacing the default thermal seed
 #              (sigma ≈ 0.266) with the explicit 6-pair BCC-shell ansatz
@@ -30,10 +30,17 @@
 #
 #   The BCC analytic ansatz is
 #       Psi_BCC(x) = A_BCC * sum_{j=1}^{6} cos(Q0 * q_j . x)
-#   with amplitude
-#       A_BCC = sqrt(|mu^2| / (15 * gamma))    (Brazovskii saddle-point)
-#   For the locked-point (mu^2 = -1.0, gamma = 1.62) this gives
-#       A_BCC ~ 0.203.
+#   with amplitude (Math380 / Math373 / Math375 canonical 1-mode quadratic):
+#       a*x^2 + b*x + c = 0,  x := phi_0^2 = <Psi^2>
+#       a = gamma * K6,  b = lambda * K4,  c = mu^2/2
+#       A_BCC = sqrt(x / 3)
+#   For locked (mu^2, lambda, gamma, K4, K6) = (-1, -0.43, 1.62, 1, 5/2):
+#       A_BCC = 0.369  (was 0.203 in pre-Math380 buggy heuristic).
+#   For locked (mu^2 = +0.005) at the Math82-AddH operating point:
+#       A_BCC = 0.183  (was 0.006 in pre-Math380 buggy heuristic;
+#       caused Math380 v1 Psi=0 collapse, now fixed).
+#   Above the first-order transition (mu^2 >~ +0.023): no real BCC
+#   stationary point; falls back to small heuristic seed.
 #
 # Channel distribution:
 #   The active backend (real_backend_pt_bcc_mixed_v3) expects shape
@@ -100,22 +107,52 @@ def bcc_primitive_wavevectors() -> np.ndarray:
     return q
 
 
-def amplitude_BCC_brazovskii(mu2: float, gamma: float = 1.62) -> float:
-    """Brazovskii saddle-point amplitude for the deep-BCC condensate.
+def amplitude_BCC_brazovskii(mu2: float, gamma: float = 1.62,
+                              lam: float = -0.43,
+                              K4: float = 1.0, K6: float = 2.5) -> float:
+    """Brazovskii saddle-point per-cosine amplitude for the BCC condensate.
 
-    Per peak (one of the 6 cosines), the equilibrium amplitude that
-    minimises the Brazovskii free energy at locked (mu^2, lambda, gamma)
-    is approximately
-        A_BCC = sqrt(|mu^2| / (15 * gamma))
-    in the cold-condensed limit |mu^2| >> R_C.
+    Math353-AddX2 (2026-05-10) bug fix per Math373/Math375/Math380:
+    the previous heuristic A = 0.05*sqrt(|mu^2|+0.01) for mu^2 >= 0 was
+    30x too small at mu^2 = +0.005 (the Math82-AddH operating point) and
+    caused Math380 v1 to collapse to Psi = 0 instead of the BCC basin.
+    The cold-limit fallback A = sqrt(|mu^2|/(15*gamma)) for mu^2 < 0 was
+    also lambda-independent (wrong; cold-limit phi_0^2 = -4*lam/(15*gamma)
+    requires lambda).
 
-    For mu^2 = -1.0, gamma = 1.62: A_BCC ~ 0.203.
+    The corrected formula uses the FULL 1-mode-reduction quadratic
+    (Math373 \S3, Math375 \S2):
+        a*x^2 + b*x + c = 0,  x := phi_0^2 = <Psi^2>
+        a = gamma*K6,  b = lam*K4,  c = mu^2/2
+    Per-cosine amplitude (6-cosine BCC ansatz):
+        A_BCC = phi_0 / sqrt(3) = sqrt(x / 3)
+
+    For (mu^2, lam, gamma) = (-1.0, -0.43, 1.62): A_BCC = 0.369.
+    For (mu^2, lam, gamma) = (-0.5, -0.43, 1.62): A_BCC = 0.320.
+    For (mu^2, lam, gamma) = (+0.005, -0.43, 1.62): A_BCC = 0.183.
+    For (mu^2, lam, gamma) = (+0.026, -0.43, 1.62): no real BCC stationary
+        (above first-order transition); falls back to small seed.
+
+    Parameters
+    ----------
+    mu2 : Brazovskii mass parameter.
+    gamma : sextic coefficient (Math82 locked, default 1.62).
+    lam : quartic coefficient (Math82 locked, default -0.43).
+    K4 : BCC quartic structure factor (locked, default 1.0).
+    K6 : BCC sextic structure factor (locked, default 5/2 = 2.5).
     """
-    if mu2 >= 0:
-        # In the metastable / pre-condensation regime use a smaller seed
-        # amplitude to avoid over-shooting.
+    a = gamma * K6
+    b = lam * K4
+    c = 0.5 * mu2
+    disc = b*b - 4.0 * a * c
+    if disc <= 0:
+        # Above the first-order transition; no real BCC stationary point.
+        # Use a small seed for L-BFGS-B / Newton-Krylov stability checks.
         return 0.05 * math.sqrt(abs(mu2) + 0.01)
-    return math.sqrt(abs(mu2) / (15.0 * gamma))
+    x_pos = (-b + math.sqrt(disc)) / (2.0 * a)
+    if x_pos <= 0:
+        return 0.05 * math.sqrt(abs(mu2) + 0.01)
+    return math.sqrt(x_pos / 3.0)
 
 
 SUBSET_4COSINE_INDICES: tuple = (0, 2, 4, 5)
