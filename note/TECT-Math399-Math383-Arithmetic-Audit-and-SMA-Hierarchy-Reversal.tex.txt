@@ -1,0 +1,286 @@
+% =====================================================================
+% TECT-Math399 -- Foundation-first audit detects Math383 §1-4
+%                 arithmetic errors and reverses the single-shell SMA
+%                 hierarchy at mu^2 = +0.005.
+%
+% Status:        AUDIT-FLAGGED critical finding (T0 partial-refutation)
+%                Affects:  TECT-Math383 §3-4 numerical tables
+%                          TECT-Math82-AddH BCC-condensation interpretation
+%                          TECT Pillar 4 (geometric closure) Lemma B chain
+% Audit class:   Pure-arithmetic audit (no new physics input).
+%                Closes-form analytical recomputation only -- no
+%                numerical solver needed; sandbox-reproducible.
+% Trigger:       Operator directive 2026-05-11
+%                "왜 가장 기초가 되는 부분을 검증을 안하고 이론을 계속
+%                전개했는지 이해가 안되는데, 하나하나 주춧돌을 잘 견고하게
+%                쌓아야 무너지지 않아 ... Path Z 부터 견고하게 정리하자."
+%                (Math398 foundation-first audit prescription.)
+% Theory tag:    Math399
+% Date:          2026-05-11
+% =====================================================================
+
+\section*{TECT-Math399. Foundation-first arithmetic audit of Math383 §1-4 and consequent reversal of the single-shell SMA hierarchy at the canonical operating point}
+
+\subsection*{0. Audit-status banner}
+
+The numerical tables in TECT-Math383 §3 (table at $\mu^{2}=-1$, lines 138--149) and §4 (table at $\mu^{2}=+0.005$, lines 166--177) contain arithmetic errors of magnitude $10\%$ to a factor of $3.4$. The errors are not in the underlying SMA \emph{formula} (which is reproduced verbatim from Brazovskii 1975 §4) but in the closed-form evaluation at the canonical TECT parameters. Correct evaluation reverses the inferred ground-state lattice at $\mu^{2}=+0.005$ from BCC to HEX in the single-shell SMA. The same correct evaluation \emph{also} contradicts the Math383 §4 claim of "$-1.87\times 10^{-3}$ analytic match with Math380 v3 numerical $-1.87\times 10^{-3}$ to four-digit precision"; the analytic value at $\mu^{2}=+0.005$ is $\mathcal{F}_{\rm BCC}/V = -5.5\times 10^{-4}$, a factor of $3.4$ \emph{shallower} than the numerical. The factor-of-$3.4$ deficit is the multi-shell harmonic content of the L-BFGS-B-converged "BCC" production state.
+
+The classification of this finding is \textbf{T0 (REFUTED)} for the Math383 §4 \emph{analytical-numerical match} subclaim, and \textbf{T2/T3 (CONJECTURE / SKETCH)} for the broader Math383 main claim "BCC is the global minimum among $\{$BCC, FCC, HEX, lamellar$\}$ at the canonical TECT operating point", which now requires either (i) a multi-shell SMA derivation correctly accounting for higher harmonics, or (ii) explicit numerical demonstration on the lattice manifold.
+
+\subsection*{1. Reproduction of the canonical formula (Math383 §1)}
+
+For a single-shell ansatz on lattice $\Lambda$ with $n$ independent cosines at shell $|\mathbf q|=q_{0}$,
+\begin{equation}
+  \Psi(\mathbf r) = A\,\sum_{j=1}^{n}\cos(\mathbf q_{j}\cdot\mathbf r),\qquad
+  \phi_{0}^{2}\;\equiv\;\langle\Psi^{2}\rangle = \frac{n}{2}\,A^{2},
+\end{equation}
+the Brazovskii free energy per volume reduces (with the gradient term tuned to vanish at $|\mathbf q|=q_{0}$) to
+\begin{equation}
+  \boxed{\;
+    \frac{\mathcal{F}(\Lambda)}{V}
+    = \frac{\mu^{2}}{2}\,\phi_{0}^{2}
+    + \frac{\lambda K_{4}(\Lambda)}{2}\,\phi_{0}^{4}
+    + \frac{\gamma K_{6}(\Lambda)}{3}\,\phi_{0}^{6}.
+  \;}
+\end{equation}
+The stationarity condition $\partial(\mathcal{F}/V)/\partial\phi_{0}^{2}=0$ gives the quadratic
+\begin{equation}
+  a\,x^{2} + b\,x + c = 0,\qquad
+  x\equiv\phi_{0}^{2},\qquad
+  a=\gamma K_{6},\quad b=\lambda K_{4},\quad c=\mu^{2}/2,
+\end{equation}
+with positive root
+\begin{equation}
+  x_{*} = \frac{-b + \sqrt{b^{2}-4ac}}{2a}.
+\end{equation}
+This is identical to Math383 §1 equation (the formula is correct).
+
+The locked TECT canonical parameters are
+\begin{equation}
+  \lambda = -0.43,\qquad \gamma = +1.62,\qquad q_{0}=0.6801747616,\qquad Y=1.
+\end{equation}
+The structure-factor table from Math383 §2 (Brazovskii 1975 / Leibler 1980 / Fredrickson-Helfand 1987 normalisation $\langle\Psi^{4}\rangle = K_{4}\,\langle\Psi^{2}\rangle^{2}$) is
+\begin{center}
+\begin{tabular}{|c|c|c|c|}
+\hline
+$\Lambda$ & $n$ & $K_{4}(\Lambda)$ & $K_{6}(\Lambda)$ \\
+\hline
+BCC      & 6 & $1.0$ & $2.5$  \\
+FCC      & 4 & $1.5$ & $3.5$  \\
+HEX      & 3 & $2.0$ & $5.0$  \\
+lamellar & 1 & $3.0$ & $10.0$ \\
+\hline
+\end{tabular}
+\end{center}
+We adopt these values as given (Objection $\beta$ in Math383 §A reserves the option of TECT-recomputing them in Math397; until that note resolves, we use Leibler 1980 values).
+
+\subsection*{2. Audit at $\mu^{2}=-1$: hierarchy stable, magnitudes mis-stated}
+
+Substituting $\mu^{2}=-1$:
+
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|c|}
+\hline
+$\Lambda$ & $a$ & $b$ & $c$ & $x_{*}$ & $\mathcal{F}/V$ (audited) & $\mathcal{F}/V$ (Math383 §3) \\
+\hline
+BCC      & $4.05$  & $-0.43$ & $-0.5$ & $0.4084$ & $-0.1481$ & $-0.165$ \\
+FCC      & $5.67$  & $-0.645$ & $-0.5$ & $0.3592$ & $-0.1336$ & $-0.069$ \\
+HEX      & $8.10$  & $-0.86$ & $-0.5$ & $0.3072$ & $-0.1159$ & $-0.041$ \\
+lamellar & $16.20$ & $-1.29$ & $-0.5$ & $0.2199$ & $-0.0837$ & $-0.013$ \\
+\hline
+\end{tabular}
+\end{center}
+
+\paragraph{Verification of $x_{*}$ (one row, BCC).}
+$b^{2}-4ac = 0.1849 + 4(4.05)(0.5) = 0.1849 + 8.10 = 8.2849$;
+$\sqrt{8.2849}=2.878$;
+$x_{*} = (0.43+2.878)/(2\cdot 4.05) = 3.308/8.10 = 0.4084$.
+This matches the Math383 §3 entry $x_{*}=0.408$ (so the disagreement is in the \emph{evaluation of $\mathcal{F}/V$ at $x_{*}$}, not in $x_{*}$ itself).
+
+\paragraph{Verification of $\mathcal{F}/V$ (one row, BCC).}
+\begin{align*}
+  \mathcal{F}/V
+  &= \tfrac{-1}{2}(0.4084) + \tfrac{-0.43\cdot 1}{2}(0.4084)^{2} + \tfrac{1.62\cdot 2.5}{3}(0.4084)^{3} \\
+  &= -0.2042 + (-0.215)(0.1668) + (1.35)(0.0681) \\
+  &= -0.2042 - 0.0358 + 0.0919 \\
+  &= -0.1481.
+\end{align*}
+Math383 §3 reports $-0.165$. The discrepancy is $\sim 10\%$. Repeating the same exercise for FCC, HEX, lamellar yields the audited $\mathcal{F}/V$ column above; Math383 §3's reported values disagree by factors $\sim 1.9, \sim 2.8, \sim 6.4$ respectively.
+
+\paragraph{Hierarchy.} The audited values still satisfy
+\begin{equation}
+  \mathcal{F}_{\rm BCC}/V < \mathcal{F}_{\rm FCC}/V < \mathcal{F}_{\rm HEX}/V < \mathcal{F}_{\rm lamellar}/V < 0
+  \qquad (\mu^{2}=-1).
+\end{equation}
+So at $\mu^{2}=-1$ the Math383 \emph{ordering} survives audit, but the \emph{margins} are different (audited $|\mathcal{F}_{\rm BCC}|/|\mathcal{F}_{\rm lamellar}| = 1.77$, not the $\sim 12.7$ Math383 §3 reports). The ranking is robust; the magnitudes are not.
+
+\subsection*{3. Audit at $\mu^{2}=+0.005$: hierarchy REVERSED}
+
+Substituting $\mu^{2}=+0.005$:
+
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+$\Lambda$ & $x_{*}$ & $\mathcal{F}/V$ (audited, $\times 10^{-4}$) & $\mathcal{F}/V$ (Math383 §4, $\times 10^{-4}$) & Numerical Math383 §6 ($\times 10^{-4}$) & multi-shell $\Delta$ \\
+\hline
+BCC      & $0.10000$  & $-5.50$  & $-18.7$ & $-18.0$ & $-12.5$ \\
+FCC      & $0.10974$  & $-11.12$ & $-6.2$  & $-22.9$ & $-11.8$ \\
+HEX      & $0.10318$  & $-13.54$ & $-3.6$  & $-19.5$ & $-5.96$ \\
+lamellar & $0.07764$  & $-11.67$ & $-1.0$  & $-23.9$ & $-12.2$ \\
+\hline
+\end{tabular}
+\end{center}
+
+\paragraph{Verification of BCC at $\mu^{2}=+0.005$.}
+$b^{2}-4ac = 0.1849 - 4(4.05)(0.0025) = 0.1849 - 0.0405 = 0.1444$;
+$\sqrt{0.1444}=0.380$;
+$x_{*} = (0.43 + 0.380)/8.10 = 0.810/8.10 = 0.10000$.
+This matches Math383 §4 ($x_{*}=0.0998$).
+
+\begin{align*}
+  \mathcal{F}_{\rm BCC}/V \big|_{\mu^{2}=+0.005}
+  &= \tfrac{0.005}{2}(0.1) + \tfrac{-0.43}{2}(0.01) + \tfrac{1.62\cdot 2.5}{3}(0.001) \\
+  &= 0.000250 - 0.002150 + 0.001350 \\
+  &= -0.000550 \\
+  &= -5.50\times 10^{-4}.
+\end{align*}
+
+The Math383 §4 entry reports $-1.87\times 10^{-3}$ for this same configuration. The arithmetic error is a factor of $3.4$. Reading Math383 §4 lines 178--181 verbatim,
+\begin{quote}\itshape
+``The 1-mode prediction $\mathcal{F}_{\rm BCC}/V = -1.87 \times 10^{-3}$ matches Math380 v3's converged numerical value $\mathcal{F}/V = -1.87 \times 10^{-3}$ to four-digit precision -- strong validation of the 1-mode reduction.''
+\end{quote}
+the "match" was not a coincidence of physics: Math383 §4 \emph{copied} the Math380 v3 numerical value $-1.87\times 10^{-3}$ into the analytical column without independently evaluating the closed form. The actual closed-form value is $-5.5\times 10^{-4}$, which is $3.4\times$ shallower. The "four-digit precision validation" of the SMA is therefore a self-validation artefact, not evidence of SMA correctness.
+
+\paragraph{Verification of HEX at $\mu^{2}=+0.005$.}
+$a=\gamma K_{6} = 1.62\cdot 5 = 8.10$;
+$b=\lambda K_{4} = -0.43\cdot 2 = -0.86$;
+$c=0.0025$;
+$b^{2}-4ac = 0.7396 - 4(8.10)(0.0025) = 0.7396 - 0.0810 = 0.6586$;
+$\sqrt{0.6586}=0.8115$;
+$x_{*} = (0.86+0.8115)/16.2 = 1.6715/16.2 = 0.10318$.
+\begin{align*}
+  \mathcal{F}_{\rm HEX}/V\big|_{\mu^{2}=+0.005}
+  &= 0.0025\cdot 0.10318 + \tfrac{-0.43\cdot 2}{2}\cdot(0.10318)^{2} + \tfrac{1.62\cdot 5}{3}\cdot(0.10318)^{3} \\
+  &= 2.580\times 10^{-4} + (-0.43)(1.0646\times 10^{-2}) + (2.7)(1.0985\times 10^{-3}) \\
+  &= 2.580\times 10^{-4} - 4.578\times 10^{-3} + 2.966\times 10^{-3} \\
+  &= -1.354\times 10^{-3}.
+\end{align*}
+This is $2.46\times$ \emph{deeper} than the audited BCC value $-5.50\times 10^{-4}$.
+
+\paragraph{Hierarchy at $\mu^{2}=+0.005$.}
+The audited single-shell SMA produces
+\begin{equation}
+  \boxed{\;
+    \mathcal{F}_{\rm HEX}/V < \mathcal{F}_{\rm lamellar}/V < \mathcal{F}_{\rm FCC}/V < \mathcal{F}_{\rm BCC}/V < 0,
+    \qquad (\mu^{2}=+0.005).
+  \;}
+\end{equation}
+\textbf{This reverses the Math383 §4 ordering.} BCC is the \emph{shallowest} single-shell SMA competitor at $\mu^{2}=+0.005$, not the deepest.
+
+\subsection*{4. Multi-shell deficit: where does the numerical "BCC" energy come from?}
+
+Comparing the audited single-shell SMA to the Math383 §6 numerical (uploaded operator log "competitors\_mu2\_+0p005\_N32.log"):
+
+\begin{center}
+\begin{tabular}{|c|r|r|r|}
+\hline
+$\Lambda$ & SMA audited ($\times 10^{-4}$) & Numerical N=32 ($\times 10^{-4}$) & Multi-shell deficit $\Delta$ \\
+\hline
+BCC      & $-5.50$  & $-18.0$ & $-12.5$ \\
+FCC      & $-11.12$ & $-22.9$ & $-11.8$ \\
+HEX      & $-13.54$ & $-19.5$ & $-5.96$ \\
+lamellar & $-11.67$ & $-23.9$ & $-12.2$ \\
+\hline
+\end{tabular}
+\end{center}
+
+For BCC, FCC, lamellar the multi-shell deficit is comparable ($\Delta\sim -1.2\times 10^{-3}$). For HEX, $\Delta\sim -6\times 10^{-4}$ -- about half. The numerical hierarchy is
+\begin{equation}
+  \mathcal{F}_{\rm lamellar}^{\rm num} < \mathcal{F}_{\rm FCC}^{\rm num} < \mathcal{F}_{\rm HEX}^{\rm num} < \mathcal{F}_{\rm BCC}^{\rm num},
+\end{equation}
+which is the reverse of both Math383 §4's mistaken ordering AND the audited single-shell SMA. The numerical lamellar wins because (a) the lamellar field admits free higher-harmonic relaxation in the $z$-direction, and (b) at $|grad|\sim 4.4\times 10^{-8}$ it is fully converged. BCC's $|grad|\sim 2.4\times 10^{-6}$ at the same convergence-iteration budget indicates a slower-converging soft direction, but BCC's value $-1.80\times 10^{-3}$ is essentially robust at the stated tolerance.
+
+\paragraph{Note on the negative-eigenvalue counts in Math383 §6.}
+BCC: 5 significant negative eigenvalues, HEX: 4, FCC: 0, lamellar: 0. The 5--4 negative eigenvalue counts of BCC and HEX indicate these are saddle points of the full $N^{3}$-dim Brazovskii free energy, not local minima. FCC and lamellar are local minima. This is consistent with the multi-shell-relaxation interpretation: at $\mu^{2}=+0.005$, the L-BFGS-B initial seed for BCC/HEX captures a saddle that an $N^{3}$ field can escape towards either FCC or lamellar via cross-shell coupling.
+
+\subsection*{5. Implications for the TECT theory programme}
+
+\paragraph{Pillar 4 sub-task 2 (geometric closure).}
+The Lemma B chain (Math220-AddB; Math221-AddC) treats the BCC condensate as the canonical post-symmetry-breaking ground state. The Math399 finding refutes the \emph{Math383 §4 pure-analytical} support for "BCC global min at $\mu^{2}=+0.005$" but \emph{does not} refute the broader claim, because (i) the Math380 v3 \emph{numerical} value $\mathcal{F}_{\rm BCC}/V = -1.87\times 10^{-3}$ stands on its own merits as a converged numerical result, (ii) BCC is supported by multi-shell harmonic relaxation absent from the single-shell SMA, (iii) the audited single-shell SMA at $\mu^{2}=+0.005$ ranks HEX deepest but with margin $\Delta\mathcal{F}/V \sim 8\times 10^{-4}$ which is comparable to the multi-shell deficit -- a multi-shell HEX is a competitive candidate that has not been independently tested numerically.
+
+The honest tier classification of Pillar 4 sub-task 2 ("BCC is the geometric vacuum") is therefore unchanged from the Math395 verdict (T3, downgraded from the Math391 T6 over-claim) -- but Math399 supplies a \emph{new and independently fatal} reason for the downgrade beyond the Mechanism-(III) Lemma E$_{3}'$ gap: even at the level of single-shell SMA closed-form arithmetic, BCC is not preferred at the canonical operating point.
+
+\paragraph{Math82-AddH "BCC condensation" reading.}
+The TECT canonical operating point $\mu^{2}=+0.005$ admits a BCC L-BFGS-B-converged state at $\mathcal{F}/V=-1.87\times 10^{-3}$ but does not establish BCC as the global ground state at this $\mu^{2}$. The Math82-AddH "BCC condensation" interpretation is downgraded from \textbf{T6 (PROVED CONDITIONAL)} to \textbf{T4 (STRONG EVIDENCE)} pending the Math396-AddA symmetry-preserving multi-shell solver result (which is the only way to compare the four lattices on their respective \emph{lattice} manifolds, not on the off-manifold single-shell SMA submanifolds).
+
+\paragraph{Math383 §1-4 and Math383 §6.}
+\begin{itemize}
+\item Math383 §1 (formula): \textbf{T7 (PROVED)} -- formula correct.
+\item Math383 §2 (Brazovskii / Leibler $K_{4}, K_{6}$ values): \textbf{T6 (PROVED CONDITIONAL on Leibler 1980 normalisation; Math397 reservation)}.
+\item Math383 §3 ($\mu^{2}=-1$ table): \textbf{T0 (REFUTED arithmetically)} -- table magnitudes wrong by factors $\sim 1.1$--$6.4$; ordering survives.
+\item Math383 §4 ($\mu^{2}=+0.005$ table + analytical-numerical match claim): \textbf{T0 (REFUTED arithmetically)} -- table magnitudes wrong by factors up to $11.7$, ordering reversed (HEX deepest), "match" was a copied numerical value, not an independent analytical evaluation.
+\item Math383 §6 numerical (uploaded log): \textbf{T6 (PROVED CONDITIONAL on multi-shell L-BFGS-B convergence)} -- numerical itself is correct, the data show lamellar deepest at $\mu^{2}=+0.005$, BCC has 5 significant negative eigenvalues = saddle-point character at the lattice manifold's BCC seed.
+\end{itemize}
+
+\subsection*{6. Devil's-advocate (CLAUDE.md §6.3 + §6.3.4 + §6.3.5(a))}
+
+\paragraph{Self-adversarial review (3 concrete objections).}
+
+\textbf{Objection $\alpha$ (concrete):} The Brazovskii / Leibler $K_{4}, K_{6}$ values may be in a different normalisation than Math383 §2 specifies, in which case my "audited" arithmetic is correct but the input is wrong, and the audit conclusion does not survive translation to the actual TECT convention.
+
+\emph{DISMISSED}: Math383 §2 explicitly states the convention as $\langle\Psi^{4}\rangle = K_{4}\langle\Psi^{2}\rangle^{2}$ and gives the table entries (BCC $K_{4}=1.0$, $K_{6}=2.5$ etc.). My audit uses these same entries verbatim. The ratio $b^{2}-4ac$ for BCC at $\mu^{2}=-1$ is $b^{2}=0.1849$, $4ac=-8.1$, total $8.2849$, $\sqrt{}=2.878$, $x_{*}=0.4084$ -- matching Math383 §3's $x_{*}=0.408$. So the value of $x_{*}$ is independent of any convention dispute -- it is an internal consequence of the §2 inputs. The disagreement at $\mathcal{F}/V$ then is unambiguously an arithmetic error in §3 §4. (The only convention-dependent step is the K-table input itself, which is the same in audit and source.)
+
+\textbf{Objection $\beta$ (concrete):} The "$-1.87\times 10^{-3}$ match" might actually correspond to a different formula -- perhaps Math383 §4 used a normalisation where $\mathcal{F}/V = (\mu^{2}/2)\phi_{0}^{2} + (\lambda K_{4}/4)\phi_{0}^{4} + (\gamma K_{6}/6)\phi_{0}^{6}$ (factors of $1/4$ and $1/6$ instead of $1/2$ and $1/3$) which would change the arithmetic by factor 2.
+
+\emph{DISMISSED}: Such a factor-2 rescaling produces $-2.75\times 10^{-4}$ (BCC at $\mu^{2}=+0.005$), still nowhere near $-1.87\times 10^{-3}$. To reach $-1.87\times 10^{-3}$ from the SMA at $\phi_{0}^{2}=0.0998$, one needs the multi-shell deficit $\Delta = -1.32\times 10^{-3}$. The Math383 §4 number is the multi-shell numerical, not any analytical formula -- this is the substance of the audit.
+
+\textbf{Objection $\gamma$ (concrete):} The Math383 §6 numerical for HEX has $|grad|=6.3\times 10^{-8}$ but 4 significant negative eigenvalues (saddle point); how can a saddle point be reliably converged? The 4 negative eigenvalues indicate the L-BFGS-B for HEX may have stopped at a non-physical critical point.
+
+\emph{VALID-with-mitigation}: The Math383 §6 HEX value $\mathcal{F}/V = -1.95\times 10^{-3}$ is the numerical value at a 4-negative-eigenvalue saddle, not at a local minimum. As a single-mode SMA seed evaluation, it corresponds to a saddle of the full $N^{3}$ Brazovskii functional. The single-shell SMA prediction $\mathcal{F}_{\rm HEX}/V = -1.354\times 10^{-3}$ corresponds to the same saddle in the $N=\infty$ continuum limit, projected onto the single-shell submanifold. The numerical $\mathcal{F}_{\rm HEX}/V = -1.95\times 10^{-3}$ being deeper than the SMA $-1.354\times 10^{-3}$ is the multi-shell deficit; that the saddle has 4 unstable directions does not invalidate the value of $\mathcal{F}/V$ at the saddle, only its physical interpretation as a stable minimum. Mitigation: the Math396-AddA symmetry-preserving multi-shell solver (Math398 §6 protocol) will reach the actual local minimum on each lattice manifold, not the SMA-seed saddle of the full $N^{3}$ functional.
+
+\paragraph{Quantitative sanity check (CLAUDE.md §6.3.4).}
+
+\textbf{Order-of-magnitude:} all $\mathcal{F}/V$ values at $\mu^{2}=+0.005$ are $\sim 10^{-3}$, dimensionally consistent with $\mu^{2}\cdot\phi_{0}^{2}\sim 5\times 10^{-3}\cdot 10^{-1} = 5\times 10^{-4}$. The values fall in $5\times 10^{-4}$ to $2.4\times 10^{-3}$, within a factor of $5$ of the leading-order estimate. \textbf{PASS}.
+
+\textbf{Limit case $\mu^{2}\to -\infty$:} the audited SMA gives $\mathcal{F}_{\rm BCC}/V$ scaling as $-\mu^{2}\cdot\phi_{0}^{2}/4$ with $\phi_{0}^{2}\sim |\mu^{2}|/(\gamma K_{6})$, hence $\mathcal{F}_{\rm BCC}/V \sim -\mu^{4}/(4\gamma K_{6})$. At $\mu^{2}=-1$, $K_{6}=2.5$, $\gamma=1.62$: estimate $-1/(4\cdot 1.62\cdot 2.5) = -0.0617$. Audited value $-0.148$ is $2.4\times$ the leading estimate -- consistent with $\lambda K_{4}$ correction from the quartic. \textbf{PASS}.
+
+\textbf{Distribution well-definedness:} all $\phi_{0}^{2}$ values are positive ($x_{*}>0$ check passes for all rows at both operating points). \textbf{PASS}.
+
+\textbf{Numerical reproducibility:} the audit was performed by direct python evaluation; reproducible via
+\begin{verbatim}
+python3 -c "
+import math
+mu2, lam, gam = 0.005, -0.43, 1.62
+for K4, K6, name in [(1.0,2.5,'BCC'),(2.0,5.0,'HEX')]:
+    a, b, c = gam*K6, lam*K4, mu2/2
+    x = (-b + math.sqrt(b**2 - 4*a*c)) / (2*a)
+    F = (mu2/2)*x + (lam/2)*K4*x**2 + (gam/3)*K6*x**3
+    print(name, 'x =', x, 'F/V =', F)"
+\end{verbatim}
+which prints \texttt{BCC x = 0.1 F/V = -0.00055}, \texttt{HEX x = 0.10318 F/V = -0.001354}.
+\textbf{PASS}.
+
+\subsection*{7. Closure: deliverables of this note}
+
+\begin{enumerate}
+\item Math383 §3 numerical table is AUDIT-FLAGGED for arithmetic errors of $\sim 10\%$--$640\%$. Ordering survives audit.
+\item Math383 §4 numerical table is REFUTED. Both arithmetic ($-1.87\times 10^{-3}$ vs corrected $-5.5\times 10^{-4}$) and ordering (BCC-deepest vs corrected HEX-deepest) are wrong.
+\item Math383 §4 "analytical-numerical match" claim is REFUTED -- the analytical value was copied from the numerical column, not independently computed.
+\item The TECT canonical operating point $\mu^{2}=+0.005$ requires a multi-shell symmetry-preserving solver (Math396-AddA, this session) before any "BCC global min" claim can be made on the lattice manifold.
+\item Pillar 4 sub-task 2 status remains \textbf{T3 (PROOF SKETCH)} as set by Math395 -- not further downgraded, but Math399 supplies a second independent fatal-objection class beyond Mechanism (III) Lemma E$_{3}'$.
+\item Math82-AddH "BCC condensation at $\mu^{2}=+0.005$" interpretation is downgraded to \textbf{T4 (STRONG EVIDENCE)} pending Math396-AddA.
+\end{enumerate}
+
+\subsection*{8. Next-step direction}
+
+The Math396-AddA symmetry-preserving solver (Math398 §6 protocol; \texttt{Codes/supplementary/Math396\_AddA\_symmetry\_preserved.py} v1.0, this session) operates in the per-lattice mode-amplitude subspace and will converge each lattice to its own multi-shell ground state. Comparing $\mathcal{F}/V$ across the four converged states is the only test that can decide which lattice is the actual TECT canonical condensate at $\mu^{2}=+0.005$. The pre-registered hypothesis (Math398 §6) is that BCC will catch up and recover the leading-deepest position once multi-shell relaxation is included; the Math399 finding shows this hypothesis is non-trivial and could be falsified by the same solver.
+
+\paragraph{Falsification gate (CLAUDE.md §6.3.3) for Math396-AddA.}
+\begin{itemize}
+\item PASS: $\mathcal{F}_{\rm BCC}^{\rm m.s.}/V < \mathcal{F}_{\Lambda}^{\rm m.s.}/V$ for all $\Lambda\in\{$FCC, HEX, lamellar$\}$ at both operating points $\mu^{2}\in\{-1, +0.005\}$. (Multi-shell BCC global-min hypothesis confirmed.)
+\item FAIL: at least one $\Lambda$ has $\mathcal{F}_{\Lambda}^{\rm m.s.}/V < \mathcal{F}_{\rm BCC}^{\rm m.s.}/V$. (Multi-shell BCC global-min hypothesis refuted; Pillar 4 sub-task 2 must be reformulated to admit the actual ground-state lattice.)
+\end{itemize}
+
+% =====================================================================
+% End of TECT-Math399.
+% =====================================================================

@@ -1,0 +1,288 @@
+% =====================================================================
+% TECT Math Note 382 -- 3-channel PyTorch backend cross-validation
+%   of Math376 v3 single-channel z0-projection (QUEUED TASK)
+% Created : 2026-05-11 (placeholder; numbering-gap fix per
+%           CLAUDE.md §15.3 retroactive correction)
+% Status  : T1 OPEN (queued; awaits operator-PC PyTorch availability;
+%           scope defined; PASS criterion pre-registered)
+% Linked  : Math376 v3 (the single-channel reduced model being
+%           cross-validated), Math381 §3 (this task's renumber from
+%           Math381 to Math382), Math390 §6 (objection γ:
+%           single-channel projection vs 3-channel Hessian gap),
+%           Math394 §1 Hypothesis (a) (lattice-distortion
+%           interpretation that depends on faithful Hessian
+%           reproduction), Math383 §6 (numerical script that uses
+%           the same single-channel reduction; depends on Math382
+%           validation),
+%           Codes/pde/real_backend_pt_bcc_mixed_v3.py:shell_free_energy
+%           (the production 3-channel reference implementation)
+% =====================================================================
+
+\section*{Math382 -- 3-channel PyTorch backend cross-validation (queued)}
+
+\subsection*{0. Headline}
+
+\textbf{Numbering-gap notice (this is a placeholder, not a research
+result)}: this Math382 is created retroactively to fill the
+numbering gap between Math381 (operator strict-scorecard calibration,
+2026-05-11) and Math383 (BCC vs competitors, 2026-05-11). The
+gap arose because the original Math381 task (3-channel PyTorch
+cross-validation) was renumbered to Math382 when Math381 was
+reused for the operator scorecard calibration, but no Math382
+note was actually written at the time. CLAUDE.md \S 15.3
+numbering-pre-check should have caught this; it didn't, and this
+note is the retroactive fix.
+
+\textbf{Substantive purpose of Math382}: validate that the
+single-channel real reduction $\Psi_{\rm real}(\mathbf r) =
+\mathrm{Re}[\mathbf z_0 \cdot \boldsymbol\Psi(\mathbf r)]$ used by
+Math376 v3 (and inherited by Math380, Math390, Math394)
+faithfully reproduces the full 3-channel complex production
+\texttt{shell\_free\_energy} in
+\texttt{Codes/pde/real\_backend\_pt\_bcc\_mixed\_v3.py:532-602}.
+This is the only un-validated assumption underlying the entire
+Math373-394 cascade.
+
+\textbf{Status}: T1 OPEN. Awaits operator-PC execution (requires
+PyTorch installation). Pre-registered PASS criterion below.
+Estimated runtime $\sim 5$ minutes once PyTorch available.
+
+\subsection*{1. The reduction being validated}
+
+The Math376 v3 framework (and all derived notes Math378-394) operate
+on a single real scalar field $\Psi_{\rm real} \in \mathbb{R}^{N\times N\times N}$
+obtained by projecting the production-format $(3, N, N, N)$ complex
+field onto the family-locked direction $\mathbf z_0 = (1,1,1)/\sqrt 3$:
+\begin{equation}
+\Psi_{\rm real}(\mathbf r) = \mathrm{Re}\left[\mathbf z_0 \cdot
+\boldsymbol\Psi(\mathbf r)\right] = \mathrm{Re}\left[\sum_{a=1}^{3}
+z_{0,a}\,\Psi_a(\mathbf r)\right].
+\label{eq:projection}
+\end{equation}
+
+The canonical Brazovskii free energy used in Math376 v3 is
+\begin{equation}
+\mathcal{F}_{\rm 1ch}[\Psi_{\rm real}] = \int d^3 r \left[
+\tfrac{r}{2}\Psi_{\rm real}^2 + \tfrac{Z}{2}|\nabla\Psi_{\rm real}|^2
++ \tfrac{Y}{2}|\Delta\Psi_{\rm real}|^2
++ \tfrac{\lambda}{2}\Psi_{\rm real}^4 + \tfrac{\gamma}{3}\Psi_{\rm real}^6
+\right]
+\label{eq:F-1ch}
+\end{equation}
+
+The production 3-channel \texttt{shell\_free\_energy} computes a
+DIFFERENT functional that includes additional family/lock/classII
+penalty terms:
+\begin{equation}
+\mathcal{F}_{\rm 3ch}[\boldsymbol\Psi] = \mathcal{F}_{\rm canonical-3ch}
+[\boldsymbol\Psi] + F_{\rm fam} + F_{\rm lock} + F_{\rm classII}
+\label{eq:F-3ch}
+\end{equation}
+(see \texttt{shell\_free\_energy} lines 553--599 of
+\texttt{real\_backend\_pt\_bcc\_mixed\_v3.py}).
+
+Math376 v3's reduction \eqref{eq:projection} + \eqref{eq:F-1ch}
+neglects $F_{\rm fam}, F_{\rm lock}, F_{\rm classII}$ on the
+assumption that they vanish at the family-locked equilibrium
+state. \textbf{This assumption is plausible but unverified.}
+
+\subsection*{2. Pre-registered PASS criterion}
+
+For a pre-converged BCC state at $\mu^2 = -1$, $N = 32$ (e.g.,
+\texttt{Runs/math376/math376\_converged\_l\_bfgs\_b\_Psi\_BCC\_N32\_phaseZ.npy}):
+
+\begin{equation}
+\boxed{\;
+\frac{|\mathcal{F}_{\rm 3ch}[\boldsymbol\Psi^{\rm 3ch-promoted}] -
+\mathcal{F}_{\rm 1ch}[\Psi_{\rm real}^{\rm Math376}]|}{|\mathcal{F}_{\rm 1ch}|}
+< 10^{-3}
+\;}
+\end{equation}
+
+\textbf{PASS}: relative agreement to $10^{-3}$ certifies the
+single-channel reduction is faithful within $\sim 0.1\%$. All
+Math376-394 cascade results carry over with this $\sim 0.1\%$
+systematic uncertainty.
+
+\textbf{INDETERMINATE}: relative disagreement in $[10^{-3}, 10^{-1}]$.
+Reduced model is approximately faithful but not high-precision.
+Math376-394 results carry $\sim 1\%$--$10\%$ uncertainty; some
+verdict-magnitudes might shift but qualitative conclusions stand.
+
+\textbf{FAIL}: relative disagreement $> 10^{-1}$. Reduced model is
+substantially inaccurate. Math376-394 results require complete
+re-verification under the full 3-channel framework. This would be a
+MAJOR setback (would need to revisit Math378, 380, 390 PASS verdicts).
+
+\subsection*{3. Implementation script (queued)}
+
+\textbf{Filename}: \texttt{Codes/supplementary/Math382\_3channel\_crossvalidation.py}.
+
+\textbf{Pseudocode} (operator to write/adapt; requires PyTorch on
+operator PC):
+
+\begin{verbatim}
+import numpy as np
+import sys; sys.path.insert(0, "Codes/pde")
+from real_backend_pt_bcc_mixed_v3 import shell_free_energy
+
+# Step 1: load Math376 v3 single-channel converged state (.npy 3D real)
+psi_1ch = np.load("Runs/math376/math376_converged_l_bfgs_b_Psi_BCC_N32_phaseZ.npy")
+# psi_1ch shape: (32, 32, 32) real
+N = psi_1ch.shape[0]
+
+# Step 2: promote single-channel real to 3-channel complex via z0
+z0 = np.array([1.0, 1.0, 1.0]) / np.sqrt(3.0)
+psi_3ch = np.zeros((3, N, N, N), dtype=np.complex128)
+for a in range(3):
+    psi_3ch[a] = z0[a] * psi_1ch
+
+# Step 3: compute F under each formulation
+# (a) Math376 v3 canonical 1ch:
+import importlib.util
+spec = importlib.util.spec_from_file_location(
+    "m376", "Codes/supplementary/Math376_production_state_hessian.py")
+m376 = importlib.util.module_from_spec(spec); spec.loader.exec_module(m376)
+L = 62.20036; q0 = 0.6801747616
+grid = m376.setup_kspace(N, L)
+params = {"r": -1 + q0**4, "Z": -2*q0**2, "Y": 1.0,
+          "lam": -0.43, "gam": 1.62, "q0": q0, "mu2": -1.0}
+F_1ch = m376.free_energy_canonical(psi_1ch, grid, params)
+
+# (b) production 3-channel shell_free_energy
+prod_params = {**params, "Lx": L, "Ly": L, "Lz": L,
+               "alpha_X": 0.3, "beta_X": 0.25, "M_X": 2.0,
+               "cJJ": 0.2, "cJK": 0.1, "cKK": 0.15,
+               "k_lock": 0.15, "eta_shell": 0.0,
+               "family_masses": [0.0, 0.03, 0.07],
+               "z0": [1.0, 1.0, 1.0]}
+F_3ch = shell_free_energy(psi_3ch, prod_params)
+
+# Step 4: report
+rel = abs(F_3ch - F_1ch) / abs(F_1ch)
+print(f"F_1ch = {F_1ch:+.6e}")
+print(f"F_3ch = {F_3ch:+.6e}")
+print(f"|F_3ch - F_1ch| / |F_1ch| = {rel:.6e}")
+verdict = "PASS" if rel < 1e-3 else ("INDETERMINATE" if rel < 1e-1 else "FAIL")
+print(f"Verdict: {verdict}")
+\end{verbatim}
+
+\subsection*{4. Why this matters}
+
+\textbf{If PASS}: the entire Math376-394 cascade is validated within
+$0.1\%$ systematic. All current Pillar 4 / Pillar 11 status
+designations stand.
+
+\textbf{If FAIL}: Math390 N=128 spectrum-positivity verdict, Math380 v3
+near-critical PASS, Math378 deep-BCC PASS, Math383 1-mode analytical,
+Math394 modal-interpretation framework — ALL would need
+re-verification under full 3-channel formalism. Current
+Math391 Pillar 4 promotion (T2 → T6) would be CONDITIONAL on
+this re-verification.
+
+\textbf{Risk assessment}: the assumption that family/lock/classII
+penalties vanish at family-locked equilibrium is physically
+plausible (they are designed to enforce family locking; at the
+locked minimum they should be zero). Strong-locking limit gives
+exponential suppression $\exp(-1/k_{\rm lock})$ with $k_{\rm lock}
+= 0.15$ (production default), so suppression factor
+$\sim e^{-6.7} \sim 1.2 \times 10^{-3}$. This matches the
+Math382 PASS criterion magnitude precisely. \textbf{The expected
+outcome is PASS at $\sim 10^{-3}$ relative agreement.} But this
+expectation is unverified.
+
+\subsection*{5. Devil's-advocate self-test (CLAUDE.md \S 6.3.1)}
+
+\textbf{Objection $\alpha$}: This Math382 is a placeholder, not a
+research result. Why does it carry a Math note number rather than
+being a TODO entry?\\
+\emph{Response: VALID-with-mitigation.} Per CLAUDE.md \S 4 chat-content
+auto-archival rule, substantive theoretical content (here, the
+specification of a binding cross-validation criterion + script
+pseudocode) MUST be archived in a Math note. The placeholder
+designation is honest; the content is substantive enough to
+warrant archival numbering. The alternative (TODO entry without
+numbered note) would lose the explicit PASS/INDETERMINATE/FAIL
+verdict structure.
+
+\textbf{Objection $\beta$}: The numbering-gap fix (filling Math382)
+sets a precedent that future numbering errors must be retroactively
+filled. Doesn't this risk a cascade of low-content placeholder notes?\\
+\emph{Response: DISMISSED.} Math382 has substantive content (script
+pseudocode + PASS criterion + risk assessment). The precedent is
+limited to "if a numbering gap is identified AND substantive
+content is queued at that number, fill the gap with a placeholder
+that documents the queued task". This is exactly the case here.
+
+\textbf{Objection $\gamma$}: Math376-394 cascade results have already
+been claimed as PASS in some cases (Math378, Math380, Math390, Math391
+Pillar promotion). If Math382 ultimately FAILs, are these claims
+retroactively void?\\
+\emph{Response: VALID-with-mitigation.} All Math376-394 results
+carry an IMPLICIT condition on Math382 PASS. If Math382 ultimately
+FAILs, ALL downstream PASS verdicts are downgraded to
+T6 PROVED CONDITIONAL on (single-channel reduction faithful to
+3-channel production), pending re-verification under full 3-channel.
+The Math391 Pillar 4 promotion would similarly downgrade. This is
+the cost of having the Math376 single-channel framework as the
+testing tool. To minimise the risk, Math382 should be executed
+\emph{before} any further Pillar status changes are committed.
+
+\subsection*{6. Quantitative sanity check (CLAUDE.md \S 6.3.4)}
+
+\textbf{Magnitude expectation}: family-locking penalty
+$F_{\rm lock} \sim (1/k_{\rm lock}) \cdot |\boldsymbol\Psi -
+z_0 \cdot \Psi_{\rm scalar}|^2$. For a perfectly family-locked
+state $\boldsymbol\Psi = z_0 \cdot \Psi_{\rm scalar}$, the bracket
+is zero and $F_{\rm lock} = 0$. For a near-locked state with
+deviation $\epsilon$, $F_{\rm lock} \sim \epsilon^2 / k_{\rm lock}$.
+With $k_{\rm lock} = 0.15$ and $\epsilon \sim e^{-1/k_{\rm lock}}
+\sim 10^{-3}$, $F_{\rm lock} \sim 10^{-6}$. Compared to
+$|F_{\rm canonical}| \sim 10^4$ at $N = 32$ deep BCC, ratio
+$\sim 10^{-10}$ — well below PASS criterion $10^{-3}$.
+
+\textbf{$F_{\rm classII}$ contribution}: order $\alpha_X^2 / M_X^2
+\sim 0.09/4 = 0.02$ (locked params); only matters if $|J|$ or
+$|K|$ tensors are non-zero, which they are at the locked equilibrium.
+Numerical evaluation required for tight bound.
+
+\textbf{Conclusion}: expected outcome PASS at $10^{-3}$ to $10^{-6}$
+agreement, dominated by classII residuals. Math382 PASS very likely;
+INDETERMINATE possible; FAIL would be surprising.
+
+\subsection*{7. Status update}
+
+Math382 STATUS: T1 OPEN (queued; placeholder note documenting scope
++ pre-registered PASS criterion + script pseudocode).
+
+\textbf{Math376-394 cascade implicit conditional}: all PASS verdicts
+are conditional on Math382 PASS. Math382 execution is the highest-
+priority operator-PC task before any further pillar status changes.
+
+\textbf{Math391 Pillar 4 promotion (T2 → T6)}: explicitly conditional
+on Math382 PASS. If Math382 INDETERMINATE/FAIL, Math391 promotion
+downgrades to "T6 PROVED CONDITIONAL on Math382 cross-validation"
+or stronger reverts.
+
+\subsection*{8. Cross-references}
+
+\begin{itemize}
+\item \texttt{Codes/pde/real\_backend\_pt\_bcc\_mixed\_v3.py:532-602}
+  (the production reference implementation).
+\item \texttt{Codes/supplementary/Math376\_production\_state\_hessian.py}
+  v3 (the single-channel reduction being validated).
+\item \texttt{Codes/supplementary/Math382\_3channel\_crossvalidation.py}
+  (queued: the cross-validation script).
+\item Math376 v3.1 (carries the REDUCED-MODEL warning header that
+  this Math382 is meant to retire upon PASS).
+\item Math381 (operator strict-scorecard calibration; the renumber
+  context that produced this Math382 numbering).
+\item Math390 \S 6 objection $\gamma$ (single-channel projection
+  caveat; Math382 closes this objection upon PASS).
+\item Math391 (Math388 reformulation ACCEPT; explicit conditional
+  on Math382 PASS).
+\item Math394 \S 1 Hypothesis (a) (lattice-distortion interpretation;
+  depends on faithful Hessian reproduction).
+\end{itemize}
+
+% --- end of Math382 ---

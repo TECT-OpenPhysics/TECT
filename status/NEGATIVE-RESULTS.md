@@ -23,6 +23,99 @@ approach.
 
 ## R — Retracted results
 
+### R-2026-05-11-Math82-AddH-BCC-Vacuum-Refuted
+
+**Date**: 2026-05-11
+**Theory tag**: Math400 (`Docs/math/TECT-Math400-Math82-AddH-BCC-Refuted-Lamellar-Is-True-Vacuum.tex.txt`)
+**Type**: R-retracted. Retracted main claim: "Math82-AddH BCC condensation at canonical TECT operating point $\mu^2 = +0.005$ is a thermodynamically stable vacuum." Also retracted: Math383 main claim "BCC global min at canonical TECT parameters", and Math383 §2 K-table values.
+
+**Retracted statement (Math82-AddH conditional T6 reading)**: "the BCC production state at $\mu^2 = +0.005$, with $\mathcal{F}/V = -1.87\times 10^{-3}$, is the canonical TECT condensation vacuum supporting Pillar 4 sub-task 2."
+
+**Refuting evidence**: Math396-AddA on-PC execution 2026-05-11 of the symmetry-preserving multi-shell SMA solver (Path Z proper, Math398 §6 protocol) at $N=32$ finds:
+- At $\mu^2 = -1$: lamellar (F/V = -0.159) is the deepest configuration on all four lattice manifolds. HEX collapses to lamellar. BCC and FCC find symmetry-broken states higher than lamellar (BCC F/V = -0.076, FCC F/V = -0.123). BCC is the SHALLOWEST.
+- At $\mu^2 = +0.005$: ALL lattices collapse to disordered $\Psi = 0$. The pre-registered "BCC SMA minimum at $-5.5\times 10^{-4}$" is unreachable from typical seeds even with perturbation. Combined with Math383 §6's report of 5 significant negative eigenvalues at the BCC seed in the full $N^3$ space, this confirms the BCC stationary point is a SADDLE, not a local minimum, at $\mu^2 = +0.005$.
+
+**Independent K-table refutation** (Math400 §3): first-principles re-derivation gives canonical Brazovskii structure factors:
+- $K_4^{\rm BCC} = 15/4 = 3.75$ (Math383 §2 said 1.0; wrong by 3.75×)
+- $K_4^{\rm FCC} = 27/8 = 3.375$ (Math383 §2 said 1.5; wrong by 2.25×)
+- $K_4^{\rm HEX} = 5/2 = 2.5$ (Math383 §2 said 2.0; wrong by 1.25×)
+- $K_4^{\rm lam} = 3/2 = 1.5$ (Math383 §2 said 3.0; wrong by 0.5×)
+
+Cross-check: corrected $K_4^{\rm lam} = 1.5$, $K_6^{\rm lam} = 5/2 = 2.5$ analytically predicts $\mathcal{F}^{\rm lam}/V = -0.168$ at $\mu^2 = -1$, matching Math396-AddA numerical $-0.159$ to ~6%. Math383 §2's wrong values predicted $-0.084$, off by factor 1.9.
+
+**Cascade impact**:
+- Math82-AddH "BCC condensation" conditional T6: REFUTED → T0.
+- Math383 main claim "BCC global min at canonical TECT": REFUTED → T0 at both $\mu^2 \in \{-1, +0.005\}$.
+- Math383 §2 K-table: REFUTED → T0 (corrected values in Math400 §3).
+- Pillar 4 sub-task 2 "geometric closure on BCC vacuum": foundation REFUTED → T3 → T0. Closure programme dissolves.
+- Math385-394 cascade (Lemma $E_3'$ four-RG audit, Path I instanton, Path II defect-DM, Path III Goldstone-mass): physical claims dissolve as conditional on refuted vacuum. Notes remain valid as "IF BCC vacuum THEN ..." conditional theorems.
+
+**Three readings open**:
+- A. Lamellar vacuum (Pillar 6 Goldstone count must redo for $\mathrm{SO}(3)\to\mathrm{SO}(2)$, 3 not 6).
+- B. No canonical condensation (Pillar 4 dropped; Math82's BCC is a frozen-in non-equilibrium relic).
+- C. Math400 wrong (provisional pending Math400-AddA restricted-symmetric Hessian audit).
+
+**Awaiting**: Math400-AddA (restricted-symmetric Hessian on BCC/FCC/HEX) before final operator selection of Reading A/B/C.
+
+**Files**:
+- Math note: `Docs/math/TECT-Math400-Math82-AddH-BCC-Refuted-Lamellar-Is-True-Vacuum.tex.txt`
+- Run results: `Runs/math396/math396_AddA_symmetry_mu2_*.json`
+- Solver script: `Codes/supplementary/Math396_AddA_symmetry_preserved.py` v1.0
+
+**Reproducibility**: Math400 §1 quotes the exact run output verbatim; Math400 §3 K-table re-derivation is reproducible by inspection.
+
+---
+
+### R-2026-05-11-Math383-Sec3-4-Arithmetic-and-SMA-Hierarchy-Reversal
+
+**Date**: 2026-05-11
+**Theory tag**: Math399 (`Docs/math/TECT-Math399-Math383-Arithmetic-Audit-and-SMA-Hierarchy-Reversal.tex.txt`)
+**Type**: R-retracted. Retracted sub-claims: Math383 §3 numerical table, Math383 §4 numerical table, Math383 §4 "analytical-numerical match" claim.
+
+**Retracted statement (Math383 §3 line 143)**: "BCC F/V = -0.165 at $\mu^2=-1$".
+**Audited correct value**: F/V = -0.148 at $\mu^2=-1$. Discrepancy $\sim 10\%$. Other rows of §3 worse (FCC 49\%, HEX 65\%, lamellar 540\% off).
+
+**Retracted statement (Math383 §4 line 171)**: "BCC F/V = $-1.87\times 10^{-3}$ at $\mu^2=+0.005$ matches Math380 v3 numerical $-1.87\times 10^{-3}$ to four-digit precision — strong validation of the 1-mode reduction".
+**Audited correct value**: closed-form single-shell SMA F/V = $-5.50\times 10^{-4}$ at $\mu^2=+0.005$. Discrepancy factor $3.4$. The "match" was a self-validation artefact: the analytical column entry was a copy of the numerical column, not an independent closed-form evaluation. The actual single-shell SMA hierarchy at $\mu^2=+0.005$ is HEX < lamellar < FCC < BCC — REVERSED from the Math383 §4 ordering. BCC is the SHALLOWEST single-shell SMA competitor at the canonical TECT operating point.
+
+**Cause**: Math398 / Math399 foundation-first audit. Direct python recomputation of $\mathcal{F}/V = (\mu^2/2)\phi_0^2 + (\lambda K_4/2)\phi_0^4 + (\gamma K_6/3)\phi_0^6$ at canonical inputs was performed during pre-flight analytical sanity check of the Math396-AddA symmetry-preserving solver. The discrepancy was unmistakable and reproducible.
+
+**Audited tables** (Math399 §2-3):
+
+At $\mu^2=-1$:
+| $\Lambda$ | $x_*$ | $\mathcal{F}/V$ audited | $\mathcal{F}/V$ Math383 §3 |
+|---|---|---|---|
+| BCC | 0.4084 | $-0.1481$ | $-0.165$ |
+| FCC | 0.3592 | $-0.1336$ | $-0.069$ |
+| HEX | 0.3072 | $-0.1159$ | $-0.041$ |
+| lamellar | 0.2199 | $-0.0837$ | $-0.013$ |
+
+At $\mu^2=+0.005$:
+| $\Lambda$ | $x_*$ | $\mathcal{F}/V$ audited ($\times 10^{-4}$) | Math383 §4 ($\times 10^{-4}$) |
+|---|---|---|---|
+| BCC | 0.10000 | $-5.50$ | $-18.7$ |
+| FCC | 0.10974 | $-11.12$ | $-6.2$ |
+| HEX | 0.10318 | $-13.54$ | $-3.6$ |
+| lamellar | 0.07764 | $-11.67$ | $-1.0$ |
+
+**What survives audit**:
+- Math383 §1 formula (T7).
+- Math383 §2 K-table (T6 conditional on Leibler 1980 normalisation).
+- Math383 §3 \emph{ordering} BCC < FCC < HEX < lamellar at $\mu^2=-1$ (only the magnitudes are wrong).
+- Math383 §6 numerical L-BFGS-B (T6 conditional; the data are valid; the data show lamellar deepest in full $N^3$ space, which Math383 §6 itself reports as PRE-REGISTERED VERDICT FAIL).
+
+**What does not survive**:
+- Math383 §3 magnitudes.
+- Math383 §4 magnitudes AND ordering AND analytical-numerical-match claim.
+
+**Cascade impact**:
+- Math82-AddH "BCC condensation at $\mu^2=+0.005$" interpretation: T6 PROVED CONDITIONAL → T4 STRONG EVIDENCE pending Math396-AddA multi-shell symmetry-preserving solver (Math398 §6 protocol).
+- Pillar 4 sub-task 2 status: T3 PROOF SKETCH (unchanged from Math395 verdict; Math399 supplies a SECOND independent fatal-objection beyond Mechanism (III) Lemma $E_3'$).
+
+**Reproducibility**: Math399 §6 supplies a 9-line python snippet that reproduces every value in the audited tables.
+
+---
+
 ### R-2026-05-09-Math372-Sign-Error-Claim-Retraction
 
 **Date**: 2026-05-09 (same day as Math372 creation; retracted within hours of source-code verification).

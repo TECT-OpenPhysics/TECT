@@ -1,0 +1,294 @@
+% =====================================================================
+% TECT Math Note 396 -- Math383 §6 numerical results: BCC global-min
+%   hypothesis NUMERICALLY NEAR-REFUTED at canonical TECT operating
+%   points; analytical 1-mode K_4/K_6 prediction fails for non-BCC
+%   structures by factors 4-24
+% Created : 2026-05-11
+% Status  : T0 RETRACTED (Math383 1-mode analytical for FCC/HEX/lamellar)
+%           + T2 CONJECTURE (BCC global-min sub-claim) per numerical
+%           Math383 §6 results; cascade-wide remediation triggered
+% Linked  : Math383 (1-mode analytical now numerically refuted for non-BCC),
+%           Math383 §6 script (`Math383_competitor_comparison.py`),
+%           Math391 (Pillar 4 promotion that depended on Math383),
+%           Math395 (adversarial audit that anticipated this fragility),
+%           Math82-AddH H2 hypothesis (BCC global minimum claim;
+%           numerically near-refuted), Leibler (1980) K_4/K_6
+%           values that disagree with TECT-canonical-form numerics
+% =====================================================================
+
+\section*{Math396 -- Math383 §6 numerical NEAR-REFUTATION of BCC global-min}
+
+\subsection*{0. Headline}
+
+Operator-PC execution of \texttt{Math383\_competitor\_comparison.py}
+(2026-05-11) at the two canonical TECT operating points $\mu^2 \in
+\{-1, +0.005\}$ produced PRE-REGISTERED FAIL verdicts at BOTH points:
+
+\textbf{$\mu^2 = +0.005$ (Math82-AddH operating point)}:
+\begin{itemize}
+\item $F_{\rm BCC}/V = -1.80\times 10^{-3}$ (5 negative eigenvalues; marginal stationarity $|\nabla F|/\sqrt V = 2.4\times 10^{-6}$)
+\item $F_{\rm FCC}/V = -2.29\times 10^{-3}$ ($27\%$ deeper than BCC; FULLY converged at $|\nabla F|/\sqrt V = 1\times 10^{-7}$)
+\item $F_{\rm HEX}/V = -1.95\times 10^{-3}$
+\item $F_{\rm lamellar}/V = -2.39\times 10^{-3}$ ($33\%$ deeper than BCC; FULLY converged at $|\nabla F|/\sqrt V = 4.5\times 10^{-8}$)
+\end{itemize}
+Both FCC and lamellar converged to states with strictly lower
+$F/V$ than BCC. \textbf{BCC is NOT the global minimum at the
+Math82-AddH operating point}, refuting the Math82-AddH H2
+hypothesis at numerical-precision level.
+
+\textbf{$\mu^2 = -1$ (deep BCC)}:
+\begin{itemize}
+\item $F_{\rm BCC}/V = -0.2025$ (BUT NOT CONVERGED: $|\nabla F|/\sqrt V = 0.18$)
+\item $F_{\rm lamellar}/V = -0.232$ ($14\%$ deeper than BCC; FULLY converged)
+\end{itemize}
+BCC vs lamellar $F/V$ comparison shows lamellar lower, but BCC
+did not reach the strict $10^{-6}$ stationarity tier. Verdict
+ambiguous at deep BCC; \emph{strongly suggests lamellar wins} but
+needs Math396-AddA tighter convergence.
+
+\textbf{Combined verdict}: PRE-REGISTERED FAIL at both operating
+points. The Math383 1-mode analytical prediction (BCC < FCC < HEX
+< lamellar) is NUMERICALLY REFUTED for the non-BCC structures.
+
+\subsection*{1. Analytical-vs-numerical discrepancy}
+
+Math383 \S 3-4 used Leibler (1980) Table II $K_4, K_6$ values:
+
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+Lattice & $K_4$ & $K_6$ & analytical $F/V$ at $\mu^2 = +0.005$ & numerical $F/V$ \\
+\hline
+BCC      & $1.0$  & $2.5$  & $-1.87\times 10^{-3}$ & $-1.80\times 10^{-3}$ \\
+FCC      & $1.5$  & $3.5$  & $-0.62\times 10^{-3}$ & $-2.29\times 10^{-3}$ \\
+HEX      & $2.0$  & $5.0$  & $-0.36\times 10^{-3}$ & $-1.95\times 10^{-3}$ \\
+lamellar & $3.0$  & $10.0$ & $-0.10\times 10^{-3}$ & $-2.39\times 10^{-3}$ \\
+\hline
+\end{tabular}
+\end{center}
+
+\textbf{BCC analytical agrees with numerical to $\sim 4\%$}.
+\textbf{FCC, HEX, lamellar disagree by factors $3.7\times, 5.4\times,
+24\times$ respectively.} The disagreement is NOT random — non-BCC
+structures all converge DEEPER than the analytical 1-mode prediction.
+
+Three possible explanations:
+
+\textbf{Explanation (a)}: Leibler (1980) $K_4, K_6$ normalisation
+convention differs from TECT canonical convention. Specifically,
+Leibler defines $\Psi = \sum_j A_j \cos(q_j r)$ with structure
+factors normalised relative to $\sum_j A_j^2$ (per-amplitude),
+whereas TECT canonical uses $\langle\Psi^2\rangle = \phi_0^2$
+normalisation. The conversion factor depends on the number of modes
+($n_{\rm modes}$) and may not be unity for non-BCC structures.
+
+\textbf{Explanation (b)}: L-BFGS-B from FCC/HEX/lamellar seeds
+converged to states that are \emph{not} pure FCC/HEX/lamellar but
+mixed-symmetry minima. The $\langle\Psi^2\rangle$ values
+($0.142, 0.156, 0.149, 0.165$) are similar across all four seeds,
+suggesting they may have converged to similar final states regardless
+of starting symmetry.
+
+\textbf{Explanation (c)}: TECT canonical free energy genuinely
+prefers non-BCC structures at the operating point, contradicting
+the Math97 universality-theorem prediction that BCC is unique
+global minimum in $\mathcal{U}_{\rm iso-Brazovskii}$.
+
+The three explanations have very different implications:
+\begin{itemize}
+\item (a) → Math383 1-mode analytical needs re-derivation with
+  TECT normalisation; numerical comparison still valid; BCC may
+  remain global min after corrected analytical re-examination.
+\item (b) → Math383 §6 script needs symmetry-preserving constraints;
+  comparison invalid; further work required.
+\item (c) → Math82-AddH H2 hypothesis genuinely refuted; Math97
+  universality theorem requires audit; Pillar 4 BCC-stability sub-claim
+  status further DOWNGRADED.
+\end{itemize}
+
+\subsection*{2. Pre-registered verdict status}
+
+Math383 \S 6 pre-registered PASS criterion: $F_{\rm BCC} < F_\Lambda$
+for all $\Lambda \in \{\rm FCC, HEX, lamellar\}$ at both operating
+points.
+
+Math383 \S 6 numerical results: $F_{\rm BCC}$ NOT minimum in 3 of
+6 comparisons (FCC + lamellar at $\mu^2 = +0.005$; lamellar at
+$\mu^2 = -1$ pending BCC convergence).
+
+\textbf{PRE-REGISTERED VERDICT: FAIL.}
+
+This is the binding numerical verdict. Math395 audit anticipated
+fragility; Math396 confirms it.
+
+\subsection*{3. Status downgrade cascade}
+
+Per Math395 \S 3 binding-remediation framework, the following
+status changes are now required:
+
+\textbf{Math383}: T6 PROVED CONDITIONAL → \textbf{T0 RETRACTED for
+1-mode analytical of non-BCC structures}; T2 CONJECTURE for BCC
+global-min sub-claim retained pending Explanation (a)/(b)/(c)
+discrimination.
+
+\textbf{Math82-AddH H2 hypothesis} (``BCC condensate exists as global
+minimum at $\mu^2 = +0.005$''): NEAR-REFUTED at numerical-precision
+level. Math82-AddH should append an ``audit-flag'' entry. Pillar 1
+mass $m^*$ chain (which depends on H2) has secondary impact pending
+Explanation discrimination.
+
+\textbf{Math391 ACCEPT (Pillar 4 promotion)}: FRAGILE — was based on
+Math383 §1-4 analytical that is now refuted for non-BCC. The
+Math391 \S 0 ``operator query: 'proceed with ACCEPT first''' decision
+was issued BEFORE this Math383 §6 numerical execution. Operator
+re-decision required:
+\begin{itemize}
+\item REVERT Math391 ACCEPT (Pillar 4 reverts T6 → T2 OR T3 per
+  Math395 effective tier), OR
+\item RETAIN Math391 ACCEPT with explicit conditional on Math396
+  Explanation (a) being correct (i.e., BCC remains global min after
+  K-factor re-derivation).
+\end{itemize}
+
+\textbf{Pillar 4 sub-task 2 effective tier}: per Math395 was T3
+PROOF SKETCH; per Math396, additional concern: BCC global-min
+sub-claim potentially refuted, not just imprecisely supported.
+Effective tier could drop to T2 CONJECTURE or T1 OPEN depending on
+operator's resolution path.
+
+\subsection*{4. Math396-AddA queued task: tighter convergence + symmetry-preserving runs}
+
+\textbf{Math396-AddA}: Re-run Math383 \S 6 with three improvements:
+\begin{enumerate}
+\item Tighter L-BFGS-B convergence: \texttt{converge-iters 5000-10000},
+  \texttt{f-tol 1e-8}. Goal: BCC converges to $|\nabla F|/\sqrt V <
+  10^{-6}$ at $\mu^2 = -1$.
+\item Symmetry-preserving constraints: project gradient onto each
+  lattice's wavevector subspace at every step. Prevents FCC seed
+  from drifting away from FCC manifold.
+\item Larger grid: $N = 64$ to reduce finite-grid artefacts.
+\end{enumerate}
+
+If with these improvements BCC IS still NOT the global minimum,
+Explanation (c) confirmed → Math82-AddH H2 hypothesis genuinely
+refuted → Pillar 1 + Pillar 4 cascade-wide audit required.
+
+If BCC RECOVERS as global minimum after improvements, Explanation
+(a) or (b) confirmed → Math383 1-mode analytical needs re-derivation
+in TECT convention; numerical verdict reverts to PASS; Math391 ACCEPT
+remains valid.
+
+\textbf{Estimated effort}: Math396-AddA ~10-30 minutes operator-PC;
+result interpretation 1 Math note.
+
+\subsection*{5. Math97 universality theorem implications}
+
+Math97 \S 5 cites BCC global minimality in $\mathcal{U}_{\rm
+iso-Brazovskii}$ as a theorem (PARTIAL pending AddA/AddB). If
+Math396-AddA confirms Explanation (c), Math97 itself requires audit:
+\begin{itemize}
+\item Check whether the Math97 universality argument actually
+  proves BCC \emph{global} minimality, or merely BCC stability
+  within $\mathcal{U}_{\rm iso-Brazovskii}$.
+\item Identify which of the five Math97 axioms (C1)-(C5) might
+  fail to imply BCC > FCC etc.
+\item Cross-reference against Brazovskii (1975), Leibler (1980),
+  Fredrickson-Helfand (1987), Hohenberg-Swift (1995) original
+  literature for the BCC global-min claim.
+\end{itemize}
+
+\textbf{Math97-AddC queued} (in addition to AddA/AddB): re-examine
+BCC global-minimality claim against Math383 §6 numerical evidence.
+
+\subsection*{6. Devil's-advocate self-test (CLAUDE.md \S 6.3.1)}
+
+\textbf{Objection $\alpha$}: Could the Math383 \S 6 numerical FAIL be
+an artefact of L-BFGS-B drifting between local minima rather than a
+genuine BCC vs competitor comparison?\\
+\emph{Response: VALID-with-mitigation; Math396-AddA addresses.} The
+similar $\langle\Psi^2\rangle$ values across all four seeds suggest
+drift may be occurring. Symmetry-preserving constraints (Math396-AddA
+\#2) will fix the comparison.
+
+\textbf{Objection $\beta$}: Could Leibler (1980) $K_4, K_6$ values
+be in a different normalisation that explains the analytical-vs-numerical
+discrepancy without changing the global-min ordering?\\
+\emph{Response: VALID-with-mitigation.} The $4\%$-vs-$24\%$ disagreement
+pattern is not a uniform rescaling — it gets worse for fewer-mode
+structures. This is suggestive of a normalisation effect that depends
+on $n_{\rm modes}$. Re-derivation in TECT convention is queued
+(Math397; new task).
+
+\textbf{Objection $\gamma$}: Does this Math396 result vindicate
+the operator's earlier query ``일전에 반증을 통해 BCC를 무너뜨렸는데''?\\
+\emph{Response: PARTIALLY DISMISSED.} The earlier ``BCC refutation''
+referred to Math369 operator-rollback, which was about METHODOLOGY
+(Math358 expected output, not executed). Math396 is a different,
+NEWER refutation: BCC is not global minimum at canonical operating
+points per Math383 §6 EXECUTED numerical comparison. The two
+refutations are independent. Math396 is the FIRST direct numerical
+evidence that BCC may not be the canonical TECT ground state.
+
+\subsection*{7. Quantitative sanity check (CLAUDE.md \S 6.3.4)}
+
+\textbf{Magnitude}: at $\mu^2 = +0.005$, $F_{\rm lamellar}/F_{\rm
+BCC} = 1.33$ (lamellar 33\% deeper). The gap is large enough that
+normalisation/convergence corrections within $\pm 10\%$ would not
+flip the ordering.
+
+\textbf{Sign-direction}: all four lattices have $F/V < 0$ (all are
+condensed, none disordered). The ordering is within the negative
+region. Multiple lattices having lower F than BCC is the
+falsification signal.
+
+\textbf{Stationarity quality}: lamellar achieved $|\nabla F|/\sqrt V
+= 6.3\times 10^{-8}$ at $\mu^2 = -1$ and $4.5\times 10^{-8}$ at
+$\mu^2 = +0.005$ — TIGHTEST stationarity in the cascade history.
+Lamellar IS a properly converged stationary point. Its $F$ value
+is robust.
+
+\subsection*{8. Status update (binding atomic-write commit)}
+
+\textbf{Math396 STATUS}: T6 PROVED CONDITIONAL (numerical FAIL
+verdict at pre-registered criterion; Math383 1-mode analytical
+RETRACTED for non-BCC structures; Pillar 4 status further pending
+operator decision on Math391 ACCEPT revisit).
+
+\textbf{Math383 STATUS}: T6 PROVED CONDITIONAL → T0 RETRACTED for
+1-mode analytical of non-BCC; T2 for BCC global-min sub-claim.
+
+\textbf{Math82-AddH H2}: numerically NEAR-REFUTED; Pillar 1 audit-flag.
+
+\textbf{Math391 ACCEPT}: FRAGILE; operator re-decision required.
+
+\textbf{Pillar 4 sub-task 2 effective tier}: T3 PROOF SKETCH (per
+Math395) → potentially T2 CONJECTURE or T1 OPEN pending Math396-AddA.
+
+\textbf{New tasks queued}: Math396-AddA (tighter L-BFGS-B + symmetry
+constraints), Math397 (TECT-normalised K_4/K_6 re-derivation),
+Math97-AddC (BCC global-min re-audit).
+
+\subsection*{9. Cross-references}
+
+\begin{itemize}
+\item Math383 (1-mode analytical now refuted for non-BCC).
+\item \texttt{Codes/supplementary/Math383\_competitor\_comparison.py}
+  (the script that produced this Math396 verdict).
+\item \texttt{Runs/math383/math383\_competitors\_mu2\_-1.0000\_N32.json}
+  ($\mu^2=-1$ result; FAIL).
+\item \texttt{Runs/math383/math383\_competitors\_mu2\_+0.0050\_N32.json}
+  ($\mu^2=+0.005$ result; FAIL).
+\item Math82-AddH H2 hypothesis (BCC global min; numerically
+  near-refuted by Math396).
+\item Math391 (Pillar 4 ACCEPT promotion based on Math383; now
+  fragile).
+\item Math395 (adversarial audit that anticipated this fragility).
+\item Math97 §5 (BCC global minimality theorem; PARTIAL; Math97-AddC
+  queued for re-audit).
+\item Leibler (1980) Table II $K_4, K_6$ values (normalisation
+  potentially incompatible with TECT canonical convention).
+\item Math396-AddA queued (tighter convergence + symmetry constraints).
+\item Math397 queued (TECT-normalised K_4/K_6 re-derivation).
+\end{itemize}
+
+% --- end of Math396 ---

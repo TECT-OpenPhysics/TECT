@@ -1,4 +1,4 @@
-// AUTO-GENERATED v0.3 page 9/9 — 2026-05-11 00:17 UTC
+// AUTO-GENERATED v0.3 page 9/9 — 2026-05-11 08:43 UTC
 window.TECT_HISTORY = {
   title: "History (page 9 of 9)",
   subtitle: "Chronological CHANGELOG mirror — auto-generated.",
@@ -9,8 +9,63 @@ window.TECT_HISTORY = {
     { type: "timeline", items: [
         {
           date: "2026-05-11",
+          title: "[Theory/PATH-α-CONFIRMED + Reformulation] Math400-AddE + Math400-AddF: Brazovskii one-loop self-consistency at TECT canonical params yields PATH α (Reading H emergent vacuum) at 16/16 sweep points; N=",
+          body: "**Theory tags**: `Math400-AddE-One-Loop-Brazovskii-Self-Consistency-PATH-ALPHA-CONFIRMED-2026-05-11` + `Math400-AddF-N64-Canonical-mu2-0p005-BCC-Stable-FCC-Saddle-2026-05-11` **Classification**: SESSION-END BINDING RESULT (T6 PROVED CONDITIONAL); decisive Pillar 4 vacuum identification."
+        },
+        {
+          date: "2026-05-11",
+          title: "[Theory/METHODOLOGICAL-REORIENTATION] Math400-AddD: Lattice-enumeration paradigm REJECTED. Naturalness + h-effects emergence adopted as binding selection criterion. Brazovskii framework subjected to a",
+          body: "**Theory tag**: `Math400-AddD-Lattice-Enumeration-Rejected-Naturalness-h-Effects-Brazovskii-Audit-2026-05-11` **Classification**: FRAMEWORK-LEVEL REORIENTATION (binding); operator-driven methodological correction."
+        },
+        {
+          date: "2026-05-11",
+          title: "[Theory/EXHAUSTIVE-ALTERNATIVES] Math400-AddC: extended candidate enumeration + no-condensate scenarios; Brazovskii 1975 fluctuation-stabilized disordered phase (Reading H) identified as physically MO",
+          body: "**Theory tag**: `Math400-AddC-Extended-Candidates-and-Condensate-Free-Scenarios-2026-05-11` **Classification**: EXTENSION OF READING FRAMEWORK (binding); operator-driven exhaustive-alternative survey responding to two questions (\"are there more candidates?\" + \"could there be no condensate?\")."
+        },
+        {
+          date: "2026-05-11",
+          title: "[Theory/Revision] Math400-AddB: N=64 tighter Math383 §6 re-run reveals all 4 lattices are TRUE LOCAL MINIMA at μ²=-1; BCC saddle-5 verdict OVERTURNED; FCC deeper than BCC among cubic-isotropy-compatib",
+          body: "**Theory tag**: `Math400-AddB-N64-Tighter-All-Local-Minima-FCC-Deepest-Among-Cubic-2026-05-11` **Classification**: REVISION OF MATH400 + MATH400-AddA INTERPRETATION (binding); operator-driven numerical-precision audit."
+        },
+        {
+          date: "2026-05-11",
+          title: "[Theory/Revision] Math400-AddA: Cosmological-isotropy filter REJECTS Reading A (lamellar TECT vacuum). Math396-AddA collapse to lamellar is reframed as a solver-trivial-minimum artefact, not a physica",
+          body: "**Theory tag**: `Math400-AddA-Cosmological-Isotropy-Filter-Rejects-Lamellar-2026-05-11` **Classification**: REVISION OF MATH400 §4 INTERPRETATION (binding); operator-driven physical-consistency filter."
+        },
+        {
+          date: "2026-05-11",
+          title: "[Theory/REFUTATION/FOUNDATION-SHAKING] Math400: Math82-AddH \"BCC condensation at canonical $\\mu^2=+0.005$\" REFUTED. Lamellar is the only stable lattice-manifold minimum. Math383 §2 K-table independ",
+          body: "**Theory tag**: `Math400-Math82-AddH-BCC-Refuted-Lamellar-Is-True-Vacuum-2026-05-11` **Classification**: FOUNDATION-SHAKING (T0 REFUTATION binding for Math82-AddH BCC reading; T0 REFUTATION for Math383 main claim; T0 REFUTATION for Math383 §2 K-table; foundation dissolves Pillar 4 BCC-vacuum sub-programme covering ~40 Math notes Math82→Math220→Math385-394)."
+        },
+        {
+          date: "2026-05-11",
+          title: "[Theory/Audit/REFUTED] Math399: Foundation-first audit refutes Math383 §3-4 arithmetic + reverses single-shell SMA hierarchy at canonical operating point",
+          body: "**Theory tag**: `Math399-Math383-Arithmetic-Audit-and-SMA-Hierarchy-Reversal-2026-05-11` **Classification**: AUDIT-CRITICAL (T0 partial-refutation of Math383 §3-4; T4 downgrade for Math82-AddH BCC reading)"
+        },
+        {
+          date: "2026-05-11",
           title: "[Theory/Audit/RG-AUDIT] Math385-Math389: Lemma E_3' four-RG audit programme — RG1/RG2 closed (no relief), RG3 partial relief (insufficient), RG4 structural reclassification (net zero)",
           body: "**Theory tag**: `Math385-Math389-Lemma-E3-Four-RG-Audit-Programme-2026-05-11` **Classification**: AUDIT PROGRAMME (5 Math notes + 1 second-order audit AddA; honest verdict ``no Stage-1 score change'')"
+        },
+        {
+          date: "2026-05-11",
+          title: "[Theory/Numerical/CRITICAL] Math396 — Math383 §6 numerical NEAR-REFUTATION of BCC global-min at canonical TECT operating points",
+          body: "**Theory tag**: `Math396-Math383-Numerical-NEAR-REFUTATION-BCC-Global-Min-2026-05-11` **Classification**: CRITICAL EMPIRICAL FINDING (vindicates Math395 audit fragility prediction; binding implications for Math82-AddH H2 + Math391 ACCEPT)"
+        },
+        {
+          date: "2026-05-11",
+          title: "[Theory/Audit/CALIBRATION] Math395 — Adversarial audit of Math385-394 cascade; binding status downgrades",
+          body: "**Theory tag**: `Math395-Adversarial-Audit-Math385-394-Downgrades-2026-05-11` **Classification**: BINDING AUDIT CALIBRATION (12 objections, 6 UPHELD, 4 status downgrades, Pillar 4 effective tier dropped from T6 to T3)"
+        },
+        {
+          date: "2026-05-11",
+          title: "[Theory/Audit/PROCEDURAL] Math382 (placeholder) — numbering-gap retroactive fix; 3-channel PyTorch cross-validation scoped",
+          body: "**Theory tag**: `Math382-Numbering-Gap-Fix-3-Channel-CrossValidation-Queued-2026-05-11` **Classification**: PROCEDURAL FIX (Math373-394 cascade had numbering gap at Math382; retroactively filled with placeholder containing substantive cross-validation scope)"
+        },
+        {
+          date: "2026-05-11",
+          title: "[Theory/Audit/MAJOR] Math391-394: Math388 reformulation ACCEPT + Path I/II/III sequential development",
+          body: "**Theory tag**: `Math391-394-Math388-ACCEPT-and-Three-Path-Development-2026-05-11` **Classification**: MAJOR PILLAR 4 STATUS CHANGE (T2 → T6) + Pillar 11 sub-task acquisition + three theoretical paths advanced"
         },
         {
           date: "2026-05-11",
