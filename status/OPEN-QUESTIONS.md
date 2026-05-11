@@ -55,6 +55,38 @@ archived with the replacement's tag, and the replacement gains an
 
 ## Active
 
+#### Q-2026-05-11-Math400-AddE-AddA-Two-Loop-CrossCheck — Two-loop Brazovskii self-consistency at TECT canonical params for Reading H fortification — **OPENED 2026-05-11 (Math400-AddE Path α confirmation)**
+
+**[OPENED 2026-05-11 — Math400-AddE devil's-advocate α follow-up]** **Context**: Math400-AddE explicit one-loop self-consistency $r_R = r + 3uM + 15vM^2$ at TECT canonical $\mu^2 = +0.005$ gives $r_R = +0.4193$ (Path α confirmed across all 16/16 sweep points). Devil's-advocate α flagged that the loop correction is $\sim 91\%$ of bare $r$, indicating the loop expansion is at most marginally controlled. Two-loop (or full Wilsonian RG) corrections may significantly modify $r_R$ and could in principle reverse the Path α verdict.
+
+**Statement**: Compute the two-loop Hartree (or sunset) correction to the Brazovskii self-energy $\Sigma^{(2)}(r_R)$ at TECT canonical parameters. Verify whether the two-loop $r_R^{(2)}$ remains positive (Reading H fortified) or changes sign (Reading H requires revision; potentially Path β or γ). The two-loop calculation is the standard convergence cross-check for any one-loop self-consistent gap equation.
+
+**Why open**: Math400-AddE Path α is the binding result for the entire Pillar 4 reformulation under Reading H. The 91% one-loop shift is sizeable and warrants two-loop verification. If the two-loop calculation gives a qualitatively different answer, the entire Math400 cascade may need revision.
+
+**Falsification criterion**: if two-loop $r_R^{(2)}$ has opposite sign or differs from one-loop by more than a factor 2, Reading H is downgraded from T6 PROVED CONDITIONAL to T4 STRONG EVIDENCE pending higher-loop or Wilsonian RG closure.
+
+**Owner**: Jusang Lee (maintainer) + AI collaborator. **Expected closure**: 2026-06-15 (matched to Stage-1-sealed target). **Suggested infra hook**: extend `Codes/supplementary/Math400_AddE_brazovskii_one_loop.py` with a `--two-loop` CLI option that computes $\Sigma^{(2)}$ via numerical loop-momentum integration.
+
+**Cross-references**: Math400-AddE (parent), Math400-AddD (Brazovskii adequacy audit framework), Math400-AddF (BCC channel stability evidence), `Codes/supplementary/Math400_AddE_brazovskii_one_loop.py` v1.0.
+
+---
+
+#### Q-2026-05-11-Math402-Kibble-Zurek-Dilution — Pillar 11 DM density excess from Kibble-Zurek frozen defects of Brazovskii fluctuation regime requires dilution mechanism — **OPENED 2026-05-11 (Math400-AddC §6 Kibble-Zurek estimate)**
+
+**[OPENED 2026-05-11 — Math400-AddC §6 Kibble-Zurek defect-density estimate follow-up]** **Context**: Under Reading H (Brazovskii fluctuation-stabilized disordered vacuum, confirmed by Math400-AddE), Pillar 11 DM origin is naturally identified with Kibble-Zurek frozen topological defects of the fluctuation regime, with density $n \sim \xi(\tau_Q)^{-3}$ where $\xi(\tau_Q) \sim \xi_0 (\tau_Q/\tau_0)^{\nu/(1+\nu z)}$. The TECT cosmological quench rate $\tau_Q \sim 1/(38H)$ from Math196 gives, with $\xi_0 \sim 1/q_0 \sim 1.5$ TECT length, $\tau_0 \sim 1$, $\nu \sim 1/2$, $z \sim 2$: $\xi(\tau_Q) \sim$ few TECT length units, $n_{\text{defect}} \sim 10^{-3}$ per TECT volume → $\sim 10^{42}$/m$^3$ at GUT scale → $\rho_{\text{defect}} \sim 10^{58}$ GeV/m$^3$. Critical density $\rho_{\text{crit}} \sim 10^0$ GeV/m$^3$. **Excess factor: $\sim 10^{58}$** above DM density.
+
+**Statement**: Identify the dilution mechanism that reduces Kibble-Zurek frozen-defect density by $\sim 10^{58}$ to match observed $\Omega_{\text{DM}} \sim 0.27$. Candidate mechanisms: (a) inflationary stretching post-formation (gives factor $\sim e^{3 N_e}$ for $N_e$ e-folds; $N_e \sim 60$ gives $\sim 10^{78}$, more than enough), (b) defect-defect annihilation / scaling-regime dilution, (c) defect mass much smaller than $M_{\text{GUT}}$ (gives factor $m_{\text{defect}}/M_{\text{GUT}}$), (d) combination of above. The mechanism must be specified concretely with first-principles derivation, not merely invoked.
+
+**Why open**: Reading H predicts a specific DM origin (Kibble-Zurek frozen defects) that is the natural emergent prediction of the Brazovskii fluctuation regime. If no dilution mechanism can reduce $10^{58}$ excess to observed $\Omega_{\text{DM}}$, Reading H makes a wrong cosmological prediction and must be reformulated. Alternatively, if the dilution mechanism is specifiable from first principles, Reading H provides the natural TECT-DM identification (T2 CONJECTURE → T4/T6 conditional on dilution closure).
+
+**Falsification criterion**: if no first-principles dilution mechanism reduces excess to within $\Omega_{\text{DM}} \sim 0.27$ (factor 2-3 tolerance), Pillar 11 dark-matter-from-defects sub-claim under Reading H is REJECTED. Reading H may still survive on Pillar 4 grounds (vacuum identification) but loses Pillar 11 natural-DM claim.
+
+**Owner**: Jusang Lee (maintainer) + AI collaborator. **Expected closure**: 2026-06-15. **Suggested approach**: Math402-AddA = single-mechanism analysis (inflationary stretching), Math402-AddB = full dilution-mechanism inventory + best-fit selection.
+
+**Cross-references**: Math400-AddC §6 (Kibble-Zurek estimate), Math400-AddE (Reading H confirmation), Math196 ($\tau_Q$ derivation), Math393 (Path II defect-as-DM Pillar 11 framework, predecessor; now reabsorbed under Reading H).
+
+---
+
 #### Q-2026-05-09-Supplementary-Hamiltonian-Audit — Audit all Codes/supplementary/Math*.py for canonical-vs-toy Brazovskii free-energy consistency — **OPENED 2026-05-09 (Math373 §6 devil's-advocate β VALID-with-mitigation)**
 
 **[OPENED 2026-05-09 — Math373 R-2026-05-09-Math372-Sign-Error-Claim-Retraction follow-up]** **Context**: The Math369--372 cluster (2026-05-09) was audit-flagged INVALID because the supplementary scripts implemented a TOY Brazovskii free energy that omitted the canonical sextic stabiliser $\gamma\Psi^6/3$, misinterpreted $\gamma$ as a gradient coefficient instead of a sextic coefficient, used the wrong $\mu^2$ value ($-0.7$ instead of the canonical operating points $+0.005$ or $+0.26$), and used the wrong quartic prefactor $(\lambda/4)$ instead of the canonical $(\lambda/2)$. Math374 was queued as the corrective implementation. The retraction exposed the broader risk that other supplementary scripts under `Codes/supplementary/Math*.py` may carry similar canonical-vs-toy free-energy mismatches that have not been audited.
