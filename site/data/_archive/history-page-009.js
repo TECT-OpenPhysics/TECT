@@ -1,39 +1,164 @@
-// AUTO-GENERATED v0.3 page 9/9 — frozen at 2026-04-22
+// AUTO-GENERATED v0.3 page 9/10 — frozen at 2026-05-11
 window.TECT_HISTORY_PAGE_009 = {
-  title: "History (page 9 of 9)",
+  title: "History (page 9 of 10)",
   subtitle: "Chronological CHANGELOG mirror — auto-generated.",
-  lastUpdated: "2026-04-22 (archived)",
-  pagination: {"page": 9, "total": 9, "newer": "page-008.html", "older": null, "archiveIndex": "history-archive-index.html"},
+  lastUpdated: "2026-05-11 (archived)",
+  pagination: {"page": 9, "total": 10, "newer": "history.html", "older": "history-page-008.html", "archiveIndex": null},
   blocks: [
-    { type: "html", content: "<div class=\"pagination-nav\"><a href=\"page-008.html\">&larr; Newer</a> &middot; Page 9 / 9 &middot; <a href=\"archive-index.html\">archive index</a></div>" },
+    { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history.html\">&larr; Newer</a> &middot; Page 9 / 10 &middot; <a href=\"history-page-008.html\">Older &rarr;</a></div>" },
     { type: "timeline", items: [
         {
-          date: "2026-04-22",
-          title: "[tools namespace-package fix + check_jacobian_symmetry --selftest — v2.5 diagnostic stage [3/4] unblocked]",
-          body: "**Trigger**: Second local run of `scripts/run_v25_diagnostic.ps1` (commit `badd11d`, after the v1.2 BZ-preconditioner patch): stage [2/4] passes cleanly, stage [3/4] fails with `ModuleNotFoundError: No module named 'tools'` on `python -m tools.check_jacobian_symmetry --selftest`, even though the sibling call `python -m PDE.bz_preconditioner` in the same stage succeeds."
+          date: "2026-05-11",
+          title: "[Theory/PATH-α-CONFIRMED + Reformulation] Math400-AddE + Math400-AddF: Brazovskii one-loop self-consistency at TECT canonical params yields PATH α (Reading H emergent vacuum) at 16/16 sweep points; N=",
+          body: "**Theory tags**: `Math400-AddE-One-Loop-Brazovskii-Self-Consistency-PATH-ALPHA-CONFIRMED-2026-05-11` + `Math400-AddF-N64-Canonical-mu2-0p005-BCC-Stable-FCC-Saddle-2026-05-11` **Classification**: SESSION-END BINDING RESULT (T6 PROVED CONDITIONAL); decisive Pillar 4 vacuum identification."
         },
         {
-          date: "2026-04-22",
-          title: "[bz_preconditioner scaling self-test — two-step correction to an upper-bound-only regression check]",
-          body: "**Trigger (v1.1)**: First local diagnostic run (R-2026-04-22-001 launch, commit `badd11d`) failed the O(N log N) scaling assertion at step [2/4] of `scripts/run_v25_diagnostic.ps1`."
+          date: "2026-05-11",
+          title: "[Theory/METHODOLOGICAL-REORIENTATION] Math400-AddD: Lattice-enumeration paradigm REJECTED. Naturalness + h-effects emergence adopted as binding selection criterion. Brazovskii framework subjected to a",
+          body: "**Theory tag**: `Math400-AddD-Lattice-Enumeration-Rejected-Naturalness-h-Effects-Brazovskii-Audit-2026-05-11` **Classification**: FRAMEWORK-LEVEL REORIENTATION (binding); operator-driven methodological correction."
         },
         {
-          date: "2026-04-22",
-          title: "[Theory-currency audit on v2.5 solver bundle — 2 pre-existing assertion defects repaired; MU2_TARGET/Q0_PHYSICAL surfaced as explicit constants]",
-          body: "**Trigger**: Standing rule `feedback_tect_theory_currency.md` — every new solver bundle must be audited against the current authoritative theory stack before production use. The v2.5 Math63 solver was scheduled for its first diagnostic run."
+          date: "2026-05-11",
+          title: "[Theory/EXHAUSTIVE-ALTERNATIVES] Math400-AddC: extended candidate enumeration + no-condensate scenarios; Brazovskii 1975 fluctuation-stabilized disordered phase (Reading H) identified as physically MO",
+          body: "**Theory tag**: `Math400-AddC-Extended-Candidates-and-Condensate-Free-Scenarios-2026-05-11` **Classification**: EXTENSION OF READING FRAMEWORK (binding); operator-driven exhaustive-alternative survey responding to two questions (\"are there more candidates?\" + \"could there be no condensate?\")."
         },
         {
-          date: "2026-04-22",
-          title: "[Newton-Krylov v2.5 solver redesign (Math63) sealed; diagnostic pending local execution]",
-          body: "**Trigger**: Failure manifest R-2026-04-21-002 (v2.4 continuation failure at μ²=-1.0) — inner GMRES saturates at tCG=15000 for Newton iter ≥5, ρ_lin≈0.6, η_EW locks at 0.5. Root cause: unpreconditioned GMRES cannot resolve Brazovskii ill-conditioning (κ≈1000 at shell |**k**|=q₀)."
+          date: "2026-05-11",
+          title: "[Theory/Revision] Math400-AddB: N=64 tighter Math383 §6 re-run reveals all 4 lattices are TRUE LOCAL MINIMA at μ²=-1; BCC saddle-5 verdict OVERTURNED; FCC deeper than BCC among cubic-isotropy-compatib",
+          body: "**Theory tag**: `Math400-AddB-N64-Tighter-All-Local-Minima-FCC-Deepest-Among-Cubic-2026-05-11` **Classification**: REVISION OF MATH400 + MATH400-AddA INTERPRETATION (binding); operator-driven numerical-precision audit."
         },
         {
-          date: "2026-04-21",
-          title: "[Math61 Stage-2-E falsifiability pre-registration sealed; Task #54 PyTorch blocker]",
-          body: "**Trigger**: Autonomous two-objective session (user directive, Korean, 2026-04-21): (Objective 1) seal Math61 pre-registration for Stage-2-E $G_E$ gate closure; (Objective 2) execute Math55 continuation Task #54 to $\\mu^2_{\\rm target}=5\\times 10^{-3}$."
+          date: "2026-05-11",
+          title: "[Theory/Revision] Math400-AddA: Cosmological-isotropy filter REJECTS Reading A (lamellar TECT vacuum). Math396-AddA collapse to lamellar is reframed as a solver-trivial-minimum artefact, not a physica",
+          body: "**Theory tag**: `Math400-AddA-Cosmological-Isotropy-Filter-Rejects-Lamellar-2026-05-11` **Classification**: REVISION OF MATH400 §4 INTERPRETATION (binding); operator-driven physical-consistency filter."
+        },
+        {
+          date: "2026-05-11",
+          title: "[Theory/REFUTATION/FOUNDATION-SHAKING] Math400: Math82-AddH \"BCC condensation at canonical $\\mu^2=+0.005$\" REFUTED. Lamellar is the only stable lattice-manifold minimum. Math383 §2 K-table independ",
+          body: "**Theory tag**: `Math400-Math82-AddH-BCC-Refuted-Lamellar-Is-True-Vacuum-2026-05-11` **Classification**: FOUNDATION-SHAKING (T0 REFUTATION binding for Math82-AddH BCC reading; T0 REFUTATION for Math383 main claim; T0 REFUTATION for Math383 §2 K-table; foundation dissolves Pillar 4 BCC-vacuum sub-programme covering ~40 Math notes Math82→Math220→Math385-394)."
+        },
+        {
+          date: "2026-05-11",
+          title: "[Theory/Audit/REFUTED] Math399: Foundation-first audit refutes Math383 §3-4 arithmetic + reverses single-shell SMA hierarchy at canonical operating point",
+          body: "**Theory tag**: `Math399-Math383-Arithmetic-Audit-and-SMA-Hierarchy-Reversal-2026-05-11` **Classification**: AUDIT-CRITICAL (T0 partial-refutation of Math383 §3-4; T4 downgrade for Math82-AddH BCC reading)"
+        },
+        {
+          date: "2026-05-11",
+          title: "[Theory/Audit/RG-AUDIT] Math385-Math389: Lemma E_3' four-RG audit programme — RG1/RG2 closed (no relief), RG3 partial relief (insufficient), RG4 structural reclassification (net zero)",
+          body: "**Theory tag**: `Math385-Math389-Lemma-E3-Four-RG-Audit-Programme-2026-05-11` **Classification**: AUDIT PROGRAMME (5 Math notes + 1 second-order audit AddA; honest verdict ``no Stage-1 score change'')"
+        },
+        {
+          date: "2026-05-11",
+          title: "[Theory/Numerical/CRITICAL] Math396 — Math383 §6 numerical NEAR-REFUTATION of BCC global-min at canonical TECT operating points",
+          body: "**Theory tag**: `Math396-Math383-Numerical-NEAR-REFUTATION-BCC-Global-Min-2026-05-11` **Classification**: CRITICAL EMPIRICAL FINDING (vindicates Math395 audit fragility prediction; binding implications for Math82-AddH H2 + Math391 ACCEPT)"
+        },
+        {
+          date: "2026-05-11",
+          title: "[Theory/Audit/CALIBRATION] Math395 — Adversarial audit of Math385-394 cascade; binding status downgrades",
+          body: "**Theory tag**: `Math395-Adversarial-Audit-Math385-394-Downgrades-2026-05-11` **Classification**: BINDING AUDIT CALIBRATION (12 objections, 6 UPHELD, 4 status downgrades, Pillar 4 effective tier dropped from T6 to T3)"
+        },
+        {
+          date: "2026-05-11",
+          title: "[Theory/Audit/PROCEDURAL] Math382 (placeholder) — numbering-gap retroactive fix; 3-channel PyTorch cross-validation scoped",
+          body: "**Theory tag**: `Math382-Numbering-Gap-Fix-3-Channel-CrossValidation-Queued-2026-05-11` **Classification**: PROCEDURAL FIX (Math373-394 cascade had numbering gap at Math382; retroactively filled with placeholder containing substantive cross-validation scope)"
+        },
+        {
+          date: "2026-05-11",
+          title: "[Theory/Audit/MAJOR] Math391-394: Math388 reformulation ACCEPT + Path I/II/III sequential development",
+          body: "**Theory tag**: `Math391-394-Math388-ACCEPT-and-Three-Path-Development-2026-05-11` **Classification**: MAJOR PILLAR 4 STATUS CHANGE (T2 → T6) + Pillar 11 sub-task acquisition + three theoretical paths advanced"
+        },
+        {
+          date: "2026-05-11",
+          title: "[Theory/Audit/MAJOR] Math385-390 cascade: Lemma E_3' four-RG audit + Goldstone-interpretation refutation + N=128 spectrum-positivity PASS",
+          body: "**Theory tag**: `Math385-390-Lemma-E3-RG-Audit-and-Goldstone-Refutation-Cascade-2026-05-11` **Classification**: MAJOR HONEST CASCADE (6 new notes; nuanced verdict; operator-calibrated outcomes)"
+        },
+        {
+          date: "2026-05-10",
+          title: "[Theory/Audit/CALIBRATION] Math381: Operator strict-scorecard calibration — Math379/380 honest downgrade",
+          body: "**Theory tag**: `Math381-Operator-Strict-Scorecard-Calibration-2026-05-10` **Classification**: AUDIT CALIBRATION (binding scorecard; supersedes Math379/380 status fields)"
+        },
+        {
+          date: "2026-05-10",
+          title: "[Theory/Numerical/MAJOR] Math379 + Math380: Math82-AddH BCC stability fully verified across continuation range; bcc_analytic_seed.py amplitude bug fixed",
+          body: "**Theory tag**: `Math379-Math380-Math82-AddH-Full-Continuation-Verification-2026-05-10` **Classification**: MAJOR THEORETICAL CLOSURE (Math82-AddH H2 hypothesis numerically confirmed end-to-end)"
+        },
+        {
+          date: "2026-05-09",
+          title: "[Theory/Numerical/MAJOR] Math378: L-BFGS-B PASS — first numerical confirmation of Math82-AddH BCC stability under canonical Brazovskii free energy",
+          body: "**Theory tag**: `Math378-LBFGSB-PASS-Math82-AddH-Numerical-Confirmation-2026-05-09` **Classification**: MAJOR THEORETICAL VICTORY (first PASS in the Math373-378 cascade)"
+        },
+        {
+          date: "2026-05-09",
+          title: "[Theory/Numerical] Math375: Math374 Production Runs (N=16/N=32) — 6-cosine seed is not a true ground state",
+          body: "**Theory tag**: `Math375-Math374-Execution-Results-and-Seed-vs-Ground-State-Distinction-2026-05-09`"
+        },
+        {
+          date: "2026-05-09",
+          title: "[Theory/Audit] Math373 + Math374: Math372 Sign-Error Claim RETRACTION + Canonical Brazovskii Free-Energy Restoration + Corrective Hessian Code",
+          body: "**Theory tag**: `Math373-Math372-Sign-Error-Claim-RETRACTION-and-Canonical-Free-Energy-Restoration-2026-05-09`"
+        },
+        {
+          date: "2026-05-09",
+          title: "[Theory/Audit] Math369: Operator Audit Acceptance — Pillar 4 T6→T2 Downgrade",
+          body: "**Theory tag**: `Math369-Operator-Audit-Acceptance-and-Actual-Lanczos-2026-05-09`"
+        },
+        {
+          date: "2026-05-09",
+          title: "[Theory] Math357-365: Turns 4-12 Lemma E_3' Comprehensive Analysis",
+          body: "**Theory tag**: `Math357-365-Turns4-12-Lemma-E3-Comprehensive-Analysis-2026-05-09` **Classification**: MAJOR ANALYSIS CYCLE (9-turn synthesis on Lemma E_3' cosmological uniqueness) **Significance**: Rigorous assessment of whether Lemma E_3' (BCC vacuum cosmological uniqueness) can be upgraded from T2 CONJECTURE to T6 PROVED CONDITIONAL for Pillar 4 closure. Verdict: Lemma E_3' remains T2; Pillar 4 tier promoted to T6 PROVED CONDITIONAL (explicit condition documented). Stage-1 SEALED target becomes achievable."
+        },
+        {
+          date: "2026-05-09",
+          title: "[Theory] Math366-368: Turns 13-20 Completion — Pillar 4 Closed at T6 PROVED CONDITIONAL",
+          body: "**Theory tag**: `Math366-368-Turns13-20-Pillar4-Closure-Complete-2026-05-09` **Classification**: VALIDATION + FINAL CONSOLIDATION (4-turn closing phase) **Significance**: Completes 20-turn autonomous research cycle (Math357-368). Executes mandatory CLAUDE.md §6.3.4 quantitative sanity checks and §6.3.5(a) self-adversarial review on Pillar 4 T6 PROVED CONDITIONAL promotion. Produces §6.3.5(c) mandatory final-consolidation note (Math368). STAGE-1 SEALED milestone now achievable (10/11 pillars at T5+)."
+        },
+        {
+          date: "2026-05-09",
+          title: "[Theory] Math357: Turn 4 Hessian Stability Framework for BCC Vacuum",
+          body: "**Theory tag**: `Math357-Hessian-Stability-BCC-Vacuum-Turn4-2026-05-09` **Classification**: ANALYTICAL FRAMEWORK (foundational for Lemma E_3' closure) **Significance**: Establishes mathematical structure for verifying BCC vacuum is a LOCAL MINIMUM of Brazovskii free energy. Necessary condition for E_3' cosmological uniqueness. Framework complete; eigenvalue computation deferred to Turn 5. Defines Hessian operator, Goldstone/rotational zero-modes, massive-mode classification, and Lanczos numerical strategy. Pre-registers falsification criterion: if λ_min^{massive} < -10^{-3} (Brazovskii units), BCC is saddle point → E_3' FALSIFIED."
+        },
+        {
+          date: "2026-05-09",
+          title: "[Infrastructure] Math356 + pillar_status.json: Turn 3 Pillar 4 Lemma A/B T6 Promotion Sync",
+          body: "**Theory tag**: `Math356-Turn3-Infrastructure-Sync-Pillar4-2026-05-09` **Classification**: INFRASTRUCTURE UPDATE (JSON canonical-source sync) **Significance**: Per CLAUDE.md §3 (atomic-write rule) and §20 (infrastructure-theory co-stabilization), Turns 1–2 mathematical work (Math354 diagnostic + Math355 Lemma A audit) must propagate immediately to canonical tier database. Turn 3 executes mandatory pillar_status.json update: (1) Lemma A (Math221-AddC) added to Pillar 4 conditional_on as **T6 PROVED CONDITIONAL** (Math355 audit-confirmed 2026-05-09); (2) Lemma B (Math220-AddB) tier corrected from T3 → **T6 PROVED CONDITIONAL** (Math277 audit-confirmed 2026-05-01); (3) Lemma E_3' (Math218-AddA) explicitly marked as **T2 CONJECTURE** (true blocker for Pillar 4 sub-task 2 T6 closure). Composite tier remains T2 (rate-limiting step is Lemma E_3')."
+        },
+        {
+          date: "2026-05-09",
+          title: "[Theory] Math355: Turn 2 Independent Audit of Lemma A (Math221-AddC)",
+          body: "**Theory tag**: `Math355-Turn2-Independent-Audit-Math221-AddC-2026-05-09` **Classification**: AUDIT VERDICT (independent cross-check) **Significance**: Affirms Math278 (2026-05-01, Turn 49) verdict that Math221-AddC (Lemma A: explicit charge table + SU(5) ρ ≠ 0) is **T6 PROVED CONDITIONAL**. Turn 2 of 20-turn Pillar 4 sub-task 2 closure programme independently audits Lemma A and confirms canonical tier without new defects. Reduces residual risk from ~10% (single audit) to ~2% (independent corroboration)."
+        },
+        {
+          date: "2026-05-09",
+          title: "[Theory] Math354: Pillar 4 Sub-task 2 Status Diagnostic (infrastructure drift repair)",
+          body: "**Theory tag**: `Math354-Pillar4-Subtask2-Status-Diagnostic-2026-05-09` **Classification**: ANALYSIS NOTE (diagnostic, not a theorem) **Significance**: Identifies and documents infrastructure-theory co-stabilization drift (CLAUDE.md §20). Pillar 4 sub-task 2 tier claims in pillar_status.json are out of sync with Math note reality: Math220-AddB (Lemma B) is T6 per Math277 audit (2026-05-01), but JSON lists T3. Maps closure pathway for Lemma E_3' (cosmological uniqueness gate), the true blocker. Prepares infrastructure sync for Turns 2–3."
+        },
+        {
+          date: "2026-05-08",
+          title: "[Infrastructure + Policy] Math353-AddG: v3 mirror tightening pass (paste-ready/.pdf/pde-init/site-assets-subdirs eliminated)",
+          body: "**Root cause analysis**: - (1) `Docs/math/paste-ready-archive/` was in exclude_directories_local but apply_rename matched longest-prefix `Docs/math` first → renamed → never reached exclude check. Logic gap. - (2) `Docs/math/*.pdf` had no filter; passes_subtree_allowlist default-passed everything in note/. - (3) exclude_pde_pattern lacked __init__, .json, RESULT_TEMPLATE.md. - (4) `site_exclude_dirs_local` was missing `Website/assets/{code, code-old, manual, runs, policy, status, docs}/` (only had math, papers, Website/math)."
+        },
+        {
+          date: "2026-05-08",
+          title: "[Infrastructure + Policy] Math353-AddF: v3 mirror cleanup (pde operational + paper flatten + site/assets minimisation + auto-docs disabled)",
+          body: "**Cleanups applied** (mirror.json v3.5): - (a) `exclude_pde_pattern`: regex matching audit/check/run_/pipeline/version/manual_extrapolation/parallel/sweep operational scripts in Codes/pde/. 11 operational files excluded; theory PDE solvers (continuation_mu2*, bz_*, tect_*, math46/49/56_*, projector_*, dirac_index_bcc, intervalley_extractor, etc.) pass through. - (b) `v3_disable_auto_docs=true`: github_sync_curate.py v3 mode skips Github/docs/{KEY_RESULTS,NAVIGATION,POLICIES_INDEX}.md generation. _v3_prune expected set updated. - (c) `Docs/math/paste-ready-archive/` added to exclude_directories_local. note/paste-ready-archive subdir not mirrored. - (d) `paper_flatten_pdf_only=true`: Docs/papers/<subdir>/<paper-id>/<paper-id>.pdf → paper/<paper-id>.pdf (top-level flatten). All non-PDF paper-internal files (.tex, .bib, figures) excluded. - (e) site/assets/ exclusions extended: `Website/assets/{status, docs}/` directory exclusions; `Website/assets/{CHANGELOG, CLAUDE, NAVIGATION}.md` + `TECT_*.png` file exclusions. site/assets/{code, code-old, manual, runs, policy, math, papers}/ already excluded (prior commits). - Also: `Docs/papers/{PAPERS_STATUS_REGISTRY, PAPERS_TRACK_PLAN}.md` exclu"
+        },
+        {
+          date: "2026-05-08",
+          title: "[Infrastructure + Policy] Math353-AddD r3 + AddE: v3 mirror policy + cutover (theory-only mirror activated)",
+          body: "**Theory tags**: `Math353-AddD-Theory-Only-Mirror-Restructure-2026-05-08`, `Math353-AddE-v3-Cutover-2026-05-08` **Trigger**: operator directive 2026-05-08 (5 clarifications): root structure (note/paper/code/status/site); code/ = pde+supplementary+manual; site/math + assets duplicates removed; Old papers + operational MDs excluded; runs/ disabled (Math notes embed key results inline)."
+        },
+        {
+          date: "2026-05-08",
+          title: "[Infrastructure + Policy] Math353-AddC: B-ε path-resolution check + C-γ narrative sweep + C-β/δ documentation correction",
+          body: "**Theory tag**: `Math353-AddC-Phase-B-Epsilon-and-C-Gamma-Plus-Documentation-Correction-2026-05-08` **Type**: Implementation report addendum (CLAUDE.md §4.3). **Trigger**: operator's directive 2026-05-08 post-AddB snapshot completion: GitHub Pages activation deferred; README + metadata are auto-managed (operator confirmed PAT permissions); the rest of the planned work to be processed."
+        },
+        {
+          date: "2026-05-08",
+          title: "[Infrastructure + Policy] Math353-AddB: Phase B inventory cleanup (B-κ + B-μ + B-θ DONE; B-λ + B-η + B-ζ operator-handoff)",
+          body: "**Theory tag**: `Math353-AddB-Phase-B-Implementation-Report-2026-05-08` **Type**: Implementation report addendum (CLAUDE.md §4.3). **Trigger**: operator's directive 2026-05-08 to \"automatically progress through Phase C\" after Math353-AddA r1-r7 snapshot pipeline first successful 8/8 completion."
         }
       ]
     },
-    { type: "html", content: "<div class=\"pagination-nav\"><a href=\"page-008.html\">&larr; Newer</a> &middot; Page 9 / 9 &middot; <a href=\"archive-index.html\">archive index</a></div>" }
+    { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history.html\">&larr; Newer</a> &middot; Page 9 / 10 &middot; <a href=\"history-page-008.html\">Older &rarr;</a></div>" }
   ]
 };

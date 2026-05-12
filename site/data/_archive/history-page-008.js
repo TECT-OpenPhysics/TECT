@@ -1,11 +1,11 @@
-// AUTO-GENERATED v0.3 page 8/9 — frozen at 2026-05-07
+// AUTO-GENERATED v0.3 page 8/10 — frozen at 2026-05-07
 window.TECT_HISTORY_PAGE_008 = {
-  title: "History (page 8 of 9)",
+  title: "History (page 8 of 10)",
   subtitle: "Chronological CHANGELOG mirror — auto-generated.",
   lastUpdated: "2026-05-07 (archived)",
-  pagination: {"page": 8, "total": 9, "newer": "history.html", "older": "history-page-007.html", "archiveIndex": null},
+  pagination: {"page": 8, "total": 10, "newer": "history-page-009.html", "older": "history-page-007.html", "archiveIndex": null},
   blocks: [
-    { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history.html\">&larr; Newer</a> &middot; Page 8 / 9 &middot; <a href=\"history-page-007.html\">Older &rarr;</a></div>" },
+    { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history-page-009.html\">&larr; Newer</a> &middot; Page 8 / 10 &middot; <a href=\"history-page-007.html\">Older &rarr;</a></div>" },
     { type: "timeline", items: [
         {
           date: "2026-05-07",
@@ -159,6 +159,6 @@ window.TECT_HISTORY_PAGE_008 = {
         }
       ]
     },
-    { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history.html\">&larr; Newer</a> &middot; Page 8 / 9 &middot; <a href=\"history-page-007.html\">Older &rarr;</a></div>" }
+    { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history-page-009.html\">&larr; Newer</a> &middot; Page 8 / 10 &middot; <a href=\"history-page-007.html\">Older &rarr;</a></div>" }
   ]
 };
