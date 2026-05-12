@@ -19,16 +19,17 @@ window.TECT_RESULTS = {
     { type: "card", title: "Stage-1 11-Pillar scoreboard at a glance", blocks: [{ type: "html", content:
       "<p><strong>Aggregate $S_1$</strong>: " +
       "<span class=\"tag tag-ok\">4 × T7 PROVED</span> (Pillars 5, 7, 8, 9) " +
-      "+ <span class=\"tag tag-ok\">2 × T6 PROVED CONDITIONAL</span> (Pillars 1, 2) " +
+      "+ <span class=\"tag tag-ok\">3 × T6 PROVED CONDITIONAL</span> (Pillars 1, 2, 4 [Reading H]) " +
       "+ <span class=\"tag tag-warn\">1 × T5 CLOSED@1-loop</span> (Pillar 3) " +
-      "+ <span class=\"tag tag-partial\">3 × T4 STRONG EVIDENCE</span> (Pillars 4, 6, 11) " +
+      "+ <span class=\"tag tag-partial\">1 × T4 STRONG EVIDENCE</span> (Pillar 6) " +
+      "+ <span class=\"tag tag-warn\">1 × T2 CONJECTURE</span> (Pillar 11) " +
       "+ <span class=\"tag tag-gap\">1 × T0+T2 hybrid</span> (Pillar 10).</p>" +
-      "<p>Until all 11 pillars reach ≥ T6, $S_1$ is <strong>PARTIAL</strong>. The unique critical-path blocker is currently Pillar 4 sub-task 3 + Pillar 6 numerical execution (F-Pillar6 gate 2026-05-29).</p>"
+      "<p>Until all 11 pillars reach ≥ T6, $S_1$ is <strong>PARTIAL</strong>. <strong>Post-Math401 (2026-05-11)</strong>: Pillar 4 sub-task 2 reformulated under Reading H (T6 PROVED CONDITIONAL on Brazovskii fluctuation-stabilised disordered vacuum + BCC channel). Critical-path remaining: Pillar 6 quasi-Goldstone reinterpretation (Math403), Pillar 11 Kibble-Zurek defect dilution (Math402, $10^{58}$ excess), Pillar 10 $\hbar$-origin programme (Math195 + Math196). Pillar 4 sub-task 3 remains in STRONG DRAFT.</p>"
     }] },
 
     // ---- Pillar 1 ----
     { type: "card", title: "Pillar 1 — Mass $m^*$ (BCC condensate uniqueness)", blocks: [{ type: "html", content:
-      "<p><strong>Tier:</strong> T6 PROVED CONDITIONAL on Math60-Stage 1 hypothesis list. <strong>Regime-split (post-Math350):</strong> shallow $\\mu^2 \\gtrsim 0$ regime <span class=\"tag tag-partial\">T4 STRONG EVIDENCE</span> (Math82-AddD anchor); deep $\\mu^2 = -0.7$ regime <span class=\"tag tag-gap\">T0 REFUTED</span> (Math350 Hessian Morse-index ≥ 5 saddle); regime-transition $\\mu^2_*$ <span class=\"tag tag-warn\">T1 OPEN</span>.</p>" +
+      "<p><strong>Tier:</strong> T6 PROVED CONDITIONAL on Math60-Stage 1 hypothesis list + Reading H. <strong>Regime resolution (post-Math401, 2026-05-11):</strong> Math400-AddE one-loop self-consistency confirms Brazovskii fluctuation regime across $\\mu^2 \\in [-1.0, +0.5]$. The prior \"deep regime saddle\" framing (Math350) is RESOLVED: at all tested operating points the canonical vacuum is the disordered fluctuation regime (Reading H), and BCC is a stable fluctuation channel within it (Math400-AddF: $n_{\\rm neg}=0$ at canonical $\\mu^2=+0.005$). The regime-transition $\\mu^2_*$ question is reframed: there is no transition out of the fluctuation regime within the tested window.</p>" +
       "<p><strong>Anchor result (shallow regime):</strong></p>" +
       "<table class=\"sm-table\"><thead><tr><th>Quantity</th><th>Value</th><th>Source</th></tr></thead><tbody>" +
       "<tr><td>$m^{*2}$ (mean-field bound)</td><td>0.3138</td><td>Math82-H analytical $m^{*2}$ bound, $h$=0.003</td></tr>" +

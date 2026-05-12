@@ -55,6 +55,21 @@ archived with the replacement's tag, and the replacement gains an
 
 ## Active
 
+#### READING-H-REFORMULATION-NOTE-2026-05-11 — Pre-Math400 Pillar 4 sub-task 2 closure questions reinterpreted under Reading H
+
+**[POST-MATH401 BANNER, 2026-05-11]** Per `Docs/math/TECT-Math401-Operator-Consensus-Reading-H-Adoption-and-Current-State-Summary.tex.txt`, the binding canonical TECT vacuum interpretation has shifted from "BCC = thermodynamic vacuum" (pre-Math400) to "Reading H ensemble vacuum + BCC stable cosmologically-relevant fluctuation channel" (post-Math400-AddE/AddF). The following pre-Math400 Active Open Questions are REINTERPRETED — not deleted, since their underlying mathematical content may remain useful — but their PHYSICAL URGENCY for Pillar 4 closure is REDUCED to LOW priority. Pillar 4 sub-task 2 is now T6 PROVED CONDITIONAL on Reading H (Math400-AddE Path α + Math400-AddF BCC channel + Math401 operator consensus); see `Codes/config/pillar_status.json` for canonical tier.
+
+**Affected Open Questions (priority demoted to LOW; mathematical content retained for reference)**:
+
+- `Q-2026-05-14-Task156-Falsification-Gate-Fire` — F-GAP4-DEFECT-MASS gate was the pre-Math400 Pillar 4 sub-task 2 closure pathway. Under Reading H, the closure is achieved via Math400-AddE/AddF instead. The F-GAP4 numerical test remains useful as a parallel cross-check but is no longer the unique closure gate.
+- `Q-2026-04-30-Math270-Sigma0-Moduli-Closure` — Cross-base moduli closure on $\Sigma_0$ was relevant to the pre-Math400 alternative-Kähler-base Recovery Route A. Under Reading H, the BCC channel is identified directly without alternative-Kähler bases; this OQ is reinterpreted as an internal consistency check on Math400-AddF's BCC channel cosmological selection.
+- `Q-2026-04-30-Math246-Pillar4-Recovery-Routes-A-D` — Alternative recovery routes (Hirzebruch / K3 / del Pezzo / flat U(1)$_\chi$) were Math174 fallout responses. Under Reading H, the underlying BCC vacuum is reformulated as BCC channel within the disordered ensemble vacuum; the recovery-route framework is no longer operational. Archive-equivalent.
+- `Q-2026-04-30-Pillar4-Alternative-Realisations` — Alternative geometric realisations for 16 chiral zero modes (Math245 audit-rollback fallout). Under Reading H, the Math174 $c_2(E)=-40$ result on canonical $\mathbb{CP}^2$ is unchanged (mathematical theorem) but its downstream physical interpretation is via gauge-bundle structure on the BCC-channel manifold; alternative realisations are no longer urgent for Pillar 4 closure.
+
+These four OQs may be moved to the `## Archive (closed)` section in a future cleanup pass under tag `R-H-REFORMULATION-2026-05-11`. Until then, they remain in Active for traceability of the pre-Math400 → Reading H transition. New Pillar 4 closure work proceeds via Math400-AddE-AddA (two-loop fortification) and Math382 (multi-channel SU(3) cross-validation).
+
+---
+
 #### Q-2026-05-11-Math400-AddE-AddA-Two-Loop-CrossCheck — Two-loop Brazovskii self-consistency at TECT canonical params for Reading H fortification — **OPENED 2026-05-11 (Math400-AddE Path α confirmation)**
 
 **[OPENED 2026-05-11 — Math400-AddE devil's-advocate α follow-up]** **Context**: Math400-AddE explicit one-loop self-consistency $r_R = r + 3uM + 15vM^2$ at TECT canonical $\mu^2 = +0.005$ gives $r_R = +0.4193$ (Path α confirmed across all 16/16 sweep points). Devil's-advocate α flagged that the loop correction is $\sim 91\%$ of bare $r$, indicating the loop expansion is at most marginally controlled. Two-loop (or full Wilsonian RG) corrections may significantly modify $r_R$ and could in principle reverse the Path α verdict.

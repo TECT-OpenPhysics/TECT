@@ -1145,7 +1145,7 @@ content; they are single-file, dependency-free Python 3 scripts.
     $d g_\alpha / d\log\Lambda$ over entire trajectory.
 
 - **Closure conditions** (Pillar 4 Q2 promotion pathway):
-  - **Cond-Q2-Path**: Pipeline executes without error on Math82-H BCC ground state.
+  - **Cond-Q2-Path**: Pipeline executes without error on Math82-H BCC fluctuation-channel state (Reading H reformulation per Math401, 2026-05-11; the converged state is reinterpreted as a stable channel within the Brazovskii fluctuation-stabilised disordered ensemble vacuum).
   - **Cond-Q2-Data**: All F1, F2, F3 gates pass; stable fixed point emerges.
   - **Cond-Q2-Interpretation**: Fixed-point couplings map to SM structure via
     Math36 dictionary inverse: $\alpha_3:\alpha_2:\alpha_1 \propto g_c^*:g_E^*:g_O^*$.

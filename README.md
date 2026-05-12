@@ -31,7 +31,7 @@ Detailed per-pillar status, evidence chains, Math note links, and falsification 
 
 ---
 
-_A candidate Theory of Everything built on an effectively two-axiom foundation (Math195): one physics axiom — a $\mathbb Z_2$-symmetric continuum order parameter $\Psi$ at the Brazovskii weak-crystallisation point — and one cosmological axiom (the cooling history $T(t)$). The BCC condensate emerges as the energetically selected ordered phase of that universality class; it is a derivation, not an assumption. Every law of physics in scope must follow as a mathematical or thermodynamic necessity from these two inputs._
+_A candidate Theory of Everything built on an effectively two-axiom foundation (Math195): one physics axiom — a $\mathbb Z_2$-symmetric continuum order parameter $\Psi$ at the Brazovskii weak-crystallisation point — and one cosmological axiom (the cooling history $T(t)$). Under the post-Math401 Reading H interpretive framework (Math400-AddE Path α confirmed), the BCC structure emerges as the cosmologically-relevant stable fluctuation channel within the Brazovskii fluctuation-stabilised disordered ensemble vacuum; both the channel selection and the disordered vacuum are derivations, not assumptions. Every law of physics in scope must follow as a mathematical or thermodynamic necessity from these two inputs._
 
 ## What is TECT?
 
@@ -39,26 +39,27 @@ _A candidate Theory of Everything built on an effectively two-axiom foundation (
 
 The framework distinguishing claim is **axiom minimality**: after the Math195 reduction, two foundational axioms (one physics + one cosmological), against the much larger publicly stated input lists of SM, GR, GUT, String, LQG, and Wolfram Physics. The price of this minimalism is that essentially every empirical observation must be *derived* rather than postulated.
 
-The BCC ordering itself is a **derivation**, not an assumption. TECT postulates only a $\mathbb Z_2$-symmetric continuum field with a Brazovskii spectral minimum on the shell $|\mathbf k|=q_0$; the BCC condensate emerges as the energetically selected ordered phase of that universality class — the first-order weak-crystallisation outcome that Brazovskii (1975) showed is the most generic instability of a symmetric continuum order parameter with a finite-momentum minimum. The Theory page makes this emergence explicit. The framework design principle is &quot;minimum assumption + maximally reasonable initial datum&quot;, never *ad hoc* fitting.
+The BCC ordering itself is a **derivation**, not an assumption. TECT postulates only a $\mathbb Z_2$-symmetric continuum field with a Brazovskii spectral minimum on the shell $|\mathbf k|=q_0$; under the post-Math401 Reading H interpretive framework (Math400-AddE one-loop self-consistency confirms Path α at TECT canonical $\mu^2=+0.005$: $r_R = +0.4193 > 0$), the canonical vacuum is the Brazovskii fluctuation-stabilised disordered phase ($\langle\Psiangle=0$, $\langle\Psi^2angle
+eq 0$). Within this disordered ensemble vacuum, BCC emerges as the cosmologically-relevant stable fluctuation channel (Math400-AddF: $n_{m neg}=0$ at canonical, $N=64$ tighter convergence; FCC saddle-6 rejected; lamellar/HEX uniaxial-isotropy-rejected). This is the original Brazovskii (1975) main result, not the commonly-misread mean-field broken-symmetry interpretation. The Theory page makes this emergence explicit. The framework design principle is &quot;minimum assumption + maximally reasonable initial datum&quot;, never *ad hoc* fitting.
 
 This site presents TECT *as it actually stands*. Proved parts are clearly marked as proved, conditional parts as conditional, retracted parts as retracted. Every status claim links to its evidence file in `Docs/math/` and every numerical result carries a unique $R$-tag tied to a code fingerprint. The append-only [History](https://tect.kr/history.html) page records every retraction.
 
-## Latest state snapshot (2026-04-27)
+## Latest state snapshot (2026-05-11)
 
-**Headline**: TECT remains a Partial TOE candidate. Classical sector strong; quantum-completion sector strengthening but not sealed. Pillar 4 sub-task 2 is now PROVED CONDITIONAL (Scenario B confirmed via Math191+Math192).
+**Headline**: TECT remains a Partial TOE candidate. Classical sector strong; quantum-completion sector strengthening but not sealed. Pillar 4 sub-task 2 is now **T6 PROVED CONDITIONAL on Reading H** (Math400-AddE Path α + Math400-AddF BCC channel; see Math401 operator consensus).
 
 | Predicate | State | Critical task |
 |---|---|---|
-| $S_1$ — eleven pillars | PARTIAL | Pillar 4 sub-tasks 1 + 2 PROVED CONDITIONAL; sub-task 3 STRONG DRAFT. |
-| $S_2$ — Global Closure + 4 quantum gates | PARTIAL | GAP-2 + GAP-3 unconditional unblock once Pillar 4 sub-task 3 closes. |
+| $S_1$ — eleven pillars | PARTIAL | T6+: 7/11 (Pillars 1, 2, 4 [Reading H], 5, 7, 8, 9); critical-incomplete: 6 (quasi-Goldstone), 10 (ℏ origin), 11 (DM via KZ defects). |
+| $S_2$ — Global Closure + 4 quantum gates | PARTIAL | Quasi-Goldstone reinterpretation (Math403) + multi-channel SU(3) cross-validation (Math382) gate Pillar 6 promotion under Reading H. |
 | $S_3$ — external phenomenology | PROVISIONAL prediction | Math172 Kibble–Zurek GW $\Omega_{\rm GW}\sim 10^{-15}$ at PTA, observable by SKA 2028–2030. |
 **Most recent advances**:
 
-- `Math157` — rigorous SO(10) $\mathbf{16}$ anomaly cancellation via group-theoretic trace.
-- `Math171-AddA` — corrected Hirzebruch–Riemann–Roch formula $\mathrm{ind}(D_E^c) = 16 - \mu$.
-- `Math191 + Math192` — Pillar 4 sub-task 2 RESCUED via Scenario B.
-- `Math194` — BCC uniqueness PROVED among 9 crystallographic competitors.
-- `Math195` — A2 axiom-reduction theorem; effective TECT axiom count = 2.
+- `Math399` (2026-05-11) — Foundation-first audit detects Math383 §3-4 arithmetic errors; SMA hierarchy reversal at $\mu^2=+0.005$.
+- `Math400-AddA/D` (2026-05-11) — Cosmological-isotropy filter rejects lamellar; lattice-enumeration paradigm REJECTED; naturalness + h-effects + Brazovskii adequacy audit adopted.
+- `Math400-AddE` (2026-05-11) — Explicit one-loop Brazovskii self-consistency at TECT canonical $\mu^2=+0.005$ confirms PATH α (Reading H emergent vacuum) at 16/16 sweep points.
+- `Math400-AddF` (2026-05-11) — N=64 tighter Math383 §6 at canonical: BCC TRUE LOCAL MIN ($n_{m neg}=0$), FCC SADDLE-6 rejected.
+- `Math401` (2026-05-11) — Operator binding consensus on Reading H adoption + per-pillar scorecard (T6+: 7/11).
 
 For the full quantum-theory proof-status table see [Status](https://tect.kr/status.html).
 
@@ -69,7 +70,7 @@ One-glance positioning of TECT against three reference frameworks: the **Standar
 | Axis | TECT | Standard Model | Superstring / M | Loop Quantum Gravity |
 |---|---|---|---|---|
 | Foundational axioms | **2** ($\mathbb Z_2$-symmetric Brazovskii continuum + cooling history $T(t)$); BCC ordering derived; Math195 | ~26 parameters + chosen gauge group + 3 generations | 5–10 (10/11-dim spacetime, branes, compactification, flux, SUSY, vacuum) | 4–5 (spin-network kinematics, holonomy/flux algebra, dynamics, semiclassical limit) |
-| Predicts SM gauge group | PROVED CONDITIONAL — Math80-AddA + Math162 + Math191/192 | No — postulated | Landscape — no unique selection | No — gauge content imported |
+| Predicts SM gauge group | PROVED CONDITIONAL on Reading H — Math400-AddE + Math400-AddF + Math401 | No — postulated | Landscape — no unique selection | No — gauge content imported |
 | Predicts gravity | Yes — emergent spin-2 graviton (Pillar 3 CLOSED@1-loop) | No | Yes — closed-string graviton mode | Yes — quantises GR by construction |
 | Predicts $\hbar$ | CONDITIONAL — $\hbar = c^3 a_{\rm BCC}^2/(16\pi G)$ (Math110-AddI) | No | No | No |
 | Predicts $\Lambda$ | CONDITIONAL — Math58-v7 four-sector cancellation | No | No | No |

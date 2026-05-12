@@ -2,7 +2,7 @@
 /* Source: Docs/papers/{papers,auxiliary,top_impact,epochs}/*.tex            */
 window.TECT_PAPERS_DEPS = {
   "schema": "tect-papers-math-deps-v1",
-  "generated": "2026-05-12T03:11:49+00:00",
+  "generated": "2026-05-12T05:11:26+00:00",
   "papers": [
     {
       "stem": "Auxiliary-01",
@@ -194,8 +194,8 @@ window.TECT_PAPERS_DEPS = {
       "category": "epochs",
       "tex_path": "Docs\\papers\\epochs\\Epoch-08-Quantum-Hbar\\Epoch-08.tex",
       "header_count": 0,
-      "body_count": 25,
-      "total": 22,
+      "body_count": 28,
+      "total": 25,
       "cited_math": [
         "Math109",
         "Math110-AddG",
@@ -213,6 +213,9 @@ window.TECT_PAPERS_DEPS = {
         "Math291",
         "Math296",
         "Math297",
+        "Math400-AddE",
+        "Math400-AddF",
+        "Math401",
         "Math57",
         "Math97",
         "Math97-AddA",
@@ -2317,13 +2320,34 @@ window.TECT_PAPERS_DEPS = {
       "papers": [
         "Paper-04"
       ]
+    },
+    {
+      "key": "Math400-AddE",
+      "count": 1,
+      "papers": [
+        "Epoch-08"
+      ]
+    },
+    {
+      "key": "Math400-AddF",
+      "count": 1,
+      "papers": [
+        "Epoch-08"
+      ]
+    },
+    {
+      "key": "Math401",
+      "count": 1,
+      "papers": [
+        "Epoch-08"
+      ]
     }
   ],
   "totals": {
     "papers": 36,
-    "unique_notes": 193,
+    "unique_notes": 196,
     "header_refs": 117,
-    "body_refs": 415,
+    "body_refs": 418,
     "missing": 0
   }
 };
