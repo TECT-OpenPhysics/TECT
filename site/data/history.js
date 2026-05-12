@@ -1,4 +1,4 @@
-// AUTO-GENERATED v0.3 page 10/10 — 2026-05-12 08:09 UTC
+// AUTO-GENERATED v0.3 page 10/10 — 2026-05-12 08:52 UTC
 window.TECT_HISTORY = {
   title: "History (page 10 of 10)",
   subtitle: "Chronological CHANGELOG mirror — auto-generated.",
@@ -7,6 +7,11 @@ window.TECT_HISTORY = {
   blocks: [
     { type: "html", content: "<div class=\"pagination-nav\">Page 10 / 10 &middot; <a href=\"history-page-009.html\">Older &rarr;</a></div>" },
     { type: "timeline", items: [
+        {
+          date: "2026-05-12",
+          title: "[Infrastructure/HARDENING] 4-layer token-format validation across publish pipeline; new `tect doctor` subcommand for auth-surface diagnosis",
+          body: "**Theory tag**: `Infrastructure-token-format-validation-4layer-defence-2026-05-12` **Classification**: INFRASTRUCTURE-HARDENING (defense-in-depth against malformed PAT propagation)."
+        },
         {
           date: "2026-05-12",
           title: "[Infrastructure/CORRECTION] tect.kr is self-hosted git-pull (NOT GitHub Pages); diagnose_pages.ps1 DEPRECATED → diagnose_tectkr.ps1; new server-side pull helper + revised TECT_KR_PUBLISH_PIPELINE.md",
