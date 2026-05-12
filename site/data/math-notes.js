@@ -1,4 +1,4 @@
-// AUTO-GENERATED v0.3 math-notes page 12/12 — 2026-05-12 07:23 UTC
+// AUTO-GENERATED v0.3 math-notes page 12/12 — 2026-05-12 08:09 UTC
 // Source: Docs/math/TECT-Math*.tex.txt (43 of total)
 
 window.TECT_MATH_NOTES = {
