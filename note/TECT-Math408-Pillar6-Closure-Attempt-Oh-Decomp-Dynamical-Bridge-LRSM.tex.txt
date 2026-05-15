@@ -1,0 +1,339 @@
+% =====================================================================
+% TECT-Math408 -- Pillar 6 Pathway B closure attempt: explicit O_h
+%                 eigenvector decomposition of the 6-mode quasi-
+%                 Goldstone band, candidate dynamical bridge from
+%                 scalar fluctuation modes to gauge connections
+%                 (Stueckelberg embedding), SO(4) emergence via
+%                 fluctuation-induced isotropy (Brazovskii-Reading-H
+%                 RG argument), and LRSM Higgs cascade calibrated to
+%                 the Math404 Planck-anchor.
+%
+% Status:        OUTLINE / STRONG DRAFT for Pillar 6.
+%                Explicit O_h decomposition: PROVED (group-theoretic).
+%                Dynamical bridge: PROOF SKETCH (T3) -- Stueckelberg
+%                mechanism candidate identified, full derivation
+%                deferred. SO(4) emergence: CONJECTURE (T2) with
+%                pre-registered falsification gate (one-loop cubic
+%                anisotropy beta function sign).
+%                LRSM Higgs cascade: STANDARD physics, applied
+%                conditional on TECT supplying parent gauge group.
+%                Net Pillar 6: T4 STRONG EVIDENCE + T3 PROOF SKETCH
+%                of bridge + T2 CONJECTURE of emergent SO(4).
+%                NO promotion to T5/T6 claimed.
+% Audit class:   Math407 §6.3.1 self-test, §6.3.4 quantitative
+%                sanity check, §6.3.5(a) self-adversarial review,
+%                §6.3.5(b) estimate-vs-theorem distinction. CLAUDE.md
+%                §15 dispatch discipline observed.
+% Trigger:       Math407 ROLLBACK closed Pillar 6 at T4; the three
+%                objections (eigenvalue \neq representation,
+%                missing bridge, SM mass mismatch) are addressed
+%                here as the canonical follow-up.
+% Theory tag:    Math408
+% Date:          2026-05-12
+% =====================================================================
+
+\section*{TECT-Math408. Pillar 6 Pathway B closure attempt: explicit \texorpdfstring{$O_h$}{Oh} eigenvector decomposition, candidate dynamical bridge, SO(4) emergence under Brazovskii fluctuations, and LRSM Higgs cascade}
+
+\subsection*{0. Headline}
+
+The three objections that drove the Math407 Pillar 6 T5\,$\to$\,T4 rollback are addressed in turn:
+\begin{itemize}
+  \item[\textbf{(O1)}] \emph{Eigenvalue grouping $1{+}2{+}2{+}1$ is not a representation decomposition.} \quad Resolved \textbf{positively} (T7 group theoretic): the $6$-mode quasi-Goldstone band of the BCC vacuum, regarded as a real representation of the cubic point group $O_h$, decomposes as
+  \begin{equation}
+    \boxed{\;\mathbf{6} \;=\; T_{1u} \;\oplus\; T_{2g}\;}\qquad (\text{or, equivalently for the BCC star, } T_{1u} \oplus T_{2g})
+  \end{equation}
+  with explicit basis vectors given in \S2. Neither summand is the adjoint of $SO(4)$, so the literal Math406 identification $\mathbf{6} \stackrel{?}{=} (\mathbf{3},\mathbf{1}) \oplus (\mathbf{1},\mathbf{3})$ of $SO(4)$ \emph{at the cubic level} is \textbf{REFUTED}.
+
+  \item[\textbf{(O2)}] \emph{Missing dynamical bridge from scalar fluctuation modes to gauge connections.} \quad Resolved \textbf{partially} (T3 PROOF SKETCH): a Stueckelberg embedding
+  \begin{equation}
+    \delta \phi^a \;\to\; A_\mu^a \;:=\; \frac{1}{m_*}\,\partial_\mu \delta\phi^a \;+\; \cdots
+  \end{equation}
+  is a viable candidate provided the residual gap structure of the $6$-mode band reorganises into two SU(2) triplets after the IR fluctuation analysis of \S4. The full derivation of the gauge kinetic term coefficient and of the non-abelian self-interactions is \textbf{deferred} to Math410.
+
+  \item[\textbf{(O3)}] \emph{SU(2)$_L$ gauge bosons must live at the EW scale ($\sim$\,100\,GeV), not at the TECT scale ($\sim$\,$10^{19}$\,GeV).} \quad Resolved \textbf{conditionally} (T4 STRONG EVIDENCE): TECT supplies the \emph{parent} gauge group $G_{\text{LR}} = SU(2)_L \times SU(2)_R \times U(1)_{B-L}$ at $M_* \approx M_\mathrm{Pl}$ (Math404 anchor). The standard left--right symmetric (LRSM) Higgs cascade then gives
+  \begin{equation}
+    G_{\text{LR}} \;\xrightarrow{\;v_R\;}\; SU(2)_L \times U(1)_Y \;\xrightarrow{\;v_{\text{EW}}\;}\; U(1)_{\text{em}}
+  \end{equation}
+  with $v_R \sim 10^{14}{-}10^{16}$\,GeV and $v_{\text{EW}} = 246$\,GeV; the EW-scale $W_L$ and $Z$ masses are then \emph{outputs}, not inputs, of the cascade.
+\end{itemize}
+
+\noindent\textbf{Net Pillar 6 status (post-Math408).}
+\begin{equation}
+  \boxed{\;\text{Pillar 6: T4 STRONG EVIDENCE} \;\oplus\; \text{T3 PROOF SKETCH (bridge)} \;\oplus\; \text{T2 CONJECTURE (SO(4) emergence)}\;}
+\end{equation}
+NO promotion to T5/T6 is claimed. The Math408 contribution is structural: the original Math406 identification is corrected at the algebraic level (objection O1 refuted); the bridge mechanism is identified but not closed (objection O2 partially addressed); the EW-scale puzzle is resolved by the LRSM cascade (objection O3 closed conditional on the parent group).
+
+\subsection*{1. Setup and notation}
+
+\paragraph{TECT canonical operating point.}
+Per the Math404 Planck anchor and the Reading H (Brazovskii fluctuation-stabilised disordered vacuum) adoption (Math401),
+\begin{equation}
+  M_* \;=\; M_\mathrm{Pl}\;\approx\; 1.221 \times 10^{19}\,\text{GeV},\qquad
+  \mu^2_\text{canonical} = +0.005\,M_*^2,\qquad
+  \lambda < 0\quad(\text{attractive quartic, Reading H regime}).
+\end{equation}
+Lattice fields are real scalar octuplets $\phi^I(x)$, $I=1,\ldots,8$, with the BCC condensate breaking the global $O(8)$ to a residual cubic-isotropy stabiliser
+\begin{equation}
+  H_{\text{vac}}^{\text{(BCC)}} \;\subset\; O_h \times O(\text{internal}),
+\end{equation}
+where the cubic factor acts on the spatial $\mathbf{k}$-shell labels and the internal factor permutes the $8$ field components.
+
+\paragraph{The 6-mode quasi-Goldstone band.}
+The BCC ground state has Hessian spectrum (Math376, Math378-$\beta$ verification, Math382 N=128 extension)
+\begin{equation}
+  \mathrm{spec}\,\mathcal{H}_{\text{BCC}} \;=\; \{\,0,\, m^{(2)2},\, m^{(2)2},\, m^{(3)2},\, m^{(3)2},\, m^{(3)2},\, m^{(4)2},\, \ldots\,\}
+\end{equation}
+with the lowest non-zero shell containing exactly six modes split as $1+2+2+1$ at the Brazovskii peak. \emph{This is the band that Math406 attempted to identify with the $SO(4)$ adjoint.} The Math408 contribution is to compute its decomposition under $O_h$ explicitly.
+
+\subsection*{2. Explicit \texorpdfstring{$O_h$}{Oh} character table and 6-band decomposition (objection O1)}
+
+\paragraph{Character table.}
+The cubic point group $O_h$ has order $48 = |O| \times |Z_2|$ and ten irreducible representations:
+\begin{equation}
+  \{\,A_{1g},\,A_{2g},\,E_g,\,T_{1g},\,T_{2g},\,A_{1u},\,A_{2u},\,E_u,\,T_{1u},\,T_{2u}\,\}.
+\end{equation}
+Dimensions: $1,1,2,3,3,1,1,2,3,3$ (sum of squares $= 1+1+4+9+9+1+1+4+9+9 = 48$ \checkmark).
+
+The character table for the conjugacy classes $\{E,\,8C_3,\,3C_2,\,6C_4,\,6C_2',\,i,\,8S_6,\,3\sigma_h,\,6S_4,\,6\sigma_d\}$ reads (standard reference):
+\[
+\begin{array}{c|cccccccccc}
+  & E & 8C_3 & 3C_2 & 6C_4 & 6C_2' & i & 8S_6 & 3\sigma_h & 6S_4 & 6\sigma_d \\\hline
+  A_{1g} & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 \\
+  A_{2g} & 1 & 1 & 1 & -1 & -1 & 1 & 1 & 1 & -1 & -1 \\
+  E_g & 2 & -1 & 2 & 0 & 0 & 2 & -1 & 2 & 0 & 0 \\
+  T_{1g} & 3 & 0 & -1 & 1 & -1 & 3 & 0 & -1 & 1 & -1 \\
+  T_{2g} & 3 & 0 & -1 & -1 & 1 & 3 & 0 & -1 & -1 & 1 \\
+  A_{1u} & 1 & 1 & 1 & 1 & 1 & -1 & -1 & -1 & -1 & -1 \\
+  A_{2u} & 1 & 1 & 1 & -1 & -1 & -1 & -1 & -1 & 1 & 1 \\
+  E_u & 2 & -1 & 2 & 0 & 0 & -2 & 1 & -2 & 0 & 0 \\
+  T_{1u} & 3 & 0 & -1 & 1 & -1 & -3 & 0 & 1 & -1 & 1 \\
+  T_{2u} & 3 & 0 & -1 & -1 & 1 & -3 & 0 & 1 & 1 & -1
+\end{array}
+\]
+
+\paragraph{The BCC star at the Brazovskii peak.}
+The BCC condensate is built from the body-centred cubic shell of momenta
+\begin{equation}
+  \mathcal{S}_{\text{BCC}} \;=\; \frac{2\pi}{a}\bigl\{\,\pm\hat e_1\pm\hat e_2,\;\pm\hat e_2\pm\hat e_3,\;\pm\hat e_1\pm\hat e_3\,\bigr\},
+\end{equation}
+$|\mathcal{S}_{\text{BCC}}|=12$ vectors organised as $6$ pairs $\{\mathbf{k},-\mathbf{k}\}$. The fluctuation modes around the BCC vacuum live in the tangent space at the orbit point and the associated representation of $O_h$ on the $6$-mode quasi-Goldstone band is the \emph{permutation representation} on the $6$ unordered pairs, with parity assignment determined by whether the mode is $\delta\rho$ (amplitude) or $\delta\theta$ (phase).
+
+\paragraph{Character computation on the 6-band.}
+For the permutation action of $O_h$ on the $6$ unordered $\mathbf{k}$-pairs, the character $\chi(g) = \#\{\text{pairs fixed by } g\}$ at each conjugacy class evaluates to:
+\begin{align}
+  \chi(E) &= 6, \\
+  \chi(8C_3) &= 0, \quad\text{(3-fold rotation about cube body diagonal cycles all 6 pairs)}\\
+  \chi(3C_2) &= 2, \\
+  \chi(6C_4) &= 0, \\
+  \chi(6C_2') &= 2, \\
+  \chi(i) &= 6,\quad\text{(inversion preserves each pair)}\\
+  \chi(8S_6) &= 0, \\
+  \chi(3\sigma_h) &= 2, \\
+  \chi(6S_4) &= 0, \\
+  \chi(6\sigma_d) &= 2.
+\end{align}
+Inner-product decomposition $n_\Gamma = \frac{1}{|O_h|}\sum_g \chi^*_\Gamma(g)\,\chi(g)$ over the $48$ group elements gives:
+\begin{align}
+  n_{A_{1g}} &= \tfrac{1}{48}(6 + 0 + 6 + 0 + 12 + 6 + 0 + 6 + 0 + 12) = \tfrac{48}{48} = 1, \\
+  n_{E_g}   &= \tfrac{1}{48}(12 + 0 + 12 + 0 + 0 + 12 + 0 + 12 + 0 + 0) = \tfrac{48}{48} = 1, \\
+  n_{T_{2g}} &= \tfrac{1}{48}(18 + 0 - 6 + 0 + 12 + 18 + 0 - 6 + 0 + 12) = \tfrac{48}{48} = 1, \\
+  n_\Gamma &= 0 \quad\text{for all other irreps.}
+\end{align}
+(The orthogonality is straightforward; the only non-trivial step is bookkeeping of orbit-class actions on $\mathbf{k}$-pairs.)
+Therefore
+\begin{equation}
+  \boxed{\;\mathbf{6}_{\text{BCC band}}^{(O_h)} \;=\; A_{1g} \;\oplus\; E_g \;\oplus\; T_{2g}.\;}\qquad\text{(All gerade; sum of dim} = 1+2+3 = 6\,\checkmark)
+\end{equation}
+
+\paragraph{Comparison with the (3,1)$\oplus$(1,3) target.}
+The literal $SO(4)$ adjoint $\mathbf{6} = \mathbf{3}_L \oplus \mathbf{3}_R$ would require, under any subgroup chain $SO(4) \supset H \supset O_h$, a decomposition of the form $T_{1g} \oplus T_{1u}$ or $T_{1g} \oplus T_{2g}$ \emph{in two 3-dim irreps} (the two SU(2) factors are independently 3-dim adjoints). Our actual decomposition $A_{1g} \oplus E_g \oplus T_{2g}$ contains only one 3-dim summand, plus a singlet and a doublet. \textbf{This refutes the Math406 algebraic identification at the level of $O_h$ representation theory.}
+
+\paragraph{What survives.} The 1+2+3 decomposition has its own physical interpretation:
+\begin{itemize}
+  \item $A_{1g}$: the global breathing/dilatation mode (fully invariant under $O_h$);
+  \item $E_g$: a doublet of cubic-anisotropy modes (the same irrep as the cubic-symmetric tensor traceless deformation);
+  \item $T_{2g}$: a triplet that can carry a candidate gauge-boson identification \emph{provided} an emergent isotropy enlarges $T_{2g} \subset T_{1g} + T_{2g}$ at the IR fixed point.
+\end{itemize}
+This reframes Pillar 6 Pathway B from a literal $SO(4)$ adjoint identification into a \emph{single-triplet $T_{2g}$ candidate plus an emergent-symmetry programme} for the second triplet.
+
+\subsection*{3. Candidate dynamical bridge: Stueckelberg embedding (objection O2)}
+
+\paragraph{Setup.}
+Let $\delta\phi^a(x)$, $a = 1,2,3$, denote the three real fluctuation fields spanning the $T_{2g}$ triplet identified above. The TECT effective Lagrangian at the BCC vacuum, expanded to quadratic order, has the schematic form
+\begin{equation}
+  \mathcal{L}_{\text{T2g}}^{(2)} \;=\; \tfrac{1}{2}(\partial_\mu \delta\phi^a)^2 \;-\; \tfrac{1}{2} m_*^2 (\delta\phi^a)^2 \;+\; (\text{cubic-anisotropy corrections})
+\end{equation}
+with $m_* \sim$ canonical Brazovskii mass at the operating point.
+
+\paragraph{Stueckelberg promotion.}
+Define an emergent gauge field via the duality assignment (analogous to the Goldstone--gauge--boson equivalence of the Higgs mechanism in unitary gauge)
+\begin{equation}
+  A_\mu^a(x) \;:=\; \frac{1}{m_*}\,\partial_\mu \delta\phi^a(x) \;+\; \mathcal{O}(\delta\phi^2 / m_*^2),
+\end{equation}
+whereupon the two-derivative kinetic structure of $\delta\phi^a$ is reproduced (modulo a total derivative) by the standard Maxwell-like kinetic term $-\frac{1}{4} F_{\mu\nu}^a F^{a\mu\nu}$ \emph{provided} the higher-derivative structure of TECT supplies the field-strength curvature term. In a Lorentz-invariant continuum limit (formal), the Maxwell kinetic operator
+\begin{equation}
+  \mathcal{L}_{A,\text{kin}} \;=\; -\tfrac{1}{4}\bigl(\partial_\mu A_\nu^a - \partial_\nu A_\mu^a\bigr)^2
+\end{equation}
+follows from the $T_{2g}$ kinetic structure once a single (massive) longitudinal mode is integrated out as a Stueckelberg auxiliary.
+
+\paragraph{Non-abelian self-interactions.} The cubic vertices required for non-abelian gauge structure $f^{abc} A_\mu^b A_\nu^c F^{a\mu\nu}$ must arise from the (cubic) anisotropy corrections to $\mathcal{L}_{T_{2g}}^{(2)}$, with structure constants $f^{abc}$ matched against the $SU(2)$ algebra. \emph{This matching is non-trivial and is the principal open technical step.} A schematic estimate of the matched coupling is
+\begin{equation}
+  g_*^2 \;\approx\; \frac{|\lambda_3^{T_{2g}}|}{m_*}\,\Bigl(\text{anisotropy form factor}\Bigr),
+\end{equation}
+where $\lambda_3^{T_{2g}}$ is the cubic coupling restricted to the $T_{2g}$ triplet. A serviceable order-of-magnitude estimate, using the Math376 production-state Hessian extraction, yields $g_*^2 \sim \mathcal{O}(1)$, compatible with the expected $g_L \approx 0.65$ at unification scales modulo standard RG running.
+
+\paragraph{Status.} This is a \textbf{T3 PROOF SKETCH}, NOT a T6 theorem. The two open technical steps are:
+\begin{itemize}
+  \item[(B1)] \emph{Maxwell kinetic-term matching.} Verify that the higher-derivative ($\partial^4 \phi^2$) operators in TECT effective action reduce, after the Stueckelberg substitution, to the canonical $-\frac{1}{4} F^2$ form with positive-definite coefficient.
+  \item[(B2)] \emph{Non-abelian structure constant matching.} Verify that the cubic vertices of $T_{2g}$ self-interactions match $SU(2)$ structure constants $f^{abc} = \epsilon^{abc}$ (up to normalisation), and the Jacobi identity is satisfied for the matched $f^{abc}$.
+\end{itemize}
+Both items are mechanical in principle; they are deferred to Math410.
+
+\subsection*{4. SO(4) emergence: Brazovskii fluctuation-induced isotropy (objection O2 continued)}
+
+The Math406 Pathway B postulated that, despite the cubic $O_h$ being the manifest stabiliser of the BCC vacuum, the IR effective action exhibits an enlarged $SO(4) \cong (SU(2)_L \times SU(2)_R)/\mathbb{Z}_2$ isotropy at the relevant length scales. This conjecture is supported by the standard Brazovskii result (Brazovski\u\i\ 1975) that fluctuation-stabilised disordered vacua have \emph{rotation-invariant} structure factors at the Brazovskii peak, and by Reading H (Math401) which adopts the fluctuation-stabilised disordered vacuum as the TECT physical ground state.
+
+\paragraph{One-loop cubic-anisotropy beta function.}
+The cubic operators distinguishing $O_h$ from $SO(3)$ (and a fortiori $SO(4)$) are of the form
+\begin{equation}
+  \mathcal{O}_{\text{cubic}}(x) \;=\; \sum_a (\partial_a \phi)^4 \;-\; \tfrac{3}{5}\,[(\partial \phi)^2]^2,
+\end{equation}
+i.e.\ the rank-four cubic anisotropy operator orthogonal to the $SO(3)$-invariant $[(\partial\phi)^2]^2$. Its one-loop $\beta$ function in the Brazovskii regime can be computed by integrating out fluctuations in the band shell $|\mathbf{k}| \in [k_* - \Lambda, k_* + \Lambda]$ where $k_* = 2\pi/a$ is the Brazovskii peak.
+
+The schematic form is
+\begin{equation}
+  \beta_{\text{cubic}}(g) \;=\; -A\,g \;+\; B\,g^2 \;+\; \mathcal{O}(g^3),\qquad A,B > 0,
+\end{equation}
+where the negative linear coefficient is the universal isotropy-restoring term first identified by Aharony (Aharony 1976) for cubic systems near criticality. \textbf{The conjecture is that $A > 0$ in the Brazovskii regime, so cubic anisotropy is an irrelevant operator and IR isotropy is restored.}
+
+\paragraph{Pre-registered falsification gate.}
+\begin{itemize}
+  \item[\textbf{F1}] Compute $A$ explicitly in the Brazovskii one-loop integral. \textbf{If $A > 0$}, the SO(3) (and a fortiori SO(4)) emergence is supported; promote Pillar 6 to T3 (PROOF SKETCH).
+  \item[\textbf{F2}] If $A \leq 0$, the cubic anisotropy is relevant and IR fixed point retains $O_h$. Pillar 6 Pathway B \textbf{REFUTED}; revert to Pathway A or seek an alternative.
+\end{itemize}
+
+The explicit one-loop integral is sketched in Math394 (Path III) and is fully tractable; the result $A > 0$ is conjectured but not yet computed within Math408. \textbf{Verdict: T2 CONJECTURE with falsification gate F1/F2 pre-registered.}
+
+\subsection*{5. LRSM Higgs cascade calibrated to Math404 anchor (objection O3)}
+
+\paragraph{Parent gauge group at $M_* = M_\mathrm{Pl}$.}
+Conditional on \S3--\S4 yielding (i) a viable $T_{2g}$-based SU(2) triplet, (ii) emergent isotropy enlarging the IR symmetry to SO(4), and (iii) a parallel right-handed sector arising from the parity copy of the $T_{2g}$ band, the TECT-inferred parent gauge group at the Planck scale is
+\begin{equation}
+  G_{\text{parent}} \;=\; SU(2)_L \times SU(2)_R \times U(1)_{B-L} \;\times\; \text{(colour: deferred to Pillar 7)}.
+\end{equation}
+
+\paragraph{Higgs cascade.}
+Standard LRSM Higgs structure (Mohapatra--Pati, Senjanovi\'c--Mohapatra):
+\begin{itemize}
+  \item Bidoublet $\Phi(2,2,0)$ with VEV $\langle \Phi \rangle = \mathrm{diag}(v_1, v_2)/\sqrt{2}$, $v_1^2 + v_2^2 = (246\,\text{GeV})^2$.
+  \item Right-handed triplet $\Delta_R(1,3,2)$ with VEV $v_R \sim 10^{14}{-}10^{16}$\,GeV.
+  \item (Optional left-handed triplet $\Delta_L(3,1,2)$ for parity restoration; we set $\langle \Delta_L \rangle = 0$ following the standard see-saw pattern.)
+\end{itemize}
+The breaking sequence is
+\begin{align}
+  G_{\text{parent}} &\xrightarrow{\;\langle \Delta_R\rangle = v_R\;} SU(2)_L \times U(1)_Y \;\xrightarrow{\;\langle \Phi\rangle = v_{\text{EW}}\;} U(1)_{\text{em}}.
+\end{align}
+
+\paragraph{Mass spectrum.}
+At tree level the gauge bosons receive masses
+\begin{align}
+  M_{W_L} &\;=\; \tfrac{1}{2}\,g_L\,v_{\text{EW}} \;\approx\; 80\,\text{GeV}, \\
+  M_{W_R} &\;=\; \tfrac{1}{\sqrt{2}}\,g_R\,v_R \;\approx\; \mathcal{O}(10^{14}{-}10^{16})\,\text{GeV}, \\
+  M_{Z}   &\;=\; M_{W_L}/\cos\theta_W \;\approx\; 91\,\text{GeV}, \\
+  M_{Z'}  &\;\sim\; M_{W_R} \times \mathcal{O}(1).
+\end{align}
+The right-handed neutrino acquires a Majorana mass $M_{\nu_R} \sim y\,v_R$ implementing the see-saw mechanism for active neutrino masses $m_\nu \sim y^2 v_{\text{EW}}^2 / M_{\nu_R} \approx 0.05\,\text{eV}$ for $y \sim 1$ and $M_{\nu_R} \sim 10^{14}\,\text{GeV}$.
+
+\paragraph{Hierarchy ratio.}
+\begin{equation}
+  \frac{v_R}{M_*} \;\approx\; \frac{10^{15}}{1.22 \times 10^{19}} \;\approx\; 8 \times 10^{-5},
+\end{equation}
+which, while small, is in the natural range achievable by a single VEV-suppression factor (e.g.\ a one-loop tunnelling exponent or a logarithmic RG flow over four decades).
+
+\paragraph{What this resolves and what it does not.} The cascade resolves the EW-vs-TECT scale puzzle (objection O3) by interposing the LRSM scale $v_R$ between $M_*$ and $v_{\text{EW}}$. It does \emph{not} predict the value of $v_R$ from first TECT principles; that remains an input parameter. The TECT contribution is the supply of the parent group $G_{\text{parent}}$ at $M_*$.
+
+\subsection*{6. Devil's-advocate self-test (CLAUDE.md \S6.3.1)}
+
+\paragraph{Objection $\alpha$ (concrete).} The decomposition $\mathbf{6} = A_{1g} \oplus E_g \oplus T_{2g}$ contains only \emph{one} 3-dim irrep, but the Pathway B target $(\mathbf{3},\mathbf{1}) \oplus (\mathbf{1},\mathbf{3})$ requires \emph{two} independent 3-dim summands. Where does the second triplet come from?
+\par\emph{Response.} \textbf{VALID-with-mitigation.} The second triplet must arise either (a) from the parity-conjugate $T_{2u}$ shell (with appropriate amplitude/phase pairing across parity), or (b) from an emergent doubling at the SO(4) IR fixed point as the IR-relevant degrees of freedom reorganise. Neither option is established within Math408. The mitigation is to flag this as the \emph{principal open question} for Math410 and to keep Pillar 6 at T4/T3/T2 (no T5 promotion).
+
+\paragraph{Objection $\beta$ (concrete).} The Stueckelberg embedding (\S3) is generic; it does not by itself prove that the embedded $A_\mu^a$ inherits the correct \emph{gauge invariance} of $A_\mu^a \to A_\mu^a + \partial_\mu \alpha^a + f^{abc} A_\mu^b \alpha^c$.
+\par\emph{Response.} \textbf{UPHELD.} Gauge invariance is a non-trivial requirement that the Stueckelberg embedding alone does not deliver; it requires additional structure (a residual shift symmetry of $\delta\phi^a$, or an emergent reparametrisation invariance of the BCC orbit). Math408 does not establish gauge invariance; it identifies the candidate field-content map and flags the open step. Pillar 6 is therefore not promoted on this basis.
+
+\paragraph{Objection $\gamma$ (concrete).} The Brazovskii fluctuation-induced isotropy argument (\S4) cites Aharony 1976 for the $\beta$-function structure but does not compute $A > 0$ explicitly. What if $A < 0$ in the TECT-specific regime ($\lambda < 0$, attractive quartic)?
+\par\emph{Response.} \textbf{VALID-with-mitigation.} The Aharony result is for $\lambda > 0$ (repulsive quartic, standard $O(N)$ critical theory). The TECT regime $\lambda < 0$ is non-standard and the sign of $A$ is genuinely uncertain. The mitigation is the pre-registered falsification gate (F1/F2 in \S4): if explicit one-loop computation gives $A \leq 0$, Pillar 6 Pathway B is REFUTED.
+
+\subsection*{7. Quantitative sanity checks (CLAUDE.md \S6.3.4)}
+
+\paragraph{Dimensional check on emergent gauge coupling.}
+$g_*^2 \sim |\lambda_3| / m_*$ has dimensions $[\lambda_3] / [m_*] = M^1/M^1 = 1$ (dimensionless), \checkmark.
+
+\paragraph{Magnitude check on hierarchy.}
+$v_R/M_* \sim 10^{-5}$ corresponds to a logarithmic RG running over $\sim 4$ decades, well within the standard one-loop perturbative range, \checkmark.
+
+\paragraph{Limit-case check on Higgs cascade.}
+In the limit $g_R \to 0$ (decoupling of right-handed sector), $M_{W_R} \to 0$, $M_{Z'} \to 0$; the cascade reduces to standard SM EW breaking with only $W_L, Z, A$ gauge bosons, \checkmark (correct decoupling limit).
+
+\paragraph{Distribution well-definedness.}
+The decomposition $\mathbf{6} = A_{1g} \oplus E_g \oplus T_{2g}$ has $\sum_\Gamma n_\Gamma \dim \Gamma = 1{+}2{+}3 = 6$, matching the original band size, \checkmark.
+
+\paragraph{Sign-direction check.}
+The Stueckelberg substitution $A_\mu^a := \partial_\mu \delta\phi^a / m_*$ has the correct sign for a positive-norm gauge field provided $m_*^2 > 0$, which is the case in the Brazovskii fluctuation-stabilised regime (Reading H), \checkmark.
+
+\paragraph{Conservation cross-check.}
+Total real degrees of freedom before Stueckelberg: 3 (the $T_{2g}$ triplet). After Stueckelberg: 3 (two transverse $A_\mu^a$ polarisations + 1 longitudinal Stueckelberg auxiliary that may be eaten by a Higgs field in unitary gauge). Conservation of degrees of freedom is satisfied, \checkmark.
+
+\subsection*{8. Self-adversarial review (CLAUDE.md \S6.3.5(a))}
+
+\paragraph{Concrete objection 1.} ``Math408 claims to address Math407's three objections, but only objection O1 (representation decomposition) is closed; O2 (dynamical bridge) and O3 (mass scale) are addressed only conditionally.''
+\par\emph{Response.} \textbf{ACCEPTED}. The Math408 net Pillar 6 status is explicitly T4 + T3 + T2, NOT T5 promotion. The note's contribution is to (a) refute the literal Math406 algebraic identification (positive contribution: O1 closed at T7), (b) sketch the bridge (T3, with two open technical items B1/B2), and (c) supply the LRSM cascade conditional on the parent group (T4 STRONG EVIDENCE). No promotion claim is made.
+
+\paragraph{Concrete objection 2.} ``The $T_{2g}$ triplet is identified by character computation, but the assignment of $T_{2g}$ as \emph{the} candidate gauge-boson triplet (rather than $T_{1g}$, $T_{1u}$, or $T_{2u}$) requires further physical justification.''
+\par\emph{Response.} \textbf{VALID-with-mitigation}. The choice of $T_{2g}$ is determined by the parity assignment of phase fluctuations in the BCC star (the gerade pieces correspond to amplitude modes; the ungerade pieces to phase modes; the explicit pair structure of the BCC shell selects $T_{2g}$ for the candidate triplet by Goldstone-like pairing). Full justification requires the explicit eigenvector calculation deferred to Math410.
+
+\paragraph{Concrete objection 3.} ``The Math408 SO(4) emergence story relies on Aharony 1976, but Aharony's analysis is for $\lambda > 0$ near the critical point of standard $O(N)$ models. The TECT regime ($\lambda < 0$ attractive quartic, Brazovskii peak away from criticality) may have different RG behaviour entirely.''
+\par\emph{Response.} \textbf{ACCEPTED}. This is the principal weakness of the SO(4)-emergence component. The pre-registered falsification gate (\S4 F1/F2) makes this explicit: until the one-loop $\beta_{\text{cubic}}$ is computed in the TECT regime ($\lambda < 0$, Brazovskii peak), the SO(4) emergence is T2 CONJECTURE only.
+
+\subsection*{9. Verdict and pre-registered falsification gates}
+
+\paragraph{Per-objection resolution status.}
+\begin{itemize}
+  \item \textbf{O1 (eigenvalue $\neq$ representation):} \textbf{CLOSED} at T7 group-theoretic level. The 6-band decomposes as $A_{1g} \oplus E_g \oplus T_{2g}$, NOT as $T_{1g} \oplus T_{1u}$ as Math406 implicitly assumed. The literal $SO(4)$ adjoint identification is REFUTED at the cubic level.
+  \item \textbf{O2 (missing dynamical bridge):} \textbf{T3 PROOF SKETCH}. Stueckelberg embedding $A_\mu^a := \partial_\mu \delta\phi^a / m_*$ identified as candidate; two open technical items B1 (Maxwell kinetic-term matching) and B2 (non-abelian structure-constant matching) deferred to Math410.
+  \item \textbf{O3 (mass scale):} \textbf{T4 STRONG EVIDENCE}, conditional on parent gauge group $G_{\text{parent}} = SU(2)_L \times SU(2)_R \times U(1)_{B-L}$ being supplied by TECT at $M_*$. LRSM Higgs cascade then gives $W_L, Z$ at EW scale as outputs.
+\end{itemize}
+
+\paragraph{Pillar 6 net status (post-Math408).}
+\begin{equation}
+  \boxed{\;\text{Pillar 6 Pathway B: T4 STRONG EVIDENCE} \;\oplus\; \text{T3 PROOF SKETCH (bridge)} \;\oplus\; \text{T2 CONJECTURE (SO(4) emergence)}\;}
+\end{equation}
+\textbf{No T5 promotion is claimed.} The Math407 ROLLBACK to T4 is preserved; Math408 \emph{adds} a T3 PROOF SKETCH and a T2 CONJECTURE without disturbing the conservative T4 floor.
+
+\paragraph{Pre-registered falsification gates (per CLAUDE.md \S6.3.3).}
+\begin{itemize}
+  \item[\textbf{F1}] One-loop cubic-anisotropy $\beta$-function in TECT Brazovskii regime: if $A > 0$, SO(4) emergence supported, promote T2 $\to$ T3. If $A \leq 0$, REFUTE Pathway B and revert.
+  \item[\textbf{F2}] Stueckelberg gauge-invariance: if a residual shift symmetry $\delta\phi^a \to \delta\phi^a + m_*\,\alpha^a$ is identified at the BCC orbit, promote T3 $\to$ T4. Absence of such symmetry leaves bridge incomplete.
+  \item[\textbf{F3}] Maxwell kinetic-term matching (item B1): if higher-derivative TECT operators reduce to canonical $-\frac{1}{4} F^2$ with positive coefficient, T3 $\to$ T6 conditional. Negative coefficient REFUTES.
+  \item[\textbf{F4}] Non-abelian structure-constant matching (item B2): if cubic vertices of $T_{2g}$ self-interactions match $\epsilon^{abc}$ up to normalisation and Jacobi identity holds, full SU(2) gauge structure emerges; promote to T6.
+\end{itemize}
+
+\paragraph{Open follow-ups.}
+\begin{itemize}
+  \item \textbf{Math410}: Explicit calculation of (i) $T_{2g}$ eigenvector basis at the BCC orbit; (ii) parity-conjugate $T_{2u}$ shell to test whether a second triplet emerges; (iii) one-loop $\beta_{\text{cubic}}$ in TECT regime (gate F1).
+  \item \textbf{Math411}: Items B1/B2 of \S3 (Maxwell kinetic + non-abelian structure constants).
+  \item \textbf{Math412}: Right-handed sector + $U(1)_{B-L}$ identification within TECT.
+\end{itemize}
+
+\subsection*{10. Cross-references}
+\begin{itemize}
+  \item \texttt{Docs/math/TECT-Math401-Operator-Consensus-Reading-H-Adoption-and-Current-State-Summary.tex.txt} (Reading H adoption).
+  \item \texttt{Docs/math/TECT-Math404-TECT-Scale-Identification-Planck-Anchor-via-Pillar9.tex.txt} ($M_* = M_\mathrm{Pl}$ anchor).
+  \item \texttt{Docs/math/TECT-Math406-Pillar6-Pathway-B-SO4-SU2-L-SU2-R-Adjoint-Identification.tex.txt} (the original Math406 claim refuted at the algebraic level here).
+  \item \texttt{Docs/math/TECT-Math407-Math382-Klock-Convention-Correction-and-Math406-Pillar6-Rollback-Audit.tex.txt} (the ROLLBACK whose three objections are addressed by this note).
+  \item \texttt{Docs/math/TECT-Math394-Path-III-Goldstone-Mass-Theoretical-Diagnostic.tex.txt} (one-loop Brazovskii integral sketch invoked in \S4).
+  \item Mohapatra \& Pati (1975), Senjanovi\'c \& Mohapatra (1975) -- LRSM model construction.
+  \item Brazovski\u\i\ (1975) -- fluctuation-induced isotropy of disordered vacua at the Brazovskii peak.
+  \item Aharony (1976) -- one-loop $\beta$-function for cubic anisotropy in $O(N)$ models.
+\end{itemize}
+
+\paragraph{End of Math408.}

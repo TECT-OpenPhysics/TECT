@@ -55,6 +55,66 @@ archived with the replacement's tag, and the replacement gains an
 
 ## Active
 
+#### Q-2026-05-12-Wall-DM-Bias-Mechanism — Can a TECT-natural bias mechanism allow walls to escape the wall-DM CMB constraint while saturating $\Omega_{\rm DM}$? — **OPENED 2026-05-12 (Math409-AddD §8 objection 2)**
+
+**[OPENED 2026-05-12 — Math409-AddD self-adversarial review fallout]** **Context**: Math409-AddD established that the dominant TECT defect type is *walls* between misaligned BCC orientation domains (Brazovskii first-order bubble-nucleation), not monopoles. Standard wall-DM CMB constraints (Friedland-Murayama-Perelstein 2003) restrict $\Omega_{\rm wall} \lesssim 10^{-5}$ for stable walls without bias — incompatible with $\Omega_{\rm wall} = \Omega_{\rm DM} \approx 0.27$ as required by Pillar 11.A.
+
+**Statement**: Identify a TECT-natural bias mechanism that selects one BCC orientation as the true vacuum (so walls eventually decay) while preserving the cosmologically-relevant fraction long enough to contribute meaningfully to DM. Candidates: (a) explicit cubic-symmetry-breaking term in the effective action (must be small enough to allow walls to form initially but large enough to drive late-time decay); (b) post-inflation $\sigma_{\rm wall}$ suppression via condensate annealing; (c) bias from coupling to a separate sector (e.g., gauge-symmetry breaking).
+
+**Why open**: Without resolution, Pillar 11.A wall-DM hypothesis is incompatible with CMB observations independently of the inflation difficulty. Resolution determines whether 11.A is recoverable to T3-T4 (TECT-natural bias works) or remains pinned at T2 (no bias mechanism found, dominant-DM via TECT walls excluded).
+
+**Falsification criterion**: if no TECT-natural bias mechanism is found within 6 months of dedicated investigation, Pillar 11.A wall-DM hypothesis REFUTED on CMB grounds; only Pillar 11.B (subdominant relic + bulk DM from $\nu_R$ via Math408 LRSM cascade) survives.
+
+**Owner**: Jusang Lee (maintainer) + AI collaborator. **Expected closure**: 2026-11-12. **Math note target**: Math409-AddD-AddC.
+
+**Cross-references**: Math409-AddD §3-§4 (wall identification), Math409-AddD §8 objection 2 (CMB-constraint incompatibility), Friedland-Murayama-Perelstein 2003 PRD 67 043519, Zel'dovich-Kobzarev-Okun 1974 JETP 40 1.
+
+---
+
+#### Q-2026-05-12-KZ-Applicability-Under-Reading-H — Does the BCC order-disorder transition admit a non-equilibrium quench, or is Reading H reached adiabatically? — **CLOSED 2026-05-12 by Math409-AddD: Brazovskii weak first-order; KZ applies in bubble-nucleation form**
+
+**[CLOSED 2026-05-12 by Math409-AddD]** Brazovskii (1975) fluctuation-induced weak first-order transition CONFIRMED for TECT canonical regime. KZ applies in modified bubble-nucleation form (not continuous-quench scaling). Math404 §5 + Math409 + Math409-AddA quantitative chain survives at order-of-magnitude with revised defect-type assumption (walls dominant + sub-leading monopoles at junctions). Continuous-quench scenario (a) REJECTED; smooth crossover scenario (b) REJECTED; first-order scenario (c) CONFIRMED. Closure verdict: **POSITIVE** (KZ inapplicability hypothesis refuted) but with REVISED downstream interpretation (walls vs monopoles). Original question text preserved below for archival traceability.
+
+**[Original Active text follows for reference]**:
+
+#### Q-2026-05-12-KZ-Applicability-Under-Reading-H — Does the BCC order-disorder transition admit a non-equilibrium quench, or is Reading H reached adiabatically? — **OPENED 2026-05-12 (Math407-AddA binding decision 2; HIGHEST PRIORITY for Pillar 11)**
+
+**[OPENED 2026-05-12 — Math407-AddA Round-2 audit]** **Context**: Math402's KZ-defect framework + Math404 §5 anchor + Math409 + Math409-AddA all assume the BCC order-disorder transition under Reading H proceeds via a non-equilibrium quench (canonical Kibble-Zurek mechanism). Math407-AddA §4 observed that Reading H (Math401) defines the canonical TECT vacuum as a fluctuation-stabilised disordered phase WITHOUT specifying whether this phase is reached via sharp quench, adiabatic cooling, or slow rolling through a critical region.
+
+**Statement**: Determine the order of the BCC condensation phase transition under Reading H ($\lambda < 0$ attractive quartic, Brazovskii regime). Possibilities: (a) first-order (KZ applies with modified scaling, Math404 framework valid with corrections); (b) second-order/continuous (standard KZ applies, Math404 framework valid); (c) no sharp transition — disordered Reading H phase reached adiabatically via fluctuation stabilisation (KZ INAPPLICABLE).
+
+**Why open / why HIGHEST PRIORITY**: If KZ inapplicable (case c), the entire downstream chain is moot:
+- $n_{\text{def}} \sim \xi_{\text{KZ}}^{-3}$ assumes KZ defect counting;
+- $\rho_{\text{def}}/\rho_{\text{crit}} = 1.30 \times 10^{114}$ assumes KZ formation;
+- $N_e \approx 88$ requirement assumes KZ-formed defects survive to today;
+- All five Math409-AddA lever follow-ups (AddC/D/E/F/G) presuppose KZ.
+
+This is a prerequisite question that must be resolved before refining defect topology (AddC), $\tau_Q$ (AddF), or any other downstream lever. Per Math407-AddA decisive-test reorder (binding decision 2), Math409-AddD precedes all other Math409 follow-ups.
+
+**Falsification criterion**: if explicit free-energy analysis of the BCC condensation under Reading H ($\lambda < 0$) shows the transition is third- or higher-order with vanishing latent heat, KZ is inapplicable; Pillar 11.A REFUTED outright; Pillar 11.B also weakened (subdominant relic still possible if defects form via alternative non-KZ mechanism, but the canonical KZ count $\xi_{\text{KZ}}^{-3}$ no longer applies).
+
+**Owner**: Jusang Lee (maintainer) + AI collaborator. **Expected closure**: 2026-05-25 (immediate priority). **Math note target**: Math409-AddD.
+
+**Cross-references**: Math401 (Reading H adoption), Math402 (KZ framework, PRE-ANCHOR EXPLORATORY), Math404 §5 (excess factor $10^{114}$), Math409 + Math409-AddA (three pathways + G4 PARTIAL), Math407-AddA §4 (decisive-test reorder rationale), Brazovski\u\i\ 1975 (fluctuation-induced first-order transitions).
+
+---
+
+#### Q-2026-05-12-Pillar-11-Hawking-Stability — What is the stable mass scale that admits both KZ-mechanism formation AND $\sim$Hubble-time stability? — **OPENED 2026-05-12 (Math407-AddA binding decision 3)**
+
+**[OPENED 2026-05-12 — Math407-AddA Round-2 audit]** **Context**: Math409-AddA corrected Math404's super-Planckian $m_{\text{def}} \approx 41\,M_{\text{Pl}}$ to $m_{\text{def}} \leq M_{\text{Pl}}$. But $m_{\text{def}} \sim M_{\text{Pl}}$ defects are Planck-mass primordial-black-hole-like objects with Hawking lifetime $\tau_{\text{BH}} \sim t_{\text{Pl}} \approx 5 \times 10^{-44}$ s — cosmologically negligible. For long-lived stability ($\tau_{\text{BH}} \gtrsim 10^{17}$ s, age of universe), need $M^3 \gtrsim 10^{55}\,M_{\text{Pl}}^3$, absurdly super-Planckian.
+
+**Statement**: Identify the stable defect mass scale $m_{\text{def}}^{\text{stable}}$ that simultaneously satisfies: (i) KZ-mechanism formation (defect must be a localised topological soliton, not a black hole); (ii) Hubble-time stability ($\tau_{\text{stable}} \gtrsim 10^{17}$ s); (iii) consistency with Math404 condensate density $\rho_{\text{cond}} \approx \rho_{\text{Pl}}/2528$.
+
+**Why open**: This question is the structural reformulation of the Math409-AddA Hawking-evaporation binding decision (Math407-AddA §5). Resolution determines whether Pillar 11.A (dominant DM) is viable AT ALL, even setting aside the inflation challenge. Likely answer: $m_{\text{def}}^{\text{stable}} \sim 10^{15}$--$10^{17}$ GeV (super-massive but well sub-Planckian, WIMPzilla-class), consistent with KZ formation as a topological soliton (not a black hole) and gravitationally stable under Hawking emission.
+
+**Falsification criterion**: if no $m_{\text{def}}^{\text{stable}}$ in the range $10^{10}$--$10^{18}$ GeV is consistent with all three conditions, Pillar 11.A REFUTED on stability grounds independent of the inflation issue; Pillar 11.B remains viable with smaller $m_{\text{def}}$.
+
+**Owner**: Jusang Lee (maintainer) + AI collaborator. **Expected closure**: 2026-05-30. **Math note target**: Math409-AddH (NEW; queued).
+
+**Cross-references**: Math409-AddA §8 objection 1 (the Hawking-evaporation observation), Math407-AddA §5 (binding-decision elevation), Math404 §5 (super-Planckian source), Hawking 1974 (black-hole evaporation), WIMPzilla literature (super-massive cold relic).
+
+---
+
 #### READING-H-REFORMULATION-NOTE-2026-05-11 — Pre-Math400 Pillar 4 sub-task 2 closure questions reinterpreted under Reading H
 
 **[POST-MATH401 BANNER, 2026-05-11]** Per `Docs/math/TECT-Math401-Operator-Consensus-Reading-H-Adoption-and-Current-State-Summary.tex.txt`, the binding canonical TECT vacuum interpretation has shifted from "BCC = thermodynamic vacuum" (pre-Math400) to "Reading H ensemble vacuum + BCC stable cosmologically-relevant fluctuation channel" (post-Math400-AddE/AddF). The following pre-Math400 Active Open Questions are REINTERPRETED — not deleted, since their underlying mathematical content may remain useful — but their PHYSICAL URGENCY for Pillar 4 closure is REDUCED to LOW priority. Pillar 4 sub-task 2 is now T6 PROVED CONDITIONAL on Reading H (Math400-AddE Path α + Math400-AddF BCC channel + Math401 operator consensus); see `Codes/config/pillar_status.json` for canonical tier.
