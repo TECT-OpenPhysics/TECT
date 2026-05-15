@@ -118,6 +118,13 @@
       '    <span class="stem">' + escapeHtml(paper.stem) + '</span>\n' +
       '  </div>\n' +
       '  <div class="paper-card-title">' + escapeHtml(paper.title) + '</div>\n' +
+      // Operator request 2026-05-15: as_of_date stamp so readers know
+      // what state of theory the paper reflects (papers are not
+      // continuously updated; the tier scoreboard may have moved on).
+      (paper.as_of_date ? 
+        '  <div class="paper-card-asof" title="Paper reflects TECT state on this date; subsequent tier changes are tracked in the Status History page.">\n' +
+        '    📅 As of: ' + escapeHtml(paper.as_of_date) + '\n' +
+        '  </div>\n' : '') +
       '  <div class="paper-card-description">\n' +
       '    ' + escapeHtml(paper.description || 'No description available.') + '\n' +
       '  </div>\n' +

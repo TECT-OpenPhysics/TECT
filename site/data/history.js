@@ -1,4 +1,4 @@
-// AUTO-GENERATED v0.3 page 10/10 — 2026-05-15 07:25 UTC
+// AUTO-GENERATED v0.3 page 10/10 — 2026-05-15 09:05 UTC
 window.TECT_HISTORY = {
   title: "History (page 10 of 10)",
   subtitle: "Chronological CHANGELOG mirror — auto-generated.",
@@ -7,6 +7,16 @@ window.TECT_HISTORY = {
   blocks: [
     { type: "html", content: "<div class=\"pagination-nav\">Page 10 / 10 &middot; <a href=\"history-page-009.html\">Older &rarr;</a></div>" },
     { type: "timeline", items: [
+        {
+          date: "2026-05-15",
+          title: "[Infrastructure/Automation] STATUS-HISTORY auto-update infrastructure (3-layer: helper CLI + watchdog + tect subcommand)",
+          body: "**Theory tag**: `Infrastructure-status-history-auto-update-3layer-2026-05-15` **Classification**: INFRASTRUCTURE-AUTOMATION (operator-driven; eliminates manual STATUS-HISTORY editing)."
+        },
+        {
+          date: "2026-05-15",
+          title: "[Infrastructure/Website] Papers as-of-date metadata + STATUS-HISTORY page (operator request 2026-05-15)",
+          body: "**Theory tag**: `Infrastructure-website-paper-asof-date-and-status-history-2026-05-15` **Classification**: INFRASTRUCTURE-WEBSITE-FEATURE (operator-driven UX improvement; no tier promotion)."
+        },
         {
           date: "2026-05-15",
           title: "[Theory/Patch] Math413-AddA + Math409-AddD-AddC — operator adversarial-review patches (π_2 contradiction fix + numerical canonicalization)",

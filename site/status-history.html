@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>TECT — Status History</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="assets/style.css">
+  <style>
+    .history-intro {
+      background: #f6f8fa;
+      border-left: 4px solid #2266aa;
+      padding: 1em 1.2em;
+      margin-bottom: 1.5em;
+      font-size: 0.95em;
+      line-height: 1.6;
+    }
+    .history-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1em;
+    }
+    .history-table th {
+      background: #2266aa;
+      color: white;
+      padding: 0.6em 0.8em;
+      text-align: left;
+      font-size: 0.9em;
+    }
+    .history-table td {
+      padding: 0.7em 0.8em;
+      border-bottom: 1px solid #e5e5e5;
+      vertical-align: top;
+      font-size: 0.9em;
+    }
+    .history-table tr:nth-child(even) td {
+      background: #fafafa;
+    }
+    .history-date {
+      font-family: ui-monospace, monospace;
+      color: #555;
+      white-space: nowrap;
+    }
+    .history-pillar {
+      font-weight: bold;
+      color: #2266aa;
+      white-space: nowrap;
+    }
+    .history-tier-old {
+      color: #888;
+      font-family: ui-monospace, monospace;
+      font-size: 0.85em;
+    }
+    .history-tier-new {
+      color: #1a4d88;
+      font-weight: bold;
+      font-family: ui-monospace, monospace;
+      font-size: 0.85em;
+    }
+    .history-arrow {
+      color: #aaa;
+      margin: 0 0.3em;
+    }
+    .history-reason {
+      color: #333;
+      line-height: 1.5;
+    }
+    .history-meta {
+      color: #777;
+      font-size: 0.82em;
+      margin-top: 0.3em;
+      font-family: ui-monospace, monospace;
+    }
+  </style>
+</head>
+<body>
+<header class="site" id="site-header"></header>
+<main class="wrap">
+    <h1>Status History</h1>
+    <div class="history-intro">
+      Chronological record of every TECT pillar tier change (promotion, demotion, split, rollback).
+      The current scoreboard is on the <a href="status.html">Status page</a>; this History page shows
+      <em>how it got there</em>. Each entry corresponds to an explicit pillar_status.json + Math note +
+      CHANGELOG triple-write per the atomic-write rule (CLAUDE.md §3).
+      <br><br>
+      <strong>Source of truth</strong>: <code>Docs/status/STATUS-HISTORY.md</code> (canonical).
+      This page is auto-generated from that source via
+      <code>Codes/tools/generate_status_history.py</code>.
+    </div>
+    <div id="status-history-container"></div>
+</main>
+<footer class="site" id="site-footer"></footer>
+<script src="data/site.js"></script>
+<script src="data/status-history.js"></script>
+<script src="assets/js/tect-render.js"></script>
+<script src="assets/js/tect-nav.js"></script>
+  <script>
+    (function () {
+      var container = document.getElementById('status-history-container');
+      if (!container) return;
+      var data = window.TECT_STATUS_HISTORY;
+      if (!data || !data.entries) {
+        container.innerHTML = '<p style="color:#a44;">Status history data not loaded.</p>';
+        return;
+      }
+      function escapeHtml(s) {
+        if (s == null) return '';
+        return String(s)
+          .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+      }
+      var html = '<p style="color:#666;font-size:0.85em;">' +
+        data.count + ' entries  &middot;  generated ' + escapeHtml(data.generated) +
+        '</p>';
+      html += '<table class="history-table">';
+      html += '<thead><tr>' +
+        '<th>Date</th><th>Pillar</th><th>Tier transition</th>' +
+        '<th>Reason &amp; sources</th>' +
+        '</tr></thead><tbody>';
+      data.entries.forEach(function (e) {
+        var reason = escapeHtml(e.reason || '');
+        var meta = [];
+        if (e.source_notes)   meta.push('Notes: ' + escapeHtml(e.source_notes));
+        if (e.changelog)      meta.push('CHANGELOG: ' + escapeHtml(e.changelog));
+        if (e.open_questions) meta.push('OQ: ' + escapeHtml(e.open_questions));
+        html += '<tr>' +
+          '<td class="history-date">' + escapeHtml(e.date) + '</td>' +
+          '<td class="history-pillar">' + escapeHtml(e.pillar) + '</td>' +
+          '<td>' +
+            '<span class="history-tier-old">' + escapeHtml(e.old_tier || '?') + '</span>' +
+            '<span class="history-arrow">&rarr;</span>' +
+            '<span class="history-tier-new">' + escapeHtml(e.new_tier || '?') + '</span>' +
+            '<div style="color:#555;font-size:0.82em;margin-top:0.2em;">' +
+              escapeHtml(e.description) +
+            '</div>' +
+          '</td>' +
+          '<td>' +
+            '<div class="history-reason">' + reason + '</div>' +
+            (meta.length ? '<div class="history-meta">' + meta.join(' &middot; ') + '</div>' : '') +
+          '</td>' +
+        '</tr>';
+      });
+      html += '</tbody></table>';
+      container.innerHTML = html;
+    })();
+  </script>
+</body>
+</html>
