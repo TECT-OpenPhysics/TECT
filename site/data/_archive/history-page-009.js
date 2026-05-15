@@ -1,12 +1,27 @@
-// AUTO-GENERATED v0.3 page 9/10 — frozen at 2026-05-11
+// AUTO-GENERATED v0.3 page 9/10 — frozen at 2026-05-12
 window.TECT_HISTORY_PAGE_009 = {
   title: "History (page 9 of 10)",
   subtitle: "Chronological CHANGELOG mirror — auto-generated.",
-  lastUpdated: "2026-05-11 (archived)",
+  lastUpdated: "2026-05-12 (archived)",
   pagination: {"page": 9, "total": 10, "newer": "history.html", "older": "history-page-008.html", "archiveIndex": null},
   blocks: [
     { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history.html\">&larr; Newer</a> &middot; Page 9 / 10 &middot; <a href=\"history-page-008.html\">Older &rarr;</a></div>" },
     { type: "timeline", items: [
+        {
+          date: "2026-05-12",
+          title: "[Audit/ROLLBACK] Math407: Operator adversarial audit ROLLS BACK Pillar 6 T5→T4 (Math406 promotion premature); Math382 k_lock convention correction; Math402 demoted to pre-anchor exploratory",
+          body: "**Theory tag**: `Math407-Math382-Klock-Convention-Correction-and-Math406-Pillar6-Rollback-Audit-2026-05-12` **Classification**: AUDIT-CRITICAL ROLLBACK + 3-banner correction insertions; conservative re-lock per operator hostile review."
+        },
+        {
+          date: "2026-05-12",
+          title: "[Theory/Pillar-Promotion + Scale-Anchor] Math404 + Math405 + Math406: TECT Planck-scale anchor identified; Pillar 6 T4→T5 PROMOTED via SO(4) ≈ SU(2)_L × SU(2)_R Pathway B; Pillar 10 T0+T2 retained wit",
+          body: "**Theory tags**: `Math404-TECT-Scale-Identification-Planck-Anchor-via-Pillar9-2026-05-12` + `Math405-Pillar10-hbar-Origin-Under-Reading-H-Math404-Anchoring-2026-05-12` + `Math406-Pillar6-Pathway-B-SO4-SU2-L-SU2-R-Adjoint-Identification-2026-05-12` **Classification**: PILLAR PROMOTION (T4→T5 Pillar 6) + SCALE ANCHOR (Math404 Planck) + Pillar 10/11 closure pathway analysis."
+        },
+        {
+          date: "2026-05-11",
+          title: "[Theory/Reading-H-Frontier-Closure] Math400-AddE-AddA + Math382 + Math402 + Math403: 4 active-frontier items completed in single session — Reading H verification fortified at 3 levels (one-loop + two-",
+          body: "**Theory tags**: `Math400-AddE-AddA-Two-Loop-Brazovskii-Path-Alpha-Robust-2026-05-11` + `Math403-Pillar6-QuasiGoldstone-Band-Under-Reading-H-Spectroscopic-Mismatch-2026-05-11` + `Math402-Pillar11-KZ-Defect-Dilution-Mechanism-Inflationary-Stretching-2026-05-11` + `Math382-Multi-Channel-SU3-Projection-Reading-H-Robustness-2026-05-11` **Classification**: ACTIVE FRONTIER CLOSURE (4 deferred items completed); Reading H verification triple-fortified."
+        },
         {
           date: "2026-05-11",
           title: "[Theory/PATH-α-CONFIRMED + Reformulation] Math400-AddE + Math400-AddF: Brazovskii one-loop self-consistency at TECT canonical params yields PATH α (Reading H emergent vacuum) at 16/16 sweep points; N=",
@@ -141,21 +156,6 @@ window.TECT_HISTORY_PAGE_009 = {
           date: "2026-05-08",
           title: "[Infrastructure + Policy] Math353-AddF: v3 mirror cleanup (pde operational + paper flatten + site/assets minimisation + auto-docs disabled)",
           body: "**Cleanups applied** (mirror.json v3.5): - (a) `exclude_pde_pattern`: regex matching audit/check/run_/pipeline/version/manual_extrapolation/parallel/sweep operational scripts in Codes/pde/. 11 operational files excluded; theory PDE solvers (continuation_mu2*, bz_*, tect_*, math46/49/56_*, projector_*, dirac_index_bcc, intervalley_extractor, etc.) pass through. - (b) `v3_disable_auto_docs=true`: github_sync_curate.py v3 mode skips Github/docs/{KEY_RESULTS,NAVIGATION,POLICIES_INDEX}.md generation. _v3_prune expected set updated. - (c) `Docs/math/paste-ready-archive/` added to exclude_directories_local. note/paste-ready-archive subdir not mirrored. - (d) `paper_flatten_pdf_only=true`: Docs/papers/<subdir>/<paper-id>/<paper-id>.pdf → paper/<paper-id>.pdf (top-level flatten). All non-PDF paper-internal files (.tex, .bib, figures) excluded. - (e) site/assets/ exclusions extended: `Website/assets/{status, docs}/` directory exclusions; `Website/assets/{CHANGELOG, CLAUDE, NAVIGATION}.md` + `TECT_*.png` file exclusions. site/assets/{code, code-old, manual, runs, policy, math, papers}/ already excluded (prior commits). - Also: `Docs/papers/{PAPERS_STATUS_REGISTRY, PAPERS_TRACK_PLAN}.md` exclu"
-        },
-        {
-          date: "2026-05-08",
-          title: "[Infrastructure + Policy] Math353-AddD r3 + AddE: v3 mirror policy + cutover (theory-only mirror activated)",
-          body: "**Theory tags**: `Math353-AddD-Theory-Only-Mirror-Restructure-2026-05-08`, `Math353-AddE-v3-Cutover-2026-05-08` **Trigger**: operator directive 2026-05-08 (5 clarifications): root structure (note/paper/code/status/site); code/ = pde+supplementary+manual; site/math + assets duplicates removed; Old papers + operational MDs excluded; runs/ disabled (Math notes embed key results inline)."
-        },
-        {
-          date: "2026-05-08",
-          title: "[Infrastructure + Policy] Math353-AddC: B-ε path-resolution check + C-γ narrative sweep + C-β/δ documentation correction",
-          body: "**Theory tag**: `Math353-AddC-Phase-B-Epsilon-and-C-Gamma-Plus-Documentation-Correction-2026-05-08` **Type**: Implementation report addendum (CLAUDE.md §4.3). **Trigger**: operator's directive 2026-05-08 post-AddB snapshot completion: GitHub Pages activation deferred; README + metadata are auto-managed (operator confirmed PAT permissions); the rest of the planned work to be processed."
-        },
-        {
-          date: "2026-05-08",
-          title: "[Infrastructure + Policy] Math353-AddB: Phase B inventory cleanup (B-κ + B-μ + B-θ DONE; B-λ + B-η + B-ζ operator-handoff)",
-          body: "**Theory tag**: `Math353-AddB-Phase-B-Implementation-Report-2026-05-08` **Type**: Implementation report addendum (CLAUDE.md §4.3). **Trigger**: operator's directive 2026-05-08 to \"automatically progress through Phase C\" after Math353-AddA r1-r7 snapshot pipeline first successful 8/8 completion."
         }
       ]
     },

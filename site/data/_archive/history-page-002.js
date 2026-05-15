@@ -9,6 +9,21 @@ window.TECT_HISTORY_PAGE_002 = {
     { type: "timeline", items: [
         {
           date: "2026-04-24",
+          title: "[Math80-Addendum-A — Pillar 6 Q6a 10-defect-moduli Lie-algebraic THEOREM via Strategy 2 + 3 combined]",
+          body: "Under the Pati-Salam embedding $G_{\\mathrm{SM}} \\hookrightarrow G_{\\mathrm{PS}} \\hookrightarrow \\mathrm{SO}(10)$, the defect-moduli contribution required to complete the Pillar 6 dimension chain $24 + 11 + (\\text{defect}) = 45$ is uniquely $$ \\dim (\\text{defect}) = \\dim \\mathfrak{g}_{\\mathrm{PS}}/\\mathfrak{g}_{\\mathrm{SM}} + \\dim U(1)_{B-L} = 9 + 1 = \\dim \\mathbf{10}_{\\mathrm{vec}} = \\dim \\mathrm{SO}(10)/\\mathrm{SO}(9) + 1 = 10. $$"
+        },
+        {
+          date: "2026-04-24",
+          title: "[Math82-Addendum-A — Phase D: results/ propagation to Runs/audit/ + Phase-C leftover cleanup]",
+          body: "The 11 tracked files in `results/` are moved to canonical `Runs/audit/`:"
+        },
+        {
+          date: "2026-04-24",
+          title: "[Math82 — Repo Cleanup Phase 2 (A + B + C): root orphan relocation + empty-folder removal + byte-equal mirror retirement]",
+          body: "| Source | Target | Operation | |---|---|---| | `AUTONOMOUS_SESSION_REPORT_2026-04-21.md` | — | DELETE (duplicate of `Docs/status/` copy) | | `AUTONOMOUS_SESSION_REPORT_2026-04-24-ROUND4-PROOF-A.md` | `Docs/status/round-summaries/` | git mv | | `ROUND6_SESSION_SUMMARY.txt` | `Docs/status/round-summaries/` | git mv | | `ROUND7-PROOF-B-SESSION-SUMMARY.txt` | `Docs/status/round-summaries/` | git mv | | `TECT-AUTONOMOUS-SESSION-SUMMARY-2026-04-24.txt` | `Docs/status/round-summaries/` | git mv | | `TECT-KOREAN-SUMMARY-ROADMAP.txt` | `Docs/status/round-summaries/` | git mv | | `FINAL_SESSION_STATUS.txt` | `Docs/status/round-summaries/` | git mv | | `INDEX-ROUND7-DELIVERABLES.txt` | `Docs/status/round-summaries/` | git mv | | `KOREAN-STATUS-REPORT-ROUND7.txt` | `Docs/status/round-summaries/` | git mv | | `.round7-proof-c-executive-summary.txt` | `Docs/status/round-summaries/` | git mv | | `.round7-proof-c-traceability.txt` | `Docs/status/round-summaries/` | git mv | | `PASTE-READY-MATH60-S3-ROUND7-CHANGELOG.txt` | `Docs/math/paste-ready-archive/` | git mv | | `PASTE-READY-MATH75-Q3-PILLAR4-FINAL.txt` | `Docs/math/paste-ready-archive/` | git mv | | `PASTE-READY-PILLAR11-v6-SUMMARY.txt` | `"
+        },
+        {
+          date: "2026-04-24",
           title: "[CLAUDE.md + UPDATE_POLICY §15 + Math81 retroactive archive — chat-archival rule binding from 2026-04-24]",
           body: "1. **`CLAUDE.md` at repo root (NEW)** — master AI-collaborator protocol consolidating all 13 working rules in one binding document. Loaded by every new session. Contains: SRP-v1 mandatory prelude (§1), canonical-source hierarchy (§2), atomic-write rule (§3), chat-content auto-archival (§4, new), communication discipline (§5), audit discipline (§6 — honest scope, round-summary discipline, devil's advocate, 3-part traceability, theory-currency audit), pillar status semantics (§7), operational classification (§8 — UCFT/Partial TOE), manuscript discipline (§9 — manual-only), code manual discipline (§10), git discipline (§11), behaviour summary one-page contract (§12), references (§13)."
         },
@@ -141,21 +156,6 @@ window.TECT_HISTORY_PAGE_002 = {
           date: "2026-04-23",
           title: "[Math73 — Task #114 (B3) closed at the structural level: Boolean-mask selective cII symmetrisation is Hermiticity-incompatible; v2.6.2 CiiProjector API introduced]",
           body: "- **docs/math/TECT-Math73-Task114-cII-Projector-Mask-v2p6p2.tex.txt** filed. - §1–§2 Rigorous definition of the pointwise complex-orthogonal cII channel projector $P_{\\mathrm{cII}}(\\Psi)\\,\\xi(x) := \\xi(x) - \\langle\\Psi(x),\\xi(x)\\rangle_{\\mathbb{C}^3}/(|\\Psi(x)|^2 + \\epsilon)\\cdot\\Psi(x)$ (Def. `math73-proj`). Lem. `math73-proj-properties` proves (a) $P^2 = P$, (b) $P^\\dagger = P$, (c) $P\\Psi = 0$ up to $\\mathcal{O}(\\epsilon/|\\Psi|^2)$, (d) $\\mathrm{channel}_T(\\Psi) = P(T\\Psi)$ as an exact backend-code identity (`real_backend_pt_bcc_mixed_v3.py:458`). - §3 Thm. `math73-sym-incompat` (CORE NEGATIVE RESULT): the v2.6.0/v2.6.1 Boolean-mask-selective symmetrisation formula $\\widetilde{\\mathcal{J}}_M = \\mathcal{J} + \\tfrac{1}{2} M(\\mathcal{J}^\\dagger - \\mathcal{J})$ is self-adjoint iff $(I - M)A = 0$ and $A(I - M) = 0$, where $A = \\tfrac{1}{2}(\\mathcal{J} - \\mathcal{J}^\\dagger) \\ne 0$. Cor. `math73-M-eq-I`: under Math63 §2A.3's full-rank cII anti-Hermitian signal, the only Hermiticity-preserving diagonal mask is $M = I$. The original Task #114 deliverable (\"replace the all-True dummy with a real cII channel-projector mask\") is therefore mathematically "
-        },
-        {
-          date: "2026-04-22",
-          title: "[Math70 — N=64 continuum audit 2026-04-22T22:22Z: HOLLOW-RUN forensic. B2 resolved as live blocker; next blocker = real continuum-physics audit]",
-          body: "- **docs/math/TECT-Math70-N64-ContinuumAudit-HollowRun-Forensics.tex.txt** filed. - §0 Updated live verdict: B2 is no longer a live execution blocker on the present Path-X route (Eq. `m70-s0-b2-verdict`). Integration status upgrades from *partial live integration only* to *an effectively landed executable Phase-D path*. Next question shifts from **\"does it run?\"** to **\"what continuum physics does it actually certify?\"** (Eq. `m70-s0-next-question`). - §1 Evidence: JSON payload records `converged=false, sigma_V=null, kappa=null, newton_steps=0` for all three grids despite the solver printing `>>> Converged at step 4` (Eq. `m70-json-evidence`). - §2 Physical interpretation: Newton trajectory is bit-identical across $N\\in\\{32,64,128\\}$ (Eq. `m70-trajectory`) $\\Leftrightarrow$ iterates stay in the $k=0$ subspace of the BCC spectral Laplacian. Rigorous proof under `_brazovskii_linear_term_t` + `_shell_bias_term_t` Fourier diagonality; the converged $\\Psi_\\star$ is the **trivial homogeneous vacuum**, not the BCC condensate. - §3 Defect register D1–D5: - **D1** homogeneous seed `Psi_init = np.ones((3,N,N,N)) * 0.5` (audit line 215) — never leaves $k=0$. - **D2** return-tuple co"
-        },
-        {
-          date: "2026-04-22",
-          title: "[v2.6.1 pytest 0F/5P/0S — executable closure of Newton-Krylov v2.6.1; B2 empirically closed; Task #104 CLOSED]",
-          body: "- **docs/math/TECT-Math68-Addendum-A-B5-B1-sandbox-repair.tex.txt §A.7** appended. - Prop. `math68-addA-v261-closure` records the executable closure: pytest on the user's Windows box (Python 3.12.10, pytest 9.0.3) returned the target signature Eq. `math68-addA-v261-signature`: $\\mathbf{0F / 5P / 0S}$ in 2.67 s. - **Triple closure of B2** now certified: (i) theoretical (Math66 v0.2 Thm. `math66v02-Hermiticity`), (ii) peer-reviewed (Math69 ACCEPT), (iii) executable (this pytest run). - Per-test transition table: `test_symmetrised_jvp_hermiticity` FAIL→PASS, `test_pcg_routing_spd` SKIP→PASS, others retained PASS. U1 upgraded from SKIP-tolerant to hard numerical certificate on the Hermiticity contract $\\|\\tilde{\\mathcal{J}}_\\mathrm{cII} v - \\tilde{\\mathcal{J}}_\\mathrm{cII}^\\dagger v\\|/\\|\\tilde{\\mathcal{J}}_\\mathrm{cII} v\\| \\leq 10^{-13}$."
-        },
-        {
-          date: "2026-04-22",
-          title: "[v2.6.1 lands Math66 v0.2 Path-A adjoint-JVP patch; Math69 independent Devil's-Advocate peer-review filed; B2 structurally closed]",
-          body: "- **docs/math/TECT-Math69-Math66v02-PeerReview-DevilsAdvocate.tex.txt** (NEW) filed 2026-04-22. Independent referee-grade audit of Math66 v0.2. Four non-trivial objections formulated and resolved: - **§2 Obj.1 Wirtinger-convention collapse** — resolved via Eq. `m69-adjoint-identification`: `torch.autograd.grad(Re<v,F(Psi)>, Psi) = J(Psi)^\\dagger v` \\emph{exactly} in the real-Hilbert inner product (no factor-of-2 ambiguity). Identification is an unconditional theorem of real-linear analysis. - **§3 Obj.2 `_to_torch` dtype-coercion graph break** — resolved: `torch.Tensor.to` preserves autograd tracking in both (same-dtype, same-device) and (differing) branches. - **§4 Obj.3 Class-II $\\rho = |\\Psi|^2$ non-holomorphy** — resolved: PyTorch complex autograd is the real-linear Fréchet derivative (not C-linear); the non-holomorphic $\\rho, q_T$ are handled correctly. Residual $\\epsilon = 10^{-12}$ regularisation bounded below by Math56 Phase-0 gate G0 vacuum-rejection. - **§5 Obj.4 Gauge-covariance of $\\tfrac12(J+J^\\dagger)$** — resolved via Eq. `m69-sym-covariance` for the embedded $SU(2)$ stability subgroup. Residual full-$SU(3)$ promotion tracked as Pillar-7 task (not a B2 depend"
         }
       ]
     },

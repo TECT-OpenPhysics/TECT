@@ -9,6 +9,21 @@ window.TECT_HISTORY_PAGE_005 = {
     { type: "timeline", items: [
         {
           date: "2026-04-28",
+          title: "[Math203 — BCC inversion equivariance forces c_1(U(1)_χ) = 0 on the Math162/167 CP² base]",
+          body: "**Trigger**: Lemma L2 of the four-step flat-Cartan-forcing decomposition; CLAUDE.md §15 single-turn dispatch following Math202 v1.1 acceptance."
+        },
+        {
+          date: "2026-04-28",
+          title: "[Math202 v1.1 — reviewer audit ACCEPT WITH MINOR REVISIONS applied]",
+          body: "**Trigger**: 2026-04-28 reviewer audit of Math202 (lemma L1) returned **ACCEPT WITH MINOR REVISIONS**. Three textual revisions applied in this commit; the central proof and verdict are unchanged."
+        },
+        {
+          date: "2026-04-28",
+          title: "[Math202 — H^1(CP^2, O) = 0 and Pic(CP^2) ≅ Z classification of U(1)_χ bundles]",
+          body: "**Trigger**: First single-task dispatch under the new CLAUDE.md §15 Agent Dispatch Discipline (binding from 2026-04-28). Closes lemma L1 of the four-step flat-Cartan-forcing decomposition (the reviewer's Top-0 question from the 2026-04-28 review of Math191/192)."
+        },
+        {
+          date: "2026-04-28",
           title: "[Math198 + Math199 + Math200 — TOE-Completeness Gap Audit + Math60-A Bulk Closure + GAP-1 RGE Scale-Coherence]",
           body: "**Trigger**: Compliance repair mandate (CLAUDE.md §4, §3 atomic-write rule). Math198 and Math199 were archived to disk; Math200 (GAP-1 RGE scale-coherence) was missing. This entry stamps all three together in a single atomic commit."
         },
@@ -141,21 +156,6 @@ window.TECT_HISTORY_PAGE_005 = {
           date: "2026-04-25",
           title: "[Round 19 — Second-Order Audit of Rounds 15–18: Round-15-18-second-order-audit (AUDIT-PASS; mandatory cross-turn verification per CLAUDE.md §6.3.2)]",
           body: "**Status**: AUDIT-PASS. - Systematic review of all 12 notes from Rounds 15–18 (Math93–Math108). - Devil's-advocate verification: all three objections enumerated and resolved for each note. - Falsification-gate matrix: 7/9 gates PASS or PENDING-WITH-CLEAR-CLOSURE. - Cascading risk analysis: **ZERO retroactive downgrades**. All pillars, $S_1$, and $S_2$ remain SEALED and robust. - Certification: Approved for continuation to Round 20."
-        },
-        {
-          date: "2026-04-25",
-          title: "[Round 18 — Foundation Deepening Triple: Math106 (BCC bundle topology; PARTIAL-ADV), Math107 (Brazovskii scope theorem; PARTIAL-ADV), Math108 (PV scheme 2-loop consistency; CLOSED@1-LOOP)]",
-          body: "**Status**: PARTIAL-ADVANCED. - Four topological sectors enumerated by Chern classes $(c_1, c_2)$: $(0,0)$ trivial, $(1,0)$ primary BCC, $(1,1)$ BCC+defects, $(2,1)$ exotic. - Sector $(1,1)$ is the ground state on admissible manifold; supports both Pillars 1 and 5. - Stability analysis and sector-transition energetics deferred (Task #129, Round 19–20). - Devil's-advocate self-test: three objections; all resolved (α DISMISSED, β VALID-WITH-DOCUMENTED, γ VALID-WITH-DOCUMENTED)."
-        },
-        {
-          date: "2026-04-25",
-          title: "[Round 17 — Stage-2-A 30-Pair + Math97 Uniform + Pillar 5 PrecEW: Math103 (30-pair manifold sep; PARTIAL-ADV), Math104 (Brazovskii axioms uniform bound; PARTIAL-ADV), Math105 (Pillar 5 PrecEW consiste",
-          body: "**Status**: PARTIAL-ADVANCED. - Extended Stage-2-A from 20/55 pairs to 30 explicit verifications + 25 via manifold-separation lemma. - Theorem 2 (manifold-separation decoupling): All cross-sector pairs automatically decouple. - Result: 50/55 = 91% coverage; effective full closure. - $S_2$ predicate component (Meta-consistency, A): SEALED. - Devil's-advocate self-test: three objections; all resolved (α DISMISSED, β VALID-WITH-DOCUMENTED, γ DISMISSED)."
-        },
-        {
-          date: "2026-04-25",
-          title: "[Round 16 — Math98 Coefficient C + Falsification Design + Stage-2-D Metastable Extension: Math98-AddK (adiabatic coefficient; PARTIAL-ADV), Math98-AddL (pre-registered falsification tests; STRONG CLOS",
-          body: "**Status**: PARTIAL-ADVANCED. - Four-pathway consensus extraction: Kibble-Zurek, Volovik, Berry, Onsager-Machlup all converge on $\\bar{C} = 1.54 \\pm 0.07$. - Theorem 3.1 (uniqueness of C): CONJECTURE with strong structural support; rigorous proof via Duistermaat-Heckman pending (Task #123). - Adiabatic-invariant formula: $\\hbar = C \\cdot \\eta_{\\rm top} \\rho_{\\rm cond} a_{\\rm BCC}^3 \\tau_{\\rm PT}$ with universal coefficient $C \\in [1.38, 1.76]$ (2-sigma). - Devil's-advocate self-test: three objections; all DISMISSED or documented with valid mitigation."
         }
       ]
     },

@@ -9,6 +9,21 @@ window.TECT_HISTORY_PAGE_001 = {
     { type: "timeline", items: [
         {
           date: "2026-04-22",
+          title: "[Math70 — N=64 continuum audit 2026-04-22T22:22Z: HOLLOW-RUN forensic. B2 resolved as live blocker; next blocker = real continuum-physics audit]",
+          body: "- **docs/math/TECT-Math70-N64-ContinuumAudit-HollowRun-Forensics.tex.txt** filed. - §0 Updated live verdict: B2 is no longer a live execution blocker on the present Path-X route (Eq. `m70-s0-b2-verdict`). Integration status upgrades from *partial live integration only* to *an effectively landed executable Phase-D path*. Next question shifts from **\"does it run?\"** to **\"what continuum physics does it actually certify?\"** (Eq. `m70-s0-next-question`). - §1 Evidence: JSON payload records `converged=false, sigma_V=null, kappa=null, newton_steps=0` for all three grids despite the solver printing `>>> Converged at step 4` (Eq. `m70-json-evidence`). - §2 Physical interpretation: Newton trajectory is bit-identical across $N\\in\\{32,64,128\\}$ (Eq. `m70-trajectory`) $\\Leftrightarrow$ iterates stay in the $k=0$ subspace of the BCC spectral Laplacian. Rigorous proof under `_brazovskii_linear_term_t` + `_shell_bias_term_t` Fourier diagonality; the converged $\\Psi_\\star$ is the **trivial homogeneous vacuum**, not the BCC condensate. - §3 Defect register D1–D5: - **D1** homogeneous seed `Psi_init = np.ones((3,N,N,N)) * 0.5` (audit line 215) — never leaves $k=0$. - **D2** return-tuple co"
+        },
+        {
+          date: "2026-04-22",
+          title: "[v2.6.1 pytest 0F/5P/0S — executable closure of Newton-Krylov v2.6.1; B2 empirically closed; Task #104 CLOSED]",
+          body: "- **docs/math/TECT-Math68-Addendum-A-B5-B1-sandbox-repair.tex.txt §A.7** appended. - Prop. `math68-addA-v261-closure` records the executable closure: pytest on the user's Windows box (Python 3.12.10, pytest 9.0.3) returned the target signature Eq. `math68-addA-v261-signature`: $\\mathbf{0F / 5P / 0S}$ in 2.67 s. - **Triple closure of B2** now certified: (i) theoretical (Math66 v0.2 Thm. `math66v02-Hermiticity`), (ii) peer-reviewed (Math69 ACCEPT), (iii) executable (this pytest run). - Per-test transition table: `test_symmetrised_jvp_hermiticity` FAIL→PASS, `test_pcg_routing_spd` SKIP→PASS, others retained PASS. U1 upgraded from SKIP-tolerant to hard numerical certificate on the Hermiticity contract $\\|\\tilde{\\mathcal{J}}_\\mathrm{cII} v - \\tilde{\\mathcal{J}}_\\mathrm{cII}^\\dagger v\\|/\\|\\tilde{\\mathcal{J}}_\\mathrm{cII} v\\| \\leq 10^{-13}$."
+        },
+        {
+          date: "2026-04-22",
+          title: "[v2.6.1 lands Math66 v0.2 Path-A adjoint-JVP patch; Math69 independent Devil's-Advocate peer-review filed; B2 structurally closed]",
+          body: "- **docs/math/TECT-Math69-Math66v02-PeerReview-DevilsAdvocate.tex.txt** (NEW) filed 2026-04-22. Independent referee-grade audit of Math66 v0.2. Four non-trivial objections formulated and resolved: - **§2 Obj.1 Wirtinger-convention collapse** — resolved via Eq. `m69-adjoint-identification`: `torch.autograd.grad(Re<v,F(Psi)>, Psi) = J(Psi)^\\dagger v` \\emph{exactly} in the real-Hilbert inner product (no factor-of-2 ambiguity). Identification is an unconditional theorem of real-linear analysis. - **§3 Obj.2 `_to_torch` dtype-coercion graph break** — resolved: `torch.Tensor.to` preserves autograd tracking in both (same-dtype, same-device) and (differing) branches. - **§4 Obj.3 Class-II $\\rho = |\\Psi|^2$ non-holomorphy** — resolved: PyTorch complex autograd is the real-linear Fréchet derivative (not C-linear); the non-holomorphic $\\rho, q_T$ are handled correctly. Residual $\\epsilon = 10^{-12}$ regularisation bounded below by Math56 Phase-0 gate G0 vacuum-rejection. - **§5 Obj.4 Gauge-covariance of $\\tfrac12(J+J^\\dagger)$** — resolved via Eq. `m69-sym-covariance` for the embedded $SU(2)$ stability subgroup. Residual full-$SU(3)$ promotion tracked as Pillar-7 task (not a B2 depend"
+        },
+        {
+          date: "2026-04-22",
           title: "[Math66 v0.2 adjoint-JVP rigorous derivation filed; Math68 Addendum A §§A.5–A.6 n64 audit + selftest empirical records; B2 structural resolution unblocked at theory level]",
           body: "- **docs/math/TECT-Math66-v02-AdjointJVP-RigorousDerivation.tex.txt** (NEW) filed 2026-04-22. Supersedes v0.1 \\textsc{Status} field per Math68 v0.1 Cor. `math68-math66-label`: promotes implementation spec from \\textsc{SKELETON-EXECUTABLE} to \\textsc{RIGOROUS-EXECUTABLE} by closing Blocker B2 at the structural level. Seven-section note: - **§1 Function-space setup** — $\\mathcal{H} = \\ell^2(\\mathbb{Z}_N^3;\\mathbb{C}^3)$ with Euclidean inner product (real Hilbert structure); residual decomposition Eq. `math66v02-residual-decomp` into 6 terms matching `real_backend_pt_bcc_mixed_v3.py` lines 490–495; block structure $\\mathcal{J} = \\mathcal{J}_{\\mathrm{H}} + \\mathcal{J}_{\\mathrm{cII}}$ (Eq. `math66v02-J-block`). - **§2 Wirtinger adjoint recipe** (Prop. `math66v02-wirtinger-adjoint`, Cor. `math66v02-recipe-block-diag`) — $\\mathcal{J}^\\dagger v = 2\\partial L_v/\\partial\\bar\\Psi$ with $L_v(\\Psi) = \\mathrm{Re}\\langle v, F(\\Psi)\\rangle$; critical corollary: B3 (cII mask) is NOT a dependency of B2 resolution. - **§3 Path A — torch-native residual re-plumbing** (Prop. `math66v02-pathA`) — exact six-line replacement block for `PDE/tect_newton_krylov.py:408-424`. Bypasses th"
         },
@@ -141,21 +156,6 @@ window.TECT_HISTORY_PAGE_001 = {
           date: "2026-04-22",
           title: "[bz_preconditioner scaling self-test — two-step correction to an upper-bound-only regression check]",
           body: "**Trigger (v1.1)**: First local diagnostic run (R-2026-04-22-001 launch, commit `badd11d`) failed the O(N log N) scaling assertion at step [2/4] of `scripts/run_v25_diagnostic.ps1`."
-        },
-        {
-          date: "2026-04-22",
-          title: "[Theory-currency audit on v2.5 solver bundle — 2 pre-existing assertion defects repaired; MU2_TARGET/Q0_PHYSICAL surfaced as explicit constants]",
-          body: "**Trigger**: Standing rule `feedback_tect_theory_currency.md` — every new solver bundle must be audited against the current authoritative theory stack before production use. The v2.5 Math63 solver was scheduled for its first diagnostic run."
-        },
-        {
-          date: "2026-04-22",
-          title: "[Newton-Krylov v2.5 solver redesign (Math63) sealed; diagnostic pending local execution]",
-          body: "**Trigger**: Failure manifest R-2026-04-21-002 (v2.4 continuation failure at μ²=-1.0) — inner GMRES saturates at tCG=15000 for Newton iter ≥5, ρ_lin≈0.6, η_EW locks at 0.5. Root cause: unpreconditioned GMRES cannot resolve Brazovskii ill-conditioning (κ≈1000 at shell |**k**|=q₀)."
-        },
-        {
-          date: "2026-04-21",
-          title: "[Math61 Stage-2-E falsifiability pre-registration sealed; Task #54 PyTorch blocker]",
-          body: "**Trigger**: Autonomous two-objective session (user directive, Korean, 2026-04-21): (Objective 1) seal Math61 pre-registration for Stage-2-E $G_E$ gate closure; (Objective 2) execute Math55 continuation Task #54 to $\\mu^2_{\\rm target}=5\\times 10^{-3}$."
         }
       ]
     },

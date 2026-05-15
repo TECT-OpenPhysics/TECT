@@ -9,6 +9,21 @@ window.TECT_HISTORY_PAGE_003 = {
     { type: "timeline", items: [
         {
           date: "2026-04-24",
+          title: "[Math82-Addendum-I-Addendum-A — Cold-start scan multi-replica statistical analysis framework + Codes/supplementary/Math82_I_coldstart_analysis.py]",
+          body: "Math82-I (2026-04-24) provided runbook and pre-registered theoretical prediction for 35-run cold-start Newton experiment (5 replicas × 7 μ² values, subset-4-cosine ansatz). Turn 7 Track A deliverable: production-grade analysis pipeline to aggregate, classify, and evaluate falsification criteria (F1–F4) per Math82-AddI §3."
+        },
+        {
+          date: "2026-04-24",
+          title: "[Math75-Q3-Addendum-B-orbifold-singular-strata-closure — Sjamaar-Lerman stratification and isotropy-type matching (Pillar 4 Q3 STRONG CLOSURE DRAFT → PROVED CONDITIONAL)]",
+          body: "Turn 7 Track B mandate: complete orbifold singular-strata analysis for Pillar 4 Q3. Math75-Q3-Addendum-A (2026-04-24 Turn 4 Track A) resolved O1 and O2 but left O3 PARTIAL, deferring singular-strata matching to this turn. Core task: apply Sjamaar-Lerman (1991) stratification theorem, enumerate isotropy subgroups of $G_{\\mathrm{SM}}$, prove stratum-by-stratum symplectomorphism via equivariant lift, and close Pillar 4 Q3 to PROVED CONDITIONAL."
+        },
+        {
+          date: "2026-04-24",
+          title: "[Math75-Q2-Addendum-A-RGE-completion — Full TECT BCC-defect β-function specification + RGE solver implementation (Pillar 4 Q2 closure, code + theorem)]",
+          body: "Turn 6 Track B mandate (Math86 §Turn 6): complete the numerical RGE infrastructure for Pillar 4 Q2. Math75-Q2-Addendum-A (strategy draft) and Math75-Q2-RG-flow-derivation (1-loop symbolic) are both in place. Remaining tasks: (1) derive the three coupling constants $C_i$ from SO(10) symmetry; (2) implement the full TECT BCC-defect β-function in the RG solver; (3) pre-register falsification thresholds and numerical-result gates per CLAUDE.md §6.3.3; (4) complete the companion Math note with devil's-advocate audit §6.3.1."
+        },
+        {
+          date: "2026-04-24",
           title: "[Math80-Addendum-C-FULL-SO10-uniqueness-PROOF — Pillar 6 Q6c SO(10)-Uniqueness Theorem (OUTLINE → PROVED)]",
           body: "Turn 6 Track C autonomous research: Pillar 6 (Generational structure / SM embedding) closure sprint, sub-task Q6c. Math80-Addendum-C-Q6c-SO10-uniqueness-theorem-outline (2026-04-24 earlier in same session) established a three-criterion elimination strategy but deferred full dimension-matching proofs for each candidate group. This deliverable provides the FULL THEOREM-grade proof with seven explicit elimination lemmas (SU(5), E_6, E_7, E_8, SU(6), Sp(4), and containment-failure verification) plus three positive-verification lemmas confirming SO(10) satisfies all three criteria (C1: BCC moduli equivariance, C2: PV-scheme closure, C3: single-chirality consistency), and mandatory devil's-advocate self-test per CLAUDE.md §6.3.1."
         },
@@ -141,21 +156,6 @@ window.TECT_HISTORY_PAGE_003 = {
           date: "2026-04-24",
           title: "[Math77-Q6b-Addendum-A — pure-SM 1-loop unification baseline FALSIFIED; Q6b conjecture as-stated requires intermediate-scale BCC-defect content]",
           body: "Standard 1-loop SM gauge-coupling RGE in GUT normalization with PDG 2024 initial conditions at $M_Z = 91.1876$ GeV: - $\\alpha_1^{-1}(M_Z) = 59.020$, $\\alpha_2^{-1}(M_Z) = 29.585$, $\\alpha_3^{-1}(M_Z) = 8.446$ - $b_1 = +41/10$, $b_2 = -19/6$, $b_3 = -7$ - Solve $\\alpha_i^{-1}(\\mu) = \\alpha_i^{-1}(M_Z) - (b_i/2\\pi) \\ln(\\mu/M_Z)$"
-        },
-        {
-          date: "2026-04-24",
-          title: "[Math80-Addendum-A — Pillar 6 Q6a 10-defect-moduli Lie-algebraic THEOREM via Strategy 2 + 3 combined]",
-          body: "Under the Pati-Salam embedding $G_{\\mathrm{SM}} \\hookrightarrow G_{\\mathrm{PS}} \\hookrightarrow \\mathrm{SO}(10)$, the defect-moduli contribution required to complete the Pillar 6 dimension chain $24 + 11 + (\\text{defect}) = 45$ is uniquely $$ \\dim (\\text{defect}) = \\dim \\mathfrak{g}_{\\mathrm{PS}}/\\mathfrak{g}_{\\mathrm{SM}} + \\dim U(1)_{B-L} = 9 + 1 = \\dim \\mathbf{10}_{\\mathrm{vec}} = \\dim \\mathrm{SO}(10)/\\mathrm{SO}(9) + 1 = 10. $$"
-        },
-        {
-          date: "2026-04-24",
-          title: "[Math82-Addendum-A — Phase D: results/ propagation to Runs/audit/ + Phase-C leftover cleanup]",
-          body: "The 11 tracked files in `results/` are moved to canonical `Runs/audit/`:"
-        },
-        {
-          date: "2026-04-24",
-          title: "[Math82 — Repo Cleanup Phase 2 (A + B + C): root orphan relocation + empty-folder removal + byte-equal mirror retirement]",
-          body: "| Source | Target | Operation | |---|---|---| | `AUTONOMOUS_SESSION_REPORT_2026-04-21.md` | — | DELETE (duplicate of `Docs/status/` copy) | | `AUTONOMOUS_SESSION_REPORT_2026-04-24-ROUND4-PROOF-A.md` | `Docs/status/round-summaries/` | git mv | | `ROUND6_SESSION_SUMMARY.txt` | `Docs/status/round-summaries/` | git mv | | `ROUND7-PROOF-B-SESSION-SUMMARY.txt` | `Docs/status/round-summaries/` | git mv | | `TECT-AUTONOMOUS-SESSION-SUMMARY-2026-04-24.txt` | `Docs/status/round-summaries/` | git mv | | `TECT-KOREAN-SUMMARY-ROADMAP.txt` | `Docs/status/round-summaries/` | git mv | | `FINAL_SESSION_STATUS.txt` | `Docs/status/round-summaries/` | git mv | | `INDEX-ROUND7-DELIVERABLES.txt` | `Docs/status/round-summaries/` | git mv | | `KOREAN-STATUS-REPORT-ROUND7.txt` | `Docs/status/round-summaries/` | git mv | | `.round7-proof-c-executive-summary.txt` | `Docs/status/round-summaries/` | git mv | | `.round7-proof-c-traceability.txt` | `Docs/status/round-summaries/` | git mv | | `PASTE-READY-MATH60-S3-ROUND7-CHANGELOG.txt` | `Docs/math/paste-ready-archive/` | git mv | | `PASTE-READY-MATH75-Q3-PILLAR4-FINAL.txt` | `Docs/math/paste-ready-archive/` | git mv | | `PASTE-READY-PILLAR11-v6-SUMMARY.txt` | `"
         }
       ]
     },

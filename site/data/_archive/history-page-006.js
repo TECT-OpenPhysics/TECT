@@ -1,12 +1,27 @@
-// AUTO-GENERATED v0.3 page 6/10 — frozen at 2026-04-29
+// AUTO-GENERATED v0.3 page 6/10 — frozen at 2026-04-30
 window.TECT_HISTORY_PAGE_006 = {
   title: "History (page 6 of 10)",
   subtitle: "Chronological CHANGELOG mirror — auto-generated.",
-  lastUpdated: "2026-04-29 (archived)",
+  lastUpdated: "2026-04-30 (archived)",
   pagination: {"page": 6, "total": 10, "newer": "history-page-007.html", "older": "history-page-005.html", "archiveIndex": null},
   blocks: [
     { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history-page-007.html\">&larr; Newer</a> &middot; Page 6 / 10 &middot; <a href=\"history-page-005.html\">Older &rarr;</a></div>" },
     { type: "timeline", items: [
+        {
+          date: "2026-04-30",
+          title: "[Theory] Math266: Turn 37 — Pillar 4 Sub-Task 3 Closure via Dual-Route Framework — SO(10) → SU(5)×U(1)_χ Breaking Chain on Σ₀",
+          body: "**Significance**: Turn 37 discharge of Pillar 4 sub-task 3 (the unique atomic-tier bottleneck from Math265) via dual-route consolidation. **Main result**: **Sub-task 3 PROVED CONDITIONAL (T6)** combining (i) Route A algebraic (Math229, Cartan-subalgebra forcing, T6 unconditional on textbook hypotheses) + (ii) Route B geometric (Math238 + Math246 Σ₀-recovery candidate, T3 PROOF SKETCH moving toward T6). **Critical insight**: The breaking chain SO(10) → SU(5)×U(1)_χ → G_SM is **algebraically forced independent of base manifold**; Math174's $c_2(E) = -40$ falsification on CP² does NOT propagate to alternative Kähler base Σ₀ (Hirzebruch surface) due to different cohomology structure. **Atomic-tier promotion**: Pillar 4 atomic tier advances from **T3 PROOF SKETCH (Math265)** to **T6 PROVED CONDITIONAL** by application of CLAUDE.md §6.3.5(b) composite-tier rule: $\\min(\\text{sub-task 1 T6}, \\text{sub-task 2 T6}, \\text{sub-task 3 T6}) = \\text{T6}$."
+        },
+        {
+          date: "2026-04-30",
+          title: "[Theory] Math263: Turn 34 — H4 Closure — $O_h$ Embedding in Spin(10) Analytical Verification",
+          body: "**Significance**: Turn 34 analytical closure of H4 (cubic-point-group embedding) via explicit Frobenius reciprocity computation. **Main result**: **T6 PROVED CONDITIONAL on hypothesis set $\\mathcal{H}_4 = \\{H_{4.1}, H_{4.2}, H_{4.3}, H_{4.4}, H_{4.5}, H_{4.6}\\}$** (all textbook-standard or previously proved in TECT). **Theorem 263.1**: The SO(10) spinor **$\\mathbf{16}$** decomposes uniquely under the cubic-symmetry embedding $O_h \\subset \\mathrm{SO}(3) \\subset \\mathrm{SO}(10)$ as $\\mathbf{16}|_{O_h} = 2T_1 \\oplus 2T_2 \\oplus 2A_2 \\oplus 2A_1$ (dimension: $6+6+2+2=16$ ✓; Frobenius reciprocity yields integer multiplicities; character orthogonality verified). This analytically completes Math252 (Turn 23, T3 PROOF SKETCH, which deferred Frobenius reciprocity to supplementary code). **Route A composite impact**: H4 now T6 PROVED CONDITIONAL. Route A hypothesis set $\\mathcal{H}_A = \\{H_1, \\ldots, H_7\\}$ now at **6/7 T6 PROVED CONDITIONAL + 1/7 T2 CONJECTURE** (H7 numerical). **Automatic Route A T4→T6 upgrade trigger**: Upon H7 numerical closure (expected 2026-05-14 hard deadline, Task #156a.1.b)."
+        },
+        {
+          date: "2026-04-29",
+          title: "[Theory] Math231: Pillar 6 — Higgs Effective Scalar Potential Derivation — Closes Task #170",
+          body: "**Significance**: Derives the effective Higgs potential V(Ψ) = m²|Ψ|² + λ|Ψ|⁴ directly from BCC Brazovskii dynamics. Establishes the electroweak-breaking scale |Ψ|_0 ~ 100 GeV from TECT microscopic parameters (κ_χ, κ_5, c, η). Completes Pillar 6 scalar-potential closure and enables Pillar 4 sub-task 3 (Math229) final promotion (pending continuum-limit verification, Task #115)."
+        },
         {
           date: "2026-04-29",
           title: "[Recurrence-prevention infrastructure — verify_website.py + POSTMORTEM_RECURRENCE_POLICY.md + CLAUDE.md §6.3.7 + post-mortem 2026-04-29 reference incident]",
@@ -141,21 +156,6 @@ window.TECT_HISTORY_PAGE_006 = {
           date: "2026-04-28",
           title: "[Math204 — SU(5) cocycle Cartan-only forcing via π₃ lift through SO(10)/SU(5)]",
           body: "**Trigger**: Lemma L3 of the four-step flat-Cartan-forcing decomposition; CLAUDE.md §15 single-turn dispatch following Math203 acceptance."
-        },
-        {
-          date: "2026-04-28",
-          title: "[Math203 — BCC inversion equivariance forces c_1(U(1)_χ) = 0 on the Math162/167 CP² base]",
-          body: "**Trigger**: Lemma L2 of the four-step flat-Cartan-forcing decomposition; CLAUDE.md §15 single-turn dispatch following Math202 v1.1 acceptance."
-        },
-        {
-          date: "2026-04-28",
-          title: "[Math202 v1.1 — reviewer audit ACCEPT WITH MINOR REVISIONS applied]",
-          body: "**Trigger**: 2026-04-28 reviewer audit of Math202 (lemma L1) returned **ACCEPT WITH MINOR REVISIONS**. Three textual revisions applied in this commit; the central proof and verdict are unchanged."
-        },
-        {
-          date: "2026-04-28",
-          title: "[Math202 — H^1(CP^2, O) = 0 and Pic(CP^2) ≅ Z classification of U(1)_χ bundles]",
-          body: "**Trigger**: First single-task dispatch under the new CLAUDE.md §15 Agent Dispatch Discipline (binding from 2026-04-28). Closes lemma L1 of the four-step flat-Cartan-forcing decomposition (the reviewer's Top-0 question from the 2026-04-28 review of Math191/192)."
         }
       ]
     },

@@ -9,6 +9,21 @@ window.TECT_HISTORY_PAGE_007 = {
     { type: "timeline", items: [
         {
           date: "2026-05-01",
+          title: "[Theory] Math296: $\\gamma_\\hbar$ ansatz first-principles derivation (1-loop SM matching)",
+          body: "**Significance**: Turn 66 of 20-turn TECT defence programme (**Phase 2 closure** — Pillar 6 numerical-theory bridge + GAP-1 hygiene followups). Closes the Math287 VALID-WITH-MITIGATION audit on the linear-log ansatz arbitrariness. **Theorem 296.1 (T6 PROVED CONDITIONAL)**: under (i) Math200-AddB structural-layer non-running and (ii) standard 1-loop SM β-functions Machacek-Vaughn 1983, the matching functional in $\\mu\\in[M_Z, M_X]$ takes the unique 1-loop form $\\gamma_\\hbar^{(1)}(\\mu) = \\alpha_\\hbar^{(1)}\\ln(\\mu/M_Z)$ with $\\alpha_\\hbar^{(1)} = (16\\pi^2)^{-1}\\sum_i b_i g_i^2(M_Z) \\approx -0.0706$ (GUT-normalised, $\\{b_1,b_2,b_3\\}=\\{41/10,-19/6,-7\\}$). The linear-log form is forced by 1-loop perturbation theory; not an ad-hoc ansatz."
+        },
+        {
+          date: "2026-05-01",
+          title: "[Theory] Math295: Phase 1 cross-turn second-order audit (Math291+292+293), OUTCOME A",
+          body: "**Significance**: Turn 65 of 20-turn TECT defence programme (Phase 2 — independent CLAUDE.md §6.3.2 cross-turn audit of Phase 1 closure). **AUDIT VERDICT (Math295.1, T7 PROVED): OUTCOME A — all three Phase 1 deliverables PASS independent second-order audit.** Math291 (ℏ formula reconciliation), Math292 (acceptance criterion), Math293 (false-negative taxonomy) all retain T6 PROVED CONDITIONAL with no tier downgrade. Phase 1 closure CERTIFIED."
+        },
+        {
+          date: "2026-05-01",
+          title: "[Theory] Math294: Striped-seed theoretical justification (Brazovskii basin-of-attraction theorem)",
+          body: "**Significance**: Turn 64 of 20-turn TECT defence programme (Phase 2 first note — Pillar 6 Numerical-Theory Bridge). Provides theoretical justification for the Math290 §6 striped-seed re-seed prescription. **Theorem 294.1 (T6 PROVED CONDITIONAL)**: basin-of-attraction separation between trivial vacuum and Brazovskii BCC broken-phase minimum is $\\Delta f_{\\rm basin}\\ge\\sqrt{(|\\mu^2|-\\gamma q_0^4)/\\lambda}/\\sqrt{N_{\\rm shell}}\\approx 0.14$ at $\\mu^2=-0.7$, $N=16$. Random-seed shell-mode amplitude is $\\sigma_f^{\\rm random}\\sim A_0\\,N^{-3/2}\\sqrt{N_{\\rm shell}}\\approx 2.7\\times 10^{-2}$ ($5\\sigma$ below basin gap). Striped seed achieves $f^{(0)}\\approx A_0/4.9\\approx 0.10$ deterministically (Proposition 294.2 lattice-corrected), at the basin edge for $A_0=0.5$ — explains Math290 borderline behaviour."
+        },
+        {
+          date: "2026-05-01",
           title: "[Theory] Math293: Pillar 6 false-negative taxonomy (three-class disjoint-exhaustive partition)",
           body: "**Significance**: Turn 63 of 20-turn TECT defence programme (Phase 1 closure — Canonical Hygiene). Partitions Pillar 6 Phase-2 BCC computation failures (Math292 acceptance-criterion violations) into **exactly three exhaustive disjoint classes**: $\\mathcal{C}_1$ extraction structural failure (Math290 Bug A/B class) ⊔ $\\mathcal{C}_2$ trivial-saddle convergence (Math290 Bug C class) ⊔ $\\mathcal{C}_3$ genuine physical falsification. **Theorem 293.1 (T6 PROVED CONDITIONAL)**: the three-class partition is exhaustive and disjoint by construction; finite case enumeration on the $2^4=16$ failure-pattern combinations."
         },
@@ -141,21 +156,6 @@ window.TECT_HISTORY_PAGE_007 = {
           date: "2026-04-30",
           title: "[Audit] Math267: Turn 38 — Cross-Turn Audit of Math266 (Sub-Task 3 T6 Claim) — Audit-Confirmed",
           body: "**Significance**: Turn 38 binding cross-turn audit (CLAUDE.md §6.3.2) of Turn 37's Math266 Pillar 4 sub-task 3 T6 claim. **Main verdict**: **AUDIT-CONFIRMED**. Sub-task 3 T6 PROVED CONDITIONAL status is mathematically sound and appropriately scoped. **Key findings**: (i) Route A (Math229, algebraic Cartan forcing) is T6 PROVED CONDITIONAL on textbook hypotheses, sufficient for sub-task 3's canonical scope (determine breaking pattern group-theoretically). (ii) Math174's $c_2(E) = -40$ falsification on CP² **does not propagate** to Σ₀ due to different $H^2(\\Sigma_0) = \\mathbb{Z}^2$ cohomology structure. (iii) No circularity detected in sub-task 2 ← sub-task 3 dependency chain; Math229 does not cite sub-task 3 outputs. (iv) All 7 cited sources disk-verified; all quantitative sanity checks pass; all devil's-advocate and self-adversarial objections addressed. **Consequence**: Pillar 4 atomic-tier promotion from T3 PROOF SKETCH (Math265) to **T6 PROVED CONDITIONAL** is audit-eligible for Turn 39 commit."
-        },
-        {
-          date: "2026-04-30",
-          title: "[Theory] Math266: Turn 37 — Pillar 4 Sub-Task 3 Closure via Dual-Route Framework — SO(10) → SU(5)×U(1)_χ Breaking Chain on Σ₀",
-          body: "**Significance**: Turn 37 discharge of Pillar 4 sub-task 3 (the unique atomic-tier bottleneck from Math265) via dual-route consolidation. **Main result**: **Sub-task 3 PROVED CONDITIONAL (T6)** combining (i) Route A algebraic (Math229, Cartan-subalgebra forcing, T6 unconditional on textbook hypotheses) + (ii) Route B geometric (Math238 + Math246 Σ₀-recovery candidate, T3 PROOF SKETCH moving toward T6). **Critical insight**: The breaking chain SO(10) → SU(5)×U(1)_χ → G_SM is **algebraically forced independent of base manifold**; Math174's $c_2(E) = -40$ falsification on CP² does NOT propagate to alternative Kähler base Σ₀ (Hirzebruch surface) due to different cohomology structure. **Atomic-tier promotion**: Pillar 4 atomic tier advances from **T3 PROOF SKETCH (Math265)** to **T6 PROVED CONDITIONAL** by application of CLAUDE.md §6.3.5(b) composite-tier rule: $\\min(\\text{sub-task 1 T6}, \\text{sub-task 2 T6}, \\text{sub-task 3 T6}) = \\text{T6}$."
-        },
-        {
-          date: "2026-04-30",
-          title: "[Theory] Math263: Turn 34 — H4 Closure — $O_h$ Embedding in Spin(10) Analytical Verification",
-          body: "**Significance**: Turn 34 analytical closure of H4 (cubic-point-group embedding) via explicit Frobenius reciprocity computation. **Main result**: **T6 PROVED CONDITIONAL on hypothesis set $\\mathcal{H}_4 = \\{H_{4.1}, H_{4.2}, H_{4.3}, H_{4.4}, H_{4.5}, H_{4.6}\\}$** (all textbook-standard or previously proved in TECT). **Theorem 263.1**: The SO(10) spinor **$\\mathbf{16}$** decomposes uniquely under the cubic-symmetry embedding $O_h \\subset \\mathrm{SO}(3) \\subset \\mathrm{SO}(10)$ as $\\mathbf{16}|_{O_h} = 2T_1 \\oplus 2T_2 \\oplus 2A_2 \\oplus 2A_1$ (dimension: $6+6+2+2=16$ ✓; Frobenius reciprocity yields integer multiplicities; character orthogonality verified). This analytically completes Math252 (Turn 23, T3 PROOF SKETCH, which deferred Frobenius reciprocity to supplementary code). **Route A composite impact**: H4 now T6 PROVED CONDITIONAL. Route A hypothesis set $\\mathcal{H}_A = \\{H_1, \\ldots, H_7\\}$ now at **6/7 T6 PROVED CONDITIONAL + 1/7 T2 CONJECTURE** (H7 numerical). **Automatic Route A T4→T6 upgrade trigger**: Upon H7 numerical closure (expected 2026-05-14 hard deadline, Task #156a.1.b)."
-        },
-        {
-          date: "2026-04-29",
-          title: "[Theory] Math231: Pillar 6 — Higgs Effective Scalar Potential Derivation — Closes Task #170",
-          body: "**Significance**: Derives the effective Higgs potential V(Ψ) = m²|Ψ|² + λ|Ψ|⁴ directly from BCC Brazovskii dynamics. Establishes the electroweak-breaking scale |Ψ|_0 ~ 100 GeV from TECT microscopic parameters (κ_χ, κ_5, c, η). Completes Pillar 6 scalar-potential closure and enables Pillar 4 sub-task 3 (Math229) final promotion (pending continuum-limit verification, Task #115)."
         }
       ]
     },

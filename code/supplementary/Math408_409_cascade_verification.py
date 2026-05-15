@@ -2,7 +2,7 @@
 """
 Codes/supplementary/Math408_409_cascade_verification.py
 
-Reproducible numerical verification + archival for the 2026-05-12
+Reproducible numerical verification + archival for the 2026-05-15
 Math408 / Math409 / Math409-AddA / Math409-AddD cascade.
 
 CLAUDE.md §6.3.6 (universal numerical-run recording) + §6.3.8 (code+JSON
@@ -22,7 +22,7 @@ EXIT CODES
   1  any assert fails; partial JSONs may have been written
   2  filesystem error (output dir not writable)
 
-Author: Jusang Lee + AI collaborator (2026-05-12).
+Author: Jusang Lee + AI collaborator (2026-05-15).
 """
 from __future__ import annotations
 import json
@@ -400,7 +400,7 @@ def math409_AddD_brazovskii_bubble_count() -> dict:
     ratio_bubble_over_quench = n_bubble_per_m3 / n_def_quench
 
     # Order-of-magnitude assert: ratio = (xi_KZ/ell_Pl)^3 = (2.6)^3 ~ 18
-    # Self-verification CORRECTION 2026-05-12: Math409-AddD §3 quoted
+    # Self-verification CORRECTION 2026-05-15: Math409-AddD §3 quoted
     # 2.4e105/m^3 (factor 200) but actual H^3 = (1/ell_Pl)^3 = 2.37e104/m^3
     # giving ratio ~18. Order-of-magnitude conclusion (same magnitude as
     # Math404) UNCHANGED but specific factor was 10x off.

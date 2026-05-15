@@ -55,9 +55,9 @@ archived with the replacement's tag, and the replacement gains an
 
 ## Active
 
-#### Q-2026-05-12-Wall-DM-Bias-Mechanism — Can a TECT-natural bias mechanism allow walls to escape the wall-DM CMB constraint while saturating $\Omega_{\rm DM}$? — **OPENED 2026-05-12 (Math409-AddD §8 objection 2)**
+#### Q-2026-05-15-Wall-DM-Bias-Mechanism — Can a TECT-natural bias mechanism allow walls to escape the wall-DM CMB constraint while saturating $\Omega_{\rm DM}$? — **OPENED 2026-05-15 (Math409-AddD §8 objection 2)**
 
-**[OPENED 2026-05-12 — Math409-AddD self-adversarial review fallout]** **Context**: Math409-AddD established that the dominant TECT defect type is *walls* between misaligned BCC orientation domains (Brazovskii first-order bubble-nucleation), not monopoles. Standard wall-DM CMB constraints (Friedland-Murayama-Perelstein 2003) restrict $\Omega_{\rm wall} \lesssim 10^{-5}$ for stable walls without bias — incompatible with $\Omega_{\rm wall} = \Omega_{\rm DM} \approx 0.27$ as required by Pillar 11.A.
+**[OPENED 2026-05-15 — Math409-AddD self-adversarial review fallout]** **Context**: Math409-AddD established that the dominant TECT defect type is *walls* between misaligned BCC orientation domains (Brazovskii first-order bubble-nucleation), not monopoles. Standard wall-DM CMB constraints (Friedland-Murayama-Perelstein 2003) restrict $\Omega_{\rm wall} \lesssim 10^{-5}$ for stable walls without bias — incompatible with $\Omega_{\rm wall} = \Omega_{\rm DM} \approx 0.27$ as required by Pillar 11.A.
 
 **Statement**: Identify a TECT-natural bias mechanism that selects one BCC orientation as the true vacuum (so walls eventually decay) while preserving the cosmologically-relevant fraction long enough to contribute meaningfully to DM. Candidates: (a) explicit cubic-symmetry-breaking term in the effective action (must be small enough to allow walls to form initially but large enough to drive late-time decay); (b) post-inflation $\sigma_{\rm wall}$ suppression via condensate annealing; (c) bias from coupling to a separate sector (e.g., gauge-symmetry breaking).
 
@@ -71,15 +71,15 @@ archived with the replacement's tag, and the replacement gains an
 
 ---
 
-#### Q-2026-05-12-KZ-Applicability-Under-Reading-H — Does the BCC order-disorder transition admit a non-equilibrium quench, or is Reading H reached adiabatically? — **CLOSED 2026-05-12 by Math409-AddD: Brazovskii weak first-order; KZ applies in bubble-nucleation form**
+#### Q-2026-05-15-KZ-Applicability-Under-Reading-H — Does the BCC order-disorder transition admit a non-equilibrium quench, or is Reading H reached adiabatically? — **CLOSED 2026-05-15 by Math409-AddD: Brazovskii weak first-order; KZ applies in bubble-nucleation form**
 
-**[CLOSED 2026-05-12 by Math409-AddD]** Brazovskii (1975) fluctuation-induced weak first-order transition CONFIRMED for TECT canonical regime. KZ applies in modified bubble-nucleation form (not continuous-quench scaling). Math404 §5 + Math409 + Math409-AddA quantitative chain survives at order-of-magnitude with revised defect-type assumption (walls dominant + sub-leading monopoles at junctions). Continuous-quench scenario (a) REJECTED; smooth crossover scenario (b) REJECTED; first-order scenario (c) CONFIRMED. Closure verdict: **POSITIVE** (KZ inapplicability hypothesis refuted) but with REVISED downstream interpretation (walls vs monopoles). Original question text preserved below for archival traceability.
+**[CLOSED 2026-05-15 by Math409-AddD]** Brazovskii (1975) fluctuation-induced weak first-order transition CONFIRMED for TECT canonical regime. KZ applies in modified bubble-nucleation form (not continuous-quench scaling). Math404 §5 + Math409 + Math409-AddA quantitative chain survives at order-of-magnitude with revised defect-type assumption (walls dominant + sub-leading monopoles at junctions). Continuous-quench scenario (a) REJECTED; smooth crossover scenario (b) REJECTED; first-order scenario (c) CONFIRMED. Closure verdict: **POSITIVE** (KZ inapplicability hypothesis refuted) but with REVISED downstream interpretation (walls vs monopoles). Original question text preserved below for archival traceability.
 
 **[Original Active text follows for reference]**:
 
-#### Q-2026-05-12-KZ-Applicability-Under-Reading-H — Does the BCC order-disorder transition admit a non-equilibrium quench, or is Reading H reached adiabatically? — **OPENED 2026-05-12 (Math407-AddA binding decision 2; HIGHEST PRIORITY for Pillar 11)**
+#### Q-2026-05-15-KZ-Applicability-Under-Reading-H — Does the BCC order-disorder transition admit a non-equilibrium quench, or is Reading H reached adiabatically? — **OPENED 2026-05-15 (Math407-AddA binding decision 2; HIGHEST PRIORITY for Pillar 11)**
 
-**[OPENED 2026-05-12 — Math407-AddA Round-2 audit]** **Context**: Math402's KZ-defect framework + Math404 §5 anchor + Math409 + Math409-AddA all assume the BCC order-disorder transition under Reading H proceeds via a non-equilibrium quench (canonical Kibble-Zurek mechanism). Math407-AddA §4 observed that Reading H (Math401) defines the canonical TECT vacuum as a fluctuation-stabilised disordered phase WITHOUT specifying whether this phase is reached via sharp quench, adiabatic cooling, or slow rolling through a critical region.
+**[OPENED 2026-05-15 — Math407-AddA Round-2 audit]** **Context**: Math402's KZ-defect framework + Math404 §5 anchor + Math409 + Math409-AddA all assume the BCC order-disorder transition under Reading H proceeds via a non-equilibrium quench (canonical Kibble-Zurek mechanism). Math407-AddA §4 observed that Reading H (Math401) defines the canonical TECT vacuum as a fluctuation-stabilised disordered phase WITHOUT specifying whether this phase is reached via sharp quench, adiabatic cooling, or slow rolling through a critical region.
 
 **Statement**: Determine the order of the BCC condensation phase transition under Reading H ($\lambda < 0$ attractive quartic, Brazovskii regime). Possibilities: (a) first-order (KZ applies with modified scaling, Math404 framework valid with corrections); (b) second-order/continuous (standard KZ applies, Math404 framework valid); (c) no sharp transition — disordered Reading H phase reached adiabatically via fluctuation stabilisation (KZ INAPPLICABLE).
 
@@ -99,9 +99,9 @@ This is a prerequisite question that must be resolved before refining defect top
 
 ---
 
-#### Q-2026-05-12-Pillar-11-Hawking-Stability — What is the stable mass scale that admits both KZ-mechanism formation AND $\sim$Hubble-time stability? — **OPENED 2026-05-12 (Math407-AddA binding decision 3)**
+#### Q-2026-05-15-Pillar-11-Hawking-Stability — What is the stable mass scale that admits both KZ-mechanism formation AND $\sim$Hubble-time stability? — **OPENED 2026-05-15 (Math407-AddA binding decision 3)**
 
-**[OPENED 2026-05-12 — Math407-AddA Round-2 audit]** **Context**: Math409-AddA corrected Math404's super-Planckian $m_{\text{def}} \approx 41\,M_{\text{Pl}}$ to $m_{\text{def}} \leq M_{\text{Pl}}$. But $m_{\text{def}} \sim M_{\text{Pl}}$ defects are Planck-mass primordial-black-hole-like objects with Hawking lifetime $\tau_{\text{BH}} \sim t_{\text{Pl}} \approx 5 \times 10^{-44}$ s — cosmologically negligible. For long-lived stability ($\tau_{\text{BH}} \gtrsim 10^{17}$ s, age of universe), need $M^3 \gtrsim 10^{55}\,M_{\text{Pl}}^3$, absurdly super-Planckian.
+**[OPENED 2026-05-15 — Math407-AddA Round-2 audit]** **Context**: Math409-AddA corrected Math404's super-Planckian $m_{\text{def}} \approx 41\,M_{\text{Pl}}$ to $m_{\text{def}} \leq M_{\text{Pl}}$. But $m_{\text{def}} \sim M_{\text{Pl}}$ defects are Planck-mass primordial-black-hole-like objects with Hawking lifetime $\tau_{\text{BH}} \sim t_{\text{Pl}} \approx 5 \times 10^{-44}$ s — cosmologically negligible. For long-lived stability ($\tau_{\text{BH}} \gtrsim 10^{17}$ s, age of universe), need $M^3 \gtrsim 10^{55}\,M_{\text{Pl}}^3$, absurdly super-Planckian.
 
 **Statement**: Identify the stable defect mass scale $m_{\text{def}}^{\text{stable}}$ that simultaneously satisfies: (i) KZ-mechanism formation (defect must be a localised topological soliton, not a black hole); (ii) Hubble-time stability ($\tau_{\text{stable}} \gtrsim 10^{17}$ s); (iii) consistency with Math404 condensate density $\rho_{\text{cond}} \approx \rho_{\text{Pl}}/2528$.
 
@@ -2157,120 +2157,4 @@ Math203's c_1(L_χ)=0 conclusion follows ONLY from Type A. Type B leaves c_1 unc
 
 **Outcomes**:
   - Type A confirmed: Math203 c_1=0 REPAIRED, RR1 fully closed.
-  - Type B confirmed: Math203 c_1=0 FALSIFIED, Math191/192 forcing argument needs replacement.
-  - Indeterminate: Math162 atlas needs refinement.
-
-**Estimated effort**: 1 single-turn dispatch (Math209).
-
-### Q-2026-04-28-Math208-Equivariance-Type (Task #150-revised, REOPENED, HIGHEST PRIORITY) — original wording (superseded by split above)
-
-**Date opened**: 2026-04-28 (reviewer audit late)
-**Theory tag**: Math208 §2 (RR1' replaces RR1).
-**Priority**: HIGHEST (next single-turn dispatch).
-
-**Question**: Does the BCC inversion induce on the U(1)_χ bundle of the Math162 base:
-  (i)  complex-linear equivariance $\sigma_I^* L \cong L$, or
-  (ii) Real (anti-linear) equivariance $\sigma_I^* \bar L \cong L$?
-
-The Math203 conclusion $c_1(L) = 0$ follows ONLY from (i). Under (ii), Chern class is unconstrained (counterexample: $\mathcal O(1) \to \mathbb{CP}^2$ with standard real structure has $c_1 = h \neq 0$).
-
-Math207's BCC-reality argument actually points toward (ii) — the natural lift of an anti-linear involution on amplitude space to a holomorphic line bundle is the Real structure. If (ii) is the correct equivariance type, Math203's $c_1 = 0$ conclusion fails and the entire flat-Cartan-forcing argument needs to be reconstructed.
-
-**Estimated effort**: 1-2 single-turn dispatches.
-
-### Q-2026-04-28-Math208-Pi3-Dynkin (Task #151-revised, REOPENED)
-
-**Date opened**: 2026-04-28
-**Theory tag**: Math208 §3 (RR2' replaces RR2).
-
-**Question**: For the Math80-AddA chiral 16-spinor embedding $\mathrm{SU}(5) \hookrightarrow \mathrm{SO}(10)$, compute the inclusion-induced map $\pi_3(\mathrm{SU}(5)) \to \pi_3(\mathrm{SO}(10))$. If multiplication by $m$, then $\pi_3(\mathrm{SO}(10)/\mathrm{SU}(5)) \cong \mathbb Z_m$.
-
-The case $m = 1$ must be PROVED, not cited. For the standard "complexification" embedding the map is $\times 2$, giving $\pi_3 \cong \mathbb Z_2 \neq 0$. This would defeat Math204(A).
-
-### Q-2026-04-28-Math208-PontrjaginChern-Sign (Task #152, NEW)
-
-**Date opened**: 2026-04-28
-**Theory tag**: Math208 §4 (RR3').
-
-**Question**: Reconcile the sign discrepancy in Math204: §1(B) statement says $c_2 = -p_1/2$; §3 proof gives $c_2 = +p_1/2$. Determine the correct sign-normalisation for SO(10)-bundles on $\mathbb{CP}^2$.
-
-### Q-2026-04-28-Math208-yt-RGE-rerun (Task #153, NEW)
-
-**Date opened**: 2026-04-28
-**Theory tag**: Math208 §5 (RR4').
-
-**Question**: Re-run the SM 1-loop RGE with the standard convention $\beta_{y_t} = (y_t/16\pi^2) \cdot (\frac{9}{2} y_t^2 - (17/20) g_1^2 - (9/4) g_2^2 - 8 g_3^2)$ (NOT the Math200 code's "$9 y_t^2$") and PDG initial conditions. Does $y_t$ develop a Landau pole below the Planck scale? (Standard SM expectation: NO; the Math200-AddA "Landau pole at $10^{14}$ GeV" was a calculation artefact of the wrong $y_t$ β coefficient.)
-
-### Q-2026-04-28-Math208-RouteB-DimRepair (Task #154, NEW)
-
-**Date opened**: 2026-04-28
-**Theory tag**: Math208 §6 (RR5').
-
-**Question**: Re-derive Route B ($\hbar_B$ from Math98/Math110-AddI Kibble-Zurek framework) with explicit SI dimensions; identify the missing factor (likely a time-scale, frequency, or $1/c$) that makes $\hbar_B$ dimensionally $[\rm J \cdot s]$. The current Math200-AddB statement $\hbar_B = \rho_{\rm cond} a_{\rm BCC}^3 c_T$ has dimension $[\rm J \cdot m / s]$, not $\hbar$.
-
-[SUPERSEDED 2026-04-28 late+7: Math212 closes Pillar 4 sub-task 2 forcing via the index route; this alternative remains available but is not required for the closure.]
-
-### Q-2026-04-28-Math210-AddA-Anomaly (Task #155, candidate dispatch)
-
-**Date opened**: 2026-04-28 (late+4)
-**Theory tag**: Math210 §9.
-
-**Question**: Does Math157 GAP-3 SM anomaly cancellation requirement force the Math162 atlas's $T_3 \in \mathfrak{su}(5)$ choice (over the alternative $T_3 = T_\chi \in \mathfrak{u}(1)_\chi$)? If yes, Math210's residual C2 conditional is closed and Pillar 4 sub-task 2 → PROVED unconditional (modulo Math192 c_2 = 0 side, which would be addressed by an analogous Math211 dispatch).
-
-**Approach**: Trace Math157's six anomaly coefficients through the alternative T_3 = T_\chi atlas; check whether anomalies remain canceled under that choice. If they don't cancel → Math162 T_3 ∈ 𝔰𝔲(5) is forced.
-
-**Estimated effort**: 1-2 single-turn dispatches.
-
-[SUPERSEDED 2026-04-28 late+7: Math212 closes Pillar 4 sub-task 2 forcing via the index route; this alternative remains available but is not required for the closure.]
-
-### Q-2026-04-28-Math210-AddA-Index (Task #156, candidate dispatch)
-
-**Date opened**: 2026-04-28 (late+4)
-**Theory tag**: Math210 §9.
-
-**Question**: Does Math171-AddA index theorem $\mathrm{ind}(D_E^c) = 16 - \mu$ force $\mu = 0$ (and hence $T_3 \in \mathfrak{su}(5)$ for the Math162 atlas)?
-
-**Approach**: Determine $\mu$ for the alternative $T_3 = T_\chi$ atlas; if $\mu \neq 0$ ⟹ ind ≠ 16 ⟹ alternative is FALSIFIED (Math174-style argument).
-
-**Estimated effort**: 1-2 single-turn dispatches.
-
-### Q-2026-04-28-Math210-AddA-BCC-decomposition (Task #157) — [REOPENED 2026-04-28 late+8 — Math211 closure FALSIFIED by Math213; previous PARTIAL POSITIVE verdict: $c_1 \in 2\mathbb Z$ from BCC reality, $c_1 = 0$ canonical; full forcing of $c_1 = 0$ NOT closed]
-
-**Date opened**: 2026-04-28 (late+4)
-**Theory tag**: Math210 §9.
-
-**Question**: Compute the explicit decomposition of the 12 BCC first-shell reciprocal-lattice vectors into SU(5)×U(1)_χ irreducible components (5_(+2) + 5̄_(-2) under the Math80-AddA embedding). If all 12 vectors decompose as Cartan-T_3-weight eigenstates with zero net U(1)_χ charge, then T_3 ∈ 𝔰𝔲(5) is forced by BCC microscopics directly.
-
-**Approach**: Use the Math80-AddA BCC defect-tube to Gr(2,5) embedding + the standard 16 = 1 ⊕ 5̄ ⊕ 10̄ SU(5) decomposition of the SO(10) chiral spinor.
-
-**Estimated effort**: 2 single-turn dispatches.
-
-### Q-2026-04-28-Math212-2Z-extension-preference (Task #158) — [REOPENED 2026-04-28 late+8 — Math212 forcing claim DEMOTED to index-selection by Math213; previous POSITIVE forcing verdict via index theorem: $\mathrm{ind}=16+40b^2 \Rightarrow b=0$ uniquely; Pillar 4 sub-task 2 PROMOTED to PROVED unconditional]
-
-**Date opened**: 2026-04-28 (late+6)
-**Theory tag**: Math211 §8.
-
-**Question**: Within the BCC-microscopic-allowed class $
-
-### Q-2026-05-01-Math290-Striped-Seed-Validation (NEW HIGH PRIORITY) — empirical validation of Bug C trivial-saddle diagnosis
-
-**Date opened**: 2026-05-01 (Math290 §6, §11 meta-objection 3 UPHELD-WITH-CLARIFICATION).
-**Theory tag**: Math290 §5 (Bug C, trivial-saddle convergence) + §8 (re-run protocol).
-**Deadline**: 2026-05-08 (1 week; non-blocking; before F-Pillar6 hard gate 2026-05-29).
-
-**Question**: Does re-seeding the v25 Newton-Krylov solver with the deterministic striped initial configuration $\Psi^{(0)}_c(\mathbf{x}) = A_0\hat{e}^c \cos(q_0\hat{\mathbf n}\cdot\mathbf{x})$ (synthesized by `Codes/supplementary/Math236_seed_striped.py`) at $\mu^2 = -0.7$, $N \in \{16, 32, 64\}$ produce a broken-phase $\Psi^\star$ with $\Delta F < 0$, $\lambda_{\min}(\mathrm{Hess}|_{\Psi^\star}) > 0$, and $f \sim O(1)$?
-
-**Approach**:
-1. Generate per-N seeds: `for N in 16 32 64; do python -u Codes/supplementary/Math236_seed_striped.py --N $N --L-box 16.0 --q0 0.6801747616 --A0 0.5 --output Runs/continuation/seed_N${N}.npy; done`
-2. Pass each seed to v25 manually via `--load-psi <seed>` (the wrapper does not yet wire `--load-psi` per-N; that is a deferred follow-up).
-3. Verify per-N: $\Delta F < 0$, $\lambda_{\min} > 0$ (positive-definite Hessian), $f \geq O(0.1)$.
-4. If all three N pass → Stage-3 Richardson fit emits F-Pillar6 verdict; if any N fails with the striped seed → Bug C diagnosis is incomplete and a deeper investigation is needed (lattice-dressed Brazovskii transition shift; $\mu^2 = -0.7$ may be above the dressed transition at coarse N).
-
-**Closure path**:
-- If validation PASS → Bug C hypothesis confirmed empirically; promote Math290 §5 from T6 CONDITIONAL to T7 PROVED; Math236 wrapper proven production-ready; F-Pillar6 hard gate 2026-05-29 advances on canonical track.
-- If validation FAIL (striped seed also lands at trivial saddle) → genuine lattice-physics question: re-test with $\mu^2 = -1.0$ or $\mu^2 = -1.5$ to bracket the dressed Brazovskii transition; this is itself a physical result, not a defect.
-
-**Estimated effort**: 1-3 single-N runs (each $\lesssim 1$ h with broken-phase basin and well-conditioned Hessian; vs. 10.94 h for the trivial-saddle run).
-
-**Owner**: TECT collaboration (operator).
-**Status**: T1 OPEN.
+  - Type B confirmed: Math203 c_1=0 FALSIFIED, Math191/192 forcing argument needs replacemen

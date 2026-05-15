@@ -1,12 +1,27 @@
-// AUTO-GENERATED v0.3 page 8/10 — frozen at 2026-05-07
+// AUTO-GENERATED v0.3 page 8/10 — frozen at 2026-05-08
 window.TECT_HISTORY_PAGE_008 = {
   title: "History (page 8 of 10)",
   subtitle: "Chronological CHANGELOG mirror — auto-generated.",
-  lastUpdated: "2026-05-07 (archived)",
+  lastUpdated: "2026-05-08 (archived)",
   pagination: {"page": 8, "total": 10, "newer": "history-page-009.html", "older": "history-page-007.html", "archiveIndex": null},
   blocks: [
     { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history-page-009.html\">&larr; Newer</a> &middot; Page 8 / 10 &middot; <a href=\"history-page-007.html\">Older &rarr;</a></div>" },
     { type: "timeline", items: [
+        {
+          date: "2026-05-08",
+          title: "[Infrastructure + Policy] Math353-AddD r3 + AddE: v3 mirror policy + cutover (theory-only mirror activated)",
+          body: "**Theory tags**: `Math353-AddD-Theory-Only-Mirror-Restructure-2026-05-08`, `Math353-AddE-v3-Cutover-2026-05-08` **Trigger**: operator directive 2026-05-08 (5 clarifications): root structure (note/paper/code/status/site); code/ = pde+supplementary+manual; site/math + assets duplicates removed; Old papers + operational MDs excluded; runs/ disabled (Math notes embed key results inline)."
+        },
+        {
+          date: "2026-05-08",
+          title: "[Infrastructure + Policy] Math353-AddC: B-ε path-resolution check + C-γ narrative sweep + C-β/δ documentation correction",
+          body: "**Theory tag**: `Math353-AddC-Phase-B-Epsilon-and-C-Gamma-Plus-Documentation-Correction-2026-05-08` **Type**: Implementation report addendum (CLAUDE.md §4.3). **Trigger**: operator's directive 2026-05-08 post-AddB snapshot completion: GitHub Pages activation deferred; README + metadata are auto-managed (operator confirmed PAT permissions); the rest of the planned work to be processed."
+        },
+        {
+          date: "2026-05-08",
+          title: "[Infrastructure + Policy] Math353-AddB: Phase B inventory cleanup (B-κ + B-μ + B-θ DONE; B-λ + B-η + B-ζ operator-handoff)",
+          body: "**Theory tag**: `Math353-AddB-Phase-B-Implementation-Report-2026-05-08` **Type**: Implementation report addendum (CLAUDE.md §4.3). **Trigger**: operator's directive 2026-05-08 to \"automatically progress through Phase C\" after Math353-AddA r1-r7 snapshot pipeline first successful 8/8 completion."
+        },
         {
           date: "2026-05-07",
           title: "[Infrastructure + Policy] Math353-AddA: Snapshot v2.1 fix (CMD 8191-char limit) + Phase B/C inventory gap closure",
@@ -141,21 +156,6 @@ window.TECT_HISTORY_PAGE_008 = {
           date: "2026-05-01",
           title: "[Theory + Results] Math294-AddA: Empirical marginal-basin confirmation at $A_0=0.5$ + trust-region overshoot failure mode",
           body: "**Significance**: First striped-seed Phase-2 BCC run after Math290/292/293/294 closure (parameters $\\mu^2=-0.7$, $N=16$, $A_0=0.5$, deterministic striped seed, bare `continuation_mu2_v25.py` driver, wall time 1.02h). **Two distinct conclusions**:"
-        },
-        {
-          date: "2026-05-01",
-          title: "[Theory] Math296: $\\gamma_\\hbar$ ansatz first-principles derivation (1-loop SM matching)",
-          body: "**Significance**: Turn 66 of 20-turn TECT defence programme (**Phase 2 closure** — Pillar 6 numerical-theory bridge + GAP-1 hygiene followups). Closes the Math287 VALID-WITH-MITIGATION audit on the linear-log ansatz arbitrariness. **Theorem 296.1 (T6 PROVED CONDITIONAL)**: under (i) Math200-AddB structural-layer non-running and (ii) standard 1-loop SM β-functions Machacek-Vaughn 1983, the matching functional in $\\mu\\in[M_Z, M_X]$ takes the unique 1-loop form $\\gamma_\\hbar^{(1)}(\\mu) = \\alpha_\\hbar^{(1)}\\ln(\\mu/M_Z)$ with $\\alpha_\\hbar^{(1)} = (16\\pi^2)^{-1}\\sum_i b_i g_i^2(M_Z) \\approx -0.0706$ (GUT-normalised, $\\{b_1,b_2,b_3\\}=\\{41/10,-19/6,-7\\}$). The linear-log form is forced by 1-loop perturbation theory; not an ad-hoc ansatz."
-        },
-        {
-          date: "2026-05-01",
-          title: "[Theory] Math295: Phase 1 cross-turn second-order audit (Math291+292+293), OUTCOME A",
-          body: "**Significance**: Turn 65 of 20-turn TECT defence programme (Phase 2 — independent CLAUDE.md §6.3.2 cross-turn audit of Phase 1 closure). **AUDIT VERDICT (Math295.1, T7 PROVED): OUTCOME A — all three Phase 1 deliverables PASS independent second-order audit.** Math291 (ℏ formula reconciliation), Math292 (acceptance criterion), Math293 (false-negative taxonomy) all retain T6 PROVED CONDITIONAL with no tier downgrade. Phase 1 closure CERTIFIED."
-        },
-        {
-          date: "2026-05-01",
-          title: "[Theory] Math294: Striped-seed theoretical justification (Brazovskii basin-of-attraction theorem)",
-          body: "**Significance**: Turn 64 of 20-turn TECT defence programme (Phase 2 first note — Pillar 6 Numerical-Theory Bridge). Provides theoretical justification for the Math290 §6 striped-seed re-seed prescription. **Theorem 294.1 (T6 PROVED CONDITIONAL)**: basin-of-attraction separation between trivial vacuum and Brazovskii BCC broken-phase minimum is $\\Delta f_{\\rm basin}\\ge\\sqrt{(|\\mu^2|-\\gamma q_0^4)/\\lambda}/\\sqrt{N_{\\rm shell}}\\approx 0.14$ at $\\mu^2=-0.7$, $N=16$. Random-seed shell-mode amplitude is $\\sigma_f^{\\rm random}\\sim A_0\\,N^{-3/2}\\sqrt{N_{\\rm shell}}\\approx 2.7\\times 10^{-2}$ ($5\\sigma$ below basin gap). Striped seed achieves $f^{(0)}\\approx A_0/4.9\\approx 0.10$ deterministically (Proposition 294.2 lattice-corrected), at the basin edge for $A_0=0.5$ — explains Math290 borderline behaviour."
         }
       ]
     },
