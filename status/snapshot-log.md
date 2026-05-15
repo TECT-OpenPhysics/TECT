@@ -7,6 +7,20 @@ This file is the append-only audit log of every snapshot orchestrator run. Lates
 The snapshot orchestrator brings all four TECT mirror trees into a coherent state via the binding 8-step pipeline. See `SNAPSHOT_POLICY.md` for the full definition, trigger conditions, and exit-code contract.
 
 ---
+## 2026-05-15T09:06:46 UTC -- 8166092 -- 2026-05-15 Round-3 patches + Website features + STATUS-HISTORY 3-layer auto-update: Math409-AddD-AddC numerical canonicalization 10^59.9 + Math413-AddA π_0 wording + Pillar 11.A walls T2→T1 propagation + Papers as-of-date metadata (publish_papers.py + papers-render.js) + STATUS-HISTORY page (Docs + generate_status_history.py + Website/status-history.html + status.html cross-link) + STATUS-HISTORY auto-update infrastructure (log_tier_change.py CLI + detect_tier_change.py watchdog + tect tier-change subcommand + snapshot.ps1 step 0.7 + STATUS-HISTORY.md §6 3-layer workflow)
+- stamp : PASS
+- generate : PASS
+- verify : PASS
+- manifest : PASS
+- commit : PASS (8166092)
+- curate : PASS
+- push : PASS (https://github.com/TECT-OpenPhysics/TECT/commit/f79705c21463f8f78798c784d0a488cdca597185)
+- audit : PASS (clean)
+- Elapsed: 226.8 s
+- GitHub: https://github.com/TECT-OpenPhysics/TECT/commit/f79705c21463f8f78798c784d0a488cdca597185
+
+---
+
 ## 2026-05-15T07:26:38 UTC -- dca5984 -- 2026-05-15 cascade Round-3: 8 Math notes (Math407-AddA Round-2 audit + Math408 Pillar 6 closure attempt + Math409/AddA/AddD/AddD-AddC Pillar 11 SPLIT/REFUTED + Math413 meta-principle + Math413-AddA Direction B BARE REFUTED) + Pillar 11 T4|T1-split downgrade (11.A walls REFUTED at 10^59.9 FMP violation) + CLAUDE.md §6.3.8 (code+JSON archival) + §11.5.2 ABSOLUTE PROHIBITION + POSTMORTEM §8.1-§8.6 (6 binding rules) + integrated publish-cascade + 4-round token validator (doctor + explicit-named-args + prefix-only + Win32 CredRead) + integrity_audit/cascade_update split-tier syntax + Round-3 operator audit patches (π_2 contradiction + numerical canonicalization)
 - stamp : PASS
 - generate : PASS
@@ -629,6 +643,7 @@ The snapshot orchestrator brings all four TECT mirror trees into a coherent stat
 - GitHub: https://github.com/TECT-OpenPhysics/TECT/commit/b83758bd0a94c3b2b97ff9f09a0ef6c8cb736de2
 
 ---
+
 
 
 
