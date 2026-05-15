@@ -1,4 +1,4 @@
-// AUTO-GENERATED v0.3 page 10/10 — 2026-05-15 02:40 UTC
+// AUTO-GENERATED v0.3 page 10/10 — 2026-05-15 07:25 UTC
 window.TECT_HISTORY = {
   title: "History (page 10 of 10)",
   subtitle: "Chronological CHANGELOG mirror — auto-generated.",
@@ -7,6 +7,26 @@ window.TECT_HISTORY = {
   blocks: [
     { type: "html", content: "<div class=\"pagination-nav\">Page 10 / 10 &middot; <a href=\"history-page-009.html\">Older &rarr;</a></div>" },
     { type: "timeline", items: [
+        {
+          date: "2026-05-15",
+          title: "[Theory/Patch] Math413-AddA + Math409-AddD-AddC — operator adversarial-review patches (π_2 contradiction fix + numerical canonicalization)",
+          body: "**Theory tag**: `Patch-Math413-AddA-pi2-fix-and-Math409-AddD-AddC-canonicalize-2026-05-15` **Classification**: AUDIT-PATCH (no tier promotion; corrects internal contradictions and numerical inconsistencies caught by operator adversarial review)."
+        },
+        {
+          date: "2026-05-15",
+          title: "[Theory/Negative-Result] Math409-AddD-AddC — TECT-natural wall-DM bias mechanism: wall-DM REFUTED at factor 10^60 (FMP CMB constraint); Pillar 11.A T2 → T1 OPEN downgrade",
+          body: "**Theory tag**: `Math409-AddD-AddC-Wall-DM-Bias-REFUTED-2026-05-15` **Classification**: THEORY-NEGATIVE-RESULT (Pillar 11.A wall-DM hypothesis REFUTED; T2 → T1 OPEN downgrade)."
+        },
+        {
+          date: "2026-05-15",
+          title: "[Theory] Math413-AddA (= Math409-AddC merged) — Defect-family homotopy enumeration + soliton mass scales: Direction B gate F-B reveals 17-order gap to SM fermion masses; bare Direction B REFUTED",
+          body: "**Theory tag**: `Math413-AddA-Defect-Family-Enumeration-Soliton-Mass-Hierarchy-Gap-2026-05-15` **Classification**: THEORY-NEGATIVE-RESULT-PARTIAL (Pillar 11 lever (i) CLOSED at topology; Direction B bare REFUTED; Direction B-with-dressing T2 CONJECTURE)."
+        },
+        {
+          date: "2026-05-15",
+          title: "[Theory/Meta] Math413 — Ontological wildness vs predictive strictness: meta-principle for post-Reading-H TECT framework; 4 candidate ontology directions with binding falsification gates",
+          body: "**Theory tag**: `Math413-Ontological-Wildness-vs-Predictive-Strictness-Meta-Principle-2026-05-15` **Classification**: FRAMEWORK META-NOTE (binding rule, no tier change)."
+        },
         {
           date: "2026-05-15",
           title: "[Infrastructure] tect publish — integrated cascade phase (Wiki + Issues + README sync) as default; -SkipCascade opt-out",

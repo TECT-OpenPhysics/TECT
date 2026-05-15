@@ -55,6 +55,32 @@ archived with the replacement's tag, and the replacement gains an
 
 ## Active
 
+#### Q-2026-05-15-Texture-DM-Alternative — Are within-bubble textures (from $\pi_3 = \mathbb{Z}$) a viable Pillar 11.A alternative to walls? — **OPENED 2026-05-15 (Math409-AddD-AddC §9 follow-up)**
+
+**[OPENED 2026-05-15 — Math409-AddD-AddC verdict fallout]** **Context**: Math409-AddD-AddC §6 found that wall-DM bias mechanisms all require severe fine-tuning ($\epsilon_{\rm bias} \sim 10^{-93}$, or $g_{\rm wall-WR} \sim 10^{-13.5}$). Pillar 11.A wall-DM is REFUTED. However, Math413-AddA §2 confirmed $\pi_3(V) = \mathbb{Z}$ — textures (codim 4) are topologically protected. As codim-4 defects (Hopf instantons in 3D), textures are point-like and may not be subject to the wall-domain CMB constraint of Friedland-Murayama-Perelstein.
+
+**Statement**: Evaluate whether within-bubble textures (Math413-AddA §2 $\pi_3 = \mathbb{Z}$) are a viable alternative dominant-DM candidate. Compute texture density at formation, surface tension scaling with bubble interior dynamics, lifetime under cosmological evolution, and CMB constraint. If textures pass without bias, Pillar 11.A is recoverable to T2 or higher.
+
+**Why open / priority**: Math409-AddD-AddC's wall-DM REFUTATION leaves only sub-leading textures + monopoles as topologically-protected defects. Among these, textures are the better candidate (monopoles are not topologically protected per Math413-AddA §2). Resolution determines whether Pillar 11.A can be rescued at all.
+
+**Falsification criterion**: if texture density $\Omega_{\rm tex}$ at recombination exceeds DM density by >10$^4$, OR Hopf-instanton CMB signature exceeds Planck 2018 limits, texture-DM hypothesis is REFUTED and Pillar 11.A remains permanently T1 OPEN.
+
+**Owner**: Jusang Lee + AI collaborator. **Expected closure**: 2026-06-30. **Math note target**: Math409-AddD-AddD.
+
+**Cross-references**: Math409-AddD-AddC (wall-DM REFUTATION), Math413-AddA §2 (homotopy $\pi_3(V) = \mathbb{Z}$), Belavin-Polyakov 1975 (texture/skyrmion defect class).
+
+---
+
+#### Q-2026-05-15-Wall-DM-Bias-Mechanism — Can a TECT-natural bias mechanism allow walls to escape the wall-DM CMB constraint while saturating $\Omega_{\rm DM}$? — **CLOSED 2026-05-15 by Math409-AddD-AddC: REFUTED at factor 10^60**
+
+**[CLOSED 2026-05-15 by Math409-AddD-AddC]** Three TECT-natural bias mechanisms evaluated quantitatively:
+- (a) cubic-symmetry-breaking term: requires $\epsilon_{\rm bias} \sim 10^{-93}$ GeV$^{-1}$, $\rho_{\rm bias} \sim 10^{31}$ above $\Lambda$ — severe fine-tuning.
+- (b) inflation dilution: NOT a bias mechanism (walls re-dominate at late times after inflation).
+- (c) sector coupling to LRSM $W_R$: requires $g_{\rm wall-WR} \sim 10^{-13.5}$ (vs $g_{\rm EW} \sim 0.65$) — extreme fine-tuning.
+None reaches T3 PROOF SKETCH. **Verdict**: wall-DM hypothesis REFUTED by factor $10^{60}$ violation of Friedland-Murayama-Perelstein 2003 CMB constraint. Pillar 11.A T2 → T1 OPEN. Last-chance rescue via Math409-AddD-AddD texture-DM alternative (queued).
+
+**[Original Active text follows for archival]**:
+
 #### Q-2026-05-15-Wall-DM-Bias-Mechanism — Can a TECT-natural bias mechanism allow walls to escape the wall-DM CMB constraint while saturating $\Omega_{\rm DM}$? — **OPENED 2026-05-15 (Math409-AddD §8 objection 2)**
 
 **[OPENED 2026-05-15 — Math409-AddD self-adversarial review fallout]** **Context**: Math409-AddD established that the dominant TECT defect type is *walls* between misaligned BCC orientation domains (Brazovskii first-order bubble-nucleation), not monopoles. Standard wall-DM CMB constraints (Friedland-Murayama-Perelstein 2003) restrict $\Omega_{\rm wall} \lesssim 10^{-5}$ for stable walls without bias — incompatible with $\Omega_{\rm wall} = \Omega_{\rm DM} \approx 0.27$ as required by Pillar 11.A.

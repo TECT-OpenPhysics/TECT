@@ -1,15 +1,15 @@
-// AUTO-GENERATED v0.3 math-notes page 3/12 — frozen
+// AUTO-GENERATED v0.3 math-notes page 3/13 — frozen
 // Source: Docs/math/TECT-Math*.tex.txt (50 of total)
 
 window.TECT_MATH_NOTES_PAGE_003 = {
-  title: "Math notes (page 3 of 12)",
+  title: "Math notes (page 3 of 13)",
   subtitle: "Proof-level derivations. Auto-paginated by Math NN; this page covers a fixed slice of the archive.",
-  pagination: {"page": 3, "total": 12, "newer": "math-notes-page-004.html", "older": "math-notes-page-002.html", "archiveIndex": null},
+  pagination: {"page": 3, "total": 13, "newer": "math-notes-page-004.html", "older": "math-notes-page-002.html", "archiveIndex": null},
   blocks: [
-    { type: "html", content: "<div class=\"pagination-nav\"><a href=\"math-notes-page-004.html\">&larr; Newer</a> &middot; Page 3 / 12 &middot; <a href=\"math-notes-page-002.html\">Older &rarr;</a></div>" },
+    { type: "html", content: "<div class=\"pagination-nav\"><a href=\"math-notes-page-004.html\">&larr; Newer</a> &middot; Page 3 / 13 &middot; <a href=\"math-notes-page-002.html\">Older &rarr;</a></div>" },
     {
       type: "card",
-      title: "Math notes (page 3 of 12, archived; 50 entries)",
+      title: "Math notes (page 3 of 13, archived; 50 entries)",
       blocks: [
         {
           type: "list",
@@ -69,6 +69,6 @@ window.TECT_MATH_NOTES_PAGE_003 = {
         }
       ]
     },
-    { type: "html", content: "<div class=\"pagination-nav\"><a href=\"math-notes-page-004.html\">&larr; Newer</a> &middot; Page 3 / 12 &middot; <a href=\"math-notes-page-002.html\">Older &rarr;</a></div>" }
+    { type: "html", content: "<div class=\"pagination-nav\"><a href=\"math-notes-page-004.html\">&larr; Newer</a> &middot; Page 3 / 13 &middot; <a href=\"math-notes-page-002.html\">Older &rarr;</a></div>" }
   ]
 };
