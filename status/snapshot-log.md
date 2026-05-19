@@ -7,6 +7,20 @@ This file is the append-only audit log of every snapshot orchestrator run. Lates
 The snapshot orchestrator brings all four TECT mirror trees into a coherent state via the binding 8-step pipeline. See `SNAPSHOT_POLICY.md` for the full definition, trigger conditions, and exit-code contract.
 
 ---
+## 2026-05-15T09:24:45 UTC -- 5fc3eb1 -- fix: status.html banner survives TECT.render() — move banner outside #page-content div
+- stamp : PASS
+- generate : PASS
+- verify : PASS
+- manifest : PASS
+- commit : PASS (5fc3eb1)
+- curate : PASS
+- push : PASS (https://github.com/TECT-OpenPhysics/TECT/commit/b91a2834dfaf20ee9228e012bc7ee97ba006c2e4)
+- audit : PASS (clean)
+- Elapsed: 288.7 s
+- GitHub: https://github.com/TECT-OpenPhysics/TECT/commit/b91a2834dfaf20ee9228e012bc7ee97ba006c2e4
+
+---
+
 ## 2026-05-15T09:06:46 UTC -- 8166092 -- 2026-05-15 Round-3 patches + Website features + STATUS-HISTORY 3-layer auto-update: Math409-AddD-AddC numerical canonicalization 10^59.9 + Math413-AddA π_0 wording + Pillar 11.A walls T2→T1 propagation + Papers as-of-date metadata (publish_papers.py + papers-render.js) + STATUS-HISTORY page (Docs + generate_status_history.py + Website/status-history.html + status.html cross-link) + STATUS-HISTORY auto-update infrastructure (log_tier_change.py CLI + detect_tier_change.py watchdog + tect tier-change subcommand + snapshot.ps1 step 0.7 + STATUS-HISTORY.md §6 3-layer workflow)
 - stamp : PASS
 - generate : PASS
@@ -643,6 +657,7 @@ The snapshot orchestrator brings all four TECT mirror trees into a coherent stat
 - GitHub: https://github.com/TECT-OpenPhysics/TECT/commit/b83758bd0a94c3b2b97ff9f09a0ef6c8cb736de2
 
 ---
+
 
 
 

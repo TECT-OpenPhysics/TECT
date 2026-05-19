@@ -55,6 +55,148 @@ archived with the replacement's tag, and the replacement gains an
 
 ## Active
 
+#### Q-2026-05-18-Math409-AddH-AddA-AddA-AddA-Exact-RG-Definitive — Exact-RG Wetterich definitive test of TECT-Brazovskii running-G (B2 closure / refutation) — **OPENED 2026-05-18 (Math409-AddH-AddA-AddA §8 INTERIM NEGATIVE follow-up)**
+
+**[OPENED 2026-05-18 — Math409-AddH-AddA-AddA INTERIM NEGATIVE follow-up]** **Context**: Math409-AddH-AddA-AddA explicit 1-loop calculation of TECT-Brazovskii running Newton constant gives $\omega_{\rm TECT} = 4.42 \pm$ factor 3, yielding $G_{\rm eff}(k_*)/G_{\rm obs} = 0.572$ at the texture scale $k_* = 0.41\,M_{\rm Pl}$ — vs required threshold $< 1/26 = 0.0385$. Shortfall factor 15 (structural, not marginal). Required $\omega = 148$ is factor 33 larger than 1-loop estimate, well beyond typical higher-order perturbative corrections ($O(2-3)$). The 1-loop heuristic is INTERIM NEGATIVE for Path B2. The exact-RG Wetterich calculation is the definitive test.
+
+**Statement**: Compute $G_{\rm eff}^{\rm TECT}(k)$ via the exact functional-RG flow (Wetterich 1993, Reuter 1996) for TECT-Brazovskii with full non-perturbative shell-mode treatment. Use the TECT effective action constructed from Math110-AddI base + Math200-AddC running framework + Math401 Reading H + Brazovskii Goldstone propagator. Find $G_{\rm eff}(k_* = 1/r_{\rm tex})/G_{\rm obs}$ exactly. Test against threshold $0.0385$.
+
+**Why critical / why definitive**: Resolves the Pillar 11.A texture-DM viability question definitively. If exact-RG gives $G_{\rm ratio} > 0.1$: Pillar 11.A REFUTED at QG level → T1 OPEN terminal (TECT dominant-DM mechanism defaults to 11.B). If exact-RG gives $G_{\rm ratio} < 0.0385$: Pillar 11.A T2 → T3 PROOF SKETCH (texture-DM compactness closed via TECT-natural asymptotic safety). Intermediate values are ambiguous.
+
+**Falsification criterion**: $G_{\rm eff}^{\rm TECT}(k_*)/G_{\rm obs} > 0.1$ at exact-RG level REFUTES texture-DM definitively (Pillar 11.A T1 OPEN terminal). Conversely, $< 0.0385$ enables T2 → T3 promotion. The intermediate range $[0.0385, 0.1]$ requires explicit Math409-AddH-AddA-AddA-AddA-AddA scheme-dependence analysis.
+
+**Owner**: Jusang Lee + AI collaborator. **Expected closure**: 2026-12-31. **Math note target**: Math409-AddH-AddA-AddA-AddA.
+
+**Cross-references**: Math409-AddH-AddA-AddA §6 (1-loop INTERIM NEGATIVE result), Math110-AddI (emergent G base), Math200-AddC (1-loop $\hbar_{\rm TECT}$ precedent), Math401 (Reading H), Wetterich 1993 Phys. Lett. B 301 90 (exact RG equation), Reuter 1996 PRD 57 971 (gravitational application), Bonanno-Reuter 2002 PRD 65 043508 (asymptotic-safety phenomenology), Codello-Percacci-Rahmede 2009 (higher-derivative truncation).
+
+---
+
+#### Q-2026-05-18-Math409-AddH-AddA-AddA-TECT-RunningG-Calculation — Does TECT-Brazovskii natively support asymptotic-safe Newton constant with $G_{\rm eff}(k_* \sim 0.4\,M_{\rm Pl})/G_{\rm obs} < 1/26$? — **PARTIAL CLOSE 2026-05-18 (1-loop INTERIM NEGATIVE; exact-RG follow-up queued)**
+
+**[PARTIAL CLOSE 2026-05-18 by Math409-AddH-AddA-AddA; corrected 2026-05-19 UTC per operator adversarial review]** Explicit 1-loop calculation of TECT-Brazovskii running Newton constant. Shell-mode loop integral $I^{\rm Brz}_{\rm shell-total} = (q_*/8)(\gamma/r_R)^{3/2}$ with Brazovskii enhancement factor $1/r_R^{3/2}_{\rm TECT} \approx 3.67$ at canonical $r_R = 0.42$. Result: $\omega_{\rm TECT}^{\rm 1-loop} = 4.42$ (central), uncertainty band $[1.5, 13.3]$ (factor 3 scheme-dependence). At $k_* = 0.41\,M_{\rm Pl}$: $G_{\rm eff}/G_{\rm obs} = 0.572 \gg 0.0385$ required (shortfall factor 15, structural — well outside scheme-dependence band; NOT a "marginal" fail). Required $\omega$ for closure = 148 (33x larger than 1-loop, beyond typical higher-order extrapolation). Effective Schwarzschild check (POSTMORTEM §8.7) with $G_{\rm eff}$: $r_{\rm tex}/r_{\rm Sch}^{\rm eff} = 0.067 < 1$ — texture STILL inside Schwarzschild even with full B2 1-loop credit. **Verdict (PARTIAL)**: B2 1-loop STRONG NEGATIVE INDICATOR. Pillar 11.A status canonicalised as **T2 INTERIM NEGATIVE, exact-RG pending** (PROVISIONAL qualifier NOT formally lifted — premature per operator audit). Definitive closure pending Math409-AddH-AddA-AddA-AddA exact-RG Wetterich (target 2026-12-31); most-likely outcome (70-80%) confirms 1-loop verdict → Pillar 11.A T1 OPEN terminal → TECT dominant DM defaults to **Pillar 11.B (now LIKELY PRIMARY PATH)**. 8/8 self-test asserts PASS per CLAUDE.md §6.3.8 + POSTMORTEM §8.7.
+
+**[Original Active text follows for archival]**:
+
+#### Q-2026-05-18-Math409-AddH-AddA-AddA-TECT-RunningG-Calculation — Does TECT-Brazovskii natively support asymptotic-safe Newton constant with $G_{\rm eff}(k_* \sim 0.4\,M_{\rm Pl})/G_{\rm obs} < 1/26$? — **OPENED 2026-05-18 (Math409-AddH-AddA §6 Path B2 identification)**
+
+**[OPENED 2026-05-18 — Math409-AddH-AddA §6 Path B2 follow-up]** **Context**: Math409-AddH-AddA five-sub-path compactness investigation eliminated Path A1 (spherical canonical, factor 26 over), Path A2 (parameter-space r_R reduction, structurally infeasible), Path A3 (cylindrical hoop-conjecture, sub-Planck L_perp), and stalled on Path B1 (topological geon, no rigorous theorem). The sole identified viable rescue route is Path B2: TECT-Brazovskii running Newton constant via asymptotic safety. At the texture scale $k_* = 1/r_{\rm tex} \approx 0.41\,M_{\rm Pl}$, the standard Reuter ansatz $G_{\rm eff}(k) = G_{\rm obs}/(1 + \omega(k/M_{\rm Pl})^2)$ with $\omega = 1$ gives only 14.5% suppression (insufficient by factor 22). TECT-Brazovskii has a distinguished scale $q_* \sim M_{\rm Pl}$ at which the Goldstone-mode dispersion $(k^2 - q_*^2)^2$ vanishes, potentially providing additional suppression for $G_{\rm eff}$ via the same loop-correction mechanism that gives Math200-AddC's 1-loop $\hbar_{\rm TECT}$ running.
+
+**Statement**: Compute $G_{\rm eff}^{\rm TECT}(k)$ from first principles in the Reading H framework, using (i) Math110-AddI base relation $\rho_{\rm cond} = c^4/(16\pi G a_{\rm condensate}^2)$, (ii) Math200-AddC 1-loop Goldstone-mode renormalisation of the condensate elastic modulus, (iii) Brazovskii-shell enhancement at $k \sim q_*$. Test whether $G_{\rm eff}^{\rm TECT}(k_* = 1/r_{\rm tex})/G_{\rm obs} < 1/26 = 0.0385$.
+
+**Why open / why critical**: This is the SOLE explicit promotion path for Pillar 11.A. If PASS, Pillar 11.A T2 PROVISIONAL → T3 PROOF SKETCH (texture-DM compactness rescue closed). If FAIL, Pillar 11.A T1 OPEN terminal (no remaining TECT-natural rescue route in sight). Net DM mechanism would then default to Pillar 11.B subdominant relic + $\nu_R$ bulk DM via Math408 LRSM cascade.
+
+**Falsification criterion**: if explicit TECT-Brazovskii RG-flow calculation at 1-loop shows $G_{\rm eff}^{\rm TECT}(k_*)/G_{\rm obs} > 0.1$ (factor 2.6x above the required threshold), Path B2 is REFUTED and Pillar 11.A is permanently demoted to T1 OPEN. Conversely, $G_{\rm eff}/G_{\rm obs} < 0.0385$ at $k_* \approx 0.41\,M_{\rm Pl}$ enables T2-PROV → T3 promotion.
+
+**Owner**: Jusang Lee + AI collaborator. **Expected closure**: 2026-08-15. **Math note target**: Math409-AddH-AddA-AddA.
+
+**Cross-references**: Math409-AddH-AddA §6 Path B2 (parent), Math110-AddI (emergent G base), Math200-AddC (1-loop $\hbar$ running, methodological precedent), Math401 Reading H, Reuter 1996 PRD 57 971, Bonanno-Reuter 2002 PRD 65 043508, Weinberg 1979 (asymptotic safety origin).
+
+---
+
+#### Q-2026-05-18-Math409-AddH-AddA-AddB-Wheeler-Geon-Brazovskii — Hopf-class Wheeler geon configuration in Brazovskii medium (secondary rescue) — **OPENED 2026-05-18 (Math409-AddH-AddA §5 Path B1 marker)**
+
+**[OPENED 2026-05-18 — Math409-AddH-AddA §5 Path B1 follow-up, secondary priority]** **Context**: Path B1 (topological obstruction to Schwarzschild interior via Wheeler-geon configuration) was identified in Math409-AddH-AddA but lacks any rigorous theorem in 70+ years of GR literature. Recorded as secondary rescue path with lower priority than Path B2 (Math409-AddH-AddA-AddA).
+
+**Statement**: Investigate whether the TECT-Brazovskii medium admits a stable Hopf-class geon configuration — a self-gravitating Hopf-instanton field in non-trivial spacetime topology (handle-equipped Cauchy surface) that evades the Penrose singularity theorem.
+
+**Why open / priority**: Secondary because (i) no concrete Hopf-class geon has been constructed in 70 years of GR research, (ii) the construction requires both stable Wheeler-geon physics AND Brazovskii compatibility, which is a compounded difficulty. Path B2 is structurally cleaner. However, if B2 fails by narrow margin, B1 becomes the last-chance rescue.
+
+**Falsification criterion**: if no concrete geon construction emerges from dedicated 6-month investigation, Path B1 is recorded as STALLED INDEFINITELY; no further effort allocated unless B2 also fails.
+
+**Owner**: Jusang Lee + AI collaborator. **Expected closure**: 2026-10-15 (long horizon reflecting speculative nature). **Math note target**: Math409-AddH-AddA-AddB.
+
+**Cross-references**: Math409-AddH-AddA §5 Path B1 (parent), Wheeler 1955 Phys. Rev. 97 511 (geon hypothesis original), Sorkin 1989 (topology change in QG), Misner-Wheeler 1957 Ann. Phys. 2 525 (geometrodynamics framework).
+
+---
+
+#### Q-2026-05-18-Math409-AddH-AddA-Compactness-Corrected-Stability — Compactness-corrected stability theorem for super-Planck topological textures in TECT-Brazovskii regime — **PARTIAL CLOSE 2026-05-18 by Math409-AddH-AddA: 5-sub-path investigation; A1/A2/A3 FAIL, B1 stalled, B2 IDENTIFIED**
+
+**[PARTIAL CLOSE 2026-05-18 by Math409-AddH-AddA]** Five-sub-path investigation completed: (A1) spherical Hopf canonical-TECT: FAIL by compactness factor 26 (no integer charge N satisfies; M~N² grows faster than r~N^(1/3)); (A2) parameter-space r_R reduction: FAIL (requires r_R<0.023 vs canonical 0.42; TECT axioms fix mu^2=+0.005, Brazovskii Hartree floor ~0.4 above target); (A3) cylindrical hoop-conjecture exploit: FAIL (longitudinal hoop escape requires L_∥>397 ell_Pl, resulting L_⊥=0.23 ell_Pl is sub-Planck); (B1) topological obstruction / Wheeler geon: NO THEOREM (speculative, 70+ years GR research without concrete construction); (B2) Brazovskii-medium running-G / asymptotic safety: IDENTIFIED as principal viable path (standard Reuter at k_*≈0.41 M_Pl gives 0.855 suppression; required <0.0385; TECT-enhancement factor 22 needed). **Tier outcome**: Pillar 11.A T2 PROVISIONAL RETAINED. Promotion path narrowed to single explicit calculation: Math409-AddH-AddA-AddA (running-G), secondary Math409-AddH-AddA-AddB (geon). 8/8 self-test asserts PASS per CLAUDE.md §6.3.8 + mandatory POSTMORTEM §8.7 Schwarzschild check.
+
+**[Original Active text follows for archival]**:
+
+#### Q-2026-05-18-Math409-AddH-AddA-Compactness-Corrected-Stability — Compactness-corrected stability theorem for super-Planck topological textures in TECT-Brazovskii regime — **OPENED 2026-05-18 [SCOPE-REVISED 2026-05-18 post-audit-rollback]**
+
+**[SCOPE-REVISED 2026-05-18 post-operator-audit-rollback]** **Context**: Operator adversarial review identified that Math409-AddH (and upstream Math409-AddD-AddD) mis-read the Schwarzschild compactness inequality $r_{\rm tex} < r_{\rm Sch}$ as "no horizon" rather than the correct GR reading "object inside Schwarzschild radius → horizon forms → BH collapse expected → Hawking evap in $t_{\rm evap} \sim (M_{\rm tex}/M_{\rm Pl})^3 \cdot t_{\rm Pl} \sim 10^{-39}$ s". The Math409-AddH T3 promotion was ROLLED BACK; Pillar 11.A retained at T2 PROVISIONAL. The decisive gate for T2-PROV → T3 promotion is therefore not a Wheeler-DeWitt QG theorem (the previous formulation) but a **compactness-corrected stability theorem** that resolves the classical-GR refutation at TECT canonical parameters.
+
+**Statement**: Prove ONE of the following:
+- **(i) Topological-soliton horizon avoidance**: a topological obstruction theorem showing that codim-4 Hopf-instanton solitons in the Brazovskii medium do NOT form event horizons even when $r_{\rm tex} < r_{\rm Sch}(M_{\rm tex})$, due to a TECT-internal mechanism (e.g., topological-charge conservation prevents Schwarzschild interior trap; Brazovskii-medium gradient repulsion at the would-be horizon; non-Riemannian effective metric in the Reading H ensemble that modifies the Schwarzschild bound), OR
+- **(ii) Brazovskii compactness rederivation**: explicit derivation of $(r_{\rm tex}, M_{\rm tex})$ from TECT-Brazovskii Lagrangian first principles yielding the compactness inequality $M_{\rm tex} < r_{\rm tex}/(2\,\ell_{\rm Pl}) \cdot M_{\rm Pl}$. At current $r_{\rm tex} = 2.43\,\ell_{\rm Pl}$ this requires $M_{\rm tex} < 1.215\,M_{\rm Pl}$ (factor 26 mass reduction from Math409-AddD-AddD value).
+
+**Why open / why critical**: Without resolution, Pillar 11.A is pinned at T2 PROVISIONAL and cannot promote to T3 PROOF SKETCH. The texture-DM rescue is the *last remaining* TECT-natural dark-matter pathway after wall-DM REFUTATION (Math409-AddD-AddC); failure here forces 11.A to T1 OPEN terminal with no further rescue route in sight.
+
+**Falsification criterion**: if neither (i) nor (ii) can be proven within 6 months of dedicated investigation, Pillar 11.A is permanently demoted to T1 OPEN; only Pillar 11.B (subdominant relic + $\nu_R$ bulk DM via Math408 LRSM cascade) survives as DM mechanism. Conversely, PASS of either (i) or (ii) enables 11.A T2-PROV → T3 PROOF SKETCH promotion.
+
+**Owner**: Jusang Lee + AI collaborator. **Expected closure**: 2026-08-15 (extended from original 2026-07-15 due to scope revision; the compactness problem is harder than the original QG-framework question). **Math note target**: Math409-AddH-AddA.
+
+**Cross-references**: Math409-AddH (audit-flagged target), Math409-AddD-AddD (upstream audit-flagged), Math409_AddH_compactness_audit.py (corrective script, 5/5 asserts PASS), R-2026-05-18-Math409-AddH-CompactnessSignError (NEGATIVE-RESULTS), Schwarzschild 1916 (compactness bound origin), 't Hooft 1985 (graviton-soliton interaction near Planck regime).
+
+---
+
+#### Q-2026-05-18-Math409-AddH-AddA-QG-Framework — Wheeler-DeWitt-class rigorous quantum-gravity stability theorem for super-Planck topological solitons in the Brazovskii regime? — **OPENED 2026-05-18 (Math409-AddH §3 OPEN GAP α) — [SUPERSEDED by Q-...-Compactness-Corrected-Stability above 2026-05-18]**
+
+**[SUPERSEDED 2026-05-18]** This question was opened on the (incorrect) presumption that Math409-AddH channel (a) "INAPPLICABLE" verdict was valid and the remaining gap was the QG-level extrapolation. Operator audit 2026-05-18 reversed this: channel (a) is in fact REFUTING under classical GR (texture inside Schwarzschild → BH collapse), not INAPPLICABLE. The question is therefore superseded by Q-2026-05-18-Math409-AddH-AddA-Compactness-Corrected-Stability above, which addresses the classical-GR-level compactness problem first. A Wheeler-DeWitt-level QG analysis only becomes meaningful AFTER the classical-GR compactness inequality is resolved (otherwise the QG correction would be a correction to a structurally invalid state).
+
+**[Original Active text follows for archival]**:
+
+**[OPENED 2026-05-18 — Math409-AddH §3 critical gap]** **Context**: Math409-AddH established texture-DM stability against three decay channels — (a) Hawking-class INAPPLICABLE under null hypothesis, (b) tunnelling SUPPRESSED at $S_{\rm bounce} = 1516$ giving $\tau \sim 10^{596} \tau_0$, (c) annihilation NEGLIGIBLE at $\tau \sim 10^{66} \tau_0$. Pillar 11.A T2 PROVISIONAL → T3 PROOF SKETCH. The remaining gap blocking T3 → T4 STRONG EVIDENCE promotion is the absence of a rigorous quantum-gravity treatment of super-Planck-mass topological solitons in the Brazovskii regime. Channel (a)'s null-hypothesis verdict relies on "no known decay channel applies"; a Wheeler-DeWitt or LQG-analog stability theorem would harden this to constructive stability.
+
+**Statement**: Establish a rigorous quantum-gravity framework (Wheeler-DeWitt equation on Brazovskii-extended superspace, or LQG holonomy/flux algebra on TECT condensate background) that proves super-Planck-mass topological textures with $r_{\rm tex} < r_{\rm Sch}$ are stable against quantum-gravity-induced decay channels. The theorem should explicitly handle (i) graviton fluctuations modifying the Derrick balance, (ii) Hawking-analog horizon-creation suppression for sub-Schwarzschild solitons, (iii) holonomy-flux preservation of $\pi_3$ winding under quantum-gravity evolution.
+
+**Why open**: Without resolution, Pillar 11.A is pinned at T3 PROOF SKETCH and cannot promote to T4 STRONG EVIDENCE. The standard-physics extrapolation (used in Math409-AddH) is honest but limited; super-Planck regime introduces $O(1)$ QG corrections at the soliton scale that standard arguments cannot bound. This is the principal frontier for Pillar 11 closure.
+
+**Falsification criterion**: if explicit Wheeler-DeWitt or LQG analysis shows quantum-gravity introduces a new decay channel with $\tau < 10 \tau_0$, Pillar 11.A REVERTS to T2 CONJECTURE (texture-DM remains plausible but not provably stable at QG level); if PASS, T3 → T4 STRONG EVIDENCE promotion enabled.
+
+**Owner**: Jusang Lee + AI collaborator. **Expected closure**: 2026-07-15. **Math note target**: Math409-AddH-AddA.
+
+**Cross-references**: Math409-AddH §3 (channel (a) null hypothesis), Math409-AddD-AddD (texture profile), DeWitt 1967 Phys. Rev. 160 1113 (Wheeler-DeWitt framework), Rovelli-Smolin 1990 Nucl. Phys. B 331 80 (LQG holonomy algebra), Bekenstein 1981 PRD 23 287 (information bound on super-Planck states).
+
+---
+
+#### Q-2026-05-18-Math409-AddH-AddB-Texture-CMB — Hopf-instanton CMB temperature anisotropy spectrum vs Planck 2018 constraints? — **OPENED 2026-05-18 (Math409-AddH §6 self-meta-objection 3)**
+
+**[OPENED 2026-05-18 — Math409-AddH §6 self-adversarial follow-up]** **Context**: Math409-AddD-AddD established that texture-DM evades the FMP 2003 wall-DM CMB constraint because textures are codim-4 point-like defects, not wall-domain surfaces. However, textures have their OWN CMB signature: Hopf-instanton temperature anisotropy from the integrated Sachs-Wolfe effect of texture-induced gravitational potential fluctuations (Turok-Spergel 1990 PRD 42 1773 for global textures; analogous treatment needed for TECT Hopf textures with $M_{\rm tex} = 31.6 M_{\rm Pl}$ and $n_{\rm tex} \sim 3.3 \times 10^{-21}$/m³).
+
+**Statement**: Compute the Hopf-instanton CMB temperature anisotropy spectrum $\Delta T/T |_{\ell}$ as a function of multipole $\ell$ for TECT texture-DM saturating $\Omega_{\rm DM} = 0.27$. Compare against Planck 2018 constraints on non-Gaussianity ($f_{\rm NL}$) and isocurvature ($\beta_{\rm iso}$) at $\ell \in [2, 2500]$. If texture anisotropy $\Delta T/T > 10^{-5}$ at any well-constrained multipole, texture-DM REFUTED on Planck grounds.
+
+**Why open**: Phenomenological viability check parallel to Math409-AddH-AddA's theoretical viability check. Both must PASS for Pillar 11.A to advance beyond T3.
+
+**Falsification criterion**: if integrated texture anisotropy at $\ell \in [10, 100]$ exceeds Planck 2018 upper bound ($\Delta T/T < 10^{-5.4}$ for non-Gaussian template), texture-DM REFUTED phenomenologically; Pillar 11.A reverts to T2 CONJECTURE.
+
+**Owner**: Jusang Lee + AI collaborator. **Expected closure**: 2026-08-15. **Math note target**: Math409-AddH-AddB.
+
+**Cross-references**: Math409-AddH §6 (self-meta-objection 3), Turok-Spergel 1990 PRD 42 1773 (global texture CMB anisotropy), Planck 2018 Akrami et al. A&A 641 A9 (non-Gaussianity constraints), Math413-AddA (Hopf-charge topology).
+
+---
+
+#### Q-2026-05-18-Math409-AddH-Hawking-Stability — Are TECT M_tex ~ M_Pl primordial textures stable against Hawking-class evaporation in the Brazovskii regime? — **CLOSED 2026-05-18 by Math409-AddH: PASS at T3 PROOF SKETCH level**
+
+**[CLOSED 2026-05-18 by Math409-AddH]** Three decay-channel analysis: (a) Hawking-class radiation INAPPLICABLE ($r_{\rm Sch}/r_{\rm tex} = 26 \gg 1$, no horizon; Schwinger-analog inapplicable because Goldstones are neutral scalars + Compton wavelength comparable to texture size); (b) quantum tunnelling SUPPRESSED ($S_{\rm bounce} = 2\pi^2 M_{\rm tex} r_{\rm tex} = 1516$; $\tau^{(b)} \sim 10^{614}$ s $\sim 10^{596} \tau_0$, robust against factor-10 prefactor uncertainty); (c) defect-antidefect annihilation NEGLIGIBLE ($\sigma_{\rm ann} \sim \pi r_{\rm tex}^2 \sim 4.8 \times 10^{-69}$ m²; $n_{\rm tex} \sim 3.3 \times 10^{-21}$/m³; $\tau^{(c)} \sim 3 \times 10^{83}$ s $\sim 7 \times 10^{65} \tau_0$). Composite tier (min): T3 PROOF SKETCH driven by channel (c). **Verdict**: Pillar 11.A T2 PROVISIONAL → **T3 PROOF SKETCH**; PROVISIONAL qualifier LIFTED. All 7 self-test asserts in `Codes/supplementary/Math409_AddH_texture_stability.py` PASS per CLAUDE.md §6.3.8. Remaining OPEN GAPs registered as Q-Math409-AddH-AddA-QG-Framework (T3→T4 theoretical gate) and Q-Math409-AddH-AddB-Texture-CMB (T3→T4 phenomenological gate).
+
+**[Original Active text follows for archival]**:
+
+#### Q-2026-05-18-Math409-AddH-Hawking-Stability — Are TECT M_tex ~ M_Pl primordial textures stable against Hawking-class evaporation in the Brazovskii regime? — **OPENED 2026-05-18 (Math409-AddD-AddD §6 critical dependency)**
+
+**[OPENED 2026-05-18 — Math409-AddD-AddD PROVISIONAL rescue caveat]** **Context**: Math409-AddD-AddD established texture-DM as a viable Pillar 11.A rescue alternative passing all four wall-DM failure constraints, with quantitative profile $r_{\rm tex} \approx 2.43\,\ell_{\rm Pl}$, $M_{\rm tex} \approx 31.6\,M_{\rm Pl}$. The defect mass is super-Planckian by factor $\sim$30, raising the question of whether textures can survive cosmologically against quantum-gravity-class instabilities analogous to Hawking evaporation. Standard primordial-black-hole analysis (Hawking 1974) gives $t_{\rm evap} \sim M^3/M_{\rm Pl}^4 \cdot t_{\rm Pl}$, but textures are NOT black holes ($r_{\rm tex} = 2.43\,\ell_{\rm Pl} < r_{\rm Sch} = 63.2\,\ell_{\rm Pl}$), so the direct Hawking formula does not apply. The relevant decay channels are topological (defect-antidefect annihilation) or quantum-tunnelling out of the Brazovskii potential well.
+
+**Statement**: Determine whether textures of mass $M_{\rm tex} \sim 31.6\,M_{\rm Pl}$ and radius $r_{\rm tex} \sim 2.43\,\ell_{\rm Pl}$ are stable against (a) Hawking-class evaporation, (b) quantum tunnelling to the Brazovskii disordered vacuum, (c) defect-antidefect annihilation rate at late times. Compute lifetime $\tau_{\rm tex}$ and compare against current cosmological age $\tau_0 \approx 4.4 \times 10^{17}$ s. If $\tau_{\rm tex} \gg \tau_0$, Pillar 11.A T2 PROVISIONAL promotes to T3 PROOF SKETCH. If $\tau_{\rm tex} \ll \tau_0$, texture-DM hypothesis REFUTED and Pillar 11.A REVERTS to T1 OPEN (terminal).
+
+**Why open / priority**: Critical dependency for the texture-DM rescue chain. Without Hawking-stability verification, the Math409-AddD-AddD T1 -> T2 promotion remains PROVISIONAL and cannot harden to T3. This is the LAST GATE for Pillar 11.A; if it falls, no further TECT-natural rescue mechanism is in sight and 11.A is permanently REFUTED.
+
+**Falsification criterion**: if texture lifetime $\tau_{\rm tex} < 10\tau_0$ under any of the three decay channels (a)/(b)/(c), texture-DM REFUTED on cosmological-stability grounds; Pillar 11.A reverts to T1 OPEN with no remaining rescue pathway.
+
+**Owner**: Jusang Lee + AI collaborator. **Expected closure**: 2026-07-15. **Math note target**: Math409-AddH.
+
+**Cross-references**: Math409-AddD-AddD §7 (PROVISIONAL caveat), Hawking 1974 Nature 248 30, Skyrme 1962 Nucl. Phys. 31 556 (defect-antidefect annihilation rate framework).
+
+---
+
+#### Q-2026-05-15-Texture-DM-Alternative — Are within-bubble textures (from $\pi_3 = \mathbb{Z}$) a viable Pillar 11.A alternative to walls? — **CLOSED PROVISIONAL 2026-05-18 by Math409-AddD-AddD: T1 -> T2 PROVISIONAL pending Math409-AddH**
+
+**[CLOSED PROVISIONAL 2026-05-18 by Math409-AddD-AddD]** Four-axis test PASSED: (i) topology PASS ($\pi_3(O(8)/O_h) = \mathbb{Z}$ per Math413-AddA), (ii) Derrick stability PASS via TECT's intrinsic Brazovskii $(k^2 - k_*^2)^2$ Skyrme term, (iii) FMP CMB constraint inapplicable (textures are codim-4, NOT wall-domain), (iv) cold-matter scaling $\rho \sim a^{-3}$ avoids the wall-class overproduction failure. Quantitative profile (Math409_AddD_AddD_texture_DM_constraints.py): $r_{\rm tex} = 2.43\,\ell_{\rm Pl}$, $M_{\rm tex} = 31.6\,M_{\rm Pl}$, required $N_e = 95.6$ e-folds (extreme but $10^{49.4}$ more permissive than wall). **Verdict**: Pillar 11.A T1 -> T2 PROVISIONAL. Sole remaining gate: Math409-AddH Hawking-stability verification of $M_{\rm tex} \sim M_{\rm Pl}$ primordial defects (registered as Q-2026-05-18-Math409-AddH-Hawking-Stability). Promotion to T3 PROOF SKETCH contingent on AddH PASS.
+
+**[Original Active text follows for archival]**:
+
 #### Q-2026-05-15-Texture-DM-Alternative — Are within-bubble textures (from $\pi_3 = \mathbb{Z}$) a viable Pillar 11.A alternative to walls? — **OPENED 2026-05-15 (Math409-AddD-AddC §9 follow-up)**
 
 **[OPENED 2026-05-15 — Math409-AddD-AddC verdict fallout]** **Context**: Math409-AddD-AddC §6 found that wall-DM bias mechanisms all require severe fine-tuning ($\epsilon_{\rm bias} \sim 10^{-93}$, or $g_{\rm wall-WR} \sim 10^{-13.5}$). Pillar 11.A wall-DM is REFUTED. However, Math413-AddA §2 confirmed $\pi_3(V) = \mathbb{Z}$ — textures (codim 4) are topologically protected. As codim-4 defects (Hopf instantons in 3D), textures are point-like and may not be subject to the wall-domain CMB constraint of Friedland-Murayama-Perelstein.

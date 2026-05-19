@@ -2,10 +2,98 @@
 /* Source: Docs/status/STATUS-HISTORY.md                                   */
 window.TECT_STATUS_HISTORY = {
   "schema": "tect-status-history-v1",
-  "generated": "2026-05-15T09:22:40Z",
+  "generated": "2026-05-19T03:51:35Z",
   "source": "Docs/status/STATUS-HISTORY.md",
-  "count": 7,
+  "count": 15,
   "entries": [
+    {
+      "date": "2026-05-19",
+      "description": "Pillar 11 INTERIM NEGATIVE annotation (NOT a tier change; corrects premature qualifier-lift per operator audit)",
+      "pillar": "11",
+      "old_tier": "T4|T2-split-PROVISIONAL",
+      "new_tier": "T4|T2-split-PROVISIONAL (UNCHANGED; PROVISIONAL retained)",
+      "reason": "Earlier same-session entry briefly recorded T4|T2-split-PROVISIONAL -> T4|T2-split via Math409-AddH-AddA-AddA \"PROVISIONAL lifted\" wording. Operator adversarial review 2026-05-19 UTC ruled this premature: exact-RG Wetterich verdict is pending (Math409-AddH-AddA-AddA-AddA), so formal qualifier-lift is over-promotion. Master tier RETAINED at T4|T2-split-PROVISIONAL; the INTERIM NEGATIVE indicator is annotated on 11.A description (see corresponding 11.A entry). Pillar 11.B T4 unchanged.",
+      "source_notes": "Math409-AddH-AddA-AddA, Math409-AddH-AddA",
+      "changelog": "[Theory/Interim-Negative] Math409-AddH-AddA-AddA - 2026-05-18",
+      "open_questions": ""
+    },
+    {
+      "date": "2026-05-19",
+      "description": "Pillar 11.A INTERIM NEGATIVE indicator (Math409-AddH-AddA-AddA 1-loop running-G STRONG NEGATIVE; PROVISIONAL retained per operator audit)",
+      "pillar": "11.A",
+      "old_tier": "T2-PROVISIONAL",
+      "new_tier": "T2-PROVISIONAL-INTERIM-NEGATIVE (NOT a formal tier change; PROVISIONAL retained)",
+      "reason": "Math409-AddH-AddA-AddA explicit 1-loop calculation of TECT-Brazovskii running Newton constant: omega_TECT = 4.42 (factor-3 uncertainty band [1.5, 13.3]), G_eff(k_*)/G_obs = 0.572 at k_*=0.41 M_Pl, vs required <0.0385 (1/26). Shortfall factor 15 (structural, NOT marginal — well outside scheme-dependence band). Required omega for closure = 148 (33x larger than 1-loop). Effective Schwarzschild check with G_eff: r_tex/r_Sch^eff = 0.067 < 1. 8/8 self-test asserts PASS. Earlier wording \"PROVISIONAL qualifier LIFTED\" REVERSED per operator adversarial review 2026-05-19 UTC: formal lift is premature pending Math409-AddH-AddA-AddA-AddA exact-RG Wetterich (target 2026-12-31). Honest status: T2 INTERIM NEGATIVE, exact-RG pending. The 1-loop indicator is a STRONG negative (NOT a \"marginal fail\" — wording corrected per operator). Most-likely outcome (70-80%): exact-RG confirms 1-loop -> 11.A T1 OPEN terminal -> TECT dominant DM defaults to 11.B (now LIKELY PRIMARY PATH).",
+      "source_notes": "Math409-AddH-AddA-AddA, Math409-AddH-AddA, Math409-AddH (AUDIT-FLAGGED), Math110-AddI, Math200-AddC, Math404",
+      "changelog": "[Theory/Interim-Negative + Operator-Correction] Math409-AddH-AddA-AddA - 1-loop TECT-Brazovskii running-G STRONG NEGATIVE INDICATOR; Pillar 11.A T2 INTERIM NEGATIVE, exact-RG pending (PROVISIONAL retained per operator audit) - 2026-05-18/19",
+      "open_questions": "Q-Math409-AddH-AddA-AddA-TECT-RunningG-Calculation PARTIAL CLOSE (1-loop INTERIM NEGATIVE); Q-Math409-AddH-AddA-AddA-AddA-Exact-RG-Definitive OPENED"
+    },
+    {
+      "date": "2026-05-18",
+      "description": "Pillar 11 parent tier rollback (derived from 11.A T3 -> T2 PROVISIONAL rollback)",
+      "pillar": "11",
+      "old_tier": "T4|T3-split",
+      "new_tier": "T4|T2-split-PROVISIONAL",
+      "reason": "Derived from 11.A T3 -> T2-PROVISIONAL rollback via operator audit of Math409-AddH compactness sign error. 11.B T4 unchanged. PROVISIONAL qualifier RE-ATTACHED because 11.A is back to provisional pending Math409-AddH-AddA compactness-corrected theorem.",
+      "source_notes": "Math409-AddH (AUDIT-FLAGGED), Math409-AddD-AddD (AUDIT-FLAGGED)",
+      "changelog": "[Audit/Rollback] Math409-AddH compactness sign-direction error - 2026-05-18",
+      "open_questions": ""
+    },
+    {
+      "date": "2026-05-18",
+      "description": "Pillar 11.A AUDIT ROLLBACK: Math409-AddH compactness sign-direction error (operator review)",
+      "pillar": "11.A",
+      "old_tier": "T3",
+      "new_tier": "T2-PROVISIONAL",
+      "reason": "Operator adversarial audit 2026-05-18 identified critical classical-GR sign-direction error in Math409-AddH (and upstream Math409-AddD-AddD). Both notes read r_tex < r_Sch as 'no horizon' but correct GR: r_tex < r_Sch means texture lies INSIDE its Schwarzschild radius -> horizon forms -> standard black-hole collapse -> Hawking evap in 1.7e-39 s. Channel (a) is therefore NOT INAPPLICABLE but REFUTING. Compactness inequality M_tex < r_tex/(2 ell_Pl) M_Pl requires M_tex < 1.215 M_Pl for r_tex=2.43 ell_Pl; actual M_tex = 31.6 M_Pl exceeds bound by factor 26. T3 PROOF SKETCH promotion ROLLED BACK; Pillar 11.A retained at T2 PROVISIONAL. Verified by Math409_AddH_compactness_audit.py (5/5 self-test asserts PASS). NEGATIVE-RESULTS: R-2026-05-18-Math409-AddH-CompactnessSignError.",
+      "source_notes": "Math409-AddH (AUDIT-FLAGGED), Math409-AddD-AddD (AUDIT-FLAGGED), Math409_AddH_compactness_audit.py",
+      "changelog": "[Audit/Rollback] Math409-AddH compactness sign-direction error: Pillar 11.A T3 -> T2 PROVISIONAL rollback - 2026-05-18",
+      "open_questions": "Q-2026-05-18-Math409-AddH-AddA-QG-Framework SCOPE-REVISED to compactness-corrected stability theorem"
+    },
+    {
+      "date": "2026-05-18",
+      "description": "Pillar 11 parent tier update (derived from 11.A T3 promotion)",
+      "pillar": "11",
+      "old_tier": "T4|T2-split-PROVISIONAL",
+      "new_tier": "T4|T3-split",
+      "reason": "Derived from 11.A T2-PROVISIONAL -> T3 PROOF SKETCH promotion via Math409-AddH multi-channel stability analysis. 11.B T4 STRONG EVIDENCE unchanged. Parent tier 'T4|T3-split' (no -PROVISIONAL qualifier) encodes (11.B = T4 STRONG EVIDENCE) | (11.A = T3 PROOF SKETCH); PROVISIONAL is dropped because both axes are now stable verdicts pending standard promotion paths.",
+      "source_notes": "Math409-AddH, Math409-AddD-AddD",
+      "changelog": "[Theory/Promotion] Math409-AddH - Texture-DM stability proof sketch: Pillar 11.A T2 PROVISIONAL -> T3 PROOF SKETCH - 2026-05-18",
+      "open_questions": ""
+    },
+    {
+      "date": "2026-05-18",
+      "description": "Pillar 11.A texture-DM stability confirmed; PROVISIONAL lifted (Math409-AddH)",
+      "pillar": "11.A",
+      "old_tier": "T2-PROVISIONAL",
+      "new_tier": "T3",
+      "reason": "Math409-AddH three-channel decay analysis confirms texture-DM stability under standard-physics extrapolation: (a) Hawking-class INAPPLICABLE (r_Sch/r_tex=26, no horizon, Schwinger-analog inapplicable since Goldstones are neutral scalars); (b) tunnelling SUPPRESSED (Coleman-de Luccia bounce S_bounce = 2pi^2 M_tex r_tex = 1516, tau ~ 10^596 tau_0); (c) annihilation NEGLIGIBLE (sigma~r^2, n~Omega_DM rho_crit/M, tau ~ 10^66 tau_0). Composite tier T3 PROOF SKETCH driven by channel (c). PROVISIONAL qualifier LIFTED. OPEN GAP alpha: Wheeler-DeWitt-class super-Planck topological soliton stability theorem (Math409-AddH-AddA queued, target 2026-07-15). All 7 self-test asserts in Math409_AddH_texture_stability.py PASS per CLAUDE.md §6.3.8.",
+      "source_notes": "Math409-AddH, Math409-AddD-AddD, Math413-AddA, Math404",
+      "changelog": "[Theory/Promotion] Math409-AddH - Texture-DM stability proof sketch: Pillar 11.A T2 PROVISIONAL -> T3 PROOF SKETCH (PROVISIONAL qualifier lifted; QG framework gap explicit) - 2026-05-18",
+      "open_questions": "Q-2026-05-18-Math409-AddH-Hawking-Stability CLOSED; Q-2026-05-18-Math409-AddH-AddA-QG-Framework OPENED; Q-2026-05-18-Math409-AddH-AddB-Texture-CMB OPENED"
+    },
+    {
+      "date": "2026-05-18",
+      "description": "Pillar 11 parent Pillar 11 tier update (derived from 11.A texture-DM rescue)",
+      "pillar": "11",
+      "old_tier": "T4|T1-split",
+      "new_tier": "T4|T2-split-PROVISIONAL",
+      "reason": "Derived consequence of 11.A T1 -> T2-PROVISIONAL promotion via Math409-AddD-AddD texture-DM rescue. 11.B T4 STRONG EVIDENCE remains UNCHANGED. Parent label 'T4|T2-split-PROVISIONAL' encodes (11.B=T4 STRONG EVIDENCE) | (11.A=T2 PROVISIONAL pending Math409-AddH). The '-PROVISIONAL' qualifier on the split label is binding: the dominant-DM claim is only viable conditional on Hawking-stability verification of M_tex ~ 31.6 M_Pl primordial textures.",
+      "source_notes": "Math409-AddD-AddD, Math409-AddD-AddC, Math413-AddA",
+      "changelog": "[Theory/Rescue] Math409-AddD-AddD — texture-DM as Pillar 11.A rescue: T1 -> T2 PROVISIONAL (pending Math409-AddH Hawking-stability) — 2026-05-18",
+      "open_questions": "Q-2026-05-15-Texture-DM-Alternative CLOSED PROVISIONAL; Q-2026-05-18-Math409-AddH-Hawking-Stability OPENED"
+    },
+    {
+      "date": "2026-05-18",
+      "description": "Pillar 11.A texture-DM PROVISIONAL rescue (Math409-AddD-AddD)",
+      "pillar": "11.A",
+      "old_tier": "T1",
+      "new_tier": "T2",
+      "reason": "Math409-AddD-AddD evaluation of within-bubble textures (codim 4, pi_3 = Z) as Pillar 11.A rescue: textures pass all four wall-DM failure constraints — (i) topology Z (Math413-AddA confirmed), (ii) Derrick stability via TECT's intrinsic Brazovskii (k^2-k_*^2)^2 Skyrme term, (iii) NOT subject to FMP 2003 wall-CMB constraint (textures are codim-4 not wall-domain), (iv) cold-matter (rho ~ a^-3) NOT scaling-regime (rho ~ sigma*H). Quantitative: r_tex = 2.43 ell_Pl < r_Sch = 63.2 ell_Pl (no black-hole collapse); M_tex = 31.6 M_Pl; required N_e = 95.6 e-folds (extreme but feasible vs wall's 10^49.4 larger infeasibility); texture 10^49.4 more permissive than wall. T2 PROVISIONAL pending Math409-AddH Hawking-stability verification of M_tex ~ M_Pl primordial defects.",
+      "source_notes": "Math409-AddD-AddD, Math409-AddD-AddC, Math413-AddA, Math404, Math402",
+      "changelog": "[Theory/Rescue] Math409-AddD-AddD — texture-DM as Pillar 11.A rescue: T1 -> T2 PROVISIONAL (pending Math409-AddH Hawking-stability)",
+      "open_questions": "Q-2026-05-15-Texture-DM-Alternative CLOSED PROVISIONAL; Q-2026-05-18-Math409-AddH-Hawking-Stability OPENED"
+    },
     {
       "date": "2026-05-15",
       "description": "Pillar 11 SPLIT into 11.A (dominant DM) + 11.B (subdominant relic)",

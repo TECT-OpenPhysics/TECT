@@ -1,12 +1,32 @@
-// AUTO-GENERATED v0.3 page 10/10 — 2026-05-15 09:22 UTC
+// AUTO-GENERATED v0.3 page 10/10 — 2026-05-19 03:51 UTC
 window.TECT_HISTORY = {
   title: "History (page 10 of 10)",
   subtitle: "Chronological CHANGELOG mirror — auto-generated.",
-  lastUpdated: "2026-05-15 (auto)",
+  lastUpdated: "2026-05-19 (auto)",
   pagination: {"page": 10, "total": 10, "newer": null, "older": "history-page-009.html", "archiveIndex": null},
   blocks: [
     { type: "html", content: "<div class=\"pagination-nav\">Page 10 / 10 &middot; <a href=\"history-page-009.html\">Older &rarr;</a></div>" },
     { type: "timeline", items: [
+        {
+          date: "2026-05-18",
+          title: "[Theory/Investigation] Math409-AddH-AddA — Compactness-corrected stability investigation: 5-sub-path analysis; B2 (TECT-Brazovskii running-G) IDENTIFIED as principal viable rescue route",
+          body: "**Theory tag**: `Math409-AddH-AddA-compactness-corrected-stability-investigation-2026-05-18` **Classification**: SCOPING / INVESTIGATION note (no tier promotion; promotion-path identification). **Pillar**: 11.A. **Tier outcome**: T2 PROVISIONAL **RETAINED** (no promotion). Promotion path narrowed."
+        },
+        {
+          date: "2026-05-18",
+          title: "[Audit/Rollback] Math409-AddH compactness sign-direction error — Pillar 11.A T3 → T2 PROVISIONAL rollback",
+          body: "**Theory tag**: `Audit-rollback-Math409-AddH-compactness-sign-error-2026-05-18` **Classification**: AUDIT-ROLLBACK (operator adversarial review caught classical-GR sign-direction error). **Pillar**: 11.A (and 11 master). **Tier transition**: 11.A T3 PROOF SKETCH → **T2 PROVISIONAL (rollback, retain)**. Master 11 `T4|T3-split` → `T4|T2-split-PROVISIONAL`."
+        },
+        {
+          date: "2026-05-18",
+          title: "[Theory/Promotion] Math409-AddH — Texture-DM stability proof sketch: Pillar 11.A T2 PROVISIONAL -> T3 PROOF SKETCH (PROVISIONAL qualifier lifted; QG framework gap explicit)",
+          body: "**Theory tag**: `Math409-AddH-texture-stability-pillar-11A-T3-promotion-2026-05-18` **Pillar**: 11 (split: 11.A dominant-DM, 11.B subdominant-relic) **Tier transition**: 11.A T2 PROVISIONAL → **T3 PROOF SKETCH** (PROVISIONAL qualifier LIFTED). **Parent**: Math409-AddD-AddD (PROVISIONAL rescue note)."
+        },
+        {
+          date: "2026-05-18",
+          title: "[Theory/Rescue] Math409-AddD-AddD — Texture-DM as Pillar 11.A rescue: T1 -> T2 PROVISIONAL (pending Math409-AddH Hawking-stability)",
+          body: "**Theory tag**: `Math409-AddD-AddD-texture-DM-pillar-11A-rescue-2026-05-18` **Pillar**: 11 (split: 11.A dominant-DM, 11.B subdominant-relic) **Tier transition**: 11.A T1 OPEN -> T2 PROVISIONAL (texture-DM rescue) — pending Math409-AddH final gate."
+        },
         {
           date: "2026-05-15",
           title: "[Infrastructure/Automation] STATUS-HISTORY auto-update infrastructure (3-layer: helper CLI + watchdog + tect subcommand)",
