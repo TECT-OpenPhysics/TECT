@@ -22,7 +22,7 @@ Self-test asserts (8):
   7. Sub-path B2 (TECT-enhanced): required additional factor ~7
   8. Verdict: T2 PROVISIONAL retained; Math409-AddH-AddA-AddA queued
 
-Author: Jusang Lee + AI collaborator (2026-05-18)
+Author: Jusang Lee + AI collaborator (2026-05-26)
 """
 from __future__ import annotations
 import json, math, sys
@@ -194,14 +194,14 @@ def path_B2():
 
 def main():
     print('=' * 71)
-    print(' Math409-AddH-AddA: Five-sub-path compactness analysis (2026-05-18)')
+    print(' Math409-AddH-AddA: Five-sub-path compactness analysis (2026-05-26)')
     print('=' * 71)
 
     # Mandatory §8.7 check at canonical TECT (the audit-rollback anchor)
     print('\n[POSTMORTEM §8.7 MANDATORY Schwarzschild check at canonical TECT]')
     v0, ratio0, msg0 = schwarzschild_check(R_TEX_LPL, M_TEX_MPL, 'canonical')
     print(f'  {msg0}')
-    assert v0 == 'FAIL', f'Expected FAIL at canonical TECT (R-2026-05-18 anchor); got {v0}'
+    assert v0 == 'FAIL', f'Expected FAIL at canonical TECT (R-2026-05-26 anchor); got {v0}'
 
     # Path A1
     print('\n[Path A1: Spherical Hopf canonical TECT]')
@@ -301,8 +301,8 @@ def main():
 
     # JSON artefact
     out = {
-        'theory_tag': 'Math409-AddH-AddA-compactness-corrected-stability-investigation-2026-05-18',
-        'date': '2026-05-18',
+        'theory_tag': 'Math409-AddH-AddA-compactness-corrected-stability-investigation-2026-05-26',
+        'date': '2026-05-26',
         'pillar': '11.A',
         'tier_outcome': 'T2 PROVISIONAL RETAINED (no promotion; Math409-AddH-AddA-AddA queued)',
         'sub_paths': {

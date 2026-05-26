@@ -20,7 +20,7 @@ Self-test asserts (7):
   6. min(tau) / tau_0 > 1e10 (composite stability)
   7. Verdict matches Math note: T2 PROVISIONAL -> T3 PROOF SKETCH
 
-Author: Jusang Lee + AI collaborator (2026-05-18)
+Author: Jusang Lee + AI collaborator (2026-05-26)
 """
 from __future__ import annotations
 import json
@@ -257,8 +257,8 @@ def main():
     json_path.parent.mkdir(parents=True, exist_ok=True)
     with open(json_path, 'w', encoding='utf-8') as f:
         json.dump({
-            'theory_tag': 'Math409-AddH-texture-stability-pillar-11A-T3-2026-05-18',
-            'date': '2026-05-18',
+            'theory_tag': 'Math409-AddH-texture-stability-pillar-11A-T3-2026-05-26',
+            'date': '2026-05-26',
             'pillar': '11.A',
             'tier_transition': 'T2 PROVISIONAL -> T3 PROOF SKETCH',
             'results': out,

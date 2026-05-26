@@ -23,7 +23,7 @@ Self-test asserts (8):
   7. Required omega for closure >> 1-loop estimate (factor 30+)
   8. Verdict: T2-PROVISIONAL -> T2 (PROVISIONAL lifted; INTERIM NEGATIVE)
 
-Author: Jusang Lee + AI collaborator (2026-05-18)
+Author: Jusang Lee + AI collaborator (2026-05-26)
 """
 from __future__ import annotations
 import json, math, sys
@@ -194,10 +194,10 @@ def main():
     # JSON ARTEFACT
     # =====================================================================
     out = {
-        'theory_tag': 'Math409-AddH-AddA-AddA-1loop-TECT-Brazovskii-running-G-2026-05-18',
-        'date': '2026-05-18',
+        'theory_tag': 'Math409-AddH-AddA-AddA-1loop-TECT-Brazovskii-running-G-2026-05-26',
+        'date': '2026-05-26',
         'pillar': '11.A',
-        'tier_transition': 'T2 PROVISIONAL retained, INTERIM NEGATIVE, exact-RG pending (PROVISIONAL formally lifted in earlier same-session draft; reversed per operator audit 2026-05-19 UTC)',
+        'tier_transition': 'T2 PROVISIONAL retained, INTERIM NEGATIVE, exact-RG pending (PROVISIONAL formally lifted in earlier same-session draft; reversed per operator audit 2026-05-26 UTC)',
         'calculation': {
             'q_star_mpl': Q_STAR_MPL,
             'r_R_tect': R_R_TECT,

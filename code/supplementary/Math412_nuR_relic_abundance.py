@@ -19,7 +19,7 @@ Self-test asserts (8):
   7. POSTMORTEM §8.8 cross-audit: no numerical inheritance from Math410
   8. Composite verdict: T4 retained, 2 follow-up gates
 
-Author: Jusang Lee + AI collaborator (2026-05-19)
+Author: Jusang Lee + AI collaborator (2026-05-26)
 """
 from __future__ import annotations
 import json, math, sys
@@ -202,8 +202,8 @@ def main():
     # JSON ARTEFACT
     # =====================================================================
     out = {
-        'theory_tag': 'Math412-RH-sector-U1-B-L-nuR-relic-abundance-2026-05-19',
-        'date': '2026-05-19',
+        'theory_tag': 'Math412-RH-sector-U1-B-L-nuR-relic-abundance-2026-05-26',
+        'date': '2026-05-26',
         'pillar': '11.B',
         'tier_outcome': 'T4 STRONG EVIDENCE retained with 2 follow-up gates (G3-A inflaton Yukawa + G3-B nuR stability)',
         'u1_bl_anomaly': {

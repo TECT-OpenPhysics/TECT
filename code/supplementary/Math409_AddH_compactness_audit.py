@@ -4,7 +4,7 @@
 Math409_AddH_compactness_audit.py
 ==================================
 
-Corrective verification script for the Math409-AddH rollback (2026-05-18).
+Corrective verification script for the Math409-AddH rollback (2026-05-26).
 
 Audit-source: operator adversarial review identifying that Math409-AddH
 mis-interpreted r_tex < r_Sch as "no horizon" — the correct GR reading
@@ -34,7 +34,7 @@ Self-test asserts (5):
   4. BH Hawking evaporation t_evap << tau_0 (channel (a) REFUTES)
   5. Verdict: T3 PROOF SKETCH (Math409-AddH) ROLLED BACK to T2 PROVISIONAL
 
-Author: Jusang Lee + AI collaborator (2026-05-18, audit rollback)
+Author: Jusang Lee + AI collaborator (2026-05-26, audit rollback)
 """
 from __future__ import annotations
 import json, math, sys
@@ -52,7 +52,7 @@ M_TEX_MPL  = 31.6
 
 def main():
     print('=' * 71)
-    print(' Math409-AddH COMPACTNESS AUDIT (operator-driven rollback, 2026-05-18)')
+    print(' Math409-AddH COMPACTNESS AUDIT (operator-driven rollback, 2026-05-26)')
     print('=' * 71)
 
     # Compactness inequality
@@ -125,8 +125,8 @@ def main():
 
     # JSON artefact
     out = {
-        'theory_tag': 'Math409-AddH-compactness-audit-rollback-2026-05-18',
-        'date': '2026-05-18',
+        'theory_tag': 'Math409-AddH-compactness-audit-rollback-2026-05-26',
+        'date': '2026-05-26',
         'audit_source': 'operator adversarial review (correct GR sign-direction)',
         'pillar': '11.A',
         'tier_transition': 'T3 PROOF SKETCH (Math409-AddH proposed) -> T2 PROVISIONAL (retained after rollback)',

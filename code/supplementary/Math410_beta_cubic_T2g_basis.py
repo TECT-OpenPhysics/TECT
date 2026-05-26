@@ -20,7 +20,7 @@ Self-test asserts (8):
   7. 1-loop A* > 0 in TECT canonical regime (cubic relevant in IR)
   8. m_{T_{2g}}^2 = 0.84 M_Pl^2 (Math406 numerical retained)
 
-Author: Jusang Lee + AI collaborator (2026-05-19)
+Author: Jusang Lee + AI collaborator (2026-05-26)
 """
 from __future__ import annotations
 import json, math, sys
@@ -134,7 +134,7 @@ def t2g_mass_squared():
 
 def main():
     print('=' * 71)
-    print(' Math410: T_{2g} basis + T_{2u} shell + beta_cubic 1-loop (2026-05-19)')
+    print(' Math410: T_{2g} basis + T_{2u} shell + beta_cubic 1-loop (2026-05-26)')
     print('=' * 71)
 
     # T_{2g} basis
@@ -219,8 +219,8 @@ def main():
     # JSON ARTEFACT
     # =====================================================================
     out = {
-        'theory_tag': 'Math410-Pillar6-T2g-eigenvector-T2u-shell-beta-cubic-gates-F1-F2-2026-05-19',
-        'date': '2026-05-19',
+        'theory_tag': 'Math410-Pillar6-T2g-eigenvector-T2u-shell-beta-cubic-gates-F1-F2-2026-05-26',
+        'date': '2026-05-26',
         'pillar': '6',
         'tier_outcome': 'T4 STRONG EVIDENCE retained; F1 INTERIM NEGATIVE (cubic relevant), F2 PARTIAL (Stueckelberg circular), NEW: T_{2u} absent from shells 1-3',
         't2g_basis': {

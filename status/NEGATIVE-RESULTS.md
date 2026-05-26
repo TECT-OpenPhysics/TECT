@@ -23,15 +23,15 @@ approach.
 
 ## R — Retracted results
 
-### R-2026-05-18-Math409-AddH-CompactnessSignError
+### R-2026-05-26-Math409-AddH-CompactnessSignError
 
-**Date**: 2026-05-18
+**Date**: 2026-05-26
 **Theory tag**: Math409-AddH (`Docs/math/TECT-Math409-AddH-Hawking-Stability-of-Texture-DM.tex.txt`)
 **Type**: R-retracted. Retracted main claim: "Pillar 11.A texture-DM stability promotion T2 PROVISIONAL → T3 PROOF SKETCH via three-channel decay analysis with channel (a) Hawking-class INAPPLICABLE."
 
 **Retracted statement (Math409-AddH §3 + composite verdict)**: "$r_{\rm tex}/r_{\rm Sch} = 0.0385 \ll 1$, so no event horizon exists. Hawking radiation is therefore not directly applicable. ... Composite tier: T3 PROOF SKETCH."
 
-**Refuting argument (operator adversarial review 2026-05-18)**: standard classical GR Schwarzschild interpretation is precisely opposite:
+**Refuting argument (operator adversarial review 2026-05-26)**: standard classical GR Schwarzschild interpretation is precisely opposite:
 
 $$
 r_{\rm tex} < r_{\rm Sch}(M_{\rm tex}) \;\Longleftrightarrow\; \text{texture lies INSIDE its Schwarzschild radius} \;\Longrightarrow\; \text{horizon forms, BH collapse expected, Hawking evap in } t_{\rm evap} \sim (M/M_{\rm Pl})^3 t_{\rm Pl}.
@@ -58,7 +58,7 @@ For $r_{\rm tex} = 2.43\,\ell_{\rm Pl}$: required $M_{\rm tex} < 1.215\,M_{\rm P
 - Math409-AddD-AddD "(no Schwarzschild collapse)" phrase: AUDIT-FLAGGED (same upstream error).
 - Pillar 11.A tier: T3 → T2 PROVISIONAL **rollback**.
 - Master Pillar 11 tier: `T4|T3-split` → `T4|T2-split-PROVISIONAL` rollback.
-- Q-2026-05-18-Math409-AddH-Hawking-Stability: re-OPENED as "compactness-corrected stability theorem" question (scope-revised, NOT closure).
+- Q-2026-05-26-Math409-AddH-Hawking-Stability: re-OPENED as "compactness-corrected stability theorem" question (scope-revised, NOT closure).
 - Math409-AddH-AddA scope REVISED from "Wheeler-DeWitt QG stability theorem" to "compactness-corrected stability theorem" — decisive test is either (i) topological-soliton mechanism preventing horizon despite $r_{\rm tex} < r_{\rm Sch}$, OR (ii) Brazovskii re-derivation yielding $r_{\rm tex} \geq r_{\rm Sch}$.
 
 **Root cause**: CLAUDE.md §6.3.4 quantitative-sanity-check (sign-direction physics) + §6.3.5(a) self-adversarial review both failed to catch the GR sign-inversion. The Math409-AddH self-adversarial review §6 considered Schwinger-analog instability (DISMISSED), super-Planck QG collapse (VALID-with-mitigation → AddA), bounce prefactor (DISMISSED) — but did NOT consider the elementary Schwarzschild compactness check. This is a CLAUDE.md §6.1 honest-scope failure: the channel (a) "INAPPLICABLE" assertion was a direct sign-error rather than a subtle modeling choice.
@@ -67,7 +67,7 @@ For $r_{\rm tex} = 2.43\,\ell_{\rm Pl}$: required $M_{\rm tex} < 1.215\,M_{\rm P
 
 **Lesson registered for CLAUDE.md POSTMORTEM_RECURRENCE_POLICY**: every GR/compactness-related claim must include an explicit Schwarzschild-radius sanity check in §6.3.4 quantitative checks. Add as new mandatory check class.
 
-**Cross-references**: Math409-AddH (audit-flagged target), Math409-AddD-AddD (upstream audit-flagged), Math409_AddH_compactness_audit.py (corrective script), STATUS-HISTORY.md 2026-05-18 §1 (rollback entries), OPEN-QUESTIONS Q-Math409-AddH-AddA (scope-revised).
+**Cross-references**: Math409-AddH (audit-flagged target), Math409-AddD-AddD (upstream audit-flagged), Math409_AddH_compactness_audit.py (corrective script), STATUS-HISTORY.md 2026-05-26 §1 (rollback entries), OPEN-QUESTIONS Q-Math409-AddH-AddA (scope-revised).
 
 ---
 
