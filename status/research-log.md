@@ -5,6 +5,106 @@
 
 ---
 
+## 2026-05-26 (EOD) — 6-NOTE PILLAR 6/11 CASCADE + C1/C2/C3 RECLASSIFICATION (binding)
+
+**Status**: ESTABLISHED (all 8 Math notes written + cascade-verification scripts PASS + atomic-commit cascade complete)
+
+**Theory tag**: `Pillar-Reclassification-C1-C2-C3-2026-05-26` (umbrella) + 8 underlying Math tags.
+
+**Cascade artefacts** (8 Math notes, all on disk + JSON-verified):
+
+| Math note | Pillar | Verdict | Script (asserts) |
+|---|---|---|---|
+| Math410 | 6 | F1+F2 + T_{2u} structural absence (T4 retained) | (prior cascade) |
+| Math410-AddA | 6 | Pathway B SO(4)-emergence STRUCTURALLY REFUTED at exact-RG | Math410_AddA_exact_RG.py (7/7) |
+| Math411 | 6 | Stueckelberg-direct B1+B2 LEADING-ORDER NEGATIVE, globally PARTIAL | Math411_Stueckelberg_direct.py (6/6) |
+| Math411-AddA | 6 | $\Lambda^2 T_{2g} = T_{1g} \neq T_{2g}$ closure failure + $A^{\rm asym}_{A_{2g}} = 0$ via $\pi_1$ trivial; Stueckelberg-direct REFUTED | Math411_AddA_antisymmetric_cubic.py (7/7) |
+| Math411-AddB | 6 | Pathway A direct SO(10) revival STRUCTURALLY INSUFFICIENT within standard BCC/Brazovskii channel framework; ALL standard Pillar 6 promotion routes EXHAUSTED | Math411_AddB_pathway_A.py (6/6) |
+| Math412 | 11.B | RH sector + U(1)_(B-L) + ν_R relic abundance (T4 retained, 2 follow-ups identified) | (prior cascade) |
+| Math412-AddA | 11.B | TECT-natural $T_{\rm reh} \sim 3 \times 10^{11}$ GeV factor 10 below window (G3-A INTERIM NEGATIVE) | Math412_AddA_T_reh.py (7/7) |
+| Math412-AddB | 11.B | $\nu_R$ cosmological stability INTERIM NEGATIVE; νMSM warm-DM keV requires $y \sim 10^{-20}$ extreme tuning (G3-B INTERIM NEGATIVE) | Math412_AddB_nuR_stability.py (8/8) |
+
+**Total self-test asserts**: 41 (all PASS).
+
+**Pillar 6 closure programme (FINAL, all 4 standard promotion routes evaluated, all REFUTED/INSUFFICIENT)**:
+1. Pathway B SO(4) (cubic-irrelevance): STRUCTURALLY REFUTED (Math410-AddA exact-RG; $A^* = +0.018 M_{\rm Pl}^2$ across 4 regulators; no NGFP with $A^* < 0$).
+2. Pathway B (T_{2u} doubling): STRUCTURALLY ABSENT (Math410 §4; T_{2u} first appears at shell 5, Brazovskii-suppressed).
+3. Stueckelberg-direct single-triplet: REFUTED (Math411-AddA: $\Lambda^2 T_{2g} \otimes T_{2g} \to T_{1g}$ closure violation + $A^{\rm asym}_{A_{2g}} = 0$ via $\pi_1(M_{\rm BCC}) = \{e\}$).
+4. Pathway A direct SO(10) revival: STRUCTURALLY INSUFFICIENT (Math411-AddB; shells 1-3 = 20 modes ≪ 45, shells 1-4 = 44 NOT a near-miss because Lie-algebra closure requires irrep closure, not scalar dimension; $T_{1g}$ structurally absent from shells 1-3).
+
+**Pillar 11.B status (DOUBLY BLOCKED)**:
+- G3-A (abundance): INTERIM NEGATIVE — TECT-natural $T_{\rm reh} \sim 3 \times 10^{11}$ GeV factor 10 below window $[3 \times 10^{12}, 2 \times 10^{13}]$ GeV (Math412-AddA).
+- G3-B (stability): INTERIM NEGATIVE — heavy seesaw ($M \sim 10^{14}$ GeV) gives $\tau \sim 10^{-57}$ s catastrophic; νMSM warm-DM keV requires $y \sim 10^{-20}$ extreme tuning (Math412-AddB).
+
+**§10 Pillar reclassification (operator binding 2026-05-26)**:
+
+\[
+\begin{array}{l|l|l}
+\textbf{Category} & \textbf{Pillars} & \textbf{Count + tier range} \\
+\hline
+\textbf{C1 Core emergence} & 1, 2, 3, 5, 7, 8, 9 & 7 \text{ pillars at T5/T6/T7} \\
+\text{(TECT-internal, rigorously derived from Reading-H axioms)} & & \\
+\hline
+\textbf{C2 Secondary emergence} & 4, 6 & 2 \text{ pillars at T4/T6} \\
+\text{(TECT-internal, residual gates; Pillar 6 standard routes EXHAUSTED)} & & \\
+\hline
+\textbf{C3 Phenomenological add-on} & 10, 11 & 2 \text{ pillars at T0+T2 / T4\|T2} \\
+\text{(TECT does NOT predict from internal axioms)} & & \\
+\end{array}
+\]
+
+**Canonical TECT positioning sentence (binding 2026-05-26)**:
+
+\[
+\boxed{
+\begin{aligned}
+&\text{TECT is an emergent vacuum-and-gravity framework} \\
+&\text{(7 C1 pillars at T6/T7) with an unresolved} \\
+&\text{gauge-sector completion (Pillar 6 standard routes EXHAUSTED)} \\
+&\text{and phenomenological dark-matter/quantum-origin pillars open.}
+\end{aligned}
+}
+\]
+
+**TOE-level claim status**: \boxed{\text{SUSPENDED until a non-standard rescue is independently derived}} with §6.3.5(a) self-adversarial review and §6.3.8 self-test verification.
+
+**Forbidden phrases going forward** (§6.3.5(a) violations): *"TECT is the TOE"*, *"TECT completes the GUT programme"*, *"all 11 pillars closed"*. The canonical positioning sentence above is the only acceptable framing.
+
+**Cascade canonical-surface writes** (atomic, single-session):
+- `Docs/math/TECT-Math411-AddB-Pathway-A-Direct-SO10-Revival.tex.txt` (372 lines, 29.9 KB) — primary canonical archive of reclassification framework (§10).
+- `Codes/config/pillar_status.json` — `epistemic_category` field added per pillar (C1×7, C2×2, C3×2); top-level `_reclassification` metadata block; Pillar 6 `conditional_on` extended with Math411-AddB entry; `promotion_target` updated; `standard_routes_status: EXHAUSTED 2026-05-26`.
+- `CHANGELOG.md` — `[Framework/Reclassification] Pillar epistemic-category framework C1/C2/C3` entry prepended above the 6 cascade entries.
+- `Docs/status/TOE-FACT-SHEET.md` Pillar 11 banner — fully rewritten with the canonical positioning sentence box, C1/C2/C3 reclassification table, 8-note cascade summary, exhausted-routes verdict.
+- 8 verification scripts in `Codes/supplementary/Math4*_*.py` — all 6/6, 7/7, 8/8 asserts PASS (41 total).
+
+**Verification (CLAUDE.md §11.5.1 three-layer defence + §6.3.7 pre-commit website verifier)**:
+- `python3 Codes/scripts/integrity_audit.py` → exit 0 (theory↔infra consistency check PASS).
+- `python3 Codes/tools/verify_website.py` → exit 0 (11/11 checks PASS; 0 errors / 0 warnings).
+- `python3 Codes/scripts/scan_recent_writes.py --minutes 60 --strict` → OK (7 files modified in last 60 min, no defects).
+- All Math-note + JSON-artefact writes via `atomic_write` / `atomic_replace_in_file` per §11.5.2 absolute prohibition.
+
+**Operator adversarial-review interactions (this session)**:
+1. Math412 INTERIM POSITIVE → NEUTRAL (post-§8 self-adversarial downgrade enforced).
+2. Math412-AddA dimensional error: initial $y \sim 10^{-4}$ corrected to $y \sim 1.5 \times 10^{-7}$ from $\lambda_3 \times m_{\rm inf}/M_{\rm Pl}^3$.
+3. Math411 B2 wording: NEGATIVE → "LEADING-ORDER NEGATIVE, globally PARTIAL pending Math411-AddA".
+4. Math411-AddA primary argument restructured: $\Lambda^2 T_{2g} = T_{1g}$ closure-failure as PRIMARY; CS operator A^CS_{A_{2g}}=0 via $\pi_1$ trivial as SECONDARY; derivative-operator bug (symmetric in $b,c$) corrected.
+5. Math411-AddB 3-patch operator review (final): (i) "within standard TECT BCC/Brazovskii channel framework" qualifier added to all "standard routes exhausted" statements, (ii) 44 vs 45 is NOT a near-miss (Lie-algebra closure requires irrep closure not scalar dimension) — strengthened §3, (iii) "TOE-level claim is SUSPENDED until a non-standard rescue is independently derived" boxed in §5.
+
+**Cross-refs**:
+- Math411-AddB §10 (canonical reclassification source).
+- Math409-AddD-AddC (Pillar 11 phenomenological DM follow-up, C3 status).
+- Math408 §5 (LRSM Pathway B identification — moved away from direct SO(10)).
+- Math157 (SO(10) anomaly cancellation — group-theoretic basis, survives reclassification).
+- Math404 (Planck-anchor $q_* = 1.30 M_{\rm Pl}$, $r_R = 0.42$).
+- Math401 (Reading H Brazovskii regime).
+
+**Next step (immediate, post-reclassification)**:
+- Run `tect publish` with the prepared commit message (see SESSION HANDOFF below).
+- Open queued non-standard rescue paths: Math411-AddB-AddA (fermion-condensate aux channels) and Math411-AddB-AddB (holographic / dim-reduction emergence) as long-tail Pillar 6 axiom-extension follow-ups.
+- Long-tail Pillar 11 work transitions to phenomenological matching (Math409-AddD-AddE TECT-specific exotic bias mechanisms remains queued).
+
+---
+
 ## 2026-05-02 — Math314: Wave-7 auxiliary + epoch paper-draft over-claim audit (AUDIT-FLAGGED, corrections applied)
 
 **Trigger**: Hostile-referee audit by maintainer immediately after the Wave 1-7 mass-DRAFT closure dispatch. Audit identified that 4 of the 35 newly drafted papers (Auxiliary-01, Auxiliary-02, Epoch-01, Epoch-02) contained wording at a tier strictly higher than the present `Docs/status/TOE-FACT-SHEET.md`, with Auxiliary-02 in direct conflict with the prior canonical Math310-AddA wording correction.
