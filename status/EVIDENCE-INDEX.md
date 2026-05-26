@@ -25,10 +25,10 @@ in this file is a policy violation (UPDATE_POLICY §10.2).
 <!-- PROP-AUTO:evidence-pillar-tiers START
      generator: Codes/tools/propagate_status.py
      do-not-edit-between-markers
-     last-regenerated: 2026-05-19T03:51:34Z
+     last-regenerated: 2026-05-26T02:53:46Z
 -->
 
-**Per-pillar canonical tier (auto-synced 2026-05-19)**:
+**Per-pillar canonical tier (auto-synced 2026-05-26)**:
 
 | # | Pillar | Tier |
 |---|---|---|

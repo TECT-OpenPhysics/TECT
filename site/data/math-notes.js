@@ -1,5 +1,5 @@
-// AUTO-GENERATED v0.3 math-notes page 13/13 — 2026-05-19 03:51 UTC
-// Source: Docs/math/TECT-Math*.tex.txt (5 of total)
+// AUTO-GENERATED v0.3 math-notes page 13/13 — 2026-05-26 02:53 UTC
+// Source: Docs/math/TECT-Math*.tex.txt (7 of total)
 
 window.TECT_MATH_NOTES = {
   title: "Math notes (page 13 of 13)",
@@ -9,7 +9,7 @@ window.TECT_MATH_NOTES = {
     { type: "html", content: "<div class=\"pagination-nav\">Page 13 / 13 &middot; <a href=\"math-notes-page-012.html\">Older &rarr;</a></div>" },
     {
       type: "card",
-      title: "Math notes (page 13 of 13, newest first; 5 on this page)",
+      title: "Math notes (page 13 of 13, newest first; 7 on this page)",
       blocks: [
         {
           type: "list",
@@ -18,7 +18,9 @@ window.TECT_MATH_NOTES = {
             "<code>TECT-Math407-AddA-Round2-Operator-Adversarial-Audit-of-Math408-Math409-AddA.tex.txt</code> (2026-05-15) &mdash; Math407-AddA (Round-2 audit, Math407 lineage) <span class=\"tag tag-design\">BINDING AUDIT NOTE. Operator's Round-2 hostile review</span> <a href=\"https://github.com/TECT-OpenPhysics/TECT/blob/main/note/TECT-Math407-AddA-Round2-Operator-Adversarial-Audit-of-Math408-Math409-AddA.tex.txt\" target=\"_blank\" class=\"view-link\">[view]</a> <a href=\"https://raw.githubusercontent.com/TECT-OpenPhysics/TECT/main/note/TECT-Math407-AddA-Round2-Operator-Adversarial-Audit-of-Math408-Math409-AddA.tex.txt\" download class=\"download-link\">[↓ download]</a>",
             "<code>TECT-Math408-Pillar6-Closure-Attempt-Oh-Decomp-Dynamical-Bridge-LRSM.tex.txt</code> (2026-05-15) &mdash; Math408 <span class=\"tag tag-warn\">OUTLINE / STRONG DRAFT for Pillar 6.</span> <a href=\"https://github.com/TECT-OpenPhysics/TECT/blob/main/note/TECT-Math408-Pillar6-Closure-Attempt-Oh-Decomp-Dynamical-Bridge-LRSM.tex.txt\" target=\"_blank\" class=\"view-link\">[view]</a> <a href=\"https://raw.githubusercontent.com/TECT-OpenPhysics/TECT/main/note/TECT-Math408-Pillar6-Closure-Attempt-Oh-Decomp-Dynamical-Bridge-LRSM.tex.txt\" download class=\"download-link\">[↓ download]</a>",
             "<code>TECT-Math409-AddA-Horizon-Tempered-Defect-Mass-G4-PARTIAL.tex.txt</code> (2026-05-15) &mdash; Math409-AddA <span class=\"tag tag-warn\">OUTLINE / STRONG DRAFT for Math409-AddA.</span> <a href=\"https://github.com/TECT-OpenPhysics/TECT/blob/main/note/TECT-Math409-AddA-Horizon-Tempered-Defect-Mass-G4-PARTIAL.tex.txt\" target=\"_blank\" class=\"view-link\">[view]</a> <a href=\"https://raw.githubusercontent.com/TECT-OpenPhysics/TECT/main/note/TECT-Math409-AddA-Horizon-Tempered-Defect-Mass-G4-PARTIAL.tex.txt\" download class=\"download-link\">[↓ download]</a>",
-            "<code>TECT-Math409-AddD-AddC-Wall-DM-Bias-Mechanism-REFUTED.tex.txt</code> (2026-05-15) &mdash; Math409-AddD-AddC <span class=\"tag tag-design\">Pillar 11.A WALL-DM HYPOTHESIS REFUTED at the bare</span> <a href=\"https://github.com/TECT-OpenPhysics/TECT/blob/main/note/TECT-Math409-AddD-AddC-Wall-DM-Bias-Mechanism-REFUTED.tex.txt\" target=\"_blank\" class=\"view-link\">[view]</a> <a href=\"https://raw.githubusercontent.com/TECT-OpenPhysics/TECT/main/note/TECT-Math409-AddD-AddC-Wall-DM-Bias-Mechanism-REFUTED.tex.txt\" download class=\"download-link\">[↓ download]</a>"
+            "<code>TECT-Math409-AddD-AddC-Wall-DM-Bias-Mechanism-REFUTED.tex.txt</code> (2026-05-15) &mdash; Math409-AddD-AddC <span class=\"tag tag-design\">Pillar 11.A WALL-DM HYPOTHESIS REFUTED at the bare</span> <a href=\"https://github.com/TECT-OpenPhysics/TECT/blob/main/note/TECT-Math409-AddD-AddC-Wall-DM-Bias-Mechanism-REFUTED.tex.txt\" target=\"_blank\" class=\"view-link\">[view]</a> <a href=\"https://raw.githubusercontent.com/TECT-OpenPhysics/TECT/main/note/TECT-Math409-AddD-AddC-Wall-DM-Bias-Mechanism-REFUTED.tex.txt\" download class=\"download-link\">[↓ download]</a>",
+            "<code>TECT-Math409-AddD-KZ-Applicability-Under-Reading-H-Brazovskii-First-Order.tex.txt</code> (2026-05-15) &mdash; Math409-AddD <span class=\"tag tag-design\">BINDING follow-up to Math409 + Math409-AddA + Math407-</span> <a href=\"https://github.com/TECT-OpenPhysics/TECT/blob/main/note/TECT-Math409-AddD-KZ-Applicability-Under-Reading-H-Brazovskii-First-Order.tex.txt\" target=\"_blank\" class=\"view-link\">[view]</a> <a href=\"https://raw.githubusercontent.com/TECT-OpenPhysics/TECT/main/note/TECT-Math409-AddD-KZ-Applicability-Under-Reading-H-Brazovskii-First-Order.tex.txt\" download class=\"download-link\">[↓ download]</a>",
+            "<code>TECT-Math409-Pillar11-KZ-Closure-Math404-Anchor-Three-Inflation-Pathways.tex.txt</code> (2026-05-15) &mdash; Math409 <span class=\"tag tag-warn\">OUTLINE / STRONG DRAFT for Pillar 11.</span> <a href=\"https://github.com/TECT-OpenPhysics/TECT/blob/main/note/TECT-Math409-Pillar11-KZ-Closure-Math404-Anchor-Three-Inflation-Pathways.tex.txt\" target=\"_blank\" class=\"view-link\">[view]</a> <a href=\"https://raw.githubusercontent.com/TECT-OpenPhysics/TECT/main/note/TECT-Math409-Pillar11-KZ-Closure-Math404-Anchor-Three-Inflation-Pathways.tex.txt\" download class=\"download-link\">[↓ download]</a>"
           ],
           class: "tight"
         }

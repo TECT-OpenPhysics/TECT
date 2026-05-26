@@ -1,12 +1,22 @@
-// AUTO-GENERATED v0.3 page 10/10 — 2026-05-19 03:51 UTC
+// AUTO-GENERATED v0.3 page 10/10 — 2026-05-26 02:53 UTC
 window.TECT_HISTORY = {
   title: "History (page 10 of 10)",
   subtitle: "Chronological CHANGELOG mirror — auto-generated.",
-  lastUpdated: "2026-05-19 (auto)",
+  lastUpdated: "2026-05-26 (auto)",
   pagination: {"page": 10, "total": 10, "newer": null, "older": "history-page-009.html", "archiveIndex": null},
   blocks: [
     { type: "html", content: "<div class=\"pagination-nav\">Page 10 / 10 &middot; <a href=\"history-page-009.html\">Older &rarr;</a></div>" },
     { type: "timeline", items: [
+        {
+          date: "2026-05-19",
+          title: "[Theory/Neutral] Math412 — RH sector + U(1)_{B-L} origin + ν_R relic abundance via gravitational reheating: Pillar 11.B T4 retained with 2 follow-up gates",
+          body: "**Theory tag**: `Math412-RH-sector-U1-B-L-nuR-relic-abundance-2026-05-19` **Pillar**: 11.B. **Tier**: T4 STRONG EVIDENCE **retained** (no T5 promotion)."
+        },
+        {
+          date: "2026-05-19",
+          title: "[Theory/Interim-Negative] Math410 — Pillar 6 gates F1+F2 explicit calc + T_{2u} structural absence: T4 retained, 3 follow-up paths identified",
+          body: "**Theory tag**: `Math410-Pillar6-T2g-eigenvector-T2u-shell-beta-cubic-gates-F1-F2-2026-05-19` **Pillar**: 6. **Tier**: T4 STRONG EVIDENCE **retained** (no T5 promotion)."
+        },
         {
           date: "2026-05-18",
           title: "[Theory/Investigation] Math409-AddH-AddA — Compactness-corrected stability investigation: 5-sub-path analysis; B2 (TECT-Brazovskii running-G) IDENTIFIED as principal viable rescue route",
