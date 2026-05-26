@@ -1,4 +1,4 @@
-// AUTO-GENERATED v0.3 page 10/10 — 2026-05-26 03:18 UTC
+// AUTO-GENERATED v0.3 page 10/10 — 2026-05-26 12:03 UTC
 window.TECT_HISTORY = {
   title: "History (page 10 of 10)",
   subtitle: "Chronological CHANGELOG mirror — auto-generated.",
@@ -7,6 +7,41 @@ window.TECT_HISTORY = {
   blocks: [
     { type: "html", content: "<div class=\"pagination-nav\">Page 10 / 10 &middot; <a href=\"history-page-009.html\">Older &rarr;</a></div>" },
     { type: "timeline", items: [
+        {
+          date: "2026-05-26",
+          title: "[Framework/Reclassification] Pillar epistemic-category framework C1/C2/C3 — TECT honestly reframed as emergent vacuum/gravity framework with unresolved gauge-sector completion",
+          body: "**Theory tag**: `Pillar-Reclassification-C1-C2-C3-2026-05-26` **Source**: `Docs/math/TECT-Math411-AddB-Pathway-A-Direct-SO10-Revival.tex.txt` §10 (operator binding 2026-05-26). **Trigger**: 6-note 2026-05-26 cascade (Math410, Math410-AddA, Math411, Math411-AddA, Math411-AddB on Pillar 6; Math412, Math412-AddA, Math412-AddB on Pillar 11) closed all standard promotion routes on Pillar 6 and Pillar 11.B in the negative direction. Operator directive: reclassify the 11-pillar scoreboard by epistemic character."
+        },
+        {
+          date: "2026-05-26",
+          title: "[Theory/Negative-Confirmed] Math411-AddB — Pathway A direct SO(10) GUT revival STRUCTURALLY INSUFFICIENT; ALL Pillar 6 standard promotion routes EXHAUSTED; closure programme honestly complete in negat",
+          body: "**Theory tag**: `Math411-AddB-Pathway-A-direct-SO10-GUT-revival-2026-05-26` **Pillar**: 6. **Tier**: T4 STRONG EVIDENCE **retained**; ALL standard promotion routes EXHAUSTED."
+        },
+        {
+          date: "2026-05-26",
+          title: "[Theory/Negative-Confirmed] Math411-AddA — Antisymmetric cubic coefficient A^{asym}_{A_{2g}} = 0 via π_1(M_BCC) trivial (Math160+Math164); Stueckelberg-direct gauge-emergence route REFUTED; Pillar 6 p",
+          body: "**Theory tag**: `Math411-AddA-antisymmetric-A2g-cubic-coefficient-2026-05-26` **Pillar**: 6. **Tier**: T4 STRONG EVIDENCE **retained**; B2 verdict ESCALATED from PARTIAL (Math411) to FINAL NEGATIVE."
+        },
+        {
+          date: "2026-05-26",
+          title: "[Theory/Partial-Negative] Math411 — Stueckelberg-direct single-triplet gauge emergence: B1+B2 PARTIAL (antisymmetric channel unknown), F3 PASS, F4 vacuous; Pillar 6 T5 pending Math411-AddA",
+          body: "**Theory tag**: `Math411-Stueckelberg-direct-single-triplet-B1-B2-F3-F4-2026-05-26` **Pillar**: 6. **Tier**: T4 STRONG EVIDENCE **retained**."
+        },
+        {
+          date: "2026-05-26",
+          title: "[Theory/Interim-Negative] Math412-AddA — TECT-natural T_reh ~ 3e11 GeV below abundance closure window 3e12-2e13 GeV by factor 10; combined with Math412-AddB G3-B negative, Pillar 11.B ν_R-bulk-DM doub",
+          body: "**Theory tag**: `Math412-AddA-TECT-T-reh-closure-window-G3A-2026-05-26` **Pillar**: 11.B. **Tier**: T4 STRONG EVIDENCE **retained**; G3-A INTERIM NEGATIVE."
+        },
+        {
+          date: "2026-05-26",
+          title: "[Theory/Negative-Confirmed] Math410-AddA — Pillar 6 Pathway B SO(4)-emergence via cubic-irrelevance route STRUCTURALLY REFUTED at exact-RG level",
+          body: "**Theory tag**: `Math410-AddA-exact-RG-beta-cubic-lambda-negative-2026-05-26` **Pillar**: 6. **Tier**: T4 STRONG EVIDENCE **retained**; F1 ESCALATED from INTERIM NEGATIVE (Math410) to CONFIRMED NEGATIVE at exact-RG."
+        },
+        {
+          date: "2026-05-26",
+          title: "[Theory/Interim-Negative] Math412-AddB — ν_R cosmological stability at TECT-natural M ~ 10^14 GeV REFUTED; warm-DM keV regime requires extreme Yukawa tuning; Pillar 11.B bulk-DM via ν_R blocked at sta",
+          body: "**Theory tag**: `Math412-AddB-nuR-cosmological-stability-G3B-2026-05-26` **Pillar**: 11.B. **Tier**: T4 STRONG EVIDENCE **retained**; G3-B INTERIM NEGATIVE."
+        },
         {
           date: "2026-05-26",
           title: "[Theory/Neutral] Math412 — RH sector + U(1)_{B-L} origin + ν_R relic abundance via gravitational reheating: Pillar 11.B T4 retained with 2 follow-up gates",

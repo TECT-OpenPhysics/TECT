@@ -355,7 +355,58 @@ A **unified classical field theory** deriving particle physics and gravity from 
 
 ### Pillar 11 — Cosmological constant / dark energy / dark-sector phenomenology
 
-**[2026-05-26 UTC CANONICAL STATUS BANNER — supersedes all narrative below this banner; finalised post-Math409-AddH-AddA-AddA + operator adversarial review correction]** Pillar 11.A status canonicalised as **T2 PROVISIONAL retained, INTERIM NEGATIVE indicator** (operator audit 2026-05-26 UTC reversed premature "PROVISIONAL lifted" wording). Latest update reflects five-step cascade on Pillar 11.A across 2026-05-26/19: (1) Math409-AddH T3 promotion ROLLED BACK by operator audit (R-2026-05-26 compactness sign error), (2) Math409-AddH-AddA five-sub-path investigation identified Path B2 (TECT-Brazovskii running-G / asymptotic safety) as sole viable rescue, (3) Math409-AddH-AddA-AddA explicit 1-loop calculation STRONG NEGATIVE INDICATOR by factor 15 ($\omega_{\rm TECT} = 4.42$ vs required 148; $G_{\rm eff}/G_{\rm obs} = 0.572$ vs threshold 0.0385; shortfall structural, NOT marginal), (4) initial cascade prematurely lifted PROVISIONAL qualifier — operator adversarial review 2026-05-26 reversed this (exact-RG verdict pending), (5) Pillar 11.A status canonicalised as T2 INTERIM NEGATIVE, exact-RG pending; master 11 tier retained at `T4|T2-split-PROVISIONAL`. Most-likely outcome (70-80%) is Math409-AddH-AddA-AddA-AddA exact-RG Wetterich confirms 1-loop verdict → Pillar 11.A T1 OPEN terminal. TECT dominant DM mechanism then defaults to **Pillar 11.B (subdominant relic + $\nu_R$ bulk via Math408 LRSM cascade, T4 STRONG EVIDENCE) — now LIKELY PRIMARY DM PATH**. **[Below text superseded; original narrative below banner]** Pillar 11 has been SPLIT into 11.A (dominant-DM claim) and 11.B (subdominant relic + bulk DM via Math408 LRSM cascade) per Math407-AddA Round-2 audit (2026-05-15). Current canonical state (per `Codes/config/pillar_status.json`):
+**[2026-05-26 UTC CANONICAL STATUS BANNER — EOD-FINAL post 6-note cascade (Math410, Math410-AddA, Math411, Math411-AddA, Math411-AddB, Math412, Math412-AddA, Math412-AddB) + §10 Pillar reclassification framework; supersedes all narrative below]**
+
+**NET TECT positioning (CANONICAL, binding 2026-05-26 EOD)**:
+\[
+\boxed{
+\begin{aligned}
+&\text{TECT is an emergent vacuum-and-gravity framework} \\
+&\text{(7 C1 pillars at T6/T7) with an unresolved} \\
+&\text{gauge-sector completion (Pillar 6 standard routes EXHAUSTED)} \\
+&\text{and phenomenological dark-matter/quantum-origin pillars open.}
+\end{aligned}
+}
+\]
+
+**TOE-level claim status**: \boxed{\text{SUSPENDED until a non-standard rescue is independently derived}} (per Math411-AddB §10, operator binding 2026-05-26). The phrases "TECT is the TOE" / "TECT completes the GUT programme" / "all 11 pillars closed" are §6.3.5(a) violations and NOT supported by the standard-framework evidence base.
+
+**Pillar epistemic-category reclassification (C1/C2/C3 scheme, binding 2026-05-26)**:
+
+| Category | Pillars | Count | Tier range |
+|---|---|---|---|
+| **C1 Core emergence** (TECT-internal, rigorously derived from Reading-H axioms) | 1, 2, 3, 5, 7, 8, 9 | 7 | T5–T7 |
+| **C2 Secondary emergence** (TECT-internal, residual gates) | 4, 6 (standard routes EXHAUSTED) | 2 | T4–T6 |
+| **C3 Phenomenological add-on** (TECT does NOT predict from internal axioms) | 10, 11 | 2 | T0+T2 / T4\|T2 |
+
+**Today's 6-note cascade summary**:
+- **Math410-AddA**: Pillar 6 Pathway B SO(4)-emergence via cubic-irrelevance route STRUCTURALLY REFUTED at exact-RG level (A* = +0.018 M_Pl² across 4 regulators; no NGFP with A*<0).
+- **Math410** §4: Pillar 6 Pathway B T_2u doubling STRUCTURALLY ABSENT in BCC shells 1-3.
+- **Math411 + Math411-AddA**: Stueckelberg-direct single-triplet REFUTED (Λ² T_2g = T_1g ≠ T_2g closure failure; A^asym_A2g = 0 via π_1 trivial).
+- **Math411-AddB**: Pillar 6 Pathway A direct SO(10) GUT revival STRUCTURALLY INSUFFICIENT within standard BCC/Brazovskii channel framework — dimensional gap (shells 1-3 = 20 modes vs SO(10) adj 45) + Lie-algebra closure failure (T_1g absent). 44 vs 45 NOT a near-miss because Lie-algebra closure requires irrep closure, not scalar dimension.
+- **Math412-AddA**: Pillar 11.B abundance G3-A INTERIM NEGATIVE — TECT-natural T_reh ~ 3×10^11 GeV factor 10 below window [3e12, 2e13] GeV.
+- **Math412-AddB**: Pillar 11.B ν_R cosmological stability G3-B INTERIM NEGATIVE — heavy seesaw (M ~ 10^14 GeV) gives τ ~ 10^-57 s catastrophic; νMSM warm-DM keV requires y ~ 10^-20 extreme tuning.
+
+**Net Pillar 6 landscape (4 standard promotion routes FINAL, all REFUTED/INSUFFICIENT)**:
+- Pathway B SO(4) (cubic-irrelevance): STRUCTURALLY REFUTED (Math410-AddA exact-RG).
+- Pathway B SO(4) (T_2u doubling): STRUCTURALLY ABSENT (Math410 §4 shells 1-3).
+- Stueckelberg-direct single-triplet: REFUTED (Math411-AddA: Λ² T_2g = T_1g ≠ T_2g + A^asym_A2g = 0 via π_1 trivial).
+- Pathway A (Math157 direct SO(10) GUT revival): STRUCTURALLY INSUFFICIENT (Math411-AddB).
+- Non-standard rescues (Math411-AddB-AddA fermion-condensate aux, Math411-AddB-AddB holographic, Math411-AddC higher-derivative, Math164 §3 higher-form CS): all require non-canonical axiom extension.
+
+\boxed{\text{Pillar 6 standard promotion programme (within standard TECT BCC/Brazovskii channel framework) is now EXHAUSTED.}} Pillar 6 pinned at T4 indefinitely within standard framework; T5 promotion requires axiom extension only. T5 within 12 months confidence: ~5-10%.
+
+**Net DM landscape (Pillar 11, 4 routes all REFUTED/BLOCKED)**:
+- Pillar 11.A walls: T1 REFUTED (Math409-AddD-AddC).
+- Pillar 11.A textures: T2-PROV INTERIM NEG (compactness, Math409-AddH AUDIT-FLAGGED).
+- Pillar 11.B subdominant defect relic: f ~ 10^-30 (NOT dominant).
+- Pillar 11.B ν_R bulk: DOUBLY BLOCKED (G3-A + G3-B both fail at TECT-natural parameters; Math412-AddA + Math412-AddB).
+
+**TECT does not currently predict a natural dominant DM mechanism**. Pillar 11 is reclassified as C3 (phenomenological add-on); future work focuses on quantitative phenomenological matching (texture/topological DM candidates per Math409-AddD-AddC programme), NOT on internal-axiom derivation.
+
+**Honest assessment (post-reclassification)**: TECT's 7 C1 pillars (1, 2, 3, 5, 7, 8, 9) constitute a self-contained derivation of the emergent vacuum-and-gravity sector at T5/T6/T7 levels — a substantial theoretical achievement. The C2/C3 status of Pillars 4, 6, 10, 11 is a structural recognition, not an abandonment. The 6-note 2026-05-26 cascade + reclassification serves as canonical demonstration of audit-discipline maturity over over-claim. Roadmap: Pillar 6 work must operate OUTSIDE standard BCC/Brazovskii channel framework (Math411-AddB-AddA/AddB); Pillar 11 work proceeds as phenomenological matching; Pillar 10 continues on phase-transition ℏ-origin Math220+ programme (C3 status unchanged).
+
+**[Below text from earlier 2026-05-26 banner; superseded by EOD update above]** Pillar 11.A status canonical Pillar 11.A status canonicalised as **T2 PROVISIONAL retained, INTERIM NEGATIVE indicator** (operator audit 2026-05-26 UTC reversed premature "PROVISIONAL lifted" wording). Latest update reflects five-step cascade on Pillar 11.A across 2026-05-26/19: (1) Math409-AddH T3 promotion ROLLED BACK by operator audit (R-2026-05-26 compactness sign error), (2) Math409-AddH-AddA five-sub-path investigation identified Path B2 (TECT-Brazovskii running-G / asymptotic safety) as sole viable rescue, (3) Math409-AddH-AddA-AddA explicit 1-loop calculation STRONG NEGATIVE INDICATOR by factor 15 ($\omega_{\rm TECT} = 4.42$ vs required 148; $G_{\rm eff}/G_{\rm obs} = 0.572$ vs threshold 0.0385; shortfall structural, NOT marginal), (4) initial cascade prematurely lifted PROVISIONAL qualifier — operator adversarial review 2026-05-26 reversed this (exact-RG verdict pending), (5) Pillar 11.A status canonicalised as T2 INTERIM NEGATIVE, exact-RG pending; master 11 tier retained at `T4|T2-split-PROVISIONAL`. Most-likely outcome (70-80%) is Math409-AddH-AddA-AddA-AddA exact-RG Wetterich confirms 1-loop verdict → Pillar 11.A T1 OPEN terminal. TECT dominant DM mechanism then defaults to **Pillar 11.B (subdominant relic + $\nu_R$ bulk via Math408 LRSM cascade, T4 STRONG EVIDENCE) — now LIKELY PRIMARY DM PATH**. **[Below text superseded; original narrative below banner]** Pillar 11 has been SPLIT into 11.A (dominant-DM claim) and 11.B (subdominant relic + bulk DM via Math408 LRSM cascade) per Math407-AddA Round-2 audit (2026-05-15). Current canonical state (per `Codes/config/pillar_status.json`):
 
 - **Pillar 11 (master)**: `T4|T2-split-PROVISIONAL` (rolled back from `T4|T3-split` per operator audit 2026-05-26 of Math409-AddH compactness sign error).
 - **11.A (TECT textures as dominant DM)**: **T2 PROVISIONAL** (retained) — Math409-AddD-AddD established texture-DM as PROVISIONAL rescue path after Math409-AddD-AddC refuted wall-DM. Math409-AddH attempted to promote to T3 PROOF SKETCH via three-channel decay analysis, but operator adversarial review 2026-05-26 identified a classical-GR sign-direction error in the channel (a) Hawking-class verdict: $r_{\rm tex} = 2.43\,\ell_{\rm Pl} < r_{\rm Sch}(M_{\rm tex}) = 63.2\,\ell_{\rm Pl}$ means the texture is INSIDE its Schwarzschild radius, so horizon forms and standard BH collapse + Hawking evaporation ($t_{\rm evap} \sim 10^{-39}$ s) is the expected fate. Channel (a) is in fact the REFUTING channel under standard GR. The T3 promotion is ROLLED BACK. Compactness inequality (correct form): $M_{\rm tex} < r_{\rm tex}/(2\,\ell_{\rm Pl}) \cdot M_{\rm Pl}$, requires $M_{\rm tex} < 1.215\,M_{\rm Pl}$ for current $r_{\rm tex}$; actual $M_{\rm tex} = 31.6\,M_{\rm Pl}$ over-compact by factor 26. Channels (b) tunnelling and (c) annihilation analyses remain valid as sub-arguments but they were never the binding channel.
