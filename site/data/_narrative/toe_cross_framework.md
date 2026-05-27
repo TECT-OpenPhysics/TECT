@@ -39,3 +39,6 @@ Comparative assessment of the eleven TOE pillars across the major contemporary f
 TECT holds the strongest published score in **six pillars**: 5 (chirality), 7 (quantum), 8 (Lorentz), 9 (equivalence), and competitively on 1 and 2 (mass and inertia, both PROVED CONDITIONAL). Pillar 3 (gravity) is tied with Asymptotic Safety (both CLOSED@1-loop vs AS's UV fixed point). Pillars 4, 6 are PARTIAL-ADVANCED with sub-results in STRONG DRAFT. Pillar 10 is unique among all frameworks in providing a *closure* (CLOSED-AS-NO-GO theorem) rather than silence.
 
 **Canonical references**: Math01–Math147 (TECT notes); Green–Schwarz–Witten (1987); Polchinski (1998); Ashtekar–Lewandowski (2004); Ambjørn–Jurkiewicz–Loll (2005); Reuter–Saueressig (2019).
+
+<!-- 2026-05-26 EOD post-cascade banner: TECT positioning is now reclassified C1/C2/C3 per Math411-AddB §10; TOE-level claim SUSPENDED. This file may contain pre-2026-05-26 narrative; refer to Website/data/_narrative/_latest_status_2026-05-26.md and Docs/status/SESSION-HANDOFF-2026-05-26.md for current binding state. -->
+<!-- Generated: 2026-05-26 (Round 3 narrative tier sync) -->

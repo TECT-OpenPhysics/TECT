@@ -1,6 +1,7 @@
 /**
  * @MANUAL_OVERRIDE — hand-curated; generate_website.py will skip this file.
  * theory.js — Theory page: minimal-axiom philosophy + framework outline.
+ * 2026-05-26 rev 7: 2026-05-26 EOD cascade banner inserted as first card with C1/C2/C3 reclassification.
  * 2026-05-06 rev 6: Locked-Parameters card removed (moved to status.js
  * detail); Brazovskii-emergence background card expanded with the
  * universality argument; final "Honest limitations + ongoing closure
@@ -10,8 +11,15 @@
 window.TECT_THEORY = {
   title: "Theory",
   subtitle: "TECT is a candidate Theory of Everything built on the smallest possible set of foundational axioms — two. After the Math195 reduction, the prior three-axiom list collapses to one physics axiom (A0: a $\\mathbb Z_2$-symmetric continuum order parameter $\\Psi$ governed by the Brazovskii free energy with TDGL relaxational dynamics) and one cosmological axiom (A1: the cooling history $T(t)$). The BCC condensate is not assumed; it is the energetically selected ordered phase of the Brazovskii weak-crystallisation transition, and emerges as a derivation. Every law of physics in TECT scope must follow as a mathematical or thermodynamic necessity from these two inputs.",
-  lastUpdated: "2026-05-06",
+  lastUpdated: "2026-05-26",
   blocks: [
+    {
+      type: "card",
+      title: "2026-05-26 EOD CASCADE BANNER — canonical positioning + C1/C2/C3 reclassification (binding, Math411-AddB §10)",
+      blocks: [{ type: "html", content:
+        "<p><strong>Canonical positioning (binding 2026-05-26)</strong>: <em>TECT is an emergent vacuum-and-gravity framework (7 C1 pillars at T6/T7) with an unresolved gauge-sector completion (Pillar 6 standard routes EXHAUSTED) and phenomenological dark-matter/quantum-origin pillars open.</em></p><p><strong>TOE-level claim status</strong>: SUSPENDED until a non-standard rescue is INDEPENDENTLY DERIVED with §6.3.5(a) self-adversarial review and §6.3.8 self-test verification (per Math411-AddB §10 operator binding 2026-05-26).</p><p><strong>Epistemic-category reclassification (Math411-AddB §10)</strong>: 7 C1 core (Pillars 1, 2, 3, 5, 7, 8, 9 at T5/T6/T7) / 2 C2 secondary (Pillars 4, 6 — Pillar 6 standard routes EXHAUSTED) / 2 C3 phenomenological (Pillars 10, 11). See <a href=\"status.html\">Status</a> for full reclassification table.</p><p><strong>Updated honest limitations (post-2026-05-26 cascade)</strong>:</p><ul><li><strong>Pillar 6 (gauge-group emergence)</strong> — all 4 standard promotion routes evaluated and REFUTED/INSUFFICIENT within standard BCC/Brazovskii channel framework: Pathway B SO(4) cubic-irrelevance (Math410-AddA), T_2u doubling (Math410 §4), Stueckelberg-direct (Math411-AddA), Pathway A direct SO(10) revival (Math411-AddB). T5 promotion requires axiom extension only: fermion-condensate auxiliary channels (Math411-AddB-AddA) or holographic / dim-reduction emergence (Math411-AddB-AddB).</li><li><strong>Pillar 11.B (dark matter)</strong> — DOUBLY BLOCKED at TECT-natural: G3-A abundance (Math412-AddA: T_reh factor 10 below window) + G3-B stability (Math412-AddB: νMSM requires y~10⁻²⁰ extreme tuning). Pillar 11 reclassified as C3 phenomenological add-on.</li><li><strong>Pillar 4 (mass-spectrum closure)</strong> — sub-task 3 now T1 INSUFFICIENT post-Math411-AddB cascade (was T6 conditional on Pillar 6, but standard Pillar 6 routes EXHAUSTED).</li></ul><p><strong>Forbidden phrases (§6.3.5(a) violations)</strong>: TECT is the TOE / completes the GUT programme / all 11 pillars closed / final theory / complete theory / completed framework / completed TOE — all NOT used. The canonical positioning sentence above is the single allowed framing.</p><p><em>The cards below this banner present the theoretical framework as developed pre-2026-05-26; the C1/C2/C3 reclassification, Pillar 6 EXHAUSTED verdict, and Pillar 11.B DOUBLY BLOCKED verdict supersede earlier closure claims where applicable.</em></p>"
+      }]
+    },
     {
       type: "card",
       title: "Why TECT? — the minimal-axiom philosophy",

@@ -3,31 +3,35 @@
 
 # TECT -- Topological Energy Condensate Theory
 
-_Last curated: 2026-05-26 (UTC) -- auto-generated mirror of the canonical research repository._
+_Last curated: 2026-05-27 (UTC) -- auto-generated mirror of the canonical research repository._
 
 ---
 
-## Stage-1 Pillar Scoreboard
+## Stage-1 Pillar Scoreboard (post-2026-05-26 C1/C2/C3 reclassification)
 
-**Aggregate $S_1$ qualification**: 4 × T7 PROVED + 2 × T6 PROVED CONDITIONAL + 1 × T5 CLOSED@1-loop + 3 × T4 STRONG EVIDENCE + 1 × T0/T2 hybrid. Until all 11 pillars reach $\geq$ T6, $S_1$ is PARTIAL.
+**TECT positioning (canonical, binding 2026-05-26)**: TECT is an emergent vacuum-and-gravity framework (7 C1 pillars at T6/T7) with an unresolved gauge-sector completion (Pillar 6 standard routes EXHAUSTED) and phenomenological dark-matter/quantum-origin pillars open. **TOE-level claim**: SUSPENDED until a non-standard rescue is independently derived (per Math411-AddB §10 operator binding).
 
-| # | Pillar (subject) | Canonical tier | Conditional inputs |
-|---|---|---|---|
-| 1 | BCC condensate uniqueness (mass $m^*$) | **T6 PROVED CONDITIONAL** | Math60-Stage 1 hypothesis list (regime-split: shallow T4, deep T0 post-Math350) |
-| 2 | Lorentz invariance + emergent metric | **T6 PROVED CONDITIONAL** | matter-coupling hierarchy |
-| 3 | Diffeomorphism invariance / gravity | **T5 CLOSED@1-loop** | higher-loop pending |
-| 4 | Gauge group emergence ($U(1)\times SU(2)\times SU(3)$) | **T4 aggregate** (atomic T6 post-Math268) | sub-task 1 T6, sub-task 2 T6 conditional on Lemmas A+B, sub-task 3 T6 conditional on Pillar 6 |
-| 5 | Standard-model fermion content (chirality) | **T7 PROVED** | — |
-| 6 | GUT unification (SO(10)) / Higgs mechanism | **T4 STRONG EVIDENCE** | Higgs scalar potential closure (Task #170; F-Pillar6 gate 2026-05-29) |
-| 7 | Spin-statistics / quantum consistency | **T7 PROVED** | — |
-| 8 | Equivalence principle / Lorentz emergence | **T7 PROVED** | — |
-| 9 | Geodesic motion | **T7 PROVED** | — |
-| 10 | Quantum completion ($\hbar$ origin) | **T0 + T2 hybrid** | classical no-go (T0) + phase-transition origin programme (T2) |
-| 11 | Cosmological observables ($\Lambda$ / dark energy) | **T4 STRONG EVIDENCE** | numerical BCC solution (Task #115) |
+**Aggregate $S_1$ qualification**: 4 × T7 PROVED + 2 × T6 PROVED CONDITIONAL + 1 × T5 CLOSED@1-loop + 3 × T4 STRONG EVIDENCE + 1 × T0/T2 hybrid + 1 × T4\|T2-split. Categories: 7 × C1 core / 2 × C2 secondary / 2 × C3 phenomenological (Math411-AddB §10 binding 2026-05-26).
 
-Detailed per-pillar status, evidence chains, Math note links, and falsification gates: [`status/TOE-FACT-SHEET.md`](status/TOE-FACT-SHEET.md). Forbidden phrases ("essentially proved", "almost closed", etc.) are not used anywhere in this repo; the canonical T0--T7 tiers are the single source of truth.
+| # | Pillar (subject) | Tier | Cat. | Conditional inputs / verdict |
+|---|---|---|---|---|
+| 1 | BCC condensate uniqueness (mass $m^*$) | **T6** | C1 | Math60-Stage 1 hypothesis list (regime-split: shallow T4, deep T0 post-Math350) |
+| 2 | Lorentz invariance + emergent metric | **T6** | C1 | matter-coupling hierarchy |
+| 3 | Diffeomorphism invariance / gravity | **T5@1-loop** | C1 | higher-loop pending |
+| 4 | Gauge group emergence ($U(1)\times SU(2)\times SU(3)$) | **T4 aggregate** | C2 | atomic T6 post-Math268; sub-task 3 T1 INSUFFICIENT post-Math411-AddB cascade (standard routes EXHAUSTED) |
+| 5 | Standard-model fermion content (chirality) | **T7** | C1 | — |
+| 6 | GUT unification (SO(10)) / Higgs mechanism | **T4 — standard routes EXHAUSTED 2026-05-26** | C2 | all 4 standard promotion routes REFUTED/INSUFFICIENT (Math410-AddA Pathway B SO(4), Math410 §4 $T_{2u}$ doubling, Math411-AddA Stueckelberg-direct, Math411-AddB Pathway A SO(10)). T5 promotion requires axiom extension (fermion-condensate aux Math411-AddB-AddA, holographic Math411-AddB-AddB) |
+| 7 | Spin-statistics / quantum consistency | **T7** | C1 | — |
+| 8 | Equivalence principle / Lorentz emergence | **T7** | C1 | — |
+| 9 | Geodesic motion | **T7** | C1 | — |
+| 10 | Quantum completion ($\hbar$ origin) | **T0 + T2 hybrid** | C3 | classical no-go (T0) + phase-transition origin programme (T2) |
+| 11 | Cosmological / dark-sector phenomenology | **T4\|T2-split** | C3 | 11.A T2 INTERIM NEG (compactness, Math409-AddH AUDIT); 11.B T4 but DOUBLY BLOCKED at TECT-natural (G3-A Math412-AddA: $T_{\rm reh}$ factor 10 below window; G3-B Math412-AddB: $\nu_R$ stability requires $y\sim 10^{-20}$) |
 
-**Critical-path falsification gates** (per Math289 / Math353-AddE): F-GAP4-DEFECT-MASS (2026-05-14 hard), F-GAP1 $\hbar$ matching (2026-05-22), F-Pillar6 (2026-05-29). See [`status/OPEN-QUESTIONS.md`](status/OPEN-QUESTIONS.md) for active items.
+**Category legend** (Math411-AddB §10 binding): **C1 Core emergence** (TECT-internal, rigorously derived from Reading-H axioms; 7 pillars at T5/T6/T7) — **C2 Secondary emergence** (TECT-internal with residual gates; Pillar 6 standard routes EXHAUSTED) — **C3 Phenomenological add-on** (TECT does NOT predict from internal axioms; matching only).
+
+Detailed per-pillar status, evidence chains, Math note links, and forbidden-phrase audit: [`status/TOE-FACT-SHEET.md`](status/TOE-FACT-SHEET.md). Forbidden phrases ("TECT is the TOE", "completes the GUT programme", "all 11 pillars closed", "final theory", "complete theory", "completed framework", "completed TOE") are §6.3.5(a) violations and are not used anywhere in this repo; the canonical positioning sentence above is the single allowed framing.
+
+**Cascade status (2026-05-26 EOD)**: Pillar 6 standard promotion programme EXHAUSTED (4 routes all REFUTED/INSUFFICIENT); Pillar 11.B DOUBLY BLOCKED (both abundance G3-A and stability G3-B fail at TECT-natural parameters); TOE-level claim SUSPENDED. See [`status/research-log.md`](status/research-log.md) (2026-05-26 EOD entry) for the full cascade record and [`status/TOE-FACT-SHEET.md`](status/TOE-FACT-SHEET.md) Pillar 11 banner for the canonical positioning sentence.
 
 ---
 
@@ -44,24 +48,40 @@ eq 0$). Within this disordered ensemble vacuum, BCC emerges as the cosmologicall
 
 This site presents TECT *as it actually stands*. Proved parts are clearly marked as proved, conditional parts as conditional, retracted parts as retracted. Every status claim links to its evidence file in `Docs/math/` and every numerical result carries a unique $R$-tag tied to a code fingerprint. The append-only [History](https://tect.kr/history.html) page records every retraction.
 
-## Latest state snapshot (2026-05-11)
+## Latest state snapshot (2026-05-26 EOD — post-Pillar 6/11 cascade + C1/C2/C3 reclassification)
 
-**Headline**: TECT remains a Partial TOE candidate. Classical sector strong; quantum-completion sector strengthening but not sealed. Pillar 4 sub-task 2 is now **T6 PROVED CONDITIONAL on Reading H** (Math400-AddE Path α + Math400-AddF BCC channel; see Math401 operator consensus).
+**Canonical positioning (binding 2026-05-26)**: *TECT is an emergent vacuum-and-gravity framework (7 C1 pillars at T6/T7) with an unresolved gauge-sector completion (Pillar 6 standard routes EXHAUSTED) and phenomenological dark-matter/quantum-origin pillars open.* **TOE-level claim**: SUSPENDED until a non-standard rescue is independently derived (per Math411-AddB §10 operator binding).
 
-| Predicate | State | Critical task |
+**Epistemic-category reclassification (Math411-AddB §10 binding)**:
+
+| Category | Definition | Pillars (count) |
 |---|---|---|
-| $S_1$ — eleven pillars | PARTIAL | T6+: 7/11 (Pillars 1, 2, 4 [Reading H], 5, 7, 8, 9); critical-incomplete: 6 (quasi-Goldstone), 10 (ℏ origin), 11 (DM via KZ defects). |
-| $S_2$ — Global Closure + 4 quantum gates | PARTIAL | Quasi-Goldstone reinterpretation (Math403) + multi-channel SU(3) cross-validation (Math382) gate Pillar 6 promotion under Reading H. |
+| **C1 Core emergence** | TECT-internal mechanism rigorously derived from Reading-H axioms | 7 — Pillars 1, 2, 3, 5, 7, 8, 9 (T5/T6/T7) |
+| **C2 Secondary emergence** | TECT-internal mechanism with residual gates | 2 — Pillar 4 (mass spectrum); Pillar 6 (gauge group, standard routes EXHAUSTED 2026-05-26) |
+| **C3 Phenomenological add-on** | TECT does NOT predict from internal axioms | 2 — Pillar 10 (ℏ-origin); Pillar 11 (dark matter, DOUBLY BLOCKED at TECT-natural) |
+**Aggregate TOE qualification predicates**:
+
+| Predicate | State | Verdict |
+|---|---|---|
+| $S_1$ — eleven pillars | PARTIAL | T5+: 7 C1 pillars at T5/T6/T7; C2 Pillar 6 T4 with standard routes EXHAUSTED; C3 Pillars 10 + 11 do not contribute to internal-axiom $S_1$. |
+| $S_2$ — Global Closure + 4 quantum gates | PARTIAL | Pillar 6 standard routes EXHAUSTED ⇒ GAP-2/GAP-3 unconditional closures blocked at standard-framework level; non-standard rescues queued. |
 | $S_3$ — external phenomenology | PROVISIONAL prediction | Math172 Kibble–Zurek GW $\Omega_{\rm GW}\sim 10^{-15}$ at PTA, observable by SKA 2028–2030. |
-**Most recent advances**:
+**Pillar 6 closure programme — FINAL (all 4 standard promotion routes evaluated, all REFUTED/INSUFFICIENT)**:
 
-- `Math399` (2026-05-11) — Foundation-first audit detects Math383 §3-4 arithmetic errors; SMA hierarchy reversal at $\mu^2=+0.005$.
-- `Math400-AddA/D` (2026-05-11) — Cosmological-isotropy filter rejects lamellar; lattice-enumeration paradigm REJECTED; naturalness + h-effects + Brazovskii adequacy audit adopted.
-- `Math400-AddE` (2026-05-11) — Explicit one-loop Brazovskii self-consistency at TECT canonical $\mu^2=+0.005$ confirms PATH α (Reading H emergent vacuum) at 16/16 sweep points.
-- `Math400-AddF` (2026-05-11) — N=64 tighter Math383 §6 at canonical: BCC TRUE LOCAL MIN ($n_{m neg}=0$), FCC SADDLE-6 rejected.
-- `Math401` (2026-05-11) — Operator binding consensus on Reading H adoption + per-pillar scorecard (T6+: 7/11).
+- `Math410-AddA` (2026-05-26) — Pathway B SO(4) cubic-irrelevance STRUCTURALLY REFUTED at exact-RG ($A^* = +0.018 M_{m Pl}^2$ across 4 regulators; no NGFP with $A^* < 0$).
+- `Math410 §4` — Pathway B $T_{2u}$ doubling STRUCTURALLY ABSENT in BCC shells 1–3.
+- `Math411-AddA` — Stueckelberg-direct REFUTED via $\Lambda^2 T_{2g} = T_{1g} \neq T_{2g}$ Lie-algebra closure failure + $A^{\rm asym}_{A_{2g}} = 0$ via $\pi_1(M_{m BCC}) = \{e\}$.
+- `Math411-AddB` — Pathway A direct SO(10) GUT revival STRUCTURALLY INSUFFICIENT within standard BCC/Brazovskii channel framework (dimensional gap shells 1-3 = 20 modes vs SO(10) adj 45; 44 vs 45 NOT a near-miss because Lie-algebra closure requires irrep closure, not scalar dimensional matching; $T_{1g}$ structurally absent from shells 1–3).
+- Non-standard rescues queued: `Math411-AddB-AddA` (fermion-condensate aux channels), `Math411-AddB-AddB` (holographic / dim-reduction emergence) — both require substantial axiom extension.
 
-For the full quantum-theory proof-status table see [Status](https://tect.kr/status.html).
+**Pillar 11.B closure programme — DOUBLY BLOCKED at TECT-natural**:
+
+- `Math412-AddA` (2026-05-26) — G3-A INTERIM NEGATIVE: TECT-natural $T_{m reh} \sim 3 \times 10^{11}$ GeV is factor 10 below the abundance window $[3 \times 10^{12}, 2 \times 10^{13}]$ GeV.
+- `Math412-AddB` — G3-B INTERIM NEGATIVE: heavy seesaw ($M \sim 10^{14}$ GeV) gives $\tau \sim 10^{-57}$ s catastrophic; νMSM warm-DM keV requires $y \sim 10^{-20}$ extreme tuning.
+
+**Forbidden phrases going forward (§6.3.5(a) violations)**: "TECT is the TOE", "completes the GUT programme", "all 11 pillars closed", "final theory", "complete theory", "completed framework", "completed TOE". The canonical positioning sentence above is the single allowed framing.
+
+For full per-pillar status, the cascade evidence chain, and the C1/C2/C3 framework derivation see [Status](https://tect.kr/status.html), [Results](https://tect.kr/results.html), and the canonical Math411-AddB §10 archive.
 
 ## Comparison vs other candidate frameworks (compact)
 
@@ -70,7 +90,7 @@ One-glance positioning of TECT against three reference frameworks: the **Standar
 | Axis | TECT | Standard Model | Superstring / M | Loop Quantum Gravity |
 |---|---|---|---|---|
 | Foundational axioms | **2** ($\mathbb Z_2$-symmetric Brazovskii continuum + cooling history $T(t)$); BCC ordering derived; Math195 | ~26 parameters + chosen gauge group + 3 generations | 5–10 (10/11-dim spacetime, branes, compactification, flux, SUSY, vacuum) | 4–5 (spin-network kinematics, holonomy/flux algebra, dynamics, semiclassical limit) |
-| Predicts SM gauge group | PROVED CONDITIONAL on Reading H — Math400-AddE + Math400-AddF + Math401 | No — postulated | Landscape — no unique selection | No — gauge content imported |
+| Predicts SM gauge group | PARTIAL — standard routes EXHAUSTED 2026-05-26; SO(10) anomaly cancellation persists (Math157); dynamical realisation blocked — Math411-AddB §10 | No — postulated | Landscape — no unique selection | No — gauge content imported |
 | Predicts gravity | Yes — emergent spin-2 graviton (Pillar 3 CLOSED@1-loop) | No | Yes — closed-string graviton mode | Yes — quantises GR by construction |
 | Predicts $\hbar$ | CONDITIONAL — $\hbar = c^3 a_{\rm BCC}^2/(16\pi G)$ (Math110-AddI) | No | No | No |
 | Predicts $\Lambda$ | CONDITIONAL — Math58-v7 four-sector cancellation | No | No | No |

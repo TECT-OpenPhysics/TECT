@@ -130,3 +130,6 @@ Of the eleven pillars, TECT currently holds the strongest score in **six** (Pill
 ## Canonical references
 
 Green–Schwarz–Witten, *Superstring Theory* (1987); Polchinski, *String Theory* (1998); Ashtekar–Lewandowski, *Class. Quantum Grav.* 21 (2004) R53; Ambjørn–Jurkiewicz–Loll, *Phys. Rev. D* 72 (2005) 064014; Reuter–Saueressig, *Quantum Gravity and the Functional Renormalization Group* (2019); Bombelli–Henson–Sorkin, *Mod. Phys. Lett. A* 24 (2009) 2579. Survey: Kiefer, *Quantum Gravity* (2012). Status of TECT: present work and `Docs/status/TOE-FACT-SHEET.md`.
+
+<!-- 2026-05-26 EOD post-cascade banner: TECT positioning is now reclassified C1/C2/C3 per Math411-AddB §10; TOE-level claim SUSPENDED. This file may contain pre-2026-05-26 narrative; refer to Website/data/_narrative/_latest_status_2026-05-26.md and Docs/status/SESSION-HANDOFF-2026-05-26.md for current binding state. -->
+<!-- Generated: 2026-05-26 (Round 3 narrative tier sync) -->

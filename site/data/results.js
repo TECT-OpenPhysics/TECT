@@ -2,6 +2,7 @@
  * @MANUAL_OVERRIDE — hand-curated; generate_website.py will skip this file.
  * results.js — TECT numerical results, Pillar-by-Pillar narrative.
  *
+ * 2026-05-26 rev 3: 2026-05-26 EOD cascade banner inserted as first card with C1/C2/C3 reclassification + 8-note cascade summary.
  * 2026-05-08 rev 2 (Math353-AddH Step II): replaced auto-generated run-dump
  * structure with reviewer-facing Pillar-by-Pillar summary. Math note
  * references in code form (e.g., Math82-AddD) are anchored to repo's note/
@@ -12,8 +13,15 @@
 window.TECT_RESULTS = {
   title: "Numerical Results",
   subtitle: "Pillar-by-Pillar summary of TECT's numerical evidence — anchor values, status tiers, Math note references, falsification gates. Raw run directories are local-only; canonical results are inlined here and in the cited Math notes.",
-  lastUpdated: "2026-05-08",
+  lastUpdated: "2026-05-26",
   blocks: [
+
+    // ---- 2026-05-26 EOD CASCADE BANNER ----
+    { type: "card", title: "2026-05-26 EOD CASCADE BANNER — canonical positioning + C1/C2/C3 reclassification (binding, Math411-AddB §10)",
+      blocks: [{ type: "html", content:
+        "<p><strong>Canonical positioning (binding 2026-05-26)</strong>: <em>TECT is an emergent vacuum-and-gravity framework (7 C1 pillars at T6/T7) with an unresolved gauge-sector completion (Pillar 6 standard routes EXHAUSTED) and phenomenological dark-matter/quantum-origin pillars open.</em></p><p><strong>TOE-level claim status</strong>: SUSPENDED until non-standard rescue independently derived (per Math411-AddB §10 operator binding 2026-05-26).</p><p><strong>Today’s 8-note cascade (2026-05-26) — 41 self-test asserts PASS</strong>:</p><table class=\"sm-table\"><thead><tr><th>Math note</th><th>Pillar</th><th>Verdict</th><th>Self-test asserts</th></tr></thead><tbody><tr><td><code>Math410</code></td><td>6</td><td>F1+F2 + T_2u structural absence (T4 retained)</td><td>8/8 PASS</td></tr><tr><td><code>Math410-AddA</code></td><td>6</td><td><span class=\"tag tag-warn\">Pathway B SO(4) STRUCTURALLY REFUTED at exact-RG</span> (A* = +0.018 M_Pl² across 4 regulators)</td><td>7/7 PASS</td></tr><tr><td><code>Math411</code></td><td>6</td><td>Stueckelberg-direct B1+B2 LEADING-ORDER NEGATIVE, globally PARTIAL</td><td>6/6 PASS</td></tr><tr><td><code>Math411-AddA</code></td><td>6</td><td><span class=\"tag tag-warn\">Stueckelberg-direct REFUTED</span> via Λ² T_2g = T_1g closure failure + π_1 trivial</td><td>7/7 PASS</td></tr><tr><td><code>Math411-AddB</code></td><td>6</td><td><span class=\"tag tag-warn\">Pathway A direct SO(10) STRUCTURALLY INSUFFICIENT</span>; ALL standard Pillar 6 routes EXHAUSTED</td><td>6/6 PASS</td></tr><tr><td><code>Math412</code></td><td>11.B</td><td>RH sector + U(1)_(B-L) + ν_R relic abundance (T4 retained)</td><td>—</td></tr><tr><td><code>Math412-AddA</code></td><td>11.B</td><td><span class=\"tag tag-warn\">G3-A INTERIM NEGATIVE</span> — T_reh factor 10 below window</td><td>7/7 PASS</td></tr><tr><td><code>Math412-AddB</code></td><td>11.B</td><td><span class=\"tag tag-warn\">G3-B INTERIM NEGATIVE</span> — νMSM requires y~10⁻²⁰ extreme tuning</td><td>8/8 PASS</td></tr></tbody></table><p><strong>Net Pillar 6 verdict</strong>: ALL 4 STANDARD PROMOTION ROUTES EXHAUSTED (Pathway B SO(4), T_2u doubling, Stueckelberg-direct, Pathway A direct SO(10)). Pillar 6 pinned at T4 indefinitely within standard framework; T5 requires axiom extension only.</p><p><strong>Net Pillar 11.B verdict</strong>: DOUBLY BLOCKED at TECT-natural parameters (both abundance G3-A and stability G3-B fail).</p><p><strong>Epistemic-category reclassification (Math411-AddB §10 binding)</strong>: 7 C1 core / 2 C2 secondary / 2 C3 phenomenological. See <a href=\"status.html\">Status</a> for full reclassification table.</p><p><em>The Pillar-by-Pillar cards below reflect numerical evidence accumulated up to 2026-05-08; today’s cascade updates Pillar 6 and Pillar 11 verdicts as summarised in this banner.</em></p>"
+      }]
+    },
 
     // ---- Top-level scoreboard summary ----
     { type: "card", title: "Stage-1 11-Pillar scoreboard at a glance", blocks: [{ type: "html", content:

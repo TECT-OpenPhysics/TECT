@@ -49,3 +49,6 @@ The eleven pillars below define the necessary conditions for $S_1$. Each pillar 
     - 4-sector chain (monopole CP, measure-antisymmetry, vortex, Dirac PV scheme). Audit PASSED (Math58-v7-AddA, all Q DISMISSED). Numerical verification at Brazovskii point pending (Task #118).
 
 **Canonical reference**: Full pillar-level theorem notes in `Docs/math/TECT-Math01–147.tex.txt` series.
+
+<!-- 2026-05-26 EOD post-cascade banner: TECT positioning is now reclassified C1/C2/C3 per Math411-AddB §10; TOE-level claim SUSPENDED. This file may contain pre-2026-05-26 narrative; refer to Website/data/_narrative/_latest_status_2026-05-26.md and Docs/status/SESSION-HANDOFF-2026-05-26.md for current binding state. -->
+<!-- Generated: 2026-05-26 (Round 3 narrative tier sync) -->

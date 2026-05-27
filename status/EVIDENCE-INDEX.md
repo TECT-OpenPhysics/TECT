@@ -25,10 +25,10 @@ in this file is a policy violation (UPDATE_POLICY §10.2).
 <!-- PROP-AUTO:evidence-pillar-tiers START
      generator: Codes/tools/propagate_status.py
      do-not-edit-between-markers
-     last-regenerated: 2026-05-26T02:53:46Z
+     last-regenerated: 2026-05-27T08:10:32Z
 -->
 
-**Per-pillar canonical tier (auto-synced 2026-05-26)**:
+**Per-pillar canonical tier (auto-synced 2026-05-27)**:
 
 | # | Pillar | Tier |
 |---|---|---|
@@ -147,3 +147,33 @@ in this file is a policy violation (UPDATE_POLICY §10.2).
 - **Math288** (2026-05-01 Turn 59): Task #156 Pillar 4 Σ₀ = ℙ¹×ℙ¹ realization computational-readiness assessment. **T3 PROOF SKETCH** (defect-mass formula §4 rigorous; full Task #156 numerical closure deferred to computational dispatch). Mathematical specification: $E_8 \supset SO(10) \times SU(4)_F$ gauge bundle on $\Sigma_0$ with $c_2(E)=16$ (Math270 topological certificate); HYM PDE system; DUY existence guarantee (Math253). **§4 NEW ANALYTICAL CONTENT — Proposition 4.3.1 Bogomolov-type eigenvalue bound**: $\mu_{\rm defect}^2 \geq C_{\rm geo} \cdot c_2(E)/\mathrm{vol}(\Sigma_0) \cdot |\det F_{A^*}|^{1/2}$. Numerical-driver architecture proposed (§3): Newton-Krylov on HYM residual, $N \in \{32, 64, 128\}$ scan, split-bundle initial ansatz, eigenvalue extraction (analogous to Math236/Math66 v0.2 Path-A). Falsification gate F-GAP4-DEFECT-MASS: $\mu_{\rm defect} \in (10^{13}, 10^{17})$ GeV, deadline 2026-05-14 hard. Critical-path scenarios: A (PASS, 60%) Pillar 4 T6→T7, Stage-2 T3→T6; B (FAIL, 25%) Math246 Routes B/C/D activate; C (DEFER, 15%) extended schedule. Cited-canonical-fact spot-check: 7 sources disk-verified (Math270, Math174, Math162, Math253, Math110-AddI, Math279, Math236). Quantitative sanity: dimensional PASS, magnitude PASS-with-caveat, limit-case PASS, sign-direction PASS, reproducibility PASS. Devil's-advocate (3): α eigenvalue-bound heuristic VALID-WITH-MITIGATION, β solver-choice DISMISSED, γ timeline UPHELD-bounded. Self-adversarial (3): 1 non-theorem DISMISSED, 2 should-be-addendum VALID-WITH-MITIGATION, 3 DEFER-risk UPHELD.
 
 - **Math286** (2026-05-01 Turn 57): Stage-2 final-form consolidation (canonical archive, status-consolidation per CLAUDE.md §4.1). **CANONICAL ARCHIVE VERDICT: Stage-2 composite tier T3 PROOF SKETCH ADVANCING — Complete hypothesis-set enumeration (18 hypotheses total,
+
+
+---
+
+## §4 — 2026-05-26 EOD cascade evidence bundle (Pillar 6/11 + C1/C2/C3 reclassification)
+
+**Bundle reviewed**: 2026-05-26 EOD
+**Trigger**: 8-note cascade (Math410, Math410-AddA, Math411, Math411-AddA, Math411-AddB, Math412, Math412-AddA, Math412-AddB) + Math411-AddB §10 epistemic-category reclassification (operator binding).
+
+| Claim | Primary evidence | Verification script (self-test asserts) | JSON artefact |
+|---|---|---|---|
+| Pillar 6 Pathway B SO(4) cubic-irrelevance STRUCTURALLY REFUTED at exact-RG | `Docs/math/TECT-Math410-AddA-Exact-RG-PathwayB-Refutation.tex.txt` | `Codes/supplementary/Math410_AddA_exact_RG.py` (7/7 PASS) | `Runs/math/Math410-AddA/cascade_verification.json` |
+| Pillar 6 Pathway B $T_{2u}$ doubling STRUCTURALLY ABSENT in BCC shells 1-3 | `Docs/math/TECT-Math410-Pillar6-Pathway-B-Gates.tex.txt` §4 | `Codes/supplementary/Math410_beta_cubic_T2g_basis.py` (8/8 PASS) | (inline analytical) |
+| Pillar 6 Stueckelberg-direct partial (B2 leading-order negative) | `Docs/math/TECT-Math411-Stueckelberg-Direct-Bridge.tex.txt` | `Codes/supplementary/Math411_Stueckelberg_direct.py` (6/6 PASS) | (inline) |
+| Pillar 6 Stueckelberg-direct REFUTED via $\Lambda^2 T_{2g} = T_{1g}$ closure failure + $\pi_1$ trivial | `Docs/math/TECT-Math411-AddA-Antisymmetric-A2g-Cubic.tex.txt` | `Codes/supplementary/Math411_AddA_antisymmetric_cubic.py` (7/7 PASS) | (inline) |
+| Pillar 6 Pathway A direct SO(10) revival STRUCTURALLY INSUFFICIENT within standard BCC/Brazovskii channel framework | `Docs/math/TECT-Math411-AddB-Pathway-A-Direct-SO10-Revival.tex.txt` | `Codes/supplementary/Math411_AddB_pathway_A.py` (6/6 PASS) | `Runs/math/Math411-AddB/cascade_verification.json` |
+| Pillar 11.B RH sector + U(1)_(B-L) + $\nu_R$ relic abundance framework | `Docs/math/TECT-Math412-Pillar11-nuR-Abundance.tex.txt` | (analytical framework note) | — |
+| Pillar 11.B G3-A INTERIM NEGATIVE — TECT-natural $T_{\rm reh}$ factor 10 below window | `Docs/math/TECT-Math412-AddA-Reheating-Temperature.tex.txt` | `Codes/supplementary/Math412_AddA_T_reh.py` (7/7 PASS) | (inline) |
+| Pillar 11.B G3-B INTERIM NEGATIVE — $\nu_R$ stability requires $y \sim 10^{-20}$ extreme tuning | `Docs/math/TECT-Math412-AddB-nuR-Cosmological-Stability.tex.txt` | `Codes/supplementary/Math412_AddB_nuR_stability.py` (8/8 PASS) | (inline) |
+| C1/C2/C3 epistemic-category reclassification (7 / 2 / 2 split) | `Docs/math/TECT-Math411-AddB-Pathway-A-Direct-SO10-Revival.tex.txt` §10 (canonical archive) | (binding declaration) | `Codes/config/pillar_status.json` `epistemic_category` field per pillar + `_reclassification` metadata block |
+| Canonical TECT positioning sentence (binding 2026-05-26) | `Docs/math/TECT-Math411-AddB-...tex.txt` §10 | (binding declaration) | `Docs/status/SESSION-HANDOFF-2026-05-26.md` (portable resume); `Docs/status/TOE-FACT-SHEET.md` Pillar 11 banner |
+| TOE-level claim status: SUSPENDED | `Docs/math/TECT-Math411-AddB-...tex.txt` §5 | (binding declaration) | `CHANGELOG.md` `[Framework/Reclassification]` entry |
+
+**Total cascade verification**: 41 self-test asserts PASS across 6 reproducible Python scripts. All scripts run with `python3 Codes/supplementary/Math4*_*.py` and exit 0 iff all asserts pass (per CLAUDE.md §6.3.8 binding rule).
+
+**Cascade artefact summary**: 5 R-entries in NEGATIVE-RESULTS.md (R-2026-05-26-Math410-AddA, R-2026-05-26-Math411-AddA, R-2026-05-26-Math411-AddB, R-2026-05-26-Math412-AddA, R-2026-05-26-Math412-AddB); 5 atomic-write surface updates (Math411-AddB §10, pillar_status.json, CHANGELOG, TOE-FACT-SHEET, research-log); 1 portable handoff document (SESSION-HANDOFF-2026-05-26.md); 1 narrative-sync plan (Docs/policy/NARRATIVE_SYNC_PLAN_2026_05_26.md) executed via 8-round manual-update programme.
+
+**Forbidden phrases going forward** (§6.3.5(a) violations to be audit-flagged): *"TECT is the TOE"*, *"completes the GUT programme"*, *"all 11 pillars closed"*, *"final theory"*, *"complete theory"*, *"completed framework"*, *"completed TOE"*. The canonical positioning sentence above is the single allowed framing.
+
+<!-- Generated: 2026-05-26 (Round 4 ledger backfill, narrative-sync plan §1.4) -->

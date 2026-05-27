@@ -2,10 +2,21 @@
 /* Source: Docs/status/STATUS-HISTORY.md                                   */
 window.TECT_STATUS_HISTORY = {
   "schema": "tect-status-history-v1",
-  "generated": "2026-05-26T12:18:27Z",
+  "generated": "2026-05-27T08:23:10Z",
   "source": "Docs/status/STATUS-HISTORY.md",
-  "count": 15,
+  "count": 16,
   "entries": [
+    {
+      "date": "2026-05-26",
+      "description": "NARRATIVE SYNC SWEEP (Rounds 1-7 complete)",
+      "pillar": "ALL (cross-cutting narrative-sync operation, not a tier change)",
+      "old_tier": "n/a (no tier change; narrative-surface synchronisation operation)",
+      "new_tier": "n/a",
+      "reason": "8-round manual-update programme per `Docs/policy/NARRATIVE_SYNC_PLAN_2026_05_26.md` executed:",
+      "source_notes": "Math411-AddB §10 (canonical reclassification source); Docs/policy/NARRATIVE_SYNC_PLAN_2026_05_26.md (8-round plan).",
+      "changelog": "[Framework/Narrative-Sync] 2026-05-26 EOD+ NARRATIVE SYNC SWEEP — Rounds 1-7 (entry to be added in publish commit message).",
+      "open_questions": "n/a (no Q-IDs CLOSED/OPENED; this is an infrastructure operation, not a research advance)."
+    },
     {
       "date": "2026-05-26",
       "description": "Pillar 11 INTERIM NEGATIVE annotation (NOT a tier change; corrects premature qualifier-lift per operator audit)",

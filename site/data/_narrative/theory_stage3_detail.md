@@ -76,3 +76,6 @@ The three pre-registered F-candidates from Stage-2-E, mapped to existing experim
 | $S_3^{\rm (survive)}$ | $S_3^{\rm (predict)}$ + 1 calendar year wait | 1 + 1 yr |
 
 **Operational status**: **0 / 3 SEALED** (was 0 / 3 throughout the project; F-candidate inventory now established, F1 closest to gate). Stage-3 SEALING begins as soon as Pillar 4 Q2 numerical run produces a quantitative $R_{32}^{\rm TECT}$ matched to PDG within tolerance.
+
+<!-- 2026-05-26 EOD post-cascade banner: TECT positioning is now reclassified C1/C2/C3 per Math411-AddB §10; TOE-level claim SUSPENDED. This file may contain pre-2026-05-26 narrative; refer to Website/data/_narrative/_latest_status_2026-05-26.md and Docs/status/SESSION-HANDOFF-2026-05-26.md for current binding state. -->
+<!-- Generated: 2026-05-26 (Round 3 narrative tier sync) -->

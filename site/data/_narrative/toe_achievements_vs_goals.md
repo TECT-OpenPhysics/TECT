@@ -1,3 +1,23 @@
+# TECT Achievements vs Remaining Goals — 2026-05-26 EOD update banner
+
+> **Canonical positioning (binding 2026-05-26, Math411-AddB §10)**: *TECT is an emergent vacuum-and-gravity framework (7 C1 pillars at T6/T7) with an unresolved gauge-sector completion (Pillar 6 standard routes EXHAUSTED) and phenomenological dark-matter/quantum-origin pillars open.*
+>
+> **TOE-level claim status**: **SUSPENDED** until a non-standard rescue is independently derived.
+>
+> **Epistemic-category reclassification**: C1 Core (7 pillars at T5/T6/T7) / C2 Secondary (2 pillars at T4/T6; Pillar 6 standard routes EXHAUSTED 2026-05-26) / C3 Phenomenological (2 pillars at T0+T2 / T4|T2).
+
+**Updated remaining-goals priorities (post-2026-05-26)**:
+
+- **Highest priority**: non-standard Pillar 6 rescues (Math411-AddB-AddA fermion-condensate auxiliary channels; Math411-AddB-AddB holographic / dim-reduction emergence) — both require substantial axiom extension and §6.3.5(a) + §6.3.8 verification.
+- **Medium priority**: C1 consolidation — promote Pillar 3 (T5 → T6/T7 via 2-loop / exact-RG); tighten Pillars 1, 2 hypothesis sets.
+- **C3 phenomenological matching**: Pillar 11 texture/topological DM candidates (Math409-AddD-AddC programme); Pillar 10 phase-transition $\hbar$-origin (Math220+ programme — C3 status unchanged).
+
+**Forbidden phrases going forward** (§6.3.5(a) violations): *"TECT is the TOE"*, *"completes the GUT programme"*, *"all 11 pillars closed"*, *"final theory"*, *"complete theory"*, *"completed framework"*, *"completed TOE"*. The canonical positioning sentence above is the single allowed framing.
+
+<!-- Generated: 2026-05-26 (Round 3 narrative tier sync; banner block prepended above original 2026-04-26 content) -->
+
+---
+
 # TECT Achievements vs Remaining Goals (2026-04-26)
 
 ## Claimed Achievements ($S_1 \land S_2$ SEALED)

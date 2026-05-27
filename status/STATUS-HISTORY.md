@@ -20,6 +20,23 @@ The current tier scoreboard lives in `Codes/config/pillar_status.json` (machine-
 
 ## §1. 2026-05-26 cascade entries
 
+### 2026-05-26 — NARRATIVE SYNC SWEEP (Rounds 1-7 complete)
+- **Date**: 2026-05-26 (EOD+)
+- **Pillar**: ALL (cross-cutting narrative-sync operation, not a tier change)
+- **Old tier**: n/a (no tier change; narrative-surface synchronisation operation)
+- **New tier**: n/a
+- **Reason**: 8-round manual-update programme per `Docs/policy/NARRATIVE_SYNC_PLAN_2026_05_26.md` executed:
+  - **R1** (Tier 1 operator-facing narrative): README.md + Github/README.md mirror + Wiki seeds (Home + Pillar-6 + Pillar-11 + 19 pages auto-regen via `github_publish_meta.py --wiki --dry-run`); `render_readme()` hardcoded scorecard patched with 5-column table (Cat. added); `PILLAR_META` extraction patched to include `epistemic_category`.
+  - **R2** (Website data tier): index.js + status.js + theory.js + results.js + toe.js — banner-injection pattern; canonical positioning sentence + C1/C2/C3 table + Pillar 6 EXHAUSTED + Pillar 11.B DOUBLY BLOCKED in each first card; `lastUpdated` unified to 2026-05-26. 5/5 `node --check` PASS.
+  - **R3** (Website _narrative tier): 4 high-impact rewrite (`theory_honest_positioning.md`, `index_about.md`, `index_subtitle.md`, `toe_achievements_vs_goals.md`) + 22 staleness-banner stamps + new `_latest_status_2026-05-26.md` (LATEST_STATUS reference updated in `github_sync_curate.py`).
+  - **R4** (Status ledger backfill): NEGATIVE-RESULTS.md 5 R-entries prepended (R-2026-05-26-Math410-AddA, -Math411-AddA, -Math411-AddB, -Math412-AddA, -Math412-AddB); EVIDENCE-INDEX.md §4 2026-05-26 EOD cascade evidence bundle appended (11 claim ↔ evidence rows); INDEX.md "Session handoff" section appended.
+  - **R5** (Papers audit): forbidden-phrase grep across 48 .tex files — **0 real violations** (1 false positive in Epoch-08.tex: negation context). `PAPERS_STATUS_REGISTRY.md` Rev 11 banner inserted: 18 papers flagged `[NEEDS_UPDATE-2026-05-26-Reclassification]` for next-edit footnote application.
+  - **R6** (Auto-publish pipeline upgrade): `cascade_update.py::step1_validate()` extended with narrative-staleness check (90-day threshold; smoke test: 27/27 fresh).
+  - **R7** (Helper script): NEW `Codes/scripts/canonical_update_helper.py` with `--binding-id / --targets / --dry-run / --verify` interface; NEW `Docs/policy/snippets/c1c2c3.md` first binding snippet. Operator now invokes `python3 Codes/scripts/canonical_update_helper.py --binding-id <id> --targets <file1>,<file2> --verify` for any future multi-surface canonical update.
+- **Source Math notes**: Math411-AddB §10 (canonical reclassification source); Docs/policy/NARRATIVE_SYNC_PLAN_2026_05_26.md (8-round plan).
+- **CHANGELOG**: [Framework/Narrative-Sync] 2026-05-26 EOD+ NARRATIVE SYNC SWEEP — Rounds 1-7 (entry to be added in publish commit message).
+- **OPEN-QUESTIONS**: n/a (no Q-IDs CLOSED/OPENED; this is an infrastructure operation, not a research advance).
+
 ### 2026-05-26 — Pillar 11 INTERIM NEGATIVE annotation (NOT a tier change; corrects premature qualifier-lift per operator audit)
 - **Date**: 2026-05-26
 - **Pillar**: 11

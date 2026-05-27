@@ -1,8 +1,8 @@
-// AUTO-GENERATED v0.3 page 10/10 — 2026-05-26 12:18 UTC
+// AUTO-GENERATED v0.3 page 10/10 — 2026-05-27 08:23 UTC
 window.TECT_HISTORY = {
   title: "History (page 10 of 10)",
   subtitle: "Chronological CHANGELOG mirror — auto-generated.",
-  lastUpdated: "2026-05-26 (auto)",
+  lastUpdated: "2026-05-27 (auto)",
   pagination: {"page": 10, "total": 10, "newer": null, "older": "history-page-009.html", "archiveIndex": null},
   blocks: [
     { type: "html", content: "<div class=\"pagination-nav\">Page 10 / 10 &middot; <a href=\"history-page-009.html\">Older &rarr;</a></div>" },

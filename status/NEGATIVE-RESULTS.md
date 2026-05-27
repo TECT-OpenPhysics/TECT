@@ -23,6 +23,82 @@ approach.
 
 ## R — Retracted results
 
+### R-2026-05-26-Math410-AddA-PathwayB-SO4-REFUTED
+
+**Date**: 2026-05-26
+**Theory tag**: Math410-AddA (`Docs/math/TECT-Math410-AddA-Exact-RG-PathwayB-Refutation.tex.txt`)
+**Type**: R-retracted. Original claim: "Pillar 6 Pathway B SO(4) emergence via cubic-anisotropy irrelevance at exact-RG fixed point may give T5 promotion."
+
+**Refutation**. Wetterich functional-RG (Litim/sharp/exponential/polynomial regulators) yields $A^* = +0.0177\,M_{m Pl}^2$ at the Brazovskii-regime non-Gaussian fixed point (NGFP). Sign is positive across all four regulators (16% spread); no alternative NGFP with $A^* < 0$ exists in the scanned $(\lambda_4, r_R)$ plane. Cubic anisotropy is RELEVANT in IR ($O_h$ symmetry locked), opposite to Aharony 1977 ($\lambda_4 > 0$) prediction. WF fixed point IR-attractive (stability eigenvalue $-1.0$). F1 gate CONFIRMED NEGATIVE.
+
+**Consequences**. Pathway B SO(4)-emergence STRUCTURALLY REFUTED at exact-RG. Pillar 6 retains T4 STRONG EVIDENCE; T5 promotion via Pathway B closed. Combined with Math410 §4 ($T_{2u}$ doubling structurally absent), Pathway B doubly blocked.
+
+**Cross-references**: `Codes/supplementary/Math410_AddA_exact_RG.py` (7/7 self-test asserts PASS); `Runs/math/Math410-AddA/cascade_verification.json`. CHANGELOG entry `[Theory/Negative-Confirmed] Math410-AddA — 2026-05-26`.
+
+---
+
+### R-2026-05-26-Math411-AddA-Stueckelberg-Direct-REFUTED
+
+**Date**: 2026-05-26
+**Theory tag**: Math411-AddA (`Docs/math/TECT-Math411-AddA-Antisymmetric-A2g-Cubic.tex.txt`)
+**Type**: R-retracted. Original claim: "Pillar 6 Stueckelberg-direct $T_{2g}$-only gauge-emergence route may give T5 promotion via antisymmetric cubic coefficient $A^{m asym}_{A_{2g}} 
+eq 0$ matching $\epsilon^{abc}$."
+
+**Refutation**. PRIMARY structural obstruction (operator-emphasised): $\Lambda^2 T_{2g} = T_{1g} 
+eq T_{2g}$ — the antisymmetric (Lie-bracket) product of $T_{2g}$ with itself takes us OUT of $T_{2g}$ into $T_{1g}$, so $T_{2g}$ alone CANNOT close as an SU(2) Lie algebra under $O_h$. This is a representation-theory-level obstruction, prior to any coefficient calculation. SECONDARY obstruction (coefficient-level): antisymmetric $A_{2g}$ cubic coefficient $A^{m asym}_{A_{2g}} = 0$ via TWO independent arguments — (a) pure-cubic $\epsilon^{abc} \phi^a \phi^b \phi^c$ vanishes identically by bosonic commutativity (naïve derivative form $\epsilon^{abc} \phi^a \partial\phi^b \partial\phi^c$ also vanishes by $b \leftrightarrow c$ symmetry of Lorentz scalar product); (b) proper Chern-Simons-class derivative-cubic coefficient $A^{m CS}_{A_{2g}} \propto \pi_1(M_{m BCC}) = \{e\}$ trivial (Math160 + Math164 anchor; R-2026-04-26-Math160-BerrySignatureTrivial).
+
+**Consequences**. Stueckelberg-direct $T_{2g}$-only route REFUTED. Higher-form CS rescue (Math164 §3) and instanton-CS ($e^{-1500}$ suppression) structurally available but quantitatively zero or require axiom extension. Combined Pillar 6 post-Math410+AddA+Math411+AddA: all three $T_{2g}$-based standard gauge-emergence routes EXHAUSTED. Only remaining standard promotion route: Math411-AddB (Pathway A direct SO(10) revival).
+
+**Cross-references**: `Codes/supplementary/Math411_AddA_antisymmetric_cubic.py` (7/7 self-test asserts PASS); Math160 + Math164. CONFIRMS operator adversarial prediction.
+
+---
+
+### R-2026-05-26-Math411-AddB-PathwayA-SO10-INSUFFICIENT
+
+**Date**: 2026-05-26
+**Theory tag**: Math411-AddB (`Docs/math/TECT-Math411-AddB-Pathway-A-Direct-SO10-Revival.tex.txt`)
+**Type**: R-retracted. Original claim: "Pillar 6 Pathway A direct SO(10) GUT revival may achieve T5 via FULL TECT internal condensate algebra rather than $T_{2g}$-only."
+
+**Refutation**. Two structural obstructions within standard BCC/Brazovskii channel framework: (i) **Dimensional gap**: SO(10) adjoint dimension 45 vs cumulative BCC shell modes — shells 1-3 = 20 (gap 25), shells 1-4 = 44 (NOT a near-miss, see below; shell 4 Brazovskii-suppressed by factor 0.026), shells 1-5 = 68 (overshoots). Effective dynamically-active modes ≈ 20 at canonical TECT ($r_R = 0.42$). (ii) **Lie-algebra closure failure**: $T_{1g}$ (needed for $T_{2g} \otimes T_{2g}$ bracket per Math411-AddA argument) STRUCTURALLY ABSENT from shells 1-3; closure fails on natural BCC channel content. **The 44 vs 45 count is NOT a near-miss** because Lie-algebra closure requires irreducible-representation closure under the bracket operation, NOT scalar dimensional matching.
+
+**Consequences**. Pillar 6 closure programme honestly COMPLETE in negative direction: ALL FOUR standard promotion routes (Pathway B SO(4) cubic-irrelevance, Pathway B $T_{2u}$ doubling, Stueckelberg-direct, Pathway A direct SO(10)) REFUTED/INSUFFICIENT. Pillar 6 pinned at T4 STRONG EVIDENCE indefinitely within standard framework. T5 promotion requires axiom extension only: Math411-AddB-AddA (fermion-condensate auxiliary channels) or Math411-AddB-AddB (holographic / dim-reduction emergence) — both queued, both require non-canonical inputs. Math157 group-theoretic anomaly cancellation persists independently as a "given SO(10), anomalies cancel" lemma.
+
+**Cross-references**: `Codes/supplementary/Math411_AddB_pathway_A.py` (6/6 self-test asserts PASS); Math411-AddB §10 (canonical reclassification archive). This refutation triggered the C1/C2/C3 epistemic-category reclassification (Math411-AddB §10 binding 2026-05-26).
+
+---
+
+### R-2026-05-26-Math412-AddA-Treh-INTERIM-NEGATIVE
+
+**Date**: 2026-05-26
+**Theory tag**: Math412-AddA (`Docs/math/TECT-Math412-AddA-Reheating-Temperature.tex.txt`)
+**Type**: R-retracted (INTERIM). Original claim: "Pillar 11.B $
+u_R$ relic abundance G3-A gate (TECT-natural reheating temperature in window $[3 	imes 10^{12}, 2 	imes 10^{13}]$ GeV) is achievable at canonical TECT parameters."
+
+**Refutation (INTERIM)**. TECT-natural reheating temperature derived from inflaton decay rate $\Gamma_\phi \sim y^2 m_\phi$ with $y \sim 1.5 	imes 10^{-7}$ (from $\lambda_3 	imes m_{m inf}/M_{m Pl}^3$ matching) and $m_\phi \sim m_{m BCC}$: $T_{m reh} \sim 3 	imes 10^{11}$ GeV — factor 10 BELOW the lower edge of the abundance window. Sensitivity scan over plausible $y \in [10^{-9}, 10^{-5}]$ shows $T_{m reh}$ never reaches the window at TECT-natural parameters.
+
+**Consequences**. Pillar 11.B abundance G3-A gate INTERIM NEGATIVE at TECT-natural parameters. Combined with Math412-AddB stability G3-B INTERIM NEGATIVE, Pillar 11.B is DOUBLY BLOCKED. Reclassified as C3 phenomenological add-on per Math411-AddB §10.
+
+**Cross-references**: `Codes/supplementary/Math412_AddA_T_reh.py` (7/7 self-test asserts PASS); Math412-AddB (companion G3-B refutation).
+
+---
+
+### R-2026-05-26-Math412-AddB-nuR-Stability-INTERIM-NEGATIVE
+
+**Date**: 2026-05-26
+**Theory tag**: Math412-AddB (`Docs/math/TECT-Math412-AddB-nuR-Cosmological-Stability.tex.txt`)
+**Type**: R-retracted (INTERIM). Original claim: "Pillar 11.B $
+u_R$ bulk DM cosmological stability G3-B gate ($	au_{
+u_R} > t_{m universe} = 4.35 	imes 10^{17}$ s) is achievable at TECT-natural parameters."
+
+**Refutation (INTERIM)**. Heavy seesaw ($M \sim 10^{14}$ GeV) gives $	au_{
+u_R} \sim 10^{-57}$ s — catastrophically short, factor $10^{74}$ below the universe age. νMSM warm-DM keV regime requires Yukawa $y \sim 10^{-20}$ — extreme tuning unmotivated by any TECT axiom. Intermediate inverse-seesaw scenarios (Math412-AddB-AddA queued) require beyond-TECT $B - L$ symmetry breaking sector.
+
+**Consequences**. Pillar 11.B stability G3-B gate INTERIM NEGATIVE at TECT-natural parameters. Combined with Math412-AddA G3-A INTERIM NEGATIVE, Pillar 11.B DOUBLY BLOCKED at TECT-natural. Reclassified as C3 phenomenological add-on per Math411-AddB §10.
+
+**Cross-references**: `Codes/supplementary/Math412_AddB_nuR_stability.py` (8/8 self-test asserts PASS); Math412-AddA (companion G3-A refutation).
+
+---
+
 ### R-2026-05-26-Math409-AddH-CompactnessSignError
 
 **Date**: 2026-05-26
