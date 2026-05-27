@@ -2,10 +2,32 @@
 /* Source: Docs/status/STATUS-HISTORY.md                                   */
 window.TECT_STATUS_HISTORY = {
   "schema": "tect-status-history-v1",
-  "generated": "2026-05-27T08:23:10Z",
+  "generated": "2026-05-27T09:26:40Z",
   "source": "Docs/status/STATUS-HISTORY.md",
-  "count": 16,
+  "count": 18,
   "entries": [
+    {
+      "date": "2026-05-27",
+      "description": "PDF REBUILD GATE (operator-PC LaTeX dependency identified)",
+      "pillar": "ALL (cross-cutting publish-pipeline operation)",
+      "old_tier": "n/a",
+      "new_tier": "n/a",
+      "reason": "PAPERS REVISION SWEEP P-Rounds 1-7 produced 39 .tex edits + 3 NEW C-tier addendum papers, but the corresponding 29 PDFs CANNOT be built in sandbox: TeX Live 2021 baseline lacks `texlive-publishers` (`revtex4-2.cls` not found); `sudo apt install` blocked by no-new-privileges; `tlmgr --usermode install revtex` blocked by cross-release `2021 → 2026` upgrade; CTAN URLs returning 404. **Operator-PC build is the canonical path** (TeX Live or MiKTeX with revtex pre-installed). Build command: `.\\Codes\\scripts\\build-all-papers.ps1` followed by `python -u Codes\\tools\\publish_papers.py` for mirror sync. After PDF build + mirror sync, the existing `tect.ps1 publish` workflow completes the full cascade.",
+      "source_notes": "Math411-AddB §10 (parent reclassification); PAPERS_REVISION_PLAN_2026_05_26.md (P-Rounds 1-7 already complete).",
+      "changelog": "To be added in publish commit (single combined commit covering reclassification + revision sweep + PDF rebuild).",
+      "open_questions": "n/a (publish-pipeline operation; no Q-IDs CLOSED/OPENED)."
+    },
+    {
+      "date": "2026-05-27",
+      "description": "PAPERS REVISION SWEEP (P-Rounds 1-7 complete)",
+      "pillar": "ALL (cross-cutting papers-tier operation)",
+      "old_tier": "n/a (per-paper disposition operation, not a pillar tier change)",
+      "new_tier": "n/a",
+      "reason": "P-Rounds 1-7 of `Docs/policy/PAPERS_REVISION_PLAN_2026_05_26.md` executed:",
+      "source_notes": "Math411-AddB §10 (canonical reclassification); Docs/policy/PAPERS_REVISION_PLAN_2026_05_26.md (8-round plan).",
+      "changelog": "[Papers/Revision-Sweep] PAPERS REVISION SWEEP P-Rounds 1-7 — 48 .tex files processed (entry to be added in publish commit message).",
+      "open_questions": "n/a (per-paper disposition operation; no Q-IDs CLOSED/OPENED)."
+    },
     {
       "date": "2026-05-26",
       "description": "NARRATIVE SYNC SWEEP (Rounds 1-7 complete)",

@@ -2,17 +2,24 @@
 /* Source: Docs/papers/{papers,auxiliary,top_impact,epochs}/*.tex            */
 window.TECT_PAPERS_DEPS = {
   "schema": "tect-papers-math-deps-v1",
-  "generated": "2026-05-27T08:23:09+00:00",
+  "generated": "2026-05-27T09:26:39+00:00",
   "papers": [
     {
       "stem": "Auxiliary-01",
       "category": "auxiliary",
       "tex_path": "Docs\\papers\\auxiliary\\Auxiliary-01-Brazovskii-Universality\\Auxiliary-01.tex",
       "header_count": 4,
-      "body_count": 4,
-      "total": 5,
+      "body_count": 11,
+      "total": 12,
       "cited_math": [
         "Math236",
+        "Math410",
+        "Math410-AddA",
+        "Math411",
+        "Math411-AddA",
+        "Math411-AddB",
+        "Math412-AddA",
+        "Math412-AddB",
         "Math97",
         "Math97-AddA",
         "Math97-AddB",
@@ -25,8 +32,8 @@ window.TECT_PAPERS_DEPS = {
       "category": "auxiliary",
       "tex_path": "Docs\\papers\\auxiliary\\Auxiliary-02-Numerical-Solver\\Auxiliary-02.tex",
       "header_count": 12,
-      "body_count": 13,
-      "total": 15,
+      "body_count": 20,
+      "total": 22,
       "cited_math": [
         "Math236",
         "Math290",
@@ -39,6 +46,13 @@ window.TECT_PAPERS_DEPS = {
         "Math314",
         "Math314-AddD",
         "Math315",
+        "Math410",
+        "Math410-AddA",
+        "Math411",
+        "Math411-AddA",
+        "Math411-AddB",
+        "Math412-AddA",
+        "Math412-AddB",
         "Math66",
         "Math68",
         "Math73",
@@ -51,8 +65,8 @@ window.TECT_PAPERS_DEPS = {
       "category": "epochs",
       "tex_path": "Docs\\papers\\epochs\\Epoch-01-Foundation-Math01-09\\Epoch-01.tex",
       "header_count": 0,
-      "body_count": 10,
-      "total": 10,
+      "body_count": 11,
+      "total": 11,
       "cited_math": [
         "Math01",
         "Math02",
@@ -63,7 +77,8 @@ window.TECT_PAPERS_DEPS = {
         "Math07",
         "Math08",
         "Math09",
-        "Math194"
+        "Math194",
+        "Math411-AddB"
       ],
       "missing": []
     },
@@ -72,8 +87,8 @@ window.TECT_PAPERS_DEPS = {
       "category": "epochs",
       "tex_path": "Docs\\papers\\epochs\\Epoch-02-Chirality-Math10-17\\Epoch-02.tex",
       "header_count": 0,
-      "body_count": 10,
-      "total": 10,
+      "body_count": 11,
+      "total": 11,
       "cited_math": [
         "Math10",
         "Math11",
@@ -84,7 +99,8 @@ window.TECT_PAPERS_DEPS = {
         "Math16",
         "Math17",
         "Math171-AddA",
-        "Math233"
+        "Math233",
+        "Math411-AddB"
       ],
       "missing": []
     },
@@ -93,8 +109,8 @@ window.TECT_PAPERS_DEPS = {
       "category": "epochs",
       "tex_path": "Docs\\papers\\epochs\\Epoch-03-Dirac-CKM-Math18-23\\Epoch-03.tex",
       "header_count": 0,
-      "body_count": 7,
-      "total": 7,
+      "body_count": 8,
+      "total": 8,
       "cited_math": [
         "Math171-AddA",
         "Math18",
@@ -102,7 +118,8 @@ window.TECT_PAPERS_DEPS = {
         "Math20",
         "Math21",
         "Math22",
-        "Math23"
+        "Math23",
+        "Math411-AddB"
       ],
       "missing": []
     },
@@ -111,8 +128,8 @@ window.TECT_PAPERS_DEPS = {
       "category": "epochs",
       "tex_path": "Docs\\papers\\epochs\\Epoch-04-PairKernel-Math24-35\\Epoch-04.tex",
       "header_count": 0,
-      "body_count": 12,
-      "total": 12,
+      "body_count": 13,
+      "total": 13,
       "cited_math": [
         "Math24",
         "Math25",
@@ -125,7 +142,8 @@ window.TECT_PAPERS_DEPS = {
         "Math32",
         "Math33",
         "Math34",
-        "Math35"
+        "Math35",
+        "Math411-AddB"
       ],
       "missing": []
     },
@@ -134,14 +152,15 @@ window.TECT_PAPERS_DEPS = {
       "category": "epochs",
       "tex_path": "Docs\\papers\\epochs\\Epoch-05-Brazovskii-Gravity\\Epoch-05.tex",
       "header_count": 0,
-      "body_count": 11,
-      "total": 11,
+      "body_count": 12,
+      "total": 12,
       "cited_math": [
         "Math36",
         "Math37",
         "Math38",
         "Math40",
         "Math41",
+        "Math411-AddB",
         "Math42",
         "Math43",
         "Math44",
@@ -156,11 +175,18 @@ window.TECT_PAPERS_DEPS = {
       "category": "epochs",
       "tex_path": "Docs\\papers\\epochs\\Epoch-06-Stage2-Math60\\Epoch-06.tex",
       "header_count": 0,
-      "body_count": 14,
-      "total": 4,
+      "body_count": 21,
+      "total": 11,
       "cited_math": [
         "Math307",
         "Math310",
+        "Math410",
+        "Math410-AddA",
+        "Math411",
+        "Math411-AddA",
+        "Math411-AddB",
+        "Math412-AddA",
+        "Math412-AddB",
         "Math60",
         "Math61"
       ],
@@ -171,11 +197,12 @@ window.TECT_PAPERS_DEPS = {
       "category": "epochs",
       "tex_path": "Docs\\papers\\epochs\\Epoch-07-Pillars-4-7\\Epoch-07.tex",
       "header_count": 0,
-      "body_count": 18,
-      "total": 12,
+      "body_count": 19,
+      "total": 13,
       "cited_math": [
         "Math171-AddA",
         "Math302",
+        "Math411-AddB",
         "Math47",
         "Math48",
         "Math54",
@@ -194,8 +221,8 @@ window.TECT_PAPERS_DEPS = {
       "category": "epochs",
       "tex_path": "Docs\\papers\\epochs\\Epoch-08-Quantum-Hbar\\Epoch-08.tex",
       "header_count": 0,
-      "body_count": 28,
-      "total": 25,
+      "body_count": 35,
+      "total": 32,
       "cited_math": [
         "Math109",
         "Math110-AddG",
@@ -216,6 +243,13 @@ window.TECT_PAPERS_DEPS = {
         "Math400-AddE",
         "Math400-AddF",
         "Math401",
+        "Math410",
+        "Math410-AddA",
+        "Math411",
+        "Math411-AddA",
+        "Math411-AddB",
+        "Math412-AddA",
+        "Math412-AddB",
         "Math57",
         "Math97",
         "Math97-AddA",
@@ -230,8 +264,8 @@ window.TECT_PAPERS_DEPS = {
       "category": "epochs",
       "tex_path": "Docs\\papers\\epochs\\Epoch-09-GAP-Atlas\\Epoch-09.tex",
       "header_count": 0,
-      "body_count": 22,
-      "total": 22,
+      "body_count": 29,
+      "total": 29,
       "cited_math": [
         "Math110-AddI",
         "Math149",
@@ -254,7 +288,14 @@ window.TECT_PAPERS_DEPS = {
         "Math194",
         "Math209",
         "Math307",
-        "Math310"
+        "Math310",
+        "Math410",
+        "Math410-AddA",
+        "Math411",
+        "Math411-AddA",
+        "Math411-AddB",
+        "Math412-AddA",
+        "Math412-AddB"
       ],
       "missing": []
     },
@@ -263,8 +304,8 @@ window.TECT_PAPERS_DEPS = {
       "category": "epochs",
       "tex_path": "Docs\\papers\\epochs\\Epoch-10-Pillar4-Index\\Epoch-10.tex",
       "header_count": 0,
-      "body_count": 9,
-      "total": 9,
+      "body_count": 16,
+      "total": 16,
       "cited_math": [
         "Math167",
         "Math171",
@@ -274,7 +315,14 @@ window.TECT_PAPERS_DEPS = {
         "Math176",
         "Math177",
         "Math180",
-        "Math302"
+        "Math302",
+        "Math410",
+        "Math410-AddA",
+        "Math411",
+        "Math411-AddA",
+        "Math411-AddB",
+        "Math412-AddA",
+        "Math412-AddB"
       ],
       "missing": []
     },
@@ -283,8 +331,8 @@ window.TECT_PAPERS_DEPS = {
       "category": "epochs",
       "tex_path": "Docs\\papers\\epochs\\Epoch-11-R7R8-Stage2\\Epoch-11.tex",
       "header_count": 0,
-      "body_count": 29,
-      "total": 25,
+      "body_count": 36,
+      "total": 32,
       "cited_math": [
         "Math110-AddH",
         "Math159",
@@ -306,6 +354,13 @@ window.TECT_PAPERS_DEPS = {
         "Math297",
         "Math307",
         "Math310",
+        "Math410",
+        "Math410-AddA",
+        "Math411",
+        "Math411-AddA",
+        "Math411-AddB",
+        "Math412-AddA",
+        "Math412-AddB",
         "Math60",
         "Math61",
         "Math75",
@@ -319,8 +374,8 @@ window.TECT_PAPERS_DEPS = {
       "category": "epochs",
       "tex_path": "Docs\\papers\\epochs\\Epoch-12-FlatCartan-Audit\\Epoch-12.tex",
       "header_count": 0,
-      "body_count": 17,
-      "total": 10,
+      "body_count": 24,
+      "total": 17,
       "cited_math": [
         "Math196",
         "Math200",
@@ -331,7 +386,14 @@ window.TECT_PAPERS_DEPS = {
         "Math207",
         "Math208",
         "Math209",
-        "Math296"
+        "Math296",
+        "Math410",
+        "Math410-AddA",
+        "Math411",
+        "Math411-AddA",
+        "Math411-AddB",
+        "Math412-AddA",
+        "Math412-AddB"
       ],
       "missing": []
     },
@@ -340,8 +402,8 @@ window.TECT_PAPERS_DEPS = {
       "category": "papers",
       "tex_path": "Docs\\papers\\papers\\Paper-00-Cosmic-Origin\\Paper-00.tex",
       "header_count": 4,
-      "body_count": 26,
-      "total": 24,
+      "body_count": 33,
+      "total": 31,
       "cited_math": [
         "Math110-AddB",
         "Math110-AddG",
@@ -364,6 +426,13 @@ window.TECT_PAPERS_DEPS = {
         "Math311",
         "Math312",
         "Math314",
+        "Math410",
+        "Math410-AddA",
+        "Math411",
+        "Math411-AddA",
+        "Math411-AddB",
+        "Math412-AddA",
+        "Math412-AddB",
         "Math79-AddB",
         "Math97",
         "Math98-AddA"
@@ -375,13 +444,20 @@ window.TECT_PAPERS_DEPS = {
       "category": "papers",
       "tex_path": "Docs\\papers\\papers\\Paper-01-Pillar1-Mass-Gap\\Paper-01.tex",
       "header_count": 5,
-      "body_count": 9,
-      "total": 7,
+      "body_count": 16,
+      "total": 14,
       "cited_math": [
         "Math01-v2",
         "Math195",
         "Math292",
         "Math314-AddC",
+        "Math410",
+        "Math410-AddA",
+        "Math411",
+        "Math411-AddA",
+        "Math411-AddB",
+        "Math412-AddA",
+        "Math412-AddB",
         "Math56-AddB",
         "Math60",
         "Math97"
@@ -435,14 +511,18 @@ window.TECT_PAPERS_DEPS = {
       "category": "papers",
       "tex_path": "Docs\\papers\\papers\\Paper-04-Pillar4-Gauge-SO10\\Paper-04.tex",
       "header_count": 2,
-      "body_count": 44,
-      "total": 42,
+      "body_count": 51,
+      "total": 47,
       "cited_math": [
         "Math110-AddI",
         "Math162",
         "Math164",
+        "Math167",
         "Math170",
         "Math174",
+        "Math175",
+        "Math191",
+        "Math192",
         "Math229",
         "Math238",
         "Math239",
@@ -479,7 +559,8 @@ window.TECT_PAPERS_DEPS = {
         "Math310",
         "Math311",
         "Math314",
-        "Math314-AddD"
+        "Math314-AddD",
+        "Math411-AddB"
       ],
       "missing": []
     },
@@ -488,8 +569,8 @@ window.TECT_PAPERS_DEPS = {
       "category": "papers",
       "tex_path": "Docs\\papers\\papers\\Paper-05-Pillar5-Chirality\\Paper-05.tex",
       "header_count": 8,
-      "body_count": 9,
-      "total": 10,
+      "body_count": 16,
+      "total": 17,
       "cited_math": [
         "Math10",
         "Math11",
@@ -500,7 +581,14 @@ window.TECT_PAPERS_DEPS = {
         "Math233",
         "Math305",
         "Math314",
-        "Math314-AddD"
+        "Math314-AddD",
+        "Math410",
+        "Math410-AddA",
+        "Math411",
+        "Math411-AddA",
+        "Math411-AddB",
+        "Math412-AddA",
+        "Math412-AddB"
       ],
       "missing": []
     },
@@ -509,8 +597,8 @@ window.TECT_PAPERS_DEPS = {
       "category": "papers",
       "tex_path": "Docs\\papers\\papers\\Paper-06-Pillar6-Generations\\Paper-06.tex",
       "header_count": 11,
-      "body_count": 10,
-      "total": 12,
+      "body_count": 17,
+      "total": 17,
       "cited_math": [
         "Math234",
         "Math235",
@@ -523,7 +611,12 @@ window.TECT_PAPERS_DEPS = {
         "Math310-AddA",
         "Math313",
         "Math314-AddC",
-        "Math315"
+        "Math315",
+        "Math408",
+        "Math410",
+        "Math410-AddA",
+        "Math411-AddA",
+        "Math411-AddB"
       ],
       "missing": []
     },
@@ -532,11 +625,18 @@ window.TECT_PAPERS_DEPS = {
       "category": "papers",
       "tex_path": "Docs\\papers\\papers\\Paper-07-Pillar7-Quantum-Consistency\\Paper-07.tex",
       "header_count": 3,
-      "body_count": 4,
-      "total": 4,
+      "body_count": 11,
+      "total": 11,
       "cited_math": [
         "Math234",
         "Math314-AddC",
+        "Math410",
+        "Math410-AddA",
+        "Math411",
+        "Math411-AddA",
+        "Math411-AddB",
+        "Math412-AddA",
+        "Math412-AddB",
         "Math47",
         "Math48"
       ],
@@ -555,6 +655,22 @@ window.TECT_PAPERS_DEPS = {
         "Math229",
         "Math314-AddC",
         "Math319"
+      ],
+      "missing": []
+    },
+    {
+      "stem": "Paper-07-ext-AddA",
+      "category": "papers",
+      "tex_path": "Docs\\papers\\papers\\Paper-07-ext-SO10-Anomaly\\Paper-07-ext-AddA.tex",
+      "header_count": 0,
+      "body_count": 7,
+      "total": 5,
+      "cited_math": [
+        "Math157",
+        "Math410",
+        "Math410-AddA",
+        "Math411-AddA",
+        "Math411-AddB"
       ],
       "missing": []
     },
@@ -614,11 +730,14 @@ window.TECT_PAPERS_DEPS = {
       "category": "papers",
       "tex_path": "Docs\\papers\\papers\\Paper-11-Pillar11-Lambda\\Paper-11.tex",
       "header_count": 4,
-      "body_count": 10,
-      "total": 7,
+      "body_count": 14,
+      "total": 10,
       "cited_math": [
         "Math191",
         "Math314-AddD",
+        "Math411-AddB",
+        "Math412-AddA",
+        "Math412-AddB",
         "Math58-v3",
         "Math58-v4",
         "Math58-v6",
@@ -632,10 +751,18 @@ window.TECT_PAPERS_DEPS = {
       "category": "papers",
       "tex_path": "Docs\\papers\\papers\\Paper-12-Stage2-Global-Closure\\Paper-12.tex",
       "header_count": 0,
-      "body_count": 20,
-      "total": 9,
+      "body_count": 33,
+      "total": 18,
       "cited_math": [
+        "Math110-AddI",
+        "Math157",
+        "Math159",
+        "Math160",
+        "Math163",
+        "Math196",
         "Math270",
+        "Math280",
+        "Math281",
         "Math299",
         "Math307",
         "Math310",
@@ -643,6 +770,7 @@ window.TECT_PAPERS_DEPS = {
         "Math312",
         "Math313",
         "Math314-AddD",
+        "Math411-AddB",
         "Math60"
       ],
       "missing": []
@@ -652,8 +780,8 @@ window.TECT_PAPERS_DEPS = {
       "category": "papers",
       "tex_path": "Docs\\papers\\papers\\Paper-13-GAP1-hbar-Matching\\Paper-13.tex",
       "header_count": 7,
-      "body_count": 7,
-      "total": 8,
+      "body_count": 14,
+      "total": 15,
       "cited_math": [
         "Math291",
         "Math296",
@@ -662,7 +790,14 @@ window.TECT_PAPERS_DEPS = {
         "Math299",
         "Math310",
         "Math312",
-        "Math314-AddD"
+        "Math314-AddD",
+        "Math410",
+        "Math410-AddA",
+        "Math411",
+        "Math411-AddA",
+        "Math411-AddB",
+        "Math412-AddA",
+        "Math412-AddB"
       ],
       "missing": []
     },
@@ -680,6 +815,21 @@ window.TECT_PAPERS_DEPS = {
         "Math310",
         "Math314-AddD",
         "Math80"
+      ],
+      "missing": []
+    },
+    {
+      "stem": "Paper-14-AddA",
+      "category": "papers",
+      "tex_path": "Docs\\papers\\papers\\Paper-14-GAP2-BRST-FP\\Paper-14-AddA.tex",
+      "header_count": 0,
+      "body_count": 6,
+      "total": 4,
+      "cited_math": [
+        "Math160",
+        "Math164",
+        "Math226",
+        "Math411-AddB"
       ],
       "missing": []
     },
@@ -705,12 +855,25 @@ window.TECT_PAPERS_DEPS = {
       "missing": []
     },
     {
+      "stem": "Paper-15-AddA",
+      "category": "papers",
+      "tex_path": "Docs\\papers\\papers\\Paper-15-GAP3-Anomaly-Cancellation\\Paper-15-AddA.tex",
+      "header_count": 0,
+      "body_count": 2,
+      "total": 2,
+      "cited_math": [
+        "Math157",
+        "Math411-AddB"
+      ],
+      "missing": []
+    },
+    {
       "stem": "Paper-16",
       "category": "papers",
       "tex_path": "Docs\\papers\\papers\\Paper-16-GAP4-Cosmological-Observables\\Paper-16.tex",
       "header_count": 8,
-      "body_count": 10,
-      "total": 9,
+      "body_count": 17,
+      "total": 16,
       "cited_math": [
         "Math156",
         "Math159",
@@ -720,7 +883,14 @@ window.TECT_PAPERS_DEPS = {
         "Math307",
         "Math310",
         "Math311",
-        "Math314-AddD"
+        "Math314-AddD",
+        "Math410",
+        "Math410-AddA",
+        "Math411",
+        "Math411-AddA",
+        "Math411-AddB",
+        "Math412-AddA",
+        "Math412-AddB"
       ],
       "missing": []
     },
@@ -729,14 +899,21 @@ window.TECT_PAPERS_DEPS = {
       "category": "top_impact",
       "tex_path": "Docs\\papers\\top_impact\\Paper-TI-1-HRR-Index-Formula\\Paper-TI-1.tex",
       "header_count": 2,
-      "body_count": 4,
-      "total": 5,
+      "body_count": 11,
+      "total": 12,
       "cited_math": [
         "Math171",
         "Math171-AddA",
         "Math302",
         "Math305",
-        "Math314-AddB"
+        "Math314-AddB",
+        "Math410",
+        "Math410-AddA",
+        "Math411",
+        "Math411-AddA",
+        "Math411-AddB",
+        "Math412-AddA",
+        "Math412-AddB"
       ],
       "missing": []
     },
@@ -759,11 +936,18 @@ window.TECT_PAPERS_DEPS = {
       "category": "top_impact",
       "tex_path": "Docs\\papers\\top_impact\\Paper-TI-3-A2-Axiom-Reducibility\\Paper-TI-3.tex",
       "header_count": 2,
-      "body_count": 0,
-      "total": 2,
+      "body_count": 7,
+      "total": 9,
       "cited_math": [
         "Math195",
-        "Math314-AddB"
+        "Math314-AddB",
+        "Math410",
+        "Math410-AddA",
+        "Math411",
+        "Math411-AddA",
+        "Math411-AddB",
+        "Math412-AddA",
+        "Math412-AddB"
       ],
       "missing": []
     },
@@ -784,6 +968,181 @@ window.TECT_PAPERS_DEPS = {
     }
   ],
   "notes": [
+    {
+      "key": "Math411-AddB",
+      "count": 29,
+      "papers": [
+        "Auxiliary-01",
+        "Auxiliary-02",
+        "Epoch-01",
+        "Epoch-02",
+        "Epoch-03",
+        "Epoch-04",
+        "Epoch-05",
+        "Epoch-06",
+        "Epoch-07",
+        "Epoch-08",
+        "Epoch-09",
+        "Epoch-10",
+        "Epoch-11",
+        "Epoch-12",
+        "Paper-00",
+        "Paper-01",
+        "Paper-04",
+        "Paper-05",
+        "Paper-06",
+        "Paper-07",
+        "Paper-07-ext-AddA",
+        "Paper-11",
+        "Paper-12",
+        "Paper-13",
+        "Paper-14-AddA",
+        "Paper-15-AddA",
+        "Paper-16",
+        "Paper-TI-1",
+        "Paper-TI-3"
+      ]
+    },
+    {
+      "key": "Math410",
+      "count": 18,
+      "papers": [
+        "Auxiliary-01",
+        "Auxiliary-02",
+        "Epoch-06",
+        "Epoch-08",
+        "Epoch-09",
+        "Epoch-10",
+        "Epoch-11",
+        "Epoch-12",
+        "Paper-00",
+        "Paper-01",
+        "Paper-05",
+        "Paper-06",
+        "Paper-07",
+        "Paper-07-ext-AddA",
+        "Paper-13",
+        "Paper-16",
+        "Paper-TI-1",
+        "Paper-TI-3"
+      ]
+    },
+    {
+      "key": "Math410-AddA",
+      "count": 18,
+      "papers": [
+        "Auxiliary-01",
+        "Auxiliary-02",
+        "Epoch-06",
+        "Epoch-08",
+        "Epoch-09",
+        "Epoch-10",
+        "Epoch-11",
+        "Epoch-12",
+        "Paper-00",
+        "Paper-01",
+        "Paper-05",
+        "Paper-06",
+        "Paper-07",
+        "Paper-07-ext-AddA",
+        "Paper-13",
+        "Paper-16",
+        "Paper-TI-1",
+        "Paper-TI-3"
+      ]
+    },
+    {
+      "key": "Math411-AddA",
+      "count": 18,
+      "papers": [
+        "Auxiliary-01",
+        "Auxiliary-02",
+        "Epoch-06",
+        "Epoch-08",
+        "Epoch-09",
+        "Epoch-10",
+        "Epoch-11",
+        "Epoch-12",
+        "Paper-00",
+        "Paper-01",
+        "Paper-05",
+        "Paper-06",
+        "Paper-07",
+        "Paper-07-ext-AddA",
+        "Paper-13",
+        "Paper-16",
+        "Paper-TI-1",
+        "Paper-TI-3"
+      ]
+    },
+    {
+      "key": "Math412-AddA",
+      "count": 17,
+      "papers": [
+        "Auxiliary-01",
+        "Auxiliary-02",
+        "Epoch-06",
+        "Epoch-08",
+        "Epoch-09",
+        "Epoch-10",
+        "Epoch-11",
+        "Epoch-12",
+        "Paper-00",
+        "Paper-01",
+        "Paper-05",
+        "Paper-07",
+        "Paper-11",
+        "Paper-13",
+        "Paper-16",
+        "Paper-TI-1",
+        "Paper-TI-3"
+      ]
+    },
+    {
+      "key": "Math412-AddB",
+      "count": 17,
+      "papers": [
+        "Auxiliary-01",
+        "Auxiliary-02",
+        "Epoch-06",
+        "Epoch-08",
+        "Epoch-09",
+        "Epoch-10",
+        "Epoch-11",
+        "Epoch-12",
+        "Paper-00",
+        "Paper-01",
+        "Paper-05",
+        "Paper-07",
+        "Paper-11",
+        "Paper-13",
+        "Paper-16",
+        "Paper-TI-1",
+        "Paper-TI-3"
+      ]
+    },
+    {
+      "key": "Math411",
+      "count": 16,
+      "papers": [
+        "Auxiliary-01",
+        "Auxiliary-02",
+        "Epoch-06",
+        "Epoch-08",
+        "Epoch-09",
+        "Epoch-10",
+        "Epoch-11",
+        "Epoch-12",
+        "Paper-00",
+        "Paper-01",
+        "Paper-05",
+        "Paper-07",
+        "Paper-13",
+        "Paper-16",
+        "Paper-TI-1",
+        "Paper-TI-3"
+      ]
+    },
     {
       "key": "Math314-AddD",
       "count": 13,
@@ -861,6 +1220,30 @@ window.TECT_PAPERS_DEPS = {
       ]
     },
     {
+      "key": "Math110-AddI",
+      "count": 6,
+      "papers": [
+        "Epoch-08",
+        "Epoch-09",
+        "Paper-00",
+        "Paper-04",
+        "Paper-10",
+        "Paper-12"
+      ]
+    },
+    {
+      "key": "Math157",
+      "count": 6,
+      "papers": [
+        "Epoch-09",
+        "Paper-07-ext",
+        "Paper-07-ext-AddA",
+        "Paper-12",
+        "Paper-15",
+        "Paper-15-AddA"
+      ]
+    },
+    {
       "key": "Math302",
       "count": 6,
       "papers": [
@@ -919,17 +1302,6 @@ window.TECT_PAPERS_DEPS = {
       ]
     },
     {
-      "key": "Math110-AddI",
-      "count": 5,
-      "papers": [
-        "Epoch-08",
-        "Epoch-09",
-        "Paper-00",
-        "Paper-04",
-        "Paper-10"
-      ]
-    },
-    {
       "key": "Math195",
       "count": 5,
       "papers": [
@@ -938,6 +1310,17 @@ window.TECT_PAPERS_DEPS = {
         "Paper-00",
         "Paper-01",
         "Paper-TI-3"
+      ]
+    },
+    {
+      "key": "Math196",
+      "count": 5,
+      "papers": [
+        "Epoch-11",
+        "Epoch-12",
+        "Paper-10",
+        "Paper-12",
+        "Paper-16"
       ]
     },
     {
@@ -1026,6 +1409,46 @@ window.TECT_PAPERS_DEPS = {
       ]
     },
     {
+      "key": "Math159",
+      "count": 4,
+      "papers": [
+        "Epoch-09",
+        "Epoch-11",
+        "Paper-12",
+        "Paper-16"
+      ]
+    },
+    {
+      "key": "Math160",
+      "count": 4,
+      "papers": [
+        "Epoch-09",
+        "Paper-12",
+        "Paper-14",
+        "Paper-14-AddA"
+      ]
+    },
+    {
+      "key": "Math167",
+      "count": 4,
+      "papers": [
+        "Epoch-09",
+        "Epoch-10",
+        "Epoch-11",
+        "Paper-04"
+      ]
+    },
+    {
+      "key": "Math191",
+      "count": 4,
+      "papers": [
+        "Epoch-11",
+        "Paper-04",
+        "Paper-10",
+        "Paper-11"
+      ]
+    },
+    {
       "key": "Math194",
       "count": 4,
       "papers": [
@@ -1033,16 +1456,6 @@ window.TECT_PAPERS_DEPS = {
         "Epoch-09",
         "Epoch-11",
         "Paper-TI-2"
-      ]
-    },
-    {
-      "key": "Math196",
-      "count": 4,
-      "papers": [
-        "Epoch-11",
-        "Epoch-12",
-        "Paper-10",
-        "Paper-16"
       ]
     },
     {
@@ -1094,24 +1507,6 @@ window.TECT_PAPERS_DEPS = {
       ]
     },
     {
-      "key": "Math157",
-      "count": 3,
-      "papers": [
-        "Epoch-09",
-        "Paper-07-ext",
-        "Paper-15"
-      ]
-    },
-    {
-      "key": "Math159",
-      "count": 3,
-      "papers": [
-        "Epoch-09",
-        "Epoch-11",
-        "Paper-16"
-      ]
-    },
-    {
       "key": "Math162",
       "count": 3,
       "papers": [
@@ -1121,12 +1516,12 @@ window.TECT_PAPERS_DEPS = {
       ]
     },
     {
-      "key": "Math167",
+      "key": "Math164",
       "count": 3,
       "papers": [
         "Epoch-09",
-        "Epoch-10",
-        "Epoch-11"
+        "Paper-04",
+        "Paper-14-AddA"
       ]
     },
     {
@@ -1136,15 +1531,6 @@ window.TECT_PAPERS_DEPS = {
         "Epoch-10",
         "Epoch-11",
         "Paper-04"
-      ]
-    },
-    {
-      "key": "Math191",
-      "count": 3,
-      "papers": [
-        "Epoch-11",
-        "Paper-10",
-        "Paper-11"
       ]
     },
     {
@@ -1163,6 +1549,24 @@ window.TECT_PAPERS_DEPS = {
         "Auxiliary-01",
         "Auxiliary-02",
         "Paper-06"
+      ]
+    },
+    {
+      "key": "Math280",
+      "count": 3,
+      "papers": [
+        "Paper-04",
+        "Paper-12",
+        "Paper-14"
+      ]
+    },
+    {
+      "key": "Math281",
+      "count": 3,
+      "papers": [
+        "Paper-04",
+        "Paper-12",
+        "Paper-15"
       ]
     },
     {
@@ -1370,19 +1774,11 @@ window.TECT_PAPERS_DEPS = {
       ]
     },
     {
-      "key": "Math160",
+      "key": "Math163",
       "count": 2,
       "papers": [
-        "Epoch-09",
-        "Paper-14"
-      ]
-    },
-    {
-      "key": "Math164",
-      "count": 2,
-      "papers": [
-        "Epoch-09",
-        "Paper-04"
+        "Paper-10",
+        "Paper-12"
       ]
     },
     {
@@ -1407,6 +1803,14 @@ window.TECT_PAPERS_DEPS = {
       "papers": [
         "Epoch-09",
         "Paper-16"
+      ]
+    },
+    {
+      "key": "Math192",
+      "count": 2,
+      "papers": [
+        "Epoch-11",
+        "Paper-04"
       ]
     },
     {
@@ -1455,22 +1859,6 @@ window.TECT_PAPERS_DEPS = {
       "papers": [
         "Paper-04",
         "Paper-12"
-      ]
-    },
-    {
-      "key": "Math280",
-      "count": 2,
-      "papers": [
-        "Paper-04",
-        "Paper-14"
-      ]
-    },
-    {
-      "key": "Math281",
-      "count": 2,
-      "papers": [
-        "Paper-04",
-        "Paper-15"
       ]
     },
     {
@@ -2000,13 +2388,6 @@ window.TECT_PAPERS_DEPS = {
       ]
     },
     {
-      "key": "Math163",
-      "count": 1,
-      "papers": [
-        "Paper-10"
-      ]
-    },
-    {
       "key": "Math165",
       "count": 1,
       "papers": [
@@ -2035,6 +2416,13 @@ window.TECT_PAPERS_DEPS = {
       ]
     },
     {
+      "key": "Math175",
+      "count": 1,
+      "papers": [
+        "Paper-04"
+      ]
+    },
+    {
       "key": "Math176",
       "count": 1,
       "papers": [
@@ -2057,13 +2445,6 @@ window.TECT_PAPERS_DEPS = {
     },
     {
       "key": "Math190",
-      "count": 1,
-      "papers": [
-        "Epoch-11"
-      ]
-    },
-    {
-      "key": "Math192",
       "count": 1,
       "papers": [
         "Epoch-11"
@@ -2144,6 +2525,13 @@ window.TECT_PAPERS_DEPS = {
       "count": 1,
       "papers": [
         "Paper-02"
+      ]
+    },
+    {
+      "key": "Math226",
+      "count": 1,
+      "papers": [
+        "Paper-14-AddA"
       ]
     },
     {
@@ -2341,13 +2729,20 @@ window.TECT_PAPERS_DEPS = {
       "papers": [
         "Epoch-08"
       ]
+    },
+    {
+      "key": "Math408",
+      "count": 1,
+      "papers": [
+        "Paper-06"
+      ]
     }
   ],
   "totals": {
-    "papers": 36,
-    "unique_notes": 196,
+    "papers": 39,
+    "unique_notes": 206,
     "header_refs": 117,
-    "body_refs": 418,
+    "body_refs": 582,
     "missing": 0
   }
 };

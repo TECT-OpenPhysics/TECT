@@ -20,6 +20,34 @@ The current tier scoreboard lives in `Codes/config/pillar_status.json` (machine-
 
 ## §1. 2026-05-26 cascade entries
 
+### 2026-05-27 — PDF REBUILD GATE (operator-PC LaTeX dependency identified)
+- **Date**: 2026-05-27
+- **Pillar**: ALL (cross-cutting publish-pipeline operation)
+- **Old tier**: n/a
+- **New tier**: n/a
+- **Reason**: PAPERS REVISION SWEEP P-Rounds 1-7 produced 39 .tex edits + 3 NEW C-tier addendum papers, but the corresponding 29 PDFs CANNOT be built in sandbox: TeX Live 2021 baseline lacks `texlive-publishers` (`revtex4-2.cls` not found); `sudo apt install` blocked by no-new-privileges; `tlmgr --usermode install revtex` blocked by cross-release `2021 → 2026` upgrade; CTAN URLs returning 404. **Operator-PC build is the canonical path** (TeX Live or MiKTeX with revtex pre-installed). Build command: `.\Codes\scripts\build-all-papers.ps1` followed by `python -u Codes\tools\publish_papers.py` for mirror sync. After PDF build + mirror sync, the existing `tect.ps1 publish` workflow completes the full cascade.
+- **Action items**: (1) Operator runs `.\Codes\scripts\build-all-papers.ps1` on PC; (2) Verify with `python -u Codes\tools\publish_papers.py`; (3) Run `python -u Codes\tools\verify_website.py` (must show 12/12 PASS); (4) `tect.ps1 publish`.
+- **Source Math notes**: Math411-AddB §10 (parent reclassification); PAPERS_REVISION_PLAN_2026_05_26.md (P-Rounds 1-7 already complete).
+- **CHANGELOG**: To be added in publish commit (single combined commit covering reclassification + revision sweep + PDF rebuild).
+- **OPEN-QUESTIONS**: n/a (publish-pipeline operation; no Q-IDs CLOSED/OPENED).
+
+### 2026-05-27 — PAPERS REVISION SWEEP (P-Rounds 1-7 complete)
+- **Date**: 2026-05-27 (continuation of 2026-05-26 EOD reclassification cascade)
+- **Pillar**: ALL (cross-cutting papers-tier operation)
+- **Old tier**: n/a (per-paper disposition operation, not a pillar tier change)
+- **New tier**: n/a
+- **Reason**: P-Rounds 1-7 of `Docs/policy/PAPERS_REVISION_PLAN_2026_05_26.md` executed:
+  - **P-R1**: 7 A-tier registry-note only + 5 F-tier (Epoch-01..05) epoch-temporal footnote stamps
+  - **P-R2**: 16 B-tier (Paper-00/01/05/07/13/16/TI-1/TI-3 + Auxiliary-01/02 + Epoch-06/08/09/10/11/12) uniform reclassification footnote
+  - **P-R3**: 3 NEW C-tier addendum papers (Paper-07-ext-AddA, Paper-14-AddA, Paper-15-AddA) — standalone validity of Math157 anomaly cancellation, BRST FP determinant, GAP-3 anomaly post-Pillar-6-EXHAUSTED
+  - **P-R4**: 5 D-tier papers (Paper-04, Paper-06, Paper-11, Paper-12, Epoch-07) — POST-2026-05-26 REWRITE BANNER with per-paper re-framing (original body preserved as historical reference)
+  - **P-R5**: SKIPPED (E-tier reserved; no D-rewrite required E-promotion)
+  - **P-R6**: 10 Old/*.tex files — uniform ARCHIVE-NOTE LaTeX comment banner at top
+  - **P-R7**: PAPERS_STATUS_REGISTRY.md Rev 12 with per-paper disposition + execution status table
+- **Source Math notes**: Math411-AddB §10 (canonical reclassification); Docs/policy/PAPERS_REVISION_PLAN_2026_05_26.md (8-round plan).
+- **CHANGELOG**: [Papers/Revision-Sweep] PAPERS REVISION SWEEP P-Rounds 1-7 — 48 .tex files processed (entry to be added in publish commit message).
+- **OPEN-QUESTIONS**: n/a (per-paper disposition operation; no Q-IDs CLOSED/OPENED).
+
 ### 2026-05-26 — NARRATIVE SYNC SWEEP (Rounds 1-7 complete)
 - **Date**: 2026-05-26 (EOD+)
 - **Pillar**: ALL (cross-cutting narrative-sync operation, not a tier change)

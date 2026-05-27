@@ -7,6 +7,20 @@ This file is the append-only audit log of every snapshot orchestrator run. Lates
 The snapshot orchestrator brings all four TECT mirror trees into a coherent state via the binding 8-step pipeline. See `SNAPSHOT_POLICY.md` for the full definition, trigger conditions, and exit-code contract.
 
 ---
+## 2026-05-27T08:24:44 UTC -- 529f387 -- 2026-05-27 publish retry: verify_website blockers resolved (records.js + status-history.js regenerated; manifest.json regenerated; README SESSION-HANDOFF cite removed). 2026-05-26 EOD+ NARRATIVE SYNC SWEEP Rounds 1-7 complete + PAPERS_REVISION_PLAN_2026_05_26.md authored (48 .tex disposition table: 7 A-KEEP + 16 B-ANNOTATE + 3 C-ADDENDUM + 5 D-REWRITE + 5 F-EPOCH-RECAST + 10 ARCHIVE-NOTE + 2 templates-skip). All operator-facing surfaces aligned to C1/C2/C3 epistemic-category reclassification + canonical positioning sentence + Pillar 6 EXHAUSTED + Pillar 11.B DOUBLY BLOCKED + TOE-level claim SUSPENDED. integrity_audit + verify_website + scan_recent_writes all exit=0.
+- stamp : PASS
+- generate : PASS
+- verify : PASS
+- manifest : PASS
+- commit : PASS (529f387)
+- curate : PASS
+- push : PASS (https://github.com/TECT-OpenPhysics/TECT/commit/8c5781102a32bdf9ccf807546f542fb9a3e5d3c3)
+- audit : PASS (clean)
+- Elapsed: 206.7 s
+- GitHub: https://github.com/TECT-OpenPhysics/TECT/commit/8c5781102a32bdf9ccf807546f542fb9a3e5d3c3
+
+---
+
 ## 2026-05-26T12:19:44 UTC -- 1fc8462 -- 2026-05-26 EOD: Pillar 6/11 cascade COMPLETE + C1/C2/C3 reclassification + portable handoff archive | 8 Math notes (Math410/AddA, Math411/AddA/AddB, Math412/AddA/AddB) — all standard Pillar 6 promotion routes EXHAUSTED + Pillar 11.B DOUBLY BLOCKED | Math411-AddB §10 binding C1/C2/C3 reclassification: 7 core / 2 secondary / 2 phenomenological | TECT canonically reframed as emergent vacuum/gravity framework; TOE-level claim SUSPENDED until non-standard rescue independently derived | Cascade artefacts: pillar_status.json + CHANGELOG + TOE-FACT-SHEET banner + research-log.md EOD entry + SESSION-HANDOFF-2026-05-26.md portable resume + auto-memory entry | integrity_audit + verify_website + scan_recent_writes exit=0
 - stamp : PASS
 - generate : PASS
@@ -727,6 +741,7 @@ The snapshot orchestrator brings all four TECT mirror trees into a coherent stat
 - GitHub: https://github.com/TECT-OpenPhysics/TECT/commit/b83758bd0a94c3b2b97ff9f09a0ef6c8cb736de2
 
 ---
+
 
 
 
