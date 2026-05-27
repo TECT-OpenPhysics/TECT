@@ -20,6 +20,19 @@ The current tier scoreboard lives in `Codes/config/pillar_status.json` (machine-
 
 ## §1. 2026-05-26 cascade entries
 
+### 2026-05-27 — ZENODO DOI ISSUED (permanent academic priority anchor established)
+- **Date**: 2026-05-27
+- **Pillar**: ALL (cross-cutting; academic priority establishment)
+- **Old tier**: n/a
+- **New tier**: n/a
+- **Reason**: Zenodo DOI 10.5281/zenodo.20410377 issued (v0.1.0-cascade-2026-05-26 release base). GitHub release → Zenodo webhook auto-issued. This serves as the permanent academic priority anchor for the 2026-05-26 EOD Pillar 6/11 cascade + Math411-AddB §10 C1/C2/C3 reclassification framework — decisive evidence in any future priority dispute (concept DOI; all subsequent version DOIs auto-link to this concept).
+- **DOI URL**: https://doi.org/10.5281/zenodo.20410377
+- **Citation**: Lee, J. (2026). *TECT — Topological Energy Condensate Theory* (Version v0.1.0-cascade-2026-05-26) [Software]. Zenodo. https://doi.org/10.5281/zenodo.20410377
+- **Cascade artefacts**: CITATION.cff (doi + identifiers fields), README.md (DOI badge + Cite as block), Website/data/_narrative/index_about.md (citation block).
+- **Source Math notes**: Math411-AddB §10 (canonical reclassification source).
+- **CHANGELOG**: To be added in publish commit.
+- **OPEN-QUESTIONS**: n/a.
+
 ### 2026-05-27 — PDF REBUILD GATE (operator-PC LaTeX dependency identified)
 - **Date**: 2026-05-27
 - **Pillar**: ALL (cross-cutting publish-pipeline operation)

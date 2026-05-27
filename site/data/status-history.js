@@ -2,10 +2,21 @@
 /* Source: Docs/status/STATUS-HISTORY.md                                   */
 window.TECT_STATUS_HISTORY = {
   "schema": "tect-status-history-v1",
-  "generated": "2026-05-27T10:34:11Z",
+  "generated": "2026-05-27T10:52:41Z",
   "source": "Docs/status/STATUS-HISTORY.md",
-  "count": 18,
+  "count": 19,
   "entries": [
+    {
+      "date": "2026-05-27",
+      "description": "ZENODO DOI ISSUED (permanent academic priority anchor established)",
+      "pillar": "ALL (cross-cutting; academic priority establishment)",
+      "old_tier": "n/a",
+      "new_tier": "n/a",
+      "reason": "Zenodo DOI 10.5281/zenodo.20410377 issued (v0.1.0-cascade-2026-05-26 release base). GitHub release → Zenodo webhook auto-issued. This serves as the permanent academic priority anchor for the 2026-05-26 EOD Pillar 6/11 cascade + Math411-AddB §10 C1/C2/C3 reclassification framework — decisive evidence in any future priority dispute (concept DOI; all subsequent version DOIs auto-link to this concept).",
+      "source_notes": "Math411-AddB §10 (canonical reclassification source).",
+      "changelog": "To be added in publish commit.",
+      "open_questions": "n/a."
+    },
     {
       "date": "2026-05-27",
       "description": "PDF REBUILD GATE (operator-PC LaTeX dependency identified)",

@@ -12,4 +12,12 @@ We adopt the three-stage qualification predicate $\mathrm{TOE}:=S_1\wedge S_2\we
 
 This site is maintained in the same repository as the canonical source (`Docs/math/`, `Codes/`, `Docs/status/`). It is *not* a brochure: every claim links to its evidence file, every numerical result carries a unique $R$-tag tied to a code fingerprint, every retraction is preserved in the append-only negative-results ledger, and every binding statement carries a `2026-MM-DD operator binding` timestamp.
 
+## Cite this work (DOI: 10.5281/zenodo.20410377)
+
+ZenodoPermanent DOI issued 2026-05-27 — v0.1.0-cascade-2026-05-26 release (Pillar 6/11 cascade + C1/C2/C3 reclassification binding):
+
+> **Lee, J.** (2026). *TECT — Topological Energy Condensate Theory* (Version v0.1.0-cascade-2026-05-26) [Software]. Zenodo. https://doi.org/10.5281/zenodo.20410377
+
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20410377.svg)](https://doi.org/10.5281/zenodo.20410377)
+
 <!-- Generated: 2026-05-26 (Round 3 narrative tier sync) -->
