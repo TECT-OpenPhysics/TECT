@@ -7,6 +7,20 @@ This file is the append-only audit log of every snapshot orchestrator run. Lates
 The snapshot orchestrator brings all four TECT mirror trees into a coherent state via the binding 8-step pipeline. See `SNAPSHOT_POLICY.md` for the full definition, trigger conditions, and exit-code contract.
 
 ---
+## 2026-05-27T10:55:15 UTC -- 44e669b -- 2026-05-27 ZENODO DOI 10.5281/zenodo.20410377 ISSUED + DOI integration (README badge + CITATION.cff doi/identifiers + Website index_about citation block) + CITATION.cff YAML fix (folded block scalar) + papers_math_dependencies.js regen + permanent academic priority anchor established | Includes prior PAPERS REVISION SWEEP P-Rounds 1-7 (48 .tex disposition) + PDF rebuild (39 papers in-place, revtex4-2 header fix for 3 C-tier addendum) + papers_pdf_index allowlist + 2026-05-26 EOD Pillar 6/11 cascade + C1/C2/C3 reclassification (Math411-AddB §10 binding) + NARRATIVE SYNC SWEEP Rounds 1-8 + META-DISCIPLINE POSTMORTEM (CLAUDE.md §11.5.3 3 SOPs + verify_website step 12/12) | All 12/12 + integrity_audit + scan_recent_writes exit=0
+- stamp : PASS
+- generate : PASS
+- verify : PASS
+- manifest : PASS
+- commit : PASS (44e669b)
+- curate : PASS
+- push : PASS (https://github.com/TECT-OpenPhysics/TECT/commit/cf58b1837b5beaca2d1795019127dce8c08ec154)
+- audit : PASS (clean)
+- Elapsed: 281.9 s
+- GitHub: https://github.com/TECT-OpenPhysics/TECT/commit/cf58b1837b5beaca2d1795019127dce8c08ec154
+
+---
+
 ## 2026-05-27T10:36:14 UTC -- 56898c8 -- 2026-05-27 PAPERS REVISION SWEEP + PDF rebuild + CITATION.cff YAML fix for Zenodo + papers_pdf_index allowlist
 - stamp : PASS
 - generate : PASS
@@ -769,6 +783,7 @@ The snapshot orchestrator brings all four TECT mirror trees into a coherent stat
 - GitHub: https://github.com/TECT-OpenPhysics/TECT/commit/b83758bd0a94c3b2b97ff9f09a0ef6c8cb736de2
 
 ---
+
 
 
 

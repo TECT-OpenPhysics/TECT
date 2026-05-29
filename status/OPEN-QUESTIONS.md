@@ -55,6 +55,174 @@ archived with the replacement's tag, and the replacement gains an
 
 ## Active
 
+#### Q-2026-05-27-Infra-IntegrityAudit-Truncation — `Codes/scripts/integrity_audit.py` pre-existing truncation (no `__main__` block; silently exits 0 with no output) — **OPENED 2026-05-27 (Math420 cascade verification side-finding)** — **MEDIUM priority (infrastructure)**
+
+**[OPENED 2026-05-27 — discovered during Math420 verification layer execution]** **Context**: `Codes/scripts/integrity_audit.py` (516 lines, in git since commit `5bf49bc` 2026-05-15) is truncated mid-token at the end of `main()`. The last 5 chars are `    pri` (incomplete `print(`). Python's `ast.parse()` happens to accept this because `pri` parses as a valid name-reference expression statement (NameError only at runtime, not at parse-time). The file is missing the `if __name__ == "__main__": sys.exit(main())` invocation block. **Net effect: `python3 Codes/scripts/integrity_audit.py` silently defines `main()`, calls nothing, and exits 0 with empty stdout/stderr**. This means the 8-axis CLAUDE.md §20 infrastructure-theory consistency check has been a NO-OP for 12+ days. The defect predates Math420 by 12 days; Math420 cascade verification only surfaced it.
+
+**Closure criteria**: 
+- Read the last-known-good version of `integrity_audit.py` from git history (pre-truncation; likely before `5bf49bc`), OR
+- Re-derive the missing tail: complete the `print("integrity_audit.py — TECT 8-axis consistency check (CLAUDE.md §20)")` line; print the per-axis results (`result.checks_run`, `result.passes`, `result.defects`); for each defect emit a TodoWrite-formatted line; return exit-1 if defects > 0 and `--warn-only` is unset, else exit-0; and add `if __name__ == "__main__": sys.exit(main())` invocation block.
+- Use atomic_write (CLAUDE.md §11.5.2 absolute prohibition on Edit/Write for tracked files).
+- Verify by `python3 -u Codes/scripts/integrity_audit.py` and confirming non-empty banner output.
+
+**Falsification gate**: if the repair takes more than 30 minutes (which would indicate the truncation removed substantial axis-summary logic that needs rebuilding from scratch), escalate to a Math420-AddB infrastructure-rebuild note rather than inline repair.
+
+**Owner**: next infrastructure-touching session (NOT a theory blocker — theory work proceeds normally; the silent no-op only means the §20 consistency safety-net is currently absent, but verify_website.py §6.3.7 and check_file_integrity.py §11.5.1 are both functional).
+
+**Last reviewed**: 2026-05-27 (Math420 cascade).
+**Review by**: 2026-06-10.
+
+**Cross-references**:
+- `Codes/scripts/integrity_audit.py` (truncated file)
+- git commit `5bf49bc` (2026-05-15 — earliest commit with truncation in tree)
+- CLAUDE.md §20 (Infrastructure-Theory Co-Stabilization Policy — currently no-op due to this defect)
+- `Codes/tools/verify_website.py` 12/12 (still functional — Website surfaces remain verified)
+- `Codes/scripts/scan_recent_writes.py` (still functional — recent-write watchdog remains active)
+- `Codes/tools/check_file_integrity.py --staged --strict` (still functional — pre-commit hook remains active)
+
+---
+
+#### Q-2026-05-27-Math420-AddE-Pillar8-T7-Recursive-Closure — Pillar 8 T7 unconditional promotion path: recursive closure of CP-pair + Casimir + PV + Brazovskii methodologies to terminal textbook axioms — **OPENED 2026-05-27 (Math420-AddC + AddD §7 follow-up)** — **MEDIUM priority (paper-grade closure)**
+
+**[OPENED 2026-05-27 — Math420-AddC + AddD leading-order discharge closure]** **Context**: Math420-AddC + Math420-AddD parallel same-day dispatch DISCHARGED both $H_{\rm AddC\text{-}done}$ and $H_{\rm AddD\text{-}done}$ at leading-order analytical level. ALL 5 hypotheses of $\mathcal{H}_{\Lambda\text{-supp}}^{\rm post\text{-}AddB}$ are now DISCHARGED. Pillar 8 tier T6 PROVED CONDITIONAL retained (leading-order analytical qualifier is the "conditional" content). T7 unconditional promotion requires recursive closure to terminal textbook axioms.
+
+**Closure criteria — 4 methodology recursive closures**:
+- **(a) CP-pairing methodology**: functional-integral CP-pairing argument (Math58-v3, Math58-v4-sublemma) to standard Yang-Mills textbook axioms (Peskin-Schroeder Ch.\ 22, Weinberg QFT vol II Ch.\ 23). 
+- **(b) Casimir contact-term methodology**: UV-divergence absorption into vacuum-state renormalisation (Math58-v5 + Math420-AddC) to standard QFT renormalisation theory axioms (Collins, Renormalization, Cambridge 1984).
+- **(c) PV scheme methodology**: Pauli-Villars regularisation cancellation (Math58-v7-Dirac-tightening + Math420-AddD) to standard textbook references (Peskin-Schroeder §7.5, Weinberg QFT vol I §12.2; both cited in Math58-v7 itself).
+- **(d) Brazovskii self-consistency methodology**: 1-loop self-consistency for $r_R$ (Math400-AddE Path $\alpha$ + Math420-AddC) to Brazovskii 1975 original derivation + modern extensions (Hohenberg-Halperin 1977 mode-coupling formalism).
+
+**Verdict logic**:
+- All 4 close: Pillar 8 T6 → T7 PROVED unconditional.
+- Any methodology cannot close to terminal axioms (e.g., reveals additional implicit assumption): T6 conditional retained with explicit recursive-residual-gap enumeration; Pillar 8 paper-grade closure restricted to T6 framing.
+
+**Falsification gate**: if any recursive closure reveals a structural circular dependency or implicit assumption beyond textbook axioms, Pillar 8 tier may require revision (downgrade from T6 to T4 with explicit residual programme).
+
+**Owner**: Math420-AddE (queued; MEDIUM priority for paper-grade closure; not blocking T6 PROVED CONDITIONAL tier classification).
+
+**Last reviewed**: 2026-05-27 (Math420-AddC + AddD parallel dispatch).
+**Review by**: 2026-07-15 (8-week window for recursive closure work).
+
+**Cross-references**:
+- Math420-AddC + AddD (the discharge sources this T7 promotion gate builds on)
+- Math420-AddB (the H_RH-compat decomposition that defined the 5-hypothesis structure)
+- Atiyah-Singer 1963 (terminal textbook anchor for index theorem)
+- Brazovskii 1975 (terminal textbook anchor for fluctuation-stabilised disordered phase)
+
+---
+
+#### Q-2026-05-27-Math420-AddD-AddA-Pillar8-Sector4-Q5-Numerical — Q5 numerical refinement for paper-grade precision (Sector 4 dynamical-background correction coefficient) — **OPENED 2026-05-27 (Math420-AddD §4 contingent follow-up)** — **LOW priority (paper-grade refinement)**
+
+**[OPENED 2026-05-27 — Math420-AddD analytical anchor for previously-PARTIAL-ADVANCED Q5]** **Context**: Math58-v7-AddA Q5 numerical sector-decomposition verification was PARTIAL-ADVANCED at the time of Math58-v7-AddB; Math420-AddD analytically anchored the dynamical-background correction estimate at $O(10^{-2})$ at canonical TECT params. Numerical refinement to determine precise coefficient is queued as paper-grade refinement, NOT blocking tier classification.
+
+**Closure criteria**: execute the sector-decomposition numerical framework of Math58-v7-AddB at canonical TECT params, verify the dynamical-background correction coefficient matches the analytical estimate (within standard numerical uncertainty); coefficient precision sufficient for paper-grade closure.
+
+**Owner**: Math420-AddD-AddA (queued; LOW priority).
+
+**Last reviewed**: 2026-05-27.
+**Review by**: 2026-07-15 (paper closure timeline).
+
+---
+
+#### Q-2026-05-27-Math420-AddC-Pillar8-Sector3-RH-Reformulation — Sector 3 BCC Casimir: Reading-H-native reformulation — **OPENED 2026-05-27 (Math420-AddB §7 follow-up)** — **RESOLVED 2026-05-27 (Math420-AddC same-day parallel dispatch)**
+
+**[RESOLVED 2026-05-27 — Math420-AddC chemical-potential-shift derivation]** Math420-AddC executed explicit Reading-H-native re-derivation: 1-loop free-energy at $\Psi_0 = 0$ with $r_R = +0.4193$ (Brazovskii self-consistency Math400-AddE Path $\alpha$); Casimir UV-cancellation transferred unconditionally (Math420-AddB §5); finite residue identified via differential identity $\partial f_1/\partial r_R = \frac{1}{2}\langle|\Psi|^2\rangle$ as Hartree closed-form $\Delta F^{\rm finite}/V = (u/8)\langle|\Psi|^2\rangle^2$; chemical-potential shift $\delta\mu = (u/4)\langle|\Psi|^2\rangle$ identified via U(1) Noether-charge thermodynamic relation. **Result**: $\Delta\Lambda^{\rm finite,RH}_{\rm BCC} = 0$ at leading order. $H_{\rm AddC\text{-}done}$ DISCHARGED at leading-order analytical level.
+
+**Theory tag**: `Math420-AddC-Sector3-RH-Native-v5-Step4-Reformulation-2026-05-27`. Cross-references: Math420-AddC note (227 lines) + Codes/supplementary/Math420_AddC_sector3_rh_native.py (5/5 asserts PASS) + Runs/math/Math420-AddC/sector3_rh_native_reformulation.json + CHANGELOG.md top entry.
+
+---
+
+#### Q-2026-05-27-Math420-AddD-Pillar8-Sector4-RH-IR-Verification — Sector 4 Dirac PV: Reading-H Dirac operator IR bound-state verification — **OPENED 2026-05-27 (Math420-AddB §7 follow-up)** — **RESOLVED 2026-05-27 (Math420-AddD same-day parallel dispatch)**
+
+**[RESOLVED 2026-05-27 — Math420-AddD topological + amplitude + dynamical analysis]** Math420-AddD executed explicit verification: (i) defect zero-mode cardinality preserved EXACTLY by Atiyah-Singer index theorem (gauge bundle invariant under Reading H since RH reframes only scalar sector); (ii) low-lying fermion-mode count + energy scale preserved at amplitude-comparison level ($A_{\rm RH}^2 = 0.829 \sim A_0^2 \sim O(1)$ at canonical); (iii) dynamical-background correction $\delta E_{\rm dynamic}/E_F \sim O(10^{-2})$ at canonical TECT params (per Math404 scale identification), finite and absorbable into chemical-potential renormalisation. **Result**: finite IR shift preserved + absorbable, NOT $\Lambda$ contribution. $H_{\rm AddD\text{-}done}$ DISCHARGED at leading-order analytical level. Math58-v7-AddA Q5 numerical verification queued as Math420-AddD-AddA contingent paper-grade follow-up.
+
+**Theory tag**: `Math420-AddD-Sector4-RH-Dirac-IR-Bound-State-Verification-2026-05-27`. Cross-references: Math420-AddD note (244 lines) + Codes/supplementary/Math420_AddD_sector4_rh_ir_bound_state.py (5/5 asserts PASS) + Runs/math/Math420-AddD/sector4_rh_ir_bound_state_verification.json + CHANGELOG.md top entry.
+
+---
+
+#### Q-2026-05-27-Math420-AddB-Pillar8-ReadingH-Compat — Reading H compatibility verification for 4-sector $\Lambda$-cancellation arguments (Math58 cascade) — **OPENED 2026-05-27 (Math420-AddA §5 follow-up)** — **RESOLVED 2026-05-27 (Math420-AddB same-day closure)**
+
+**[RESOLVED 2026-05-27 — Math420-AddB per-sector analysis closure]** Math420-AddB executed explicit per-sector Reading H compatibility analysis (operator request: discharge $H_{\rm RH\text{-}compat}$ by direct re-derivation). Per-sector verdicts: Sectors 1 (Monopole CP), 2 (Vortex Chern-Simons CP) **PASS unconditional** (load-bearing arguments at gauge-sector / topological level; independent of scalar background); Sectors 3 (BCC Casimir), 4 (Dirac PV) **PASS-CONDITIONAL** (UV-cancellation mechanisms RH-invariant; IR / dynamical-background components require explicit follow-up).
+
+**Substantive output**: the opaque single OPEN gate $H_{\rm RH\text{-}compat}$ is decomposed into TWO explicit, separately-trackable, separately-closable residual gates:
+
+$$\mathcal{H}_{\Lambda\text{-supp}}^{\rm post\text{-}AddB} = \{H_{\rm CP\text{-}pair}, H_{\rm Casimir\text{-}contact}, H_{\rm PV\text{-}sum\text{-}rules}, \boxed{H_{\rm AddC\text{-}done}}, \boxed{H_{\rm AddD\text{-}done}}\}.$$
+
+**Resolution actions executed in `Codes/config/pillar_status.json`** (same commit as resolution):
+- Pillar 8 `conditional_on` restructured from 4 hypotheses (one opaque RH-compat) to 5 hypotheses (3 DISCHARGED + 2 explicit residual gates AddC + AddD).
+- Tier T6 PROVED CONDITIONAL retained (T7 promotion contingent on AddC + AddD + AddE closure).
+
+**Follow-up**: Q-2026-05-27-Math420-AddC-Pillar8-Sector3-RH-Reformulation (Sector 3 RH-native v5 Step 4 reformulation; HIGH); Q-2026-05-27-Math420-AddD-Pillar8-Sector4-RH-IR-Verification (Sector 4 RH Dirac operator IR bound-state verification; MEDIUM-HIGH; converges with Math58-v7-AddA Q5).
+
+**Theory tag**: `Math420-AddB-Reading-H-Compatibility-4-Sector-2026-05-27`. Cross-references: Math420-AddB note (396 lines) + Codes/supplementary/Math420_AddB_reading_h_compatibility.py (5/5 asserts PASS) + Runs/math/Math420-AddB/reading_h_compatibility_per_sector.json + CHANGELOG.md top entry.
+
+---
+
+#### Q-2026-05-27-Math420-AddB-Pillar8-ReadingH-Compat-SUPERSEDED — Reading H compatibility verification (HIGH priority queue entry, superseded by RESOLVED entry above) — superseded marker
+
+**[OPENED 2026-05-27 — Math420-AddA cascade-deep-read closure]** **Context**: Math420-AddA verified that the substantive 4-sector $\Lambda$-suppression evidence is recorded in Math58 cascade (v3 + v4-sublemma + v5 + v7-Dirac-tightening, with v2-algebraic T3 monopole sketch). Pillar 8 promoted T4_pending $\to$ T6 PROVED CONDITIONAL on $\mathcal{H}_{\Lambda\text{-supp}} = \{H_{\rm CP\text{-}pair}, H_{\rm Casimir}, H_{\rm PV}, H_{\rm RH\text{-}compat}\}$. The fourth hypothesis $H_{\rm RH\text{-}compat}$ is the most critical OPEN item: all Math58 cascade files (dated 2026-04-20 to 2026-04-25) PRE-DATE the Math401 Reading H consensus (2026-05-12). Whether the 4-sector cancellation arguments survive Reading H reframing (BCC as fluctuation channel within Brazovskii-stabilised disordered vacuum, NOT condensate vacuum) requires explicit re-derivation.
+
+**Closure criteria — per-sector Reading H compatibility verification**:
+- **Sector 1 (Monopole, Math58-v3 CP-measure)**: likely Reading H invariant (operator-algebra level CP antisymmetry); explicit verification required.
+- **Sector 2 (Vortex, Math58-v4-sublemma Chern-Simons CP)**: similarly likely Reading H invariant; explicit verification required.
+- **Sector 3 (BCC condensate, Math58-v5 Casimir vanishing)**: \textbf{MOST CRITICAL}. The v5 argument assumes BCC vacuum periodicity (Casimir cancellation on the BCC unit cell on periodic box). Under Reading H, ``BCC vacuum'' is reframed as a fluctuation channel within Brazovskii disordered vacuum — periodicity assumption may not survive. Re-derive the v5 argument with the BCC channel content $\bar\phi(q_*)$ as fluctuation amplitude (Math400-AddE prescription), verify whether UV-divergence cancellation + Casimir vanishing arguments transfer.
+- **Sector 4 (Dirac, Math58-v7-Dirac-tightening PV regularisation)**: re-derive under Reading H static-background. Pauli-Villars scheme may require modification when the background is the Brazovskii fluctuation-stabilised disordered phase (rather than the original condensate). Math58-v7-AddA Q5 numerical verification (PARTIAL-ADVANCED) execution becomes the natural verification path.
+
+**Falsification gate**: if any sector fails Reading H compatibility (e.g., Casimir vanishing requires condensate periodicity that disappears under fluctuation reframing), Pillar 8 must be downgraded to T2 CONJECTURE pending a Reading-H-native $\Lambda$-suppression mechanism (or accept Pillar 8 as honest UNRESOLVED open problem).
+
+**Owner**: Math420-AddB (queued). Per-sector independent Reading H re-derivation; sequential execution recommended (Sector 3 BCC first as most-load-bearing + most-at-risk).
+
+**Last reviewed**: 2026-05-27 (Math420-AddA).
+**Review by**: 2026-06-10.
+
+**Cross-references**:
+- Math420-AddA §5 (Forward action: queues this AddB explicitly)
+- `Runs/math/Math420-AddA/cascade_content_audit.json` (5/5 asserts PASS evidence including Reading H date precedence confirmation)
+- `Codes/config/pillar_status.json::pillars[7].conditional_on[3]` (H_RH-compat OPEN gate explicitly recorded)
+- Math401 (Reading H consensus 2026-05-12 — the gate this AddB verifies against)
+- Math400-AddE (Path α Reading H one-loop self-consistency — the framework that Math58 cascade must be re-derived under)
+- `feedback_pillar_deep_dive_strategy` (operator-binding 1-pillar-deep-dive workflow; Math420-AddB is the next pillar-internal sub-deep-dive)
+
+---
+
+#### Q-2026-05-27-Math420-AddA-Pillar8-Attribution-Cleanup — Pillar 8 bookkeeping cleanup: Math58-cascade content audit + reattribution + Math147 dual-attribution resolution — **OPENED 2026-05-27 (Math420 §6 HIGH-priority follow-up)** — **RESOLVED 2026-05-27 (Math420-AddA same-day closure)**
+
+**[RESOLVED 2026-05-27 — Math420-AddA Path R (Reattribution-positive) at T6 scope]** Math420-AddA executed per-file Math58 cascade deep-read (operator request: ``find the evidence in existing notes — surely it's recorded''). Empirically confirmed: 159 $\Lambda$-vocabulary hits across 11 of 13 Math58 cascade files, concentrated in v5 (41 hits, BCC sector) + v6 (54 hits, Dirac sector) + v2-algebraic (13 hits, monopole sector). Sub-chain (a) = $\Lambda$-suppression cascade with 4-sector cancellation structure (CP-monopole + CS-CP-vortex + Casimir-BCC + PV-Dirac). Sub-chain (d) = quantum-structure (Math58-v7-AddC canonical commutation, Math58-v8 $Z_h$) explicitly excluded from Pillar 8 reattribution.
+
+**Resolution actions executed in `Codes/config/pillar_status.json`** (same commit as resolution):
+- Pillar 8 tier: T4 STRONG EVIDENCE pending $\to$ **T6 PROVED CONDITIONAL** on $\mathcal{H}_{\Lambda\text{-supp}}$ (4 hypotheses).
+- Pillar 8 `key_math_notes`: Math147 REMOVED (CMB/GW/DM observables, not $\Lambda$-suppression); Math58-v3, Math58-v4-sublemma-closure, Math58-v5, Math58-v7-Dirac-tightening, Math58-v7-AddA, Math420, Math420-AddA ADDED.
+- Math147 dual-attribution resolved: removed from Pillar 8; retained in Pillar 11 (`key_math_notes`).
+
+**Follow-up**: Q-2026-05-27-Math420-AddB-Pillar8-ReadingH-Compat (the H_RH-compat OPEN gate, HIGH priority).
+
+**Theory tag**: `Math420-AddA-Math58-Cascade-Deep-Read-2026-05-27`. Cross-references: Math420-AddA note + Codes/supplementary/Math420_AddA_math58_cascade_audit.py (5/5 asserts PASS) + Runs/math/Math420-AddA/cascade_content_audit.json + CHANGELOG.md top entry.
+
+---
+
+#### Q-2026-05-27-Math420-AddA-Pillar8-Attribution-Cleanup-SUPERSEDED — Pillar 8 bookkeeping cleanup: Math58-cascade content audit + reattribution + Math147 dual-attribution resolution — **SUPERSEDED 2026-05-27 by Math420-AddA closure (see above)** — superseded entry marker; see resolution above
+
+**[OPENED 2026-05-27 — Math420 first 1-pillar deep-dive finding]** **Context**: Math420 deep-dive found three concrete attribution defects for Pillar 8 ("Cosmological constant suppression"): (i) `pillar_status.json` Pillar 8 description ("Λ suppression by ~120 orders via condensate zero-point cancellation under Reading H") vs `key_math_notes = [Math147]` MISMATCH (Math147 body has 0 hits for Λ-suppression vocabulary; it covers CMB/GW/DM observables); (ii) Math58 family v2..v7-AddC (the substantive Λ-suppression cascade) self-labels "Pillar11" in 9 of 13 filenames — orphaned from current Pillar 8 since the 2026-05-26 reclassification renamed Pillar 11; (iii) Math147 dual-attributed to BOTH `Pillar 8.key_math_notes` AND `Pillar 11.key_math_notes`. Honest tier reassessment downgraded Pillar 8 from T7 inherited to T4 STRONG EVIDENCE pending Math420-AddA cleanup.
+
+**Closure criteria (one of)**:
+- **Path R (Reattribution-positive)**: Math58 v2..v7-AddC content audit confirms Λ-suppression mechanism matches current Pillar 8 description at TECT canonical params (Reading H, $q_*$, etc.) → reattribute Math58 family headers Pillar11 → Pillar8; add to Pillar 8 key_math_notes; reassess whether Math58-v7-AddC's "PROVED CONDITIONAL" tier translates to T6/T7 under current standard (§7 nomenclature); resolve Math147 dual-attribution (remove from Pillar 8 if it does not anchor Λ-suppression).
+- **Path N (Reattribution-negative)**: Math58 cascade does NOT substantiate current Pillar 8 description → revise pillar_status.json Pillar 8 description to honestly reflect what Math147 (or whichever note actually anchors the pillar) claims; reassess tier accordingly; consider whether Pillar 8 as currently defined needs a new T7-capable anchor note or honest demotion to T2 CONJECTURE.
+
+**Falsification gate**: if neither R nor N path resolves within 14 days (review-by 2026-06-10), escalate to a Math421-class deep-dive that explicitly rewrites pillar_status.json Pillar 8 entry to whichever honest classification the audit supports.
+
+**Owner**: Math420-AddA (queued); follow-up audit of Math58 family content + Math147 attribution rationalisation.
+
+**Last reviewed**: 2026-05-27 (Math420 audit).
+**Review by**: 2026-06-10.
+
+**Cross-references**:
+- Math420 §6 (Forward action enumeration; the present entry is the OPEN-QUESTIONS instantiation of Math420 §6 1-4)
+- `Runs/math/Math420/attribution_audit.json` (5/5 asserts PASS evidence)
+- `Codes/config/pillar_status.json::_math420_pillar8_downgrade` (meta-block recording the T7 → T4 transition)
+- `feedback_pillar_deep_dive_strategy.md` (operator-binding mainline strategy that produced this finding)
+
+---
+
 #### Q-2026-05-26-Math409-AddH-AddA-AddA-AddA-Exact-RG-Definitive — Exact-RG Wetterich definitive test of TECT-Brazovskii running-G (B2 closure / refutation) — **OPENED 2026-05-26 (Math409-AddH-AddA-AddA §8 INTERIM NEGATIVE follow-up)**
 
 **[OPENED 2026-05-26 — Math409-AddH-AddA-AddA INTERIM NEGATIVE follow-up]** **Context**: Math409-AddH-AddA-AddA explicit 1-loop calculation of TECT-Brazovskii running Newton constant gives $\omega_{\rm TECT} = 4.42 \pm$ factor 3, yielding $G_{\rm eff}(k_*)/G_{\rm obs} = 0.572$ at the texture scale $k_* = 0.41\,M_{\rm Pl}$ — vs required threshold $< 1/26 = 0.0385$. Shortfall factor 15 (structural, not marginal). Required $\omega = 148$ is factor 33 larger than 1-loop estimate, well beyond typical higher-order perturbative corrections ($O(2-3)$). The 1-loop heuristic is INTERIM NEGATIVE for Path B2. The exact-RG Wetterich calculation is the definitive test.

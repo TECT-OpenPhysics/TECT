@@ -1,0 +1,164 @@
+// AUTO-GENERATED v0.3 page 10/11 — frozen at 2026-05-27
+window.TECT_HISTORY_PAGE_010 = {
+  title: "History (page 10 of 11)",
+  subtitle: "Chronological CHANGELOG mirror — auto-generated.",
+  lastUpdated: "2026-05-27 (archived)",
+  pagination: {"page": 10, "total": 11, "newer": "history.html", "older": "history-page-009.html", "archiveIndex": null},
+  blocks: [
+    { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history.html\">&larr; Newer</a> &middot; Page 10 / 11 &middot; <a href=\"history-page-009.html\">Older &rarr;</a></div>" },
+    { type: "timeline", items: [
+        {
+          date: "2026-05-27",
+          title: "[Theory/Audit] Math415 — Pillar 1 + Pillar 2 hypothesis-chain audit under Reading H reformulation; T6 retained for both with explicit hypothesis enumeration; T7 promotion paths Math415-AddA + Math415-",
+          body: "**Theory tag**: `Math415-Pillar1-Pillar2-Reading-H-Hypothesis-Audit-2026-05-27` **Pillars**: 1 (Mass m*) + 2 (Brazovskii fluctuations). **Tiers**: T6 PROVED CONDITIONAL retained for both. **Trigger**: A-Round 1 of C1 closure programme (operator directive 2026-05-27 — verify C1 sector theoretical foundations before paper closure). **Method**: Formal audit of how Pillar 1 + Pillar 2 hypothesis chains (Math66 + Math82) transform under Math401 Reading H operator binding (vacuum reframed from \"BCC = vacuum\" to \"Brazovskii disordered phase = vacuum; BCC = stable channel\")."
+        },
+        {
+          date: "2026-05-26",
+          title: "[Framework/Reclassification] Pillar epistemic-category framework C1/C2/C3 — TECT honestly reframed as emergent vacuum/gravity framework with unresolved gauge-sector completion",
+          body: "**Theory tag**: `Pillar-Reclassification-C1-C2-C3-2026-05-26` **Source**: `Docs/math/TECT-Math411-AddB-Pathway-A-Direct-SO10-Revival.tex.txt` §10 (operator binding 2026-05-26). **Trigger**: 6-note 2026-05-26 cascade (Math410, Math410-AddA, Math411, Math411-AddA, Math411-AddB on Pillar 6; Math412, Math412-AddA, Math412-AddB on Pillar 11) closed all standard promotion routes on Pillar 6 and Pillar 11.B in the negative direction. Operator directive: reclassify the 11-pillar scoreboard by epistemic character."
+        },
+        {
+          date: "2026-05-26",
+          title: "[Theory/Negative-Confirmed] Math411-AddB — Pathway A direct SO(10) GUT revival STRUCTURALLY INSUFFICIENT; ALL Pillar 6 standard promotion routes EXHAUSTED; closure programme honestly complete in negat",
+          body: "**Theory tag**: `Math411-AddB-Pathway-A-direct-SO10-GUT-revival-2026-05-26` **Pillar**: 6. **Tier**: T4 STRONG EVIDENCE **retained**; ALL standard promotion routes EXHAUSTED."
+        },
+        {
+          date: "2026-05-26",
+          title: "[Theory/Negative-Confirmed] Math411-AddA — Antisymmetric cubic coefficient A^{asym}_{A_{2g}} = 0 via π_1(M_BCC) trivial (Math160+Math164); Stueckelberg-direct gauge-emergence route REFUTED; Pillar 6 p",
+          body: "**Theory tag**: `Math411-AddA-antisymmetric-A2g-cubic-coefficient-2026-05-26` **Pillar**: 6. **Tier**: T4 STRONG EVIDENCE **retained**; B2 verdict ESCALATED from PARTIAL (Math411) to FINAL NEGATIVE."
+        },
+        {
+          date: "2026-05-26",
+          title: "[Theory/Partial-Negative] Math411 — Stueckelberg-direct single-triplet gauge emergence: B1+B2 PARTIAL (antisymmetric channel unknown), F3 PASS, F4 vacuous; Pillar 6 T5 pending Math411-AddA",
+          body: "**Theory tag**: `Math411-Stueckelberg-direct-single-triplet-B1-B2-F3-F4-2026-05-26` **Pillar**: 6. **Tier**: T4 STRONG EVIDENCE **retained**."
+        },
+        {
+          date: "2026-05-26",
+          title: "[Theory/Interim-Negative] Math412-AddA — TECT-natural T_reh ~ 3e11 GeV below abundance closure window 3e12-2e13 GeV by factor 10; combined with Math412-AddB G3-B negative, Pillar 11.B ν_R-bulk-DM doub",
+          body: "**Theory tag**: `Math412-AddA-TECT-T-reh-closure-window-G3A-2026-05-26` **Pillar**: 11.B. **Tier**: T4 STRONG EVIDENCE **retained**; G3-A INTERIM NEGATIVE."
+        },
+        {
+          date: "2026-05-26",
+          title: "[Theory/Negative-Confirmed] Math410-AddA — Pillar 6 Pathway B SO(4)-emergence via cubic-irrelevance route STRUCTURALLY REFUTED at exact-RG level",
+          body: "**Theory tag**: `Math410-AddA-exact-RG-beta-cubic-lambda-negative-2026-05-26` **Pillar**: 6. **Tier**: T4 STRONG EVIDENCE **retained**; F1 ESCALATED from INTERIM NEGATIVE (Math410) to CONFIRMED NEGATIVE at exact-RG."
+        },
+        {
+          date: "2026-05-26",
+          title: "[Theory/Interim-Negative] Math412-AddB — ν_R cosmological stability at TECT-natural M ~ 10^14 GeV REFUTED; warm-DM keV regime requires extreme Yukawa tuning; Pillar 11.B bulk-DM via ν_R blocked at sta",
+          body: "**Theory tag**: `Math412-AddB-nuR-cosmological-stability-G3B-2026-05-26` **Pillar**: 11.B. **Tier**: T4 STRONG EVIDENCE **retained**; G3-B INTERIM NEGATIVE."
+        },
+        {
+          date: "2026-05-26",
+          title: "[Theory/Neutral] Math412 — RH sector + U(1)_{B-L} origin + ν_R relic abundance via gravitational reheating: Pillar 11.B T4 retained with 2 follow-up gates",
+          body: "**Theory tag**: `Math412-RH-sector-U1-B-L-nuR-relic-abundance-2026-05-26` **Pillar**: 11.B. **Tier**: T4 STRONG EVIDENCE **retained** (no T5 promotion)."
+        },
+        {
+          date: "2026-05-26",
+          title: "[Theory/Interim-Negative] Math410 — Pillar 6 gates F1+F2 explicit calc + T_{2u} structural absence: T4 retained, 3 follow-up paths identified",
+          body: "**Theory tag**: `Math410-Pillar6-T2g-eigenvector-T2u-shell-beta-cubic-gates-F1-F2-2026-05-26` **Pillar**: 6. **Tier**: T4 STRONG EVIDENCE **retained** (no T5 promotion)."
+        },
+        {
+          date: "2026-05-26",
+          title: "[Theory/Investigation] Math409-AddH-AddA — Compactness-corrected stability investigation: 5-sub-path analysis; B2 (TECT-Brazovskii running-G) IDENTIFIED as principal viable rescue route",
+          body: "**Theory tag**: `Math409-AddH-AddA-compactness-corrected-stability-investigation-2026-05-26` **Classification**: SCOPING / INVESTIGATION note (no tier promotion; promotion-path identification). **Pillar**: 11.A. **Tier outcome**: T2 PROVISIONAL **RETAINED** (no promotion). Promotion path narrowed."
+        },
+        {
+          date: "2026-05-26",
+          title: "[Audit/Rollback] Math409-AddH compactness sign-direction error — Pillar 11.A T3 → T2 PROVISIONAL rollback",
+          body: "**Theory tag**: `Audit-rollback-Math409-AddH-compactness-sign-error-2026-05-26` **Classification**: AUDIT-ROLLBACK (operator adversarial review caught classical-GR sign-direction error). **Pillar**: 11.A (and 11 master). **Tier transition**: 11.A T3 PROOF SKETCH → **T2 PROVISIONAL (rollback, retain)**. Master 11 `T4|T3-split` → `T4|T2-split-PROVISIONAL`."
+        },
+        {
+          date: "2026-05-26",
+          title: "[Theory/Promotion] Math409-AddH — Texture-DM stability proof sketch: Pillar 11.A T2 PROVISIONAL -> T3 PROOF SKETCH (PROVISIONAL qualifier lifted; QG framework gap explicit)",
+          body: "**Theory tag**: `Math409-AddH-texture-stability-pillar-11A-T3-promotion-2026-05-26` **Pillar**: 11 (split: 11.A dominant-DM, 11.B subdominant-relic) **Tier transition**: 11.A T2 PROVISIONAL → **T3 PROOF SKETCH** (PROVISIONAL qualifier LIFTED). **Parent**: Math409-AddD-AddD (PROVISIONAL rescue note)."
+        },
+        {
+          date: "2026-05-26",
+          title: "[Theory/Rescue] Math409-AddD-AddD — Texture-DM as Pillar 11.A rescue: T1 -> T2 PROVISIONAL (pending Math409-AddH Hawking-stability)",
+          body: "**Theory tag**: `Math409-AddD-AddD-texture-DM-pillar-11A-rescue-2026-05-26` **Pillar**: 11 (split: 11.A dominant-DM, 11.B subdominant-relic) **Tier transition**: 11.A T1 OPEN -> T2 PROVISIONAL (texture-DM rescue) — pending Math409-AddH final gate."
+        },
+        {
+          date: "2026-05-15",
+          title: "[Infrastructure/Automation] STATUS-HISTORY auto-update infrastructure (3-layer: helper CLI + watchdog + tect subcommand)",
+          body: "**Theory tag**: `Infrastructure-status-history-auto-update-3layer-2026-05-15` **Classification**: INFRASTRUCTURE-AUTOMATION (operator-driven; eliminates manual STATUS-HISTORY editing)."
+        },
+        {
+          date: "2026-05-15",
+          title: "[Infrastructure/Website] Papers as-of-date metadata + STATUS-HISTORY page (operator request 2026-05-15)",
+          body: "**Theory tag**: `Infrastructure-website-paper-asof-date-and-status-history-2026-05-15` **Classification**: INFRASTRUCTURE-WEBSITE-FEATURE (operator-driven UX improvement; no tier promotion)."
+        },
+        {
+          date: "2026-05-15",
+          title: "[Theory/Patch] Math413-AddA + Math409-AddD-AddC — operator adversarial-review patches (π_2 contradiction fix + numerical canonicalization)",
+          body: "**Theory tag**: `Patch-Math413-AddA-pi2-fix-and-Math409-AddD-AddC-canonicalize-2026-05-15` **Classification**: AUDIT-PATCH (no tier promotion; corrects internal contradictions and numerical inconsistencies caught by operator adversarial review)."
+        },
+        {
+          date: "2026-05-15",
+          title: "[Theory/Negative-Result] Math409-AddD-AddC — TECT-natural wall-DM bias mechanism: wall-DM REFUTED at factor 10^60 (FMP CMB constraint); Pillar 11.A T2 → T1 OPEN downgrade",
+          body: "**Theory tag**: `Math409-AddD-AddC-Wall-DM-Bias-REFUTED-2026-05-15` **Classification**: THEORY-NEGATIVE-RESULT (Pillar 11.A wall-DM hypothesis REFUTED; T2 → T1 OPEN downgrade)."
+        },
+        {
+          date: "2026-05-15",
+          title: "[Theory] Math413-AddA (= Math409-AddC merged) — Defect-family homotopy enumeration + soliton mass scales: Direction B gate F-B reveals 17-order gap to SM fermion masses; bare Direction B REFUTED",
+          body: "**Theory tag**: `Math413-AddA-Defect-Family-Enumeration-Soliton-Mass-Hierarchy-Gap-2026-05-15` **Classification**: THEORY-NEGATIVE-RESULT-PARTIAL (Pillar 11 lever (i) CLOSED at topology; Direction B bare REFUTED; Direction B-with-dressing T2 CONJECTURE)."
+        },
+        {
+          date: "2026-05-15",
+          title: "[Theory/Meta] Math413 — Ontological wildness vs predictive strictness: meta-principle for post-Reading-H TECT framework; 4 candidate ontology directions with binding falsification gates",
+          body: "**Theory tag**: `Math413-Ontological-Wildness-vs-Predictive-Strictness-Meta-Principle-2026-05-15` **Classification**: FRAMEWORK META-NOTE (binding rule, no tier change)."
+        },
+        {
+          date: "2026-05-15",
+          title: "[Infrastructure] tect publish — integrated cascade phase (Wiki + Issues + README sync) as default; -SkipCascade opt-out",
+          body: "**Theory tag**: `Infrastructure-tect-publish-integrated-cascade-2026-05-15` **Classification**: INFRASTRUCTURE-USABILITY (single-command full update)."
+        },
+        {
+          date: "2026-05-15",
+          title: "[Infrastructure/Policy + Code-Archive + Honest-Correction] CLAUDE.md §6.3.8 binding rule + cascade-verification script + Math409-AddD §3 numerical correction (factor 10 error caught by self-test)",
+          body: "**Theory tag**: `Infrastructure-CLAUDE-md-6.3.8-code-and-json-archival-2026-05-15` **Classification**: BINDING POLICY EXTENSION + RETROACTIVE CODE ARCHIVE + HONEST NUMERICAL CORRECTION."
+        },
+        {
+          date: "2026-05-15",
+          title: "[Theory] Math409-AddD — KZ applicability under Reading H: Brazovskii weak first-order CONFIRMED; KZ applies in bubble-nucleation form; defect type REVISED to walls; new wall-DM CMB constraint identifi",
+          body: "**Theory tag**: `Math409-AddD-KZ-Applicability-Reading-H-Brazovskii-First-Order-2026-05-15` **Classification**: THEORY-PREREQUISITE-CLOSURE-PARTIAL (closes Q-2026-05-15-KZ-Applicability-Under-Reading-H positively; opens new Q on wall-DM CMB constraint)."
+        },
+        {
+          date: "2026-05-15",
+          title: "[Theory/Audit] Math407-AddA — Operator Round-2 adversarial audit: Pillar 11 status SPLIT (11.A=T2 dominant + 11.B=T4 subdominant), decisive-test priority REORDER, Hawking-evaporation hidden cost FOREG",
+          body: "**Theory tag**: `Math407-AddA-Round2-Operator-Audit-Pillar-11-Split-2026-05-15` **Classification**: BINDING AUDIT NOTE (operator Round-2 hostile review acceptance + structural cascade)."
+        },
+        {
+          date: "2026-05-15",
+          title: "[Theory] Math409-AddA — Horizon-tempered defect mass: gate G4 PARTIAL; factor 41 reduction insufficient, four higher-leverage follow-ups identified",
+          body: "**Theory tag**: `Math409-AddA-Horizon-Tempered-Defect-Mass-G4-PARTIAL-2026-05-15` **Classification**: THEORY-NEGATIVE-RESULT-PARTIAL (gate G4 of Math409 §8 yields factor 41 reduction; insufficient alone for Pillar 11 closure)."
+        },
+        {
+          date: "2026-05-15",
+          title: "[Theory] Math409 — Pillar 11 KZ closure under Math404 Planck anchor: three inflation-model pathways evaluated, no unique closure; Pillar 11 honest tier T6 → T4 demotion",
+          body: "**Theory tag**: `Math409-Pillar11-KZ-Closure-Math404-Anchor-Three-Inflation-Pathways-2026-05-15` **Classification**: THEORY-RECALCULATION + STATUS-CORRECTION (post-Math404 anchor + post-Math407 audit)."
+        },
+        {
+          date: "2026-05-15",
+          title: "[Theory] Math408 — Pillar 6 Pathway B closure attempt: explicit O_h eigenvector decomposition refutes Math406 algebraic identification; T3 PROOF SKETCH + T2 CONJECTURE added without T5/T6 promotion",
+          body: "**Theory tag**: `Math408-Pillar6-Pathway-B-Closure-Attempt-Oh-Decomp-Bridge-LRSM-2026-05-15` **Classification**: THEORY-ADVANCEMENT, structural correction + extension of Math406 / Math407."
+        },
+        {
+          date: "2026-05-15",
+          title: "[Infrastructure/HARDENING] 4-layer token-format validation across publish pipeline; new `tect doctor` subcommand for auth-surface diagnosis",
+          body: "**Theory tag**: `Infrastructure-token-format-validation-4layer-defence-2026-05-15` **Classification**: INFRASTRUCTURE-HARDENING (defense-in-depth against malformed PAT propagation)."
+        },
+        {
+          date: "2026-05-12",
+          title: "[Infrastructure/CORRECTION] tect.kr is self-hosted git-pull (NOT GitHub Pages); diagnose_pages.ps1 DEPRECATED → diagnose_tectkr.ps1; new server-side pull helper + revised TECT_KR_PUBLISH_PIPELINE.md",
+          body: "**Theory tag**: `Infrastructure-tect-kr-self-hosted-git-pull-correction-2026-05-12` **Classification**: INFRASTRUCTURE-CORRECTION (operator clarification on actual tect.kr architecture)."
+        },
+        {
+          date: "2026-05-12",
+          title: "[Infrastructure/CRITICAL-FIX] tect.kr publish pipeline diagnostic + single-CLI wrapper: CNAME added (was MISSING — root cause of partial update); diagnose_pages.ps1 (8-check); tect.ps1 (single-entry C",
+          body: "**Theory tag**: `Infrastructure-tect-kr-publish-pipeline-diagnostic-2026-05-12` **Classification**: INFRASTRUCTURE-CRITICAL (root-cause fix for tect.kr partial-update issue) + CLI simplification."
+        }
+      ]
+    },
+    { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history.html\">&larr; Newer</a> &middot; Page 10 / 11 &middot; <a href=\"history-page-009.html\">Older &rarr;</a></div>" }
+  ]
+};
