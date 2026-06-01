@@ -1,12 +1,37 @@
-// AUTO-GENERATED v0.3 page 11/11 — 2026-05-29 12:24 UTC
+// AUTO-GENERATED v0.3 page 11/11 — 2026-06-01 06:17 UTC
 window.TECT_HISTORY = {
   title: "History (page 11 of 11)",
   subtitle: "Chronological CHANGELOG mirror — auto-generated.",
-  lastUpdated: "2026-05-29 (auto)",
+  lastUpdated: "2026-06-01 (auto)",
   pagination: {"page": 11, "total": 11, "newer": null, "older": "history-page-010.html", "archiveIndex": null},
   blocks: [
     { type: "html", content: "<div class=\"pagination-nav\">Page 11 / 11 &middot; <a href=\"history-page-010.html\">Older &rarr;</a></div>" },
     { type: "timeline", items: [
+        {
+          date: "2026-06-01",
+          title: "[Theory/Strategic-Programme/C1-T7-Bottleneck] Math424 — C1-wide T7 promotion programme: Reading-H BCC channel axiom-to-theorem promotion as SOLE bottleneck for Pillars 5, 7, 8 simultaneous T7",
+          body: "**Strategic verdict**: post-triple-Master-archive 2026-06-01, the largest remaining weakness of TECT C1 is no longer individual pillar but a single cross-pillar axiom shared by Pillars 5, 7, 8: $$ \\boxed{\\text{C1 T7 unblock} \\Longleftrightarrow H_{\\rm RH\\text{-}BCC\\text{-}channel}\\text{ axiom→theorem promotion} \\Longleftrightarrow \\text{Math424-AddA Path A complete}.} $$"
+        },
+        {
+          date: "2026-06-01",
+          title: "[Theory/Audit-Acceptance/5-Patch-Plan] Math423 — Operator hostile audit 5/5 ACCEPTED on Pillar 5-A/5-B/7/11.B-A/11.B-B + 5-patch strengthening programme",
+          body: "**Theory tag**: `Math423-Operator-Hostile-Audit-Acceptance-2026-06-01` **Operator binding**: hostile audit 2026-06-01 of the 5-note batch (Math422-Master P7 + Math421-AddB P5-A + Math106-AddA P5-B + Math412-AddB-AddB P11.B-A + Math412-AddB-AddB-AddA P11.B-B). All 5 verdicts ACCEPTED IN FULL."
+        },
+        {
+          date: "2026-05-27",
+          title: "[Theory/Master-Archive/Triple-Symmetry-Complete] Math422-Master-Pillar7-Complete-Proof-Archive — Pillar 7 canonical anchor (384-line self-contained complete-proof); completes triple-pillar Master arch",
+          body: "**Consolidation scope**: Math422 single-output deep-dive (193 lines) + substantive cascade (Math47/48 Ward identities + Math49 family Witten SU(2) global anomaly + Math143 B5 anomaly Ward check + Math06/07 paper-cascade + Math388 RG IR fixed-point) consolidated into single 384-line self-contained Master archive analogous to Math420 Master + Math421 Master."
+        },
+        {
+          date: "2026-05-27",
+          title: "[Theory/Master-Archive] Math421-Master-Pillar5-Complete-Proof-Archive — Pillar 5 canonical anchor (443-line self-contained complete-proof) parallel to Math420 Master Pillar 8",
+          body: "**Consolidation scope**: 4-note Math421 series (Math421 attribution audit + Math421-AddA comprehensive cascade + Math421-AddB c_2(E)=0 derivation + Math106-AddA Round-19 intra-sector stability) consolidated into single 443-line self-contained Master archive analogous to Math420-Master-Pillar8-Complete-Proof-Archive."
+        },
+        {
+          date: "2026-05-27",
+          title: "[Theory/Parallel-Cascade] Math421-AddB + Math106-AddA + Math412-AddB-AddB-AddA + Math422 — parallel substantive cascade: Pillar 5 ALL 5 DISCHARGED; Pillar 7 T7→T6 (C1 inherited-T7 count 1→0); Pillar 1",
+          body: "**Math421-AddB (Pillar 5 c_2(E)=0 closure)**: standard SO(10) bundle-topology derivation. c_2(E_{16}) = 2 · p_1(P_SO(10)) per Slansky 1981 Table 7; with p_1 = 0 (standard QFT axiom: no instanton background, textbook Peskin Ch.19 + Weinberg vol II Ch.22), c_2(E_{16}) = 0 and ind(D_E^c) = 16 as required. H_AS-index-c_2 DISCHARGED CONDITIONAL on standard QFT axiom."
+        },
         {
           date: "2026-05-27",
           title: "[Theory/Audit-Discovery + Resolution] Math421 + Math421-AddA — second 1-pillar deep-dive (Pillar 5): attribution failure pattern repeats Math420 Pillar 8 case; cascade verified via Math10/Math106/Math",
@@ -14,7 +39,7 @@ window.TECT_HISTORY = {
         },
         {
           date: "2026-05-27",
-          title: "[Theory/Audit-Resolution + Operator-Audit-Refinement] Math420-AddC + Math420-AddD — parallel same-day dispatch + operator-audit acceptance: all 5 hypotheses of $\\mathcal{H}_{\\Lambda\\text{-supp}}^{\",
+          title: "[Theory/Audit-Resolution + Operator-Audit-Refinement] Math420-AddC + Math420-AddD — parallel same-day dispatch + operator-audit acceptance: all 5 Pillar-8 conditional hypotheses STRUCTURALLY ADDRESSED",
           body: "**Per-sector verdicts (parallel same-day; combined Math420 series 5-sequential single-day cascade)**:"
         },
         {
