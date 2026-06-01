@@ -7,6 +7,20 @@ This file is the append-only audit log of every snapshot orchestrator run. Lates
 The snapshot orchestrator brings all four TECT mirror trees into a coherent state via the binding 8-step pipeline. See `SNAPSHOT_POLICY.md` for the full definition, trigger conditions, and exit-code contract.
 
 ---
+## 2026-06-01T06:19:49 UTC -- 311eda0 -- Date-drift correction (CLAUDE.md 11.5.3.1): re-date Math423 + Math424 from stale 2026-05-27 to UTC-verified 2026-06-01. Prior Resume session authored both notes 2026-06-01 (file mtime) but inherited the 2026-05-27 stamp of the Math415-422 body it was consolidating (5-day drift > 1-day tolerance). Scope narrowed by operator decision to the two genuine drift artefacts ONLY; Math415-422 + triple Master archives + ZENODO DOI + papers-revision 2026-05-27 stamps are genuine work dates (corroborated by git commits 2026-05-27/2026-05-29 + CHANGELOG single-day narrative + pillar_status _last_synced) and preserved byte-for-byte. Edits: Math423 (6 occ) + Math424 (10 occ) whole-file; CHANGELOG.md bounded to Math424 entry L15-47 + Math423 entry L49-80 (9 occ, hyphen+underscore); pillar_status.json _c1_t7_unblock_programme block only (key _2026_05_27 -> _2026_06_01 + description, JSON re-validated). 44 genuine CHANGELOG + 21 genuine pillar_status occurrences asserted unchanged; 2026-05-12 Math401 refs preserved. POSTMORTEM Docs/postmortem/2026-06-01-date-drift-correction.md added. Generator-chain re-run; generated history shows 2026-06-01 for Math423/424, retains 2026-05-27 for Math415-422. verify_website 12/12 PASS; scan_recent_writes --strict clean. No theory-tier or pillar-status change.
+- stamp : PASS
+- generate : PASS
+- verify : PASS
+- manifest : PASS
+- commit : PASS (311eda0)
+- curate : PASS
+- push : PASS (https://github.com/TECT-OpenPhysics/TECT/commit/68abff6276b5fa72273e4b81f48af80be55ab400)
+- audit : PASS (clean)
+- Elapsed: 252.4 s
+- GitHub: https://github.com/TECT-OpenPhysics/TECT/commit/68abff6276b5fa72273e4b81f48af80be55ab400
+
+---
+
 ## 2026-05-29T12:27:14 UTC -- 3fcad05 -- Math419 binding-ready final state confirmed post-Math420 series + Math421 + Math421-AddA: C1 aggregate = 1 T7_inherited (Pillar 7 only) + 2 T6 PROVED CONDITIONAL (Pillar 5 on 5-hyp set with 3 DISCHARGED + 2 OPEN gates Math421-AddB c_2(E)=0 + Math106-AddA Round-19; Pillar 8 on H_RH-BCC-channel axiom) + 1 T6/T7-SPLIT (P9) + 2 T6 (P1, P2) + 1 T5@1-loop (P3). Math420 Master Pillar 8 Complete Proof Archive (663 lines, 48 KB) preserved as canonical anchor. Math419 patches A/B/C/D all applied: top status with 1 T7_inherited + 2 T6 PROVED COND framing; Pillar 5 subsection rewritten with explicit 5-hyp set + 3 DISCHARGED + 2 OPEN; scorecard table separates Pillar 5 (T6) from Pillar 7 (T7); Paper-05 entry T6 PROVED CONDITIONAL scope with explicit c_2 + Math106 OPEN caveats. AUDIT-FLAGGED notes (Math148 RETRACTED + Math171 DISPUTED) explicit exclusion documented; Math157 + Math171-AddA as replacements. Inherited-T7 reduction trajectory: 4 (pre-Math420) → 3 (post-Math420 P8 deep-dived) → 1 (post-Math421 P5 deep-dived); Math422 queued for Pillar 7 final inherited deep-dive. verify_website 12/12 PASS; scan_recent_writes clean. Next mainline priority per operator: Math421-AddB c_2(E)=0 first-principles derivation (Pillar 5 chiral index closure).
 - stamp : PASS
 - generate : PASS
@@ -811,6 +825,7 @@ The snapshot orchestrator brings all four TECT mirror trees into a coherent stat
 - GitHub: https://github.com/TECT-OpenPhysics/TECT/commit/b83758bd0a94c3b2b97ff9f09a0ef6c8cb736de2
 
 ---
+
 
 
 
