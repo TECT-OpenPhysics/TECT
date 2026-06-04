@@ -1,12 +1,17 @@
-// AUTO-GENERATED v0.3 page 6/12 — frozen at 2026-04-30
+// AUTO-GENERATED v0.3 page 6/12 — frozen at 2026-05-01
 window.TECT_HISTORY_PAGE_006 = {
   title: "History (page 6 of 12)",
   subtitle: "Chronological CHANGELOG mirror — auto-generated.",
-  lastUpdated: "2026-04-30 (archived)",
+  lastUpdated: "2026-05-01 (archived)",
   pagination: {"page": 6, "total": 12, "newer": "history-page-007.html", "older": "history-page-005.html", "archiveIndex": null},
   blocks: [
     { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history-page-007.html\">&larr; Newer</a> &middot; Page 6 / 12 &middot; <a href=\"history-page-005.html\">Older &rarr;</a></div>" },
     { type: "timeline", items: [
+        {
+          date: "2026-05-01",
+          title: "[Defense] Math270: Turn 41 — Cross-Base Coherence Defense Against Attack #1",
+          body: "**Significance**: Turn 41 (Start of 20-turn defence programme, Turns 41–60) addresses the highest-risk attack vector from external hostile-reviewer assessment (2026-05-01): **cross-base coherence** of the Pillar 4 atomic-tier T6 promotion. **Attack statement**: Pillar 4 atomic tier combines sub-task 1 (proved on $\\mathbb{CP}^2$), sub-task 2 (proved on $\\Sigma_0 = \\mathbb{P}^1 \\times \\mathbb{P}^1$), and sub-task 3 (claimed base-independent). Does a single coherent geometric realization exist where all three simultaneously close? **Main result**: **Attack #1 MITIGATED via Defenses B + A + Theorems 270.1–270.2.** Pillar 4 atomic-tier T6 PROVED CONDITIONAL status is \\textbf{RETAINED}."
+        },
         {
           date: "2026-04-30",
           title: "[Theory] Math268: Turn 39 — Pillar 4 Atomic-Tier T6 Promotion + Stage-1 Reassessment",
@@ -151,11 +156,6 @@ window.TECT_HISTORY_PAGE_006 = {
           date: "2026-04-28",
           title: "[Math200-Addendum-B — ℏ_TECT(μ) matching functional + scope correction (reviewer item 4 closure)]",
           body: "**Trigger**: Discharge of reviewer item 4 from AUDIT-2026-04-28-Math200-Proxy-Defect (substantive matching-functional derivation)."
-        },
-        {
-          date: "2026-04-28",
-          title: "[Math200-Addendum-A — RGE convention/sign sanity check (reviewer items 1-3 closure)]",
-          body: "**Trigger**: Discharge of reviewer items 1-3 from AUDIT-2026-04-28-Math200-Proxy-Defect (single-turn §15 dispatch following Math205)."
         }
       ]
     },

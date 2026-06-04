@@ -1,12 +1,17 @@
-// AUTO-GENERATED v0.3 page 9/12 — frozen at 2026-05-12
+// AUTO-GENERATED v0.3 page 9/12 — frozen at 2026-05-15
 window.TECT_HISTORY_PAGE_009 = {
   title: "History (page 9 of 12)",
   subtitle: "Chronological CHANGELOG mirror — auto-generated.",
-  lastUpdated: "2026-05-12 (archived)",
+  lastUpdated: "2026-05-15 (archived)",
   pagination: {"page": 9, "total": 12, "newer": "history-page-010.html", "older": "history-page-008.html", "archiveIndex": null},
   blocks: [
     { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history-page-010.html\">&larr; Newer</a> &middot; Page 9 / 12 &middot; <a href=\"history-page-008.html\">Older &rarr;</a></div>" },
     { type: "timeline", items: [
+        {
+          date: "2026-05-15",
+          title: "[Infrastructure/HARDENING] 4-layer token-format validation across publish pipeline; new `tect doctor` subcommand for auth-surface diagnosis",
+          body: "**Theory tag**: `Infrastructure-token-format-validation-4layer-defence-2026-05-15` **Classification**: INFRASTRUCTURE-HARDENING (defense-in-depth against malformed PAT propagation)."
+        },
         {
           date: "2026-05-12",
           title: "[Infrastructure/CORRECTION] tect.kr is self-hosted git-pull (NOT GitHub Pages); diagnose_pages.ps1 DEPRECATED → diagnose_tectkr.ps1; new server-side pull helper + revised TECT_KR_PUBLISH_PIPELINE.md",
@@ -151,11 +156,6 @@ window.TECT_HISTORY_PAGE_009 = {
           date: "2026-05-09",
           title: "[Theory] Math355: Turn 2 Independent Audit of Lemma A (Math221-AddC)",
           body: "**Theory tag**: `Math355-Turn2-Independent-Audit-Math221-AddC-2026-05-09` **Classification**: AUDIT VERDICT (independent cross-check) **Significance**: Affirms Math278 (2026-05-01, Turn 49) verdict that Math221-AddC (Lemma A: explicit charge table + SU(5) ρ ≠ 0) is **T6 PROVED CONDITIONAL**. Turn 2 of 20-turn Pillar 4 sub-task 2 closure programme independently audits Lemma A and confirms canonical tier without new defects. Reduces residual risk from ~10% (single audit) to ~2% (independent corroboration)."
-        },
-        {
-          date: "2026-05-09",
-          title: "[Theory] Math354: Pillar 4 Sub-task 2 Status Diagnostic (infrastructure drift repair)",
-          body: "**Theory tag**: `Math354-Pillar4-Subtask2-Status-Diagnostic-2026-05-09` **Classification**: ANALYSIS NOTE (diagnostic, not a theorem) **Significance**: Identifies and documents infrastructure-theory co-stabilization drift (CLAUDE.md §20). Pillar 4 sub-task 2 tier claims in pillar_status.json are out of sync with Math note reality: Math220-AddB (Lemma B) is T6 per Math277 audit (2026-05-01), but JSON lists T3. Maps closure pathway for Lemma E_3' (cosmological uniqueness gate), the true blocker. Prepares infrastructure sync for Turns 2–3."
         }
       ]
     },

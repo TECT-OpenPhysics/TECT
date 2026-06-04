@@ -1,12 +1,17 @@
-// AUTO-GENERATED v0.3 page 4/12 — frozen at 2026-04-25
+// AUTO-GENERATED v0.3 page 4/12 — frozen at 2026-04-26
 window.TECT_HISTORY_PAGE_004 = {
   title: "History (page 4 of 12)",
   subtitle: "Chronological CHANGELOG mirror — auto-generated.",
-  lastUpdated: "2026-04-25 (archived)",
+  lastUpdated: "2026-04-26 (archived)",
   pagination: {"page": 4, "total": 12, "newer": "history-page-005.html", "older": "history-page-003.html", "archiveIndex": null},
   blocks: [
     { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history-page-005.html\">&larr; Newer</a> &middot; Page 4 / 12 &middot; <a href=\"history-page-003.html\">Older &rarr;</a></div>" },
     { type: "timeline", items: [
+        {
+          date: "2026-04-26",
+          title: "[Round 21 — Math110 AddA/D Verification Programme (Round R1): Fierz-Pauli Coefficient + eta_top Reconciliation]",
+          body: "**Status**: PROVED CONDITIONAL (gate F4 PASS). - Rigorous derivation of Fierz-Pauli kinetic term from TECT elastic Lagrangian. - Matching with linearized Einstein-Hilbert action at TT gauge yields coefficient $\\mu a_{\\rm BCC}^2 = c^3/(16\\pi G)$. - Factor-of-$16\\pi$ verified within standard GR conventions (Carroll, Wald textbooks). - RG-running effects (factor-of-2 enhancement from UV to IR) documented and accounted for. - **Gate F4 status**: PASS (coefficient within factor-2 tolerance; no deviation). - Numerical prediction confirmed: $a_{\\rm BCC} = 4\\sqrt{\\pi}\\ell_{\\rm P} \\approx 7.09\\ell_{\\rm P}$. - Devil's-advocate self-test (§6.3.1): three objections (α/β/γ); all DISMISSED or VALID-with-scope."
+        },
         {
           date: "2026-04-25",
           title: "[Round 20 — FINAL SYNTHESIS: Math109 (Final Rigor Synthesis Rounds 17–20; PROVED; capstone)]",
@@ -151,11 +156,6 @@ window.TECT_HISTORY_PAGE_004 = {
           date: "2026-04-24",
           title: "[Math58-v7-Addendum-B — Q5 Numerical Verification Framework (Task #118, Turn 8 Track B)]",
           body: "Math58-v7-Addendum-A (2026-04-24) rendered Q5 verdict as UNVERIFIED: numerical verification of the four-sector Λ_cosmo cancellation pending. Task #118 operationalizes this via closed-form sector evaluations + Python audit framework + devil's-advocate self-test (CLAUDE.md §6.3.1)."
-        },
-        {
-          date: "2026-04-24",
-          title: "[Math60-C-Addendum-A — QO1 Closed-Form Prediction (Zero-Point Brazovskii Fluctuation Energy)]",
-          body: "Task #83 (Math60-C closure): Derive three quantum observables (QO1, QO2, QO3) for quantum TECT. This turn completes **QO1 (zero-point Brazovskii fluctuation energy)** to closed form, advancing Stage-2-C from OUTLINE to PARTIAL per CLAUDE.md §4 (auto-archival) + §6.3.1 (devil's-advocate self-test mandatory)."
         }
       ]
     },

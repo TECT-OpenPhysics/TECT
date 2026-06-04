@@ -9,6 +9,11 @@ window.TECT_HISTORY_PAGE_011 = {
     { type: "timeline", items: [
         {
           date: "2026-06-04",
+          title: "[Audit-Verdict] Math433 operator audit PASS archived: consolidation/audit-input document accepted; §15.5 dispatch authorized with prioritized attack order; T5-candidate wording pinned",
+          body: "**Operator verdict (archived)**: Math433 passes as a consolidation and audit-input document — \"does not overstate the state; candidate tier stays T4; T5 decided only by the independent audit.\" Strengths confirmed: scope-limited candidate statement (enumerated ensembles only); margin table with weakest link LAM +3.17e-5 NOT hidden; H-est/H-enum explicit. Weaknesses (= audit priorities, BINDING order): **(1) anchored-estimator construction at the 1e-5 margin scale; (2) LAM/HEX exact-Wick transverse-continuum bracket (G1''-3b); (3) exact-Wick remainder algebra re-derivation; (4) Math432 SHG tilt bound; (5) forbidden-phrase sweep (no theorem/full-global-minimum overclaim)**. Pinned T5-candidate wording: \"Reading-H selection is closed at estimator grade within the enumerated single-shell and two-shell condensate ensembles.\" Full H_RH-BCC-channel theorem: still NOT claimed (Step-5/G3'-b open). **Action**: §15.5 independent audit dispatched (DIFFERENT agent, fresh context; entry doc = Math433; verdict note = Math434; NO tier action by the auditor — tier movement decided by operator after reading the verdict)."
+        },
+        {
+          date: "2026-06-04",
           title: "[Audit-Verdict + Theory/Final-Consolidation] Math432 operator audit PASS archived; Math433 Reading-H attack-chain Final Consolidation issued (operator directive: consolidation BEFORE §15.5 audit)",
           body: "**Operator verdict (archived)**: Math432 passes the adversarial audit under stated qualifiers — \"G3'_{110}+{200} = CLOSED-PASS; Reading H has survived six consecutive direct attacks; H_RH-BCC-channel ≠ full theorem yet.\" Weaknesses confirmed as already-registered residuals: (1) two shells only → G3'-b(i) stands (defence: off-sphere quadratic stiffness c2^(s) = n_s[r_R + C(k_s²−q0²)²], e.g. {211} c2^(3) = 13.93); (2) isotropic cubic-symmetric A2 only → G3'-b(ii) stands; (3) estimator grade → qualifier language mandatory. Operator addition (BINDING): produce the Math427–432 Final Consolidation BEFORE the §15.5 independent audit — results are distributed over seven notes and the T5 auditor must not misread the state. **Math433 (CLAUDE.md §6.3.5(c))**: `Math433-ReadingH-Attack-Chain-Final-Consolidation-2026-06-04` — chain recorded start-to-finish (G4 kernel convention → G1' diagonal theorem → G1''-0/1'/2/3 → G3'), with: exact T5-candidate statement wording; per-gate margin/drift/grade table; explicit weakest-link paragraph (LAM +3.17e-5, three mitigations, G1''-3b attached); hypothesis ledger (H-class/H-est/H-enum/H-point); residual register; §15.5 attack checklist (5 items) + outcom"
         },
@@ -151,11 +156,6 @@ window.TECT_HISTORY_PAGE_011 = {
           date: "2026-05-27",
           title: "[Theory/Final-Consolidation] Math419 — C1 SECTOR THEORY CLOSURE COMPLETE; canonical archive per §6.3.5(c); 4×T7 + 2×T6 + 1×T5@1-loop on 5-element minimal hypothesis core; Reading H verified for all 7 ",
           body: "| Tier | Count | Pillars | |---|---|---| | **T7 PROVED unconditional** | 4 | 5 (chirality), 7 (per-gen), 8 (Λ + Lorentz), 9 (Newton G) | | **T6 PROVED CONDITIONAL** | 2 | 1 (mass m*), 2 (Brazovskii) | | **T5 CLOSED@1-loop** | 1 | 3 (gravity) | | **TOTAL** | 7 | C1 sector |"
-        },
-        {
-          date: "2026-05-27",
-          title: "[Theory/Audit] Math418 — C1 sector cross-consistency audit: 5-element minimal hypothesis core; DAG acyclic; no contradictions across 21 pillar pairs; Reading H propagates to all 7 pillars",
-          body: "**Theory tag**: `Math418-C1-Cross-Consistency-Hypothesis-Graph-2026-05-27` **Scope**: C1 sector (Pillars 1, 2, 3, 5, 7, 8, 9). **Verdict**: Cross-consistency VERIFIED. **Trigger**: A-Round 4 of C1 closure programme."
         }
       ]
     },

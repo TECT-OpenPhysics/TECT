@@ -1,4 +1,4 @@
-// AUTO-GENERATED v0.3 page 12/12 — 2026-06-04 14:15 UTC
+// AUTO-GENERATED v0.3 page 12/12 — 2026-06-04 15:32 UTC
 window.TECT_HISTORY = {
   title: "History (page 12 of 12)",
   subtitle: "Chronological CHANGELOG mirror — auto-generated.",
@@ -7,6 +7,16 @@ window.TECT_HISTORY = {
   blocks: [
     { type: "html", content: "<div class=\"pagination-nav\">Page 12 / 12 &middot; <a href=\"history-page-011.html\">Older &rarr;</a></div>" },
     { type: "timeline", items: [
+        {
+          date: "2026-06-04",
+          title: "[Audit-Verdict] Math435 operator audit PASS archived: G6 CLOSED-PASS CONFIRMED (\"executed version passes adversarial audit\"); Math435 v1.1 issued (3 documentation residuals); NO tier action; priorit",
+          body: "**Operator verdict (archived)**: \"Math435 executed version passes adversarial audit. G6 = CLOSED-PASS. No tier action; Reading-H remains pinned T5_estimator-grade.\" Confirmed: G6_Layer1 = CLOSED, G6_Layer2 = EXECUTED-PASS, G6_total = CLOSED-PASS; 17/17 corrected sweep rows unique-root Path α (deep rows −1.0/−0.9/−0.8 executed: r_R = 0.099081/0.107142/0.116540); SIGN-FLIP gate fully evaluated NOT FIRED; RESTORATION gate NOT FIRED (A* = 0, ΔF = 0 at all corrected-window rows × four readings — \"strongly stabilises the post-Math424/426 Reading-H restoration narrative\"); ξ dimension fix correct (retired form L³-defective; ξ = 2q0√(c/r_R) = 2.46512); r_R/r_braz = 60.905 ⇒ corrected canonical is strongly fluctuation-dominated, which STRENGTHENS (not weakens) the Reading-H interpretation. Re-affirmed forbidden: \"H_RH-BCC-channel = full theorem\"; \"T6/T7 reached\". **Math435 v1.1 (versioned re-issue, same day)**: three audit residuals fixed — (1) section title \"scripted and pending\" → \"executed-pass\"; (2) §2.3 demoted to \"Pre-execution estimator table (methodology archive)\" with §2.5 the sole citable sweep record; (3) execution-status paragraph split into \"Agent drafting sessio"
+        },
+        {
+          date: "2026-06-04",
+          title: "[Theory/Gate-Execution] Math435 — G6 corrected-variable recomputation cascade CLOSED-PASS (same-day two-stage: file-tools agent exact layer + dispatcher first execution 101/101, exit 0): corrected bou",
+          body: "**Theory tag**: `Math435-G6-Corrected-Variable-Recomputation-Cascade-2026-06-04`. Fresh-session dispatch per operator priority (G6 > G1''-3b-HEX > Step-5 > G3'-b). Session constraint self-flagged: file-tools-only (no shell; Math434 precedent) — §11.5.2 deviation (Write/Edit on tracked files; operator must run `check_file_integrity.py --staged --strict` before commit) + [GEN-CHAIN-FAIL no-bash-capability] declared. **Dispatcher same-day resolution**: integrity verified (safe_write --verify clean ×2; AST clean), script EXECUTED (101/101 asserts, exit 0, single sandbox call), generator chain run, atomic commit performed — the execution debt declared by the agent is discharged in the same calendar day. **Layer 1 (exact arithmetic) CLOSED — citable now**: (a-structure) the disordered gap equation depends only on r_bare, so the Math426 convention fix is a pure relabeling mu2 ↦ r_bare (offset r_bare = mu2 + Yq0⁴ vs production r_bare = mu2); the corrected sweep at mu2 = X probes the executed offset run's physics at r_bare = X. Path γ excluded analytically on the whole corrected grid (sextic forces root existence); Path α ⇔ unique positive root. (b-lexicon) corrected Math401 lexicon at the "
+        },
         {
           date: "2026-06-04",
           title: "[Audit-Verdict] Math434-AddA + Math432 v1.1 operator audit PASS archived: T5 promotion CONFIRMED legitimate within pinned scope; BINDING scope-language trio pinned for all future documents/talks",
@@ -21,11 +31,6 @@ window.TECT_HISTORY = {
           date: "2026-06-04",
           title: "[Audit-Verdict/Section15p5] Math434 — §15.5 INDEPENDENT AUDIT verdict: AUDIT-PASS (no UPHELD on attack tasks 1–4; phrase sweep clean); LAM +3.17e-5 weakest link survives the exact-Wick correction boun",
           body: "**Theory tag**: `Math434-Section15p5-Independent-Audit-ReadingH-T5-Candidacy-PASS-2026-06-04`. Auditor = DIFFERENT agent (fresh context, file-tools-only session — NO shell execution; consequences self-flagged in the note header). Candidate statement audited at the operator-pinned wording: \"Reading-H selection is closed at estimator grade within the enumerated single-shell and two-shell condensate ensembles.\" **Per-task verdicts**: (1) anchored-estimator construction — DISMISSED (decomposition is an exact identity up to the single bracket continuum→basis substitution; diagonal/off-diagonal boundary verified no-double-count at code level; residual systematics quantified ≲1e-6; sub-findings: M_fast interpolation check registered; ρ=1 \"worst case\" label imprecise at mid-amplitude — superseded for BCC by the exact-Wick gates, absorbed into G1''-3b for LAM/HEX). (2) LAM weakest link — VALID-with-mitigation: route-(b) directional bound, hand-verified: ‖X‖_Gershgorin ≤ 3.1e-3 at the argmin ⇒ exact log-det excess ≤ 6.6e-8; σ-inhomogeneity remainder (omitted by the ρ-estimator — auditor's principal new finding) ≤ 2e-7; total ≤ 3e-7 ≪ 3.17e-5 — **the LAM minimum survives at its argmin wit"
-        },
-        {
-          date: "2026-06-04",
-          title: "[Audit-Verdict] Math433 operator audit PASS archived: consolidation/audit-input document accepted; §15.5 dispatch authorized with prioritized attack order; T5-candidate wording pinned",
-          body: "**Operator verdict (archived)**: Math433 passes as a consolidation and audit-input document — \"does not overstate the state; candidate tier stays T4; T5 decided only by the independent audit.\" Strengths confirmed: scope-limited candidate statement (enumerated ensembles only); margin table with weakest link LAM +3.17e-5 NOT hidden; H-est/H-enum explicit. Weaknesses (= audit priorities, BINDING order): **(1) anchored-estimator construction at the 1e-5 margin scale; (2) LAM/HEX exact-Wick transverse-continuum bracket (G1''-3b); (3) exact-Wick remainder algebra re-derivation; (4) Math432 SHG tilt bound; (5) forbidden-phrase sweep (no theorem/full-global-minimum overclaim)**. Pinned T5-candidate wording: \"Reading-H selection is closed at estimator grade within the enumerated single-shell and two-shell condensate ensembles.\" Full H_RH-BCC-channel theorem: still NOT claimed (Step-5/G3'-b open). **Action**: §15.5 independent audit dispatched (DIFFERENT agent, fresh context; entry doc = Math433; verdict note = Math434; NO tier action by the auditor — tier movement decided by operator after reading the verdict)."
         }
       ]
     },

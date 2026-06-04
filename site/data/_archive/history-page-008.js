@@ -1,12 +1,17 @@
-// AUTO-GENERATED v0.3 page 8/12 — frozen at 2026-05-08
+// AUTO-GENERATED v0.3 page 8/12 — frozen at 2026-05-09
 window.TECT_HISTORY_PAGE_008 = {
   title: "History (page 8 of 12)",
   subtitle: "Chronological CHANGELOG mirror — auto-generated.",
-  lastUpdated: "2026-05-08 (archived)",
+  lastUpdated: "2026-05-09 (archived)",
   pagination: {"page": 8, "total": 12, "newer": "history-page-009.html", "older": "history-page-007.html", "archiveIndex": null},
   blocks: [
     { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history-page-009.html\">&larr; Newer</a> &middot; Page 8 / 12 &middot; <a href=\"history-page-007.html\">Older &rarr;</a></div>" },
     { type: "timeline", items: [
+        {
+          date: "2026-05-09",
+          title: "[Theory] Math354: Pillar 4 Sub-task 2 Status Diagnostic (infrastructure drift repair)",
+          body: "**Theory tag**: `Math354-Pillar4-Subtask2-Status-Diagnostic-2026-05-09` **Classification**: ANALYSIS NOTE (diagnostic, not a theorem) **Significance**: Identifies and documents infrastructure-theory co-stabilization drift (CLAUDE.md §20). Pillar 4 sub-task 2 tier claims in pillar_status.json are out of sync with Math note reality: Math220-AddB (Lemma B) is T6 per Math277 audit (2026-05-01), but JSON lists T3. Maps closure pathway for Lemma E_3' (cosmological uniqueness gate), the true blocker. Prepares infrastructure sync for Turns 2–3."
+        },
         {
           date: "2026-05-08",
           title: "[Infrastructure + Policy] Math353-AddG: v3 mirror tightening pass (paste-ready/.pdf/pde-init/site-assets-subdirs eliminated)",
@@ -151,11 +156,6 @@ window.TECT_HISTORY_PAGE_008 = {
           date: "2026-05-01",
           title: "[Theory] Math298: GAP-1 hidden SM-loop coupling interpretation (3-sector decomposition)",
           body: "**Significance**: Turn 68 of 20-turn TECT defence programme (Phase 3 second note — GAP-1 matching-functional pathway). Addresses Math296 universal-embedding objection (α). **Theorem 298.1 (T6 PROVED CONDITIONAL)**: empirical 1-loop residual $\\delta_{\\rm emp}(\\mu)$ admits unique 3-sector decomposition $\\delta_{\\rm emp}(\\mu) = \\sum_i c_i b_i g_i^2(M_Z) \\ln(\\mu/M_Z)/(16\\pi^2)$ via least-squares regression at $N_\\mu \\ge 4$ scales; sector weights $(c_1, c_2, c_3)$ for U(1)$_Y$ / SU(2)$_L$ / SU(3)$_c$ identify whether universal-embedding holds or sector-asymmetric breaking signals."
-        },
-        {
-          date: "2026-05-01",
-          title: "[Theory] Math297: GAP-1 continuum-limit error budget (Phase 3 opener)",
-          body: "**Significance**: Turn 67 of 20-turn TECT defence programme (Phase 3 opener — GAP-1 matching-functional theoretical closure). Quantifies Math82-H precision required for F-GAP1 structural-tier closure. **Theorem 297.1 (T6 PROVED CONDITIONAL)**: F-GAP1 budget $|\\delta\\hbar/\\hbar| < 10^{-3}$ translates via $\\hbar \\propto a^2$ propagation to $|\\delta a_{\\rm BCC}/a_{\\rm BCC}| < 5\\times 10^{-4}$."
         }
       ]
     },

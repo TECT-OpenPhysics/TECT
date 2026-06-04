@@ -9,6 +9,11 @@ window.TECT_HISTORY_PAGE_010 = {
     { type: "timeline", items: [
         {
           date: "2026-05-27",
+          title: "[Theory/Audit] Math418 — C1 sector cross-consistency audit: 5-element minimal hypothesis core; DAG acyclic; no contradictions across 21 pillar pairs; Reading H propagates to all 7 pillars",
+          body: "**Theory tag**: `Math418-C1-Cross-Consistency-Hypothesis-Graph-2026-05-27` **Scope**: C1 sector (Pillars 1, 2, 3, 5, 7, 8, 9). **Verdict**: Cross-consistency VERIFIED. **Trigger**: A-Round 4 of C1 closure programme."
+        },
+        {
+          date: "2026-05-27",
           title: "[Theory/Audit] Math417 — Pillar 9 (Newton G) Math404 scale-identification reconciliation; T7 retained (consistent with GR T7 standard); not circular derivation",
           body: "**Theory tag**: `Math417-Pillar9-Math404-Reconciliation-2026-05-27` **Pillar**: 9 (Newton G derivation). **Tier**: T7 PROVED retained. **Trigger**: A-Round 3 of C1 closure programme."
         },
@@ -151,11 +156,6 @@ window.TECT_HISTORY_PAGE_010 = {
           date: "2026-05-15",
           title: "[Theory] Math408 — Pillar 6 Pathway B closure attempt: explicit O_h eigenvector decomposition refutes Math406 algebraic identification; T3 PROOF SKETCH + T2 CONJECTURE added without T5/T6 promotion",
           body: "**Theory tag**: `Math408-Pillar6-Pathway-B-Closure-Attempt-Oh-Decomp-Bridge-LRSM-2026-05-15` **Classification**: THEORY-ADVANCEMENT, structural correction + extension of Math406 / Math407."
-        },
-        {
-          date: "2026-05-15",
-          title: "[Infrastructure/HARDENING] 4-layer token-format validation across publish pipeline; new `tect doctor` subcommand for auth-surface diagnosis",
-          body: "**Theory tag**: `Infrastructure-token-format-validation-4layer-defence-2026-05-15` **Classification**: INFRASTRUCTURE-HARDENING (defense-in-depth against malformed PAT propagation)."
         }
       ]
     },

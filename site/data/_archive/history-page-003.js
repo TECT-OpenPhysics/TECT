@@ -9,6 +9,11 @@ window.TECT_HISTORY_PAGE_003 = {
     { type: "timeline", items: [
         {
           date: "2026-04-24",
+          title: "[Math60-C-Addendum-A — QO1 Closed-Form Prediction (Zero-Point Brazovskii Fluctuation Energy)]",
+          body: "Task #83 (Math60-C closure): Derive three quantum observables (QO1, QO2, QO3) for quantum TECT. This turn completes **QO1 (zero-point Brazovskii fluctuation energy)** to closed form, advancing Stage-2-C from OUTLINE to PARTIAL per CLAUDE.md §4 (auto-archival) + §6.3.1 (devil's-advocate self-test mandatory)."
+        },
+        {
+          date: "2026-04-24",
           title: "[Math77-Q6b-Addendum-C — Pati-Salam RGE Finalisation: Candidate Selection Rule and PROVED CONDITIONAL Status]",
           body: "Pillar 6 Q6b closure sprint (Turn 8 Track A). Math77-Q6b-Addendum-B provided a 349-candidate Pati-Salam two-step RGE scan. Math80-Addendum-C-FULL established SO(10)-uniqueness as PROVED. Task: apply selection criteria (SR1-SR4) to reduce 349 candidates to 1, execute devil's-advocate self-test per CLAUDE.md §6.3.1, and promote Q6b to PROVED CONDITIONAL."
         },
@@ -151,11 +156,6 @@ window.TECT_HISTORY_PAGE_003 = {
           date: "2026-04-24",
           title: "[Math82-Addendum-D — Phase Z run result: PARTIAL with saddle-point identification]",
           body: "`python -u Codes\\pde\\continuation_mu2_v25.py` with BCC analytic seed + reversed schedule per Math82-Addendum-B Phase Z runbook. Output: `Runs\\continuation\\math55_endpoint_N32_Lbcc7_phaseZ_2026-04-24\\`."
-        },
-        {
-          date: "2026-04-24",
-          title: "[Math82-Addendum-C — Phase E + F: PDE/ fully retired; canonical layout achieved]",
-          body: "The Phase Z continuation run uses `Codes\\pde\\continuation_mu2_v25.py` (post-correction from earlier `PDE\\continuation_mu2_v25.py` request) and `Codes\\pde\\config_template_brazovskii.json`. Neither path includes `PDE\\`. The script does not touch `Codes\\pde\\` or `Runs\\continuation\\math55_endpoint_N32_Lbcc7_phaseZ_2026-04-24\\`. Therefore PDE/ retirement during the run is safe."
         }
       ]
     },

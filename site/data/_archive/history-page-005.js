@@ -9,6 +9,11 @@ window.TECT_HISTORY_PAGE_005 = {
     { type: "timeline", items: [
         {
           date: "2026-04-28",
+          title: "[Math200-Addendum-A — RGE convention/sign sanity check (reviewer items 1-3 closure)]",
+          body: "**Trigger**: Discharge of reviewer items 1-3 from AUDIT-2026-04-28-Math200-Proxy-Defect (single-turn §15 dispatch following Math205)."
+        },
+        {
+          date: "2026-04-28",
           title: "[Math205 — Flat-Cartan atlas conditional uniqueness (synthesis L1+L2+L3)]",
           body: "**Trigger**: Synthesis of Math202 + Math203 + Math204 closing the four-step flat-Cartan-forcing decomposition. Final single-turn dispatch in the §15 sequential L1→L2→L3→synthesis chain."
         },
@@ -151,11 +156,6 @@ window.TECT_HISTORY_PAGE_005 = {
           date: "2026-04-26",
           title: "[Round 21 — Math110 R4 Status Upgrade (status update) + R5 Final Synthesis (Math112; PROVED CONDITIONAL; capstone)]",
           body: "**Status**: PROVED CONDITIONAL (updated from PARTIAL-ADVANCED; main note reflects Rounds R1–R3 verification). - Status line updated: PARTIAL-ADVANCED → PROVED CONDITIONAL. - New subsection (Completion summary: Rounds R1–R3 verification) added to main note. - Ingredient status summary: all four marked PROVED CONDITIONAL. - Math110 final status (boxed): PROVED CONDITIONAL. - Cross-references updated to include all six addenda (AddA–AddE + main + synthesis note). - Pillar 10 assessment: Math110 is secondary pathway; primary closure requires Pillars 1, 3, Task #121."
-        },
-        {
-          date: "2026-04-26",
-          title: "[Round 21 — Math110 AddA/D Verification Programme (Round R1): Fierz-Pauli Coefficient + eta_top Reconciliation]",
-          body: "**Status**: PROVED CONDITIONAL (gate F4 PASS). - Rigorous derivation of Fierz-Pauli kinetic term from TECT elastic Lagrangian. - Matching with linearized Einstein-Hilbert action at TT gauge yields coefficient $\\mu a_{\\rm BCC}^2 = c^3/(16\\pi G)$. - Factor-of-$16\\pi$ verified within standard GR conventions (Carroll, Wald textbooks). - RG-running effects (factor-of-2 enhancement from UV to IR) documented and accounted for. - **Gate F4 status**: PASS (coefficient within factor-2 tolerance; no deviation). - Numerical prediction confirmed: $a_{\\rm BCC} = 4\\sqrt{\\pi}\\ell_{\\rm P} \\approx 7.09\\ell_{\\rm P}$. - Devil's-advocate self-test (§6.3.1): three objections (α/β/γ); all DISMISSED or VALID-with-scope."
         }
       ]
     },

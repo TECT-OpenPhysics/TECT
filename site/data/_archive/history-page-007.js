@@ -9,6 +9,11 @@ window.TECT_HISTORY_PAGE_007 = {
     { type: "timeline", items: [
         {
           date: "2026-05-01",
+          title: "[Theory] Math297: GAP-1 continuum-limit error budget (Phase 3 opener)",
+          body: "**Significance**: Turn 67 of 20-turn TECT defence programme (Phase 3 opener — GAP-1 matching-functional theoretical closure). Quantifies Math82-H precision required for F-GAP1 structural-tier closure. **Theorem 297.1 (T6 PROVED CONDITIONAL)**: F-GAP1 budget $|\\delta\\hbar/\\hbar| < 10^{-3}$ translates via $\\hbar \\propto a^2$ propagation to $|\\delta a_{\\rm BCC}/a_{\\rm BCC}| < 5\\times 10^{-4}$."
+        },
+        {
+          date: "2026-05-01",
           title: "[Infrastructure + Code] Snapshot orchestrator + policy + CLAUDE.md §16 trigger phrases",
           body: "**Significance**: Operator request to eliminate manual per-step propagation of canonical changes to the four mirror trees (Docs/Codes canonical, Website/data, Website/assets, Github/). Establishes a single-command snapshot pipeline + binding policy + AI trigger phrases so that future sessions can synchronise all trees with a one-line invocation. Replaces the ad-hoc per-session manual instructions to \"update Website + GitHub\" with a deterministic 8-step pipeline."
         },
@@ -151,11 +156,6 @@ window.TECT_HISTORY_PAGE_007 = {
           date: "2026-04-30",
           title: "[Theory] Math269: Turn 40 — 10-Turn Programme Final Consolidation (Turns 31-40)",
           body: "**Significance**: Turn 40 final consolidation note (CLAUDE.md §6.3.5(c) BINDING). Canonical archival of the entire 10-turn autonomous research programme (Turns 31-40, Pillar 4 atomic-tier T3→T6 promotion). **Key deliverable**: Single consolidated Math note recording all per-turn results, audit discipline pattern, atomic-tier promotion narrative, Stage-1 scorecard delta (7/11→8/11 at T6+, 72.7% sealing progress), critical-path gates, and recommendations for Turns 41-50. **No new theorems introduced**; consolidation archives and synthesizes prior results (Math260-268, all committed and audited)."
-        },
-        {
-          date: "2026-05-01",
-          title: "[Defense] Math270: Turn 41 — Cross-Base Coherence Defense Against Attack #1",
-          body: "**Significance**: Turn 41 (Start of 20-turn defence programme, Turns 41–60) addresses the highest-risk attack vector from external hostile-reviewer assessment (2026-05-01): **cross-base coherence** of the Pillar 4 atomic-tier T6 promotion. **Attack statement**: Pillar 4 atomic tier combines sub-task 1 (proved on $\\mathbb{CP}^2$), sub-task 2 (proved on $\\Sigma_0 = \\mathbb{P}^1 \\times \\mathbb{P}^1$), and sub-task 3 (claimed base-independent). Does a single coherent geometric realization exist where all three simultaneously close? **Main result**: **Attack #1 MITIGATED via Defenses B + A + Theorems 270.1–270.2.** Pillar 4 atomic-tier T6 PROVED CONDITIONAL status is \\textbf{RETAINED}."
         }
       ]
     },

@@ -9,6 +9,11 @@ window.TECT_HISTORY_PAGE_002 = {
     { type: "timeline", items: [
         {
           date: "2026-04-24",
+          title: "[Math82-Addendum-C — Phase E + F: PDE/ fully retired; canonical layout achieved]",
+          body: "The Phase Z continuation run uses `Codes\\pde\\continuation_mu2_v25.py` (post-correction from earlier `PDE\\continuation_mu2_v25.py` request) and `Codes\\pde\\config_template_brazovskii.json`. Neither path includes `PDE\\`. The script does not touch `Codes\\pde\\` or `Runs\\continuation\\math55_endpoint_N32_Lbcc7_phaseZ_2026-04-24\\`. Therefore PDE/ retirement during the run is safe."
+        },
+        {
+          date: "2026-04-24",
           title: "[Math82-Addendum-B — Phase Z BCC analytic seed runbook + driver --load-psi flag (v2.6.5)]",
           body: "1. **`Codes/pde/bcc_analytic_seed.py` (NEW, ~230 lines)** — standalone BCC analytic seed builder + CLI. Constructs $\\Psi_{\\mathrm{BCC}}(x) = A_{\\mathrm{BCC}} \\sum_{j=1}^{6} \\cos(Q_0 \\mathbf{q}_j \\cdot x)$ with Brazovskii saddle-point amplitude $A_{\\mathrm{BCC}} = \\sqrt{|\\mu^2|/(15\\gamma)}$, distributed across the 3 family channels via locked direction $\\mathbf{z}_0 = (1,1,1)/\\sqrt{3}$. Output: `(3, N, N, N)` complex128 .npy file ready for `--load-psi`."
         },
@@ -151,11 +156,6 @@ window.TECT_HISTORY_PAGE_002 = {
           date: "2026-04-23",
           title: "[Docs/runbooks/v263_execution_verification_runbook.md — GPU-only execution runbook for Task #54 stages 0–6, retirement on Task #54 closure]",
           body: "- **Docs/runbooks/v263_execution_verification_runbook.md** filed (NEW). A single-file step-by-step PowerShell/Linux runbook that separates GPU-dependent verification from sandbox-grade rigor checks. Stages 0–6 cover environment sanity, full-pytest torch-enabled signature (5/0/0 on `test_v26_phase_d.py`, 6/0/0 on `test_v262_cii_mask.py`, 19/0/0 on `test_v263_continuation_routing.py`), v2.6.3 smoke V2/V3/V4, Task #54 full Math55 run, V5 regression vs. `n64_continuum_audit.py` at threshold $|\\Delta m_*^2|/m_*^2 < 5\\times 10^{-3}$, Task #54 execution-layer closure with a Math75 note skeleton, and downstream unblocks (Tasks #55, #56, #66, #77). - Troubleshooting appendix covers exit-code 10 (SKELETON_ONLY), exit-code 2 (FAIL/PARTIAL), and V5 regression divergence (> 5e-3). - Quick-reference command sequence (optimistic PASS path) provided at the end. - The runbook is scoped to retire on Task #54 closure — at that point, the Stages 0–4 transition from manual one-shots to a torch+GPU CI lane, and the historical record transfers to `Docs/math/TECT-Math75-Task54-Execution-Closure.tex.txt`."
-        },
-        {
-          date: "2026-04-23",
-          title: "[Math74 Addendum-A — post-upload status update: Math73/74 are no longer doc-only closures; B2 code-level resolved and B3 code-level landed; Task #54 reclassified to code-unblocked / awaiting live endp",
-          body: "- **docs/math/TECT-Math74-Addendum-A-Post-Upload-Status-Update.tex.txt** filed (NEW, 7 subsections). - §§A.1–A.2 record that the uploaded `PDE/tect_newton_krylov.py` (v2.6.2) and `PDE/continuation_mu2_v25.py` (v2.6.3) now carry the Math66 v0.2 Path-A torch-native adjoint-JVP, the Math73 `CiiProjector` API (`FullProjector`, `ChannelProjector`), the single-`newton_solve` `run_one_point_v25`, the Phase 2 / Phase 3 live wiring, and the sixteen-field `continuation_mu2_v25_endpoint/1.0` emission block. Eq. `math74-addA-B2B3-code-level`: **B2 is code-level resolved, B3 is code-level landed**. - §A.3 books three strictly non-blocking residual items $R^{\\prime}_{1}, R^{\\prime}_{2}, R^{\\prime}_{3}$: (i) B1 name-map shim `{pcg→cg, fgmres→gmres, minres→gmres}` is *operationally* closed rather than *elegantly* closed (a native indefinite-symmetric `minres` implementation is booked as future cleanup); (ii) `NewtonStep.eta_ew` remains a placeholder $0.5$ because `tect_newton_krylov.NewtonStepRecord` does not surface an inexact-Newton forcing sequence directly; (iii) the Math63 §2D acceptance gate (Newton $\\le 8$, $t_{\\mathrm{CG}} \\le 300$, $\\rho_{\\mathrm{lin}} \\le 0.05$ at $\\mu^2=-1.0$)"
         }
       ]
     },
