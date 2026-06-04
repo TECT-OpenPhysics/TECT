@@ -1,12 +1,22 @@
-// AUTO-GENERATED v0.3 page 10/11 — frozen at 2026-05-27
+// AUTO-GENERATED v0.3 page 10/12 — frozen at 2026-05-27
 window.TECT_HISTORY_PAGE_010 = {
-  title: "History (page 10 of 11)",
+  title: "History (page 10 of 12)",
   subtitle: "Chronological CHANGELOG mirror — auto-generated.",
   lastUpdated: "2026-05-27 (archived)",
-  pagination: {"page": 10, "total": 11, "newer": "history.html", "older": "history-page-009.html", "archiveIndex": null},
+  pagination: {"page": 10, "total": 12, "newer": "history-page-011.html", "older": "history-page-009.html", "archiveIndex": null},
   blocks: [
-    { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history.html\">&larr; Newer</a> &middot; Page 10 / 11 &middot; <a href=\"history-page-009.html\">Older &rarr;</a></div>" },
+    { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history-page-011.html\">&larr; Newer</a> &middot; Page 10 / 12 &middot; <a href=\"history-page-009.html\">Older &rarr;</a></div>" },
     { type: "timeline", items: [
+        {
+          date: "2026-05-27",
+          title: "[Theory/Audit] Math417 — Pillar 9 (Newton G) Math404 scale-identification reconciliation; T7 retained (consistent with GR T7 standard); not circular derivation",
+          body: "**Theory tag**: `Math417-Pillar9-Math404-Reconciliation-2026-05-27` **Pillar**: 9 (Newton G derivation). **Tier**: T7 PROVED retained. **Trigger**: A-Round 3 of C1 closure programme."
+        },
+        {
+          date: "2026-05-27",
+          title: "[Theory/Audit] Math416 — Pillar 3 (gravity) T5@1-loop label retained; Reading H compatibility CONFIRMED; T5 → T6 promotion paths Math416-AddA + Math416-AddB queued",
+          body: "**Theory tag**: `Math416-Pillar3-1Loop-2Loop-Extension-Audit-2026-05-27` **Pillar**: 3 (Diffeomorphism invariance / gravity emergence). **Tier**: T5@1-loop retained. **Trigger**: A-Round 2 of C1 closure programme."
+        },
         {
           date: "2026-05-27",
           title: "[Theory/Audit] Math415 — Pillar 1 + Pillar 2 hypothesis-chain audit under Reading H reformulation; T6 retained for both with explicit hypothesis enumeration; T7 promotion paths Math415-AddA + Math415-",
@@ -146,19 +156,9 @@ window.TECT_HISTORY_PAGE_010 = {
           date: "2026-05-15",
           title: "[Infrastructure/HARDENING] 4-layer token-format validation across publish pipeline; new `tect doctor` subcommand for auth-surface diagnosis",
           body: "**Theory tag**: `Infrastructure-token-format-validation-4layer-defence-2026-05-15` **Classification**: INFRASTRUCTURE-HARDENING (defense-in-depth against malformed PAT propagation)."
-        },
-        {
-          date: "2026-05-12",
-          title: "[Infrastructure/CORRECTION] tect.kr is self-hosted git-pull (NOT GitHub Pages); diagnose_pages.ps1 DEPRECATED → diagnose_tectkr.ps1; new server-side pull helper + revised TECT_KR_PUBLISH_PIPELINE.md",
-          body: "**Theory tag**: `Infrastructure-tect-kr-self-hosted-git-pull-correction-2026-05-12` **Classification**: INFRASTRUCTURE-CORRECTION (operator clarification on actual tect.kr architecture)."
-        },
-        {
-          date: "2026-05-12",
-          title: "[Infrastructure/CRITICAL-FIX] tect.kr publish pipeline diagnostic + single-CLI wrapper: CNAME added (was MISSING — root cause of partial update); diagnose_pages.ps1 (8-check); tect.ps1 (single-entry C",
-          body: "**Theory tag**: `Infrastructure-tect-kr-publish-pipeline-diagnostic-2026-05-12` **Classification**: INFRASTRUCTURE-CRITICAL (root-cause fix for tect.kr partial-update issue) + CLI simplification."
         }
       ]
     },
-    { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history.html\">&larr; Newer</a> &middot; Page 10 / 11 &middot; <a href=\"history-page-009.html\">Older &rarr;</a></div>" }
+    { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history-page-011.html\">&larr; Newer</a> &middot; Page 10 / 12 &middot; <a href=\"history-page-009.html\">Older &rarr;</a></div>" }
   ]
 };

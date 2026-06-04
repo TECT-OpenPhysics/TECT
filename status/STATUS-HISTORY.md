@@ -18,6 +18,19 @@ The current tier scoreboard lives in `Codes/config/pillar_status.json` (machine-
 
 ---
 
+## §0. 2026-06-04 entries
+
+### 2026-06-04 — Reading-H selection statement promoted to T5 CLOSED@ESTIMATOR-GRADE
+- **Date**: 2026-06-04
+- **Pillar**: 4 (sub-task 2 — Reading-H vacuum selection; C1 core)
+- **Old tier → new tier**: T4 STRONG EVIDENCE → **T5 CLOSED@ESTIMATOR-GRADE** (selection statement only; the Pillar-4 sub-task-2 framework row of 2026-05-11 is unchanged)
+- **Pinned wording (binding)**: "Reading-H selection is closed at estimator grade within the enumerated single-shell and two-shell condensate ensembles." Mandatory condition set: **H-est** (continuum-anchored exact-Wick estimator grade) + **H-enum** (enumerated ensembles only: BCC/LAM/HEX/FCC single-shell + BCC {110}+{200} two-shell) + **H-point** (corrected canonical point, r_braz = mu2 = 0.005). T6/T7 FORBIDDEN before Step-5 + G3'-b + G6.
+- **Reason**: six consecutive adversarial attack rounds survived (Math427–432); Math433 consolidation; Math434 §15.5 independent audit AUDIT-PASS (different agent); operator sign-off 2026-06-04; final operational condition satisfied — executed LAM exact-Wick script 22/22 (exact-anchored min +3.170155e-5 > 0 at every grid point; weakest link survives; G1''-3b → HEX-only residual).
+- **Source Math note(s)**: Math432 v1.1, Math433, Math434, Math434-AddA (promotion record).
+- **CHANGELOG ref**: [Theory/Tier-Promotion + Audit-Execution] Math434-AddA — 2026-06-04.
+
+---
+
 ## §1. 2026-05-26 cascade entries
 
 ### 2026-05-27 — ZENODO DOI ISSUED (permanent academic priority anchor established)

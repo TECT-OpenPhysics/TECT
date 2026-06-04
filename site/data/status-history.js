@@ -2,10 +2,21 @@
 /* Source: Docs/status/STATUS-HISTORY.md                                   */
 window.TECT_STATUS_HISTORY = {
   "schema": "tect-status-history-v1",
-  "generated": "2026-06-04T10:07:29Z",
+  "generated": "2026-06-04T14:15:52Z",
   "source": "Docs/status/STATUS-HISTORY.md",
-  "count": 19,
+  "count": 20,
   "entries": [
+    {
+      "date": "2026-06-04",
+      "description": "Reading-H selection statement promoted to T5 CLOSED@ESTIMATOR-GRADE",
+      "pillar": "4 (sub-task 2 — Reading-H vacuum selection; C1 core)",
+      "old_tier": "",
+      "new_tier": "",
+      "reason": "six consecutive adversarial attack rounds survived (Math427–432); Math433 consolidation; Math434 §15.5 independent audit AUDIT-PASS (different agent); operator sign-off 2026-06-04; final operational condition satisfied — executed LAM exact-Wick script 22/22 (exact-anchored min +3.170155e-5 > 0 at every grid point; weakest link survives; G1''-3b → HEX-only residual).",
+      "source_notes": "Math432 v1.1, Math433, Math434, Math434-AddA (promotion record).",
+      "changelog": "",
+      "open_questions": ""
+    },
     {
       "date": "2026-05-27",
       "description": "ZENODO DOI ISSUED (permanent academic priority anchor established)",

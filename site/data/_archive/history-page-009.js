@@ -1,12 +1,22 @@
-// AUTO-GENERATED v0.3 page 9/11 — frozen at 2026-05-12
+// AUTO-GENERATED v0.3 page 9/12 — frozen at 2026-05-12
 window.TECT_HISTORY_PAGE_009 = {
-  title: "History (page 9 of 11)",
+  title: "History (page 9 of 12)",
   subtitle: "Chronological CHANGELOG mirror — auto-generated.",
   lastUpdated: "2026-05-12 (archived)",
-  pagination: {"page": 9, "total": 11, "newer": "history-page-010.html", "older": "history-page-008.html", "archiveIndex": null},
+  pagination: {"page": 9, "total": 12, "newer": "history-page-010.html", "older": "history-page-008.html", "archiveIndex": null},
   blocks: [
-    { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history-page-010.html\">&larr; Newer</a> &middot; Page 9 / 11 &middot; <a href=\"history-page-008.html\">Older &rarr;</a></div>" },
+    { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history-page-010.html\">&larr; Newer</a> &middot; Page 9 / 12 &middot; <a href=\"history-page-008.html\">Older &rarr;</a></div>" },
     { type: "timeline", items: [
+        {
+          date: "2026-05-12",
+          title: "[Infrastructure/CORRECTION] tect.kr is self-hosted git-pull (NOT GitHub Pages); diagnose_pages.ps1 DEPRECATED → diagnose_tectkr.ps1; new server-side pull helper + revised TECT_KR_PUBLISH_PIPELINE.md",
+          body: "**Theory tag**: `Infrastructure-tect-kr-self-hosted-git-pull-correction-2026-05-12` **Classification**: INFRASTRUCTURE-CORRECTION (operator clarification on actual tect.kr architecture)."
+        },
+        {
+          date: "2026-05-12",
+          title: "[Infrastructure/CRITICAL-FIX] tect.kr publish pipeline diagnostic + single-CLI wrapper: CNAME added (was MISSING — root cause of partial update); diagnose_pages.ps1 (8-check); tect.ps1 (single-entry C",
+          body: "**Theory tag**: `Infrastructure-tect-kr-publish-pipeline-diagnostic-2026-05-12` **Classification**: INFRASTRUCTURE-CRITICAL (root-cause fix for tect.kr partial-update issue) + CLI simplification."
+        },
         {
           date: "2026-05-12",
           title: "[Audit/ROLLBACK] Math407: Operator adversarial audit ROLLS BACK Pillar 6 T5→T4 (Math406 promotion premature); Math382 k_lock convention correction; Math402 demoted to pre-anchor exploratory",
@@ -146,19 +156,9 @@ window.TECT_HISTORY_PAGE_009 = {
           date: "2026-05-09",
           title: "[Theory] Math354: Pillar 4 Sub-task 2 Status Diagnostic (infrastructure drift repair)",
           body: "**Theory tag**: `Math354-Pillar4-Subtask2-Status-Diagnostic-2026-05-09` **Classification**: ANALYSIS NOTE (diagnostic, not a theorem) **Significance**: Identifies and documents infrastructure-theory co-stabilization drift (CLAUDE.md §20). Pillar 4 sub-task 2 tier claims in pillar_status.json are out of sync with Math note reality: Math220-AddB (Lemma B) is T6 per Math277 audit (2026-05-01), but JSON lists T3. Maps closure pathway for Lemma E_3' (cosmological uniqueness gate), the true blocker. Prepares infrastructure sync for Turns 2–3."
-        },
-        {
-          date: "2026-05-08",
-          title: "[Infrastructure + Policy] Math353-AddG: v3 mirror tightening pass (paste-ready/.pdf/pde-init/site-assets-subdirs eliminated)",
-          body: "**Root cause analysis**: - (1) `Docs/math/paste-ready-archive/` was in exclude_directories_local but apply_rename matched longest-prefix `Docs/math` first → renamed → never reached exclude check. Logic gap. - (2) `Docs/math/*.pdf` had no filter; passes_subtree_allowlist default-passed everything in note/. - (3) exclude_pde_pattern lacked __init__, .json, RESULT_TEMPLATE.md. - (4) `site_exclude_dirs_local` was missing `Website/assets/{code, code-old, manual, runs, policy, status, docs}/` (only had math, papers, Website/math)."
-        },
-        {
-          date: "2026-05-08",
-          title: "[Infrastructure + Policy] Math353-AddF: v3 mirror cleanup (pde operational + paper flatten + site/assets minimisation + auto-docs disabled)",
-          body: "**Cleanups applied** (mirror.json v3.5): - (a) `exclude_pde_pattern`: regex matching audit/check/run_/pipeline/version/manual_extrapolation/parallel/sweep operational scripts in Codes/pde/. 11 operational files excluded; theory PDE solvers (continuation_mu2*, bz_*, tect_*, math46/49/56_*, projector_*, dirac_index_bcc, intervalley_extractor, etc.) pass through. - (b) `v3_disable_auto_docs=true`: github_sync_curate.py v3 mode skips Github/docs/{KEY_RESULTS,NAVIGATION,POLICIES_INDEX}.md generation. _v3_prune expected set updated. - (c) `Docs/math/paste-ready-archive/` added to exclude_directories_local. note/paste-ready-archive subdir not mirrored. - (d) `paper_flatten_pdf_only=true`: Docs/papers/<subdir>/<paper-id>/<paper-id>.pdf → paper/<paper-id>.pdf (top-level flatten). All non-PDF paper-internal files (.tex, .bib, figures) excluded. - (e) site/assets/ exclusions extended: `Website/assets/{status, docs}/` directory exclusions; `Website/assets/{CHANGELOG, CLAUDE, NAVIGATION}.md` + `TECT_*.png` file exclusions. site/assets/{code, code-old, manual, runs, policy, math, papers}/ already excluded (prior commits). - Also: `Docs/papers/{PAPERS_STATUS_REGISTRY, PAPERS_TRACK_PLAN}.md` exclu"
         }
       ]
     },
-    { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history-page-010.html\">&larr; Newer</a> &middot; Page 9 / 11 &middot; <a href=\"history-page-008.html\">Older &rarr;</a></div>" }
+    { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history-page-010.html\">&larr; Newer</a> &middot; Page 9 / 12 &middot; <a href=\"history-page-008.html\">Older &rarr;</a></div>" }
   ]
 };

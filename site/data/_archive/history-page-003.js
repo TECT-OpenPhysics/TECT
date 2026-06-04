@@ -1,12 +1,22 @@
-// AUTO-GENERATED v0.3 page 3/11 — frozen at 2026-04-24
+// AUTO-GENERATED v0.3 page 3/12 — frozen at 2026-04-24
 window.TECT_HISTORY_PAGE_003 = {
-  title: "History (page 3 of 11)",
+  title: "History (page 3 of 12)",
   subtitle: "Chronological CHANGELOG mirror — auto-generated.",
   lastUpdated: "2026-04-24 (archived)",
-  pagination: {"page": 3, "total": 11, "newer": "history-page-004.html", "older": "history-page-002.html", "archiveIndex": null},
+  pagination: {"page": 3, "total": 12, "newer": "history-page-004.html", "older": "history-page-002.html", "archiveIndex": null},
   blocks: [
-    { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history-page-004.html\">&larr; Newer</a> &middot; Page 3 / 11 &middot; <a href=\"history-page-002.html\">Older &rarr;</a></div>" },
+    { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history-page-004.html\">&larr; Newer</a> &middot; Page 3 / 12 &middot; <a href=\"history-page-002.html\">Older &rarr;</a></div>" },
     { type: "timeline", items: [
+        {
+          date: "2026-04-24",
+          title: "[Math77-Q6b-Addendum-C — Pati-Salam RGE Finalisation: Candidate Selection Rule and PROVED CONDITIONAL Status]",
+          body: "Pillar 6 Q6b closure sprint (Turn 8 Track A). Math77-Q6b-Addendum-B provided a 349-candidate Pati-Salam two-step RGE scan. Math80-Addendum-C-FULL established SO(10)-uniqueness as PROVED. Task: apply selection criteria (SR1-SR4) to reduce 349 candidates to 1, execute devil's-advocate self-test per CLAUDE.md §6.3.1, and promote Q6b to PROVED CONDITIONAL."
+        },
+        {
+          date: "2026-04-24",
+          title: "[Math87 — Cross-Turn Second-Order Audit of Turns 5 + 6 Deliverables (CLAUDE.md §6.3.2 Mandatory)]",
+          body: "Per CLAUDE.md §6.3.2 (cross-turn second-order audit), every two consecutive research turns must include at least one audit track reviewing the previous turn's deliverables for hidden defects. This is Turn 7 Track C, auditing Turns 5 and 6."
+        },
         {
           date: "2026-04-24",
           title: "[Math82-Addendum-I-Addendum-A — Cold-start scan multi-replica statistical analysis framework + Codes/supplementary/Math82_I_coldstart_analysis.py]",
@@ -146,19 +156,9 @@ window.TECT_HISTORY_PAGE_003 = {
           date: "2026-04-24",
           title: "[Math82-Addendum-C — Phase E + F: PDE/ fully retired; canonical layout achieved]",
           body: "The Phase Z continuation run uses `Codes\\pde\\continuation_mu2_v25.py` (post-correction from earlier `PDE\\continuation_mu2_v25.py` request) and `Codes\\pde\\config_template_brazovskii.json`. Neither path includes `PDE\\`. The script does not touch `Codes\\pde\\` or `Runs\\continuation\\math55_endpoint_N32_Lbcc7_phaseZ_2026-04-24\\`. Therefore PDE/ retirement during the run is safe."
-        },
-        {
-          date: "2026-04-24",
-          title: "[Math82-Addendum-B — Phase Z BCC analytic seed runbook + driver --load-psi flag (v2.6.5)]",
-          body: "1. **`Codes/pde/bcc_analytic_seed.py` (NEW, ~230 lines)** — standalone BCC analytic seed builder + CLI. Constructs $\\Psi_{\\mathrm{BCC}}(x) = A_{\\mathrm{BCC}} \\sum_{j=1}^{6} \\cos(Q_0 \\mathbf{q}_j \\cdot x)$ with Brazovskii saddle-point amplitude $A_{\\mathrm{BCC}} = \\sqrt{|\\mu^2|/(15\\gamma)}$, distributed across the 3 family channels via locked direction $\\mathbf{z}_0 = (1,1,1)/\\sqrt{3}$. Output: `(3, N, N, N)` complex128 .npy file ready for `--load-psi`."
-        },
-        {
-          date: "2026-04-24",
-          title: "[Math77-Q6b-Addendum-A — pure-SM 1-loop unification baseline FALSIFIED; Q6b conjecture as-stated requires intermediate-scale BCC-defect content]",
-          body: "Standard 1-loop SM gauge-coupling RGE in GUT normalization with PDG 2024 initial conditions at $M_Z = 91.1876$ GeV: - $\\alpha_1^{-1}(M_Z) = 59.020$, $\\alpha_2^{-1}(M_Z) = 29.585$, $\\alpha_3^{-1}(M_Z) = 8.446$ - $b_1 = +41/10$, $b_2 = -19/6$, $b_3 = -7$ - Solve $\\alpha_i^{-1}(\\mu) = \\alpha_i^{-1}(M_Z) - (b_i/2\\pi) \\ln(\\mu/M_Z)$"
         }
       ]
     },
-    { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history-page-004.html\">&larr; Newer</a> &middot; Page 3 / 11 &middot; <a href=\"history-page-002.html\">Older &rarr;</a></div>" }
+    { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history-page-004.html\">&larr; Newer</a> &middot; Page 3 / 12 &middot; <a href=\"history-page-002.html\">Older &rarr;</a></div>" }
   ]
 };

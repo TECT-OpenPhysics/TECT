@@ -1,12 +1,22 @@
-// AUTO-GENERATED v0.3 page 6/11 — frozen at 2026-04-30
+// AUTO-GENERATED v0.3 page 6/12 — frozen at 2026-04-30
 window.TECT_HISTORY_PAGE_006 = {
-  title: "History (page 6 of 11)",
+  title: "History (page 6 of 12)",
   subtitle: "Chronological CHANGELOG mirror — auto-generated.",
   lastUpdated: "2026-04-30 (archived)",
-  pagination: {"page": 6, "total": 11, "newer": "history-page-007.html", "older": "history-page-005.html", "archiveIndex": null},
+  pagination: {"page": 6, "total": 12, "newer": "history-page-007.html", "older": "history-page-005.html", "archiveIndex": null},
   blocks: [
-    { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history-page-007.html\">&larr; Newer</a> &middot; Page 6 / 11 &middot; <a href=\"history-page-005.html\">Older &rarr;</a></div>" },
+    { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history-page-007.html\">&larr; Newer</a> &middot; Page 6 / 12 &middot; <a href=\"history-page-005.html\">Older &rarr;</a></div>" },
     { type: "timeline", items: [
+        {
+          date: "2026-04-30",
+          title: "[Theory] Math268: Turn 39 — Pillar 4 Atomic-Tier T6 Promotion + Stage-1 Reassessment",
+          body: "**Significance**: Turn 39 consolidation note (CLAUDE.md §6.3.5(c) BINDING) formally promoting Pillar 4 atomic tier from T3 PROOF SKETCH (Math265) to **T6 PROVED CONDITIONAL** via application of composite-tier rule min(T6 sub-task 1, T6 sub-task 2, T6 sub-task 3) = T6. **HISTORIC MILESTONE**: This is the **first time Pillar 4 achieves T6 in a complete composite** (all three sub-tasks at T6). **Main results**: (i) Pillar 4 atomic tier T6 PROVED CONDITIONAL on cumulative hypothesis set $\\mathcal{H}_{\\text{atomic}} = \\{H_{1.1}, \\ldots, H_{3.3}\\}$ (13 hypotheses, all T6+ or textbook-standard). (ii) Stage-1 scorecard advanced: 8/11 pillars at T6+ (Pillars 1, 2, **4 NEW**, 5, 7, 8, 9, 11); 1/11 at T5 (Pillar 3); 2/11 at T4 (Pillars 6, 10). (iii) Stage-1 predicate ($S_1$) remains PARTIAL but advances to PARTIAL-ADVANCING status. (iv) **New critical-path gate identified**: Pillar 6 (Higgs mechanism, T4 → T6) due 2026-05-29 now the unique atomic blocker for $S_1$ SEALED. (v) Pillar 4 T6 promotion **immediately unlocks GAP-2 and GAP-3 unconditional-closure pathways** in Stage-2 quantum-consistency gates."
+        },
+        {
+          date: "2026-04-30",
+          title: "[Audit] Math267: Turn 38 — Cross-Turn Audit of Math266 (Sub-Task 3 T6 Claim) — Audit-Confirmed",
+          body: "**Significance**: Turn 38 binding cross-turn audit (CLAUDE.md §6.3.2) of Turn 37's Math266 Pillar 4 sub-task 3 T6 claim. **Main verdict**: **AUDIT-CONFIRMED**. Sub-task 3 T6 PROVED CONDITIONAL status is mathematically sound and appropriately scoped. **Key findings**: (i) Route A (Math229, algebraic Cartan forcing) is T6 PROVED CONDITIONAL on textbook hypotheses, sufficient for sub-task 3's canonical scope (determine breaking pattern group-theoretically). (ii) Math174's $c_2(E) = -40$ falsification on CP² **does not propagate** to Σ₀ due to different $H^2(\\Sigma_0) = \\mathbb{Z}^2$ cohomology structure. (iii) No circularity detected in sub-task 2 ← sub-task 3 dependency chain; Math229 does not cite sub-task 3 outputs. (iv) All 7 cited sources disk-verified; all quantitative sanity checks pass; all devil's-advocate and self-adversarial objections addressed. **Consequence**: Pillar 4 atomic-tier promotion from T3 PROOF SKETCH (Math265) to **T6 PROVED CONDITIONAL** is audit-eligible for Turn 39 commit."
+        },
         {
           date: "2026-04-30",
           title: "[Theory] Math266: Turn 37 — Pillar 4 Sub-Task 3 Closure via Dual-Route Framework — SO(10) → SU(5)×U(1)_χ Breaking Chain on Σ₀",
@@ -146,19 +156,9 @@ window.TECT_HISTORY_PAGE_006 = {
           date: "2026-04-28",
           title: "[Math200-Addendum-A — RGE convention/sign sanity check (reviewer items 1-3 closure)]",
           body: "**Trigger**: Discharge of reviewer items 1-3 from AUDIT-2026-04-28-Math200-Proxy-Defect (single-turn §15 dispatch following Math205)."
-        },
-        {
-          date: "2026-04-28",
-          title: "[Math205 — Flat-Cartan atlas conditional uniqueness (synthesis L1+L2+L3)]",
-          body: "**Trigger**: Synthesis of Math202 + Math203 + Math204 closing the four-step flat-Cartan-forcing decomposition. Final single-turn dispatch in the §15 sequential L1→L2→L3→synthesis chain."
-        },
-        {
-          date: "2026-04-28",
-          title: "[Math204 — SU(5) cocycle Cartan-only forcing via π₃ lift through SO(10)/SU(5)]",
-          body: "**Trigger**: Lemma L3 of the four-step flat-Cartan-forcing decomposition; CLAUDE.md §15 single-turn dispatch following Math203 acceptance."
         }
       ]
     },
-    { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history-page-007.html\">&larr; Newer</a> &middot; Page 6 / 11 &middot; <a href=\"history-page-005.html\">Older &rarr;</a></div>" }
+    { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history-page-007.html\">&larr; Newer</a> &middot; Page 6 / 12 &middot; <a href=\"history-page-005.html\">Older &rarr;</a></div>" }
   ]
 };

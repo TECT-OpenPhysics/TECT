@@ -1,12 +1,22 @@
-// AUTO-GENERATED v0.3 page 8/11 — frozen at 2026-05-08
+// AUTO-GENERATED v0.3 page 8/12 — frozen at 2026-05-08
 window.TECT_HISTORY_PAGE_008 = {
-  title: "History (page 8 of 11)",
+  title: "History (page 8 of 12)",
   subtitle: "Chronological CHANGELOG mirror — auto-generated.",
   lastUpdated: "2026-05-08 (archived)",
-  pagination: {"page": 8, "total": 11, "newer": "history-page-009.html", "older": "history-page-007.html", "archiveIndex": null},
+  pagination: {"page": 8, "total": 12, "newer": "history-page-009.html", "older": "history-page-007.html", "archiveIndex": null},
   blocks: [
-    { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history-page-009.html\">&larr; Newer</a> &middot; Page 8 / 11 &middot; <a href=\"history-page-007.html\">Older &rarr;</a></div>" },
+    { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history-page-009.html\">&larr; Newer</a> &middot; Page 8 / 12 &middot; <a href=\"history-page-007.html\">Older &rarr;</a></div>" },
     { type: "timeline", items: [
+        {
+          date: "2026-05-08",
+          title: "[Infrastructure + Policy] Math353-AddG: v3 mirror tightening pass (paste-ready/.pdf/pde-init/site-assets-subdirs eliminated)",
+          body: "**Root cause analysis**: - (1) `Docs/math/paste-ready-archive/` was in exclude_directories_local but apply_rename matched longest-prefix `Docs/math` first → renamed → never reached exclude check. Logic gap. - (2) `Docs/math/*.pdf` had no filter; passes_subtree_allowlist default-passed everything in note/. - (3) exclude_pde_pattern lacked __init__, .json, RESULT_TEMPLATE.md. - (4) `site_exclude_dirs_local` was missing `Website/assets/{code, code-old, manual, runs, policy, status, docs}/` (only had math, papers, Website/math)."
+        },
+        {
+          date: "2026-05-08",
+          title: "[Infrastructure + Policy] Math353-AddF: v3 mirror cleanup (pde operational + paper flatten + site/assets minimisation + auto-docs disabled)",
+          body: "**Cleanups applied** (mirror.json v3.5): - (a) `exclude_pde_pattern`: regex matching audit/check/run_/pipeline/version/manual_extrapolation/parallel/sweep operational scripts in Codes/pde/. 11 operational files excluded; theory PDE solvers (continuation_mu2*, bz_*, tect_*, math46/49/56_*, projector_*, dirac_index_bcc, intervalley_extractor, etc.) pass through. - (b) `v3_disable_auto_docs=true`: github_sync_curate.py v3 mode skips Github/docs/{KEY_RESULTS,NAVIGATION,POLICIES_INDEX}.md generation. _v3_prune expected set updated. - (c) `Docs/math/paste-ready-archive/` added to exclude_directories_local. note/paste-ready-archive subdir not mirrored. - (d) `paper_flatten_pdf_only=true`: Docs/papers/<subdir>/<paper-id>/<paper-id>.pdf → paper/<paper-id>.pdf (top-level flatten). All non-PDF paper-internal files (.tex, .bib, figures) excluded. - (e) site/assets/ exclusions extended: `Website/assets/{status, docs}/` directory exclusions; `Website/assets/{CHANGELOG, CLAUDE, NAVIGATION}.md` + `TECT_*.png` file exclusions. site/assets/{code, code-old, manual, runs, policy, math, papers}/ already excluded (prior commits). - Also: `Docs/papers/{PAPERS_STATUS_REGISTRY, PAPERS_TRACK_PLAN}.md` exclu"
+        },
         {
           date: "2026-05-08",
           title: "[Infrastructure + Policy] Math353-AddD r3 + AddE: v3 mirror policy + cutover (theory-only mirror activated)",
@@ -146,19 +156,9 @@ window.TECT_HISTORY_PAGE_008 = {
           date: "2026-05-01",
           title: "[Theory] Math297: GAP-1 continuum-limit error budget (Phase 3 opener)",
           body: "**Significance**: Turn 67 of 20-turn TECT defence programme (Phase 3 opener — GAP-1 matching-functional theoretical closure). Quantifies Math82-H precision required for F-GAP1 structural-tier closure. **Theorem 297.1 (T6 PROVED CONDITIONAL)**: F-GAP1 budget $|\\delta\\hbar/\\hbar| < 10^{-3}$ translates via $\\hbar \\propto a^2$ propagation to $|\\delta a_{\\rm BCC}/a_{\\rm BCC}| < 5\\times 10^{-4}$."
-        },
-        {
-          date: "2026-05-01",
-          title: "[Infrastructure + Code] Snapshot orchestrator + policy + CLAUDE.md §16 trigger phrases",
-          body: "**Significance**: Operator request to eliminate manual per-step propagation of canonical changes to the four mirror trees (Docs/Codes canonical, Website/data, Website/assets, Github/). Establishes a single-command snapshot pipeline + binding policy + AI trigger phrases so that future sessions can synchronise all trees with a one-line invocation. Replaces the ad-hoc per-session manual instructions to \"update Website + GitHub\" with a deterministic 8-step pipeline."
-        },
-        {
-          date: "2026-05-01",
-          title: "[Theory + Results] Math294-AddA: Empirical marginal-basin confirmation at $A_0=0.5$ + trust-region overshoot failure mode",
-          body: "**Significance**: First striped-seed Phase-2 BCC run after Math290/292/293/294 closure (parameters $\\mu^2=-0.7$, $N=16$, $A_0=0.5$, deterministic striped seed, bare `continuation_mu2_v25.py` driver, wall time 1.02h). **Two distinct conclusions**:"
         }
       ]
     },
-    { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history-page-009.html\">&larr; Newer</a> &middot; Page 8 / 11 &middot; <a href=\"history-page-007.html\">Older &rarr;</a></div>" }
+    { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history-page-009.html\">&larr; Newer</a> &middot; Page 8 / 12 &middot; <a href=\"history-page-007.html\">Older &rarr;</a></div>" }
   ]
 };

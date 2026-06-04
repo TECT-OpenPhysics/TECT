@@ -1,12 +1,22 @@
-// AUTO-GENERATED v0.3 page 7/11 — frozen at 2026-05-01
+// AUTO-GENERATED v0.3 page 7/12 — frozen at 2026-05-01
 window.TECT_HISTORY_PAGE_007 = {
-  title: "History (page 7 of 11)",
+  title: "History (page 7 of 12)",
   subtitle: "Chronological CHANGELOG mirror — auto-generated.",
   lastUpdated: "2026-05-01 (archived)",
-  pagination: {"page": 7, "total": 11, "newer": "history-page-008.html", "older": "history-page-006.html", "archiveIndex": null},
+  pagination: {"page": 7, "total": 12, "newer": "history-page-008.html", "older": "history-page-006.html", "archiveIndex": null},
   blocks: [
-    { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history-page-008.html\">&larr; Newer</a> &middot; Page 7 / 11 &middot; <a href=\"history-page-006.html\">Older &rarr;</a></div>" },
+    { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history-page-008.html\">&larr; Newer</a> &middot; Page 7 / 12 &middot; <a href=\"history-page-006.html\">Older &rarr;</a></div>" },
     { type: "timeline", items: [
+        {
+          date: "2026-05-01",
+          title: "[Infrastructure + Code] Snapshot orchestrator + policy + CLAUDE.md §16 trigger phrases",
+          body: "**Significance**: Operator request to eliminate manual per-step propagation of canonical changes to the four mirror trees (Docs/Codes canonical, Website/data, Website/assets, Github/). Establishes a single-command snapshot pipeline + binding policy + AI trigger phrases so that future sessions can synchronise all trees with a one-line invocation. Replaces the ad-hoc per-session manual instructions to \"update Website + GitHub\" with a deterministic 8-step pipeline."
+        },
+        {
+          date: "2026-05-01",
+          title: "[Theory + Results] Math294-AddA: Empirical marginal-basin confirmation at $A_0=0.5$ + trust-region overshoot failure mode",
+          body: "**Significance**: First striped-seed Phase-2 BCC run after Math290/292/293/294 closure (parameters $\\mu^2=-0.7$, $N=16$, $A_0=0.5$, deterministic striped seed, bare `continuation_mu2_v25.py` driver, wall time 1.02h). **Two distinct conclusions**:"
+        },
         {
           date: "2026-05-01",
           title: "[Theory] Math296: $\\gamma_\\hbar$ ansatz first-principles derivation (1-loop SM matching)",
@@ -146,19 +156,9 @@ window.TECT_HISTORY_PAGE_007 = {
           date: "2026-05-01",
           title: "[Defense] Math270: Turn 41 — Cross-Base Coherence Defense Against Attack #1",
           body: "**Significance**: Turn 41 (Start of 20-turn defence programme, Turns 41–60) addresses the highest-risk attack vector from external hostile-reviewer assessment (2026-05-01): **cross-base coherence** of the Pillar 4 atomic-tier T6 promotion. **Attack statement**: Pillar 4 atomic tier combines sub-task 1 (proved on $\\mathbb{CP}^2$), sub-task 2 (proved on $\\Sigma_0 = \\mathbb{P}^1 \\times \\mathbb{P}^1$), and sub-task 3 (claimed base-independent). Does a single coherent geometric realization exist where all three simultaneously close? **Main result**: **Attack #1 MITIGATED via Defenses B + A + Theorems 270.1–270.2.** Pillar 4 atomic-tier T6 PROVED CONDITIONAL status is \\textbf{RETAINED}."
-        },
-        {
-          date: "2026-04-30",
-          title: "[Theory] Math268: Turn 39 — Pillar 4 Atomic-Tier T6 Promotion + Stage-1 Reassessment",
-          body: "**Significance**: Turn 39 consolidation note (CLAUDE.md §6.3.5(c) BINDING) formally promoting Pillar 4 atomic tier from T3 PROOF SKETCH (Math265) to **T6 PROVED CONDITIONAL** via application of composite-tier rule min(T6 sub-task 1, T6 sub-task 2, T6 sub-task 3) = T6. **HISTORIC MILESTONE**: This is the **first time Pillar 4 achieves T6 in a complete composite** (all three sub-tasks at T6). **Main results**: (i) Pillar 4 atomic tier T6 PROVED CONDITIONAL on cumulative hypothesis set $\\mathcal{H}_{\\text{atomic}} = \\{H_{1.1}, \\ldots, H_{3.3}\\}$ (13 hypotheses, all T6+ or textbook-standard). (ii) Stage-1 scorecard advanced: 8/11 pillars at T6+ (Pillars 1, 2, **4 NEW**, 5, 7, 8, 9, 11); 1/11 at T5 (Pillar 3); 2/11 at T4 (Pillars 6, 10). (iii) Stage-1 predicate ($S_1$) remains PARTIAL but advances to PARTIAL-ADVANCING status. (iv) **New critical-path gate identified**: Pillar 6 (Higgs mechanism, T4 → T6) due 2026-05-29 now the unique atomic blocker for $S_1$ SEALED. (v) Pillar 4 T6 promotion **immediately unlocks GAP-2 and GAP-3 unconditional-closure pathways** in Stage-2 quantum-consistency gates."
-        },
-        {
-          date: "2026-04-30",
-          title: "[Audit] Math267: Turn 38 — Cross-Turn Audit of Math266 (Sub-Task 3 T6 Claim) — Audit-Confirmed",
-          body: "**Significance**: Turn 38 binding cross-turn audit (CLAUDE.md §6.3.2) of Turn 37's Math266 Pillar 4 sub-task 3 T6 claim. **Main verdict**: **AUDIT-CONFIRMED**. Sub-task 3 T6 PROVED CONDITIONAL status is mathematically sound and appropriately scoped. **Key findings**: (i) Route A (Math229, algebraic Cartan forcing) is T6 PROVED CONDITIONAL on textbook hypotheses, sufficient for sub-task 3's canonical scope (determine breaking pattern group-theoretically). (ii) Math174's $c_2(E) = -40$ falsification on CP² **does not propagate** to Σ₀ due to different $H^2(\\Sigma_0) = \\mathbb{Z}^2$ cohomology structure. (iii) No circularity detected in sub-task 2 ← sub-task 3 dependency chain; Math229 does not cite sub-task 3 outputs. (iv) All 7 cited sources disk-verified; all quantitative sanity checks pass; all devil's-advocate and self-adversarial objections addressed. **Consequence**: Pillar 4 atomic-tier promotion from T3 PROOF SKETCH (Math265) to **T6 PROVED CONDITIONAL** is audit-eligible for Turn 39 commit."
         }
       ]
     },
-    { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history-page-008.html\">&larr; Newer</a> &middot; Page 7 / 11 &middot; <a href=\"history-page-006.html\">Older &rarr;</a></div>" }
+    { type: "html", content: "<div class=\"pagination-nav\"><a href=\"history-page-008.html\">&larr; Newer</a> &middot; Page 7 / 12 &middot; <a href=\"history-page-006.html\">Older &rarr;</a></div>" }
   ]
 };
