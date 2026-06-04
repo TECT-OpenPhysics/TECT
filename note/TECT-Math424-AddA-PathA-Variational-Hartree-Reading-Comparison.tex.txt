@@ -1,0 +1,461 @@
+% AUDIT-STATUS (2026-06-04, Math426 G4 verdict): the Math400-AddE mapping
+% r = mu2 + Y q0^4 used throughout this note is the kernel value K(0), NOT
+% the Brazovskii shell mass of the production functional (r_braz = K(q0)
+% = mu2 = +0.005; code-anchored proof in Math426). Sub-result (a) (canonical
+% exact MF inequality) holds only in the offset variable and INVERTS under
+% the production convention (MF condensates EXIST at corrected canonical).
+% Sub-result (b) (Hartree fluctuation restoration) is the load-bearing
+% result and is CONFIRMED at the corrected canonical point (Math426 S1:
+% all four readings A* = 0 with r_braz = 0.005, r_R = 0.3045). Corrected-
+% window re-scan queued (G6). See Math426 + NEGATIVE-RESULTS
+% AUDIT-2026-06-04-G4-Kernel-Convention-Offset.
+% =====================================================================
+% TECT-Math424-AddA -- Path A Steps 1-4: explicit variational-Hartree
+%                      F_TECT[R] functional and reading comparison.
+%                      RESULT: among the enumerated admissible readings
+%                      (LAM, HEX, FCC, BCC single-shell condensates vs
+%                      Reading H disordered), Reading H is the strict
+%                      free-energy minimiser at the canonical operating
+%                      point and across the swept window mu^2 in
+%                      [-0.5, +0.5]. At canonical mu^2=+0.005 the result
+%                      is an exact arithmetic inequality (no condensate
+%                      stationary point exists even at mean-field level);
+%                      at mu^2 < ~-0.1 mean-field condensation DOES exist
+%                      and is REMOVED by the self-consistent Hartree
+%                      fluctuation terms (Brazovskii restoration,
+%                      demonstrated explicitly per reading).
+%
+% Status:        Path A Steps 1-4: T5 CLOSED@1-LOOP(Hartree) PROVED
+%                CONDITIONAL on hypothesis set {H2 single-shell
+%                equal-amplitude zero-phase ansatz, H3 isotropic trial
+%                gap, H4 enumeration}; canonical-point sub-result (a) is
+%                an exact rational inequality (hand-verifiable).
+%                Path A Step 5 (admissible-class exhaustiveness) remains
+%                OPEN: the H_RH-BCC-channel axiom is NOT yet promoted to
+%                theorem. No pillar tier change in this note.
+% Audit class:   First-principles reading-selection computation
+%                (Math424 programme Path A execution).
+% Trigger:       Math424 S4 Path A explicit programme (operator-directed
+%                mainline advance, 2026-06-04).
+% Theory tag:    Math424-AddA
+% Date:          2026-06-04
+% =====================================================================
+
+\section*{TECT-Math424-AddA. Path A Steps 1--4: explicit $F_{\rm TECT}[\mathcal{R}]$ variational-Hartree functional; Reading H minimises among enumerated readings}
+
+\subsection*{0. Summary}
+
+This note executes Steps 1--4 of the Math424 Path A programme. The explicit
+TECT free-energy functional $F_{\rm TECT}[\mathcal{R}]$ is constructed for
+every reading in the Math424 Step-2 enumeration via the Gibbs--Bogoliubov
+variational (self-consistent Hartree) truncation, with all conventions locked
+to Math400-AddE ($u = 2\lambda = -0.86$, $v = 2\gamma = +3.24$, $c = Y = 1$,
+$q_0 = 0.6801747616$, $r = \mu^2 + q_0^4$). The verdict, verified by 48/48
+self-test claims (\texttt{Codes/supplementary/Math424\_AddA\_reading\_uniqueness.py};
+JSON artefact \texttt{Runs/math/Math424-AddA/reading\_uniqueness\_scan.json}):
+
+\[
+\boxed{\;
+F_{\rm TECT}[\mathcal{R}_H] \;<\; F_{\rm TECT}[\mathcal{R}] \quad
+\forall\, \mathcal{R} \in \{\text{LAM},\,\text{HEX},\,\text{FCC},\,\text{BCC}\}
+\text{ single-shell condensates},
+\;}
+\]
+at the canonical operating point $\mu^2 = +0.005$ and at every swept point
+$\mu^2 \in \{-0.5, -0.2, 0, +0.005, +0.1, +0.3, +0.5\}$, in the strong form:
+\emph{no condensate stationary point with $A > 0$ lowers the free energy at
+all} --- every enumerated condensate reading collapses to the disordered
+solution ($A^* = 0$), so $\mathcal{R}_H$ is the unique minimiser within the
+enumerated class.
+
+Two sub-results of different epistemic strength:
+\begin{itemize}
+\item \textbf{Sub-result (a) [canonical point; exact arithmetic]}: at
+$\mu^2 = +0.005$ ($r = +0.219034$) no mean-field condensate stationary point
+exists for ANY enumerated reading. This is the exact rational inequality
+$N_4^2/N_6 < 8 n r v / u^2$ (Section 3.1), hand-verifiable from the exact
+integer combinatorial coefficients; fluctuation input is not even required.
+\item \textbf{Sub-result (b) [window; one-loop]}: at $\mu^2 \le -0.2$
+mean-field condensation DOES exist (positive discriminants, e.g.\ BCC
+$+2.09 \times 10^{6}$ at $\mu^2 = -0.5$), and the self-consistent Hartree
+fluctuation terms REMOVE it: the global minimum over the condensate amplitude
+returns to $A^* = 0$. This is the Brazovskii fluctuation-restoration mechanism
+demonstrated explicitly per reading inside the TECT functional.
+\end{itemize}
+
+\subsection*{0bis. Corrected summary (operator-directed, post-Math426; supersedes the boxed claim above at the production canonical)}
+
+At the production-faithful canonical point,
+\[
+r_{\rm braz} = K(q_0) = \mu^2 = 0.005 .
+\]
+Therefore mean-field condensate stationary points EXIST in the enumerated
+single-shell readings. The previous no-condensation inequality used the
+offset variable
+\[
+K(0) = \mu^2 + Y q_0^4
+\]
+and is not the production-shell mass criterion.
+
+The surviving result is the corrected-canonical isotropic-Hartree
+restoration:
+\[
+A^*_{\rm LAM} = A^*_{\rm HEX} = A^*_{\rm FCC} = A^*_{\rm BCC} = 0 .
+\]
+(Math426 \S 1; T4 STRONG EVIDENCE. The Section-0 box and Section 3.1
+below are retained as the offset-variable historical record; read them
+only together with this correction.)
+
+\subsection*{1. Step 1: the explicit functional (Gibbs--Bogoliubov / Hartree)}
+
+\paragraph{Canonical action.} As in Math400-AddE,
+\[
+F[\phi] = \int d^3x \left[ \tfrac{r}{2}\phi^2
++ \tfrac{c}{2}\big((\nabla^2 + q_0^2)\phi\big)^2\Big|_{\rm shell}
++ \tfrac{u}{4}\phi^4 + \tfrac{v}{6}\phi^6 \right],
+\qquad r = \mu^2 + Y q_0^4 .
+\]
+
+\paragraph{Reading ansatz.} Each condensate reading $\mathcal{R}_n$ is the
+single-shell, equal-amplitude, zero-phase state
+\[
+\phi_n(\mathbf x) = A \sum_{j=1}^{2n} e^{i \mathbf k_j \cdot \mathbf x},
+\qquad |\mathbf k_j| = q_0,
+\]
+with $n$ = number of wavevector pairs (LAM $n{=}1$, HEX $n{=}3$, FCC first
+shell $\{111\}$ $n{=}4$, BCC first shell $\{110\}$ $n{=}6$). Cell averages are
+$\langle \phi_n^m \rangle = N_m A^m$ with $N_m$ the exact count of ordered
+$m$-tuples of shell vectors summing to zero (Section 2). Reading H is the
+$A = 0$ member with Gaussian fluctuations.
+
+\paragraph{Variational free energy.} With trial state $\phi = \phi_n + \delta\phi$,
+$\delta\phi$ Gaussian with isotropic propagator
+$\hat G^{-1}(q) = \hat r + c\,(q^2 - q_0^2)^2$ and
+$M(\hat r) = \int_q \hat G(q)$, Wick contraction gives
+\[
+\langle \phi^4 \rangle = N_4 A^4 + 6\,(2nA^2)M + 3M^2,
+\qquad
+\langle \phi^6 \rangle = N_6 A^6 + 15 N_4 A^4 M + 45\,(2nA^2)M^2 + 15 M^3,
+\]
+and the Gibbs--Bogoliubov bound $F_{\rm var} = F_{\rm trial} + \langle F - F_{\rm trial}\rangle$
+becomes, relative to the disordered solution at the same $\mu^2$
+($M_R \equiv M(r_R)$, $\hat M \equiv M(\hat r)$),
+\[
+\begin{aligned}
+\Delta F_n(A,\hat r)/V
+={}& \tfrac{1}{2}\,\Delta I(\hat r, r_R)
+ - \tfrac{1}{2}\big(\hat r \hat M - r_R M_R\big)
+ + \tfrac{r}{2}\big(2nA^2 + \hat M - M_R\big)
+ + 3 u n A^2 \hat M \\
+&+ \tfrac{3u}{4}\big(\hat M^2 - M_R^2\big)
+ + \tfrac{u}{4} N_4 A^4
+ + \tfrac{5v}{2} N_4 A^4 \hat M
+ + 15 v n A^2 \hat M^2
+ + \tfrac{5v}{2}\big(\hat M^3 - M_R^3\big)
+ + \tfrac{v}{6} N_6 A^6,
+\end{aligned}
+\]
+with $\Delta I(\hat r, r_R) = \int_q \ln\!\big[(\hat r + c(q^2-q_0^2)^2)/(r_R + c(q^2-q_0^2)^2)\big]$
+(UV-convergent difference; $1/q^2$ tail added analytically).
+
+\paragraph{Stationarity.} Minimisation over $\hat r$ yields the ordered-phase
+gap equation
+\[
+\hat r = r + 3u\hat M + 15 v \hat M^2
+ + 6 u n A^2 + 60 v n A^2 \hat M + 5 v N_4 A^4,
+\tag{G}
+\]
+which at $A = 0$ reduces exactly to the Math400-AddE disordered gap equation
+$r_R = r + 3 u M(r_R) + 15 v M(r_R)^2$ (verified: canonical reproduction
+$r_R = +0.419271$, $M_R = +0.096003$, matching Math400-AddE's published
+$+0.41925$, $+0.09600$ within $2\times 10^{-3}$). Stationarity in $A$ gives
+\[
+A = 0 \quad\text{or}\quad
+2n\big(r + 3u\hat M + 15 v\hat M^2\big)
+ + N_4\big(u + 10 v \hat M\big)A^2 + v N_6 A^4 = 0.
+\tag{A}
+\]
+
+\subsection*{2. Step 2: enumeration and exact combinatorial coefficients}
+
+$N_m$ computed by exact integer enumeration (iterated convolution over the
+signed shell sets; HEX represented in the integer basis $(2,0), (-1,1),
+(-1,-1)$ with second coordinate in units of $\sqrt3$), and independently
+verified by EXACT real-space integration (uniform $32^3$ periodic grid;
+trigonometric polynomials of band $\le 6 \times$ max coordinate are integrated
+exactly; agreement to $10^{-8}$ relative, 12/12 cross-checks):
+
+\begin{center}
+\begin{tabular}{|l|c|c|c|c|c|}
+\hline
+Reading & $n$ & $N_2$ & $N_3$ & $N_4$ & $N_6$ \\
+\hline
+LAM (Reading A) & 1 & 2 & 0 & 6 & 20 \\
+HEX             & 3 & 6 & 12 & 90 & 2040 \\
+FCC $\{111\}$ (Reading X) & 4 & 8 & 0 & 216 & 8000 \\
+BCC $\{110\}$ (Reading F) & 6 & 12 & 48 & 540 & 42240 \\
+\hline
+\end{tabular}
+\end{center}
+
+Textbook anchors: LAM $N_4 = \binom{4}{2} = 6$, $N_6 = \binom{6}{3} = 20$;
+FCC $\{111\}$ has no triads ($N_3 = 0$, odd-parity coordinates); HEX and BCC
+support triads ($N_3 \ne 0$) but TECT's canonical action has NO cubic
+coupling, so $N_3$ does not enter $F$.
+
+\subsection*{3. Step 3: the comparison}
+
+\subsubsection*{3.1 Sub-result (a): canonical point, exact mean-field inequality}
+
+At mean-field level ($M \to 0$), equation (A) has a real root $A^2 > 0$ iff
+the discriminant $u^2 N_4^2 - 8 n r v N_6 > 0$, i.e.\ iff
+\[
+\frac{N_4^2}{N_6} > \frac{8 n r v}{u^2}
+= 7.6770\, n \quad \text{at canonical } r = +0.219034 .
+\]
+The exact ratios versus thresholds:
+
+\begin{center}
+\begin{tabular}{|l|c|c|c|}
+\hline
+Reading & $N_4^2/N_6$ & threshold $7.677\,n$ & shortfall factor \\
+\hline
+LAM & $36/20 = 1.800$ & $7.677$ & $4.26$ \\
+HEX & $8100/2040 = 3.971$ & $23.03$ & $5.80$ \\
+FCC & $46656/8000 = 5.832$ & $30.70$ & $5.26$ \\
+BCC & $291600/42240 = 6.903$ & $46.06$ & $6.67$ \\
+\hline
+\end{tabular}
+\end{center}
+
+Every enumerated reading falls short by a factor $\ge 4.26$:
+\emph{at the canonical operating point no single-shell condensate stationary
+point exists even before fluctuation corrections}. At the self-consistent
+canonical solution the NET Hartree correction
+$3uM_R + 15vM_R^2 = -0.2477 + 0.4479 = +0.2002 > 0$ raises the effective
+mass relative to the would-be ordered instability (the attractive quartic
+shift is outweighed by the repulsive sextic shift, Math400-AddE \S 2);
+individual $M$-terms are NOT all positive ($3u\hat M < 0$ for $u<0$;
+operator-audit patch P1, Math425 \S 5). The conclusion is therefore stable
+under the one-loop dressing. This sub-result is an exact arithmetic
+statement in the locked canonical constants and integer $N_m$: it requires no
+quadrature and is hand-verifiable.
+
+\subsubsection*{3.2 Sub-result (b): window scan and fluctuation restoration}
+
+Full variational scan (gap equation (G) solved per amplitude; global minimum
+over $A \in [0,\, 3 A_{\rm scale}]$, $A_{\rm scale} = \sqrt{|u| N_4 / (v N_6)}$,
+121-point grid + golden-section refinement):
+
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|c|c|}
+\hline
+$\mu^2$ & $r$ & $r_R$ & $M_R$ & \multicolumn{4}{c|}{MF discriminant $u^2N_4^2 - 8nrvN_6$ \;/\; Hartree $A^*$} \\
+ & & & & LAM & HEX & FCC & BCC \\
+\hline
+$-0.500$ & $-0.2860$ & $+0.2022$ & $0.1302$ & $+175$ / 0 & $+5.1{\times}10^4$ / 0 & $+2.7{\times}10^5$ / 0 & $+2.1{\times}10^6$ / 0 \\
+$-0.200$ & $+0.0140$ & $+0.3087$ & $0.1088$ & $+19$ / 0 & $+3.8{\times}10^3$ / 0 & $+2.3{\times}10^4$ / 0 & $+1.2{\times}10^5$ / 0 \\
+$0.000$  & $+0.2140$ & $+0.4162$ & $0.0963$ & $-84$ / 0 & $-2.8{\times}10^4$ / 0 & $-1.4{\times}10^5$ / 0 & $-1.2{\times}10^6$ / 0 \\
+$+0.005$ & $+0.2190$ & $+0.4193$ & $0.0960$ & $-87$ / 0 & $-2.9{\times}10^4$ / 0 & $-1.5{\times}10^5$ / 0 & $-1.2{\times}10^6$ / 0 \\
+$+0.100$ & $+0.3140$ & $+0.4810$ & $0.0909$ & $-136$ / 0 & $-4.4{\times}10^4$ / 0 & $-2.3{\times}10^5$ / 0 & $-1.8{\times}10^6$ / 0 \\
+$+0.300$ & $+0.5140$ & $+0.6287$ & $0.0819$ & $-240$ / 0 & $-7.6{\times}10^4$ / 0 & $-3.9{\times}10^5$ / 0 & $-3.2{\times}10^6$ / 0 \\
+$+0.500$ & $+0.7140$ & $+0.7939$ & $0.0750$ & $-344$ / 0 & $-1.1{\times}10^5$ / 0 & $-5.6{\times}10^5$ / 0 & $-4.5{\times}10^6$ / 0 \\
+\hline
+\end{tabular}
+\end{center}
+
+The decisive rows are $\mu^2 = -0.5$ and $-0.2$: there mean-field theory
+predicts condensation (positive discriminants; e.g.\ BCC MF amplitude
+$A_{\rm MF} \approx 0.084$ at $\mu^2 = -0.5$, inside the scanned range), yet
+the self-consistent Hartree minimum is at $A^* = 0$ for every reading: the
+fluctuation contributions to (G) raise the effective mass faster than the
+condensate can gain quartic energy. This is precisely Brazovskii's
+fluctuation-induced restoration operating inside the explicit TECT
+functional, and it extends the Math400-AddE disordered-phase result to the
+full reading comparison.
+
+\subsection*{4. Step 4: stability of the Reading-H minimum}
+
+Within the scanned class, $\mathcal{R}_H$ is the global minimiser
+($\Delta F_n(A) \ge 0$ with equality only at $A = 0$; identity
+$\Delta F_n(0) = 0$ verified to $10^{-9}$), and the disordered gap solution
+is unique with $r_R > 0$ at every swept point (Math400-AddE: single root,
+no multistability). The Reading-H state thus satisfies the Math424
+required-conclusion triple $\Psi_0 = 0$, $r_R > 0$,
+$\langle|\delta\Psi(q_*)|^2\rangle = M_R \ne 0$ within the enumerated class.
+
+\subsection*{5. Theorem (conditional) and honest tier verdict}
+
+\paragraph{Theorem (Reading-H minimality within the enumerated class).}
+Under hypotheses
+\begin{itemize}
+\item[$H_1$:] Gibbs--Bogoliubov variational truncation with Gaussian trial
+fluctuations (self-consistent one-loop Hartree; disordered-side two-loop
+robustness inherited from Math400-AddE-AddA);
+\item[$H_2$:] single-shell, equal-amplitude, zero-phase condensate ansatz;
+\item[$H_3$:] isotropic trial gap $\hat r$ (no Bragg-anisotropic propagator);
+\item[$H_4$:] admissible-class enumeration
+$\mathcal{A}_{\rm admissible} = \{\mathcal{R}_{\rm LAM}, \mathcal{R}_{\rm HEX},
+\mathcal{R}_{\rm FCC}, \mathcal{R}_{\rm BCC}, \mathcal{R}_H\}$;
+\end{itemize}
+$\mathcal{R}_H = \arg\min_{\mathcal{R}} F_{\rm TECT}[\mathcal{R}]$ uniquely,
+for all $\mu^2 \in [-0.5, +0.5]$ including the canonical operating point.
+
+\paragraph{Tier.} Sub-result (a): exact arithmetic inequality at the locked
+canonical constants --- rigorous within $H_2$ scope. Sub-result (b) and the
+theorem as stated: \textbf{T5 CLOSED@1-LOOP(Hartree) PROVED CONDITIONAL on
+$\{H_2, H_3, H_4\}$}. The Math424 axiom $H_{\rm RH\text{-}BCC\text{-}channel}$
+is \textbf{NOT yet promoted to theorem}: Step 5 (exhaustiveness of
+$\mathcal{A}_{\rm admissible}$) remains OPEN, and $H_2$/$H_3$ are scope
+restrictions to be relaxed (anisotropic-Bragg Hartree; phase/amplitude-pattern
+scan; multi-shell states). The axiom's residual content is hereby COMPRESSED
+to: ($H_4$ exhaustiveness) $+$ ($H_2$, $H_3$ ansatz adequacy). No pillar tier
+changes in this note (CLAUDE.md S15.5 respected).
+
+\subsection*{5bis. Corrected canonical reading selection (operator-directed, post-Math426)}
+
+At the corrected canonical mass
+\[
+r_{\rm braz} = \mu^2 = 0.005,
+\]
+mean-field condensate stationary points EXIST in the enumerated readings
+(discriminants $+24$ / $+5198$ / $+30360$ / $+182822$ for LAM/HEX/FCC/BCC).
+The load-bearing result is therefore not mean-field exclusion but
+self-consistent Hartree restoration:
+\[
+A^*_{\rm LAM} = A^*_{\rm HEX} = A^*_{\rm FCC} = A^*_{\rm BCC} = 0,
+\qquad
+r_R = 0.3045,\quad M_R = 0.1094
+\]
+(Math426 \S 1; T4 STRONG EVIDENCE within the single-shell
+isotropic-Hartree class). Sub-result (a) of this note holds only in the
+Math400-AddE offset variable; sub-result (b) is the surviving content.
+
+\subsection*{6. Devil's-advocate self-test (CLAUDE.md S6.3.1 + S6.3.5(a))}
+
+\textbf{Objection $\alpha$ (isotropic-gap bias, concrete):} the ordered phase
+supports anisotropic (Bragg-soft) fluctuations; an isotropic $\hat r$
+overestimates $F_{\rm ordered}$, biasing the comparison toward $\mathcal{R}_H$.
+\emph{VALID-with-mitigation}: at the canonical point the verdict (sub-result a)
+is decided at MEAN-FIELD level, where no trial propagator enters at all; the
+bias question affects only the negative-$\mu^2$ restoration region.
+Anisotropic-Bragg refinement registered as Math424-AddA-AddA (gate G1 below).
+The isotropic-gap treatment is the textbook Brazovskii comparison scheme
+(Brazovskii 1975; Hohenberg--Halperin 1977 context).
+
+\textbf{Objection $\beta$ (zero-phase / equal-amplitude scope, concrete):}
+phase or amplitude-pattern optimisation could lower the condensate free
+energy below the zero-phase value used here. \emph{VALID --- and RESOLVED at canonical by Math425 (operator-audit
+patch P2)}: the original argument here over-claimed; the condensation
+criterion is governed by $Q_4^2/(Q_2 Q_6)$, not by $Q_4$ alone, and zero
+phases are NOT the condensation-optimal pattern (adversarial optimisation
+raises BCC $J$ from $0.575$ to $0.848$; Math425 \S 2). Post-Math426
+correction: the Math425 CS closure region is $\mu^2 > 0.0571$ in the
+production convention ($r_{\rm braz} = \mu^2$); the corrected canonical
+point lies BELOW it, where MF condensates exist and the question is
+settled at Hartree level (restoration verified, Math426 \S 1); the
+objection retains fluctuation-level scope for
+$\mu^2 < \mu^{2*}$. Per S15.6.7 the Hartree-window theorem statement keeps
+its explicit single-shell equal-amplitude scope qualifier.
+
+\textbf{Objection $\gamma$ (multi-shell channels, concrete):} Math82-AddH BCC
+states carry higher-harmonic content excluded by $H_2$; a multi-shell
+condensate could undercut $\mathcal{R}_H$. \emph{UPHELD-as-open}: this is
+exactly the boundary between the present single-shell theorem and the
+Math400-AddF full-numerics result (BCC = stable local CHANNEL, $n_{\rm neg}=0$
+snapshot minimum, not ensemble vacuum). Full-PDE ensemble free-energy
+comparison is registered as gate G3 and is the natural Math424-AddB
+companion. Until closed, $H_2$ remains an explicit hypothesis.
+
+\textbf{Self-adversarial (S6.3.5(a)) summary:} three concrete objections
+($\alpha$, $\beta$, $\gamma$) recorded with verdicts
+VALID-with-mitigation / VALID-with-scope / UPHELD-as-open; the UPHELD item
+blocks any claim stronger than the conditional theorem of Section 5, which is
+why the axiom is NOT promoted and no pillar tier moves.
+
+\subsection*{7. Quantitative sanity checks (CLAUDE.md S6.3.4)}
+
+\begin{itemize}
+\item \textbf{Limit case}: $A \to 0$ reduces (G) to the Math400-AddE gap
+equation; canonical reproduction $r_R = +0.419271$ vs published $+0.41925$
+(rel.\ dev.\ $5\times 10^{-5}$), $M_R = +0.096003$ vs $+0.09600$. PASS.
+\item \textbf{Identity}: $\Delta F_n(A{=}0) = 0$ exactly (assert at
+$10^{-9}$), built into the relative-functional construction. PASS.
+\item \textbf{Sign-direction physics}: $u < 0$ (attractive quartic) FAVOURS
+condensation; the verdict survives in the conservative direction. MF
+discriminants flip sign from positive ($\mu^2 \le -0.2$) to negative
+($\mu^2 \ge 0$) exactly where the bare $r$ crosses the condensation
+threshold --- matches Brazovskii-class phenomenology. PASS.
+\item \textbf{Magnitude / dimensional}: all $F$-terms are polynomial in
+$A^2, M$ with couplings $u, v$; the canonical threshold $8 r v / u^2 = 7.677$
+is dimensionless in TECT units, and $N_4^2/N_6$ is a pure rational. PASS.
+\item \textbf{Combinatorial cross-check}: exact real-space periodic-grid
+integration reproduces all 12 enumerated $N_m$ to $10^{-8}$. PASS.
+\item \textbf{Reproducibility}: 48/48 scripted claims; JSON artefact with
+per-claim expected/actual/pass. PASS.
+\end{itemize}
+
+\subsection*{8. Pre-registered falsification gates (CLAUDE.md S6.3.3)}
+
+\begin{itemize}
+\item[G1$'$:] (re-scoped by Math425, then Math426) anisotropic-Bragg
+Hartree refinement (Math424-AddA-AddA), relevant AT CANONICAL (the
+corrected canonical sits in the restoration region $\mu^2 < 0.0571$):
+if it finds $\Delta F < 0$ there, sub-result (b) is RETRACTED for that
+region. (The pre-Math426 text claimed the canonical conclusion rested on the Math425
+Cauchy--Schwarz theorem, which is propagator-free).
+\item[G2:] CLOSED for all $\mu^2 > \mu^{2*}$ by the Math425 theorem:
+$\sup_{\rm phase/amplitude} Q_4^2/(Q_2 Q_6) \le 1 < 4rv/u^2 = 3.838$ at
+canonical (any spectrum). Residual phase-scan relevance only for
+$\mu^2 < \mu^{2*}$.
+\item[G3$'$:] (re-scoped by Math425) the mean-field multi-shell component is
+CLOSED by the spectrum-agnostic Math425 theorem; the residual gate is the
+HARTREE-LEVEL ensemble comparison: if any fluctuation-dressed channel state
+undercuts $F[\mathcal{R}_H]$ at canonical, $H_2$ is inadequate at one loop
+and Path A fails at Step 3 (Outcome-3 branch).
+\item[G4:] (NEW, Math425 \S 6 $\gamma$) Math400-AddF reconciliation: the
+$N{=}64$ BCC ``true local min'' snapshot must be shown NOT to be a
+stationary point of the same continuum MF functional at canonical
+(discretisation / convention / constraint audit), else the Math425 theorem
+and the Math400-AddE mapping require joint re-audit.
+\end{itemize}
+(Cause, evidence, falsification) triple: cause = Math424 Path A Steps 1--4
+execution; evidence = 48/48-claim script + JSON artefact; falsification =
+G1--G3 above.
+
+\subsection*{9. What this advances and what remains}
+
+This note converts the Math424 required theorem from an unformulated target
+into a CONDITIONAL THEOREM with an explicit, falsifiable hypothesis set, and
+discharges its computational core (Steps 1--4) at one loop. The
+$H_{\rm RH\text{-}BCC\text{-}channel}$ axiom content is compressed from
+``Reading H is the admissible reading'' to the strictly smaller residue
+``$\mathcal{A}_{\rm admissible}$ as enumerated is exhaustive ($H_4$), and the
+single-shell isotropic Hartree class is adequate ($H_2$, $H_3$)''.
+Remaining gates AS RE-SCOPED by Math425 + Math426 (operator-audit patch;
+the original G1/G2/G3 list is superseded): G1$'$ anisotropic-Bragg Hartree
+(now relevant AT CANONICAL per Math426 -- restoration is the load-bearing
+mechanism there); G3$'$ Hartree-level multi-shell ensemble comparison;
+Step-5 / $H_4$ exhaustiveness beyond mean-field (Math424-AddB companion);
+G6 corrected-variable recomputation cascade (Math426). G2 is closed by the
+Math425 CS bound for $\mu^2 > 0.0571$ (production convention); at the
+corrected canonical the phase/amplitude question returns at HARTREE level.
+Pillars 5, 7, 8 remain T6 PROVED CONDITIONAL pending these.
+
+\subsection*{10. Cross-references}
+
+Math424 (parent programme; Path A specification); Math401 (Reading H binding);
+Math400-AddE (disordered gap equation, canonical $r_R$, sweep; quadrature
+reused verbatim via module import); Math400-AddE-AddA (two-loop robustness);
+Math400-AddF ($N{=}64$ BCC channel local-min; G3 context); Math400-AddA
+(isotropy filter, independent LAM exclusion); Math420-AddE (axiom reduction);
+\texttt{Codes/supplementary/Math424\_AddA\_reading\_uniqueness.py} (S6.3.8
+script; 48 asserts); \texttt{Runs/math/Math424-AddA/reading\_uniqueness\_scan.json}
+(artefact). Textbook anchors: Brazovskii, Sov.\ Phys.\ JETP 41 (1975) 85;
+Hohenberg--Halperin, Rev.\ Mod.\ Phys.\ 49 (1977) 435; Chaikin--Lubensky,
+Principles of Condensed Matter Physics (1995), ch.\ 4--5 (single-shell
+crystallisation combinatorics).
+
+% =====================================================================
+% End of TECT-Math424-AddA.
+% =====================================================================

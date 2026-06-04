@@ -23,13 +23,32 @@ approach.
 
 ## R — Retracted results
 
+### AUDIT-2026-06-04-G4-Kernel-Convention-Offset
+
+**Date**: 2026-06-04
+**Theory tag**: Math426 (`Docs/math/TECT-Math426-G4-Kernel-Convention-Reconciliation.tex.txt`)
+**Type**: AUDIT-flagged convention defect with partial retractions (retained as warning notes with AUDIT-STATUS banners; not full R-removals because the qualitative physics survives under correction).
+
+**Defect**. The Math400-AddE TECT-to-Brazovskii mapping set the Brazovskii bare mass to r = mu2 + Y q0^4. Code-anchored kernel forensics (Math426; plane-wave extraction on the production-faithful functional, 10/10 asserts) shows the production kernel is K(q) = mu2 + Y(q^2-q0^2)^2 with Z = -2Y q0^2 explicit in `real_backend_pt_bcc_mixed_v3.py::shell_free_energy` and `Math374_canonical_BCC_hessian.py`; hence the shell mass is r_braz = K(q0) = mu2 = +0.005 and the AddE value is K(0) — a uniform +Y q0^4 = +0.214 offset.
+
+**Partial retractions**: (i) Math425 canonical no-condensation claim RETRACTED (theorem mathematics unaffected; applicability region in production convention is mu2 > u^2/(4v) = 0.0571, excluding canonical). (ii) Math424-AddA sub-result (a) INVERTS under production convention (MF condensates EXIST at corrected canonical: discriminants +24/+5198/+30360/+182822 for LAM/HEX/FCC/BCC). (iii) Math400-AddE quoted numbers (r_R = 0.4193, M = 0.0960, sweep r-column) refer to the offset variable; corrected canonical values r_R = 0.3045, M = 0.1094.
+
+**What survives**: Math400-AddF N=64 BCC local-min RECONCILED (consistent with MF condensation now allowed); Reading H SURVIVES at the fluctuation level — corrected-canonical Hartree comparison still collapses all four condensate readings to A* = 0 (Brazovskii restoration; Math426 §1, T4 STRONG EVIDENCE); Math425 CS bound J <= 1 remains a universal exact inequality; Path-alpha (unique positive r_R) survives qualitatively.
+
+**Recurrence-class lesson**: theory-currency audits (CLAUDE.md §6.5) MUST verify mapping conventions against the PRODUCTION CODE kernel (plane-wave extraction is the standard probe), not only against sibling Math notes. The defect propagated AddE -> Math401 lexicon -> Math424-AddA -> Math425 through note-to-note citation without a code-level check.
+
+**Cross-references**: `Codes/supplementary/Math426_g4_kernel_reconciliation.py` (10/10 asserts); `Runs/math/Math426/g4_kernel_reconciliation.json`; AUDIT-STATUS banners in Math400-AddE / Math424-AddA / Math425; OPEN-QUESTIONS Q-2026-06-04 gates re-binding (G1' at canonical, G6 recomputation cascade).
+
+---
+
 ### R-2026-05-26-Math410-AddA-PathwayB-SO4-REFUTED
 
 **Date**: 2026-05-26
 **Theory tag**: Math410-AddA (`Docs/math/TECT-Math410-AddA-Exact-RG-PathwayB-Refutation.tex.txt`)
 **Type**: R-retracted. Original claim: "Pillar 6 Pathway B SO(4) emergence via cubic-anisotropy irrelevance at exact-RG fixed point may give T5 promotion."
 
-**Refutation**. Wetterich functional-RG (Litim/sharp/exponential/polynomial regulators) yields $A^* = +0.0177\,M_{m Pl}^2$ at the Brazovskii-regime non-Gaussian fixed point (NGFP). Sign is positive across all four regulators (16% spread); no alternative NGFP with $A^* < 0$ exists in the scanned $(\lambda_4, r_R)$ plane. Cubic anisotropy is RELEVANT in IR ($O_h$ symmetry locked), opposite to Aharony 1977 ($\lambda_4 > 0$) prediction. WF fixed point IR-attractive (stability eigenvalue $-1.0$). F1 gate CONFIRMED NEGATIVE.
+**Refutation**. Wetterich functional-RG (Litim/sharp/exponential/polynomial regulators) yields $A^* = +0.0177\,M_{
+m Pl}^2$ at the Brazovskii-regime non-Gaussian fixed point (NGFP). Sign is positive across all four regulators (16% spread); no alternative NGFP with $A^* < 0$ exists in the scanned $(\lambda_4, r_R)$ plane. Cubic anisotropy is RELEVANT in IR ($O_h$ symmetry locked), opposite to Aharony 1977 ($\lambda_4 > 0$) prediction. WF fixed point IR-attractive (stability eigenvalue $-1.0$). F1 gate CONFIRMED NEGATIVE.
 
 **Consequences**. Pathway B SO(4)-emergence STRUCTURALLY REFUTED at exact-RG. Pillar 6 retains T4 STRONG EVIDENCE; T5 promotion via Pathway B closed. Combined with Math410 §4 ($T_{2u}$ doubling structurally absent), Pathway B doubly blocked.
 
@@ -41,11 +60,15 @@ approach.
 
 **Date**: 2026-05-26
 **Theory tag**: Math411-AddA (`Docs/math/TECT-Math411-AddA-Antisymmetric-A2g-Cubic.tex.txt`)
-**Type**: R-retracted. Original claim: "Pillar 6 Stueckelberg-direct $T_{2g}$-only gauge-emergence route may give T5 promotion via antisymmetric cubic coefficient $A^{m asym}_{A_{2g}} 
+**Type**: R-retracted. Original claim: "Pillar 6 Stueckelberg-direct $T_{2g}$-only gauge-emergence route may give T5 promotion via antisymmetric cubic coefficient $A^{
+m asym}_{A_{2g}} 
 eq 0$ matching $\epsilon^{abc}$."
 
 **Refutation**. PRIMARY structural obstruction (operator-emphasised): $\Lambda^2 T_{2g} = T_{1g} 
-eq T_{2g}$ — the antisymmetric (Lie-bracket) product of $T_{2g}$ with itself takes us OUT of $T_{2g}$ into $T_{1g}$, so $T_{2g}$ alone CANNOT close as an SU(2) Lie algebra under $O_h$. This is a representation-theory-level obstruction, prior to any coefficient calculation. SECONDARY obstruction (coefficient-level): antisymmetric $A_{2g}$ cubic coefficient $A^{m asym}_{A_{2g}} = 0$ via TWO independent arguments — (a) pure-cubic $\epsilon^{abc} \phi^a \phi^b \phi^c$ vanishes identically by bosonic commutativity (naïve derivative form $\epsilon^{abc} \phi^a \partial\phi^b \partial\phi^c$ also vanishes by $b \leftrightarrow c$ symmetry of Lorentz scalar product); (b) proper Chern-Simons-class derivative-cubic coefficient $A^{m CS}_{A_{2g}} \propto \pi_1(M_{m BCC}) = \{e\}$ trivial (Math160 + Math164 anchor; R-2026-04-26-Math160-BerrySignatureTrivial).
+eq T_{2g}$ — the antisymmetric (Lie-bracket) product of $T_{2g}$ with itself takes us OUT of $T_{2g}$ into $T_{1g}$, so $T_{2g}$ alone CANNOT close as an SU(2) Lie algebra under $O_h$. This is a representation-theory-level obstruction, prior to any coefficient calculation. SECONDARY obstruction (coefficient-level): antisymmetric $A_{2g}$ cubic coefficient $A^{
+m asym}_{A_{2g}} = 0$ via TWO independent arguments — (a) pure-cubic $\epsilon^{abc} \phi^a \phi^b \phi^c$ vanishes identically by bosonic commutativity (naïve derivative form $\epsilon^{abc} \phi^a \partial\phi^b \partial\phi^c$ also vanishes by $b \leftrightarrow c$ symmetry of Lorentz scalar product); (b) proper Chern-Simons-class derivative-cubic coefficient $A^{
+m CS}_{A_{2g}} \propto \pi_1(M_{
+m BCC}) = \{e\}$ trivial (Math160 + Math164 anchor; R-2026-04-26-Math160-BerrySignatureTrivial).
 
 **Consequences**. Stueckelberg-direct $T_{2g}$-only route REFUTED. Higher-form CS rescue (Math164 §3) and instanton-CS ($e^{-1500}$ suppression) structurally available but quantitatively zero or require axiom extension. Combined Pillar 6 post-Math410+AddA+Math411+AddA: all three $T_{2g}$-based standard gauge-emergence routes EXHAUSTED. Only remaining standard promotion route: Math411-AddB (Pathway A direct SO(10) revival).
 
@@ -74,7 +97,12 @@ eq T_{2g}$ — the antisymmetric (Lie-bracket) product of $T_{2g}$ with itself t
 **Type**: R-retracted (INTERIM). Original claim: "Pillar 11.B $
 u_R$ relic abundance G3-A gate (TECT-natural reheating temperature in window $[3 	imes 10^{12}, 2 	imes 10^{13}]$ GeV) is achievable at canonical TECT parameters."
 
-**Refutation (INTERIM)**. TECT-natural reheating temperature derived from inflaton decay rate $\Gamma_\phi \sim y^2 m_\phi$ with $y \sim 1.5 	imes 10^{-7}$ (from $\lambda_3 	imes m_{m inf}/M_{m Pl}^3$ matching) and $m_\phi \sim m_{m BCC}$: $T_{m reh} \sim 3 	imes 10^{11}$ GeV — factor 10 BELOW the lower edge of the abundance window. Sensitivity scan over plausible $y \in [10^{-9}, 10^{-5}]$ shows $T_{m reh}$ never reaches the window at TECT-natural parameters.
+**Refutation (INTERIM)**. TECT-natural reheating temperature derived from inflaton decay rate $\Gamma_\phi \sim y^2 m_\phi$ with $y \sim 1.5 	imes 10^{-7}$ (from $\lambda_3 	imes m_{
+m inf}/M_{
+m Pl}^3$ matching) and $m_\phi \sim m_{
+m BCC}$: $T_{
+m reh} \sim 3 	imes 10^{11}$ GeV — factor 10 BELOW the lower edge of the abundance window. Sensitivity scan over plausible $y \in [10^{-9}, 10^{-5}]$ shows $T_{
+m reh}$ never reaches the window at TECT-natural parameters.
 
 **Consequences**. Pillar 11.B abundance G3-A gate INTERIM NEGATIVE at TECT-natural parameters. Combined with Math412-AddB stability G3-B INTERIM NEGATIVE, Pillar 11.B is DOUBLY BLOCKED. Reclassified as C3 phenomenological add-on per Math411-AddB §10.
 
@@ -88,7 +116,8 @@ u_R$ relic abundance G3-A gate (TECT-natural reheating temperature in window $[3
 **Theory tag**: Math412-AddB (`Docs/math/TECT-Math412-AddB-nuR-Cosmological-Stability.tex.txt`)
 **Type**: R-retracted (INTERIM). Original claim: "Pillar 11.B $
 u_R$ bulk DM cosmological stability G3-B gate ($	au_{
-u_R} > t_{m universe} = 4.35 	imes 10^{17}$ s) is achievable at TECT-natural parameters."
+u_R} > t_{
+m universe} = 4.35 	imes 10^{17}$ s) is achievable at TECT-natural parameters."
 
 **Refutation (INTERIM)**. Heavy seesaw ($M \sim 10^{14}$ GeV) gives $	au_{
 u_R} \sim 10^{-57}$ s — catastrophically short, factor $10^{74}$ below the universe age. νMSM warm-DM keV regime requires Yukawa $y \sim 10^{-20}$ — extreme tuning unmotivated by any TECT axiom. Intermediate inverse-seesaw scenarios (Math412-AddB-AddA queued) require beyond-TECT $B - L$ symmetry breaking sector.

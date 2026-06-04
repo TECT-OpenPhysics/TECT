@@ -25,10 +25,10 @@ in this file is a policy violation (UPDATE_POLICY §10.2).
 <!-- PROP-AUTO:evidence-pillar-tiers START
      generator: Codes/tools/propagate_status.py
      do-not-edit-between-markers
-     last-regenerated: 2026-06-01T06:17:24Z
+     last-regenerated: 2026-06-04T06:05:51Z
 -->
 
-**Per-pillar canonical tier (auto-synced 2026-06-01)**:
+**Per-pillar canonical tier (auto-synced 2026-06-04)**:
 
 | # | Pillar | Tier |
 |---|---|---|
@@ -175,5 +175,21 @@ in this file is a policy violation (UPDATE_POLICY §10.2).
 **Cascade artefact summary**: 5 R-entries in NEGATIVE-RESULTS.md (R-2026-05-26-Math410-AddA, R-2026-05-26-Math411-AddA, R-2026-05-26-Math411-AddB, R-2026-05-26-Math412-AddA, R-2026-05-26-Math412-AddB); 5 atomic-write surface updates (Math411-AddB §10, pillar_status.json, CHANGELOG, TOE-FACT-SHEET, research-log); 1 portable handoff document (SESSION-HANDOFF-2026-05-26.md); 1 narrative-sync plan (Docs/policy/NARRATIVE_SYNC_PLAN_2026_05_26.md) executed via 8-round manual-update programme.
 
 **Forbidden phrases going forward** (§6.3.5(a) violations to be audit-flagged): *"TECT is the TOE"*, *"completes the GUT programme"*, *"all 11 pillars closed"*, *"final theory"*, *"complete theory"*, *"completed framework"*, *"completed TOE"*. The canonical positioning sentence above is the single allowed framing.
+
+## §5 — 2026-06-04 Math424-AddA Path A evidence bundle (C1 T7 bottleneck programme)
+
+| Claim | Primary evidence | Verification | Secondary |
+|---|---|---|---|
+| Reading H uniquely minimises F_TECT among enumerated readings (T5 CLOSED@1-LOOP conditional on H2/H3/H4) | `Docs/math/TECT-Math424-AddA-PathA-Variational-Hartree-Reading-Comparison.tex.txt` §3–§5 | `Codes/supplementary/Math424_AddA_reading_uniqueness.py` (48/48 asserts, exit 0) | `Runs/math/Math424-AddA/reading_uniqueness_scan.json` |
+| Canonical no-condensate exact inequality N4^2/N6 < 7.677·n (shortfall >= 4.26 per reading) | same note §3.1 | exact integer combinatorics + real-space periodic-grid 1e-8 cross-check | Math400-AddE constants lock (u=-0.86, v=+3.24, q0=0.6801747616) |
+| Mean-field condensation at mu^2 <= -0.2 removed by self-consistent Hartree fluctuations (A*=0 global, every reading) | same note §3.2 | scripted window-scan claims (JSON `points`) | Brazovskii (1975) restoration mechanism anchor |
+| Exact combinatorial coefficients LAM 6/20, HEX 90/2040, FCC 216/8000, BCC 540/42240 (N4/N6) | same note §2 | exact enumeration + 32^3 periodic-grid exact integration | JSON `combinatorics` block |
+| Third-pass body summaries installed (AddE/424-AddA/425) + BINDING AddE citation rule (cite Math426-corrected values only) | `Docs/math/TECT-Math426-AddB-ThirdPass-Body-Summaries-and-AddE-Citation-Rule.tex.txt` | operator exact LaTeX inserted; layering circuit-breaker registered | Math426 JSON (number provenance) |
+| Math426 verdict accepted twice; body corrections applied (Math425 10 sites, Math424-AddA 3 sites); binding phrasing: Reading H survives at corrected-canonical Hartree level, axiom not yet theorem | `Docs/math/TECT-Math426-AddA-Audit-Acceptance-Body-Corrections-G1prime-Spec.tex.txt` | post-patch global re-grep (deprecated boundary only in supersession disclaimers) | G1' dispatch spec §2 (next mainline) |
+| G4 verdict: production kernel K(q) = mu2 + Y(q^2−q0^2)^2; r_braz = K(q0) = mu2 (AddE r = K(0), +0.214 offset) | `Docs/math/TECT-Math426-G4-Kernel-Convention-Reconciliation.tex.txt` §0 | `Codes/supplementary/Math426_g4_kernel_reconciliation.py` (10/10; plane-wave K extraction to 1e-8) | `Runs/math/Math426/g4_kernel_reconciliation.json` |
+| Corrected-canonical Hartree restoration: all readings A* = 0 at r_braz = 0.005 (r_R = 0.3045, M = 0.1094) — Reading-H selection at fluctuation level | same note §1 | same script (gap + scan claims) | NEGATIVE-RESULTS `AUDIT-2026-06-04-G4-Kernel-Convention-Offset` |
+| CS no-condensation theorem: no MF condensate of ANY form for r > u^2/(4v) = 0.0570679 (mu^2 > −0.156966); canonical margin 3.838 | `Docs/math/TECT-Math425-Math424-AddA-Audit-Acceptance-and-CS-No-Condensation-Theorem.tex.txt` §1 | `Codes/supplementary/Math425_cs_no_condensation_bound.py` (18/18 asserts) | `Runs/math/Math425/cs_bound_verification.json` |
+| G2 closed at canonical; adversarial sup J = 0.848 (BCC) / 0.808 (HEX) / 0.785 (multi-shell) ≤ 1; zero-phase NOT J-maximal (operator Attack 1 confirmed) | same note §2 | adversarial probe (deterministic seed) | Math424-AddA patches P1–P3 (same commit) |
+| Stale-index phantom-untracked lesson: index-derived git state is not ground truth; ls-tree cross-check mandated | `Docs/postmortem/2026-06-04-stale-index-phantom-untracked.md` | `Docs/policy/POSTMORTEM_RECURRENCE_POLICY.md` §8.9 | CLAUDE.md §11 backlog failure-mode context |
 
 <!-- Generated: 2026-05-26 (Round 4 ledger backfill, narrative-sync plan §1.4) -->

@@ -55,6 +55,31 @@ archived with the replacement's tag, and the replacement gains an
 
 ## Active
 
+#### Q-2026-06-04-Math424-AddA-PathA-Residual-Gates — Path A residual closure gates: H4 exhaustiveness + G1 anisotropic-Bragg Hartree + G2 phase/amplitude-pattern scan + G3 full-PDE ensemble comparison
+
+**[OPENED 2026-06-04 — Math424-AddA Steps 1–4 one-loop closure]** **Context**: Math424-AddA established Reading-H minimality among the enumerated admissible readings (T5 CLOSED@1-LOOP PROVED CONDITIONAL on H2 single-shell equal-amplitude zero-phase ansatz, H3 isotropic trial gap, H4 enumeration). The H_RH-BCC-channel axiom is NOT yet promoted: its residual content is exactly (H4 + H2/H3 adequacy). Four gates remain: (Step 5 / H4) admissible-class exhaustiveness — no reading outside {LAM, HEX, FCC, BCC, R_H} satisfies cosmological isotropy + BCC-channel stability + gauge-sector emergence simultaneously (Math424-AddB no-go companion); (G1) anisotropic-Bragg Hartree refinement of the ordered-phase trial propagator (Math424-AddA-AddA candidate); (G2) phase/amplitude-pattern scan within the single shell (zero-phase maximises the coherent quartic sum, but a full scan is required for scope removal); (G3) full-PDE multi-shell ensemble free-energy comparison at the canonical point (connects the single-shell theorem to the Math400-AddF N=64 channel result).
+
+**[UPDATED 2026-06-04 — Math425 Cauchy–Schwarz no-condensation theorem]**: operator hostile audit ACCEPTED (3 attacks + sentence defect; patches P1–P3 applied to Math424-AddA). Gate re-scoping: **G2 CLOSED for mu^2 > 0.0571 — production convention; the −0.157 boundary was the offset-variable image, superseded by Math426** (CS theorem: J = <phi^4>^2/(<phi^2><phi^6>) ≤ 1 < 4rv/u^2 = 3.838 at canonical, ANY phases/amplitudes/spectrum; adversarial sup found 0.848 BCC / 0.808 HEX / 0.785 multi-shell, 18/18 asserts). **H2 single-shell restriction DISSOLVED at mean-field level** on mu^2 > mu^2*. Residual gates: G1' anisotropic-Bragg Hartree (ONLY mu^2 < −0.157 region); G3' Hartree-level ensemble comparison (MF component closed); **G4 (NEW)**: Math400-AddF N=64 BCC "true local min" vs CS theorem reconciliation (discretisation/convention/constraint audit — a stationary point of the same continuum MF functional at canonical is forbidden by the theorem); H4 exhaustiveness mooted at MF level on mu^2 > mu^2*, open at Hartree level. Priority post-Math425: G4 > G3' > Math424-AddB (Hartree-level exhaustiveness) > G1'.
+
+**[UPDATED 2026-06-04 — Math426 G4 verdict]**: **G4 CLOSED (fired + resolved)**. Kernel forensics: production kernel K(q) = mu2 + Y(q^2−q0^2)^2 ⇒ r_braz = mu2 = +0.005, NOT the AddE-mapped 0.219 (= K(0)). Consequences: MF condensation EXISTS at corrected canonical (Math400-AddF reconciled); Math425 canonical claim retracted (region mu2 > 0.0571); Math424-AddA sub-result (a) inverts; **Reading-H selection at canonical now rests on Hartree fluctuation restoration** (verified at corrected point: all readings A* = 0, r_R = 0.3045, T4 STRONG EVIDENCE). Gate re-binding: **G1' anisotropic-Bragg Hartree now AT CANONICAL (top priority — load-bearing)**; G3' Hartree multi-shell ensemble (co-priority); **G6 (NEW) corrected-variable recomputation cascade** (AddE sweep re-run with r_braz = mu2; Math401 lexicon: sqrt(r_R) 0.65→0.55, xi, M_R = 0.1094; Math424-AddA window re-scan); Step-5 exhaustiveness unchanged. Priority post-Math426: **G1' ≳ G3' > G6 > Step-5/Math424-AddB**.
+
+**Closure criteria**: each gate either closes positively (Reading-H minimality survives; axiom residue shrinks) or fires (Math424 Outcome-3 branch: documented per-gate retraction and sub-result scope reduction per Math424-AddA §8, as re-scoped by Math425 §3).
+
+**Falsification gate**: G1–G3 as pre-registered in Math424-AddA §8; H4 by explicit counterexample reading.
+
+**Owner**: next theory session (Math424-AddB is the highest-leverage companion; G1 is a numerical-methods session).
+
+**Last reviewed**: 2026-06-04 (Math424-AddA execution).
+**Review by**: 2026-06-18.
+
+**Cross-references**:
+- `Docs/math/TECT-Math424-AddA-PathA-Variational-Hartree-Reading-Comparison.tex.txt` §5–§9
+- `Codes/supplementary/Math424_AddA_reading_uniqueness.py` + `Runs/math/Math424-AddA/reading_uniqueness_scan.json`
+- `Docs/math/TECT-Math424-C1-T7-Bottleneck-Reading-H-Theorem-Promotion-Programme.tex.txt` §4–§5
+
+---
+
+
 #### Q-2026-05-27-Infra-IntegrityAudit-Truncation — `Codes/scripts/integrity_audit.py` pre-existing truncation (no `__main__` block; silently exits 0 with no output) — **OPENED 2026-05-27 (Math420 cascade verification side-finding)** — **MEDIUM priority (infrastructure)**
 
 **[OPENED 2026-05-27 — discovered during Math420 verification layer execution]** **Context**: `Codes/scripts/integrity_audit.py` (516 lines, in git since commit `5bf49bc` 2026-05-15) is truncated mid-token at the end of `main()`. The last 5 chars are `    pri` (incomplete `print(`). Python's `ast.parse()` happens to accept this because `pri` parses as a valid name-reference expression statement (NameError only at runtime, not at parse-time). The file is missing the `if __name__ == "__main__": sys.exit(main())` invocation block. **Net effect: `python3 Codes/scripts/integrity_audit.py` silently defines `main()`, calls nothing, and exits 0 with empty stdout/stderr**. This means the 8-axis CLAUDE.md §20 infrastructure-theory consistency check has been a NO-OP for 12+ days. The defect predates Math420 by 12 days; Math420 cascade verification only surfaced it.

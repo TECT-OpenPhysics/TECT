@@ -7,6 +7,20 @@ This file is the append-only audit log of every snapshot orchestrator run. Lates
 The snapshot orchestrator brings all four TECT mirror trees into a coherent state via the binding 8-step pipeline. See `SNAPSHOT_POLICY.md` for the full definition, trigger conditions, and exit-code contract.
 
 ---
+## 2026-06-01T08:33:35 UTC -- af63f6f -- Fix math-notes landing page not updating + date-drift correction (2026-06-01). ROOT CAUSE: generate_website.parse_math_note_header recognised only LaTeX-comment headers (% Key: Value); newer notes (Math414-424) use plain-text headers (Date: ... no %), so 261/638 notes parsed date=None, sorted as oldest (0000-00-00 sentinel), and sank onto archive pages -- newest work never reached the landing page (math-notes.js page N). FIX (iii): parse_math_note_header now accepts plain-text headers (PLAIN_HEADER_FIELD_RE) + first-match-wins guards + header-block date-scan fallback (catches '% 2026-04-25, Round 13' bare-comment dates); date=None dropped 261 -> 41 (residual = genuinely date-less Math01-12 foundational notes). Math423/424 (2026-06-01) now sort to top; Math415-422 (2026-05-27) follow; landing page shows Math415-424. REGRESSION GUARD (ii): verify_website.py Check 13 check_math_notes_landing_freshness -- highest-NN note must appear in math-notes.js; self-tested to fire on the buggy state. POSTMORTEM (i): Docs/postmortem/2026-06-01-math-notes-date-parse.md. ALSO INCLUDES prior date-drift correction: Math423/Math424 re-dated stale 2026-05-27 -> 2026-06-01 (whole-file); CHANGELOG Math424 entry L15-47 + Math423 entry L49-80 only; pillar_status _c1_t7_unblock block (key _2026_05_27 -> _2026_06_01); 44 CHANGELOG + 21 pillar_status genuine 2026-05-27 occurrences preserved (git-corroborated work dates); POSTMORTEM Docs/postmortem/2026-06-01-date-drift-correction.md. Generator-chain re-run; verify_website 13/13 PASS (0 err/0 warn); scan_recent_writes --strict clean. No theory-tier or pillar-status change.
+- stamp : PASS
+- generate : PASS
+- verify : PASS
+- manifest : PASS
+- commit : PASS (af63f6f)
+- curate : PASS
+- push : PASS (https://github.com/TECT-OpenPhysics/TECT/commit/fcc037d9ed548252c6872ab99be5aed121fad7a3)
+- audit : PASS (clean)
+- Elapsed: 239.4 s
+- GitHub: https://github.com/TECT-OpenPhysics/TECT/commit/fcc037d9ed548252c6872ab99be5aed121fad7a3
+
+---
+
 ## 2026-06-01T06:19:49 UTC -- 311eda0 -- Date-drift correction (CLAUDE.md 11.5.3.1): re-date Math423 + Math424 from stale 2026-05-27 to UTC-verified 2026-06-01. Prior Resume session authored both notes 2026-06-01 (file mtime) but inherited the 2026-05-27 stamp of the Math415-422 body it was consolidating (5-day drift > 1-day tolerance). Scope narrowed by operator decision to the two genuine drift artefacts ONLY; Math415-422 + triple Master archives + ZENODO DOI + papers-revision 2026-05-27 stamps are genuine work dates (corroborated by git commits 2026-05-27/2026-05-29 + CHANGELOG single-day narrative + pillar_status _last_synced) and preserved byte-for-byte. Edits: Math423 (6 occ) + Math424 (10 occ) whole-file; CHANGELOG.md bounded to Math424 entry L15-47 + Math423 entry L49-80 (9 occ, hyphen+underscore); pillar_status.json _c1_t7_unblock_programme block only (key _2026_05_27 -> _2026_06_01 + description, JSON re-validated). 44 genuine CHANGELOG + 21 genuine pillar_status occurrences asserted unchanged; 2026-05-12 Math401 refs preserved. POSTMORTEM Docs/postmortem/2026-06-01-date-drift-correction.md added. Generator-chain re-run; generated history shows 2026-06-01 for Math423/424, retains 2026-05-27 for Math415-422. verify_website 12/12 PASS; scan_recent_writes --strict clean. No theory-tier or pillar-status change.
 - stamp : PASS
 - generate : PASS
@@ -825,6 +839,7 @@ The snapshot orchestrator brings all four TECT mirror trees into a coherent stat
 - GitHub: https://github.com/TECT-OpenPhysics/TECT/commit/b83758bd0a94c3b2b97ff9f09a0ef6c8cb736de2
 
 ---
+
 
 
 
