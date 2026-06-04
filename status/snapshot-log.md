@@ -7,6 +7,20 @@ This file is the append-only audit log of every snapshot orchestrator run. Lates
 The snapshot orchestrator brings all four TECT mirror trees into a coherent state via the binding 8-step pipeline. See `SNAPSHOT_POLICY.md` for the full definition, trigger conditions, and exit-code contract.
 
 ---
+## 2026-06-04T06:20:36 UTC -- 7e48f3c -- DOCUMENT_VERSIONING_POLICY binding: revised notes issued as new versioned files (TECT-<Tag>-<YYMMDD>-vX.Y); cumulative revision banners; superseded files immutable + forward pointer; lazy retrofit (legacy = v1.0); CLAUDE.md 4.5 + VERSIONS.md registry + generator-awareness infra task.
+- stamp : PASS
+- generate : PASS
+- verify : PASS
+- manifest : PASS
+- commit : PASS (7e48f3c)
+- curate : PASS
+- push : PASS (https://github.com/TECT-OpenPhysics/TECT/commit/04f364eb7d10ca0fd9c2704714a8ba1cb0d52bb6)
+- audit : PASS (clean)
+- Elapsed: 124.3 s
+- GitHub: https://github.com/TECT-OpenPhysics/TECT/commit/04f364eb7d10ca0fd9c2704714a8ba1cb0d52bb6
+
+---
+
 ## 2026-06-04T06:06:59 UTC -- 36e4f5e -- Math426-AddB third-pass acceptance: in-body corrected summaries installed in AddE/424-AddA/425 (operator exact LaTeX); BINDING AddE citation rule (cite Math426-corrected values only); layering circuit-breaker (next change = Final-Consolidation re-issue). State: Reading H = corrected-canonical isotropic-Hartree T4 evidence; G1' decisive next gate. verify 13/13.
 - stamp : PASS
 - generate : PASS
@@ -853,6 +867,7 @@ The snapshot orchestrator brings all four TECT mirror trees into a coherent stat
 - GitHub: https://github.com/TECT-OpenPhysics/TECT/commit/b83758bd0a94c3b2b97ff9f09a0ef6c8cb736de2
 
 ---
+
 
 
 

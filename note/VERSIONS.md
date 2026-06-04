@@ -6,3 +6,12 @@ implicitly v1.0 at their original date (lazy retrofit, policy §6).
 | TheoryTag | Version | Date | File | Trigger / summary |
 |---|---|---|---|---|
 | (registry seeded) | — | 2026-06-04 | — | Policy adoption; first re-issues will be Math400-AddE / Math424-AddA / Math425 v1.1+ per the Math426-AddB layering circuit-breaker |
+| Math427 | v1.0 | 2026-06-04 | TECT-Math427-G1prime-Diagonal-Isotropy-Theorem-and-G1doubleprime-Spec.tex.txt | first issue (implicit; superseded same day) |
+| Math427 | v1.1 | 2026-06-04 | TECT-Math427-G1prime-Diagonal-Isotropy-Theorem-and-G1doubleprime-Spec-260604-v1.1.tex.txt | operator-audit qualifiers (UV/counterterm hypotheses; a.e. isotropy) — first policy application |
+| (convention) | — | 2026-06-04 | — | Second amendment: explicit -YYMMDD-v1.0 on FIRST issue of new notes (prospective) |
+| Math428 | v1.0 | 2026-06-04 | TECT-Math428-G1doubleprime-BCC-Bloch-LogDet-Race-PASS-Continuum-Anchored.tex.txt | first issue (implicit; superseded same day) |
+| Math428 | v1.1 | 2026-06-04 | TECT-Math428-G1doubleprime-BCC-Bloch-LogDet-Race-PASS-Continuum-Anchored-260604-v1.1.tex.txt | operator-audit response: mandatory estimator qualifier + analytic amplitude bounds (c2 = n r_R; sextic dominance); claims 16→21 |
+| Math429 | v1.0 | 2026-06-04 | TECT-Math429-G1pp1prime-Inhomogeneous-Wick-M-Scan-PASS-260604-v1.0.tex.txt | first issue under explicit-v1.0 rule; G1''-1' CLOSED-PASS (exact inhomogeneous Wick dissolves the -0.102 artefact) |
+| Math429 | v1.1 | 2026-06-04 | TECT-Math429-G1pp1prime-Inhomogeneous-Wick-M-Scan-PASS-260604-v1.1.tex.txt | operator-audit response: margin language corrected; Nyquist exactness proved (cut 12); self-consistency fixed points covered (extended M-window, all inside, positive); claims 13→19 |
+| Math430 | v1.0 | 2026-06-04 | TECT-Math430-G1pp2-Dense-Surface-Convergence-PASS-260604-v1.0.tex.txt | G1''-2 CLOSED-PASS: 99-pt dense surface 0 negatives; min = analytic c2 A^2 bound; mid-region margins 3-10x drift |
+| Math431 | v1.0 | 2026-06-04 | TECT-Math431-G1pp3-LAM-HEX-FCC-PASS-260604-v1.0.tex.txt | G1''-3 CLOSED-PASS: all channels positive; per-lattice c2 = n r_R confirmed; FCC exact-Wick grade; G1''-3b residual |
