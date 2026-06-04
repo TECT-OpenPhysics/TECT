@@ -7,6 +7,20 @@ This file is the append-only audit log of every snapshot orchestrator run. Lates
 The snapshot orchestrator brings all four TECT mirror trees into a coherent state via the binding 8-step pipeline. See `SNAPSHOT_POLICY.md` for the full definition, trigger conditions, and exit-code contract.
 
 ---
+## 2026-06-04T06:06:59 UTC -- 36e4f5e -- Math426-AddB third-pass acceptance: in-body corrected summaries installed in AddE/424-AddA/425 (operator exact LaTeX); BINDING AddE citation rule (cite Math426-corrected values only); layering circuit-breaker (next change = Final-Consolidation re-issue). State: Reading H = corrected-canonical isotropic-Hartree T4 evidence; G1' decisive next gate. verify 13/13.
+- stamp : PASS
+- generate : PASS
+- verify : PASS
+- manifest : PASS
+- commit : PASS (36e4f5e)
+- curate : PASS
+- push : PASS (https://github.com/TECT-OpenPhysics/TECT/commit/83950b2ea36d0b8595fde1959e16c595cb2147d6)
+- audit : PASS (clean)
+- Elapsed: 159.7 s
+- GitHub: https://github.com/TECT-OpenPhysics/TECT/commit/83950b2ea36d0b8595fde1959e16c595cb2147d6
+
+---
+
 ## 2026-06-01T08:33:35 UTC -- af63f6f -- Fix math-notes landing page not updating + date-drift correction (2026-06-01). ROOT CAUSE: generate_website.parse_math_note_header recognised only LaTeX-comment headers (% Key: Value); newer notes (Math414-424) use plain-text headers (Date: ... no %), so 261/638 notes parsed date=None, sorted as oldest (0000-00-00 sentinel), and sank onto archive pages -- newest work never reached the landing page (math-notes.js page N). FIX (iii): parse_math_note_header now accepts plain-text headers (PLAIN_HEADER_FIELD_RE) + first-match-wins guards + header-block date-scan fallback (catches '% 2026-04-25, Round 13' bare-comment dates); date=None dropped 261 -> 41 (residual = genuinely date-less Math01-12 foundational notes). Math423/424 (2026-06-01) now sort to top; Math415-422 (2026-05-27) follow; landing page shows Math415-424. REGRESSION GUARD (ii): verify_website.py Check 13 check_math_notes_landing_freshness -- highest-NN note must appear in math-notes.js; self-tested to fire on the buggy state. POSTMORTEM (i): Docs/postmortem/2026-06-01-math-notes-date-parse.md. ALSO INCLUDES prior date-drift correction: Math423/Math424 re-dated stale 2026-05-27 -> 2026-06-01 (whole-file); CHANGELOG Math424 entry L15-47 + Math423 entry L49-80 only; pillar_status _c1_t7_unblock block (key _2026_05_27 -> _2026_06_01); 44 CHANGELOG + 21 pillar_status genuine 2026-05-27 occurrences preserved (git-corroborated work dates); POSTMORTEM Docs/postmortem/2026-06-01-date-drift-correction.md. Generator-chain re-run; verify_website 13/13 PASS (0 err/0 warn); scan_recent_writes --strict clean. No theory-tier or pillar-status change.
 - stamp : PASS
 - generate : PASS
@@ -839,6 +853,7 @@ The snapshot orchestrator brings all four TECT mirror trees into a coherent stat
 - GitHub: https://github.com/TECT-OpenPhysics/TECT/commit/b83758bd0a94c3b2b97ff9f09a0ef6c8cb736de2
 
 ---
+
 
 
 

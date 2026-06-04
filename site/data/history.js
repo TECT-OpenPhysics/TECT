@@ -1,4 +1,4 @@
-// AUTO-GENERATED v0.3 page 11/11 — 2026-06-04 06:05 UTC
+// AUTO-GENERATED v0.3 page 11/11 — 2026-06-04 06:19 UTC
 window.TECT_HISTORY = {
   title: "History (page 11 of 11)",
   subtitle: "Chronological CHANGELOG mirror — auto-generated.",
@@ -7,6 +7,11 @@ window.TECT_HISTORY = {
   blocks: [
     { type: "html", content: "<div class=\"pagination-nav\">Page 11 / 11 &middot; <a href=\"history-page-010.html\">Older &rarr;</a></div>" },
     { type: "timeline", items: [
+        {
+          date: "2026-06-04",
+          title: "[Policy/Document-Versioning] DOCUMENT_VERSIONING_POLICY.md — revised Math notes are now issued as NEW versioned files (TECT-<Tag>-<YYMMDD>-v<X.Y>); in-place patch-layering retired; cumulative revision",
+          body: "**Trigger**: operator directive 2026-06-04 — in-place revision made history hard to trace through the Math424-AddA/Math425/Math400-AddE triple patch round; proposal: keep old files, issue new dated+versioned files, accumulate revision history in the banner, keep past versions consultable. ACCEPTED and made binding. **Scheme**: naming `TECT-<TheoryTag>-<YYMMDD>-v<major>.<minor>.tex.txt`; minor = corrections/audit patches, major = §6.3.5(c) consolidation re-issue; cumulative revision-history banner in every version (self-contained); superseded files immutable except a single forward-pointer top line; unversioned citation = latest, papers pin versions; registry `Docs/math/VERSIONS.md` joins the §3 atomic-write set. **Retrofit**: lazy — 638-file corpus NOT renamed (legacy files = implicit v1.0); scheme activates per note at its next revision. First candidates: Math400-AddE / Math424-AddA / Math425 (Math426-AddB layering circuit-breaker mandates their next change be a re-issue). **Tooling**: generator version-awareness (group by tag, show latest, link history) + verify check for superseded-version citations registered as an infrastructure task in OPEN-QUESTIONS (interim: versioned sibli"
+        },
         {
           date: "2026-06-04",
           title: "[Theory/Audit-Acceptance/Body-Summaries] Math426-AddB — third operator pass ACCEPTED: in-body corrected summaries installed in Math400-AddE / Math424-AddA / Math425 (operator exact LaTeX); BINDING Add",

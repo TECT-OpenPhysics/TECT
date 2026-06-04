@@ -55,6 +55,20 @@ archived with the replacement's tag, and the replacement gains an
 
 ## Active
 
+#### Q-2026-06-04-Versioning-Generator-Awareness — generate_website.py version grouping + verify check for superseded-version citations
+
+**[OPENED 2026-06-04 — DOCUMENT_VERSIONING_POLICY adoption]** **Context**: versioned re-issues (`TECT-<Tag>-<YYMMDD>-v<X.Y>.tex.txt`) will appear as separate math-notes entries until the generator groups by TheoryTag and displays the latest version with a history link. Also: a verify_website-style check flagging citations of superseded versions in mirror-bound surfaces, and (carried from Math426-AddB §3β) a citation checker for the deprecated Math400-AddE offset-variable numbers (r_R = 0.4193) in papers/.
+
+**Closure criteria**: generator groups versions (latest shown, history linked); verify check added per POSTMORTEM_RECURRENCE_POLICY workflow; both verified by 13/13+1 PASS.
+
+**Owner**: next infrastructure session (NOT a theory blocker; interim duplicate listing is acceptable).
+
+**Last reviewed**: 2026-06-04. **Review by**: 2026-06-18.
+
+**Cross-references**: `Docs/policy/DOCUMENT_VERSIONING_POLICY.md` §7; CLAUDE.md §4.5; `Docs/math/VERSIONS.md`.
+
+---
+
 #### Q-2026-06-04-Math424-AddA-PathA-Residual-Gates — Path A residual closure gates: H4 exhaustiveness + G1 anisotropic-Bragg Hartree + G2 phase/amplitude-pattern scan + G3 full-PDE ensemble comparison
 
 **[OPENED 2026-06-04 — Math424-AddA Steps 1–4 one-loop closure]** **Context**: Math424-AddA established Reading-H minimality among the enumerated admissible readings (T5 CLOSED@1-LOOP PROVED CONDITIONAL on H2 single-shell equal-amplitude zero-phase ansatz, H3 isotropic trial gap, H4 enumeration). The H_RH-BCC-channel axiom is NOT yet promoted: its residual content is exactly (H4 + H2/H3 adequacy). Four gates remain: (Step 5 / H4) admissible-class exhaustiveness — no reading outside {LAM, HEX, FCC, BCC, R_H} satisfies cosmological isotropy + BCC-channel stability + gauge-sector emergence simultaneously (Math424-AddB no-go companion); (G1) anisotropic-Bragg Hartree refinement of the ordered-phase trial propagator (Math424-AddA-AddA candidate); (G2) phase/amplitude-pattern scan within the single shell (zero-phase maximises the coherent quartic sum, but a full scan is required for scope removal); (G3) full-PDE multi-shell ensemble free-energy comparison at the canonical point (connects the single-shell theorem to the Math400-AddF N=64 channel result).
