@@ -9,6 +9,21 @@ window.TECT_HISTORY_PAGE_005 = {
     { type: "timeline", items: [
         {
           date: "2026-04-28",
+          title: "[Math207 — RR1 closure: BCC reality condition forces antiholomorphic σ_I on Math162 CP²]",
+          body: "**Trigger**: First Tier-A dispatch from Math206 roadmap. RR1 = Q-2026-04-28-Math203-§3.4-rigor (Task #150) closure."
+        },
+        {
+          date: "2026-04-28",
+          title: "[Math206 — TOE Critical-Path Roadmap (post-Math200-AddB)]",
+          body: "**Trigger**: Synthesis of the 2026-04-28 closure cluster (9 atomic commits a25a4f8 → b7846f5; 8 new Math notes; CLAUDE.md §15 amendment) and queue of next dispatches."
+        },
+        {
+          date: "2026-04-28",
+          title: "[Math200-Addendum-B — ℏ_TECT(μ) matching functional + scope correction (reviewer item 4 closure)]",
+          body: "**Trigger**: Discharge of reviewer item 4 from AUDIT-2026-04-28-Math200-Proxy-Defect (substantive matching-functional derivation)."
+        },
+        {
+          date: "2026-04-28",
           title: "[Math200-Addendum-A — RGE convention/sign sanity check (reviewer items 1-3 closure)]",
           body: "**Trigger**: Discharge of reviewer items 1-3 from AUDIT-2026-04-28-Math200-Proxy-Defect (single-turn §15 dispatch following Math205)."
         },
@@ -141,21 +156,6 @@ window.TECT_HISTORY_PAGE_005 = {
           date: "2026-04-26",
           title: "[Round 22 — Math121-125 Asymptotic-Safety Quantum-Gravity Proof Programme (Q1-Q6)]",
           body: "**Status**: OUTLINE (framework established; derivations deferred to Q2-Q5). - Axiom statement: Weinberg-Reuter asymptotic-safety framework (5 axioms: W1-W5). - TECT mapping: dimensionless coupling $g^{\\rm TECT}(\\Lambda) = G^{\\rm TECT}(\\Lambda) \\cdot \\Lambda^2$. - Hypothesis H-AS: TECT implements UV-attractive fixed point in $\\beta_G$ at Hartree level. - Honest scope: Hartree truncation, lattice artefacts, gauge dependence all documented. - Devil's-advocate: 3 objections addressed (α VALID scope, β VALID explicit, γ DISMISSED with caveat)."
-        },
-        {
-          date: "2026-04-26",
-          title: "[Round 21 — Math110 AddB/C Framework Programme (Round R2): aBCC-Planck Numerical Framework + C1–C4 Stability Verification]",
-          body: "**Status**: PARTIAL-ADVANCED (symbolic framework complete; numerical closure pending Task #115). - Gate F5 definition: ratio $R_{\\rm F5} = a_{\\rm BCC}^{\\rm TECT} / (4\\sqrt{\\pi}\\ell_P^{\\rm TECT})$ with pass criterion $|R_{\\rm F5} - 1| \\le 0.1$. - Symbolic derivation of $a_{\\rm BCC}^{\\rm TECT}$ from Brazovskii lock equation at operating point. - Symbolic derivation of $\\ell_P^{\\rm TECT}$ from emergent gravity scale (spin-2/EH matching). - Current numerical estimate $R_{\\rm F5} \\approx 4.94$ (outside pass range [0.9, 1.1]); flagged for refinement. - Three-step contingency protocol: Math82-H continuum-limit execution, Hessian eigenvalue re-check, Gate F5 re-evaluation. - Devil's-advocate self-test (§6.3.1): α DISMISSED (dimensional consistency verified), β VALID-WITH-DOCUMENTED-SCOPE (continuum limit pending), γ VALID-WITH-DOCUMENTED-SCOPE (coarse-graining convention standard)."
-        },
-        {
-          date: "2026-04-26",
-          title: "[Round 21 — Math110 AddE Round-R1-R2 Second-Order Audit (AUDIT-PASS; mandatory cross-turn verification per CLAUDE.md §6.3.2)]",
-          body: "**Status**: AUDIT-PASS (all five deliverables verified; zero retroactive downgrades required). - Systematic review of all five notes from Rounds R1–R2 (Math110-AddA, AddD, AddF, AddB, AddC). - Devil's-advocate verification: all objections enumerated and resolved. - Gate and falsification-criterion matrix: 8 gates total. - Structural gates (C1, C3, Pillar 11 secondary): PASS analytically. - Analytical gate (C4, RG power-counting): PASS. - Numerical gates (C2, F5, $\\eta_{\\rm norm}$): PRE-REGISTERED and PENDING (Tasks #115, #127, #129). - Cascading risk analysis: **ZERO retroactive downgrades**. All 11 pillars and $S_1 \\land S_2$ remain SEALED and robust. - Contingency protocols outlined for each gate (diagnostic and recovery steps if numerical failures occur). - Certification: Approved for continuation to Rounds R4–R5."
-        },
-        {
-          date: "2026-04-26",
-          title: "[Round 21 — Math110 R4 Status Upgrade (status update) + R5 Final Synthesis (Math112; PROVED CONDITIONAL; capstone)]",
-          body: "**Status**: PROVED CONDITIONAL (updated from PARTIAL-ADVANCED; main note reflects Rounds R1–R3 verification). - Status line updated: PARTIAL-ADVANCED → PROVED CONDITIONAL. - New subsection (Completion summary: Rounds R1–R3 verification) added to main note. - Ingredient status summary: all four marked PROVED CONDITIONAL. - Math110 final status (boxed): PROVED CONDITIONAL. - Cross-references updated to include all six addenda (AddA–AddE + main + synthesis note). - Pillar 10 assessment: Math110 is secondary pathway; primary closure requires Pillars 1, 3, Task #121."
         }
       ]
     },

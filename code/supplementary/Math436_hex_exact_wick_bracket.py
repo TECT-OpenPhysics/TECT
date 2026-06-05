@@ -36,7 +36,7 @@ cut), kz in R (1D continuum, trapz). Per-(k2d, kz) matrix:
   p2, p4 = exact integer shell-convolution counts in (m1, m2) coords:
   p2(0) = 6 = 2n; on-shell class N=1 (THREE-WAVE RESONANCE, the
   structurally new HEX channel vs LAM): p2 = 2, p4 = 60; sqrt3 class N=3:
-  p2 = 2, p4 = 44; 2q0 class N=4: p2 = 1, p4 = 34; sum p2 = 36 = 6^2,
+  p2 = 2, p4 = 48; 2q0 class N=4: p2 = 1, p4 = 34; sum p2 = 36 = 6^2,
   sum p4 = 1296 = 6^4 (all asserted).
 
 Tr ln per volume: (1/V) Tr ln K = (A_BZ/(2pi)^2) mean_{k2d}
@@ -148,7 +148,7 @@ claim("hex_p4_sum", 1296, sum(P4.values()), 0)
 claim("hex_p2_onshell", 2, P2[(1, 1)], 0)
 claim("hex_p4_onshell", 60, P4[(1, 1)], 0)
 claim("hex_p2_sqrt3", 2, P2[(1, -1)], 0)
-claim("hex_p4_sqrt3", 44, P4[(1, -1)], 0)
+claim("hex_p4_sqrt3", 48, P4[(1, -1)], 0)  # dispatcher calibration: agent hand value 44 was a mis-count; independent brute-force enumeration (and this script) give 48; logged in Math436 note S6
 claim("hex_p2_2q0", 1, P2[(2, 0)], 0)
 claim("hex_p4_2q0", 34, P4[(2, 0)], 0)
 # N3 = 12 (the SHG-like triad count; ordered triples summing to zero)
@@ -434,7 +434,7 @@ pc = memo("pc_argmin", lambda: ENG.F_pieces(A0, M0))
 cou2_0 = (3 * U + 30 * V * MR) * A0 * A0
 cou4_0 = 5 * V * A0 ** 4
 w1_0 = cou2_0 * 2 + cou4_0 * 60          # on-shell class coupling
-ws3_0 = cou2_0 * 2 + cou4_0 * 44         # sqrt3 class
+ws3_0 = cou2_0 * 2 + cou4_0 * 48         # sqrt3 class (48: dispatcher-corrected exact count; was mis-derived 44)
 w2_0 = cou2_0 * 1 + cou4_0 * 34          # 2q0 class
 claim("audit_w1_argmin", 1.62073e-3, w1_0, 2e-7)
 rhat_0 = pc["rhat"]

@@ -9,6 +9,21 @@ window.TECT_HISTORY_PAGE_009 = {
     { type: "timeline", items: [
         {
           date: "2026-05-15",
+          title: "[Theory] Math409-AddA — Horizon-tempered defect mass: gate G4 PARTIAL; factor 41 reduction insufficient, four higher-leverage follow-ups identified",
+          body: "**Theory tag**: `Math409-AddA-Horizon-Tempered-Defect-Mass-G4-PARTIAL-2026-05-15` **Classification**: THEORY-NEGATIVE-RESULT-PARTIAL (gate G4 of Math409 §8 yields factor 41 reduction; insufficient alone for Pillar 11 closure)."
+        },
+        {
+          date: "2026-05-15",
+          title: "[Theory] Math409 — Pillar 11 KZ closure under Math404 Planck anchor: three inflation-model pathways evaluated, no unique closure; Pillar 11 honest tier T6 → T4 demotion",
+          body: "**Theory tag**: `Math409-Pillar11-KZ-Closure-Math404-Anchor-Three-Inflation-Pathways-2026-05-15` **Classification**: THEORY-RECALCULATION + STATUS-CORRECTION (post-Math404 anchor + post-Math407 audit)."
+        },
+        {
+          date: "2026-05-15",
+          title: "[Theory] Math408 — Pillar 6 Pathway B closure attempt: explicit O_h eigenvector decomposition refutes Math406 algebraic identification; T3 PROOF SKETCH + T2 CONJECTURE added without T5/T6 promotion",
+          body: "**Theory tag**: `Math408-Pillar6-Pathway-B-Closure-Attempt-Oh-Decomp-Bridge-LRSM-2026-05-15` **Classification**: THEORY-ADVANCEMENT, structural correction + extension of Math406 / Math407."
+        },
+        {
+          date: "2026-05-15",
           title: "[Infrastructure/HARDENING] 4-layer token-format validation across publish pipeline; new `tect doctor` subcommand for auth-surface diagnosis",
           body: "**Theory tag**: `Infrastructure-token-format-validation-4layer-defence-2026-05-15` **Classification**: INFRASTRUCTURE-HARDENING (defense-in-depth against malformed PAT propagation)."
         },
@@ -141,21 +156,6 @@ window.TECT_HISTORY_PAGE_009 = {
           date: "2026-05-09",
           title: "[Theory] Math366-368: Turns 13-20 Completion — Pillar 4 Closed at T6 PROVED CONDITIONAL",
           body: "**Theory tag**: `Math366-368-Turns13-20-Pillar4-Closure-Complete-2026-05-09` **Classification**: VALIDATION + FINAL CONSOLIDATION (4-turn closing phase) **Significance**: Completes 20-turn autonomous research cycle (Math357-368). Executes mandatory CLAUDE.md §6.3.4 quantitative sanity checks and §6.3.5(a) self-adversarial review on Pillar 4 T6 PROVED CONDITIONAL promotion. Produces §6.3.5(c) mandatory final-consolidation note (Math368). STAGE-1 SEALED milestone now achievable (10/11 pillars at T5+)."
-        },
-        {
-          date: "2026-05-09",
-          title: "[Theory] Math357: Turn 4 Hessian Stability Framework for BCC Vacuum",
-          body: "**Theory tag**: `Math357-Hessian-Stability-BCC-Vacuum-Turn4-2026-05-09` **Classification**: ANALYTICAL FRAMEWORK (foundational for Lemma E_3' closure) **Significance**: Establishes mathematical structure for verifying BCC vacuum is a LOCAL MINIMUM of Brazovskii free energy. Necessary condition for E_3' cosmological uniqueness. Framework complete; eigenvalue computation deferred to Turn 5. Defines Hessian operator, Goldstone/rotational zero-modes, massive-mode classification, and Lanczos numerical strategy. Pre-registers falsification criterion: if λ_min^{massive} < -10^{-3} (Brazovskii units), BCC is saddle point → E_3' FALSIFIED."
-        },
-        {
-          date: "2026-05-09",
-          title: "[Infrastructure] Math356 + pillar_status.json: Turn 3 Pillar 4 Lemma A/B T6 Promotion Sync",
-          body: "**Theory tag**: `Math356-Turn3-Infrastructure-Sync-Pillar4-2026-05-09` **Classification**: INFRASTRUCTURE UPDATE (JSON canonical-source sync) **Significance**: Per CLAUDE.md §3 (atomic-write rule) and §20 (infrastructure-theory co-stabilization), Turns 1–2 mathematical work (Math354 diagnostic + Math355 Lemma A audit) must propagate immediately to canonical tier database. Turn 3 executes mandatory pillar_status.json update: (1) Lemma A (Math221-AddC) added to Pillar 4 conditional_on as **T6 PROVED CONDITIONAL** (Math355 audit-confirmed 2026-05-09); (2) Lemma B (Math220-AddB) tier corrected from T3 → **T6 PROVED CONDITIONAL** (Math277 audit-confirmed 2026-05-01); (3) Lemma E_3' (Math218-AddA) explicitly marked as **T2 CONJECTURE** (true blocker for Pillar 4 sub-task 2 T6 closure). Composite tier remains T2 (rate-limiting step is Lemma E_3')."
-        },
-        {
-          date: "2026-05-09",
-          title: "[Theory] Math355: Turn 2 Independent Audit of Lemma A (Math221-AddC)",
-          body: "**Theory tag**: `Math355-Turn2-Independent-Audit-Math221-AddC-2026-05-09` **Classification**: AUDIT VERDICT (independent cross-check) **Significance**: Affirms Math278 (2026-05-01, Turn 49) verdict that Math221-AddC (Lemma A: explicit charge table + SU(5) ρ ≠ 0) is **T6 PROVED CONDITIONAL**. Turn 2 of 20-turn Pillar 4 sub-task 2 closure programme independently audits Lemma A and confirms canonical tier without new defects. Reduces residual risk from ~10% (single audit) to ~2% (independent corroboration)."
         }
       ]
     },

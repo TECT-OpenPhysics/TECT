@@ -9,6 +9,21 @@ window.TECT_HISTORY_PAGE_008 = {
     { type: "timeline", items: [
         {
           date: "2026-05-09",
+          title: "[Theory] Math357: Turn 4 Hessian Stability Framework for BCC Vacuum",
+          body: "**Theory tag**: `Math357-Hessian-Stability-BCC-Vacuum-Turn4-2026-05-09` **Classification**: ANALYTICAL FRAMEWORK (foundational for Lemma E_3' closure) **Significance**: Establishes mathematical structure for verifying BCC vacuum is a LOCAL MINIMUM of Brazovskii free energy. Necessary condition for E_3' cosmological uniqueness. Framework complete; eigenvalue computation deferred to Turn 5. Defines Hessian operator, Goldstone/rotational zero-modes, massive-mode classification, and Lanczos numerical strategy. Pre-registers falsification criterion: if λ_min^{massive} < -10^{-3} (Brazovskii units), BCC is saddle point → E_3' FALSIFIED."
+        },
+        {
+          date: "2026-05-09",
+          title: "[Infrastructure] Math356 + pillar_status.json: Turn 3 Pillar 4 Lemma A/B T6 Promotion Sync",
+          body: "**Theory tag**: `Math356-Turn3-Infrastructure-Sync-Pillar4-2026-05-09` **Classification**: INFRASTRUCTURE UPDATE (JSON canonical-source sync) **Significance**: Per CLAUDE.md §3 (atomic-write rule) and §20 (infrastructure-theory co-stabilization), Turns 1–2 mathematical work (Math354 diagnostic + Math355 Lemma A audit) must propagate immediately to canonical tier database. Turn 3 executes mandatory pillar_status.json update: (1) Lemma A (Math221-AddC) added to Pillar 4 conditional_on as **T6 PROVED CONDITIONAL** (Math355 audit-confirmed 2026-05-09); (2) Lemma B (Math220-AddB) tier corrected from T3 → **T6 PROVED CONDITIONAL** (Math277 audit-confirmed 2026-05-01); (3) Lemma E_3' (Math218-AddA) explicitly marked as **T2 CONJECTURE** (true blocker for Pillar 4 sub-task 2 T6 closure). Composite tier remains T2 (rate-limiting step is Lemma E_3')."
+        },
+        {
+          date: "2026-05-09",
+          title: "[Theory] Math355: Turn 2 Independent Audit of Lemma A (Math221-AddC)",
+          body: "**Theory tag**: `Math355-Turn2-Independent-Audit-Math221-AddC-2026-05-09` **Classification**: AUDIT VERDICT (independent cross-check) **Significance**: Affirms Math278 (2026-05-01, Turn 49) verdict that Math221-AddC (Lemma A: explicit charge table + SU(5) ρ ≠ 0) is **T6 PROVED CONDITIONAL**. Turn 2 of 20-turn Pillar 4 sub-task 2 closure programme independently audits Lemma A and confirms canonical tier without new defects. Reduces residual risk from ~10% (single audit) to ~2% (independent corroboration)."
+        },
+        {
+          date: "2026-05-09",
           title: "[Theory] Math354: Pillar 4 Sub-task 2 Status Diagnostic (infrastructure drift repair)",
           body: "**Theory tag**: `Math354-Pillar4-Subtask2-Status-Diagnostic-2026-05-09` **Classification**: ANALYSIS NOTE (diagnostic, not a theorem) **Significance**: Identifies and documents infrastructure-theory co-stabilization drift (CLAUDE.md §20). Pillar 4 sub-task 2 tier claims in pillar_status.json are out of sync with Math note reality: Math220-AddB (Lemma B) is T6 per Math277 audit (2026-05-01), but JSON lists T3. Maps closure pathway for Lemma E_3' (cosmological uniqueness gate), the true blocker. Prepares infrastructure sync for Turns 2–3."
         },
@@ -141,21 +156,6 @@ window.TECT_HISTORY_PAGE_008 = {
           date: "2026-05-01",
           title: "[Audit] Math310-AddA: Pillar 6 N=16 wording correction (self-adversarial UPHELD, AUDIT-2026-05-01-Math310-N16-Wording)",
           body: "**Trigger**: External hostile-referee audit flagged Math310 §1 \"Pillar 6 = T4 with one valid broken-phase data point achieved (N=16, F=−324.94)\" as over-claim relative to raw N=16 Phase 2 Lanczos output ($\\lambda_0 = -8.51$, \"stable = False\"). Math292 4-gauge requires $\\lambda_{\\min}^{\\rm transverse} \\ge -10^{-3}$ simultaneously; raw $\\lambda_0$ FAIL → $\\mathcal A_{\\rm valid}$ PENDING transverse-projection patch (Math82-H Lemma 5, Q-2026-05-01-Math292-Hessian-Transverse-Slice)."
-        },
-        {
-          date: "2026-05-01",
-          title: "[Theory] Math300–310: Phase 4+5+6+7 closure (Pillar 4 realization + residual + H5 + hostile-referee Round 2 + 20-turn final synthesis)",
-          body: "**Significance**: Completes Turns 70–80 of the 20-turn TECT defence + closure programme (Math291–310). Single CHANGELOG entry for batched 11 notes per the multi-note efficiency convention."
-        },
-        {
-          date: "2026-05-01",
-          title: "[Theory] Math299: GAP-1 matching-functional theoretical closure (Phase 3 consolidation, Math296+297+298)",
-          body: "**Significance**: Turn 69 of 20-turn TECT defence programme (**Phase 3 closure** — GAP-1 matching-functional theoretical pathway). CLAUDE.md §6.3.5(c) final-consolidation note for Phase 3. **Theorem 299.1 (T6 PROVED CONDITIONAL)**: GAP-1 composite tier promotes T4 → T6 upon joint satisfaction of (C1) Math297 F-Math297-aBCC-precision Outcome A or B + (C2) Math298 F-Math298-Sector Outcome U or S$_{i^*=3}$ (QCD-dominant) + (C3) 1-loop ansatz residual within F-GAP1 band at boundary region."
-        },
-        {
-          date: "2026-05-01",
-          title: "[Theory] Math298: GAP-1 hidden SM-loop coupling interpretation (3-sector decomposition)",
-          body: "**Significance**: Turn 68 of 20-turn TECT defence programme (Phase 3 second note — GAP-1 matching-functional pathway). Addresses Math296 universal-embedding objection (α). **Theorem 298.1 (T6 PROVED CONDITIONAL)**: empirical 1-loop residual $\\delta_{\\rm emp}(\\mu)$ admits unique 3-sector decomposition $\\delta_{\\rm emp}(\\mu) = \\sum_i c_i b_i g_i^2(M_Z) \\ln(\\mu/M_Z)/(16\\pi^2)$ via least-squares regression at $N_\\mu \\ge 4$ scales; sector weights $(c_1, c_2, c_3)$ for U(1)$_Y$ / SU(2)$_L$ / SU(3)$_c$ identify whether universal-embedding holds or sector-asymmetric breaking signals."
         }
       ]
     },

@@ -6,7 +6,7 @@
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20410377.svg)](https://doi.org/10.5281/zenodo.20410377)
 [![License: CC BY 4.0](https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by/4.0/)
 
-_Last curated: 2026-06-04 (UTC) -- auto-generated mirror of the canonical research repository._
+_Last curated: 2026-06-05 (UTC) -- auto-generated mirror of the canonical research repository._
 
 **Cite as**: Lee, J. (2026). *TECT — Topological Energy Condensate Theory* (Version v0.1.0-cascade-2026-05-26) [Software]. Zenodo. https://doi.org/10.5281/zenodo.20410377
 

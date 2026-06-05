@@ -2,10 +2,21 @@
 /* Source: Docs/status/STATUS-HISTORY.md                                   */
 window.TECT_STATUS_HISTORY = {
   "schema": "tect-status-history-v1",
-  "generated": "2026-06-04T15:39:12Z",
+  "generated": "2026-06-05T02:20:04Z",
   "source": "Docs/status/STATUS-HISTORY.md",
-  "count": 20,
+  "count": 21,
   "entries": [
+    {
+      "date": "2026-06-05",
+      "description": "Step-5 layer theorem (Proposition A) CERTIFIED T6 PROVED CONDITIONAL",
+      "pillar": "4 (sub-task 2 — Reading-H programme; Step-5 layer-theorem sub-statement; C1 core). Pillar row UNCHANGED.",
+      "old_tier": "",
+      "new_tier": "",
+      "reason": "full §15.5 cycle — Math440 consolidated audit (F1 UPHELD: band gap) → Math437 v1.1 four-interval repair with Lemma-3 quadrature-free anchor floors → Math441 F10 third-agent second look (repair mathematics VERIFIED COMPLETE incl. coupled-constant combined-mechanism proof) → SL-1/SL-2 landed in v1.2 → explicit operator sign-off (Math442 §1 verbatim).",
+      "source_notes": "Math437 v1.2 (statement+proof), Math440, Math441, Math442 (closure).",
+      "changelog": "",
+      "open_questions": ""
+    },
     {
       "date": "2026-06-04",
       "description": "Reading-H selection statement promoted to T5 CLOSED@ESTIMATOR-GRADE",

@@ -9,6 +9,21 @@ window.TECT_HISTORY_PAGE_010 = {
     { type: "timeline", items: [
         {
           date: "2026-05-27",
+          title: "[Theory/Audit-Discovery] Math420 — first 1-pillar deep-dive (Pillar 8): attribution mismatch detected; T7 inheritance UNSUBSTANTIATED; honest T4 STRONG EVIDENCE pending Math420-AddA bookkeeping cleanu",
+          body: "**Concrete finding (3-fold attribution gap)**:"
+        },
+        {
+          date: "2026-05-27",
+          title: "[Theory/Operator-Audit-Revision] Math415-419 operator-binding patches — 5 tier-overstatement corrections; C1 closure verdict weakened to \"TOP-LEVEL consistency consolidation\"; Pillar 9 reclassified ",
+          body: "| # | Note | Overstatement | Corrected to | |---|---|---|---| | 1 | Math415 §3 | \"m^{*2} mathematically identical\" pre/post Reading H | \"operationally invariant under channel-identification prescription\" | | 2 | Math416 §2 | TT-projector commutes with background; full Hessian equality | TT-projected spin-2 observable equivalence at channel level | | 3 | Math417 | \"Pillar 9: T7 PROVED retained\" | T6/T7-SPLIT: (i) functional relation HIGH-TIER closed; (ii) scale-ID non-circular accepted; (iii) **independent G prediction OPEN** | | 4 | Math418 | \"5-element MINIMAL hypothesis core\" + Pillar 9 T7 inheritance | \"5-node COMPRESSED top-level core (NOT recursively-minimal)\" + Pillar 9 T6/T7-SPLIT propagated | | 5 | Math419 | \"C1 sector THEORY CLOSURE COMPLETE\" headline | \"C1 TOP-LEVEL consistency consolidation complete; recursive theory closure REMAINS OPEN\"; 3×T7_inherited + 1×(T6/T7-SPLIT) + 2×T6 + 1×T5@1-loop |"
+        },
+        {
+          date: "2026-05-27",
+          title: "[Theory/Final-Consolidation] Math419 — C1 SECTOR THEORY CLOSURE COMPLETE; canonical archive per §6.3.5(c); 4×T7 + 2×T6 + 1×T5@1-loop on 5-element minimal hypothesis core; Reading H verified for all 7 ",
+          body: "| Tier | Count | Pillars | |---|---|---| | **T7 PROVED unconditional** | 4 | 5 (chirality), 7 (per-gen), 8 (Λ + Lorentz), 9 (Newton G) | | **T6 PROVED CONDITIONAL** | 2 | 1 (mass m*), 2 (Brazovskii) | | **T5 CLOSED@1-loop** | 1 | 3 (gravity) | | **TOTAL** | 7 | C1 sector |"
+        },
+        {
+          date: "2026-05-27",
           title: "[Theory/Audit] Math418 — C1 sector cross-consistency audit: 5-element minimal hypothesis core; DAG acyclic; no contradictions across 21 pillar pairs; Reading H propagates to all 7 pillars",
           body: "**Theory tag**: `Math418-C1-Cross-Consistency-Hypothesis-Graph-2026-05-27` **Scope**: C1 sector (Pillars 1, 2, 3, 5, 7, 8, 9). **Verdict**: Cross-consistency VERIFIED. **Trigger**: A-Round 4 of C1 closure programme."
         },
@@ -141,21 +156,6 @@ window.TECT_HISTORY_PAGE_010 = {
           date: "2026-05-15",
           title: "[Theory/Audit] Math407-AddA — Operator Round-2 adversarial audit: Pillar 11 status SPLIT (11.A=T2 dominant + 11.B=T4 subdominant), decisive-test priority REORDER, Hawking-evaporation hidden cost FOREG",
           body: "**Theory tag**: `Math407-AddA-Round2-Operator-Audit-Pillar-11-Split-2026-05-15` **Classification**: BINDING AUDIT NOTE (operator Round-2 hostile review acceptance + structural cascade)."
-        },
-        {
-          date: "2026-05-15",
-          title: "[Theory] Math409-AddA — Horizon-tempered defect mass: gate G4 PARTIAL; factor 41 reduction insufficient, four higher-leverage follow-ups identified",
-          body: "**Theory tag**: `Math409-AddA-Horizon-Tempered-Defect-Mass-G4-PARTIAL-2026-05-15` **Classification**: THEORY-NEGATIVE-RESULT-PARTIAL (gate G4 of Math409 §8 yields factor 41 reduction; insufficient alone for Pillar 11 closure)."
-        },
-        {
-          date: "2026-05-15",
-          title: "[Theory] Math409 — Pillar 11 KZ closure under Math404 Planck anchor: three inflation-model pathways evaluated, no unique closure; Pillar 11 honest tier T6 → T4 demotion",
-          body: "**Theory tag**: `Math409-Pillar11-KZ-Closure-Math404-Anchor-Three-Inflation-Pathways-2026-05-15` **Classification**: THEORY-RECALCULATION + STATUS-CORRECTION (post-Math404 anchor + post-Math407 audit)."
-        },
-        {
-          date: "2026-05-15",
-          title: "[Theory] Math408 — Pillar 6 Pathway B closure attempt: explicit O_h eigenvector decomposition refutes Math406 algebraic identification; T3 PROOF SKETCH + T2 CONJECTURE added without T5/T6 promotion",
-          body: "**Theory tag**: `Math408-Pillar6-Pathway-B-Closure-Attempt-Oh-Decomp-Bridge-LRSM-2026-05-15` **Classification**: THEORY-ADVANCEMENT, structural correction + extension of Math406 / Math407."
         }
       ]
     },

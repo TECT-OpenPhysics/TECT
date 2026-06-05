@@ -20,6 +20,17 @@ The current tier scoreboard lives in `Codes/config/pillar_status.json` (machine-
 
 ## §0. 2026-06-04 entries
 
+### 2026-06-05 — Step-5 layer theorem (Proposition A) CERTIFIED T6 PROVED CONDITIONAL
+- **Date**: 2026-06-05
+- **Pillar**: 4 (sub-task 2 — Reading-H programme; Step-5 layer-theorem sub-statement; C1 core). Pillar row UNCHANGED.
+- **Old tier → new tier**: Prop-A candidate (Math437 v1.0, 2026-06-04) → **T6 PROVED CONDITIONAL on {H-layer, H-A0} — CERTIFIED** (statement-level; NOT a Reading-H selection tier change, which stays T5 CLOSED@ESTIMATOR-GRADE pinned).
+- **Pinned scope**: pattern-universal restoration AT THE ISOTROPIC HARTREE LAYER only; Step-5b (beyond-layer, class-wide) OPEN = gateway for any whole-Reading-H T6 discussion.
+- **Reason**: full §15.5 cycle — Math440 consolidated audit (F1 UPHELD: band gap) → Math437 v1.1 four-interval repair with Lemma-3 quadrature-free anchor floors → Math441 F10 third-agent second look (repair mathematics VERIFIED COMPLETE incl. coupled-constant combined-mechanism proof) → SL-1/SL-2 landed in v1.2 → explicit operator sign-off (Math442 §1 verbatim).
+- **Source Math note(s)**: Math437 v1.2 (statement+proof), Math440, Math441, Math442 (closure).
+- **CHANGELOG ref**: [Audit-Verdict/Closure] Math442 — 2026-06-05.
+
+---
+
 ### 2026-06-04 — Reading-H selection statement promoted to T5 CLOSED@ESTIMATOR-GRADE
 - **Date**: 2026-06-04
 - **Pillar**: 4 (sub-task 2 — Reading-H vacuum selection; C1 core)
