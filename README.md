@@ -12,6 +12,17 @@ _Last curated: 2026-06-14 (UTC) -- auto-generated mirror of the canonical resear
 
 ---
 
+[ Legacy Archive Repository ]
+[ Legacy Archive Repository ]
+[ Legacy Archive Repository ]
+
+This repository is preserved as a legacy archive as of 2026-06-05.
+The current TECT preview repository is being cleaned up here:
+
+https://github.com/TECT-OpenPhysics/TECT-Preview
+
+---
+
 ## Stage-1 Pillar Scoreboard (post-2026-05-26 C1/C2/C3 reclassification)
 
 **TECT positioning (canonical, binding 2026-05-26)**: TECT is an emergent vacuum-and-gravity framework (7 C1 pillars at T6/T7) with an unresolved gauge-sector completion (Pillar 6 standard routes EXHAUSTED) and phenomenological dark-matter/quantum-origin pillars open. **TOE-level claim**: SUSPENDED until a non-standard rescue is independently derived (per Math411-AddB §10 operator binding).
@@ -48,8 +59,11 @@ _A candidate Theory of Everything built on an effectively two-axiom foundation (
 
 The framework distinguishing claim is **axiom minimality**: after the Math195 reduction, two foundational axioms (one physics + one cosmological), against the much larger publicly stated input lists of SM, GR, GUT, String, LQG, and Wolfram Physics. The price of this minimalism is that essentially every empirical observation must be *derived* rather than postulated.
 
-The BCC ordering itself is a **derivation**, not an assumption. TECT postulates only a $\mathbb Z_2$-symmetric continuum field with a Brazovskii spectral minimum on the shell $|\mathbf k|=q_0$; under the post-Math401 Reading H interpretive framework (Math400-AddE one-loop self-consistency confirms Path α at TECT canonical $\mu^2=+0.005$: $r_R = +0.4193 > 0$), the canonical vacuum is the Brazovskii fluctuation-stabilised disordered phase ($\langle\Psiangle=0$, $\langle\Psi^2angle
-eq 0$). Within this disordered ensemble vacuum, BCC emerges as the cosmologically-relevant stable fluctuation channel (Math400-AddF: $n_{m neg}=0$ at canonical, $N=64$ tighter convergence; FCC saddle-6 rejected; lamellar/HEX uniaxial-isotropy-rejected). This is the original Brazovskii (1975) main result, not the commonly-misread mean-field broken-symmetry interpretation. The Theory page makes this emergence explicit. The framework design principle is &quot;minimum assumption + maximally reasonable initial datum&quot;, never *ad hoc* fitting.
+The BCC ordering itself is a **derivation**, not an assumption. TECT postulates only a $\mathbb Z_2$-symmetric continuum field with a Brazovskii spectral minimum on the shell $|\mathbf k|=q_0$; under the post-Math401 Reading H interpretive framework (Math400-AddE one-loop self-consistency confirms Path α at TECT canonical $\mu^2=+0.005$: $r_R = +0.4193 > 0$), the canonical vacuum is the Brazovskii fluctuation-stabilised disordered phase ($\langle\Psi
+angle=0$, $\langle\Psi^2
+angle
+eq 0$). Within this disordered ensemble vacuum, BCC emerges as the cosmologically-relevant stable fluctuation channel (Math400-AddF: $n_{
+m neg}=0$ at canonical, $N=64$ tighter convergence; FCC saddle-6 rejected; lamellar/HEX uniaxial-isotropy-rejected). This is the original Brazovskii (1975) main result, not the commonly-misread mean-field broken-symmetry interpretation. The Theory page makes this emergence explicit. The framework design principle is &quot;minimum assumption + maximally reasonable initial datum&quot;, never *ad hoc* fitting.
 
 This site presents TECT *as it actually stands*. Proved parts are clearly marked as proved, conditional parts as conditional, retracted parts as retracted. Every status claim links to its evidence file in `Docs/math/` and every numerical result carries a unique $R$-tag tied to a code fingerprint. The append-only [History](https://tect.kr/history.html) page records every retraction.
 
@@ -73,15 +87,18 @@ This site presents TECT *as it actually stands*. Proved parts are clearly marked
 | $S_3$ — external phenomenology | PROVISIONAL prediction | Math172 Kibble–Zurek GW $\Omega_{\rm GW}\sim 10^{-15}$ at PTA, observable by SKA 2028–2030. |
 **Pillar 6 closure programme — FINAL (all 4 standard promotion routes evaluated, all REFUTED/INSUFFICIENT)**:
 
-- `Math410-AddA` (2026-05-26) — Pathway B SO(4) cubic-irrelevance STRUCTURALLY REFUTED at exact-RG ($A^* = +0.018 M_{m Pl}^2$ across 4 regulators; no NGFP with $A^* < 0$).
+- `Math410-AddA` (2026-05-26) — Pathway B SO(4) cubic-irrelevance STRUCTURALLY REFUTED at exact-RG ($A^* = +0.018 M_{
+m Pl}^2$ across 4 regulators; no NGFP with $A^* < 0$).
 - `Math410 §4` — Pathway B $T_{2u}$ doubling STRUCTURALLY ABSENT in BCC shells 1–3.
-- `Math411-AddA` — Stueckelberg-direct REFUTED via $\Lambda^2 T_{2g} = T_{1g} \neq T_{2g}$ Lie-algebra closure failure + $A^{\rm asym}_{A_{2g}} = 0$ via $\pi_1(M_{m BCC}) = \{e\}$.
+- `Math411-AddA` — Stueckelberg-direct REFUTED via $\Lambda^2 T_{2g} = T_{1g} \neq T_{2g}$ Lie-algebra closure failure + $A^{\rm asym}_{A_{2g}} = 0$ via $\pi_1(M_{
+m BCC}) = \{e\}$.
 - `Math411-AddB` — Pathway A direct SO(10) GUT revival STRUCTURALLY INSUFFICIENT within standard BCC/Brazovskii channel framework (dimensional gap shells 1-3 = 20 modes vs SO(10) adj 45; 44 vs 45 NOT a near-miss because Lie-algebra closure requires irrep closure, not scalar dimensional matching; $T_{1g}$ structurally absent from shells 1–3).
 - Non-standard rescues queued: `Math411-AddB-AddA` (fermion-condensate aux channels), `Math411-AddB-AddB` (holographic / dim-reduction emergence) — both require substantial axiom extension.
 
 **Pillar 11.B closure programme — DOUBLY BLOCKED at TECT-natural**:
 
-- `Math412-AddA` (2026-05-26) — G3-A INTERIM NEGATIVE: TECT-natural $T_{m reh} \sim 3 \times 10^{11}$ GeV is factor 10 below the abundance window $[3 \times 10^{12}, 2 \times 10^{13}]$ GeV.
+- `Math412-AddA` (2026-05-26) — G3-A INTERIM NEGATIVE: TECT-natural $T_{
+m reh} \sim 3 \times 10^{11}$ GeV is factor 10 below the abundance window $[3 \times 10^{12}, 2 \times 10^{13}]$ GeV.
 - `Math412-AddB` — G3-B INTERIM NEGATIVE: heavy seesaw ($M \sim 10^{14}$ GeV) gives $\tau \sim 10^{-57}$ s catastrophic; νMSM warm-DM keV requires $y \sim 10^{-20}$ extreme tuning.
 
 **Forbidden phrases going forward (§6.3.5(a) violations)**: "TECT is the TOE", "completes the GUT programme", "all 11 pillars closed", "final theory", "complete theory", "completed framework", "completed TOE". The canonical positioning sentence above is the single allowed framing.
