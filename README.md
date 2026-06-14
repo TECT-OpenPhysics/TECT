@@ -12,14 +12,12 @@ _Last curated: 2026-06-14 (UTC) -- auto-generated mirror of the canonical resear
 
 ---
 
-[ Legacy Archive Repository ]
-[ Legacy Archive Repository ]
-[ Legacy Archive Repository ]
+# [Legacy Archive Repository ]
 
-This repository is preserved as a legacy archive as of 2026-06-05.
-The current TECT preview repository is being cleaned up here:
+## This repository is preserved as a legacy archive as of 2026-06-05. 
+## The current TECT preview repository is being cleaned up here:
 
-https://github.com/TECT-OpenPhysics/TECT-Preview
+## https://github.com/TECT-OpenPhysics/TECT-Preview
 
 ---
 
