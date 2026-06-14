@@ -35,7 +35,8 @@ window.TECT_SITE = {
     { id: "math-notes", label: "Notes",    href: "math-notes.html" },
     { id: "code",       label: "Code",     href: "code.html" },
     { id: "results",    label: "Results",  href: "results.html" },
-    { id: "history",    label: "History",  href: "history.html" }
+    { id: "history",    label: "History",  href: "history.html" },
+    { id: "newtidy",    label: "[ New Tidy ]", href: "https://tect-openphysics.github.io/TECT-Preview/" }
   ],
 
   github: {
